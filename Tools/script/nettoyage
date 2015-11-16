@@ -1,0 +1,126 @@
+#!/bin/bash
+# 
+# bash script nettoyage
+# 
+# author : biscui
+# created : Wed, 29 Oct 2014 16:24:51 +0100
+# modified : Sun, 28 Dec 2014 19:25:07 +0100
+# 
+##########################################
+
+
+	#################
+	### variables ###
+	#################
+
+
+description="Clean backup file like \"FILE_NAME~\"."
+use="`basename $0` [-r] [DIRECTORY_1 [DIRECTORY_N [ ... ] ] ]"
+
+hidden_file="no"
+recursive=
+let nb=0
+
+
+	#################
+	### functions ###
+	#################
+
+
+function help () { # no argument
+	echo $description
+	echo
+	echo "Usage :"
+	echo "  $use"
+	echo "  (If no argument was supplies, it works with the current directory)"
+	echo
+	echo "Options :"
+	echo "  -a    Include hidden files."
+	echo "  -r    Clean file recursivly"
+	echo "  -h    Display this help"
+	echo
+}
+
+
+
+function error () { # $1 : current error description
+	echo `basename $0`" : "$1 
+}
+
+
+
+function nett () {
+	for a in $@
+	do
+		if [ -d $a ] 
+		then
+			nb=$(($nb + 1)) # je suppose que le répertoire va être nettoyé
+			rm $a*~ 2> /dev/null || rm $a/*~ 2> /dev/null || nb=$(($nb - 1)) # nb-- si il ne l'a pas été
+			if [ $hidden_file = "yes" ]
+			then
+				nb=$(($nb + 1)) # je suppose que le répertoire va être nettoyé
+				rm $a.*~ 2> /dev/null || rm $a/.*~ 2> /dev/null || nb=$(($nb - 1)) # nb-- si il ne l'a pas été
+			fi
+			
+			if [ $recursive ] 
+			then
+				list=`ls -p $a`
+				cd $a
+				nett $list
+				cd ..
+			fi
+		fi
+	done
+	return
+}
+
+
+
+	##############
+	### script ###
+	##############
+
+
+if [ $# -eq 0 ]
+then
+	nett . 
+	if [ $nb -eq 0 ]
+	then
+		echo "This diretcory is already cleaned"
+	fi
+elif [ $# -eq 1 -a "$1" == "-r" ]
+then
+	recursive=yes
+	nett .
+	if [ $nb -eq 0 ]
+	then
+		echo "This hierarchy is already cleaned"
+	fi
+elif [ $# -eq 1 -a "$1" == "-a" ]
+then
+	hidden_file="yes"
+	nett .
+	if [ $nb -eq 0 ]
+	then
+		echo "This hierarchy is already cleaned"
+	fi
+else
+	for arg in "$@"
+	do
+		case $arg in
+			# options
+			-h) help;;
+			-r) recursive=yes;;
+			-a) hidden_file="yes";;
+			
+			# directory
+			*) nett $arg
+				if [ $nb -eq 0 ]
+				then
+					echo "\"$arg\" is already cleaned"
+				fi
+				;;
+		esac
+	done
+fi
+
