@@ -1,0 +1,11 @@
+Une fois que les courbes sont valides
+On génère via l'algorithme :
+	Choisir un voxel qui est dans le modèle
+	le créer
+	Parcourir ses voisins (dépend de la connexité)
+	Si le voisin n'est pas marqué (n'a jamais été testé): {
+		le marquer
+		s'il fait parti de l'objet, -> ligne 4	
+	}
+Créer les buffer
+Afficher
