@@ -1,5 +1,0 @@
-Vert	: Vert menthe à l'eau	(84, 249, 141)
-Jaune	: Jaune2 	(255, 255, 153)
-Orange	: Orange3	(255, 153, 102)
-Violet	: Violet pâle	(220, 190, 240)
-Rouge	: Rouge1
