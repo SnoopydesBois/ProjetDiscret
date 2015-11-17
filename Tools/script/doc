@@ -1,0 +1,109 @@
+#!/bin/bash
+# 
+# bash script doc
+# 
+# author : biscui
+# created : Sun, 15 Nov 2015 15:33:01 +0100
+# modified : Sun, 15 Nov 2015 15:33:01 +0100
+# 
+##########################################
+
+
+
+	#################
+	### variables ###
+	#################
+
+
+description="Affiche la documentation d'une fonction."
+use="use : `basename $0` <functionName>"
+res=
+
+
+	#################
+	### functions ###
+	#################
+
+
+function help () { # no argument
+	echo -e $description"\n"
+	echo -e "\nUsage :"
+	echo -e "  "$use"\n"
+	echo "Options :"
+	echo "  -h, --help    Display this help and exit."
+}
+
+
+function error () { # $1 : current error description
+	echo `basename $0`" : "$1 
+}
+
+
+function searchDoc () { # $1 : file; $2 : pattern
+	if echo $2 | grep -q "\."; then
+		class=${2%.*}
+		name=${2#*.}
+	else
+		class=
+		name=$2
+	fi
+#	echo "je cherche dans 1($1) name($name) de la classe($class)"
+	sed -ne '/^\/\*\*$/h;
+		/^ \* \|^ \*\//H;
+		/function '$name'[ \t\v\f(]\|'$class'\.prototype\.'$name' = function/{H;g;p;q}' $1
+}
+
+
+function showDoc () { # $1 : file; $2 : pattern
+	res=$(searchDoc $1 $2 | sed -e 's/TODO/\x1b\[1;38;5;16;43m&\x1b\[0m/Ig;
+		s/XXX\|FIXME/\x1b\[1;37;41m&\x1b\[0m/Ig;
+		s/@constructor/\x1b\[1;35m&\x1b\[0m/g;
+		s/@param/\x1b\[1;38;5;202m&\x1b\[0m/g;
+		s/@return/\x1b\[1;31m&\x1b\[0m/g;
+		s/{.\+}/\x1b\[1;33m&\x1b\[0m/g;
+		s/\(\w\+\)\(\.prototype\)/\x1b\[21;34m\1\x1b\[0m\2/g;
+		s/\(\.prototype\.\)\(\w\+\)\(\s*=\s*function\)/\1\x1b\[21;32m\2\x1b\[0m\3/g;
+		s/\(function\s\+\)\(\w\+\)\(\s*(\)/\1\x1b\[21;36m\2\x1b\[0m\3/g;
+		s/function\|prototype\|[^@]constructor/\x1b\[1m&\x1b\[0m/g;
+		') # FIXME le type entre {} match trop souvent
+#	echo "$res"
+	if [ ${#res} -eq 0 ]; then
+		return 1;
+	else
+		return 0;
+	fi
+}
+
+
+	##############
+	### script ###
+	##############
+
+
+if [ $# -lt 1 ] 
+then
+	# no argument
+	echo $use
+else
+	for arg in "$@" 
+	do
+		case $arg in
+			# options
+			-h|--help) 
+				help
+				;;
+			
+			# other
+			*) for f in $(find . -name '*.js'); do
+#					echo "APPEL de showDoc avec f[$f] et arg[$arg]"
+					showDoc $f $arg
+					if [ $? -eq 0 ]; then # trouvé
+						echo "$res"
+						break;
+					fi
+				done
+				;;
+		esac
+	done
+fi
+

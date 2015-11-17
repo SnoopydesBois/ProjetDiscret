@@ -1,0 +1,6 @@
+Fonctions mathématiques :
+Bibliothèque pour le parsage des courbes : MathJS http://mathjs.org/docs/expressions/parsing.html#parse
+Bibliothèque pour l'affichage des courbes + éventuellement possibilité de définir une courbe polynomiale de degré n par n+1 points (à vérifier que la courbe est exploitable et pas seulement affichable) : JSXGraph http://jsxgraph.uni-bayreuth.de/wp/
+
+Multilingue :
+i18next http://i18next.com/
