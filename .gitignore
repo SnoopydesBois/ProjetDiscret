@@ -8,8 +8,8 @@ desktop.ini
 *//*.aux
 *.log
 *//*.log
-*.tex
-*//*.tex
+*.nav
+*//*.nav
 *.out
 *//*.out
 *.snm
