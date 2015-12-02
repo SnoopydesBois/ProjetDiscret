@@ -14,10 +14,9 @@
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage{multirow}
-%\usepackage{color}
-%\usepackage{colortbl}
 \usepackage{textcomp}
 \usepackage{xstring}
+\usepackage{hyperref}
 
 \input{macro.tex}
 
@@ -26,15 +25,12 @@
 \subtitle{R\'eunion de suivi}
 \author[]{Zied \smallcaps{Ben} \smallcaps{Othmane} \\ Thomas \smallcaps{Benoist}
 	\\ Adrien \smallcaps{Bisutti} \\ Lydie \smallcaps{Richaume}}
-	% FIXME Enlever les parenthèses
 \institute{Universit\'e de Poitiers}
 \date{3 décembre 2015}
 
 \usetheme{Madrid}
 \usecolortheme{sidebartab}
 \usefonttheme{professionalfonts}
-%\useinnertheme{nom du theme interne}
-%\useoutertheme{nom du theme externe}
 
 
 
@@ -150,11 +146,10 @@
 		\begin{center}
 		{\renewcommand{\arraystretch}{1.3}
 		\begin{tabularx}{11cm}{|>{\hfill}X<{\hspace*{\fill}}|X<{\centering}|}
-		% FIXME numéroté les tâches et faire voir les numéro le plus possibes !
 			\hline
 			\multicolumn{2}{|c|}{1 - Documentation, test et aide utilisateur}\\
 			\hline
-			\multicolumn{2}{|c|}{6 - Conception}\\
+			\multicolumn{2}{|c|}{2 - Conception}\\
 			\hline
 			6 - Noyau fonctionnel & 10 - Interface minimale\\
 			\hline
@@ -193,7 +188,8 @@
 		\begin{figure}
 			\includegraphics[width=6cm]
 				{../Lancement/ImagesLancement/miniature2.png}
-		\end{figure}\begin{figure}
+		\end{figure}
+		\begin{figure}
 			\includegraphics[width=11cm]
 				{../Lancement/ImagesLancement/pert_part_2.png}
 		\end{figure}
@@ -206,7 +202,8 @@
 		\begin{figure}
 			\includegraphics[width=6cm]
 				{../Lancement/ImagesLancement/miniature3.png}
-		\end{figure}\begin{figure}
+		\end{figure}
+		\begin{figure}
 			\includegraphics[width=11cm]
 				{../Lancement/ImagesLancement/pert_part_3.png}
 		\end{figure}
@@ -219,7 +216,8 @@
 		\begin{figure}
 			\includegraphics[width=6cm]
 				{../Lancement/ImagesLancement/miniature4.png}
-		\end{figure}\begin{figure}
+		\end{figure}
+		\begin{figure}
 			\includegraphics[width=11cm]
 				{../Lancement/ImagesLancement/pert_part_4.png}
 		\end{figure}
@@ -231,18 +229,16 @@
 % --- Gantt --------------------------------------------------------------------
 	\subsection{Diagramme de Gantt}
 	\begin{frame}{Gantt}
-		\begin{figure}
-			\includegraphics[height=7.5cm]{../Images/Gantt_Macro2.png}
-			% FIXME mettre les tâches (nom et/ou numérotation) près des bandes
-		\end{figure}
+		\begin{center}
+			\href{run:Gantt_ProjetDiscretConception.gif}{Ouvrir le Gantt}
+		\end{center}
 	\end{frame}
-
 
 % --- Avancement ---------------------------------------------------------------
 	\subsection{Avancement réalisé}
 	\begin{frame}{\subsecname}
 		\begin{figure}
-			\includegraphics[width=12cm]{../Images/logo-Xlim.png} % TODO
+			\includegraphics[width=12cm]{Avancement.png}
 				% FIXME bien régler les points et faire apparaitre le livrables
 		\end{figure}
 	\end{frame}
@@ -252,33 +248,45 @@
 	\subsection{Livrables}
 	\begin{frame}{\subsecname}
 		\begin{center}
-		{\renewcommand{\arraystretch}{1.2}
-		\begin{tabular}{|c|m{4.5cm}|c|c|} % FIXME relié les livrables au tâches
+%		{\renewcommand{\arraystretch}{1.2}
+		\begin{tabular}{|c|m{3cm}|c|c|c|} % FIXME relié les livrables au tâches
 			\hline
-			\textbf{\No} & \textbf{Livrable} & \textbf{Date pr\'evue} & 
-			\textbf{Date effective}\\
+			\textbf{\No} & \textbf{Livrable} & \textbf{T\^aches}
+			& \textbf{Date pr\'evue} & \textbf{Date effective}\\
 			\hline
-			1 & R\'esultat de l'algorithme et interface & 23/12 & ---\\
+			1 & R\'esultat de l'algorithme et interface & 2, 6, 10 & 23/12 
+			& ---\\
 			\hline
-			2 & Application minimale & 21/01 & ---\\
+			2 & Application\break minimale & 14, 17 & 21/01 & ---\\
 			\hline
-			3 & Courbes avec paramètres modifiables et trac\'e \`a main lev\'ee
-			& 29/01 & ---\\
+			3 & Courbes avec paramètres modifiables et trac\'e \`a main\break
+			lev\'ee& 22, 25 & 29/01 & ---\\
 			\hline
-			4 & \'Equations et export & 19/02 & ---\\
+			4 & \'Equations et\break export & 29, 32 & 19/02 & ---\\
 			\hline
-			5 & Application finale et documentation & 02/03 & ---\\
+			5 & Application finale et documentation & 36 & 02/03 & ---\\
 			\hline
-		\end{tabular}}
+		\end{tabular}%}
 		\end{center}
-		Types de livrables~:
-		\begin{itemize}
-			\item Version logicielle~: tous
-			\item Documentation utilisateur~: tous
-			\item Documentation technique~: 1 et 5
-		\end{itemize}
+%		Types de livrables~:
+%		\begin{itemize}
+%			\item Version logicielle~: tous
+%			\item Documentation utilisateur~: tous
+%			\item Documentation technique~: 1 et 5
+%		\end{itemize}
 	\end{frame}
 
+
+	\begin{frame}{Prochain livrable}
+		\begin{itemize}
+			\item R\'esultat de l'algorithme et interface
+				\begin{itemize}
+					\item 
+					\item 
+				\end{itemize}
+		\end{itemize}
+		
+	\end{frame}
 
 
 %===============================================================================
@@ -289,15 +297,27 @@
 
 	\begin{frame}{\secname}
 		\begin{itemize}
-			\item Non ad\'equation d'un outil prévue, matériel ou logiciel
+			\item Non ad\'equation d'un outil prévu, matériel ou logiciel
 		\end{itemize}
 		\begin{figure}
-			\includegraphics[width=8cm]{../Images/logo-Xlim.png} % TODO
+			\includegraphics[width=8cm]{risque_outil.png} % FIXME refaire pour 
+			% voir évolution
 		\end{figure}
-		\begin{figure}
-			\includegraphics[height=2cm]{../Images/legende_risque.png}
-			% FIXME compléter avec légende gravité et probabilité
-		\end{figure}
+		\begin{center}
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				Niveau & Gravit\'e & Probabilit\'e & Criticit\'e \\
+				\hline
+				0 & Aucune & < 1\% & \multirow{2}*{Non critique}\\
+				\cline{1-3}
+				1 & Faible (marges) & de 1\% à 5\% & \\
+				\hline
+				2 & Significative & de 5\% à 20 \% & \multirow{2}*{Critique}\\
+				\cline{1-3}
+				3 & Danger & > 20\% & \\
+				\hline
+			\end{tabular}
+		\end{center}
 	\end{frame}
 
 
@@ -306,12 +326,23 @@
 			\item Nouveau(x) client(s)
 		\end{itemize}
 		\begin{figure}
-			\includegraphics[width=8cm]{../Images/logo-Xlim.png} % TODO
+			\includegraphics[width=8cm]{risque_nouveau_client.png}
 		\end{figure}
-		\begin{figure}
-			\includegraphics[height=2cm]{../Images/legende_risque.png}
-			% FIXME compléter avec légende gravité et probabilité
-		\end{figure}
+		\begin{center}
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				Niveau & Gravit\'e & Probabilit\'e & Criticit\'e \\
+				\hline
+				0 & Aucune & < 1\% & \multirow{2}*{Non critique}\\
+				\cline{1-3}
+				1 & Faible (marges) & de 1\% à 5\% & \\
+				\hline
+				2 & Significative & de 5\% à 20 \% & \multirow{2}*{Critique}\\
+				\cline{1-3}
+				3 & Danger & > 20\% & \\
+				\hline
+			\end{tabular}
+		\end{center}
 	\end{frame}
 
 
@@ -322,11 +353,17 @@
 
 \section{Plan qualit\'e logiciel}
 	\begin{frame}{\secname}
-		\begin{figure}
-			\includegraphics[height=8cm]{../Lancement/ImagesLancement/PAQL.png}
-			% FIXME regénéré pour être plus lisible et spécifié "validation par
-			% les clients à chaque jalon"
-		\end{figure}
+		\begin{columns}
+			\begin{column}{8cm}
+				\begin{figure}
+					\includegraphics[width=8cm]{PAQL.png}
+					% FIXME regénéré pour être plus lisible
+				\end{figure}
+			\end{column}
+			\begin{column}{4cm}
+				Validation par les clients à chaque jalon.
+			\end{column}
+		\end{columns}
 	\end{frame}
 
 
@@ -339,7 +376,8 @@
 
 \begin{frame}{\secname}
 	\begin{figure}
-		\includegraphics[width=12cm]{../Lancement/ImagesLancement/Cout2.png}
+		\includegraphics[height=7.5cm]{Cout.png}
+		% FIXME refaire avec les mois en 3 lettres
 		% XXX voir ce que ça donne en semaine
 	\end{figure}
 \end{frame}
@@ -348,5 +386,3 @@
 
 
 \end{document}
-
-
