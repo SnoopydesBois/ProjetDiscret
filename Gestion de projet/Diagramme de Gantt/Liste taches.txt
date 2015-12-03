@@ -1,0 +1,47 @@
+A. Jalon début	0 jour	Lun 19/10/15	Lun 19/10/15		
+0. Rédaction cahier des charges	10 jours	Lun 19/10/15	Ven 30/10/15	1	Adrien;Lydie;Thomas;Zied
+B. Jalon début développement	0 jour	Ven 30/10/15	Ven 30/10/15	2	
+1. Documentation, aide utilisateur, tests	34 jours	Lun 16/11/15	Mer 02/03/16	3	
+2. Conception	8 jours	Lun 16/11/15	Mer 16/12/15	3	
+2.1 Etude du code	2 jours	Lun 16/11/15	Mar 17/11/15	3	Adrien;Lydie;Thomas;Zied
+2.2 Conception de l'architecture	4 jours	Mer 18/11/15	Lun 14/12/15	6	Adrien;Lydie;Thomas;Zied
+2.3 Refatoring	2 jours	Mar 15/12/15	Mer 16/12/15	7	Adrien;Lydie;Thomas;Zied
+C. Jalon Fin conception	0 jour	Mer 16/12/15	Mer 16/12/15	8;5	
+3. Réalisation noyau minimal fonctionnel	6 jours	Jeu 17/12/15	Jeu 24/12/15	9	
+3.1 Transcription de l'algorithme	1 jour	Jeu 17/12/15	Jeu 17/12/15	9	Adrien;Lydie
+3.2 Rendu 3D	5 jours	Ven 18/12/15	Jeu 24/12/15	11	Adrien
+3.3 Implémentation des classes	5 jours	Jeu 17/12/15	Mer 23/12/15	9	Lydie;Thomas
+4. Interface minimale	4,8 jours	Jeu 17/12/15	Mer 23/12/15	9	
+4.1 Développement espace 3D	1,8 jours	Jeu 17/12/15	Ven 18/12/15	9	Zied
+4.2 Développement espace 2D	2 jours	Ven 18/12/15	Mar 22/12/15	15	Zied
+4.3 Menus (non liés)	1 jour	Mar 22/12/15	Mer 23/12/15	16	Zied
+D. Jalon Noyau fonctionnel minimal	0 jour	Jeu 24/12/15	Jeu 24/12/15	17;12;13;10;14	
+5. Amélioration IHM Choix des courbes	3 jours	Lun 18/01/16	Mer 20/01/16	18	
+5.1 Choix des courbes	1 jour	Lun 18/01/16	Lun 18/01/16	18	Zied
+5.2 Prise en compte des demandes	2 jours	Mar 19/01/16	Mer 20/01/16	20	Zied
+6. Ajout fonctionnalités	3 jours	Lun 18/01/16	Mer 20/01/16	18	
+6.1 Ajout de méridiennes	1,5 jours	Lun 18/01/16	Mar 19/01/16	18	Lydie;Adrien
+6.2 Ajout de courbes de révolution	1,5 jours	Mar 19/01/16	Mer 20/01/16	23	Adrien;Lydie
+6.3 Plans et Coupes	1 jour	Lun 18/01/16	Lun 18/01/16	18	Thomas
+6.4 Caméra	1 jour	Mar 19/01/16	Mar 19/01/16	25	Thomas
+E. Jalon Application minimale	0 jour	Mer 20/01/16	Mer 20/01/16	19;22;26;21;24	
+7. Amélioration IHM Paramètres	6 jours	Jeu 21/01/16	Jeu 28/01/16	27	
+7.1 Prise en compte des demandes	2 jours	Jeu 21/01/16	Ven 22/01/16	27	Zied
+7.2 Paramètres simples	4 jours	Lun 25/01/16	Jeu 28/01/16	29	Zied
+8. Dessin à main levée méridienne	4 jours	Jeu 21/01/16	Mar 26/01/16	27	
+8.1 Implémentation algorithme main levée	1 jour	Jeu 21/01/16	Jeu 21/01/16	27	Lydie;Adrien
+8.2 Implantation dessin 2D	2 jours	Ven 22/01/16	Lun 25/01/16	32	Lydie;Adrien
+8.3 Lien Dessin/Algorithme	1 jour	Mar 26/01/16	Mar 26/01/16	33	Adrien;Lydie
+F. Jalon Dessin main levée	0 jour	Jeu 28/01/16	Jeu 28/01/16	28;31;30;34	
+9. Gestions de données	4 jours	Ven 29/01/16	Mer 17/02/16	35	
+9.1 Export de l'espace 3D	3 jours	Ven 29/01/16	Mar 16/02/16	35	Adrien
+9.2 Sauvegarde/Chargement des courbes	1 jour	Mer 17/02/16	Mer 17/02/16	37	Thomas
+10. Amélioration de l'IHM Rentrer des formules	6 jours	Ven 29/01/16	Ven 19/02/16	35	
+10.1 Prise en compte des demandes	1 jour	Ven 29/01/16	Ven 29/01/16	35	Zied;Lydie
+10.2 Paramètres avancés	4 jours	Lun 15/02/16	Jeu 18/02/16	40	Zied
+10.3 Rentrer des formules	5 jours	Lun 15/02/16	Ven 19/02/16	40	Lydie
+G. Jalon Ajout de formules	0 jour	Ven 19/02/16	Ven 19/02/16	42;36;39;38;41	
+11. Ajout des courbes par l'utilisateur	4 jours	Mar 23/02/16	Mer 02/03/16	43	Zied;Thomas;Adrien;Lydie
+H. Jalon fin développement	0 jour	Mer 02/03/16	Mer 02/03/16	44	
+12. Rédaction rapport technique et finalisation documentation	9 jours	Lun 07/03/16	Jeu 17/03/16	45	Zied;Thomas;Adrien;Lydie
+I. Jalon fin projet	0 jour	Jeu 17/03/16	Jeu 17/03/16	46;4	
