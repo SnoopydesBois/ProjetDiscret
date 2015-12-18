@@ -3,8 +3,8 @@ var aLangKeys=new Array();
 aLangKeys['en']=new Array();
 aLangKeys['ru']=new Array();
 
-aLangKeys['en']['home']='Home';
-aLangKeys['en']['peoples']='Peoples >>';
+aLangKeys['en']['home']='Fichier';
+aLangKeys['en']['peoples']='edition >>';
 aLangKeys['en']['all_list']='All list';
 aLangKeys['en']['online']='Online';
 aLangKeys['en']['articles']='Articles >>';
@@ -15,8 +15,8 @@ aLangKeys['en']['css']='CSS';
 aLangKeys['en']['contact_us']='Contact us';
 aLangKeys['en']['welcome']='Welcome guests';
 
-aLangKeys['ru']['home']='Главная';
-aLangKeys['ru']['peoples']='Пользователи >>';
+aLangKeys['ru']['home']='File';
+aLangKeys['ru']['peoples']='edit >>';
 aLangKeys['ru']['all_list']='Весь список';
 aLangKeys['ru']['online']='В сети';
 aLangKeys['ru']['articles']='Статьи >>';
