@@ -1,0 +1,165 @@
+/**
+ *	Copyright (juin 2015)
+ *	Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
+ *
+ *	benoist.thomas@hotmail.fr
+ *	biscui_86@hotmail.fr
+ *	tanguy.desplebain@gmail.com
+ *	lauret.karl@hotmail.fr
+ *
+ *	Ce logiciel est un programme informatique servant à modéliser des
+ *	structures 3D voxellisées. 
+ *
+ *	Ce logiciel est régi par la licence CeCILL soumise au droit français et
+ *	respectant les principes de diffusion des logiciels libres. Vous pouvez
+ *	utiliser, modifier et/ou redistribuer ce programme sous les conditions
+ *	de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA 
+ *	sur le site "http://www.cecill.info".
+ *
+ *	En contrepartie de l'accessibilité au code source et des droits de copie,
+ *	de modification et de redistribution accordés par cette licence, il n'est
+ *	offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+ *	seule une responsabilité restreinte pèse sur l'auteur du programme,  le
+ *	titulaire des droits patrimoniaux et les concédants successifs.
+ *
+ *	A cet égard  l'attention de l'utilisateur est attirée sur les risques
+ *	associés au chargement,  à l'utilisation,  à la modification et/ou au
+ *	développement et à la reproduction du logiciel par l'utilisateur étant 
+ *	donné sa spécificité de logiciel libre, qui peut le rendre complexe à 
+ *	manipuler et qui le réserve donc à des développeurs et des professionnels
+ *	avertis possédant  des  connaissances  informatiques approfondies.  Les
+ *	utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
+ *	logiciel à leurs besoins dans des conditions permettant d'assurer la
+ *	sécurité de leurs systèmes et ou de leurs données et, plus généralement, 
+ *	à l'utiliser et l'exploiter dans les mêmes conditions de sécurité. 
+ *
+ *	Le fait que vous puissiez accéder à cet en-tête signifie que vous avez 
+ *	pris connaissance de la licence CeCILL, et que vous en avez accepté les
+ *	termes
+ */
+
+/** 
+ * menus.css
+ * 
+ * Définition général pour les menus. Une bar de menu est une liste non ordonnée
+ * de couple titre/liste. Un sous-menu est une <li> de classe .subMenu contenant
+ * un couple titre/liste.
+ * 
+ * author : biscui
+ * created : Fri, 01 May 2015 12:18:23 +0200
+ * modified : Fri, 01 May 2015 12:18:23 +0200
+ */
+
+
+/* @see : http://www.frogweb.fr/menu-deroulant-horizontal/ */
+
+
+.menus, .menus ul {
+	padding : 0;
+	margin : 0;
+}
+
+
+.menus h1 {
+	font-size : 100%;
+	font-weight : normal;
+}
+
+
+.menus ul {
+	background-color : white;
+	position : absolute;
+	left : 0px;
+	display : none;
+}
+
+
+.menus li {
+	display : inline-block;
+	position : relative;
+	color : black;
+	padding : 1px 3px;
+}
+
+
+.submenu ul {
+	display : none;
+	left : 100%;
+	top : 0;
+}
+
+
+.menus .tool,
+.menus > li > ul li {
+	display : inherit;
+	width : 10em;
+	border : none;
+	background-color : transparent;
+	box-sizing : initial;
+	-moz-box-sizing : initial;
+	-webkit-box-sizing : initial;
+}
+
+
+.menus   ul li:hover, 
+.submenu ul li:hover,
+.menus > li:hover > h1 {
+	background-color : #CCCCCC;
+	color : black;
+}
+
+
+.menus  li:hover > ul, 
+li.submenu:hover > ul {
+	border : solid 1px black;
+	display : block;
+}
+
+
+.menus li {
+	outline : none;
+}
+
+
+/* force the h1 behaviour like a li */
+.menus ul h1, ul h1 {
+	background-color : inherit;
+	margin : inherit;
+}
+
+
+/* les titres des menu (mais pas les sous-menus) */
+.menus > li > h1 {
+	padding : 2px 5px;
+
+}
+
+
+.submenu h1:after {
+	content : " ->";
+}
+
+
+.menus ul hr,
+.submenu ul hr {
+	border-color : #CCCCCC;
+	margin : 3px;
+}
+
+
+.split {
+	background-color : inherit !important;
+}
+
+
+.menus .tool:hover,
+.submenu .tool:hover {
+	background-color : #E5E5E5 !important;
+}
+
+
+.menus .inaccessible {
+	color : #B2B2B2 !important;
+	background-color : white !important;
+}
+
