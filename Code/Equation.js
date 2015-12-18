@@ -44,6 +44,33 @@ function Equation(formula){
 	}
 }
 
+/**
+ * @param {float[]} valVariables - value of the variables. Length must be equal to the number of 
+ * variables in the formula. The values must be finite numbers
+ * @throws {String} "Equation.compute.ErrorFormulaNotDefined" - a correct formula must be provided 
+ * before computing
+ * @throws {String} "Equation.compute.ErrorNotANumber" - the value is not a number or is not a finite number.
+ * @return {float} The value of the formula for the given parameters and variables.
+ */
+Equation.prototype.compute = function (valVariables){
+	if (this.formulaTree == undefined){
+		throw "Equation.compute.ErrorFormulaNotDefined";
+	}
+	else if (this.listVariables.length != valVariables.length){
+		throw "Equation.compute.ErrorWrongNumberOfVariables";
+	}
+	var scope = [];
+	for (var i = 0; i < listVariables.length; i++){
+		if(typeof value != "number" || !Number.isFinite(valVariables[i])){
+			throw "Equation.compute.ErrorNotANumber";
+		}
+		scope[new String(listVariables[i])] = new Number(valVariables[i]);
+	}	
+	for (var i in listParameters){
+		scope[i] = new Number(listParameters[i]);
+	}
+	return this.formulaTree.compile.eval(scope);
+}
 
 /**
  * @param {String} name - name of a parameter existing in the string
@@ -56,9 +83,9 @@ Equation.prototype.setParameter = function(name, value){
 		throw "Equation.setParameter.ErrorNotExistingParameter";
 	}
 	else if (typeof value != "number" || ! Number.isFinite(value)){
-		throw "Equation.setParameter.ErrorNotANumber"
+		throw "Equation.setParameter.ErrorNotANumber";
 	}
 	else {
-		list.Parameters[node.name] = value;
+		list.Parameters[node.name] = new Number(value);
 	}
 };
