@@ -147,5 +147,3 @@ Display.prototype.onKeyDown       = function (event) {};
 Display.prototype.onKeyPressed    = function (event) {};
 
 
-
-

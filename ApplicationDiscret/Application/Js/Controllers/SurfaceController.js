@@ -42,12 +42,12 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* model : Surface
+/* surface : Surface
  * selectedFacets : Facet[]
  * hoverFacet : Facet
  *
- * SurfaceController(size : Vector, name : String)
- * getModel() : Surface
+ * Controller3D(size : Vector, name : String)
+ * getsurface() : Surface
  * getName() : String
  * isSelectedFacet(facet : Facet) : bool
  * getSelectedFacet(index : int) : Facet
@@ -59,256 +59,137 @@
  * getHoverFacet() : Facet
  * setHoverFacet(facet : Facet) : void
  * isHoverFacet() : bool
- * copy() : SurfaceController
+ * copy() : Controller3D
  */
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
-SurfaceController.prototype.constructor = SurfaceController;
+Controller3D.prototype.constructor = Controller3D;
 
 /**
  * @constructor 
- * @param {Vector} size - Vector to define the size of the model.
- * @param {String} name - The name of the SurfaceController.
- * @param {String} [_modelCreator] - The name of the creator of the model.
- * @param {String} [_modelCreationDate] - The date of the creation of the model.
- * @param {String} [_modelDescription] - The description of the model.
+ * @param {Vector} dimension - Vector to define the dimension of the 3D space.
  */ 
-function SurfaceController (size, name,_modelCreator,
-		_modelCreationDate,_modelDescription)
+function Controller3D (dimension)
 {
-//	console.log ("SurfaceController.constructor");
-	if (typeof size != "object") {
-		console.error ("ERROR - SurfaceController.constructor : "
+//	console.log ("Controller3D.constructor");
+	if (typeof size != "Vector") {
+		console.error ("ERROR - Controller3D.constructor : "
 				+ "bad type of parameter");
 	}
 	// --------------------------------------
 	
 	/**
-	 * {Surface} The model.
+	 * {Surface} The surface.
 	 */
-	this.model = new Surface (size);
+	this.surface = new Surface (size);
 	
 	/**
-	 * {Facet[]} List of selected face.
+	 * {Function} A function that provide a frozen reference to the meridian
 	 */
-	this.selectedFacets = [];
+	this.getMeridian = null;
+	 
+	/**
+	 * {Function} A function that provide a frozen reference to the curve of revolution
+	 */
+	this.getCurveRevolution = null;
 	
 	/**
-	 * {Facet} The horeved face.
+	 * {Facet[]} The cube selected.
 	 */
-	this.hoverFacet = null;
-	
-	
-	/**
-	 * {String} The name of this model.
-	 */
-	this.name = name;
-	
-	/**
-	 * {String} The id of this model.
-	 */
-	this.id = "";
-	
-	/**
-	 * {String} The creator of this model.
-	 */
-	this.creator = "";
-	if (_modelCreator != undefined) {
-		this.creator = _modelCreator;
-	}
-	
-	/**
-	 * {String} The creation date.
-	 */
-	this.creationDate = "";
-	if (_modelCreationDate != undefined) {
-		this.creationDate = _modelCreationDate;
-	}
-	
-	/**
-	 * {String} A description of this model.
-	 */
-	this.description = "";
-	if (_modelDescription != undefined) {
-		this.description = _modelDescription;
-	}
-	
-	/**
-	 * {Application} A listener to which every changement.
-	 */
-	this.listener = appli;
+	this.selectedFacets = null;
 }
 
+//==============================================================================
+/**
+ * Function that start the generation of the surface from the meridian and the curbe of revolution
+ * @return {Surface} The surface surfaceed by the meridian and the curve of revolution
+ */
+Controller3D.prototype.generate = function() {
+	if(!(this.getMeridian instanceof Function) 
+		|| (!this.getCurveRevolution instanceof Function)){
+		throw "The meridian or the curve of revolution are not functions."
+	}
+	else{
+		meridian = this.getMeridian();
+		curveRevolution = this.getCurveRevolution();
+		return this.surface.generate(meridian, curveRevolution);
+	}
+}
 
 //==============================================================================
 /**
- * @return {Surface} the model.
+ * @param {Function} meridian - The function that allows this controller to obtain a frozen reference to the meridian
  */
-SurfaceController.prototype.getModel = function () {
-//	console.log ("SurfaceController.getModel");
+Controller3D.prototype.setGetMeridian = function(meridian){
+	this.getMeridian = meridian();
+}
+
+//==============================================================================
+/**
+ * @param {Function} curveRevolution - The function that allows this controller to obtain a frozen reference to the curve of revolution
+ */
+Controller3D.prototype.setGetCurveRevolution = function(curveRevolution){
+	this.getCurveRevolution = curveRevolution();
+}
+
+//==============================================================================
+/**
+ * @return {Surface} the surface.
+ */
+Controller3D.prototype.getSurface = function () {
+//	console.log ("Controller3D.getsurface");
 	// --------------------------------------
-	return this.model;
+	return this.surface;
+};
+
+//==============================================================================
+/**
+ * @param {int} x - the x coordinate of the voxel to get
+ * @param {int} y - the y coordinate of the voxel to get
+ * @param {int} z - the z coordinate of the voxel to get
+ * @return {Voxel} the voxel at the x, y, z coordinates
+ */
+Controller3D.prototype.getVoxel = function (x, y, z) {
+//	console.log ("Controller3D.getCube");
+	// --------------------------------------
+	return this.surface.getVoxel (x, y, z);
 };
 
 
 //==============================================================================
 /**
- * @param {int} x - the x coordinate of the cube to get
- * @param {int} y - the y coordinate of the cube to get
- * @param {int} z - the z coordinate of the cube to get
- * @return {Voxel} the cube
+ * @return {Vector} the dimension of the surface.
  */
-SurfaceController.prototype.getCube = function (x, y, z) {
-//	console.log ("SurfaceController.getCube");
+Controller3D.prototype.getDimension = function () {
+//	console.log ("Controller3D.getSize");
 	// --------------------------------------
-	return this.model.getCube (x, y, z);
+	return this.surface.getDimension();
 };
 
 
 //==============================================================================
 /**
- * Assessor on name of the model
- * @return {String} name of the model
+ * Is this cube selected.
+ * @param {Cube} cube - cube to test.
+ * @return {boolean} true if the cube is selected, false otherwise.
  */
-SurfaceController.prototype.getName = function () {
-//	console.log ("SurfaceController.getName");
-	// --------------------------------------
-	return this.name;
-};
-
-
-//==============================================================================
-/**
- * Assessor on creator of the model
- * @return {String} creator of the model
- */
-SurfaceController.prototype.getCreator = function () {
-//	console.log ("SurfaceController.getCreator");
-	// --------------------------------------
-	return this.creator;
-};
-
-
-//==============================================================================
-/**
- * @return {String} the date of creation of the model.
- */
-SurfaceController.prototype.getCreationDate = function () {
-	//console.log ("SurfaceController.getDate");
-	// --------------------------------------
-	return this.creationDate;
-};
-
-
-//==============================================================================
-/**
- * @return {String} the description of the model.
- */
-SurfaceController.prototype.getDescription = function () {
-	//console.log ("SurfaceController.getDescription");
-	// --------------------------------------
-	return this.description;
-};
-
-
-//==============================================================================
-/**
- * @return {Vector} the size of the model.
- */
-SurfaceController.prototype.getSize = function () {
-//	console.log ("SurfaceController.getSize");
-	// --------------------------------------
-	return this.model.getSize();
-};
-
-
-//==============================================================================
-/**
- * Get the number of neighbor of a cube at the x, y, z coordinates
- * @param {int} x - the x coordinate of the cube to look
- * @param {int} y - the y coordinate of the cube to look
- * @param {int} z - the z coordinate of the cube to look
- * @return {int} the number of neighbors.
- */
-SurfaceController.prototype.getNbNeighbor = function (x, y, z) {
-	//console.log ("SurfaceController.getNbNeighbor");
-	// --------------------------------------
-	return this.model.getNbNeighbor (x, y, z);
-};
-
-
-//==============================================================================
-/**
- * @return {int} the number of cubes in the model.
- */
-SurfaceController.prototype.getNbCube = function () {
-//	console.log ("SurfaceController.getNbCube");
-	// --------------------------------------
-	return this.model.getNbCube();
-};
-
-
-//==============================================================================
-/**
- * @return {int} the id of the model.
- */
-SurfaceController.prototype.getId = function () {
-//	console.log ("SurfaceController.getId");
-	// --------------------------------------
-	return this.id;
-};
-
-
-//==============================================================================
-/**
- * @param {int} id - the id of the model.
- * @return {void}
- */
-SurfaceController.prototype.setId = function (id) {
-//	console.log ("SurfaceController.getNbCube");
-	// --------------------------------------
-	this.id = id;
-};
-
-
-//==============================================================================
-/**
- * Test if coordonates is in the model.
- * @param {int} x - the x coordinate to test.
- * @param {int} y - the y coordinate to test.
- * @param {int} z - the z coordinate to test.
- * @return {boolean} true if the coordinates are valid, false otherwise.
- */
-SurfaceController.prototype.isIn = function (x, y, z) {
-//	console.log ("SurfaceController.isIn");
-	// --------------------------------------
-	return this.model.isIn (x, y, z);
-};
-
-
-//==============================================================================
-/**
- * Is this facet selected.
- * @param {Facet} facet - facet to test.
- * @return {boolean} true if the facet is selected, false otherwise.
- */
-SurfaceController.prototype.isSelectedFacet = function (facet) {
-	/*console.log ("SurfaceController.isSelectedFacet"
-			+ "facet.cubeCoor = [" + facet.cubeCoor.m[0] + ", "
-			+ facet.cubeCoor.m[1] + ", " + facet.cubeCoor.m[2] 
-			+ " facet.direction= " + facet.direction);*/
-	if (typeof facet != "object") {
-		console.error ("ERROR - SurfaceController.isSelectedFacet :"
+Controller3D.prototype.isSelectedCube = function (cube) {
+	/*console.log ("Controller3D.isSelectedCube"
+			+ "cube.cubeCoor = [" + cube.cubeCoor.m[0] + ", "
+			+ cube.cubeCoor.m[1] + ", " + cube.cubeCoor.m[2] 
+			+ " cube.direction= " + cube.direction);*/
+	if (typeof cube != "cube") {
+		console.error ("ERROR - Controller3D.isSelectedCube :"
 				+ "bad type of parameter");
 	}
-	// --------------------------------------
-	for (var i = 0; i < this.selectedFacets.length; ++i) {
-		if (this.selectedFacets[i].egale(facet)) {
+	// -------------------------------------
+	for (var i = 0; i < size; ++i) {
+		if (this.surface.getSelectedCube(i).equals(cube)) {
 			return true;
-		}
+		
 	}
 	return false;
 };
@@ -316,50 +197,50 @@ SurfaceController.prototype.isSelectedFacet = function (facet) {
 
 //==============================================================================
 /**
- * Get the nth selected face.
- * @param {int} index - the nth face.
- * @return {Facet} the selected facet.
+ * Get the nth selected cube.
+ * @param {int} index - the nth cube.
+ * @return {Cube} the selected cube.
  */
-SurfaceController.prototype.getSelectedFacet = function (index) {
-//	console.log ("SurfaceController.getSelectedFacet");
+Controller3D.prototype.getSelectedCube = function (index) {
+//	console.log ("Controller3D.getSelectedFacet");
 	if (typeof index != "number") {
-		console.error ("ERROR - SurfaceController.getSelectedFacet :"
+		console.error ("ERROR - Controller3D.getSelectedCube :"
 				+ "bad type of parameter");
 	}
 	// --------------------------------------
-	return this.selectedFacets[index];
+	return this.surface.getSelectedCube(index);
 };
 
 
 //==============================================================================
 /**
- * Add this facet to the selection list.
- * @param {Facet} facet - facet to add.
+ * Add this cube to the selection list.
+ * @param {Cube} cube - cube to add.
  * @return {void}
  */
-SurfaceController.prototype.addSelectedFacet = function (facet) {
-//	console.log ("SurfaceController.addSelectedFacet");
+Controller3D.prototype.addSelectedCube = function (cube) {
+//	console.log ("Controller3D.addSelectedCube");
 	if (typeof facet != "object") {
-		console.error ("ERROR - SurfaceController.addSelectedFacet :"
+		console.error ("ERROR - Controller3D.addSelectedCube :"
 						+ "bad type of parameter");
 	}
 	// --------------------------------------
-	if (this.selectedFacets.indexOf (facet) == -1) {
-		this.selectedFacets.push (facet);
+	if (this.model.getSelectedCube() == null) {
+		this.model.setSelectedCube(cube);
 	}
 };
 
 
 //==============================================================================
 /**
- * Removes this facet of the selection list 
- * @param {Facet} facet - facet to remove.
+ * Removes this cube of the selection list 
+ * @param {Cube} cube - cube to remove.
  * @return {void}
  */
-SurfaceController.prototype.removeSelectedFacet = function (facet) {
-//	console.log ("SurfaceController.removeSelectedFacet");
-	if (typeof facet != "object") {
-		console.error ("ERROR - SurfaceController.removeSelectedFacet :"
+Controller3D.prototype.removeSelectedFacet = function (cube) {
+//	console.log ("Controller3D.removeSelectedCube");
+	if (typeof cube != "object") {
+		console.error ("ERROR - Controller3D.removeSelectedCube :"
 						+ "bad type of parameter");
 	}
 	// --------------------------------------
@@ -387,8 +268,8 @@ SurfaceController.prototype.removeSelectedFacet = function (facet) {
  * @param {int} index - The index of the facet to remove.
  * @return {void}
  */
-SurfaceController.prototype.removeSelectedFacetByIndex = function (index) {
-	//console.log ("SurfaceController.removeSelectedFacetByIndex");
+Controller3D.prototype.removeSelectedFacetByIndex = function (index) {
+	//console.log ("Controller3D.removeSelectedFacetByIndex");
 	this.selectedFacets.splice (index, 1);
 };
 
@@ -398,8 +279,8 @@ SurfaceController.prototype.removeSelectedFacetByIndex = function (index) {
  * Removes all facet of the selection list.
  * @return {void}
  */
-SurfaceController.prototype.clearSelectFacet = function () {
-	//console.log ("SurfaceController.clearSelectFacet");
+Controller3D.prototype.clearSelectFacet = function () {
+	//console.log ("Controller3D.clearSelectFacet");
 	// --------------------------------------
 	this.selectedFacets = [];
 };
@@ -411,10 +292,10 @@ SurfaceController.prototype.clearSelectFacet = function () {
  * @param {Facet} facet - facet to add.
  * @return {void}
  */
-SurfaceController.prototype.setSelectedFacet = function (facet) {
-//	console.log ("SurfaceController.setSelectedFacet");
+Controller3D.prototype.setSelectedFacet = function (facet) {
+//	console.log ("Controller3D.setSelectedFacet");
 	if (typeof facet != "object") {
-		console.error ("ERROR - SurfaceController.setSelectedFacet : "
+		console.error ("ERROR - Controller3D.setSelectedFacet : "
 				+ "bad type of parameter");
 	}
 	// --------------------------------------
@@ -427,8 +308,8 @@ SurfaceController.prototype.setSelectedFacet = function (facet) {
 /**
  * @return {int} the number of selected facet.
  */
-SurfaceController.prototype.getNbSelectedFacet = function () {
-//	console.log ("SurfaceController.getNbSelectedFacet");
+Controller3D.prototype.getNbSelectedFacet = function () {
+//	console.log ("Controller3D.getNbSelectedFacet");
 	// --------------------------------------
 	return this.selectedFacets.length;
 };
@@ -438,8 +319,8 @@ SurfaceController.prototype.getNbSelectedFacet = function () {
 /**
  * @return {Facet} the hover facet.
  */
-SurfaceController.prototype.getHoverFacet = function () {
-//	console.log ("SurfaceController.getHoverFacet");
+Controller3D.prototype.getHoverFacet = function () {
+//	console.log ("Controller3D.getHoverFacet");
 	// --------------------------------------
 	return this.hoverFacet;
 };
@@ -451,10 +332,10 @@ SurfaceController.prototype.getHoverFacet = function () {
  * @param {Facet} facet - facet to hover.
  * @return {void}
  */
-SurfaceController.prototype.setHoverFacet = function (facet) {
-//	console.log ("SurfaceController.setHoverFacet");
+Controller3D.prototype.setHoverFacet = function (facet) {
+//	console.log ("Controller3D.setHoverFacet");
 	if (typeof facet != "object") {
-		console.error ("ERROR - SurfaceController.setHoverFacet : "
+		console.error ("ERROR - Controller3D.setHoverFacet : "
 						+ "bad type of parameter");
 	}
 	// --------------------------------------
@@ -466,8 +347,8 @@ SurfaceController.prototype.setHoverFacet = function (facet) {
 /**
  * @return {boolean} true if a facet is hovered, false otherwise.
  */
-SurfaceController.prototype.isHoverFacet = function () {
-//	console.log ("SurfaceController.isHoverFacet");
+Controller3D.prototype.isHoverFacet = function () {
+//	console.log ("Controller3D.isHoverFacet");
 	// --------------------------------------
 	return this.hoverFacet != null;
 };
@@ -475,12 +356,12 @@ SurfaceController.prototype.isHoverFacet = function () {
 
 //==============================================================================
 /**
- * @return {SurfaceController} a deep copy of this model controller.
+ * @return {Controller3D} a deep copy of this surface controller.
  */
-SurfaceController.prototype.copy = function () {
-//	console.log ("SurfaceController.copy");
+Controller3D.prototype.copy = function () {
+//	console.log ("Controller3D.copy");
 	// --------------------------------------
-	var result = this.model.copy();
+	var result = this.surface.copy();
 	result.selectedFacets = this.selectedFacets;
 	result.hoverFacet = this.hoverFacet;
 	return result;
@@ -489,15 +370,15 @@ SurfaceController.prototype.copy = function () {
 
 //==============================================================================
 /**
- * Empty the modelController. Remove all the cubes in the model 
+ * Empty the surfaceController. Remove all the cubes in the surface 
  * and remove the selectedFacets and hoverFacet.
  * Keep name, id, creator, creation date and description.
  * @return {void}
  */
-SurfaceController.prototype.clear = function () {
-//	console.log ("SurfaceController.clear");
+Controller3D.prototype.clear = function () {
+//	console.log ("Controller3D.clear");
 	// --------------------------------------
-	this.model.clear();
+	this.surface.clear();
 	this.selectedFacets = [];
 	this.hoverFacet = null;
 };
@@ -511,10 +392,10 @@ SurfaceController.prototype.clear = function () {
  * @param {int} z - the z coordinate where to add the cube.
  * @return {boolean} true if no error, flase otherwise.
  */
-SurfaceController.prototype.addCube = function (x, y, z) {
-//	console.log ("SurfaceController.addCube");
+Controller3D.prototype.addCube = function (x, y, z) {
+//	console.log ("Controller3D.addCube");
 	// --------------------------------------
-	return this.model.addCube (x, y, z);
+	return this.surface.addCube (x, y, z);
 };
 
 
@@ -526,49 +407,49 @@ SurfaceController.prototype.addCube = function (x, y, z) {
  * @param {int} z - the z coordinate where to remove the cube.
  * @return {boolean} true if no error, else false
  */
-SurfaceController.prototype.removeCube = function (x, y, z) {
-//	console.log ("SurfaceController.removeCube");
+Controller3D.prototype.removeCube = function (x, y, z) {
+//	console.log ("Controller3D.removeCube");
 	// --------------------------------------
-	return this.model.removeCube (x, y, z);
+	return this.surface.removeCube (x, y, z);
 };
 
 
 //==============================================================================
 /**
  * Boolean operation "AND" (intersection) on the matrix.
- * @param {Surface} model - an other model.
+ * @param {Surface} surface - an other surface.
  * @return {void}
  */
-SurfaceController.prototype.andModel = function (model) {
-//	console.log ("SurfaceController.andModel");
+Controller3D.prototype.andsurface = function (surface) {
+//	console.log ("Controller3D.andsurface");
 	// --------------------------------------
-	this.model.andModel(model);
+	this.surface.andsurface(surface);
 };
 
 
 //==============================================================================
 /**
  * Boolean operation "OR" (union) on the matrix.
- * @param {Surface} model - an other model.
+ * @param {Surface} surface - an other surface.
  * @return {void}
  */
-SurfaceController.prototype.orModel = function (model) {
-//	console.log ("SurfaceController.orModel");
+Controller3D.prototype.orsurface = function (surface) {
+//	console.log ("Controller3D.orsurface");
 	// --------------------------------------
-	this.model.orModel(model);
+	this.surface.orsurface(surface);
 };
 
 
 //==============================================================================
 /**
  * Boolean operation "XOR" on the matrix.
- * @param {Surface} model - an other model.
+ * @param {Surface} surface - an other surface.
  * @return {void}
  */
-SurfaceController.prototype.xorModel = function (model) {
-//	console.log ("SurfaceController.xorModel");
+Controller3D.prototype.xorsurface = function (surface) {
+//	console.log ("Controller3D.xorsurface");
 	// --------------------------------------
-	this.model.xorModel(model);
+	this.surface.xorsurface(surface);
 };
 
 
@@ -576,13 +457,13 @@ SurfaceController.prototype.xorModel = function (model) {
 /**
  * Boolean operation "ANDNOT" (exclusion) on the matrix.
  * the matrix is changed, but not the parameter
- * @param {Surface} model - an other model.
+ * @param {Surface} surface - an other surface.
  * @return {void}
  */
-SurfaceController.prototype.andNotModel = function (model) {
-	//console.log ("SurfaceController.andNotModel");
+Controller3D.prototype.andNotsurface = function (surface) {
+	//console.log ("Controller3D.andNotsurface");
 	// --------------------------------------
-	this.model.andNotModel(model);
+	this.surface.andNotsurface(surface);
 };
 
 
@@ -592,8 +473,8 @@ SurfaceController.prototype.andNotModel = function (model) {
  * @param {Signal} signal - The signal to send to the application.
  * @return {void}
  */
-SurfaceController.prototype.alert = function (signal) {
-//	console.log ("SurfaceController.alert");
+Controller3D.prototype.alert = function (signal) {
+//	console.log ("Controller3D.alert");
 	this.listener.alertChange (signal);
 };
 
@@ -603,8 +484,8 @@ SurfaceController.prototype.alert = function (signal) {
  * Add a listener.
  * @param {Object} listener - the object to communicate with.
  */
-SurfaceController.prototype.setListener = function (listener) {
-//	console.log ("SurfaceController.setListener");
+Controller3D.prototype.setListener = function (listener) {
+//	console.log ("Controller3D.setListener");
 	this.listener = listener;
 };
 
@@ -617,12 +498,12 @@ SurfaceController.prototype.setListener = function (listener) {
  * @return {boolean} true if there is at least one cube in the slice,
  * false otherwise.
  */
-SurfaceController.prototype.isCubeInSlice = function (axis, nb) {
+Controller3D.prototype.isCubeInSlice = function (axis, nb) {
 	switch (axis) {
 		case AxisEnum.X :
 			for (var i=0; i<this.getSize().m[1]; ++i) {
 				for (var j=0; j<this.getSize().m[2]; ++j) {
-					if (this.getModel().getCube(nb,i,j) != null) {
+					if (this.getsurface().getCube(nb,i,j) != null) {
 						return true;
 					}
 				}
@@ -631,7 +512,7 @@ SurfaceController.prototype.isCubeInSlice = function (axis, nb) {
 		case AxisEnum.Y :
 			for (var i=0; i<this.getSize().m[0]; ++i) {
 				for (var j=0; j<this.getSize().m[2]; ++j) {
-					if (this.getModel().getCube(i,nb,j) != null) {
+					if (this.getsurface().getCube(i,nb,j) != null) {
 						return true;
 					}
 				}
@@ -640,7 +521,7 @@ SurfaceController.prototype.isCubeInSlice = function (axis, nb) {
 		case AxisEnum.Z :
 			for (var i=0; i<this.getSize().m[0]; ++i) {
 				for (var j=0; j<this.getSize().m[1]; ++j) {
-					if (this.getModel().getCube(i,j,nb) != null) {
+					if (this.getsurface().getCube(i,j,nb) != null) {
 						return true;
 					}
 				}
@@ -653,9 +534,9 @@ SurfaceController.prototype.isCubeInSlice = function (axis, nb) {
 
 //==============================================================================
 /**
- * @return {boolean} true if the model is connex, false otherwise.
+ * @return {boolean} true if the surface is connex, false otherwise.
  */
-SurfaceController.prototype.isConnex = function () {
+Controller3D.prototype.isConnex = function () {
 	var tmp = new Array();
 	var cube = null;
 	for (var x=0; x<this.getSize().m[0]; ++x) {
@@ -694,13 +575,13 @@ SurfaceController.prototype.isConnex = function () {
 /**
  * Replace all the 1 in the matrix by 2 if the cube at this position is connex
  * to another cube.
- * @param {int[][][]} mat - the model cubes represented by ones.
+ * @param {int[][][]} mat - the surface cubes represented by ones.
  * @param {int} x - the x coordinate of the first cube.
  * @param {int} y - the y coordinate of the first cube.
  * @param {int} z - the z coordinate of the first cube.
  * @return {void}
  */
-SurfaceController.prototype.propagation = function (mat,x,y,z) {
+Controller3D.prototype.propagation = function (mat,x,y,z) {
 	var listeCoord = new Array();
 	listeCoord.push([x,y,z]);
 	while(listeCoord.length>0) {
@@ -723,10 +604,10 @@ SurfaceController.prototype.propagation = function (mat,x,y,z) {
 
 //==============================================================================
 /**
- * @return {boolean} true if the model possess 25 cubes along an axis,
+ * @return {boolean} true if the surface possess 25 cubes along an axis,
  * false otherwise.
  */
-SurfaceController.prototype.dimensionVerification = function () {
+Controller3D.prototype.dimensionVerification = function () {
 	for (var i=0; i<3; ++i) {
 		if (this.isCubeInSlice(AxisEnum.toAxis(i),0)) {
 			if (this.isCubeInSlice(AxisEnum.toAxis(i),this.getSize().m[i]-1)) {
@@ -740,9 +621,9 @@ SurfaceController.prototype.dimensionVerification = function () {
 
 //==============================================================================
 /**
- * @return {boolean} true if a model is valid, false otherwise.
+ * @return {boolean} true if a surface is valid, false otherwise.
  */
-SurfaceController.prototype.isValid = function () {
+Controller3D.prototype.isValid = function () {
 	return this.dimensionVerification() && this.isConnex();
 };
 

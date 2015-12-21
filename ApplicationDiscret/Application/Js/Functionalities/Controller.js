@@ -211,5 +211,3 @@ Controller.prototype.scroll = function (event, cube) {
 		console.error ("ERROR - Controller.scroll : bad type of parameter");
 	}
 };
-
-

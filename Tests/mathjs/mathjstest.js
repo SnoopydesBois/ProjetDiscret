@@ -39,4 +39,3 @@ console.log(listParameters);
 for (var i in listParameters){
 	console.log("i : " + i + ", listParameters[i] : " + listParameters[i]);
 }
-

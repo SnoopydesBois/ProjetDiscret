@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
 
@@ -1161,5 +1162,4 @@ ModelView3D.prototype.clearSelect = function (gl) {
 		this.selectibo[tmp].numItems = 0;
 	}
 };
-
 
