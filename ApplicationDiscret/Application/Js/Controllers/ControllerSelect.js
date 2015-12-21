@@ -212,5 +212,3 @@ ControllerSelect.prototype.pressKey = function (event) {
 		}
 	} // end if active and model is not null
 };
-
-
