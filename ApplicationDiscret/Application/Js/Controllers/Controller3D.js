@@ -71,9 +71,9 @@ function Controller3D (dimension)
 	Controller.call (this);
 	
 	/**
-	 * {Surface} The surface.
+	 * {modelGen} The model which can generate the surface.
 	 */
-	this.surface = new Surface (dimension);
+	this.modelGen = new modelGen (dimension);
 	
 	/**
 	 * {Function} A function that provide a frozen reference to the meridian
@@ -99,7 +99,7 @@ Controller3D.prototype.generate = function() {
 	else{
 		meridian = this.getMeridian();
 		curveRevolution = this.getCurveRevolution();
-		return this.surface.generate(meridian, curveRevolution);
+		return this.modelGen.generate(meridian, curveRevolution);
 	}
 }
 
@@ -111,7 +111,7 @@ Controller3D.prototype.generate = function() {
 Controller3D.prototype.getSurface = function () {
 //	console.log ("Controller3D.getsurface");
 	// --------------------------------------
-	return this.surface;
+	return this.modelGen.getSurface();
 };
 
 
@@ -125,7 +125,7 @@ Controller3D.prototype.getVoxel = function (position) {
 		throw "position is not a Vector"
 	}
 	// --------------------------------------
-	return this.surface.getVoxel (position);
+	return this.modelGen().getVoxel (position);
 };
 
 
@@ -135,7 +135,7 @@ Controller3D.prototype.getVoxel = function (position) {
  * @return {Voxel} the selected voxel.
  */
 Controller3D.prototype.getSelectedVoxel = function () {
-	return this.surface.getSelectedVoxel();
+	return this.modelGen.getSelectedVoxel();
 };
 
 
@@ -146,7 +146,7 @@ Controller3D.prototype.getSelectedVoxel = function () {
 Controller3D.prototype.getDimension = function () {
 //	console.log ("Controller3D.getDimension");
 	// --------------------------------------
-	return this.surface.getDimension();
+	return this.modelGen.getDimension();
 };
 
 
@@ -161,7 +161,7 @@ Controller3D.prototype.isSelectedVoxel = function (position) {
 		throw "position is not a Vector"
 	}
 	// -------------------------------------
-	return this.surface.isSelectedVoxel(position);
+	return this.modelGen.isSelectedVoxel(position);
 };
 
 
@@ -200,8 +200,8 @@ ControllerSelect.prototype.mouseDown = function (event, position) {
 	}
 	// --------------------------------------
 	if (event.button === 0) {		
-		if (this.surface !== undefined) {
-			this.surface.selectVoxel(x, y, z);
+		if (this.modelGen !== undefined) {
+			this.modelGen.selectVoxel(position);
 		}
 	}
 };
