@@ -1,7 +1,11 @@
 console.log(math.eval('sqrt(3^2 + 4^2)'));
 
 
-var scope = { a : 3, b : 4}
+var scope = { 'a' : 3, 'b' : 4};
+var blah = "c"
+scope[blah] = 5;
+blah = "d";
+console.log(scope);
 console.log(math.parse('a+b').compile());
 //math.eval("a+b");
 
@@ -24,8 +28,14 @@ catch(e){
 
 console.log(math.parse('qsdfiusdfqiuyqsdfihu'));
 
-var listParameters = [];
+var listParameters = new Array();
 listParameters['a'] = 1;
 listParameters['b'] = 2;
 
 console.log(listParameters['b']);
+
+
+console.log(listParameters);
+for (var i in listParameters){
+	console.log("i : " + i + ", listParameters[i] : " + listParameters[i]);
+}

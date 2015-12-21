@@ -47,8 +47,8 @@
  * getObjectByName (aName : String) : Object
  * setLightPosition (pos : Vector) : void
  * getCameraById (anIndex : int) : Camera
- * setActiveCamera (anIndex : int) : void
- * getActiveCamera () : Camera
+ * setCamera (camera : Camera) : void
+ * getCamera () : Camera
  * setScale (scale : float) : void
  * getScale () :float
  * multScale (scale : float) : void
@@ -64,13 +64,11 @@
  * removeObjectByName (anObjectName : String) : void
  * addShader (aShader : Shader) : void
  * removeShaderByName (aName : String) : void
- * addCamera (aCamera : Camera) : void
  * prepare (gl : glContext) : void
+ * prepareDraw(gl : glContext, obj : GenericObject) : void
  * reload () : void
  * draw (gl : glContext, backBuffer : boolean) : void
- * prepareHover (gl : glContext) : void
  * prepareSelect (gl : glContext) : void
- * prepareExtrud (gl : glContext) : void
  */
 
 /// CODE ///////////////////////////////////////////////////////////////////////
@@ -96,15 +94,10 @@ function Scene () {
 	this.shaderList = new Array();
 	
 	/**
-	 * {Array} List of cameras (for multiple viewpoints).
-	 */
-	this.cameraList = new Array();
-	
-	/**
-	 * {int} Active camera index.
-	 */
-	this.activeCamera = -1;
-	
+ 	 * {Camera} The camera used in the scene
+ 	 */
+	this.camera = undefined;
+		
 	// add on for discrete geometry
 	/**
 	 * {float} 
@@ -132,12 +125,12 @@ function Scene () {
 	this.translateY = 0.0;
 	
 	/**
-	 * {int} The X mouse coordonate.
+	 * {int} The X mouse coordinate.
 	 */
 	this.mouseX = 512;
 	
 	/**
-	 * {int} The Y mouse coordonate.
+	 * {int} The Y mouse coordinate.
 	 */
 	this.mouseY = 384;
 	
@@ -145,11 +138,6 @@ function Scene () {
 	 * {} 
 	 */
 	this.repere = null;
-	
-	/**
-	 * {} 
-	 */
-	this.extrud = null;
 }
 
 
@@ -176,8 +164,9 @@ Scene.prototype.getLength = function () {
  */
 Scene.prototype.getObjectByName = function (aName) {
 //	console.log ("Scene.getObjectByName");
-	for (var i = 0; i < this.objectList.length; ++i) {
-		if (this.objectList[i].getName() == aName) {
+	var length = this.objectList.length;
+	for (var i = 0; i < length; ++i) {
+		if (this.objectList[i].getName() === aName) {
 			return this.objectList[i];
 		}
 	}
@@ -202,45 +191,23 @@ Scene.prototype.setLightPosition = function (pos) {
 //==============================================================================
 /**
  * Get a camera.
- * @param {int} anIndex - the index of the camera to get.
  * @return {Camera} the camera corresponding to the id if it exists, null
  * otherwise.
  */
-Scene.prototype.getCameraById = function (anIndex) {
+Scene.prototype.getCamera = function () {
 //	console.log ("Scene.getCameraById");
-	if (anIndex < 0 || anIndex >= this.cameraList.length) {
-		console.log ("[Scene::getCameraById] invalid index : " + anIndex);
-		return null;
-	}
-	else {
-		return this.cameraList[anIndex];
-	}
+	return this.camera;
 };
 
 
 //==============================================================================
 /**
- * Set Current Camera.
- * @param {int} anIndex - the index of the new active camera.
- * @return {void}
+ * Get a camera.
+ * @param {Camera} camera - The new camera of the scene
  */
-Scene.prototype.setActiveCamera = function (anIndex) {
-//	console.log ("Scene.setActiveCamera");
-	if (anIndex < 0 || anIndex >= this.cameraList.length) {
-		alert("[Scene::setActiveCamera] invalid index : " + anIndex);
-	}
-	this.cameraList.activeCamera = anIndex;
-};
-
-
-//==============================================================================
-/**
- * Get current camera.
- * @return {Camera} the current active camera.
- */
-Scene.prototype.getActiveCamera = function () {
-//	console.log ("Scene.getActiveCamera");
-	return this.cameraList[this.activeCamera];
+Scene.prototype.setCamera = function (camera) {
+//	console.log ("Scene.getCameraById");
+	this.camera = camera;
 };
 
 
@@ -444,18 +411,6 @@ Scene.prototype.removeShaderByName = function (aName) {
 
 //==============================================================================
 /**
- * Add a camera.
- * @param {Camera} aCamera - the camera to add to the scene.
- * @return {void}
- */
-Scene.prototype.addCamera = function (aCamera) {
-//	console.log ("Scene.addCamera");
-	this.cameraList.push (aCamera);
-};
-
-
-//==============================================================================
-/**
  * Prepare Scene before render.
  * @param {glContext} gl - the gl context.
  * @return {void}
@@ -466,17 +421,15 @@ Scene.prototype.prepare = function (gl) {
 	if (this.repere != null) {
 		this.repere.prepare(gl);
 	}
-	if (this.extrud != null) {
-		this.extrud.prepare(gl);
-	}
+	
 	for (var i = 0; i < this.objectList.length; ++i) {
 		this.objectList[i].prepare(gl);
 	}
 	
 	// If no camera 
-	if (this.cameraList.length == 0) {
+	if (this.camera === undefined) {
 		// Default Camera
-		var cam = new Camera (new Vector (10, 10, 10),
+		this.camera = new Camera (new Vector (10, 10, 10),
 			new Vector(0, 0, 0),
 			new Vector(0, 0, 1),
 			800,
@@ -484,16 +437,8 @@ Scene.prototype.prepare = function (gl) {
 			30.0,
 			0.1,
 			1000.0);
-		this.cameraList.push (cam);
 	}
-	
-	// If camera index not valid 
-	if (this.activeCamera < 0 
-			|| this.activeCamera >= this.cameraList.length) {
-		this.activeCamera = 0; 
-	}
-	
-	this.prepareHover (gl);
+
 	this.prepareSelect (gl);
 };
 
@@ -505,7 +450,8 @@ Scene.prototype.prepare = function (gl) {
  */
 Scene.prototype.reload = function () {
 //	console.log ("Scene.reload");
-	for (var i = 0; i < this.objectList.length; ++i) {
+	var length = this.objectList.length;
+	for (var i = 0; i < length; ++i) {
 		var obj = this.objectList[i];
 		if (obj.displayMe()) { 
 			var shad = obj.getShader();
@@ -525,208 +471,38 @@ Scene.prototype.reload = function () {
  */
 Scene.prototype.draw = function (gl, backBuffer) {
 //	console.log ("Scene.draw");
-	var taille = Math.min (this.height,this.width);
-	gl.viewport ((this.width-taille * 2) / 2, (this.height-taille * 2) / 2,
-			taille * 2, taille * 2);
+	var taille = Math.min (this.height, this.width) * 2;
+	gl.viewport ((this.width - taille) / 2, (this.height - taille) / 2,
+			taille, taille);
+			
 	var colorFont = appli.getCanvasColor();
+	
 	gl.clearColor (colorFont[0], colorFont[1], colorFont[2], colorFont[3]);
 	gl.clear (gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	
 	// Get Current Camera Matrices
-	var cam = this.getActiveCamera();
+	var cam = this.camera;
 	var mvMat = cam.getViewMatrix();
 	var pjMat = cam.getProjectionMatrix();
 	
-	if (this.repere != null) {
+	if (this.repere !== undefined && this.repere.displayMe()) {
 		// Get Object Properties
 		var obj = this.repere;
-		if (obj.displayMe()) {
-			var objMat = obj.getMatrix();
-			
-			// Get Location of uniform variables
-			var shad = obj.getShader();
-			shad.setActive(gl); 
-			var locMvMat = shad.getUniformLocation("uModelViewMatrix");
-			var locPjMat = shad.getUniformLocation("uProjectionMatrix");
-			var locNmMat = shad.getUniformLocation("uNormalMatrix");
-			
-			// Compute real ModelView matrix
-			var mv = new Matrix(mvMat).mul(objMat);
-			
-			// Set Uniform Matrices
-			if (locMvMat != null) {
-				gl.uniformMatrix4fv (locMvMat, false, mv.getGLVector());
-			}
-			
-			if (locPjMat != null) {
-				gl.uniformMatrix4fv (locPjMat, false, pjMat.getGLVector());
-			}
-			
-			// If Shader has normal matrix give it !
-			if (locNmMat != null) {
-				// Compute Normal matrix 
-				var nm = new Matrix(mv).toNormal();
-				gl.uniformMatrix4fv(locNmMat, false, nm.getGLVector()); 
-			}
-			
-			// scaling ...
-			var locScale = shad.getUniformLocation ("uScale");
-			if (locScale != null) {
-				gl.uniform1f(locScale, this.scale);
-			}
-			
-			// resolution
-			var locResol = shad.getUniformLocation ("uResolution");
-			if (locResol != null) {
-				gl.uniform2f (locResol, this.width, this.height);
-			}
-			
-			// translation
-			var locTranslate = shad.getUniformLocation ("uTranslate");
-			if (locTranslate != null) {
-				gl.uniform2f (locTranslate, this.translateX, this.translateY);
-			}
-			
-			// mouse
-			var locMouse = shad.getUniformLocation ("uMouse");
-			if (locMouse != null) {
-				var x = Math.floor ((this.mouseX)*this.scale);
-				var y = Math.floor ((this.mouseY)*this.scale);
-				gl.uniform2f(locMouse, x, y);
-			}
-			
-			// RenderObject
-			if (!backBuffer) {
-				obj.draw (gl, this);
-			}
+		this.prepareDraw(obj);
+		// RenderObject
+		if (!backBuffer) {
+			obj.draw (gl, this);
 		}
 	}
-	
-	if (this.extrud != null) {
-		// Get Object Properties
-		var obj = this.extrud;
-		if (obj.displayMe()) {
-			var objMat = obj.getMatrix();
-			
-			// Get Location of uniform variables 
-			var shad = obj.getShader();
-			shad.setActive(gl);
-			var locMvMat = shad.getUniformLocation ("uModelViewMatrix");
-			var locPjMat = shad.getUniformLocation ("uProjectionMatrix");
-			var locNmMat = shad.getUniformLocation ("uNormalMatrix");
-			
-			// Compute real ModelView matrix
-			var mv = new Matrix(mvMat).mul(objMat);
-			
-			// Set Uniform Matrices
-			if (locMvMat != null) {
-				gl.uniformMatrix4fv (locMvMat, false, mv.getGLVector());
-			}
-			
-			if (locPjMat != null) {
-				gl.uniformMatrix4fv (locPjMat, false, pjMat.getGLVector());
-			}
-			
-			// If Shader has normal matrix give it !
-			if (locNmMat != null) {
-				// Compute Normal matrix
-				var nm = new Matrix (mv).toNormal();
-				gl.uniformMatrix4fv(locNmMat, false, nm.getGLVector()); 
-			}
-			
-			// scaling ...
-			var locScale = shad.getUniformLocation ("uScale");
-			if (locScale != null) {
-				gl.uniform1f (locScale, this.scale);
-			}
-			
-			// resolution
-			var locResol = shad.getUniformLocation ("uResolution");
-			if (locResol != null) {
-				gl.uniform2f (locResol, this.width, this.height);
-			}
-			
-			// translation
-			var locTranslate = shad.getUniformLocation ("uTranslate");
-			if (locTranslate != null) {
-				gl.uniform2f (locTranslate, this.translateX, this.translateY);
-			}
-		
-			// mouse
-			var locMouse = shad.getUniformLocation ("uMouse");
-			if (locMouse != null) {
-				var x = Math.floor ((this.mouseX)*this.scale);
-				var y = Math.floor ((this.mouseY)*this.scale);
-				gl.uniform2f(locMouse, x, y);
-			}
-			
-			// RenderObject 
-			if (!backBuffer) {
-				obj.draw (gl, this);
-			}
-		}
-	} // end if (this.extrud != null)
-	
-	for (var i = 0; i < this.objectList.length; ++i) {
+
+	var length = this.objectList.length;
+	for (var i = 0; i < length; ++i) {
 		// Get Object Properties 
 		var obj = this.objectList[i];
 		if (!obj.displayMe()) {
 			continue;
 		}
-		
-		var objMat = obj.getMatrix(); 
-		
-		// Get Location of uniform variables 
-		var shad = obj.getShader();
-		shad.setActive(gl); 
-		var locMvMat = shad.getUniformLocation ("uModelViewMatrix");
-		var locPjMat = shad.getUniformLocation ("uProjectionMatrix");
-		var locNmMat = shad.getUniformLocation ("uNormalMatrix");
-		
-		// Compute real ModelView matrix
-		var mv = new Matrix(mvMat).mul(objMat);
-		
-		// Set Uniform Matrices
-		if (locMvMat != null) {
-			gl.uniformMatrix4fv (locMvMat, false, mv.getGLVector());
-		}
-		
-		if (locPjMat != null) {
-			gl.uniformMatrix4fv (locPjMat, false, pjMat.getGLVector()); 
-		}
-		
-		// If Shader has normal matrix give it !
-		if (locNmMat != null) {
-			// Compute Normal matrix 
-			var nm = new Matrix (mv).toNormal();
-			gl.uniformMatrix4fv (locNmMat, false, nm.getGLVector()); 
-		}
-		
-		// scaling ...
-		var locScale = shad.getUniformLocation("uScale");
-		if (locScale != null) {
-			gl.uniform1f (locScale, this.scale);
-		}
-		
-		// resolution
-		var locResol = shad.getUniformLocation ("uResolution");
-		if (locResol != null) {
-			gl.uniform2f (locResol, this.width, this.height);
-		}
-		
-		// translation
-		var locTranslate = shad.getUniformLocation("uTranslate");
-		if (locTranslate != null) {
-			gl.uniform2f (locTranslate, this.translateX, this.translateY);
-		}
-		
-		// mouse
-		var locMouse = shad.getUniformLocation("uMouse");
-		if (locMouse != null) {
-			var x = Math.floor ((this.mouseX)*this.scale);
-			var y = Math.floor ((this.mouseY)*this.scale);
-			gl.uniform2f(locMouse, x, y);
-		}
+		this.prepareDraw(obj);
 		
 		// RenderObject 
 		if (backBuffer) {
@@ -738,44 +514,66 @@ Scene.prototype.draw = function (gl, backBuffer) {
 };
 
 
-//==============================================================================
 /**
- * Prepare the scene for hovering render.
- * @param {glContext} gl - The gl context.
- * @return {void}
+ * Compute the data to draw
+ * @param [glContext} gl - the gl context
+ * @param {}
  */
-Scene.prototype.prepareHover = function (gl) {
-//	console.log ("Scene.prepareHover");
-	// Prepare each objects 
-	if (this.repere != null) {
-		this.repere.hoverPrepare(gl)
-	}
-
-	for (var i = 0; i < this.objectList.length; ++i) {
-		this.objectList[i].prepareHover(gl);
+Scene.prototype.prepareDraw = function(gl, obj) {
+	var objMat = obj.getMatrix();
+	
+	// Get Location of uniform variables
+	var shad = obj.getShader();
+	shad.setActive(gl); 
+	var locMvMat = shad.getUniformLocation("uModelViewMatrix");
+	var locPjMat = shad.getUniformLocation("uProjectionMatrix");
+	var locNmMat = shad.getUniformLocation("uNormalMatrix");
+	
+	// Compute real ModelView matrix
+	var mv = new Matrix(mvMat).mul(objMat);
+	
+	// Set Uniform Matrices
+	if (locMvMat != null) {
+		gl.uniformMatrix4fv (locMvMat, false, mv.getGLVector());
 	}
 	
-	// If no camera
-	if (this.cameraList.length == 0) {
-		// Default Camera
-		var cam = new Camera(new Vector(10, 10, 10),
-			new Vector(0, 0, 0),
-			new Vector(0, 0, 1),
-			800,
-			600,
-			30.0,
-			0.1,
-			1000.0
-		);
-		this.cameraList.push (cam);
+	if (locPjMat != null) {
+		gl.uniformMatrix4fv (locPjMat, false, pjMat.getGLVector());
 	}
 	
-	// If camera index not valid
-	if (this.activeCamera < 0 || this.activeCamera >= this.cameraList.length) {
-		this.activeCamera = 0;
+	// If Shader has normal matrix give it !
+	if (locNmMat != null) {
+		// Compute Normal matrix 
+		var nm = new Matrix(mv).toNormal();
+		gl.uniformMatrix4fv(locNmMat, false, nm.getGLVector()); 
 	}
-};
-
+	
+	// scaling ...
+	var locScale = shad.getUniformLocation ("uScale");
+	if (locScale != null) {
+		gl.uniform1f(locScale, this.scale);
+	}
+	
+	// resolution
+	var locResol = shad.getUniformLocation ("uResolution");
+	if (locResol != null) {
+		gl.uniform2f (locResol, this.width, this.height);
+	}
+	
+	// translation
+	var locTranslate = shad.getUniformLocation ("uTranslate");
+	if (locTranslate != null) {
+		gl.uniform2f (locTranslate, this.translateX, this.translateY);
+	}
+	
+	// mouse
+	var locMouse = shad.getUniformLocation ("uMouse");
+	if (locMouse != null) {
+		var x = Math.floor ((this.mouseX)*this.scale);
+		var y = Math.floor ((this.mouseY)*this.scale);
+		gl.uniform2f(locMouse, x, y);
+	}
+}
 
 //==============================================================================
 /**
@@ -786,14 +584,15 @@ Scene.prototype.prepareHover = function (gl) {
 Scene.prototype.prepareSelect = function (gl) {
 //	console.log ("Scene.prepareSelect");
 	// Prepare each objects 
-	for (var i = 0; i < this.objectList.length; ++i) {
+	var lengthObject = this.objectList.length;
+	for (var i = 0; i < lengthObject; ++i) {
 		this.objectList[i].prepareSelection(gl);
 	}
 	
-	// If no camera 
-	if (this.cameraList.length == 0) {
+	// If no camera
+	if (this.camera === undefined) {
 		// Default Camera
-		var cam = new Camera (new Vector(10, 10, 10),
+		this.camera	= new Camera (new Vector(10, 10, 10),
 			new Vector(0, 0, 0),
 			new Vector(0, 0, 1),
 			800,
@@ -802,47 +601,5 @@ Scene.prototype.prepareSelect = function (gl) {
 			0.1,
 			1000.0
 		);
-		this.cameraList.push(cam);
-	}
-	
-	// If camera index not valid 
-	if (this.activeCamera < 0 || this.activeCamera >= this.cameraList.length) {
-		this.activeCamera = 0; 
 	}
 };
-
-
-//==============================================================================
-/**
- * Prepare the scene for extrusion.
- * @param {glContext} gl - the gl context.
- * @return {void}
- */
-Scene.prototype.prepareExtrud = function (gl) {
-//	console.log ("Scene.prepareExtrud");
-	if (this.extrud != null) {
-		this.extrud.prepare(gl)
-	}
-	
-	// If no camera 
-	if (this.cameraList.length == 0) {
-		// Default Camera
-		var cam = new Camera (new Vector (10, 10, 10),
-			new Vector(0, 0, 0),
-			new Vector(0, 0, 1),
-			800,
-			600,
-			30.0,
-			0.1,
-			1000.0
-		);
-		this.cameraList.push(cam);
-	}
-	
-	// If camera index not valid 
-	if (this.activeCamera < 0 || this.activeCamera >= this.cameraList.length) {
-		this.activeCamera = 0;
-	}
-};
-
-

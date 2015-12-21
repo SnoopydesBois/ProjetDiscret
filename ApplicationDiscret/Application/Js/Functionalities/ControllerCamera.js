@@ -49,10 +49,10 @@
  *
  *	ControllerCamera (frame : Frame, name : string)
  *	pressKey (event : WindowEvent) : void
- *	mouseDown (event : WindowEvent, face : Facet) : void
- *	mouseUp (event : WindowEvent, face : Facet) : void
- *	mouseMouv (event : WindowEvent, face : Facet) : void
- *	scrolle (event : WindowEvent, face : Facet) : void
+ *	mouseDown (event : WindowEvent, cube : Cube) : void
+ *	mouseUp (event : WindowEvent, cube : Cube) : void
+ *	mouseMouv (event : WindowEvent, cube : Cube) : void
+ *	scroll (event : WindowEvent, cube : Cube) : void
  *	mouvementCamera (mouv : float[]) : void
  *	pythagore (cam : int) : void
  *	pythagore3D (cam1 : int, cam2 : int) : void
@@ -68,14 +68,16 @@ ControllerCamera.prototype = new Controller ();
 ControllerCamera.prototype.constructor = ControllerCamera;
 
 /**
- *	@constructor
- *	@param {Frame} frame - The frame associated with the controller
- *	@param {String} name - The name of the controller
+ * @constructor
+ * @param {Scene} scene - The scene containing all the 3D objects
  */
-function ControllerCamera (frame, name) {
-	//console.log ("ControllerHover.constructor");
-	// --------------------------------------
-	Controller.call(this, frame, name);
+function ControllerCamera (scene) {
+	Controller.call(this);
+	
+	/**
+  	 * {Scene} The scene containing all the 3D objects
+ 	 */
+	this.scene = scene;
 	
 	/**
 	 * {float} 
@@ -106,38 +108,30 @@ function ControllerCamera (frame, name) {
  *	@return {void}
  */
 ControllerCamera.prototype.pressKey = function (event) {
-	//console.log ("ControllerCamera.pressKey");
-	if (typeof event != "object") {
+	if (typeof event !== "object") {
 		console.error ("ERROR - ControllerCamera.pressKey : bad type of " 
 				+ "parameter");
 	}
-	// --------------------------------------
 	if (this.actif) {
 		var mouv = [0.0, 0.0];
-		if (event.key == 'z') { // Upward rotation
+		if (event.key === 'z') { // Upward rotation
 			// movement [float,float] float => [0..1]
 			mouv = [0.0, 1.0/15.0];
 			this.mouvementCamera(mouv);
-		}
-		else if (event.key == 's') { // Downward rotation
+		} else if (event.key === 's') { // Downward rotation
 			mouv = [0.0, -1.0/15.0];
 			this.mouvementCamera(mouv);
-		}
-		else if (event.key == 'q') { // Left-hand rotation
+		} else if (event.key === 'q') { // Left-hand rotation
 			mouv = [1.0/15.0, 0.0];
 			this.mouvementCamera(mouv);
-		}
-		else if (event.key == 'd') { // Right-hand Rotation
+		} else if (event.key === 'd') { // Right-hand Rotation
 			mouv = [-1.0/15.0, 0.0];
 			this.mouvementCamera(mouv);
-		}
-		else if (event.key == '-') {
+		} else if (event.key === '-') {
 			this.zoom(0.5);
-		}
-		else if (event.key == '+') {
+		} else if (event.key === '+') {
 			this.zoom(-0.5);
-		}
-		else if (event.key == '0' || event.charCode == 32) {
+		} else if (event.key === '0' || event.charCode === 32) {
 			this.reinit();
 		}
 	}
@@ -148,17 +142,16 @@ ControllerCamera.prototype.pressKey = function (event) {
 /**
  *	Press the mouse button
  *	@param {WindowEvent} event - event captured by the window
- *	@param {Facet} face - face overflown by the mouse
+ *	@param {Cube} cube - cube over which the mouse is.
  *	@return {void}
  */
-ControllerCamera.prototype.mouseDown = function (event, face) {
-	//console.log ("Cube.mouseDown");
-	if (typeof event != "object") {
+ControllerCamera.prototype.mouseDown = function (event, cube) {
+	if (typeof event !== "object") {
 		console.error ("ERROR - ControllerCamera.mouseDown : bad type of " 
 				+ "parameter");
 	}
 	// --------------------------------------
-	if (event.button == 2) {
+	if (event.button === 2) {
 		this.rotate = true;
 	}
 };
@@ -168,12 +161,11 @@ ControllerCamera.prototype.mouseDown = function (event, face) {
 /**
  *	Release the mouse button
  *	@param {WindowEvent} event - event captured by the window
- *	@param {Facet} face - face overflown by the mouse
+ *	@param {Cube} cube - cube overwhich the mouse is
  *	@return {void}
  */
-ControllerCamera.prototype.mouseUp = function (event, face) {
-	//console.log ("Cube.mouseUp");
-	if (typeof event != "object") {
+ControllerCamera.prototype.mouseUp = function (event, cube) {
+	if (typeof event !== "object") {
 		console.error ("ERROR - ControllerCamera.mouseUp : bad type of" 
 				+ " parameter");
 	}
@@ -186,18 +178,18 @@ ControllerCamera.prototype.mouseUp = function (event, face) {
 /**
  *	Move the mouse
  *	@param {WindowEvent} event - event captured by the window
- *	@param {Facet} face - face overflown by the mouse
+ *	@param {Cube} cube - cube over which the mouse is
  *	@return {void}
  */
-ControllerCamera.prototype.mouseMouv = function (event, face) {
-	if (typeof event != "object") {
+ControllerCamera.prototype.mouseMouv = function (event, cube) {
+	if (typeof event !== "object") {
 		console.error ("ERROR - ControllerCamera.mouseMouv : bad type of" 
 				+ " parameter");
 	}
 	// --------------------------------------
 	if ((event.altKey || this.rotate) && this.actif) {
-		var w = this.frame.scene.getWidth();
-		var h = this.frame.scene.getHeight();
+		var w = this.scene.getWidth();
+		var h = this.scene.getHeight();
 		
 		// Movement [float,float]  float => [0..1]
 		var mouv = [(event.clientX - this.posMouse[0]) / w,
@@ -214,20 +206,18 @@ ControllerCamera.prototype.mouseMouv = function (event, face) {
 //==============================================================================
 /**
  *	@param {WindowEvent} event - event captured by the window
- *	@param {Facet} face - face overflown by the mouse
+ *	@param {Cube} cube - cube over which the mouse is
  *	@return {void}
  */
-ControllerCamera.prototype.scrolle = function (event, face) {
-	//console.log ("ControllerCamera.scrolle");
-	if (typeof event != "object") {
-		console.error ("ERROR - ControllerCamera.scrolle : bad type of" 
+ControllerCamera.prototype.scroll = function (event, cube) {
+	if (typeof event !== "object") {
+		console.error ("ERROR - ControllerCamera.scroll : bad type of" 
 				+ " parameter");
 	}
-	// --------------------------------------
 	if (this.actif) {
 		var delta = Math.max(-1, Math.min(1, (event.wheelDelta || event.detail)
 				));
-		this.zoom(delta/4);
+		this.zoom(delta / 4);
 	}
 };
 
@@ -239,58 +229,67 @@ ControllerCamera.prototype.scrolle = function (event, face) {
  *	@return {void}
  */
 ControllerCamera.prototype.mouvementCamera = function (mouv) {
+	
+	var cameraAt = this.scene.getCamera().getCameraAt();
+	
 	var limit = this.distanceCamera - this.hauteurMax;
-	if (mouv[1] > 0.0 || mouv[1] < 0.0) { // Upward or Downward mouvement
-		this.frame.cameraAt.m[2] = this.frame.cameraAt.m[2] 
+	if (mouv[1] > 0.0 || mouv[1] < 0.0) { // Upward or downward mouvement
+		cameraAt.m[2] = cameraAt.m[2] 
 				+ mouv[1] *	this.distanceCamera *	2.0;
 		var limit = this.distanceCamera - this.hauteurMax;
 		// 1 = 180° : movement throughout all the screen
 		// If the mouvement exceed the limit it is repositionned
-		if (this.frame.cameraAt.m[2] > limit 
-				|| this.frame.cameraAt.m[2] <= -limit) {
-			this.frame.cameraAt.m[2] =limit*Math.sign(this.frame.cameraAt.m[2]);
+		if (cameraAt.m[2] > limit 
+			 || cameraAt.m[2] <= -limit) {
+			cameraAt.m[2] = limit*Math.sign(
+											cameraAt.m[2]
+										);
 		}
 		// if x = y = 0 : crash (if no zoom, we do not enter this if)
-		if (this.frame.cameraAt.m[0] == 0.0 && this.frame.cameraAt.m[1] == 0.0) {
-			this.frame.cameraAt.m[0] = 0.1;
-			this.frame.cameraAt.m[2] = limit;
+		if (cameraAt.m[0] === 0.0 
+				&& cameraAt.m[1] === 0.0) {
+			cameraAt.m[0] = 0.1;
+			cameraAt.m[2] = limit;
 		} 
-		else if (this.frame.cameraAt.m[0] == 0.0) { // Particular case
-			this.pythagore(1);
+		else if (cameraAt.m[0] === 0.0) { // Particular case
+			this.pythagore(cameraAt, 1);
 		} 
-		else if (this.frame.cameraAt.m[1] == 0.0) { // Particular case
-			this.pythagore(0);
+		else if (cameraAt.m[1] === 0.0) { // Particular case
+			this.pythagore(cameraAt, 0);
 		} 
 		else {
-			this.pythagore3D(0,1);
+			this.pythagore3D(cameraAt, 0,1);
 		}
 	} 
 	if (mouv[0] > 0.0 || mouv[0] < 0.0) { // Right-hand or Left-hand movement
-		var tmp = this.frame.cameraAt.rotateZ(-mouv[0]*Math.PI);
+		var tmp = cameraAt.rotateZ(-mouv[0] * Math.PI);
 		// 180° : movement throughout all the screen 
-		this.frame.cameraAt.m[0] = tmp.m[0];
-		this.frame.cameraAt.m[1] = tmp.m[1];
-		this.frame.cameraAt.m[2] = tmp.m[2];
+		cameraAt.m[0] = tmp.m[0];
+		cameraAt.m[1] = tmp.m[1];
+		cameraAt.m[2] = tmp.m[2];
 	}
 	// Camera's matrix calcul
-	this.frame.scene.getActiveCamera().computeMatrices();
-	this.frame.draw();
+	this.scene.getCamera().computeMatrices();
+	//XXX this.frame.draw();
 };
 
 
 //==============================================================================
 /**
 * Pythagore calcul.
-* @param {int} cam - the indice of the camera's coordinate we want to modify
+* @param {Vector} cameraAt - The vector containing the coordinate of the point 
+* where the camere must look at
+* @param {int} index - the indice of the camera's coordinate we want to modify
+* @return {void}
 */
-ControllerCamera.prototype.pythagore = function (cam) {
-	var value = Math.sqrt(this.distanceCamera*this.distanceCamera
-					- this.frame.cameraAt.m[2]*this.frame.cameraAt.m[2]);
-	if (this.cameraAt.m[cam] > 0.0) {
-		this.frame.cameraAt.m[cam] = value;
+ControllerCamera.prototype.pythagore = function (cameraAt, index) {
+	var value = Math.sqrt(this.distanceCamera * this.distanceCamera
+					- cameraAt.m[2] * cameraAt.m[2]);
+	if (cameraAt.m[index] > 0.0) {
+		cameraAt.m[index] = value;
 	}
 	else {
-		this.frame.cameraAt.m[cam] = -value;
+		cameraAt.m[index] = -value;
 	}
 }
 
@@ -298,28 +297,30 @@ ControllerCamera.prototype.pythagore = function (cam) {
 //==============================================================================
 /**
 * Pythagore calcul in 3D.
-* @param {int} cam1 - the indice of the camera's coordinate we want to modify
+* @param {Vector} cameraAt - The vector containing the coordinate of the point 
+* where the camere must look at
+* @param {int} index1 - the indice of the camera's coordinate we want to modify
 * 			This camera is modify using pythagore
-* @param {int} cam2 - the indice of the camera's coordinate we want to modify
+* @param {int} index2 - the indice of the camera's coordinate we want to modify
 * 			This camera is modify using the new value of 
 * 			the camera indexed by cam1
+* @return {void}
 */
-ControllerCamera.prototype.pythagore3D = function (cam1, cam2) {
-	var a = this.frame.cameraAt.m[cam2]/this.frame.cameraAt.m[cam1]; // a = y/x
+ControllerCamera.prototype.pythagore3D = function (cameraAt, index1, index2) {
+	var a = cameraAt.m[index2] / cameraAt.m[index1]; // a = y/x
 
-	var squareDistanceCam = this.distanceCamera*this.distanceCamera;
-	var squareCamAt = this.frame.cameraAt.m[2]*this.frame.cameraAt.m[2];
+	var squareDistanceCam = this.distanceCamera * this.distanceCamera;
+	var squareCamAt = cameraAt.m[2] * cameraAt.m[2];
 	
 	var value = Math.sqrt((squareDistanceCam - squareCamAt) 
-			/ (1.0+a*a));
+			/ (1.0 + a * a));
 				 
-	if (this.frame.cameraAt.m[cam1] > 0.0) {
-		this.frame.cameraAt.m[cam1] = value;
-	} 
-	else {
-		this.frame.cameraAt.m[cam1] = -value
+	if (cameraAt.m[index1] > 0.0) {
+		cameraAt.m[index1] = value;
+	} else {
+		cameraAt.m[index1] = -value
 	}
-	this.frame.cameraAt.m[cam2] = this.frame.cameraAt.m[cam1]*a;
+	cameraAt.m[index2] = cameraAt.m[index1] * a;
 }
 
 
@@ -327,34 +328,34 @@ ControllerCamera.prototype.pythagore3D = function (cam1, cam2) {
 /**
  *	Zoom into the 3D space
  *	@param {float} distance - How much do we zoom (in or out)
+ * @return {void}
  */
 ControllerCamera.prototype.zoom = function (distance) {
-	//this.frame.getCurentModel().getModelController().setHoverFacet(null);
-	//this.frame.calculHover();
-	this.frame.scene.getActiveCamera().setProjection (
-			this.frame.scene.getActiveCamera().getProjection() + distance);
+	this.scene.getCamera().setProjection (
+			this.scene.getCamera().getProjection() + distance);
 	// Camera's matrix calcul
-	this.frame.scene.getActiveCamera().computeMatrices();
-	this.frame.draw();
+	this.scene.getCamera().computeMatrices();
+	//XXX this.frame.draw();
 };
 
 
 //==============================================================================
 /**
  *	Recenter the camera
+ * @return {void}
  */
 ControllerCamera.prototype.reinit = function () {
-	//this.frame.getCurentModel().getModelController().setHoverFacet(null);
-	//this.frame.calculHover();
-	this.frame.cameraAt.m[0] = -Math.sqrt((Math.pow(3.5,2)-Math.pow(3.5/2.0,2)) 
-			/ 2.0);
-	this.frame.cameraAt.m[1] = -Math.sqrt((Math.pow(3.5,2)-Math.pow(3.5/2.0,2)) 
-			/ 2.0);
-	this.frame.cameraAt.m[2] = 3.5/2;
-	this.frame.scene.getActiveCamera().setProjection ();
+	var cameraAt = this.scene.getCamera().getCameraAt();
+
+	// -Math.sqrt(((3.5 * 3.5) - (3.5 / 2.0) * (3.5 / 2.0)) / 2.0);
+	// => -Math.sqrt(9.1875);
+	var val = 3,0310889132455352636730310976353; 
+	cameraAt.m[0] = val;
+	cameraAt.m[1] = val;
+	
+	cameraAt.m[2] = 1.75;
+	this.scene.getCamera ().setProjection ();
 	// Camera's matrix calcul
-	this.frame.scene.getActiveCamera().computeMatrices();
-	this.frame.draw();
+	this.scene.getCamera().computeMatrices();
+	//XXX this.frame.draw();
 };
-
-

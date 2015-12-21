@@ -41,21 +41,21 @@
 
 /// INDEX //////////////////////////////////////////////////////////////////////
 
-/* actif : boolean
+/* active : boolean
  * frame : Frame
  * name : String
  * appli : Application
  * 
  * constructor (frame : Frame, name : String, application : Application)
- * isActif () : bool
- * setActif (actif : bool) : void
+ * isactive () : bool
+ * setactive (active : bool) : void
  * activate () : void
  * disactivate () : void
  * pressKey (event : WindowEvent) : void
  * mouseDown (event : WindowEvent) : void
  * mouseUp (event : WindowEvent) : void
  * mouseMouv (event : WindowEvent) : void
- * scrolle (event : WindowEvent) : void
+ * scroll (event : WindowEvent) : void
  */
 
 /// CODE ///////////////////////////////////////////////////////////////////////
@@ -70,29 +70,14 @@ Controller.prototype.constructor = Controller;
  * @param {String} name - The name of the controller.
  * @param {Application} application - The application 
  */
-function Controller (frame, name, application) {
+function Controller () {
 //	console.log ("Controller.constructor");
 	// --------------------------------------
 	
 	/**
 	 * {boolean} true if the feature is active, false otherwise.
 	 */
-	this.actif = false;
-	
-	/**
-	 * {Frame} the associated frame.
-	 */
-	this.frame = frame;
-	
-	/**
-	 * {String} the controller name.
-	 */
-	this.name = name;
-	
-	/**
-	 * {Application} the associated application.
-	 */
-	this.appli = application;
+	this.active = false;
 };
 
 
@@ -101,47 +86,25 @@ function Controller (frame, name, application) {
  * State feature activation.
  * @return {boolean} true if the feature is active, false otherwise.
  */
-Controller.prototype.isActif = function () {
-//	console.log ("Controller.isActif");
-	return this.actif;
-};
-
-
-//==============================================================================
-/**
- * @return {String} the name of the controller.
- */
-Controller.prototype.getName = function () {
-//	console.log ("Controller.getName");
-	return this.name;
-};
-
-
-//=============================================================================
-/** 
- * Edit the name of functionnality.
- * @param {String} name - The new name of the controller.
- * @return {void}
- */
-Controller.prototype.setName = function (name) {
-//	console.log ("Controller.setName");
-	this.name = name;
+Controller.prototype.isactive = function () {
+//	console.log ("Controller.isactive");
+	return this.active;
 };
 
 
 //==============================================================================
 /**
  * Edit the feature activation status.
- * @param {boolean} actif - The new status.
+ * @param {boolean} active - The new status.
  * @return {void}
  */
-Controller.prototype.setActif = function (actif) {
-//	console.log ("Controller.setActif");
-	if (typeof actif != "boolean") {
-		console.error ("ERROR - Controller.setActif : bad type of parameter");
+Controller.prototype.setactive = function (active) {
+//	console.log ("Controller.setactive");
+	if (typeof active != "boolean") {
+		console.error ("ERROR - Controller.setactive : bad type of parameter");
 	}
 	// --------------------------------------
-	this.actif = actif;
+	this.active = active;
 };
 
 
@@ -154,7 +117,7 @@ Controller.prototype.setActif = function (actif) {
 Controller.prototype.activate = function () {
 //	console.log ("Controller.activate");
 	// --------------------------------------
-	this.setActif (true);
+	this.setactive (true);
 };
 
 
@@ -167,13 +130,14 @@ Controller.prototype.activate = function () {
 Controller.prototype.disactivate = function () {
 //	console.log ("Controller.disactivate");
 	// --------------------------------------
-	this.setActif (false);
+	this.setactive (false);
 };
 
 
 //==============================================================================
 /**
  * Button of the keyboard has been activated.
+ * To redefined in children classes
  * @param {WindowEvent} event - event captured by the window.
  * @return {void}
  */
@@ -188,11 +152,12 @@ Controller.prototype.pressKey = function (event) {
 //==============================================================================
 /**
  * Press the mouse button.
+ * To redefined in children classes
  * @param {WindowEvent} event - event captured by the window.
- * @param {Facet} face - face overflown by the mouse.
+ * @param {Cube} cube - cube over which the mouse is.
  * @return {void}
  */
-Controller.prototype.mouseDown = function (event, face) {
+Controller.prototype.mouseDown = function (event, cube) {
 //	console.log ("Controller.mouseDown");
 	if (typeof event != "object") {
 		console.error ("ERROR - Controller.mouseDown : bad type of parameter");
@@ -203,11 +168,12 @@ Controller.prototype.mouseDown = function (event, face) {
 //==============================================================================
 /**
  * Release the mouse button.
+ * To redefined in children classes
  * @param {WindowEvent} event - event captured by the window.
- * @param {Facet} face - face overflown by the mouse.
+ * @param {Cube} cube - cube over which the mouse is.
  * @return {void}
  */
-Controller.prototype.mouseUp = function (event, face) {
+Controller.prototype.mouseUp = function (event, cube) {
 //	console.log ("Controller.mouseUp");
 	if (typeof event != "object") {
 		console.error ("ERROR - Controller.mouseUp : bad type of parameter");
@@ -218,11 +184,12 @@ Controller.prototype.mouseUp = function (event, face) {
 //==============================================================================
 /**
  * Move the mouse.
+ * To redefined in children classes
  * @param {WindowEvent} event - event captured by the window.
- * @param {Facet} face - face overflown by the mouse.
+ * @param {Cube} cube - cube over which the mouse is.
  * @return {void}
  */
-Controller.prototype.mouseMouv = function (event, face) {
+Controller.prototype.mouseMouv = function (event, cube) {
 //	console.log ("Controller.mouseMouv");
 	if (typeof event != "object") {
 		console.error ("ERROR - Controller.mouseMouv : bad type of parameter");
@@ -233,15 +200,14 @@ Controller.prototype.mouseMouv = function (event, face) {
 //==============================================================================
 /**
  * Scroll the midel button of the mouse.
+ * To redefined in children classes
  * @param {WindowEvent} event - event captured by the window.
- * @param {Facet} face - face overflown by the mouse.
+ * @param {Cube} cube - cube over which the mouse is.
  * @return {void}
  */
-Controller.prototype.scrolle = function (event, face) {
-//	console.log ("Controller.scrolle");
+Controller.prototype.scroll = function (event, cube) {
+//	console.log ("Controller.scroll");
 	if (typeof event != "object") {
-		console.error ("ERROR - Controller.scrolle : bad type of parameter");
+		console.error ("ERROR - Controller.scroll : bad type of parameter");
 	}
 };
-
-
