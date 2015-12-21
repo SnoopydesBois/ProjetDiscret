@@ -1,0 +1,220 @@
+<!DOCTYPE html> 
+<!--
+	author : abisutti
+	created : Fri, 18 Dec 2015 14:11:34 +0100
+	modified : Fri, 18 Dec 2015 14:11:34 +0100
+-->
+<html lang="fr">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+		<title>Surface de révolution discrète</title>
+		<!-- TODO Modifié title pour le mutilangue -->
+		
+		<!-- javascript imports -->
+		<script type="text/javascript" src="Js/Enum/AxisEnum.js"></script>
+		<script type="text/javascript" src="Js/Enum/AttributeEnum.js"></script>
+		<script type="text/javascript" src="Js/Enum/DirectionEnum.js"></script>
+		<script type="text/javascript" src="Js/Enum/MenuEntryEnum.js"></script>
+		<script type="text/javascript" src="Js/Enum/CubeStateEnum.js"></script>
+		<script type="text/javascript" src="Js/Libraries/FileSaver.js"></script>
+		<script type="text/javascript" src="Js/Libraries/jquery.js"></script>
+		<script type="text/javascript" src="Js/Libraries/jquery-ui.js"></script>
+		<script type="text/javascript" src="Js/Libraries/jszip.js"></script>
+		<script type="text/javascript" src="Js/Libraries/webgl-debug.js"></script>
+		<script type="text/javascript" src="Js/Utils/function.js"></script>
+		<script type="text/javascript" src="Js/Utils/Util.js"></script>
+		<script type="text/javascript" src="Js/Shader/Shader.js"></script>
+		<script type="text/javascript" src="Js/Shader/DefaultShader.js"></script>
+		<script type="text/javascript" src="Js/Objects/Vector.js"></script>
+		<script type="text/javascript" src="Js/Objects/Matrix.js"></script>
+		<script type="text/javascript" src="Js/Objects/Voxel.js"></script>
+		<script type="text/javascript" src="Js/Objects/Scene.js"></script>
+		<script type="text/javascript" src="Js/Objects/GenericStructure.js"></script>
+		<script type="text/javascript" src="Js/Objects/GenericObject.js"></script>
+		<script type="text/javascript" src="Js/Objects/Point.js"></script>
+		<script type="text/javascript" src="Js/Objects/Repere.js"></script>
+		<script type="text/javascript" src="Js/Objects/Facet.js"></script>
+		<script type="text/javascript" src="Js/Objects/Camera.js"></script>
+		<script type="text/javascript" src="Js/Objects/Surface.js"></script>
+		<script type="text/javascript" src="Js/Controllers/SurfaceController.js"></script>
+		<script type="text/javascript" src="Js/Display/Display.js"></script>
+		<script type="text/javascript" src="Js/Display/Display2D.js"></script>
+		<script type="text/javascript" src="Js/Display/Display3D.js"></script>
+		<script type="text/javascript" src="Js/Display/ModelView.js"></script>
+		<script type="text/javascript" src="Js/Display/ModelView3D.js"></script>
+		<script type="text/javascript" src="Js/Display/ModelView3D_prepare.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/Controller.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/ControllerCamera.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/KernelSelect.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/ControllerSelect.js"></script>
+		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>
+		<script type="text/javascript" src="Js/Interface/ListUndoRedoAction.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Messages.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Controller.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Tools.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Colors.js"></script>
+		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
+<!--		<script type="text/javascript" src="Js/.js"></script>-->
+
+		<!-- css imports -->
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/temp.css"/>
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/common.css"/>
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
+	</head>
+	<body>
+		
+		
+		<!-- Menus -->
+		<ul class="menus header">
+			<li id="fileMenu" tabindex="1">
+				<h1>Fichier</h1>
+				<ul>
+					<li title="Créer un nouveau modèle"
+						onclick="">Nouveau</li>
+					<li title="Ouvrir un modèle depuis un fichier sur cet ordinateur"
+						onclick="this.firstElementChild.click()">
+						<input type="file" id="i_file" onchange=""
+							style="display:none">Ouvrir</input>
+					</li>
+					<li title="Enregistrer le modèle actuel" 
+						onclick="">Enregistrer</li>
+					<li title="Fermer le modèle">Fermer</li>
+				</ul>
+			</li><!-- because inline-block put a small space between blocks
+			--><li id="viewMenu" tabindex="2">
+				<h1>Affichage</h1>
+				<ul>
+					<li title="Afficher en même temps les coupes 2D et la vue 3D" 
+						onclick="">Toutes les vues</li>
+					<li title="Afficher seulement la vue 3D" 
+						onclick="">3D</li>
+					<li title="Afficher seulement la vue 2D" 
+						onclick="">2D</li>
+				</ul>
+			</li><!-- because inline-block put a small space between blocks
+			--><li id="toolsMenu" tabindex="3">
+				<h1>Outils</h1>
+				<ul>
+					<li id="toolUndo"
+						class="inaccessible"
+						title="Annuler la dernière action effectuée" 
+						onclick="">Annuler</li>
+					
+					<li id="toolRedo"
+						class="inaccessible"
+						title="Refaire la dernière action annulée" 
+						onclick="">Refaire</li>
+					
+					<li class="split"><hr/></li>
+					
+					<li title="Outils pour ajouter des cubes" 
+						onclick="">Ajouter des cubes</li>
+					
+					<li title="Outils pour supprimer des cubes" 
+						onclick="">Supprimer des cubes</li>
+					
+					<li class="split"><hr/></li>
+					
+					<li title="Déplacer la forme"
+						onclick="">Déplacer</li>
+					
+					<li class="submenu" title="Tourner le modèle">
+						<h1>Tourner</h1>
+						<ul>
+							<li class="submenu">
+								<h1>Axe X</h1>
+								<ul>
+									<li title="Tourner de 90° suivant l'axe X"
+										onclick="">90°</li>
+									<li title="Tourner de 180° suivant l'axe X"
+										onclick="">180°</li>
+									<li title="Tourner de 270° suivant l'axe X"
+										onclick="">270°</li>
+								</ul>
+							</li>
+							<li class="submenu">
+								<h1>Axe Z</h1>
+								<ul>
+									<li title="Tourner de 90° suivant l'axe Z">90°</li>
+									<li title="Tourner de 180° suivant l'axe Z">180°</li>
+									<li title="Tourner de 270° suivant l'axe Z">270°</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li><!-- because inline-block put a small space between blocks
+			--><li id="helpMenu" tabindex="5">
+				<h1>Aide</h1>
+				<ul>
+					<li>Afficher l'aide</li>
+					<li>À propos</li>
+				</ul>
+			</li>
+		</ul><!-- end menus -->
+		
+		
+		<!-- Workspace -->
+		<canvas id="surfaceCanvas"></canvas>
+<!--		<div id="workspace" class="">-->
+<!--			<div class="hbox">-->
+<!--				<div id="curvesView" class="yellow">-->
+<!--					<div class="vbox">-->
+<!--						<div id="meridianView" class="vbox ">-->
+<!--							<div class="hbox">-->
+<!--								<div id="meridianParam" class="paramPanel ">-->
+<!--									Liste des paramètres Méridienne-->
+<!--								</div><!---->
+<!--								<canvas id="meridianCanvas" class="">-->
+
+<!--								<canvas>-->
+<!--							</div>-->
+<!--							<div id="meridianOption" class="">-->
+<!--								Option Méridienne-->
+<!--							</div>-->
+<!--						</div>-->
+<!--						<div id="revolutionView" class="vbox ">-->
+<!--							<div class="hbox">-->
+<!--								<div id="revolutionParam" class="paramPanel ">-->
+<!--									Liste des paramètres Révolution-->
+<!--								</div><!---->
+<!--								<canvas id="revolutionCanvas" class="">-->
+
+<!--								<canvas>-->
+<!--							</div>-->
+<!--							<div id="revolutionOption" class="">-->
+<!--								Option Révolution-->
+<!--							</div>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div><!---->
+<!--				<div id="surfaceView" class="vbox orange">-->
+<!--					<div class="hbox">-->
+<!--						<div id="surfaceParam" class="paramPanel ">-->
+<!--							Liste des paramètres Révolution-->
+<!--						</div><!---->
+<!--						<canvas id="surfaceCanvas" class="">-->
+
+<!--						<canvas>-->
+<!--					</div>-->
+<!--					<div id="surfaceOption" class="">-->
+<!--						Option Révolution-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--		-->
+		
+		<!-- State bar -->
+		<div id="stateBar" class="footer">
+			<p>Message...</p>
+		</div>
+		<script>
+		</script>
+	</body>
+</html>
+

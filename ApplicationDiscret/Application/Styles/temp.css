@@ -1,0 +1,83 @@
+#surfaceCanvas {
+	background-color : black;
+	border : 2px solid lime;
+	width : 512px;
+	height : 512px;
+	margin-top : 25px;
+	margin-left : auto;
+	margin-right : auto;
+}
+
+
+
+.red {
+	border : solid 2px brown;
+	background-color : red;
+	box-sizing : border-box;
+	-moz-box-sizing : border-box;
+	-webkit-box-sizing : border-box;	
+}
+
+
+.blue {
+	border : solid 2px navy;
+	background-color : blue;
+	box-sizing : border-box;
+	-moz-box-sizing : border-box;
+	-webkit-box-sizing : border-box;	
+}
+
+
+.green {
+	border : solid 2px green;
+	background-color : lime;
+	box-sizing : border-box;
+	-moz-box-sizing : border-box;
+	-webkit-box-sizing : border-box;	
+}
+
+
+.yellow {
+	border : solid 2px olive;
+	background-color : yellow;
+	box-sizing : border-box;
+	-moz-box-sizing : border-box;
+	-webkit-box-sizing : border-box;	
+}
+
+
+.cyan {
+	border : solid 2px #088;
+	background-color : cyan;
+	box-sizing : border-box;
+	-moz-box-sizing : border-box;
+	-webkit-box-sizing : border-box;	
+}
+
+
+.majenta {
+	border : solid 2px purple;
+	background-color : magenta;
+	box-sizing : border-box;
+	-moz-box-sizing : border-box;
+	-webkit-box-sizing : border-box;	
+}
+
+
+.orange {
+	border : solid 2px #840;
+	background-color : #f80;
+	box-sizing : border-box;
+	-moz-box-sizing : border-box;
+	-webkit-box-sizing : border-box;	
+}
+
+
+.gray {
+	border : solid 2px gray;
+	background-color : silver;
+	box-sizing : border-box;
+	-moz-box-sizing : border-box;
+	-webkit-box-sizing : border-box;	
+}
+

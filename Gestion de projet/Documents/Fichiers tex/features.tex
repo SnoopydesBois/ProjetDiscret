@@ -1,0 +1,167 @@
+\documentclass{scrartcl}
+
+
+%%% INCLUDE %%%
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+
+\input{macro.tex}
+%\input{format.tex}
+
+
+%%% DATA %%%
+
+%\title[Cahier des charges]{Surfaces de révolutions discrète}
+\title{Surfaces de révolution discrètes}
+\subtitle{Annexe~: Descriptif des fonctionnalités}
+
+
+%%% DOCUMENT %%%
+
+\begin{document}
+
+
+%===============================================================================
+%	PAGE DE GARDE
+%===============================================================================
+
+\maketitle
+\newpage
+
+%===============================================================================
+%	INTRO
+%===============================================================================
+
+%\section{}
+	Ce document présentes l'ensemble des fonctionnalitées de l'application de manière exhaustive. Chacune de ces fonctionnalité est accompagné d'une description détaillée. % XXX correcte ?
+	
+	Les différentes fonctionnalités listées ci-dessous sont classées selon les priorités suivantes~:
+	\begin{enumerate}
+		\item Obligatoire, la fonctionnalité est nécessaire pour le fonctionnement de l'application
+		\item Obligatoire pour satisfaire les besoins des clients 
+		\item Fonctionnalité apportant une réelle plus-value à l'application
+		\item Pratique à l'utilisation mais dispensable
+		\item Optionnelle
+	\end{enumerate}
+
+
+	
+%===============================================================================
+%	FONCTIIONNALITÉ REQUISE
+%===============================================================================
+
+\section{Fonctionnalités requises}
+
+%--- Niveau 1 ------------------------------------------------------------------
+	\subsection{Niveau 1}
+		\begin{itemize}
+			\functionality{Génération 3D}
+				La génération 3D est le processus permettant la modélisation de la structure résultante de la courbe de révolution appliquée à la méridienne
+			
+			\functionality{Affichage des courbes}
+				L'application disposera de deux espaces 2D, ceux-ci permettent de visualiser la méridienne et la courbe de révolution voulue. 
+		\end{itemize}
+
+
+%--- Niveau 2 ------------------------------------------------------------------
+	\subsection{Niveau 2}
+		\begin{itemize}
+			\functionality{Choix de la connexité}
+				L'application proposera à l'utilisateur de choisir le type de connexité des cubes. Les connexités possibles seront par faces ou par arêtes.
+		
+			\functionality{Choix des dimensions de l'espace 3D}
+				L'application laissera à l'utilisateur la possibilité de modifier la dimension de l'espace 3D. Par défaut, la taille est fixée à 50x50x50.
+	
+			\functionality{Mouvement de caméra}
+				L'application proposera de modifier le point de vue de l'espace 3D. Ces modifications s'effectueront à la souris, à savoir, effectuer une translation via un clic molette, faire une rotation via le bouton gauche, et zoomer via la molette.
+		
+			\functionality{Mise en évidence d'une méridienne/courbe de révolution}
+				L'application proposera un outil permettant de mettre en évidence une méridienne et une courbe de révolution. Il suffira alors de cliquer sur un cube pour afficher les sections de surfaces correspondantes aux courbes. 
+		
+			\functionality{Choix des courbes parmis les modèles}
+				L'application proposera à l'utilisateur de séléctionner des méridiennes ou des courbes de révolution parmis un ensemble de modèles prédéfinis.
+				 
+			\functionality{Dessin à main levée de la méridienne}
+				L'application proposera à l'utilisateur de tracer sa méridienne à main levée dans l'espace 2D correspondant. Il devra pour cela sélectionner l'option correspondante dans la liste des méridiennes.
+	
+			\functionality{Modification des paramètres des courbes}
+				L'application proposera à l'utilisateur de modifier chacun des paramètres des courbes. Cela se fera par le biais de sliders (pour les paramètres simples) ou en rentrant les coefficients à la main (pour les paramètres avancés).
+		
+			\functionality{Options avancées pour les paramètres des courbes}
+				L'interface de l'application permettra l'affichage d'options avancées pour les utilisateurs qui le désirent. Par défaut, ces options ne seront pas visibles.
+		\end{itemize}
+
+
+%--- Niveau 3 ------------------------------------------------------------------
+	\subsection{Niveau 3}
+		\begin{itemize}		
+			\functionality{Afficher/cacher les limites de l'espace 3D}
+				L'application laissera le choix à l'utilisateur d'afficher ou non les limites de l'espace 3D. Cela se traduit par l'affichage, derrière la structure 3D, des plans opposés à la position de la caméra.
+		
+			\functionality{Export des surfaces dans un fichier 3D}
+				L'application proposera d'exporter les surfaces modélisées au format X3D via l'option exporter.
+		
+			\functionality{Export des surfaces dans un fichier d'impression 3D}
+				L'application proposera d'exporter les surfaces modélisées dans un format qu'une imprimante 3D pourra utiliser.
+		
+			\functionality{Choix des dimensions d'affichage de l'espace 3D (multicoupes)}
+				L'applicaiton proposera un outil permettant d'effectuer une ou plusieurs coupes sur la surface de révolution. Ces coupes seront contrôlées par des doubles sliders. Chacun des doubles sliders gérera la limite d'affichage correspondant à un axe.
+				 	
+			\functionality{Accès à l'aide utilisateur}
+				L'application proposera un accès à une aide utilisateur. Cette aide décrira le fonctionnement de l'application ainsi que l'utilisation des différents paramètres. 
+			
+			\functionality{Affichage du repère 3D}
+				Dans un coin de la fenêtre 3D sera affiché un objet représentant les axes. Cette objet pivotera en même temps que le point de vue de façon à toujours indiquer la direction de chaque axe.
+		\end{itemize}
+
+
+%--- Niveau 4 ------------------------------------------------------------------
+	\subsection{Niveau 4}
+		\begin{itemize}
+			\functionality{Afficher/cacher la grille de repérage des courbes}
+				L'application proposera d'afficher dans l'espace 2D, une grille de repérage proportionnée selon la taille de l'espace 3D.
+		
+			\functionality{Export en PNG des courbes et de la surfaces}
+				L'application proposera un module permettant d'exporter, la méridienne, la courbe de révolution ou la surface 3D au format PNG.
+			
+			\functionality{Réglage de la taille d'affichage des voxels}
+				Une option permettra de régler la taille des cubes représentant les voxels. Les cubes pourront alors s'interpénétrer ou ne pas être jointif.
+		\end{itemize}
+
+
+
+%===============================================================================
+%	FONCTIIONNALITÉ OPTIONNELLE
+%===============================================================================
+\section{Fonctionnalités optionnelles}
+
+
+%--- Niveau 5 ------------------------------------------------------------------
+	\subsection{Niveau 5}
+		\begin{itemize}
+			\functionality{Affichage de l'espace 3D en vue orthographique/perspective}
+				L'application proposera une option pour passer d'une vue en perspective à une vue orthographique et inversement. Par défaut la vue utilisée sera en perspective.
+		
+			\functionality{Entrer une équation}
+				L'application proposera une option permettant d'entrer ses propres courbes.
+	
+			\functionality{Sauvergarde des courbes}
+				L'application proposera à l'utilisateur de pouvoir sauvegarder les courbes actuellement dessinées. Les fichiers correspondants aux courbes seront mis dans une archive ZIP que l'utilisateur pourra enregistrer.
+	
+			\functionality{Chargement des courbes}
+				L'application proposera à l'utilisateur de pouvoir charger des courbes qu'il a précédement enregistré. Le navigateur demandera alors à l'utilisateur de selectionner l'archive ZIP située sur la machine de l'utilisateur.
+	
+			\functionality{Ajout de courbe prédéfinie}
+				L'application proposera à l'utlisateur, une option lui permettant de rentrer ses propres modèles de courbes. Ces modèles seront sauvegardés en local sur la machine de l'utilisateur.
+			
+			\functionality{Choix de la langue}
+				L'interface sera disponible en anglais et en français. 
+		\end{itemize}
+		
+
+
+\end{document}
+
+
