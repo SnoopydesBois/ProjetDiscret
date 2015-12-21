@@ -142,4 +142,3 @@ Range.prototype.getIncludeMin = function (){
 Range.prototype.getIncludeMax = function (){
 	return this.includeMax;
 }
-

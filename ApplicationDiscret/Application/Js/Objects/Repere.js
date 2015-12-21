@@ -67,9 +67,9 @@ Repere.prototype.constructor = Repere;
  * @constructor 
  * @param {String} name - The name of the repere
  * @param {Shader} shader - The shader to use
- * @param {Frame3D} frame3D - The frame associated to the repere
+ * @param {Vector} dimension - The dimensions of the 3D space
  */
-function Repere(name, shader, frame3D) {
+function Repere(name, shader, dimension) {
 	// Call parent constructor (mandatory !)
 	GenericStructure.call(this, name, shader);
 	if (shader.getAttribute(AttributeEnum.normal) 
@@ -77,11 +77,12 @@ function Repere(name, shader, frame3D) {
 			|| shader.getAttribute(AttributeEnum.bitangent) 
 			|| shader.getAttribute(AttributeEnum.texcoord)) 
 	{
-		console.log ("Repere created with bad shader <"+shader.GetName()+">");
+		console.error ("Repere created with bad shader <"+shader.GetName()+">");
 	}
 	this.origin = new Vector(-1.0, -1.0, -1.0);
-	this.size = 2;
-	this.frame3D = frame3D;
+	this.sizeRangeRange = 2;
+	
+	this.dimension = new Vector(dimension);
 };
 
 
@@ -94,20 +95,20 @@ Repere.prototype.prepare = function (gl) {
 	var vertices = [// the vertex of the box which serve as repere
 		[this.origin.X()				, this.origin.Y()				, 
 			this.origin.Z()				],
-		[this.origin.X()				, this.origin.Y() + this.size	, 
+		[this.origin.X()				, this.origin.Y() + this.sizeRange	, 
 			this.origin.Z()				],
-		[this.origin.X() + this.size	, this.origin.Y()				,
+		[this.origin.X() + this.sizeRange	, this.origin.Y()				,
 			 this.origin.Z()				],
-		[this.origin.X() + this.size	, this.origin.Y() + this.size	, 
+		[this.origin.X() + this.sizeRange	, this.origin.Y() + this.sizeRange	, 
 			this.origin.Z()				],
 		[this.origin.X()				, this.origin.Y()				, 
-			this.origin.Z() + this.size	],
-		[this.origin.X()				, this.origin.Y() + this.size	, 
-			this.origin.Z() + this.size	],
-		[this.origin.X() + this.size	, this.origin.Y()				, 
-			this.origin.Z() + this.size	],
-		[this.origin.X() + this.size	, this.origin.Y() + this.size	, 
-			this.origin.Z() + this.size	],
+			this.origin.Z() + this.sizeRange	],
+		[this.origin.X()				, this.origin.Y() + this.sizeRange	, 
+			this.origin.Z() + this.sizeRange	],
+		[this.origin.X() + this.sizeRange	, this.origin.Y()				, 
+			this.origin.Z() + this.sizeRange	],
+		[this.origin.X() + this.sizeRange	, this.origin.Y() + this.sizeRange	, 
+			this.origin.Z() + this.sizeRange	],
 	];
 
 	// Color of each vertices, the box is black
@@ -169,13 +170,13 @@ Repere.prototype.addVertice = function (stripVertices, x, y, z) {
 	var originZ = this.origin.m[2];
 
 	// Coordinate in X and Coordinate in X next to the last point
-	var offsetSizeX = [this.size * x /25, this.size * (x+1)/25];
+	var offsetSizeX = [this.sizeRange * x /25, this.sizeRange * (x+1)/25];
 
 	// Coordinate in y and Coordinate in y next to the last point
-	var offsetSizeY = [this.size * y /25, this.size * (y+1)/25];
+	var offsetSizeY = [this.sizeRange * y /25, this.sizeRange * (y+1)/25];
 
 	// Coordinate in Z and Coordinate in Z next to the last point
-	var offsetSizeZ = [this.size * z /25, this.size * (z+1)/25];
+	var offsetSizeZ = [this.sizeRange * z /25, this.sizeRange * (z+1)/25];
 
 	var tmp = 0.001;
 
@@ -185,23 +186,23 @@ Repere.prototype.addVertice = function (stripVertices, x, y, z) {
 		stripVertices.push([originX + offsetSizeX[i], 
 				originY + tmp, originZ + tmp]);
 		stripVertices.push([originX + offsetSizeX[i],
-				originY + tmp, originZ + this.size - tmp]);
+				originY + tmp, originZ + this.sizeRange - tmp]);
 		stripVertices.push([originX + offsetSizeX[i], 
-				originY + this.size - tmp, originZ + this.size - tmp]);
+				originY + this.sizeRange - tmp, originZ + this.sizeRange - tmp]);
 		stripVertices.push([originX + offsetSizeX[i], 
-				originY + this.size - tmp, originZ + tmp]);
+				originY + this.sizeRange - tmp, originZ + tmp]);
 	}
 
 	// Ring 2
 	for (var i=0; i<2; ++i) {
 		stripVertices.push([originX + tmp, 
 				originY + offsetSizeY[i], originZ + tmp]);
-		stripVertices.push([originX + this.size - tmp, 
+		stripVertices.push([originX + this.sizeRange - tmp, 
 				originY + offsetSizeY[i], originZ + tmp]);
-		stripVertices.push([originX + this.size - tmp, 
-				originY + offsetSizeY[i], originZ + this.size - tmp]);
+		stripVertices.push([originX + this.sizeRange - tmp, 
+				originY + offsetSizeY[i], originZ + this.sizeRange - tmp]);
 		stripVertices.push([originX + tmp, 
-				originY + offsetSizeY[i], originZ + this.size - tmp]);
+				originY + offsetSizeY[i], originZ + this.sizeRange - tmp]);
 	}
 
 	// Ring 3
@@ -209,10 +210,10 @@ Repere.prototype.addVertice = function (stripVertices, x, y, z) {
 		stripVertices.push([originX + tmp, 
 				originY + tmp, originZ + offsetSizeZ[i]]);
 		stripVertices.push([originX + tmp, 
-				originY + this.size - tmp, originZ + offsetSizeZ[i]]);
-		stripVertices.push([originX + this.size - tmp, 
-				originY + this.size - tmp, originZ + offsetSizeZ[i]]);
-		stripVertices.push([originX + this.size - tmp, 
+				originY + this.sizeRange - tmp, originZ + offsetSizeZ[i]]);
+		stripVertices.push([originX + this.sizeRange - tmp, 
+				originY + this.sizeRange - tmp, originZ + offsetSizeZ[i]]);
+		stripVertices.push([originX + this.sizeRange - tmp, 
 				originY + tmp, originZ + offsetSizeZ[i]]);
 	}
 };
@@ -309,9 +310,16 @@ Repere.prototype.draw = function (gl) {
  * Associate a new frame to the repere.
  * @param {Frame} frame - the new frame for the repere.
  */
-
 Repere.prototype.setFrame = function (frame) {
 	this.frame3D = frame;
 };
 
 
+//==============================================================================
+/**
+ * Associate a new frame to the repere.
+ * @return {Vector} the dimensions of the 3D space.
+ */
+Repere.prototype.getDimension = function () {
+	this.dimension;
+}

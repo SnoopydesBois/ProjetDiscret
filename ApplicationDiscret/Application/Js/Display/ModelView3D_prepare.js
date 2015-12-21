@@ -105,6 +105,8 @@ ModelView3D.prototype.prepareFace = function (
 //				console.log ("Pas de facet en", i)
 		} // end for each direction
 	break;
+	default :
+	break;
 	}
 	
 	colorBuffer.push (colorFace);
@@ -158,6 +160,3 @@ ModelView3D.prototype.addVertices2 = function (dataVertices, vertex, size) {
 		(vertex.m[1] / size.m[1]) * 2.0 - 1.0,
 		(vertex.m[2] / size.m[2]) * 2.0 - 1.0);
 };
-
-
-

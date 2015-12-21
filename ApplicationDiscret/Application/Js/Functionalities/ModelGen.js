@@ -56,99 +56,69 @@
 
 
 
-KernelSelect.prototype.constructor = KernelSelect;
+ModelGen.prototype.constructor = ModelGen;
 
 /**
  * @constructor Do nothing.
+ * @param {Vector} dimension - The dimension of the 3D space
  */
-function KernelSelect () {
-//	console.log ("KernelSelect.constructor");
+function ModelGen (dimension) {
+	this.repere = new Repere(dimension);
+	this.surface = undefined;
 }
 
 
 //==============================================================================
 /**
- * @param {ModelController} modelContr - The ModelController of the model 
- * to modify.
- * @param {Facet} face - the face/cube to select.
- * @param {boolean} multiple - true if multiple selection, false otherwise.
- * @return {void}
+ * @param {Curve} meridian - The meridian to use to model.
+ * @param {Curve} curveRevolution - The curve of revolution to use to model.
  */
-KernelSelect.prototype.select = function (modelContr, face, multiple) {
-//	console.log ("KernelSelect.select");
-	// --------------------------------------
-	if (multiple) {
-		if (face != null) {
-			if (modelContr.isSelectedFacet (face))
-				modelContr.removeSelectedFacet (face);
-			else
-				modelContr.addSelectedFacet (face);
-			modelContr.alert (new Signal (SignalEnum.SELECT_CHANGE));
-		}
-	}
-	else {
-		if (face != null)
-			modelContr.setSelectedFacet(face);
-		else
-			modelContr.clearSelectFacet();
-	} // end if multiple
-};
-
+ModelGen.protoype.generate = function(meridian, curveRevolution){
+	//XXX ALGO DE GENERATION
+	return this.surface;
+}
 
 //==============================================================================
 /**
- * Switch from face selection to cube selection.
- * @param {ModelController} modelContr - the model.
+ * @param {Vector} position - The position of the voxel to select.
  * @return {void}
  */
-KernelSelect.prototype.cube = function (modelContr) {
-//	console.log ("KernelHover.cube");
-	// --------------------------------------
-	var result = [];
-	for (var i = 0; i < modelContr.getNbSelectedFacet(); ++i) {
-		var tmp = modelContr.getSelectedFacet(i);
-		result.push (modelContr.getSelectedFacet(i).getCube());
+ModelGen.prototype.selectVoxel = function (position) {
+	//	console.log ("ModelGen.select");
+	if (!(position instanceof Vector)){
+		throw "position is not a Vector";
+	} else if(this.surface === undefined){
+		throw "the surface is not generated";
 	}
-	modelContr.clearSelectFacet();
-	for (var i = 0; i < result.length; ++i) {
-		modelContr.addSelectedFacet (new Facet (result[i], DirectionEnum.ALL));
+	// --------------------------------------
+	if (this.surface.isVoxel(position)){
+		this.surface.select(position); // Select
+	} else{
+		this.surface.select(null); // Unselect
 	}
 };
 
 
 //==============================================================================
 /**
- * Switch from cube selection to face selection.
- * @param {ModelController} modelContr - the model.
- * @return {void}
+ * @param {Vector} position - The position of the voxel to select.
+ * @return {boolean} true if the voxel is selected, else false 
  */
-KernelSelect.prototype.face = function (modelContr) {
-//	console.log ("KernelHover.face");
+ModelGen.prototype.isSelectedVoxel = function (position) {
+	if (!(position instanceof Vector)){
+		throw "position is not a Vector";
+	} else if(this.surface === undefined){
+		throw "the surface is not generated";
+	}
 	// --------------------------------------
-	var result = [];
-	for (var i = 0; i < modelContr.getNbSelectedFacet(); ++i) {
-		var tmp = modelContr.getSelectedFacet(i);
-		if (tmp.getDirection() == DirectionEnum.ALL) {
-			var faceVisible = false;
-			for (var j = 0; j < DirectionEnum.size; ++j) {
-				if (modelContr.getCube(
-						tmp.getCube().m[0], tmp.getCube().m[1],
-						tmp.getCube().m[2]).hasFacet(j)) {
-					result.push(new Facet(tmp.getCube(), j));
-					faceVisible = true;
-				}
-			}
-			if (!faceVisible)
-				result.push (new Facet (tmp.getCube(), DirectionEnum.NONE));
-		}
-		else {
-			result.push (tmp);
-		}
-	}
-	modelContr.clearSelectFacet();
-	for (var i = 0; i < result.length; ++i) {
-		modelContr.addSelectedFacet (result[i]);
-	}
+	
 };
 
 
+//==============================================================================
+/**
+ * @return {Vector} the dimensions of the 3D space
+ */
+ModelGen.prototype.getDimension = function(){
+	return this.repere.getDimension();
+}
