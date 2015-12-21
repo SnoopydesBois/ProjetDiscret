@@ -123,7 +123,7 @@ function Display3D (application) {
 		    this.cameraTo, //centerPos, 
 		    new Vector(0,0,1), //up, 
 		    // width, height, fov,  near, far
-		    512,      512,    25.0, 0.01, 1000.0
+		    512, 512, 25.0, 0.01, 1000.0
 		) 
 );
 	this.shader = null;
