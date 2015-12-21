@@ -1,14 +1,28 @@
 console.log(math.eval('sqrt(3^2 + 4^2)'));
 
 
-var scope = { 'a' : 3, 'b' : 4};
+var scope = { 'a' : 3, 'b' : 4, 'x':1, 'y' : 1};
 var blah = "c"
 scope[blah] = 5;
 blah = "d";
 console.log(scope);
 console.log(math.parse('a+b').compile());
-//math.eval("a+b");
 
+
+console.log("a*x+b*y")
+var node = math.parse("a*x+b*y");
+console.log(node);
+node.traverse(function(node, path, parent){
+	console.log(node.type +":"+node.name);
+});
+console.log("eval : " + node.compile().eval(scope));
+
+
+console.log("a+y")
+var node1 = math.parse("a+y");
+node1.traverse(function(node, path, parent){
+	console.log(node.type +":"+node.name);
+});
 //console.log(math.parse('+-+-+-+-'));
 
 try{
@@ -28,7 +42,7 @@ catch(e){
 
 console.log(math.parse('qsdfiusdfqiuyqsdfihu'));
 
-var listParameters = new Array();
+var listParameters = [];
 listParameters['a'] = 1;
 listParameters['b'] = 2;
 
@@ -36,7 +50,7 @@ console.log(listParameters['b']);
 
 
 console.log(listParameters);
-for (var i in listParameters){
-	console.log("i : " + i + ", listParameters[i] : " + listParameters[i]);
-}
-
+console.log("test des node.name")
+math.parse('a*x+b*y').forEach(function (node, path, parent) {
+		console.log(node.type + ":" + node.name);
+});
