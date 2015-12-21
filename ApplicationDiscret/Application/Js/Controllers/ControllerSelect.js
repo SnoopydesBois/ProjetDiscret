@@ -46,13 +46,13 @@
  * kernelExtrud : KernelExtrusion
  * modelIntern : ModelView3DExtrude
  * nbExtrud : int
- * face : boolean
+ * cube : boolean
  * 
- * constructor (frame : Frame,
+ * constructor (frame : Cube,
  *              name : string,
  *              modelContrExtrusion : ModelView3DExtrude)
  * 
- * mouseDown (event : WindowEvent, face : Facet) : void
+ * mouseDown (event : WindowEvent, cube : Facet) : void
  * isFace () : boolean
  * setFace (bool : boolean) : void
  * pressKey (event : WindowEvent) : void
@@ -67,7 +67,7 @@ ControllerSelect.prototype.constructor = ControllerSelect;
 
 /**
  * @constructor
- * @param {Frame} frame - the frame associated with the controller.
+ * @param {Cube} frame - the cube associated with the controller.
  * @param {String} name - the name of the controller.
  * @param {ModelView3DExtrude} modelContrExtrusion - the model.
  */
@@ -82,24 +82,9 @@ function ControllerSelect (frame, name, modelContrExtrusion) {
 	this.kernel = new KernelSelect();
 	
 	/**
-	 * {KernelExtrusion} The extrusion kernel.
+	 * {boolean} True if the selection is active, else false
 	 */
-	this.kernelExtrud = new KernelExtrusion();
-	
-	/**
-	 * {ModelView3DExtrude} The temporary model for the extrusion.
-	 */
-	this.modelIntern = modelContrExtrusion;
-	
-	/**
-	 * {int} Size of extrusion.
-	 */
-	this.nbExtrud = 0;
-	
-	/**
-	 * {boolean} Selection mode. True for face, false for cube.
-	 */
-	this.face = true;
+	this.selection = true;
 };
 
 
@@ -107,10 +92,10 @@ function ControllerSelect (frame, name, modelContrExtrusion) {
 /**
  * Action when a mouse button is pressed.
  * @param {WindowEvent} event - event captured by the window.
- * @param {Facet} face - face overflown by the mouse.
+ * @param {Facet} cube - cube over which the mouse is.
  * @return {void}
  */
-ControllerSelect.prototype.mouseDown = function (event, face) {
+ControllerSelect.prototype.mouseDown = function (event, cube) {
 //	console.log ("ControllerSelect.mouseDown");
 	if (typeof event != "object") {
 		console.error ("ERROR - ControllerSelect.mouseDown : bad type of "
@@ -120,16 +105,16 @@ ControllerSelect.prototype.mouseDown = function (event, face) {
 	if (event.button == 0) {
 		var model = this.frame.getCurentModel();
 		if (this.actif && model != null) {
-			if (this.face) {
-				this.kernel.select (model, face, event.ctrlKey || event.metaKey);
+			if (this.cube) {
+				this.kernel.select (model, cube, event.ctrlKey || event.metaKey);
 			} 
 			else {
-				if (face == null) {
+				if (cube == null) {
 					this.kernel.select (model, null, event.ctrlKey ||
 						event.metaKey);
 				} 
 				else {
-					this.kernel.select(model, new Facet (face.getCube(),
+					this.kernel.select(model, new Facet (cube.getCube(),
 							DirectionEnum.ALL), event.ctrlKey || event.metaKey);
 				}
 			}
@@ -141,19 +126,19 @@ ControllerSelect.prototype.mouseDown = function (event, face) {
 
 //==============================================================================
 /**
- * @return {boolean} true if the select mode is face, false if it is cube.
+ * @return {boolean} true if the select mode is cube, false if it is cube.
  */
 ControllerSelect.prototype.isFace = function () {
 //	console.log ("ControllerSelect.isFace");
 	// --------------------------------------
-	return this.face;
+	return this.cube;
 };
 
 
 //==============================================================================
 /**
  * Edit the model of selection (Face or Cube).
- * @param {boolean} bool : selection face is active.
+ * @param {boolean} bool : selection cube is active.
  * @return {void}
  */
 ControllerSelect.prototype.setFace = function (bool) {
@@ -163,11 +148,11 @@ ControllerSelect.prototype.setFace = function (bool) {
 			+ "parameter");
 	}
 	// --------------------------------------
-	this.face = bool;
+	this.cube = bool;
 	var model = this.frame.getCurentModel ();
 	if (model != null) {
-		if (this.face) {
-			this.kernel.face (model);
+		if (this.cube) {
+			this.kernel.cube (model);
 		} 
 		else {
 			this.kernel.cube (model);
