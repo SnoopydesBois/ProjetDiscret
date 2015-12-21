@@ -40,17 +40,9 @@
  */
 
 /// INDEX //////////////////////////////////////////////////////////////////////
-
-/* active : boolean
- * frame : Frame
- * name : String
- * appli : Application
+/*
  * 
- * constructor (frame : Frame, name : String, application : Application)
- * isactive () : bool
- * setactive (active : bool) : void
- * activate () : void
- * disactivate () : void
+ * constructor ()
  * pressKey (event : WindowEvent) : void
  * mouseDown (event : WindowEvent) : void
  * mouseUp (event : WindowEvent) : void
@@ -71,66 +63,6 @@ Controller.prototype.constructor = Controller;
  * @param {Application} application - The application 
  */
 function Controller () {
-//	console.log ("Controller.constructor");
-	// --------------------------------------
-	
-	/**
-	 * {boolean} true if the feature is active, false otherwise.
-	 */
-	this.active = false;
-};
-
-
-//==============================================================================
-/**
- * State feature activation.
- * @return {boolean} true if the feature is active, false otherwise.
- */
-Controller.prototype.isactive = function () {
-//	console.log ("Controller.isactive");
-	return this.active;
-};
-
-
-//==============================================================================
-/**
- * Edit the feature activation status.
- * @param {boolean} active - The new status.
- * @return {void}
- */
-Controller.prototype.setactive = function (active) {
-//	console.log ("Controller.setactive");
-	if (typeof active != "boolean") {
-		console.error ("ERROR - Controller.setactive : bad type of parameter");
-	}
-	// --------------------------------------
-	this.active = active;
-};
-
-
-//==============================================================================
-/**
- * Edit the feature activation status (To on).
- * @return {void}
- * sometimes performs processing in certain functionality
- */
-Controller.prototype.activate = function () {
-//	console.log ("Controller.activate");
-	// --------------------------------------
-	this.setactive (true);
-};
-
-
-//==============================================================================
-/**
- * Edit the feature activation status (To off)
- * @return {void}
- * sometimes performs processing in certain functionality
- */
-Controller.prototype.disactivate = function () {
-//	console.log ("Controller.disactivate");
-	// --------------------------------------
-	this.setactive (false);
 };
 
 
@@ -142,10 +74,7 @@ Controller.prototype.disactivate = function () {
  * @return {void}
  */
 Controller.prototype.pressKey = function (event) {
-	//console.log ("Controller.pressKey");
-	if (typeof event != "object") {
-		console.error ("ERROR - Controller.pressKey : bad type of parameter");
-	}
+	throw "Controller.presskey, not implemented in abstract class";
 };
 
 
@@ -154,14 +83,10 @@ Controller.prototype.pressKey = function (event) {
  * Press the mouse button.
  * To redefined in children classes
  * @param {WindowEvent} event - event captured by the window.
- * @param {Cube} cube - cube over which the mouse is.
  * @return {void}
  */
-Controller.prototype.mouseDown = function (event, cube) {
-//	console.log ("Controller.mouseDown");
-	if (typeof event != "object") {
-		console.error ("ERROR - Controller.mouseDown : bad type of parameter");
-	}
+Controller.prototype.mouseDown = function (event) {
+	throw "Controller.presskey, not implemented in abstract class";
 };
 
 
@@ -170,14 +95,10 @@ Controller.prototype.mouseDown = function (event, cube) {
  * Release the mouse button.
  * To redefined in children classes
  * @param {WindowEvent} event - event captured by the window.
- * @param {Cube} cube - cube over which the mouse is.
  * @return {void}
  */
-Controller.prototype.mouseUp = function (event, cube) {
-//	console.log ("Controller.mouseUp");
-	if (typeof event != "object") {
-		console.error ("ERROR - Controller.mouseUp : bad type of parameter");
-	}
+Controller.prototype.mouseUp = function (event) {
+	throw "Controller.presskey, not implemented in abstract class";
 };
 
 
@@ -186,14 +107,10 @@ Controller.prototype.mouseUp = function (event, cube) {
  * Move the mouse.
  * To redefined in children classes
  * @param {WindowEvent} event - event captured by the window.
- * @param {Cube} cube - cube over which the mouse is.
  * @return {void}
  */
-Controller.prototype.mouseMouv = function (event, cube) {
-//	console.log ("Controller.mouseMouv");
-	if (typeof event != "object") {
-		console.error ("ERROR - Controller.mouseMouv : bad type of parameter");
-	}
+Controller.prototype.mouseMouv = function (event) {
+	throw "Controller.presskey, not implemented in abstract class";
 };
 
 
@@ -202,12 +119,8 @@ Controller.prototype.mouseMouv = function (event, cube) {
  * Scroll the midel button of the mouse.
  * To redefined in children classes
  * @param {WindowEvent} event - event captured by the window.
- * @param {Cube} cube - cube over which the mouse is.
  * @return {void}
  */
-Controller.prototype.scroll = function (event, cube) {
-//	console.log ("Controller.scroll");
-	if (typeof event != "object") {
-		console.error ("ERROR - Controller.scroll : bad type of parameter");
-	}
+Controller.prototype.scroll = function (event) {
+	throw "Controller.presskey, not implemented in abstract class";
 };
