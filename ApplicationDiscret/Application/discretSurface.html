@@ -11,13 +11,59 @@
 		<!-- TODO Modifié title pour le mutilangue -->
 		
 		<!-- javascript imports -->
+		<script type="text/javascript" src="Js/Enum/AxisEnum.js"></script>
+		<script type="text/javascript" src="Js/Enum/AttributeEnum.js"></script>
+		<script type="text/javascript" src="Js/Enum/DirectionEnum.js"></script>
+		<script type="text/javascript" src="Js/Enum/MenuEntryEnum.js"></script>
+		<script type="text/javascript" src="Js/Enum/CubeStateEnum.js"></script>
+		<script type="text/javascript" src="Js/Libraries/FileSaver.js"></script>
+		<script type="text/javascript" src="Js/Libraries/jquery.js"></script>
+		<script type="text/javascript" src="Js/Libraries/jquery-ui.js"></script>
+		<script type="text/javascript" src="Js/Libraries/jszip.js"></script>
+		<script type="text/javascript" src="Js/Libraries/webgl-debug.js"></script>
+		<script type="text/javascript" src="Js/Utils/function.js"></script>
+		<script type="text/javascript" src="Js/Utils/Util.js"></script>
+		<script type="text/javascript" src="Js/Shader/Shader.js"></script>
+		<script type="text/javascript" src="Js/Shader/DefaultShader.js"></script>
+		<script type="text/javascript" src="Js/Objects/Vector.js"></script>
+		<script type="text/javascript" src="Js/Objects/Matrix.js"></script>
+		<script type="text/javascript" src="Js/Objects/Voxel.js"></script>
+		<script type="text/javascript" src="Js/Objects/Scene.js"></script>
+		<script type="text/javascript" src="Js/Objects/GenericStructure.js"></script>
+		<script type="text/javascript" src="Js/Objects/GenericObject.js"></script>
+		<script type="text/javascript" src="Js/Objects/Point.js"></script>
+		<script type="text/javascript" src="Js/Objects/Repere.js"></script>
+		<script type="text/javascript" src="Js/Objects/Facet.js"></script>
+		<script type="text/javascript" src="Js/Objects/Camera.js"></script>
+		<script type="text/javascript" src="Js/Objects/Surface.js"></script>
+		<script type="text/javascript" src="Js/Controllers/SurfaceController.js"></script>
+		<script type="text/javascript" src="Js/Display/Display.js"></script>
+		<script type="text/javascript" src="Js/Display/Display2D.js"></script>
+		<script type="text/javascript" src="Js/Display/Display3D.js"></script>
+		<script type="text/javascript" src="Js/Display/ModelView.js"></script>
+		<script type="text/javascript" src="Js/Display/ModelView3D.js"></script>
+		<script type="text/javascript" src="Js/Display/ModelView3D_prepare.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/Controller.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/ControllerCamera.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/KernelSelect.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/ControllerSelect.js"></script>
+		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>
+		<script type="text/javascript" src="Js/Interface/ListUndoRedoAction.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Messages.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Controller.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Tools.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Colors.js"></script>
+		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
 <!--		<script type="text/javascript" src="Js/.js"></script>-->
 
 		<!-- css imports -->
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/temp.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/common.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
-		<link rel="stylesheet" type="text/css" media="all" href="Styles/temp.css"/>
 	</head>
 	<body>
 		
@@ -113,57 +159,55 @@
 		
 		
 		<!-- Workspace -->
-		<div id="workspace" class="vbox">
-			<div id="" class="hbox">
-				<div id="curvesView">
-					<div class="vbox">
-						<div id="meridianView" class="yellow">
-							<div class="hbox">
-								<div id="meridianParam" class="blue">
-									Liste des paramètres Méridienne
-								</div>
-								<canvas id="meridianCanvas" class="red">
+		<canvas id="surfaceCanvas"></canvas>
+<!--		<div id="workspace" class="">-->
+<!--			<div class="hbox">-->
+<!--				<div id="curvesView" class="yellow">-->
+<!--					<div class="vbox">-->
+<!--						<div id="meridianView" class="vbox ">-->
+<!--							<div class="hbox">-->
+<!--								<div id="meridianParam" class="paramPanel ">-->
+<!--									Liste des paramètres Méridienne-->
+<!--								</div><!---->
+<!--								<canvas id="meridianCanvas" class="">-->
 
-								<canvas>
-							</div>
-							<div id="meridianOption" class="green">
-								Option Méridienne
-							</div>
-						</div>
-						<div id="revolutionView" class="majenta">
-							<div class="hbox">
-								<div id="revolutionParam" class="blue">
-									Liste des paramètres Révolution
-								</div>
-								<canvas id="revolutionCanvas" class="red">
+<!--								<canvas>-->
+<!--							</div>-->
+<!--							<div id="meridianOption" class="">-->
+<!--								Option Méridienne-->
+<!--							</div>-->
+<!--						</div>-->
+<!--						<div id="revolutionView" class="vbox ">-->
+<!--							<div class="hbox">-->
+<!--								<div id="revolutionParam" class="paramPanel ">-->
+<!--									Liste des paramètres Révolution-->
+<!--								</div><!---->
+<!--								<canvas id="revolutionCanvas" class="">-->
 
-								<canvas>
-							</div>
-							<div id="revolutionOption" class="green">
-								Option Révolution
-							</div>
-						</div>
-					</div>
-				</div>
-				<div id="surfaceView">
-					<div id="surfaceView">
-						<div class="hbox">
-							<canvas id="surfaceCanvas" class="majenta">
+<!--								<canvas>-->
+<!--							</div>-->
+<!--							<div id="revolutionOption" class="">-->
+<!--								Option Révolution-->
+<!--							</div>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div><!---->
+<!--				<div id="surfaceView" class="vbox orange">-->
+<!--					<div class="hbox">-->
+<!--						<div id="surfaceParam" class="paramPanel ">-->
+<!--							Liste des paramètres Révolution-->
+<!--						</div><!---->
+<!--						<canvas id="surfaceCanvas" class="">-->
 
-							<canvas>
-							<div id="surfaceParam" class="cyan">
-								Liste des paramètres Révolution
-							</div>
-						</div>
-						<div id="surfaceOption" class="yellow">
-							Option Révolution
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		
+<!--						<canvas>-->
+<!--					</div>-->
+<!--					<div id="surfaceOption" class="">-->
+<!--						Option Révolution-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--		-->
 		
 		<!-- State bar -->
 		<div id="stateBar" class="footer">
@@ -172,3 +216,4 @@
 		
 	</body>
 </html>
+

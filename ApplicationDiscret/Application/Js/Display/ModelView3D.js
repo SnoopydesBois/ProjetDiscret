@@ -401,7 +401,8 @@ ModelView3D.prototype.backBufferDraw = function (gl) {
 
 //==============================================================================
 /**
- * Prepare each face of the cube for rendering.
+ * Prepare each face of the voxel for rendering.
+ * @param {Voxel} voxel - 
  * @param {Array} vertices - Array to fill with vertex position.
  * @param {Array} indices - Array to fill with indices for the drawing.
  * @param {Array} color - Array to with color depending of the face.
@@ -409,169 +410,34 @@ ModelView3D.prototype.backBufferDraw = function (gl) {
  * @param {Array} normal - Array to fill with the normal of each face.
  * @return {void}
  */
-ModelView3D.prototype.prepareCubeNormal = function (cube, vertices, indices,
-		color, backColor, normal)
+ModelView3D.prototype.prepareVoxel = function (voxel, vertexBuffer, indicesBuffer,
+		colorBuffer, backColorBuffer, normalBuffer)
 {
-	//console.log (ModelView3D.prepareCubeNormal);
-	if (typeof cube != "object"
-			|| typeof vertices != "object"
-			|| typeof indices != "object"
-			|| typeof color != "object"
-			|| typeof backColor != "object"
-			|| typeof normal != "object") {
+//	console.log (ModelView3D.prepareCubeNormal);
+	if (!(voxel instanceof Voxel
+			&& vertexBuffer instanceof Array
+			&& indicesBuffer instanceof Array
+			&& colorBuffer instanceof Array
+			&& backColorBuffer instanceof Array
+			&& normalBuffer instanceof Array))
+	{
 		console.error ("ERROR - ModelView3D.prepareCubeNormal : bad type of" 
 				+ " parameter");
 	}
 	// --------------------------------------
-	var size = this.modelController.getModel().getSize();
-//	console.log ("size", size, size.toString());
-	// Preparation of each face
-///// XXX modif
-	
-//	console.log ("cube -> voxel", cube);
-//	console.log ("vertice -> vertexBuffer", vertices);
-//	console.log ("indices -> indicesBuffer", indices);
-//	console.log ("color -> colorBuffer", color);
-//	console.log ("normal -> normalBuffer", normal);
-//	console.log ("backColor -> backColorBuffer", backColor);
-//	console.log ("size -> universSize", size);
+	var size = this.surfaceController.getSurface().getSize();
 	
 	for (var i = 0; i < DirectionEnum.size; i++) {
-		if (cube.hasFacet(i)) {
-//			console.log ("COLOR", appli.getColor (
-//					CubeStateEnum.NORMAL, DirectionEnum.properties[i].axis));
-			this.prepareFace (cube, i, 0, vertices, indices, color, 
-				normal, 
-				backColor, 
-//				[0.3, 0.8, 0.5, 1.0],
+		if (voxel.hasFacet(i)) {
+			this.prepareFace (voxel, i, 0, vertexBuffer, indicesBuffer, colorBuffer, 
+				normalBuffer, 
+				backColorBuffer, 
 				appli.getColor (
 					CubeStateEnum.NORMAL, DirectionEnum.properties[i].axis
 				),
 				size
 			);
 		}
-////// XXX end modif 
-//	for (var i = 0; i < DirectionEnum.size; i++) {
-//		var verticeSize = vertices.length/3; // 3 points per vertices
-//		if (cube.hasFacet(i)) { // If the cube got a facet in this direction
-//			switch (i) {
-//				case DirectionEnum.TOP : // TOP
-//					// Creation of the 4 points of the face
-//					this.addVertices(vertices, cube.getPosition().m[0],
-//							 cube.getPosition().m[1],
-//							 cube.getPosition().m[2] + 1.0, size);
-//					this.addVertices(vertices, cube.getPosition().m[0] + 1.0,
-//							cube.getPosition().m[1],
-//							cube.getPosition().m[2] + 1.0, size);
-//					this.addVertices(vertices, cube.getPosition().m[0],
-//							cube.getPosition().m[1] + 1.0,
-//							cube.getPosition().m[2] + 1.0, size);
-//					this.addVertices(vertices, cube.getPosition().m[0] + 1.0,
-//							cube.getPosition().m[1] + 1.0,
-//							cube.getPosition().m[2] + 1.0, size);
-//					
-//					// To draw the 2 triangles
-//					indices.push(verticeSize, verticeSize+3, verticeSize+1);
-//					indices.push(verticeSize, verticeSize+2, verticeSize+3);
-//				break;
-//				case DirectionEnum.BOTTOM : // BOTTOM
-//					this.addVertices(vertices, cube.getPosition().m[0],
-//							 cube.getPosition().m[1],
-//							 cube.getPosition().m[2], size);
-//					this.addVertices(vertices, cube.getPosition().m[0] + 1.0,
-//							cube.getPosition().m[1],
-//							cube.getPosition().m[2], size);
-//					this.addVertices(vertices, cube.getPosition().m[0],
-//							cube.getPosition().m[1] + 1.0,
-//							cube.getPosition().m[2], size);
-//					this.addVertices(vertices, cube.getPosition().m[0] + 1.0,
-//							cube.getPosition().m[1] + 1.0,
-//							cube.getPosition().m[2], size);
-
-//					indices.push(verticeSize, verticeSize+1, verticeSize+3);
-//					indices.push(verticeSize, verticeSize+3, verticeSize+2);
-//				break;
-//				case DirectionEnum.RIGHT : // RIGHT
-//					this.addVertices(vertices, cube.getPosition().m[0] + 1.0,
-//							 cube.getPosition().m[1],
-//							 cube.getPosition().m[2], size);
-//					this.addVertices(vertices, cube.getPosition().m[0] + 1.0,
-//							cube.getPosition().m[1] + 1.0,
-//							cube.getPosition().m[2], size);
-//					this.addVertices(vertices, cube.getPosition().m[0] + 1.0,
-//							cube.getPosition().m[1],
-//							cube.getPosition().m[2] + 1.0, size);
-//					this.addVertices(vertices, cube.getPosition().m[0] + 1.0,
-//							cube.getPosition().m[1] + 1.0,
-//							cube.getPosition().m[2] + 1.0, size);
-//					
-//					indices.push(verticeSize, verticeSize+3, verticeSize+1);
-//					indices.push(verticeSize, verticeSize+2, verticeSize+3);
-//				break;
-//				case DirectionEnum.LEFT : // LEFT
-//					this.addVertices(vertices, cube.getPosition().m[0],
-//							 cube.getPosition().m[1],
-//							 cube.getPosition().m[2], size);
-//					this.addVertices(vertices, cube.getPosition().m[0],
-//							cube.getPosition().m[1] + 1.0,
-//							cube.getPosition().m[2], size);
-//					this.addVertices(vertices, cube.getPosition().m[0],
-//							cube.getPosition().m[1],
-//							cube.getPosition().m[2] + 1.0, size);
-//					this.addVertices(vertices, cube.getPosition().m[0],
-//							cube.getPosition().m[1] + 1.0,
-//							cube.getPosition().m[2] + 1.0, size);
-//					
-//					indices.push(verticeSize, verticeSize+1, verticeSize+3);
-//					indices.push(verticeSize, verticeSize+3, verticeSize+2);
-//				break;
-//				case DirectionEnum.FRONT : // FRONT
-//					this.addVertices(vertices, cube.getPosition().m[0],
-//							 cube.getPosition().m[1],
-//							 cube.getPosition().m[2], size);
-//					this.addVertices(vertices, cube.getPosition().m[0] + 1.0,
-//							cube.getPosition().m[1],
-//							cube.getPosition().m[2], size);
-//					this.addVertices(vertices, cube.getPosition().m[0],
-//							cube.getPosition().m[1],
-//							cube.getPosition().m[2] + 1.0, size);
-//					this.addVertices(vertices, cube.getPosition().m[0] + 1.0,
-//							cube.getPosition().m[1],
-//							cube.getPosition().m[2] + 1.0, size);
-//					
-//					indices.push(verticeSize, verticeSize+3, verticeSize+1);
-//					indices.push(verticeSize, verticeSize+2, verticeSize+3);
-//				break;
-//				case DirectionEnum.BACK : // BACK
-//					this.addVertices(vertices, cube.getPosition().m[0],
-//							cube.getPosition().m[1] + 1.0,
-//							cube.getPosition().m[2], size);
-//					this.addVertices(vertices, cube.getPosition().m[0] + 1.0,
-//							cube.getPosition().m[1] + 1.0,
-//							cube.getPosition().m[2], size);
-//					this.addVertices(vertices, cube.getPosition().m[0],
-//							cube.getPosition().m[1] + 1.0,
-//							cube.getPosition().m[2] + 1.0, size);
-//					this.addVertices(vertices, cube.getPosition().m[0] + 1.0,
-//							cube.getPosition().m[1] + 1.0,
-//							cube.getPosition().m[2] + 1.0, size);
-
-//					indices.push(verticeSize, verticeSize+1, verticeSize+3);
-//					indices.push(verticeSize, verticeSize+3, verticeSize+2);
-//				break;
-//				
-//			} // end switch facet
-//			color.push(appli.getColor(CubeStateEnum.NORMAL,
-//					DirectionEnum.properties[i].axis));
-//			normal.push([DirectionEnum.properties[i].x,
-//					DirectionEnum.properties[i].y,
-//					DirectionEnum.properties[i].z]);
-//			// The color used by the picking according to the facet position
-////			backColor.push([((cube.getPosition().m[0]+1.0)*10+i) / 255,
-////					((cube.getPosition().m[1]+1.0)*10) / 255,
-////					((cube.getPosition().m[2]+1.0)*10) / 255, 1]);
-//			backColor.push (this.posToColor (cube, i));
-//		} // end if facet exist
 	} // end for each direction
 };
 
