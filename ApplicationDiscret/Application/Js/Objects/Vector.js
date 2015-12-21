@@ -1,4 +1,4 @@
-/ LICENCE ////////////////////////////////////////////////////////////////
+/////// LICENCE ////////////////////////////////////////////////////////////////
 
 
 /* Copyright (juin 2015)
@@ -362,6 +362,11 @@ Vector.prototype.toString = function () {
 };
 
 
+Vector.prototype.equals = function (vect){
+	return this.m[0] === vect.m[0]
+			&& this.m[1] === vect.m[1]
+			&& this.m[2] === vect.m[2];
+};
 
 	  //////////////////////
 	 /// other function ///
@@ -387,6 +392,7 @@ function addVector (a, b) {
 	var vb = new Vector (b);
 	return va.add (vb);
 }
+
 
 
 
