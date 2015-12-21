@@ -105,6 +105,8 @@ ModelView3D.prototype.prepareFace = function (
 //				console.log ("Pas de facet en", i)
 		} // end for each direction
 	break;
+	default :
+	break;
 	}
 	
 	colorBuffer.push (colorFace);
