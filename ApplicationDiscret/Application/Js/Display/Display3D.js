@@ -100,11 +100,18 @@ Display3D.prototype.constructor = Display3D;
  * Constructor
  * @constructor
  */
-function Display3D (application) {	 
-	Display.call (this,application);
-	this.renderTarget_list = new Array(); // List of renderTarget
+function Display3D () {	 
+	Display.call (this);
+	
+	/**
+	 * {} List of renderTarget
+	 */
+	this.renderTargetList = []; // List of renderTarget
+	
+	/**
+	 * {HTMLElement} 
+	 */
 	this.canvas;
-	this.htmlSrc = "Display/iDisplay3D.html";
 	this.scene = new Scene (); // Scene creation
 	
 	// Add a full scene ...
@@ -121,7 +128,7 @@ function Display3D (application) {
 	this.scene.addCamera(
 	new Camera(this.cameraAt, //eyePos,
 		    this.cameraTo, //centerPos, 
-		    new Vector(0,0,1), //up, 
+		    new Vector (0,0,1), //up, 
 		    // width, height, fov,  near, far
 		    512, 512, 25.0, 0.01, 1000.0
 		) 

@@ -24,7 +24,7 @@
 
 \title[English Presentation]{Discrete 3D surfaces of revolution}
 \subtitle{English Presentation}
-\author[]{Zied \smallcaps{Ben} \smallcaps{Othmane} \\ Thomas \smallcaps{Benoist} \\ Adrien \smallcaps{Bisutti} \\ Lydie \smallcaps{Richaume}} % FIXME Enlever les parenthèses
+\author[]{Zied \smallcaps{Ben} \smallcaps{Othmane} \\ Thomas \smallcaps{Benoist} \\ Adrien \smallcaps{Bisutti} \\ Lydie \smallcaps{Richaume}}
 \institute{University of Poitiers}
 \date{December 9th of 2015}
 
@@ -198,23 +198,23 @@
 	\begin{frame}{\subsecname}
 		\begin{center}
 		{\renewcommand{\arraystretch}{1.3}
-		\begin{tabularx}{11cm}{|>{\hfill}X<{\hspace*{\fill}}|X<{\centering}|} % FIXME numéroter les tâches et faire voir les numéros le plus possibles!
+		\begin{tabularx}{11cm}{|>{\hfill}X<{\hspace*{\fill}}|X<{\centering}|}
 			\hline
-			\multicolumn{2}{|c|}{1 - Documentation, test et aide utilisateur}\\
+			\multicolumn{2}{|c|}{1 - Documentation, test and users help}\\
 			\hline
-			\multicolumn{2}{|c|}{6 - Conception}\\
+			\multicolumn{2}{|c|}{2 - Design}\\
 			\hline
-			6 - Noyau fonctionnel & 10 - Interface minimale\\
+			3 - Kernel functional & 4 - Minimal interface\\
 			\hline
-			17 - Ajout de fonctionnalités & \multirow{3}*{14, 22, 32 - Am\'elioration IHM}\\
+			6 - Fonctionnalies adding & \multirow{3}*{5, 7, 10 - IHM enhancement}\\
 			\cline{1-1}
-			25 - M\'eridienne \`a main levée & \\%Am\'elioration IHM\\
+			8 - Free hand curve & \\
 			\cline{1-1}
-			29 - Gestion des donn\'ees & \\%Am\'elioration IHM\\
+			9 - Data management & \\
 			\hline
-			\multicolumn{2}{|c|}{36 - Ajout courbe utilisateur}\\
+			\multicolumn{2}{|c|}{11 - User's curve}\\
 			\hline
-			\multicolumn{2}{|c|}{37 - R\'edaction rapport technique}\\
+			\multicolumn{2}{|c|}{12 - Technical report}\\
 			\hline
 		\end{tabularx}}
 		\end{center}
@@ -222,7 +222,7 @@
 
 
 % --- Pert ---------------------------------------------------------------------
-	\subsection{Pert Diagram} % FIXME numéroter les tâches pour pouvoir utiliser cette numérotation
+	\subsection{Pert diagram}
 	\begin{frame}{Pert}
 		\begin{figure}
 			\includegraphics[width=6cm]{ImagesLancement/miniature1.png}
@@ -267,14 +267,14 @@
 	\subsection{Gantt diagram}
 	\begin{frame}{Gantt}
 		\begin{figure}
-			\includegraphics[height=7.5cm]{../Images/Gantt_Macro2.png} % FIXME mettre les tâches (nom et/ou numérotation) près des bandes
+			\includegraphics[height=7.5cm]{../Images/Gantt_Macro2.png}
 		\end{figure}
 	\end{frame}
 
 
 	\begin{frame}{Gantt}
 		\begin{figure}
-			\includegraphics[width=12cm]{../Images/gantt_zoom_noyau.png} % FIXME modifier nom jalon
+			\includegraphics[width=12cm]{../Images/gantt_zoom_noyau.png}
 		\end{figure}
 	\end{frame}
 
@@ -283,7 +283,7 @@
 	\subsection{Progress}
 	\begin{frame}{\subsecname}
 		\begin{figure}
-			\includegraphics[width=12cm]{ImagesLancement/Avancement.png} % FIXME bien régler les points et faire apparaitre le livrables
+			\includegraphics[width=12cm]{ImagesLancement/Avancement.png}
 		\end{figure}
 	\end{frame}
 
@@ -293,7 +293,7 @@
 	\begin{frame}{\subsecname}
 		\begin{center}
 		{\renewcommand{\arraystretch}{1.2}
-		\begin{tabular}{|c|m{6.5cm}|c|} % FIXME relier les livrables au tâches
+		\begin{tabular}{|c|m{6.5cm}|c|}
 			\hline
 			\textbf{\No} & \textbf{Deliverable} & \textbf{Planned date}\\
 			\hline
@@ -303,7 +303,7 @@
 			\hline
 			3 & Free hand drawing and curves with editable parameters & 01/29\\
 			\hline
-			4 & \'Equations and export & 02/19\\
+			4 & Equations and export & 02/19\\
 			\hline
 			5 & Final application and documentation & 03/02\\
 			\hline
@@ -327,7 +327,7 @@
 
 
 % --- Risques ------------------------------------------------------------------
-	\subsection{Specifics Risks}
+	\subsection{Specifics risks}
 	\begin{frame}{\subsecname}
 		List of identified risks:
 			\begin{itemize}
@@ -342,7 +342,7 @@
 % FIXME ne pas oublier les solution (préventives et curatives) au moins à l'oral
 	\begin{frame}{\subsecname}
 		\begin{itemize}
-			\item Evolution of the generation algorithm
+			\item Generation algorithm evolution
 		\end{itemize}
 		\begin{figure}
 			\includegraphics[width=8cm]{ImagesLancement/Evolution_algo.png}
@@ -367,7 +367,7 @@
 
 	\begin{frame}{\subsecname}
 		\begin{itemize}
-			\item Problems related to the server
+			\item Server linked problems
 		\end{itemize}
 		\begin{figure}
 			\includegraphics[width=8cm]{ImagesLancement/Serveur.png}
@@ -385,7 +385,7 @@
 			\item New clients (criticality: 1)
 			\item Non-compliance of the requirements (1)
 			\item Non usability of tools (1)
-			\item insufficient intern communication (1)
+			\item Insufficient intern communication (1)
 		\end{itemize}
 	\end{frame}
 
@@ -450,7 +450,7 @@
 	\subsection{Quality insurance plan}
 	\begin{frame}{\subsecname}
 		\begin{figure}
-			\includegraphics[height=8cm]{ImagesLancement/PAQL.png} % FIXME regénéré pour être plus lisible et spécifié "validation par les clients à chaque jalon"
+			\includegraphics[height=8cm]{ImagesLancement/PAQL.png}
 		\end{figure}
 	\end{frame}
 
@@ -486,7 +486,7 @@
 
 %\begin{frame}{\secname}
 %	\begin{figure}
-%		\includegraphics[width=12cm]{ImagesLancement/Cout2.png} % XXX voir ce que ça donne en semaine
+%		\includegraphics[width=12cm]{ImagesLancement/Cout2.png}
 %	\end{figure}
 %\end{frame}
 

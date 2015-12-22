@@ -47,7 +47,7 @@
  *	posMouse : float[2]
  *	rotate : boolean
  *
- *	ControllerCamera (frame : Frame, name : string)
+ *	ControllerCamera ()
  *	pressKey (event : WindowEvent) : void
  *	mouseDown (event : WindowEvent, cube : Cube) : void
  *	mouseUp (event : WindowEvent, cube : Cube) : void
@@ -108,32 +108,29 @@ function ControllerCamera (scene) {
  *	@return {void}
  */
 ControllerCamera.prototype.pressKey = function (event) {
-	if (typeof event !== "object") {
-		console.error ("ERROR - ControllerCamera.pressKey : bad type of " 
-				+ "parameter");
+	if (!(event instanceof WindowEvent)) { // A vérifier
+		throw "event is not a WindowEvent";
 	}
-	if (this.actif) {
-		var mouv = [0.0, 0.0];
-		if (event.key === 'z') { // Upward rotation
-			// movement [float,float] float => [0..1]
-			mouv = [0.0, 1.0/15.0];
-			this.mouvementCamera(mouv);
-		} else if (event.key === 's') { // Downward rotation
-			mouv = [0.0, -1.0/15.0];
-			this.mouvementCamera(mouv);
-		} else if (event.key === 'q') { // Left-hand rotation
-			mouv = [1.0/15.0, 0.0];
-			this.mouvementCamera(mouv);
-		} else if (event.key === 'd') { // Right-hand Rotation
-			mouv = [-1.0/15.0, 0.0];
-			this.mouvementCamera(mouv);
-		} else if (event.key === '-') {
-			this.zoom(0.5);
-		} else if (event.key === '+') {
-			this.zoom(-0.5);
-		} else if (event.key === '0' || event.charCode === 32) {
-			this.reinit();
-		}
+	var mouv = [0.0, 0.0];
+	if (event.key === 'z') { // Upward rotation
+		// movement [float,float] float => [0..1]
+		mouv = [0.0, 1.0/15.0];
+		this.mouvementCamera(mouv);
+	} else if (event.key === 's') { // Downward rotation
+		mouv = [0.0, -1.0/15.0];
+		this.mouvementCamera(mouv);
+	} else if (event.key === 'q') { // Left-hand rotation
+		mouv = [1.0/15.0, 0.0];
+		this.mouvementCamera(mouv);
+	} else if (event.key === 'd') { // Right-hand Rotation
+		mouv = [-1.0/15.0, 0.0];
+		this.mouvementCamera(mouv);
+	} else if (event.key === '-') {
+		this.zoom(0.5);
+	} else if (event.key === '+') {
+		this.zoom(-0.5);
+	} else if (event.key === '0' || event.charCode === 32) {
+		this.reinit();
 	}
 };
 
@@ -145,10 +142,9 @@ ControllerCamera.prototype.pressKey = function (event) {
  *	@param {Cube} cube - cube over which the mouse is.
  *	@return {void}
  */
-ControllerCamera.prototype.mouseDown = function (event, cube) {
-	if (typeof event !== "object") {
-		console.error ("ERROR - ControllerCamera.mouseDown : bad type of " 
-				+ "parameter");
+ControllerCamera.prototype.mouseDown = function (event) {
+	if (!(event instanceof WindowEvent)) { // A vérifier
+		throw "event is not a WindowEvent";
 	}
 	// --------------------------------------
 	if (event.button === 2) {
@@ -164,13 +160,14 @@ ControllerCamera.prototype.mouseDown = function (event, cube) {
  *	@param {Cube} cube - cube overwhich the mouse is
  *	@return {void}
  */
-ControllerCamera.prototype.mouseUp = function (event, cube) {
-	if (typeof event !== "object") {
-		console.error ("ERROR - ControllerCamera.mouseUp : bad type of" 
-				+ " parameter");
+ControllerCamera.prototype.mouseUp = function (event) {	
+	if (!(event instanceof WindowEvent)) { // A vérifier
+		throw "event is not a WindowEvent";
 	}
 	// --------------------------------------
-	this.rotate = false;
+	if (event.button === 2) {
+		this.rotate = false;
+	}
 };
 
 
@@ -181,13 +178,12 @@ ControllerCamera.prototype.mouseUp = function (event, cube) {
  *	@param {Cube} cube - cube over which the mouse is
  *	@return {void}
  */
-ControllerCamera.prototype.mouseMouv = function (event, cube) {
-	if (typeof event !== "object") {
-		console.error ("ERROR - ControllerCamera.mouseMouv : bad type of" 
-				+ " parameter");
+ControllerCamera.prototype.mouseMouv = function (event) {
+	if (!(event instanceof WindowEvent)) { // A vérifier
+		throw "event is not a WindowEvent";
 	}
 	// --------------------------------------
-	if ((event.altKey || this.rotate) && this.actif) {
+	if ((event.altKey || this.rotate)) {
 		var w = this.scene.getWidth();
 		var h = this.scene.getHeight();
 		
@@ -209,16 +205,13 @@ ControllerCamera.prototype.mouseMouv = function (event, cube) {
  *	@param {Cube} cube - cube over which the mouse is
  *	@return {void}
  */
-ControllerCamera.prototype.scroll = function (event, cube) {
-	if (typeof event !== "object") {
-		console.error ("ERROR - ControllerCamera.scroll : bad type of" 
-				+ " parameter");
+ControllerCamera.prototype.scroll = function (event) {
+	if (!(event instanceof WindowEvent)) { // A vérifier
+		throw "event is not a WindowEvent";
 	}
-	if (this.actif) {
-		var delta = Math.max(-1, Math.min(1, (event.wheelDelta || event.detail)
+	var delta = Math.max(-1, Math.min(1, (event.wheelDelta || event.detail)
 				));
-		this.zoom(delta / 4);
-	}
+	this.zoom(delta / 4);
 };
 
 
@@ -229,7 +222,9 @@ ControllerCamera.prototype.scroll = function (event, cube) {
  *	@return {void}
  */
 ControllerCamera.prototype.mouvementCamera = function (mouv) {
-	
+	if(!(mouv instanceof Array)){
+			throw "mouv is not an array";
+	}
 	var cameraAt = this.scene.getCamera().getCameraAt();
 	
 	var limit = this.distanceCamera - this.hauteurMax;
@@ -283,6 +278,11 @@ ControllerCamera.prototype.mouvementCamera = function (mouv) {
 * @return {void}
 */
 ControllerCamera.prototype.pythagore = function (cameraAt, index) {
+	if(!(cameraAt instanceof Vector)){
+		throw "cameraAt is not a Vector";
+	} else if( typeof index !== "number"){
+		throw "index is not a number";
+	}
 	var value = Math.sqrt(this.distanceCamera * this.distanceCamera
 					- cameraAt.m[2] * cameraAt.m[2]);
 	if (cameraAt.m[index] > 0.0) {
@@ -307,6 +307,13 @@ ControllerCamera.prototype.pythagore = function (cameraAt, index) {
 * @return {void}
 */
 ControllerCamera.prototype.pythagore3D = function (cameraAt, index1, index2) {
+	if(!(cameraAt instanceof Vector)){
+		throw "cameraAt is not a Vector";
+	} else if( typeof index1 !== "number"){
+		throw "index1 is not a number";
+	} else if( typeof index2 !== "number"){
+		throw "index2 is not a number";
+	}
 	var a = cameraAt.m[index2] / cameraAt.m[index1]; // a = y/x
 
 	var squareDistanceCam = this.distanceCamera * this.distanceCamera;
@@ -331,6 +338,10 @@ ControllerCamera.prototype.pythagore3D = function (cameraAt, index1, index2) {
  * @return {void}
  */
 ControllerCamera.prototype.zoom = function (distance) {
+	if(typeof distance !== "number"){
+		throw "distance is not a number";
+	}
+	
 	this.scene.getCamera().setProjection (
 			this.scene.getCamera().getProjection() + distance);
 	// Camera's matrix calcul
