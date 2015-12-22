@@ -79,6 +79,7 @@ function ModelView3D (controller, name, shader) {
 	ModelView.call (this, controller, name, shader);
 	this.selectvbo = [];
 	this.selectibo = [];
+	this.nbBuffer = 0;
 };
 
 
@@ -167,6 +168,7 @@ ModelView3D.prototype.prepare = function (gl) {
 			gl.STATIC_DRAW);
 	}
 
+	// Create the "backbuffer" used for the picking
 	for (tmp = 0; tmp < this.nbBuffer; ++tmp) {
 		this.bbo[tmp] = gl.createBuffer ();
 		this.bbo[tmp].numItems = vertices[tmp].length / 3.0;
@@ -180,7 +182,7 @@ ModelView3D.prototype.prepare = function (gl) {
 				this.addAColor (bdata[tmp], backColor[tmp][i]);
 				this.addANormal (bdata[tmp], normal[tmp][i]);
 			} // end for j
-		} // en for i
+		} // end for i
 		gl.bindBuffer (gl.ARRAY_BUFFER, this.bbo[tmp]);
 		gl.bufferData (gl.ARRAY_BUFFER, new Float32Array(bdata[tmp]), 
 				gl.STATIC_DRAW);
@@ -273,6 +275,7 @@ ModelView3D.prototype.prepareSelection = function (gl) {
 		this.selectvbo.push ([]);
 		this.selectibo.push ([]);
 	}
+	
 	// 2 triangles per faces
 	// No triangles strips because there are a lot of degenerated triangles
 	for (var i = 0; i < this.modelController.getNbSelectedFacet (); ++i) {
