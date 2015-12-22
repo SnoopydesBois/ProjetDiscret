@@ -120,12 +120,50 @@ Controller3D.prototype.getSurface = function () {
  * @param {Vector} position - The coordinates of the voxel
  * @return {Voxel} the voxel at the x, y, z coordinates
  */
-Controller3D.prototype.getVoxel = function (position) {
-	if(!(position instanceof Vector)){
-		throw "position is not a Vector"
-	}
-	// --------------------------------------
-	return this.modelGen.getVoxel (position);
+Controller3D.prototype.getVoxel = function (x, y, z) {
+	switch arguments.length :
+		case 1 :
+			if(!(x instanceof Vector)){
+				throw "Controller3D.getVoxel.ErrorNotAVector";
+			}
+			return this.modelGen.getVoxel (x);
+			break;
+		case 3 :
+			if(typeof x !== "number"
+				|| typeof y !== "number"
+				|| typeof z !== "number"){
+				throw "Controller3D.getVoxel.ErrorNotANumber";
+			}
+			return this.modelGen.getVoxel (new Vector(x, y, z));
+			break;
+		default :
+			throw "Controller3D.getVoxel.ErrorLengthArguments";
+};
+
+
+//==============================================================================
+/**
+ * @param {Vector} position - The coordinates of the voxel
+ * @return {boolean} true if the voxel is a voxel of the surface, else false
+ */
+Controller3D.prototype.hasVoxel = function (x, y, z) {
+	switch arguments.length :
+		case 1 :
+			if(!(x instanceof Vector)){
+				throw "Controller3D.getVoxel.ErrorNotAVector";
+			}
+			return this.modelGen.getVoxel (x) !== null;
+			break;
+		case 3 :
+			if(typeof x !== "number"
+				|| typeof y !== "number"
+				|| typeof z !== "number"){
+				throw "Controller3D.getVoxel.ErrorNotANumber";
+			}
+			return this.modelGen.getVoxel (new Vector(x, y, z)) !== null;
+			break;
+		default :
+			throw "Controller3D.getVoxel.ErrorLengthArguments";
 };
 
 
