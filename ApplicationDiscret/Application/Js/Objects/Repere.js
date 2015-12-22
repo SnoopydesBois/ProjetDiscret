@@ -69,7 +69,7 @@ Repere.prototype.constructor = Repere;
  * @param {Shader} shader - The shader to use
  * @param {Vector} dimension - The dimensions of the 3D space
  */
-function Repere(name, shader, dimension) {
+function Repere (name, shader, dimension) {
 	// Call parent constructor (mandatory !)
 	GenericStructure.call(this, name, shader);
 	if (shader.getAttribute(AttributeEnum.normal) 
@@ -82,7 +82,7 @@ function Repere(name, shader, dimension) {
 	this.origin = new Vector(-1.0, -1.0, -1.0);
 	this.sizeRangeRange = 2;
 	
-	this.dimension = new Vector(dimension);
+	this.dimension = dimension;
 };
 
 
@@ -114,7 +114,7 @@ Repere.prototype.prepare = function (gl) {
 	// Color of each vertices, the box is black
 	var colors = [];
 	for (var i=0; i<vertices.length; ++i) {
-		colors.push(appli.getBackgroundColor());
+		colors.push([0.1, 0.1, 0.1, 1.0]);
 	}
 
 	// Indices to draw the box
@@ -150,7 +150,6 @@ Repere.prototype.prepare = function (gl) {
 	gl.STATIC_DRAW);
 	this.ibo.numItems = indices.length;
 	
-	this.hoverPrepare(gl);
 };
 
 
@@ -221,64 +220,6 @@ Repere.prototype.addVertice = function (stripVertices, x, y, z) {
 
 //==============================================================================
 /**
- * Prepare the stripes (to optimize when the hover change).
- * @param {glContext} gl - The gl context.
- */
-Repere.prototype.hoverPrepare = function (gl) {
-	var model = this.frame3D.getCurentModel();
-	if (model == null) {
-		return;
-	}
-	var stripVertices = [];
-	var stripColors = [];
-	var stripIndices = [];
-	// If a cube is hovered, we retrieve it's coordinates
-	if (model.isHoverFacet()) {
-		var x = model.getHoverFacet().getCube().m[0];
-		var y = model.getHoverFacet().getCube().m[1];
-		var z = model.getHoverFacet().getCube().m[2];
-		this.addVertice(stripVertices, x, y, z); // Fill vertices
-
-		for (var i=0; i<24; ++i) { // strip color
-			stripColors.push(appli.getLeaderColor());
-		}
-		
-		for (var i=0; i<3; ++i) { // Prepare the 3 ring
-			for (var j=0; j<4; ++j) { // Prepare a ring
-				stripIndices.push(0+i*8+j,4+i*8+j)
-			}
-			stripIndices.push(0+i*8,4+i*8) // End the ring
-			if (i!=2) // Degenerate triangles betweens the rings
-				stripIndices.push(4+i*8,8+i*8);
-		}
-	}
-
-	// Create buffer 
-	this.stripVbo = gl.createBuffer();
-	this.stripVbo.numItems = stripVertices.length; 
-	
-	// and fill it!
-	var stripData = [];
-	for (vert=0; vert<stripVertices.length; ++vert) {
-		this.addAPoint(stripData, stripVertices[vert]); 
-		this.addAColor(stripData, stripColors[vert]);
-	}
-	
-	gl.bindBuffer(gl.ARRAY_BUFFER, this.stripVbo); 
-	gl.bufferData(gl.ARRAY_BUFFER, 
-			new Float32Array(stripData), gl.STATIC_DRAW);
-
-	this.stripIbo = gl.createBuffer();
-	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.stripIbo);
-	
-	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(stripIndices), 
-	gl.STATIC_DRAW);
-	this.stripIbo.numItems = stripIndices.length;
-};
-
-
-//==============================================================================
-/**
  * Overload draw.
  * @param {glContext} gl - the GL context.
  */
@@ -321,5 +262,5 @@ Repere.prototype.setFrame = function (frame) {
  * @return {Vector} the dimensions of the 3D space.
  */
 Repere.prototype.getDimension = function () {
-	this.dimension;
+	return this.dimension;
 }

@@ -123,6 +123,7 @@ ModelView3D.prototype.prepare = function (gl) {
 	}
 	// --------------------------------------
 	var size = this.controller.getDimension ();
+	console.log (this.controller);
 	this.nbBuffer = size.m[0] / 5;
 
 	var vertexBuffer = [];

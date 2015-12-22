@@ -473,7 +473,7 @@ Scene.prototype.draw = function (gl, backBuffer) {
 	gl.viewport ((this.width - taille) / 2, (this.height - taille) / 2,
 			taille, taille);
 			
-	var colorFont = appli.getCanvasColor();
+	var colorFont = [0.0, 0.0, 0.0, 1.0];
 	
 	gl.clearColor (colorFont[0], colorFont[1], colorFont[2], colorFont[3]);
 	gl.clear (gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -486,7 +486,7 @@ Scene.prototype.draw = function (gl, backBuffer) {
 	if (this.repere !== undefined && this.repere.displayMe()) {
 		// Get Object Properties
 		var obj = this.repere;
-		this.prepareDraw (obj);
+		this.prepareDraw (gl, obj);
 		// RenderObject
 		if (!backBuffer)
 			obj.draw (gl, this);
@@ -499,7 +499,7 @@ Scene.prototype.draw = function (gl, backBuffer) {
 		if (!obj.displayMe ())
 			continue;
 		
-		this.prepareDraw (obj);
+		this.prepareDraw (gl, obj);
 		
 		// RenderObject 
 		if (backBuffer)
@@ -516,6 +516,9 @@ Scene.prototype.draw = function (gl, backBuffer) {
  * @param {}
  */
 Scene.prototype.prepareDraw = function (gl, obj) {
+	var cam = this.camera;
+	var mvMat = cam.getViewMatrix();
+	var pjMat = cam.getProjectionMatrix();
 	var objMat = obj.getMatrix();
 	
 	// Get Location of uniform variables

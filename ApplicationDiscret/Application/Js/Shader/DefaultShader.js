@@ -61,8 +61,8 @@ DefaultShader.prototype.constructor = DefaultShader;
 function DefaultShader (gl) {
 //	console.log ("DefaultShader.constructor");
 	Shader.call (this, "default",
-		"./Js/Structure/Shaders/default.vs",
-		"./Js/Structure/Shaders/default.fs",
+		"./Js/Shader/default.vs",
+		"./Js/Shader/default.fs",
 		gl,
 		DefaultShader.prototype.attributes
 	);

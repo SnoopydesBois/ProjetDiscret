@@ -112,6 +112,10 @@ function Display3D () {
 	 * {HTMLElement} 
 	 */
 	this.canvas;
+	
+	/**
+	 * {Scene} TODO 
+	 */
 	this.scene = new Scene (); // Scene creation
 	
 	// Add a full scene ...
@@ -125,14 +129,14 @@ function Display3D () {
 
     this.cameraTo = new Vector(0,0,0);// Where the camera looks
     
-	this.scene.addCamera(
-	new Camera(this.cameraAt, //eyePos,
-		    this.cameraTo, //centerPos, 
-		    new Vector (0,0,1), //up, 
-		    // width, height, fov,  near, far
-		    512, 512, 25.0, 0.01, 1000.0
-		) 
-);
+	this.scene.setCamera(
+		new Camera(this.cameraAt, //eyePos,
+				this.cameraTo, //centerPos, 
+				new Vector (0,0,1), //up, 
+				// width, height, fov,  near, far
+				512, 512, 25.0, 0.01, 1000.0
+			) 
+		);
 	this.shader = null;
 	this.models = new Array();
 	this.functionality = new Array();
@@ -157,12 +161,8 @@ Display3D.prototype.getFunctionalities = function () {
  */
 Display3D.prototype.addModel = function (modelControl) {
 	if (this.shader != null) {
-		var model3D = new ModelView3D(modelControl, modelControl.getName(), this.shader);
+		var model3D = new ModelView3D (modelControl, this.shader);
 		this.scene.addObject(model3D);
-		for (var i = 0; i < this.scene.objectList.length; ++i) {
-			this.scene.objectList[i].clearHover(this.gl);
-			this.scene.objectList[i].clearSelect(this.gl);
-		}
 		//this.calcul ();
 		//this.draw ();
 	} else {
@@ -343,48 +343,39 @@ Display3D.prototype.setListModel = function (models) {
  * @param {int} idIDisplay - id of the IDisplay tag in which the Display is
  * @return {void}
  */
-Display3D.prototype.prepare = function (idIDisplay, doc) {
-//	console.log ("Display3D.prepare")
-	/// vérification arguments
-	if (!idIDisplay)
-		throw "Display3D.prepare : invalid iDisplay id (" + idIDisplay + ")";
+Display3D.prototype.prepare = function (canvas) {
+	this.canvas = canvas;
 	
-	/// gestion id conteneur
-	this.idIDisplay = idIDisplay;
-	this.DisplayDocument = doc;
-	
-	this.canvas = this.DisplayDocument.getElementById ("View3D");
-	
-	this.canvas.addEventListener ('click', 
-			this.onMouseClick.bind (this), false);
-	this.canvas.addEventListener ('mousedown', 
-			this.onMousePressed.bind (this), false);
-	this.canvas.addEventListener ('mouseup', 
-			this.onMouseReleased.bind (this), false);
-	this.canvas.addEventListener ('mousemove', 
-			this.onMouseMove.bind (this), false);
-	this.canvas.addEventListener ('onScroll', 
-			this.mouseWheelHandler.bind (this), false);
-	this.canvas.addEventListener ('DOMMouseScroll', 
-			this.mouseWheelHandler.bind (this), false);
+//	this.canvas.addEventListener ('click', 
+//			this.onMouseClick.bind (this), false);
+//	this.canvas.addEventListener ('mousedown', 
+//			this.onMousePressed.bind (this), false);
+//	this.canvas.addEventListener ('mouseup', 
+//			this.onMouseReleased.bind (this), false);
+//	this.canvas.addEventListener ('mousemove', 
+//			this.onMouseMove.bind (this), false);
+//	this.canvas.addEventListener ('onScroll', 
+//			this.mouseWheelHandler.bind (this), false);
+//	this.canvas.addEventListener ('DOMMouseScroll', 
+//			this.mouseWheelHandler.bind (this), false);
 
 			
 	// Forced to be global in the next function
-    var Display = this;
-    
-    this.DisplayDocument.onkeypress = function (event) {
-		Display.onKeyPressed(event);
-    }
-    document.onkeypress = function (event) {
-		Display.onKeyPressed(event);
-    }
+//    var Display = this;
+//    
+//    this.DisplayDocument.onkeypress = function (event) {
+//		Display.onKeyPressed(event);
+//    }
+//    document.onkeypress = function (event) {
+//		Display.onKeyPressed(event);
+//    }
 	
     this.onResize();
 		
 	this.gl = WebGLDebugUtils.makeDebugContext(
 		this.canvas.getContext("webgl")
 		|| this.canvas.getContext("experimental-webgl")); 
-	this.resizeBuffer();
+//	this.resizeBuffer();
 
 	this.shader = new DefaultShader(this.gl);
     this.scene.addShader (this.shader);
@@ -394,31 +385,9 @@ Display3D.prototype.prepare = function (idIDisplay, doc) {
 	
 	var repereShader = new DefaultShader(this.gl);
 	this.scene.addShader(repereShader);
-	this.repere = new Repere("Repere", repereShader, this);
+	this.repere = new Repere("Repere", repereShader, this.modelSize);
 	this.scene.repere = this.repere;
-	
-	var modelExtrusion = new ModelView3DExtrud(new ModelController(
-			this.modelSize, "extrusion"), "extrud", this.shader);
-	this.scene.extrud = modelExtrusion;
-	
-	this.functionality = [];
-	this.functionality.push(new ControllerCamera(this, "ControllerCamera"));
-	this.functionality.push(new ControllerHover(this, "ControllerHover"));
-	this.functionality.push(new ControllerSelect(this, "ControllerSelect", modelExtrusion));
-	this.functionality.push(new ControllerRemove(this, "ControllerRemove",this.appli));
-	this.functionality.push(new ControllerTranslate(this, 
-			"ControllerTranslate",this.appli));
-	this.functionality.push(new ControllerRotate(this, "ControllerRotate", this.appli));
-	this.functionality.push(new ControllerExtrusion(this, 
-			"ControllerExtrusionAdd", modelExtrusion, true, this.appli));
-	this.functionality.push(new ControllerExtrusion(this, 
-			"ControllerExtrusionRemove", modelExtrusion, false, this.appli));
-	this.functionality.push(new ControllerCopy(this, 
-			"ControllerCopy"));
-	for (var i = 0; i < this.functionality.length; i++) {
-		this.appli.addFunctionality(this.functionality[i]);	
-	}
-	
+		
 	this.update ();
 };
 
@@ -439,43 +408,22 @@ Display3D.prototype.resizeBuffer = function () {
     
 
 	// Picking gestion
-	// Displaybuffer and RenderBuffer creation
-
-	this.Displaybuffer = this.gl.createDisplaybuffer();
-	this.gl.bindDisplaybuffer(this.gl.DisplayBUFFER, this.Displaybuffer);
-	this.Displaybuffer.width = this.scene.width;
-	this.Displaybuffer.height = this.scene.height;
-
-	this.depthbuffer = this.gl.createRenderbuffer();
-	this.gl.bindRenderbuffer(this.gl.RENDERBUFFER, this.depthbuffer);
-
-	// allocate renderbuffer
-	this.gl.renderbufferStorage(this.gl.RENDERBUFFER,
-			this.gl.DEPTH_COMPONENT16, this.Displaybuffer.width, 
-			this.Displaybuffer.height);  
-
-	// attach renderebuffer
-	this.gl.DisplaybufferRenderbuffer(this.gl.DisplayBUFFER, 
-			this.gl.DEPTH_ATTACHMENT, this.gl.RENDERBUFFER, this.depthbuffer);
-
-	this.colorbuffer = this.gl.createRenderbuffer();
-	this.gl.bindRenderbuffer(this.gl.RENDERBUFFER, this.colorbuffer);
-	// allocate colorBuffer
-	this.gl.renderbufferStorage(this.gl.RENDERBUFFER, 
-			this.gl.RGBA4, this.Displaybuffer.width, this.Displaybuffer.height);  
+	// Displaybuffer and RenderBuffer creations
 
 	// attach colorbuffer
-	this.gl.DisplaybufferRenderbuffer(this.gl.DisplayBUFFER, 
-			this.gl.COLOR_ATTACHMENT0, this.gl.RENDERBUFFER, this.colorbuffer);
+//	this.gl.DisplaybufferRenderbuffer(this.gl.DisplayBUFFER, 
+//			this.gl.COLOR_ATTACHMENT0, this.gl.RENDERBUFFER, this.colorbuffer);
 
-	if (this.gl.checkDisplaybufferStatus(this.gl.DisplayBUFFER) 
-			!= this.gl.DisplayBUFFER_COMPLETE) {
-	   alert("this combination of attachments does not work");
-	}
+//	if (this.gl.checkDisplaybufferStatus(this.gl.DisplayBUFFER) 
+//			!= this.gl.DisplayBUFFER_COMPLETE) {
+//	   alert ("this combination of attachments does not work");
+//	}
 
 	this.gl.bindRenderbuffer(this.gl.RENDERBUFFER, null);
-	this.gl.bindDisplaybuffer(this.gl.DisplayBUFFER, null);
+//	this.gl.bindDisplaybuffer(this.gl.DisplayBUFFER, null);
 }
+
+
 //==============================================================================
 /**
  * update the Display
@@ -484,8 +432,7 @@ Display3D.prototype.resizeBuffer = function () {
 Display3D.prototype.update = function () {
 	//console.log ("Display3Dupdate");
 	if (this.gl != null) {
-		this.onResize();
-		this.clearModel();
+//		this.onResize();
 		for (var i=0; i<this.models.length; ++i) {
 			this.addModel(this.models[i]);
 		}
@@ -545,7 +492,7 @@ Display3D.prototype.onResize = function () {
 	this.scene.setWidth(this.canvas.width);
 	this.scene.setHeight(this.canvas.height);
 	if (this.gl!=null) {
-		this.resizeBuffer(); 
+		//this.resizeBuffer(); 
 	}
 };
 

@@ -107,23 +107,27 @@ function Vector () {
 		set : function (value) {this.m[2] = value}
 		}
 	);
-	switch (arguments.length) {
-		case 0: 
-			return this.defaultConstructor ();
-		case 1:
-			if (arguments[0] instanceof Array)
-				return this.arrayToVectorConstructor (arguments[0]);
-			else if (typeof arguments[0] == "number")
-				return this.coordinateConstructor (arguments[0], arguments[0], 
-					arguments[0])
-			else
-				return this.copyConstructor (arguments[0]);
-		case 3: 
-			return this.coordinateConstructor (arguments[0], 
-				arguments[1], arguments[2]);
-		default: 
-			throw "Vector constructor bad syntax";
-	};
+	try {
+		switch (arguments.length) {
+			case 0: 
+				return this.defaultConstructor ();
+			case 1:
+				if (arguments[0] instanceof Array)
+					return this.arrayToVectorConstructor (arguments[0]);
+				else if (typeof arguments[0] == "number")
+					return this.coordinateConstructor (arguments[0], arguments[0], 
+						arguments[0])
+				else
+					return this.copyConstructor (arguments[0]);
+			case 3: 
+				return this.coordinateConstructor (arguments[0], 
+					arguments[1], arguments[2]);
+			default: 
+				throw "Vector constructor bad syntax";
+		};
+	} catch (e) {
+		console.error (e);
+	}
 	return this;
 }
 

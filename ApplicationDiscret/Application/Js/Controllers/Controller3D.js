@@ -60,10 +60,10 @@ Controller3D.prototype.constructor = Controller3D;
  * @constructor 
  * @param {Vector} dimension - Vector to define the dimension of the 3D space.
  */ 
-function Controller3D (dimension)
+function Controller3D (dimension, shader)
 {
 //	console.log ("Controller3D.constructor");
-	if (!(dimension instanceof "Vector")) {
+	if (!(dimension instanceof Vector)) {
 		console.error ("ERROR - Controller3D.constructor : "
 				+ "bad type of parameter");
 	}
@@ -73,7 +73,7 @@ function Controller3D (dimension)
 	/**
 	 * {modelGen} The model which can generate the surface.
 	 */
-	this.modelGen = new modelGen (dimension);
+	this.modelGen = new ModelGen (dimension, shader);
 	
 	/**
 	 * {Function} A function that provide a frozen reference to the meridian
@@ -204,3 +204,5 @@ Controller3D.prototype.mouseDown = function (event, position) {
 		}
 	}
 };
+
+
