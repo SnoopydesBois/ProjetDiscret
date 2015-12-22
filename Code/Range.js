@@ -144,10 +144,14 @@ Range.prototype.getIncludeMax = function (){
 }
 
 /**
- * 
+ * @param {int} coord - the coord to test
+ * @return {boolean} true if the coord is in the range, false else
+ * @throws {String} "Range.isIn.ErrorNotANumber" - the coord should be a number
  */ 
 Range.prototype.isIn = function(coord){
-	
+	if(typeof coord !== "number"){
+		throw "Range.isIn.ErrorNotANumber";
+	}
 	var min = this.includeMin ? this.min : this.min + 1;
 	var max = this.includeMax ? this.max : this.max - 1;
 	
