@@ -170,10 +170,10 @@ Surface.prototype.removeVoxel = function (position) {
 	if (!(position instanceof Vector) {
 		throw "position is not a vector";
 	}
+	// --------------------------------------
 	var x = position.m[0];
 	var y = position.m[1];
 	var z = position.m[2];
-	// --------------------------------------
 	if (this.isIn(x,y,z)) {
 		if (this.matVoxel[x][y][z] != null) {
 			this.matVoxel[x][y][z] = null;
@@ -296,20 +296,94 @@ Surface.prototype.getNbCube = function () {
 
 //==============================================================================
 /**
- * @return {int} the number of voxels of the model.
+ * @param {Vector} position - the coordinates of the voxel to set the visibility 
+ * @param {boolean} visibility - the visibility to set to the voxel 
+ * @throws {String} in case of bad type parameter or out of bounds coordinates
  */
 Surface.prototype.setVoxelVisibility = function (position, visibility) {
 	//console.log ("Surface.getNbCube");
 	if(!(position instanceof Vector){
-		
+		throw "position is not a vector";
+	}
+	if(typeof visibility !== "boolean"){
+		throw "visibility is not a boolean";
 	}
 	// --------------------------------------
-	
-	
 	var x = position.m[0];
 	var y = position.m[1];
 	var z = position.m[2];
 	
-	
-	
+	if(this.isIn(x, y, z)){
+		this.matVoxel[x][y][z].setVisibility(visibility);
+	}
+	else{
+		throw "out of bounds : " + x " " + y + " " + z;
+	}
 };
+
+
+//==============================================================================
+/**
+ * @param {Vector} position - the coordinates of the voxel to test 
+ * @return {boolean} true if the voxel is visible, else false
+ * @throws {String} in case of bad type parameter or out of bounds coordinates
+ */
+Surface.prototype.isVoxelVisible = function (position) {
+	//console.log ("Surface.getNbCube");
+	if(!(position instanceof Vector){
+		throw "position is not a vector";
+	}
+	// --------------------------------------
+	var x = position.m[0];
+	var y = position.m[1];
+	var z = position.m[2];
+	
+	if(this.isIn(x, y, z)){
+		this.matVoxel[x][y][z].isVisible(visibility);
+	}
+	else{
+		throw "out of bounds : " + x " " + y + " " + z;
+	}
+};
+
+//==============================================================================
+/**
+ * @param {Vector} position - the coordinates of the voxel to set the visibility 
+ * @param {boolean} visibility - the visibility to set to the voxel 
+ * @throws {String} in case of bad type parameter or out of bounds coordinates
+ */
+ // Nom à revoir
+Surface.prototype.printOnly = function (range, axis) {
+	//console.log ("Surface.getNbCube");
+	if(!(range instanceof Range){
+		throw "range is not a Range";
+	}
+	// --------------------------------------
+
+	var min = range.getIncludeMin() ? range.getMin() : range.getMin() + 1;
+	var max = range.getIncludeMax() ? range.getMax() : range.getMax() - 1;
+	
+	var visible;
+	
+	for(var x = 0; x < this.dimension.m[0]; ++x){
+		for(var y = 0; y < this.dimension.m[1]; ++y){			
+			for(var z = 0; z < this.dimension.m[2]; ++z){
+			switch axis :
+				case X :
+					visible = range.isIn(x);
+				break;
+				case Y :
+					visible = range.isIn(y);
+				break;
+				case Z :
+					visible = range.isIn(z);
+				break;
+				default :
+					visible = false;
+				break;
+				this.matVoxel[x][y][z].setVisiblity(visible);
+			}
+		}
+	}
+};
+
