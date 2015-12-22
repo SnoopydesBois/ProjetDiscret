@@ -323,6 +323,9 @@ ModelView3D.prototype.prepareVoxel = function (
 	{
 		console.error ("ERROR - ModelView3D.prepareCubeNormal : bad type of" 
 				+ " parameter");
+		showType (voxel, offset, vertexBuffer, indicesBuffer, 
+			colorBuffer, normalBuffer, backColorBuffer, colorVoxel, universSize);
+		return;
 	}
 	
 	for (var i = 0; i < DirectionEnum.size; i++) {
@@ -406,7 +409,7 @@ ModelView3D.prototype.prepareFace = function (
 		console.error (	
 			"ModelView3D.prepareFace : bad type(s) of parameter(s) !");
 		showType (voxel, direction, offset, vertexBuffer, indicesBuffer, 
-			colorBuffer, normalBuffer, backColorBuffer, colorFace,universSize);
+			colorBuffer, normalBuffer, backColorBuffer, colorFace, universSize);
 		return;
 	}
 	
