@@ -125,7 +125,7 @@ Controller3D.prototype.getVoxel = function (position) {
 		throw "position is not a Vector"
 	}
 	// --------------------------------------
-	return this.modelGen().getVoxel (position);
+	return this.modelGen.getVoxel (position);
 };
 
 
