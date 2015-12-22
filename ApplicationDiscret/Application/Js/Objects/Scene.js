@@ -86,19 +86,18 @@ function Scene () {
 	/**
 	 * {Array} List of objects.
 	 */
-	this.objectList = new Array();
+	this.objectList = [];
 	
 	/**
 	 * {Array} List of shaders.
 	 */
-	this.shaderList = new Array();
+	this.shaderList = [];
 	
 	/**
  	 * {Camera} The camera used in the scene
  	 */
 	this.camera = undefined;
 		
-	// add on for discrete geometry
 	/**
 	 * {float} 
 	 */
@@ -170,7 +169,7 @@ Scene.prototype.getObjectByName = function (aName) {
 			return this.objectList[i];
 		}
 	}
-	console.log ("[Scene::getObjectByName] object : \"" + aName
+	console.error ("Scene.getObjectByName : object : \"" + aName
 			+ "\" not found");
 	return null;
 };
@@ -184,7 +183,7 @@ Scene.prototype.getObjectByName = function (aName) {
  */
 Scene.prototype.setLightPosition = function (pos) {
 //	console.log ("Scene.setLightPosition");
-	this.lightPosition  = new Vector (pos);
+	this.lightPosition = new Vector (pos);
 };
 
 
@@ -368,12 +367,12 @@ Scene.prototype.removeObjectById = function (id) {
 Scene.prototype.removeObjectByName = function (anObjectName) {
 //	console.log ("Scene.removeObjectByName");
 	for (var i = 0; i < this.objectList.length; ++i) {
-		if (this.objectList[i].getName() == anObjectName) {
+		if (this.objectList[i].getName() === anObjectName) {
 			this.objectList.splice (i, 1); // Remove from the list
 			break;
 		}
 	}
-	console.log ("[Scene::removeObjectByName] object : \"" + anObjectName 
+	console.error ("Scene.removeObjectByName : object : \"" + anObjectName 
 			+ "\" not found");
 };
 
@@ -399,12 +398,12 @@ Scene.prototype.addShader = function (aShader) {
 Scene.prototype.removeShaderByName = function (aName) {
 //	console.log ("Scene.removeShaderByName");
 	for (var i = 0; i < this.objectList.length; ++i) {
-		if (this.shaderList[i].getName() == aName) {
+		if (this.shaderList[i].getName() === aName) {
 			this.shaderList.splice (i, 1); // Remove from the list
 			break;
 		}
 	}
-	console.log ("[Scene::removeShaderByName] shader : \"" + aName
+	console.error ("Scene.removeShaderByName : shader : \"" + aName
 			+ "\" not found");
 };
 
@@ -418,25 +417,24 @@ Scene.prototype.removeShaderByName = function (aName) {
 Scene.prototype.prepare = function (gl) {
 //	console.log ("Scene.prepare");
 	// Prepare each objects 
-	if (this.repere != null) {
+	if (this.repere != null)
 		this.repere.prepare(gl);
-	}
 	
-	for (var i = 0; i < this.objectList.length; ++i) {
+	for (var i = 0; i < this.objectList.length; ++i)
 		this.objectList[i].prepare(gl);
-	}
 	
 	// If no camera 
 	if (this.camera === undefined) {
 		// Default Camera
 		this.camera = new Camera (new Vector (10, 10, 10),
-			new Vector(0, 0, 0),
-			new Vector(0, 0, 1),
+			new Vector (0, 0, 0),
+			new Vector (0, 0, 1),
 			800,
 			600,
 			30.0,
 			0.1,
-			1000.0);
+			1000.0
+		);
 	}
 
 	this.prepareSelect (gl);
@@ -488,28 +486,26 @@ Scene.prototype.draw = function (gl, backBuffer) {
 	if (this.repere !== undefined && this.repere.displayMe()) {
 		// Get Object Properties
 		var obj = this.repere;
-		this.prepareDraw(obj);
+		this.prepareDraw (obj);
 		// RenderObject
-		if (!backBuffer) {
+		if (!backBuffer)
 			obj.draw (gl, this);
-		}
 	}
 
 	var length = this.objectList.length;
 	for (var i = 0; i < length; ++i) {
 		// Get Object Properties 
 		var obj = this.objectList[i];
-		if (!obj.displayMe()) {
+		if (!obj.displayMe ())
 			continue;
-		}
-		this.prepareDraw(obj);
+		
+		this.prepareDraw (obj);
 		
 		// RenderObject 
-		if (backBuffer) {
+		if (backBuffer)
 			obj.backBufferDraw (gl, this);
-		} else {
+		else
 			obj.draw (gl, this);
-		}
 	} // end for
 };
 
@@ -519,61 +515,57 @@ Scene.prototype.draw = function (gl, backBuffer) {
  * @param [glContext} gl - the gl context
  * @param {}
  */
-Scene.prototype.prepareDraw = function(gl, obj) {
+Scene.prototype.prepareDraw = function (gl, obj) {
 	var objMat = obj.getMatrix();
 	
 	// Get Location of uniform variables
 	var shad = obj.getShader();
-	shad.setActive(gl); 
-	var locMvMat = shad.getUniformLocation("uModelViewMatrix");
-	var locPjMat = shad.getUniformLocation("uProjectionMatrix");
-	var locNmMat = shad.getUniformLocation("uNormalMatrix");
+	shad.setActive (gl); 
+	var locMvMat = shad.getUniformLocation ("uModelViewMatrix");
+	var locPjMat = shad.getUniformLocation ("uProjectionMatrix");
+	var locNmMat = shad.getUniformLocation ("uNormalMatrix");
 	
 	// Compute real ModelView matrix
-	var mv = new Matrix(mvMat).mul(objMat);
+	var mv = new Matrix (mvMat).mul (objMat);
 	
 	// Set Uniform Matrices
-	if (locMvMat != null) {
+	if (locMvMat != null)
 		gl.uniformMatrix4fv (locMvMat, false, mv.getGLVector());
-	}
 	
-	if (locPjMat != null) {
+	if (locPjMat != null)
 		gl.uniformMatrix4fv (locPjMat, false, pjMat.getGLVector());
-	}
 	
 	// If Shader has normal matrix give it !
 	if (locNmMat != null) {
 		// Compute Normal matrix 
-		var nm = new Matrix(mv).toNormal();
-		gl.uniformMatrix4fv(locNmMat, false, nm.getGLVector()); 
+		var nm = new Matrix (mv).toNormal();
+		gl.uniformMatrix4fv (locNmMat, false, nm.getGLVector()); 
 	}
 	
 	// scaling ...
 	var locScale = shad.getUniformLocation ("uScale");
-	if (locScale != null) {
+	if (locScale != null)
 		gl.uniform1f(locScale, this.scale);
-	}
 	
 	// resolution
 	var locResol = shad.getUniformLocation ("uResolution");
-	if (locResol != null) {
+	if (locResol != null)
 		gl.uniform2f (locResol, this.width, this.height);
-	}
 	
 	// translation
 	var locTranslate = shad.getUniformLocation ("uTranslate");
-	if (locTranslate != null) {
+	if (locTranslate != null)
 		gl.uniform2f (locTranslate, this.translateX, this.translateY);
-	}
 	
 	// mouse
 	var locMouse = shad.getUniformLocation ("uMouse");
 	if (locMouse != null) {
-		var x = Math.floor ((this.mouseX)*this.scale);
-		var y = Math.floor ((this.mouseY)*this.scale);
-		gl.uniform2f(locMouse, x, y);
+		var x = Math.floor ((this.mouseX) * this.scale);
+		var y = Math.floor ((this.mouseY) * this.scale);
+		gl.uniform2f (locMouse, x, y);
 	}
 }
+
 
 //==============================================================================
 /**
@@ -592,9 +584,9 @@ Scene.prototype.prepareSelect = function (gl) {
 	// If no camera
 	if (this.camera === undefined) {
 		// Default Camera
-		this.camera	= new Camera (new Vector(10, 10, 10),
-			new Vector(0, 0, 0),
-			new Vector(0, 0, 1),
+		this.camera	= new Camera (new Vector (10, 10, 10),
+			new Vector (0, 0, 0),
+			new Vector (0, 0, 1),
 			800,
 			600,
 			30.0,
@@ -603,3 +595,5 @@ Scene.prototype.prepareSelect = function (gl) {
 		);
 	}
 };
+
+

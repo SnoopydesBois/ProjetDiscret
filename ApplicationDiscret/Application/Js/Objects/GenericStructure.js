@@ -84,7 +84,7 @@
  * @param {String} name - the name of the structure.
  * @param {Shader} shader - the name of the shader used for the structure.
  */
-function GenericStructure(name, shader) {
+function GenericStructure (name, shader) {
 	/**
 	 * {String} Name of object to use.
 	 */

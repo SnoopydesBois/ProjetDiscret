@@ -64,26 +64,53 @@ ModelView3D.prototype.constructor = ModelView3D;
 /**
  * @constructor
  * @param {Controller3D} modelController - the model to display.
- * @param {String} name - the name of the model.
  * @param {Shader} shader - shader for display.
  */
-function ModelView3D (controller, name, shader) {
+function ModelView3D (controller, shader) {
 //	console.log ("ModelView3D.constructor");
 	if (!(controller instanceof Controller3D)
-			|| typeof name != "string"
-			|| !(shader instanceof Shader)) {
+		|| !(shader instanceof Shader))
+	{
 		console.error ("ERROR - ModelView3D.constructor : bad type of "
 				+ "parameter");
 	}
-	// --------------------------------------
-	ModelView.call (this, controller, name, shader);
+	
+	ModelView.call (this, controller, shader);
+	
+	
+	/**
+	 * TODO
+	 */
+	this.glVertexBuffer = [];
+	
+	/**
+	 * TODO
+	 */
+	this.glBackBuffer = [];
+	
+	/**
+	 * TODO
+	 */
+	this.glIndicesBuffer = [];
+	
+	/**
+	 * TODO
+	 */
 	this.selectvbo = [];
+	
+	/**
+	 * TODO
+	 */
 	this.selectibo = [];
+	
+	/**
+	 * TODO
+	 */
 	this.nbBuffer = 0;
 };
 
 
-//==============================================================================
+//=============================================================================
 /**
  * Prepare the model (create the triangles).
  * @param {GLContext} gl - the gl context.
@@ -95,21 +122,17 @@ ModelView3D.prototype.prepare = function (gl) {
 		console.error ("ERROR - ModelView3D.prepare : bad type of parameter");
 	}
 	// --------------------------------------
-	var size = this.modelController.getModel().getSize();
+	var size = this.controller.getDimension ();
 	this.nbBuffer = size.m[0] / 5;
 
-	var vertices = [];
-	var indices = [];
-	var color = [];
-	var normal = [];
-	var backColor = [];
+	var vertexBuffer = [];
+	var indicesBuffer = [];
+	var colorBuffer = [];
+	var normalBuffer = [];
+	var backColorBuffer = [];
 	var data = [];
 	var bdata = [];
 
-	this.vbo = [];
-	this.bbo = [];
-	this.ibo = [];
-	
 	var tmp;
 	
 	for (tmp = 0; tmp < this.nbBuffer; ++tmp) {
@@ -118,30 +141,34 @@ ModelView3D.prototype.prepare = function (gl) {
 		 * To fix that, we cut in 5 the buffer along the X axis.
 		 * There are optimization possible for the rendering
 		 */
-		vertices.push ([]);
-		indices.push ([]);
-		color.push ([]);
-		normal.push ([]);
-		backColor.push ([]);
+		vertexBuffer.push ([]);
+		indicesBuffer.push ([]);
+		colorBuffer.push ([]);
+		normalBuffer.push ([]);
+		backColorBuffer.push ([]);
 		data.push ([]);
 		bdata.push ([]);
-		this.vbo.push ([]);
-		this.bbo.push ([]);
-		this.ibo.push ([]);
+//		this.glVertexBuffer.push ([]);
+//		this.glBackBuffer.push ([]);
+//		this.glIndicesBuffer.push ([]);
 	}
 	// 2 triangles per faces
 	// No triangles strips because there are a lot of degenerated triangles
 	for (var x = 0; x < size.m[0]; ++x) {
 		for (var y = 0; y < size.m[1]; ++y) {
 			for (var z = 0; z < size.m[2]; ++z) {
-				if (this.modelController.getModel ().getCube (x, y, z) != null) {
+				if (this.controller.hasVoxel (x, y, z)) {
 					this.prepareVoxel (
-						this.modelController.getModel().getCube(x, y ,z),
-						vertices[Math.floor (x / this.nbBuffer)], 
-						indices[Math.floor (x / this.nbBuffer)], 
-						color[Math.floor (x / this.nbBuffer)],
-						backColor[Math.floor (x / this.nbBuffer)],
-						normal[Math.floor (x / this.nbBuffer)]);
+						this.controller.getVoxel (x, y, z),
+						0,
+						vertexBuffer[Math.floor (x / this.nbBuffer)], 
+						indicesBuffer[Math.floor (x / this.nbBuffer)], 
+						colorBuffer[Math.floor (x / this.nbBuffer)],
+						normalBuffer[Math.floor (x / this.nbBuffer)],
+						backColorBuffer[Math.floor (x / this.nbBuffer)],
+						[0.8, 0.8, 0.8, 1.0], // FIXME 
+						size
+					);
 				} // end if
 			} // end for z
 		} // end for y
@@ -149,52 +176,52 @@ ModelView3D.prototype.prepare = function (gl) {
 
 	// Create vertex buffer 
 	for (tmp = 0; tmp < this.nbBuffer; ++tmp) {
-		this.vbo[tmp] = gl.createBuffer();
-		this.vbo[tmp].numItems = vertices[tmp].length / 3.0;
+		this.glVertexBuffer[tmp] = gl.createBuffer();
+		this.glVertexBuffer[tmp].numItems = vertexBuffer[tmp].length / 3.0;
 		for (var i = 0; i < color[tmp].length; ++i) {
 			for (var j = 0; j < 4; ++j) {
 				var offset = i * 12 + j * 3;
 				this.addAPoint (data[tmp], 
-					vertices[tmp][offset],
-					vertices[tmp][offset + 1], 
-					vertices[tmp][offset + 2]
+					vertexBuffer[tmp][offset],
+					vertexBuffer[tmp][offset + 1], 
+					vertexBuffer[tmp][offset + 2]
 				);
-				this.addAColor (data[tmp], color[tmp][i]);
-				this.addANormal (data[tmp], normal[tmp][i]);
+				this.addAColor (data[tmp], colorBuffer[tmp][i]);
+				this.addANormal (data[tmp], normalBuffer[tmp][i]);
 			} // end for j
 		} // en for i
-		gl.bindBuffer (gl.ARRAY_BUFFER, this.vbo[tmp]);
-		gl.bufferData (gl.ARRAY_BUFFER, new Float32Array(data[tmp]),
+		gl.bindBuffer (gl.ARRAY_BUFFER, this.glVertexBuffer[tmp]);
+		gl.bufferData (gl.ARRAY_BUFFER, new Float32Array (data[tmp]),
 			gl.STATIC_DRAW);
 	}
 
 	// Create the "backbuffer" used for the picking
 	for (tmp = 0; tmp < this.nbBuffer; ++tmp) {
-		this.bbo[tmp] = gl.createBuffer ();
-		this.bbo[tmp].numItems = vertices[tmp].length / 3.0;
+		this.glBackBuffer[tmp] = gl.createBuffer ();
+		this.glBackBuffer[tmp].numItems = vertexBuffer[tmp].length / 3.0;
 		for (var i = 0; i < color[tmp].length; ++i) {
 			for (var j = 0; j < 4; ++j) {
 				var offset = i * 12 + j * 3;
 				this.addAPoint (bdata[tmp], 
-					vertices[tmp][offset],
-					vertices[tmp][offset + 1], 
-					vertices[tmp][offset + 2]);
-				this.addAColor (bdata[tmp], backColor[tmp][i]);
-				this.addANormal (bdata[tmp], normal[tmp][i]);
+					vertexBuffer[tmp][offset],
+					vertexBuffer[tmp][offset + 1], 
+					vertexBuffer[tmp][offset + 2]);
+				this.addAColor (bdata[tmp], backColorBuffer[tmp][i]);
+				this.addANormal (bdata[tmp], normalBuffer[tmp][i]);
 			} // end for j
 		} // end for i
-		gl.bindBuffer (gl.ARRAY_BUFFER, this.bbo[tmp]);
-		gl.bufferData (gl.ARRAY_BUFFER, new Float32Array(bdata[tmp]), 
+		gl.bindBuffer (gl.ARRAY_BUFFER, this.glBackBuffer[tmp]);
+		gl.bufferData (gl.ARRAY_BUFFER, new Float32Array (bdata[tmp]), 
 				gl.STATIC_DRAW);
 	}
 
 	// Create index buffer
 	for (tmp = 0; tmp < this.nbBuffer; ++tmp) {
-		this.ibo[tmp] = gl.createBuffer ();
-		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.ibo[tmp]);
-		gl.bufferData (gl.ELEMENT_ARRAY_BUFFER, new Uint16Array (indices[tmp]), 
-			gl.STATIC_DRAW);
-		this.ibo[tmp].numItems = indices[tmp].length;
+		this.glIndicesBuffer[tmp] = gl.createBuffer ();
+		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
+		gl.bufferData (gl.ELEMENT_ARRAY_BUFFER, new Uint16Array (
+			indicesBuffer[tmp]), gl.STATIC_DRAW);
+		this.glIndicesBuffer[tmp].numItems = indicesBuffer[tmp].length;
 	}
 };
 
@@ -214,10 +241,10 @@ ModelView3D.prototype.draw = function (gl) {
 	this.shader.setMode (2);
 	for (var tmp = 0; tmp < this.nbBuffer; ++tmp) {
 		// Let's the shader prepare its attributes
-		this.shader.setAttributes (gl, this.vbo[tmp]);
+		this.shader.setAttributes (gl, this.glVertexBuffer[tmp]);
 		// Let's render !
-		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.ibo[tmp]);
-		gl.drawElements (gl.TRIANGLES, this.ibo[tmp].numItems,
+		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
+		gl.drawElements (gl.TRIANGLES, this.glIndicesBuffer[tmp].numItems,
 			gl.UNSIGNED_SHORT, 0);
 
 		// Let's the shader prepare its attributes
@@ -227,147 +254,6 @@ ModelView3D.prototype.draw = function (gl) {
 		gl.drawElements (gl.TRIANGLES, this.selectibo[tmp].numItems,
 			gl.UNSIGNED_SHORT, 0);
 	}
-	// Let's the shader prepare its attributes
-	this.shader.setAttributes (gl, this.hovervbo);
-	// Let's render !
-	gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.hoveribo);
-	gl.drawElements (gl.TRIANGLES, this.hoveribo.numItems,
-		gl.UNSIGNED_SHORT, 0);
-};
-
-
-//==============================================================================
-/**
- * Prepare the selection of model (create the triangles).
- * @param {GLContext} gl - the gl context.
- * @return {void}
- */
-ModelView3D.prototype.prepareSelection = function (gl) {
-//	console.log ("ModelView3D.prepareSelection");
-	if (typeof gl != "object") {
-		console.error ("ERROR - ModelView3D.prepareSelection : bad type of "
-				+ "parameter");
-	}
-	
-	var vertices = [];
-	var indices = [];
-	var color = [];
-	var normal = [];
-	var backColor = [];
-	
-	var data = [];
-	var bdata = [];
-	this.selectvbo = [];
-	this.selectibo = [];
-
-	var tmp;
-	for (tmp = 0; tmp < this.nbBuffer; ++tmp) {
-		/* On large models, the indices are > a 2^16 bits and the display 
-		 * won't work correctly.
-		 * To fix that, we cut in 5 the buffer along the X axis.
-		 * There are optimization possible for the rendering
-		 */
-		vertices.push ([]);
-		indices.push ([]);
-		color.push ([]);
-		normal.push ([]);
-		data.push ([]);
-		this.selectvbo.push ([]);
-		this.selectibo.push ([]);
-	}
-	
-	// 2 triangles per faces
-	// No triangles strips because there are a lot of degenerated triangles
-	for (var i = 0; i < this.modelController.getNbSelectedFacet (); ++i) {
-		var face = this.modelController.getSelectedFacet (i);
-		this.prepareFaceSelect (face,
-			vertices[Math.floor (face.getCube ().m[0] / this.nbBuffer)],
-			indices[Math.floor (face.getCube ().m[0] / this.nbBuffer)],
-			color[Math.floor (face.getCube ().m[0] / this.nbBuffer)],
-			normal[Math.floor (face.getCube ().m[0] / this.nbBuffer)]);
-	}
-
-
-   	// Create vertex buffer 
-	for (tmp = 0; tmp < this.nbBuffer; ++tmp) {
-		this.selectvbo[tmp] = gl.createBuffer();
-		this.selectvbo[tmp].numItems = vertices[tmp].length / 3.0;
-		for (var i = 0; i < color[tmp].length; ++i) {
-			for (var j = 0; j < 4; ++j) {
-				var offset = i * 12 + j * 3;
-				this.addAPoint (data[tmp], 
-					vertices[tmp][offset],
-					vertices[tmp][offset + 1],
-					vertices[tmp][offset + 2]);
-				this.addAColor (data[tmp], color[tmp][i]);
-				this.addANormal (data[tmp], normal[tmp][i]);
-			} 
-		} 
-		gl.bindBuffer (gl.ARRAY_BUFFER, this.selectvbo[tmp]);
-		gl.bufferData (gl.ARRAY_BUFFER, new Float32Array (data[tmp]),
-			gl.STATIC_DRAW);
-	}
-
-	// Create index buffer
-	for (tmp = 0; tmp < this.nbBuffer; ++tmp) {
-		this.selectibo[tmp] = gl.createBuffer ();
-		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.selectibo[tmp]);
-		gl.bufferData (gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices[tmp]),
-			gl.STATIC_DRAW);
-		this.selectibo[tmp].numItems = indices[tmp].length;
-	}
-};
-
-
-//==============================================================================
-/**
- * Prepare the hover of model (create the triangles).
- * @param {GLContext} gl - the gl context.
- * @return {void}
- */
-ModelView3D.prototype.prepareHover = function (gl) {
-	//console.log ("ModelView3D.prepareHover");
-	if (typeof gl != "object") {
-		console.error ("ERROR - ModelView3D.prepareHover : bad type of "
-				+ "parameter");
-	}
-	
-	var vertices = [];
-	var indices = [];
-	var color = [];
-	var normal = [];
-	var data = [];
-
-	// 2 triangles per faces
-	// No triangles strips because there are a lot of degenerated triangles
-	if (this.modelController.isHoverFacet ()) {
-		var face = this.modelController.getHoverFacet ();
-		this.prepareFaceHover (face,
-				vertices, indices, color,
-				normal);
-	}
-
-	// Create vertex buffer 
-	this.hovervbo = gl.createBuffer ();
-	this.hovervbo.numItems = vertices.length / 3.0;
-	for (var i = 0; i < color.length; ++i) {
-		for (var j = 0; j < 4; ++j) {
-			var offset = i * 12 + j * 3;
-			this.addAPoint (data, vertices[offset],
-				vertices[offset + 1], vertices[offset + 2]);
-			this.addAColor (data, color[i]);
-			this.addANormal (data, normal[i]);
-		}
-	}
-	gl.bindBuffer (gl.ARRAY_BUFFER, this.hovervbo);
-	gl.bufferData (gl.ARRAY_BUFFER, new Float32Array (data), gl.STATIC_DRAW);
-
-	// Create index buffer
-	this.hoveribo = gl.createBuffer();
-	gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.hoveribo);
-	gl.bufferData (gl.ELEMENT_ARRAY_BUFFER, new Uint16Array (indices),
-			gl.STATIC_DRAW);
-	this.hoveribo.numItems = indices.length;
 };
 
 
@@ -378,7 +264,6 @@ ModelView3D.prototype.prepareHover = function (gl) {
  * @return {void}
  */
 ModelView3D.prototype.backBufferDraw = function (gl) {
-//	console.log ("ModelView3D.backBufferDraw");
 	if (typeof gl != "object") {
 		console.error ("ERROR - ModelView3D.backBufferDraw : bad type of "
 			+ "parameter");
@@ -387,10 +272,10 @@ ModelView3D.prototype.backBufferDraw = function (gl) {
 	this.shader.setMode (1);
 	for (var tmp = 0; tmp < this.nbBuffer; ++tmp) {
 		// Let's the shader prepare its attributes
-		this.shader.setAttributes (gl, this.bbo[tmp]);
+		this.shader.setAttributes (gl, this.glBackBuffer[tmp]);
 		// Let's render !
-		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.ibo[tmp]);
-		gl.drawElements (gl.TRIANGLES, this.ibo[tmp].numItems, 
+		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
+		gl.drawElements (gl.TRIANGLES, this.glIndicesBuffer[tmp].numItems, 
 			gl.UNSIGNED_SHORT, 0);
 	}
 };
@@ -460,29 +345,6 @@ ModelView3D.prototype.prepareVoxel = function (
 
 
 //==============================================================================
-/**
- * Empty all buffer select.
- * @param {glContext} gl - the gl context.
- * @return {void}
- */
-ModelView3D.prototype.clearSelect = function (gl) {
-	for (var tmp = 0; tmp < this.nbBuffer; ++tmp) {
-		this.selectvbo[tmp] = gl.createBuffer ();
-		this.selectvbo[tmp].numItems = 0;
-		gl.bindBuffer (gl.ARRAY_BUFFER, this.selectvbo[tmp]);
-		gl.bufferData (gl.ARRAY_BUFFER, new Float32Array ([]), 
-				gl.STATIC_DRAW);
-
-		this.selectibo[tmp] = gl.createBuffer ();
-		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.selectibo[tmp]);
-		gl.bufferData (gl.ELEMENT_ARRAY_BUFFER, new Uint16Array ([]), 
-				gl.STATIC_DRAW);
-		this.selectibo[tmp].numItems = 0;
-	}
-};
-
-
-//==============================================================================
 /* TODO écrire une petite explication sur la variable suivante
  */
 var offsetVertexInCube = [
@@ -546,7 +408,7 @@ ModelView3D.prototype.prepareFace = function (
 	}
 	
 	// Creation of the 4 points of the face
-	var verticeSize = vertexBuffer.length / 3; // 3 points per vertices
+	var vertexBufferize = vertexBuffer.length / 3; // 3 points per vertexBuffer
 	for (var i = 0; i < 4; ++i) { 
 		// for each point of a face
 		var vertex = new Vector (DirectionEnum.properties[direction].x * offset,
@@ -554,7 +416,7 @@ ModelView3D.prototype.prepareFace = function (
 			DirectionEnum.properties[direction].z * offset);
 		vertex.add (addVector (voxel.getPosition (), 
 			offsetVertexInCube[direction][i]));
-		this.addVertices2 (vertexBuffer, vertex, universSize);
+		this.addVertexBuffer2 (vertexBuffer, vertex, universSize);
 	}
 
 	
@@ -563,15 +425,19 @@ ModelView3D.prototype.prepareFace = function (
 	case DirectionEnum.TOP :
 	case DirectionEnum.RIGHT :
 	case DirectionEnum.FRONT :
-		indicesBuffer.push (verticeSize, verticeSize + 3, verticeSize + 1);
-		indicesBuffer.push (verticeSize, verticeSize + 2, verticeSize + 3);
+		indicesBuffer.push (vertexBufferize, vertexBufferize + 3, 
+			vertexBufferize + 1);
+		indicesBuffer.push (vertexBufferize, vertexBufferize + 2, 
+			vertexBufferize + 3);
 	break;
 	
 	case DirectionEnum.BOTTOM :
 	case DirectionEnum.LEFT :
 	case DirectionEnum.BACK :
-		indicesBuffer.push (verticeSize, verticeSize + 1, verticeSize + 3);
-		indicesBuffer.push (verticeSize, verticeSize + 3, verticeSize + 2);
+		indicesBuffer.push (vertexBufferize, vertexBufferize + 1, 
+			vertexBufferize + 3);
+		indicesBuffer.push (vertexBufferize, vertexBufferize + 3, 
+			vertexBufferize + 2);
 	break;
 	
 	case DirectionEnum.ALL :
@@ -616,7 +482,7 @@ ModelView3D.prototype.prepareFace = function (
 /**
  * Add a vertex into a buffer. Transform all coordinates beetween -1.0 and +1.0.
  * 
- * @param {Array} dataVertices - the vertex buffer.
+ * @param {Array} dataVertexBuffer - the vertex buffer.
  * @param {int} x - the x coordinate of the vertex.
  * @param {int} y - the y coordinate of the vertex.
  * @param {int} z - the z coordinate of the vertex.
@@ -625,37 +491,40 @@ ModelView3D.prototype.prepareFace = function (
  * 
  * @return {void}
  */
-ModelView3D.prototype.addVertices = function (dataVertices, x, y, z, size) {
-//	console.log ("ModelView3D.addVertices x = " + x + "; y = " + y + "; z = "
-//		 + z);
-	if (!(dataVertices instanceof Array)
+ModelView3D.prototype.addVertexBuffer = function (dataVertexBuffer, x, y, z, 
+	size) 
+{
+	if (!(dataVertexBuffer instanceof Array)
 			|| typeof x != "number"
 			|| typeof y != "number"
 			|| typeof z != "number"
 			|| ! (limit instanceof Vector)) {
-		console.error ("ERROR - ModelView3D.addVertices : bad type(s) of "
+		console.error ("ERROR - ModelView3D.addVertexBuffer : bad type(s) of "
 				+ "parameter(s)");
 	}
 	// --------------------------------------
-	dataVertices.push ((x / size.m[0]) * 2.0 - 1.0,
-			(y / size.m[1]) * 2.0 - 1.0,
-			(z / size.m[2]) * 2.0 - 1.0);
+	dataVertexBuffer.push ((x / size.x) * 2.0 - 1.0,
+			(y / size.y) * 2.0 - 1.0,
+			(z / size.z) * 2.0 - 1.0);
 };
 
 
 //==============================================================================
 /**
+ * FIXME chager de nom
  * Add a vertex into a buffer. Transform all coordinates beetween -1.0 and +1.0.
  * 
- * @param {Array} dataVertices - the vertex buffer.
+ * @param {Array} datavertexBuffer - the vertex buffer.
  * @param {Vector} vertex - a vertex.
  * @param {Vector} limit - maximum quantity of voxel on each dimension. Each 
  * vertex coordinates is in [0, limit[i]].
  * 
  * @return {void}
  */
-ModelView3D.prototype.addVertices2 = function (dataVertices, vertex, limit) {
-	this.addVertices (dataVertices, vertex.m[0], vertex.m[1], vertex.m[2], 
+ModelView3D.prototype.addVertexBuffer2 = function (datavertexBuffer, vertex, 
+	limit) 
+{
+	this.addVertexBuffer (datavertexBuffer, vertex.x, vertex.y, vertex.z, 
 		limit);
 };
 
@@ -671,9 +540,9 @@ ModelView3D.prototype.addVertices2 = function (dataVertices, vertex, limit) {
  */
 ModelView3D.prototype.posToColor = function (voxel, direction) {
 	return [
-		((voxel.getPosition().m[0] + 1) * 10 + direction) / 255, // red
-		((voxel.getPosition().m[1] + 1) * 10) / 255, // green
-		((voxel.getPosition().m[2] + 1) * 10) / 255, // blue
+		((voxel.getPosition().x + 1) * 10 + direction) / 255, // red
+		((voxel.getPosition().y + 1) * 10) / 255, // green
+		((voxel.getPosition().z + 1) * 10) / 255, // blue
 		1.0 // alpha
 	];
 };

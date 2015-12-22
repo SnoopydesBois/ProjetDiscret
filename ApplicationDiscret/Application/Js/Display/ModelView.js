@@ -62,20 +62,20 @@ ModelView.prototype.constructor = ModelView;
 
 /**
  * @constructor
- * @param {ModelController} modelController - the model to display.
- * @param {String} name - the name of the model.
+ * @param {Controller3D} modelController - the model to display.
  * @param {Shader} shader - a shader for display.
  */
-function ModelView(modelController, name, shader) {
+function ModelView (controller, shader) {
 	//console.log ("ModelView.constructor ");
-	if (arguments.length!=0 && (typeof modelController != "object"
-			|| typeof name != "string"
-			|| typeof shader != "object")) {
+	if (arguments.length != 0 && (!(controller instanceof Controller)
+		|| !(shader instanceof Shader)))
+	{
 		console.error ("ERROR - ModelView.constructor : bad type of parameter");
 	}
 	// --------------------------------------
-	this.modelController = modelController;
-	GenericStructure.call(this, name, shader);
+	this.controller = controller;
+	
+	GenericStructure.call (this, "", shader);
 };
 
 
@@ -94,8 +94,7 @@ ModelView.prototype.prepare = function (gl, nb) {
 		console.error ("ERROR - ModelView.prepare : bad type of parameter");
 	}
 	// --------------------------------------
-	this.prepareSelection(gl, nb);
-	this.prepareHover(gl, nb);
+	this.prepareSelection (gl, nb);
 };
 
 
@@ -107,10 +106,6 @@ ModelView.prototype.prepare = function (gl, nb) {
  * @return {void}
  */
 ModelView.prototype.draw = function (gl) {
-	//console.log ("ModelView.draw");
-	if (typeof gl != "object") {
-		console.error ("ERROR - ModelView.draw : bad type of parameter");
-	}
 };
 
 
@@ -124,30 +119,6 @@ ModelView.prototype.draw = function (gl) {
  * @return {void}
  */
 ModelView.prototype.prepareSelection = function (gl, nb) {
-	//console.log ("ModelView.prepareSelection");
-	if (typeof gl != "object"
-			|| (typeof nb != "number" && typeof nb != "undefined")) {
-		console.error ("ERROR - ModelView.prepareSelection : bad type of "
-			+ "parameter");
-	}
-};
-
-
-//==============================================================================
-/**
- * Prepare the hover of model (create the triangles).
- * To overload.
- * @param {GLContext} gl - the gl context.
- * @param {int} nb - number of buffer to prepare
- * (if undefined then all buffer are prepared).
- * @return {void}
- */
-ModelView.prototype.prepareHover = function (gl, nb) {
-	//console.log ("ModelView.prepareHover");
-	if (typeof gl != "object"
-			|| (typeof nb != "number" && typeof nb != "undefined")) {
-		console.error ("ERROR - ModelView.prepareHover : bad type of parameter");
-	}
 };
 
 
@@ -159,22 +130,16 @@ ModelView.prototype.prepareHover = function (gl, nb) {
  * @return {void}
  */
 ModelView.prototype.backBufferDraw = function (gl) {
-	//console.log ("ModelView.backBufferDraw");
-	if (typeof gl != "object") {
-		console.error ("ERROR - ModelView.backBufferDraw : bad type of "
-			+ "parameter");
-	}
 };
 
 
 //==============================================================================
 /**
- * @return {ModelController} the model controller.
+ * @return {Controller} the model controller.
  */
-ModelView.prototype.getModelController = function () {
-	//console.log ("ModelView3D.getModelController");
-	// --------------------------------------
-	return this.modelController;
+ModelView.prototype.getController = function () {
+//	console.log ("ModelView3D.getModelController");
+	return this.controller;
 };
 
 

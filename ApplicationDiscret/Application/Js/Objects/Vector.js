@@ -76,7 +76,7 @@ Vector.prototype.constructor = Vector;
 
 
 
-var VEC_ARRAY_TYPE=(typeof Float32Array == 'undefined') ? Array : Float32Array;
+var VEC_ARRAY_TYPE = (typeof Float32Array == 'undefined')? Array : Float32Array;
 
 
 /**
@@ -92,6 +92,21 @@ var VEC_ARRAY_TYPE=(typeof Float32Array == 'undefined') ? Array : Float32Array;
  */
 function Vector () {
 	this.m = new VEC_ARRAY_TYPE (3);
+	Object.defineProperty (this, "x", { 
+		get : function () {return this.m[0]}, 
+		set : function (value) {this.m[0] = value}
+		}
+	);
+	Object.defineProperty (this, "y", { 
+		get : function () {return this.m[1]}, 
+		set : function (value) {this.m[1] = value}
+		}
+	);
+	Object.defineProperty (this, "z", { 
+		get : function () {return this.m[2]}, 
+		set : function (value) {this.m[2] = value}
+		}
+	);
 	switch (arguments.length) {
 		case 0: 
 			return this.defaultConstructor ();
