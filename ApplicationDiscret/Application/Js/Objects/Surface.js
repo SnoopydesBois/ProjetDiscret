@@ -42,28 +42,25 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* matCube : Voxel[][][]
- * size : Vector
- * nbCube : int
+/* matVoxel : Voxel[][][]
+ * dimension : Vector
+ * nbVoxel : int
  *
  * Surface(size : Vector)
- * getCube(x : int, y : int, z : int) : Voxel
- * addCube(x : int, y : int, z : int) : bool
- * removeCube(x : int, y : int, z : int) : bool
+ * getVoxel(position : Vector) : Voxel
+ * addVoxel(position : Vector) : bool
+ * removeVoxel(position : Vector) : bool
  * isIn(x : int, y : int, z : int) : bool
- * getSize() : Vector
- * andModel(other : Surface) : void
- * orModel(other : Surface) : void
- * xorModel(other : Surface) : void
+ * getDimension() : Vector
  * clear() : void
- * copy() : Surface
  * getNbNeighbor(x : int, y : int, z : int) : int
  * getNbCube() : int
+ * setVoxelVisibility(position : Vector, visiblity : bool) : void
+ * isVoxelVisible(position : Vector) : bool
+ * printOnly(range : Range, axis : AxisEnum) : void
  */
 
 /// CODE ///////////////////////////////////////////////////////////////////////
-
-
 
 Surface.prototype.constructor = Surface;
 
@@ -72,132 +69,139 @@ Surface.prototype.constructor = Surface;
  * @param {Vector} size - vector to define the size of the model.
  */
 function Surface (size) {
-	/*console.log ("Surface.constructor"
-			+ " size = [" + size.m[0] + ", " + size.m[1] + ", "
-			+ size.m[2] + "]");*/
-	if (typeof size != "object") {
+	if (!( size instanceof Vector) {
 		console.error ("ERROR - Surface.constructor : bad type of parameter");
 	}
 	// --------------------------------------
-	this.size = size;
-	this.matCube = new Array();
-	for (var x = 0; x < this.size.m[0]; ++x) {
-		this.matCube[x] = new Array();
-		for (var y = 0; y < this.size.m[1]; ++y) {
-			this.matCube[x][y] = new Array();
-			for (var z = 0; z < this.size.m[2]; ++z) {
-				this.matCube[x][y][z] = null;
+	/**
+	 * {Vector} the dimensions of the surface
+	 */
+	this.dimension = new Vector(size);
+	
+	/**
+	 * {Array} 3 dimensionnal array containing the surface data
+	 */
+	this.matVoxel = [];
+	for (var x = 0; x < this.dimension.m[0]; ++x) {
+		this.matVoxel[x] = [];
+		for (var y = 0; y < this.dimension.m[1]; ++y) {
+			this.matVoxel[x][y] = [];
+			for (var z = 0; z < this.dimension.m[2]; ++z) {
+				this.matVoxel[x][y][z] = null;
 			}
 		}
 	}
-	this.nbCube = 0;
+	
+	/**
+	 * Number of voxels the surface contains
+	 */
+	this.nbVoxel = 0;
 }
 
 
 //==============================================================================
 /**
- * @param {int} x - x-coordinates of the cube in the matrix.
- * @param {int} y - y-coordinates of the cube in the matrix.
- * @param {int} z - z-coordinates of the cube in the matrix.
- * @return {Voxel} cube at the specified coordinates.
+ * @param {Vector} position - the voxel's coordinates
+ * @return {Voxel} voxel at the specified coordinates.
+ * @throws {String} "Surface.getVoxel.ErrorNotAVector"
+ * - position should be of type Vector
  */
-Surface.prototype.getCube = function (x, y, z) {
-	//console.log ("Surface.getCube x= "+x+" y= "+y+" z= "+z);
-	if (typeof x != "number"
-			|| typeof y != "number"
-			|| typeof z != "number") {
-		console.error ("ERROR - Voxel.getCube : bad type of parameter");
+Surface.prototype.getVoxel = function (position) {
+	if (!(position instanceof Vector)) {
+		throw "Surface.getVoxel.ErrorNotAVector";
 	}
 	// --------------------------------------
-	return (this.isIn(x,y,z))? this.matCube[x][y][z] : null;
+	return this.matVoxel[x][y][z];
 };
 
 
 //==============================================================================
 /**
- * Add a cube to the model.
- * @param {int} x - x-coordinates of the cube in the matrix.
- * @param {int} y - y-coordinates of the cube in the matrix.
- * @param {int} z - z-coordinates of the cube in the matrix.
- * @return {boolean} true if there is no error, false otherwise.
+ * Add a voxel to the model.
+ * @param {Vector} position - the coordinates of the voxel to add.
+ * @return {boolean} true if the voxel has been added.
+ * @throws {String} "Surface.addVoxel.ErrorNotAVector"
+ * - position should be of type Vector
+ * @throws {String} "Surface.addVoxel.OutOfBounds"
+ * - the voxel is out of bounds
  */
-Surface.prototype.addCube = function (x, y, z) {
-	//console.log ("Surface.getCube x= "+x+" y= "+y+" z= "+z);
-	if (typeof x != "number"
-			|| typeof y != "number"
-			|| typeof z != "number") {
-		console.error ("ERROR - Voxel.addCube : bad type of parameter");
+Surface.prototype.addVoxel = function (position) {
+	if (!(position instanceof Vector)) {
+		throw "Surface.addVoxel.ErrorNotAVector";
 	}
+	var x = position.m[0];
+	var y = position.m[1];
+	var z = position.m[2];
 	// --------------------------------------
 	if (this.isIn (x, y, z)) {
-		if (this.matCube[x][y][z] == null) {
-			this.matCube[x][y][z] = new Voxel(new Vector(x,y,z));
-			for (var i=0; i<DirectionEnum.size; ++i) {
-				if (this.isIn(x+DirectionEnum.properties[i].x,
-								y+DirectionEnum.properties[i].y,
-								z+DirectionEnum.properties[i].z)) {
-					if (this.matCube[x+DirectionEnum.properties[i].x]
-									[y+DirectionEnum.properties[i].y]
-									[z+DirectionEnum.properties[i].z] != null) {
-						this.matCube[x][y][z].removeFacet(i);
-						this.matCube[x+DirectionEnum.properties[i].x]
-									[y+DirectionEnum.properties[i].y]
-									[z+DirectionEnum.properties[i].z]
+		if (this.matVoxel[x][y][z] === null) {
+			this.matVoxel[x][y][z] = new Voxel(position);
+			
+			var size = DirectionEnum.size;
+			for (var i = 0; i < size; ++i) {
+				var newX = x + DirectionEnum.properties[i].x;
+				var newY = y + DirectionEnum.properties[i].y;
+				var newZ = z + DirectionEnum.properties[i].z;
+				
+				if (this.isIn(newX, newY, newZ)) {
+					if (this.matVoxel[newX][newY][newZ] !== null) {
+						this.matVoxel[x][y][z].removeFacet(i);
+						this.matVoxel[newX][newY][newZ]
 							.removeFacet(DirectionEnum.properties[i].oppose);
 					}
 				}
 			}
-			this.nbCube++;
+			this.nbVoxel++;
 		}
 		return true;
 	} 
 	else {
-		console.log ("hors limite : " + x + " " + y + " " + z);
-		return false;
+		throw "Surface.addVoxel.OutOfBounds";
 	}
 };
 
 
 //==============================================================================
 /**
- * Remove a cube from the model.
- * @param {int} x - x-coordinates of the cube in the matrix.
- * @param {int} y - y-coordinates of the cube in the matrix.
- * @param {int} z - z-coordinates of the cube in the matrix.
+ * Remove a voxel from the model.
+ * @param {Vector} position - the coordinates of the voxel to remove
  * @return {boolean} true if there is no error, false otherwise.
+ * @throws {String} "Surface.removeVoxel.ErrorNotAVector"
+ * - the position should be of type Vector
+ * @throws {String} "Surface.removeVoxel.OutOfBounds"
+ * - the voxel is out of bounds
  */
-Surface.prototype.removeCube = function (x, y, z) {
-	//console.log ("Surface.getCube x= "+x+" y= "+y+" z= "+z);
-	if (typeof x != "number"
-			|| typeof y != "number"
-			|| typeof z != "number") {
-		console.error ("ERROR - Voxel.removeCube : bad type of parameter");
+Surface.prototype.removeVoxel = function (position) {
+	if (!(position instanceof Vector) {
+		throw "Surface.removeVoxel.ErrorNotAVector";
 	}
 	// --------------------------------------
+	var x = position.m[0];
+	var y = position.m[1];
+	var z = position.m[2];
 	if (this.isIn(x,y,z)) {
-		if (this.matCube[x][y][z] != null) {
-			this.matCube[x][y][z] = null;
-			for (var i=0; i<DirectionEnum.size; ++i) {
-				if (this.isIn(x+DirectionEnum.properties[i].x,
-								y+DirectionEnum.properties[i].y,
-								z+DirectionEnum.properties[i].z)) {
-					if (this.matCube[x+DirectionEnum.properties[i].x]
-									[y+DirectionEnum.properties[i].y]
-									[z+DirectionEnum.properties[i].z] != null) {
-						this.matCube[x+DirectionEnum.properties[i].x]
-									[y+DirectionEnum.properties[i].y]
-									[z+DirectionEnum.properties[i].z]
+		if (this.matVoxel[x][y][z] != null) {
+			this.matVoxel[x][y][z] = null;
+			
+			var size = DirectionEnum.size;
+			for (var i = 0; i < size; ++i) {
+				var newX = x + DirectionEnum.properties[i].x;
+				var newY = y + DirectionEnum.properties[i].y;
+				var newZ = z + DirectionEnum.properties[i].z;
+				
+				if (this.isIn(newX,	newY, newZ)) {
+					if (this.matVoxel[newX][newY][newZ] !== null) {
+						this.matVoxel[newX][newY][newZ]
 								.addFacet(DirectionEnum.properties[i].oppose);
 					}
 				}
 			}
-			this.nbCube--;
+			this.nbVoxel--;
 		}
 		return true;
 	} 
 	else {
-//		console.log ("hors limite : " + x + " " + y + " " + z);
-		return false;
+		throw  "Surface.removeVoxel.OutOfBounds";
 	}
 	
 };
@@ -209,6 +213,8 @@ Surface.prototype.removeCube = function (x, y, z) {
  * @param {int} y - y-coordinates.
  * @param {int} z - z-coordinates.
  * @return {boolean} true if the coordinates are in the matrix, false otherwise.
+ * @throws {String} "Surface.isIn.ErrorNotANumber"
+ * - the coordinates should be numbers
  */
 Surface.prototype.isIn = function (x, y, z) {
 	//console.log ("Surface.isIn");
@@ -216,11 +222,11 @@ Surface.prototype.isIn = function (x, y, z) {
 			|| typeof y != "number"
 			|| typeof z != "number")
 	{
-		console.error ("ERROR - Voxel.isIn : bad type of parameter");
+		throw "Surface.isIn.ErrorNotANumber";
 	}
 	// --------------------------------------
-	return (x >= 0 && x < this.size.m[0] && y >= 0 && y < this.size.m[1]
-			&& z >= 0 && z < this.size.m[2]);
+	return (x >= 0 && x < this.dimension.m[0] && y >= 0 && y < this.dimension.m[1]
+			&& z >= 0 && z < this.dimension.m[2]);
 };
 
 
@@ -228,123 +234,10 @@ Surface.prototype.isIn = function (x, y, z) {
 /**
  * @return {Vector} the size of the matrix.
  */
-Surface.prototype.getSize = function () {
-	//console.log ("Surface.getSize");
+Surface.prototype.getDimension = function () {
+	//console.log ("Surface.getDimension");
 	// --------------------------------------
-	return this.size;
-};
-
-
-//==============================================================================
-/**
- * Boolean operation "AND" (interseciton) on the matrix.
- * @param {Surface} other - another matrix.
- * @return {void}
- */
-Surface.prototype.andModel = function (other) {
-	//console.log ("Surface.andModel");
-	if (typeof other != "object") {
-		console.error ("ERROR - Voxel.andModel : bad type of parameter");
-	}
-	// --------------------------------------
-	var tmpX = Math.min(this.size.m[0], other.size.m[0]);
-	var tmpY = Math.min(this.size.m[1], other.size.m[1]);
-	var tmpZ = Math.min(this.size.m[2], other.size.m[2]);
-	for (var x = 0; x<tmpX; ++x) {
-		for (var y = 0; y<tmpY; ++y) {
-			for (var z = 0; z<tmpZ; ++z) {
-				if (!(other.matCube[x][y][z] != null
-						&& this.matCube[x][y][z] != null)) {
-					this.removeCube(x,y,z);
-				}
-			}
-		}
-	}
-};
-
-
-//==============================================================================
-/**
- * Boolean operation "OR" (union) on the matrix.
- * @param {Surface} other - another matrix.
- * @return {void}
- */
-Surface.prototype.orModel = function (other) {
-	//console.log ("Surface.orModel");
-	if (typeof other != "object") {
-		console.error ("ERROR - Voxel.orModel : bad type of parameter");
-	}
-	// --------------------------------------
-	var tmpX = Math.min(this.size.m[0], other.size.m[0]);
-	var tmpY = Math.min(this.size.m[1], other.size.m[1]);
-	var tmpZ = Math.min(this.size.m[2], other.size.m[2]);
-	for (var x = 0; x < tmpX; ++x) {
-		for (var y = 0; y < tmpY; ++y) {
-			for (var z = 0; z < tmpZ; ++z) {
-				if (other.matCube[x][y][z] != null) {
-					this.addCube (x, y, z);
-				}
-			}
-		}
-	}
-};
-
-
-//==============================================================================
-/**
- * Boolean operation "ANDNOT" (exclusion) on the matrix.
- * @param {Surface} other - another matrix.
- * @return {void}
- */
-Surface.prototype.andNotModel = function (other) {
-	//console.log ("Surface.andNotModel");
-	if (typeof other != "object") {
-		console.error ("ERROR - Voxel.andNotModel : bad type of parameter");
-	}
-	// --------------------------------------
-	var tmpX = Math.min(this.size.m[0], other.size.m[0]);
-	var tmpY = Math.min(this.size.m[1], other.size.m[1]);
-	var tmpZ = Math.min(this.size.m[2], other.size.m[2]);
-	for (var x=0; x<tmpX; ++x) {
-		for (var y=0; y<tmpY; ++y) {
-			for (var z=0; z<tmpZ; ++z) {
-				if (other.matCube[x][y][z] != null) {
-					this.removeCube(x,y,z);
-				}
-			}
-		}
-	}
-};
-
-
-//==============================================================================
-/**
- * Boolean operation "XOR" on the matrix.
- * @param {Surface} other - another matrix.
- * @return {void}
- */
-Surface.prototype.xorModel = function (other) {
-	//console.log ("Surface.xorModel");
-	if (typeof other != "object") {
-		console.error ("ERROR - Voxel.xorModel : bad type of parameter");
-	}
-	// --------------------------------------
-	var tmpX = Math.min(this.size.m[0], other.size.m[0]);
-	var tmpY = Math.min(this.size.m[1], other.size.m[1]);
-	var tmpZ = Math.min(this.size.m[2], other.size.m[2]);
-	for (var x = 0; x < tmpX; ++x) {
-		for (var y = 0; y < tmpY; ++y) {
-			for (var z = 0; z < tmpZ; ++z) {
-				if (other.matCube[x][y][z] != null) {
-					if (this.matCube[x][y][z] != null) {
-						this.removeCube (x, y, z);
-					} else {
-						this.addCube (x, y, z);
-					}
-				}
-			}
-		}
-	}
+	return this.dimension;
 };
 
 
@@ -356,62 +249,41 @@ Surface.prototype.xorModel = function (other) {
 Surface.prototype.clear = function () {
 	//console.log ("Surface.clear");
 	// --------------------------------------
-	for (var x = 0; x < this.size.m[0]; ++x) {
-		for (var y = 0; y < this.size.m[1]; ++y) {
-			for (var z = 0; z < this.size.m[2]; ++z) {
-				this.matCube[x][y][z] = null;
+	for (var x = 0; x < this.dimension.m[0]; ++x) {
+		for (var y = 0; y < this.dimension.m[1]; ++y) {
+			for (var z = 0; z < this.dimension.m[2]; ++z) {
+				this.matVoxel[x][y][z] = null;
 			}
 		}
 	}
-	this.nbCube = 0;
+	this.nbVoxel = 0;
 };
 
 
 //==============================================================================
 /**
- * @return {Surface} a copy of the model.
+ * @parma {Vector} position - the coordinates of the voxel of which 
+ * we want to know how much neighbors it has
+ * @return {int} number of neighboring voxels.
+ * @throws {String} "Surface.getNbNeighbor.ErrorNotAVector"
+ * - the position should be of type Vector
  */
-Surface.prototype.copy = function () {
-	//console.log ("Surface.copy");
-	// --------------------------------------
-	var result = new Surface (this.size);
-	for (var x = 0; x < result.size.m[0]; ++x) {
-		for (var y = 0; y < result.size.m[1]; ++y) {
-			for (var z = 0; z < result.size.m[2]; ++z) {
-				result.matCube[x][y][z] = this.matCube[x][y][z];
-			}
-		}
-	}
-	result.nbCube = this.nbCube;
-	return result;
-};
-
-
-//==============================================================================
-/**
- * @param {int} x - x-coordinates of the cube in the matrix.
- * @param {int} y - y-coordinates of the cube in the matrix.
- * @param {int} z - z-coordinates of the cube in the matrix.
- * @return {int} number of neighboring cubes.
- */
-Surface.prototype.getNbNeighbor = function (x, y, z) {
+Surface.prototype.getNbNeighbor = function (position) {
 	//console.log ("Surface.getNbNeighbor x= " + x + " y= " + y + " z= " + z);
-	if (typeof x != "number"
-			|| typeof y != "number"
-			|| typeof z != "number") {
-		console.error ("ERROR - Voxel.getNbNeighbor : bad type of parameter");
+	if (!(position instanceof Vector) {
+		throw "Surface.getNbNeighbor.ErrorNotAVector";
 	}
 	// --------------------------------------
-	var nb = 0;
-	for (var i = 0; i < DirectionEnum.size; ++i) {
-		if (this.isIn (x+DirectionEnum.properties[i].x,
-						y+DirectionEnum.properties[i].y,
-						z+DirectionEnum.properties[i].z)) {
-			if (this.matCube[x+DirectionEnum.properties[i].x]
-							[y+DirectionEnum.properties[i].y]
-							[z+DirectionEnum.properties[i].z] != null) {
-				nb++;
-			}
+	
+	var nb = 0; // number of neighbors
+	var size = DirectionEnum.size;
+	for (var i = 0; i < size; ++i) {
+		var x = position.m[0] + DirectionEnum.properties[i].x;
+		var y = position.m[1] + DirectionEnum.properties[i].y;
+		var z = position.m[2] + DirectionEnum.properties[i].z;
+
+		if (this.isIn (x, y, z)  && this.matVoxel[x][y][z] !== null){
+			nb++;
 		}
 	}
 	return nb;
@@ -420,12 +292,114 @@ Surface.prototype.getNbNeighbor = function (x, y, z) {
 
 //==============================================================================
 /**
- * @return {int} the number of cubes of the model.
+ * @return {int} the number of voxels of the model.
  */
 Surface.prototype.getNbCube = function () {
 	//console.log ("Surface.getNbCube");
 	// --------------------------------------
-	return this.nbCube;
+	return this.nbVoxel;
 };
 
+
+//==============================================================================
+/**
+ * @param {Vector} position - the coordinates of the voxel to set the visibility 
+ * @param {boolean} visibility - the visibility to set to the voxel 
+ * @throws {String} "Surface.setVoxelVisibility.ErrorNotAVector"
+ * - the position should be of type Vector
+ * @throws {String} "Surface.setVoxelVisibility.ErrorNotABoolean"
+ * - the visibility should be a boolean
+ * @throws {String} "Surface.setVoxelVisibility.OutOfBounds"
+ * - the voxel is out of bounds
+ */
+Surface.prototype.setVoxelVisibility = function (position, visibility) {
+	//console.log ("Surface.getNbCube");
+	if(!(position instanceof Vector){
+		throw "Surface.setVoxelVisibility.ErrorNotAVector";
+	}
+	if(typeof visibility !== "boolean"){
+		throw "Surface.setVoxelVisibility.ErrorNotABoolean";
+	}
+	// --------------------------------------
+	var x = position.m[0];
+	var y = position.m[1];
+	var z = position.m[2];
+	
+	if(this.isIn(x, y, z)){
+		this.matVoxel[x][y][z].setVisibility(visibility);
+	}
+	else{
+		throw "Surface.setVoxelVisibility.OutOfBounds";
+	}
+};
+
+
+//==============================================================================
+/**
+ * @param {Vector} position - the coordinates of the voxel to test 
+ * @return {boolean} true if the voxel is visible, else false
+ * @throws {String} "Surface.isVoxelVisible.ErrorNotAVector"
+ * - the position should be of type Vector
+ * @throws {String} "Surface.isVoxelVisible.OutOfBounds"
+ * - the voxel is out of bounds
+ */
+Surface.prototype.isVoxelVisible = function (position) {
+	//console.log ("Surface.getNbCube");
+	if(!(position instanceof Vector){
+		throw "Surface.isVoxelVisible.ErrorNotAVector";
+	}
+	// --------------------------------------
+	var x = position.m[0];
+	var y = position.m[1];
+	var z = position.m[2];
+	
+	if(this.isIn(x, y, z)){
+		this.matVoxel[x][y][z].isVisible(visibility);
+	}
+	else{
+		throw "Surface.isVoxelVisible.OutOfBounds";
+	}
+};
+
+//==============================================================================
+/**
+ * @param {Vector} position - the coordinates of the voxel to set the visibility 
+ * @param {boolean} visibility - the visibility to set to the voxel 
+ * @throws {String} "Surface.printOnly.ErrorNotARange" 
+ * - the range should be of type Range
+ */
+ // Nom à revoir
+Surface.prototype.printOnly = function (range, axis) {
+	//console.log ("Surface.getNbCube");
+	if(!(range instanceof Range){
+		throw "Surface.printOnly.ErrorNotARange";
+	}
+	// --------------------------------------
+
+	var min = range.getIncludeMin() ? range.getMin() : range.getMin() + 1;
+	var max = range.getIncludeMax() ? range.getMax() : range.getMax() - 1;
+	
+	var visible;
+	
+	for(var x = 0; x < this.dimension.m[0]; ++x){
+		for(var y = 0; y < this.dimension.m[1]; ++y){			
+			for(var z = 0; z < this.dimension.m[2]; ++z){
+			switch axis :
+				case X :
+					visible = range.isIn(x);
+				break;
+				case Y :
+					visible = range.isIn(y);
+				break;
+				case Z :
+					visible = range.isIn(z);
+				break;
+				default :
+					visible = false;
+				break;
+				this.matVoxel[x][y][z].setVisiblity(visible);
+			}
+		}
+	}
+};
 
