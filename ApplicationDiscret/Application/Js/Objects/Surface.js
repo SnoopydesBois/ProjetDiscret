@@ -110,8 +110,8 @@ Surface.prototype.getVoxel = function (position) {
 	if (!(position instanceof Vector)) {
 		throw "Surface.getVoxel.ErrorNotAVector";
 	}
-	// --------------------------------------
-	return this.matVoxel[x][y][z];
+	
+	return this.matVoxel[position.x][position.y][position.z];
 };
 
 

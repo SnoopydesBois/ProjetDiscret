@@ -121,7 +121,7 @@ Controller3D.prototype.getSurface = function () {
  * @return {Voxel} the voxel at the x, y, z coordinates
  */
 Controller3D.prototype.getVoxel = function (x, y, z) {
-	switch arguments.length :
+	switch (arguments.length) {
 		case 1 :
 			if(!(x instanceof Vector)){
 				throw "Controller3D.getVoxel.ErrorNotAVector";
@@ -138,16 +138,18 @@ Controller3D.prototype.getVoxel = function (x, y, z) {
 			break;
 		default :
 			throw "Controller3D.getVoxel.ErrorLengthArguments";
+	}
 };
 
 
 //==============================================================================
 /**
+ * TODO
  * @param {Vector} position - The coordinates of the voxel
  * @return {boolean} true if the voxel is a voxel of the surface, else false
  */
 Controller3D.prototype.hasVoxel = function (x, y, z) {
-	switch arguments.length :
+	switch (arguments.length) {
 		case 1 :
 			if(!(x instanceof Vector)){
 				throw "Controller3D.getVoxel.ErrorNotAVector";
@@ -164,6 +166,7 @@ Controller3D.prototype.hasVoxel = function (x, y, z) {
 			break;
 		default :
 			throw "Controller3D.getVoxel.ErrorLengthArguments";
+	}
 };
 
 

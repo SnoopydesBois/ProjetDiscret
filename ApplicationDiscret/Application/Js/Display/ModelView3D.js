@@ -123,7 +123,6 @@ ModelView3D.prototype.prepare = function (gl) {
 	}
 	// --------------------------------------
 	var size = this.controller.getDimension ();
-	console.log (this.controller);
 	this.nbBuffer = size.m[0] / 5;
 
 	var vertexBuffer = [];
@@ -179,7 +178,7 @@ ModelView3D.prototype.prepare = function (gl) {
 	for (tmp = 0; tmp < this.nbBuffer; ++tmp) {
 		this.glVertexBuffer[tmp] = gl.createBuffer();
 		this.glVertexBuffer[tmp].numItems = vertexBuffer[tmp].length / 3.0;
-		for (var i = 0; i < color[tmp].length; ++i) {
+		for (var i = 0; i < colorBuffer[tmp].length; ++i) {
 			for (var j = 0; j < 4; ++j) {
 				var offset = i * 12 + j * 3;
 				this.addAPoint (data[tmp], 
@@ -200,7 +199,7 @@ ModelView3D.prototype.prepare = function (gl) {
 	for (tmp = 0; tmp < this.nbBuffer; ++tmp) {
 		this.glBackBuffer[tmp] = gl.createBuffer ();
 		this.glBackBuffer[tmp].numItems = vertexBuffer[tmp].length / 3.0;
-		for (var i = 0; i < color[tmp].length; ++i) {
+		for (var i = 0; i < colorBuffer[tmp].length; ++i) {
 			for (var j = 0; j < 4; ++j) {
 				var offset = i * 12 + j * 3;
 				this.addAPoint (bdata[tmp], 
@@ -249,11 +248,11 @@ ModelView3D.prototype.draw = function (gl) {
 			gl.UNSIGNED_SHORT, 0);
 
 		// Let's the shader prepare its attributes
-		this.shader.setAttributes (gl, this.selectvbo[tmp]);
+//		this.shader.setAttributes (gl, this.selectvbo[tmp]);
 		// Let's render !
-		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.selectibo[tmp]);
-		gl.drawElements (gl.TRIANGLES, this.selectibo[tmp].numItems,
-			gl.UNSIGNED_SHORT, 0);
+//		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.selectibo[tmp]);
+//		gl.drawElements (gl.TRIANGLES, this.selectibo[tmp].numItems,
+//			gl.UNSIGNED_SHORT, 0);
 	}
 };
 
@@ -400,12 +399,15 @@ ModelView3D.prototype.prepareFace = function (
 	universSize
 ) {
 	// TODO vérifier les entrés
-	if (!(voxel instanceof Voxel && typeof offert === "number" 
+	if (!(voxel instanceof Voxel && typeof offset === "number" 
 			&& colorFace instanceof Array
 			&& universSize instanceof Vector
 	)) {
 		console.error (	
 			"ModelView3D.prepareFace : bad type(s) of parameter(s) !");
+		showType (voxel, direction, offset, vertexBuffer, indicesBuffer, 
+			colorBuffer, normalBuffer, backColorBuffer, colorFace,universSize);
+		return;
 	}
 	
 	// Creation of the 4 points of the face
@@ -493,7 +495,7 @@ ModelView3D.prototype.prepareFace = function (
  * @return {void}
  */
 ModelView3D.prototype.addVertexBuffer = function (dataVertexBuffer, x, y, z, 
-	size) 
+	limit) 
 {
 	if (!(dataVertexBuffer instanceof Array)
 			|| typeof x != "number"
@@ -504,9 +506,9 @@ ModelView3D.prototype.addVertexBuffer = function (dataVertexBuffer, x, y, z,
 				+ "parameter(s)");
 	}
 	// --------------------------------------
-	dataVertexBuffer.push ((x / size.x) * 2.0 - 1.0,
-			(y / size.y) * 2.0 - 1.0,
-			(z / size.z) * 2.0 - 1.0);
+	dataVertexBuffer.push ((x / limit.x) * 2.0 - 1.0,
+			(y / limit.y) * 2.0 - 1.0,
+			(z / limit.z) * 2.0 - 1.0);
 };
 
 

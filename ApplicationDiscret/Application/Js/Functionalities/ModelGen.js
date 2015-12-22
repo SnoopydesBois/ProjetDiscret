@@ -82,13 +82,8 @@ function ModelGen (dimension, shader) {
  * @return {Voxel} the voxel at the x, y, z coordinates or null if it doesnt 
  * exist
  */
-ModelGen.prototype.getVoxel = function(position){
-	if(this.surface.isVoxel(position)) {
-		return this.surface.getVoxel(position);
-	}
-	else {
-		return null;
-	}
+ModelGen.prototype.getVoxel = function(position) {
+	return this.surface.getVoxel(position);
 }
 
 

@@ -93,13 +93,26 @@ function addEvent (elem, type, eventHandle) {
 
 //==============================================================================
 /**
+ * TODO
  * @param {Object} object - the object to test.
  * 
  * @return {String} the name of the classe.
  */
 function type (obj) {
-	return (object === undefined || obj === null) ? "" : 
+	return (obj === undefined || obj === null) ? "" : 
 		((typeof obj === "object") ? obj.constructor.name : typeof obj);
+}
+
+
+
+//==============================================================================
+/**
+ * TODO
+ * @return {void} the name of the classe.
+ */
+function showType () {
+	for (var i in arguments)
+		console.log (type (arguments[i]));
 }
 
 
