@@ -125,7 +125,7 @@ Surface.prototype.getVoxel = function (position) {
  * @throws {String} "Surface.addVoxel.OutOfBounds"
  * - the voxel is out of bounds
  */
-Surface.prototype.addVoxel = function (position) {
+Surface.prototype.addVoxel = function (position, connexity) {
 	if (!(position instanceof Vector)) {
 		throw "Surface.addVoxel.ErrorNotAVector";
 	}
@@ -136,7 +136,8 @@ Surface.prototype.addVoxel = function (position) {
 	if (this.isIn (x, y, z)) {
 		if (this.matVoxel[x][y][z] === null) {
 			this.matVoxel[x][y][z] = new Voxel(position);
-			
+			this.matVoxel[x][y][z].setConnexity(connexity);
+
 			var size = DirectionEnum.size;
 			for (var i = 0; i < size; ++i) {
 				var newX = x + DirectionEnum.properties[i].x;
