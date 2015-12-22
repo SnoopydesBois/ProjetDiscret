@@ -138,7 +138,7 @@ Equation.prototype.compute = function (valVariables) {
  * number or is not a finite number.
  */
 Equation.prototype.setParameter = function(name, value) {
-	if(this.listParameters[name] === undefined) {
+	if (this.listParameters[name] === undefined) {
 		throw "Equation.setParameter.ErrorNotExistingParameter";
 	} else if (typeof value !== "number" || ! Number.isFinite(value)) {
 		throw "Equation.setParameter.ErrorNotANumber";
@@ -191,6 +191,6 @@ Equation.prototype.toString = function() {
 	return this.formulaTree.toString();
 };
 
-Equation.protoype.check() = function{
+Equation.prototype.check = function (){
 	return this.formulaTree != undefined;
 }
