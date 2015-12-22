@@ -69,7 +69,7 @@ Surface.prototype.constructor = Surface;
  * @param {Vector} size - vector to define the size of the model.
  */
 function Surface (size) {
-	if (!( size instanceof Vector) {
+	if (! size instanceof Vector) {
 		console.error ("ERROR - Surface.constructor : bad type of parameter");
 	}
 	// --------------------------------------
@@ -119,6 +119,8 @@ Surface.prototype.getVoxel = function (position) {
 /**
  * Add a voxel to the model.
  * @param {Vector} position - the coordinates of the voxel to add.
+ * @param {EnumConnexity} connexity - the connexity for which the voxel should 
+ * be displayed
  * @return {boolean} true if the voxel has been added.
  * @throws {String} "Surface.addVoxel.ErrorNotAVector"
  * - position should be of type Vector
@@ -135,8 +137,7 @@ Surface.prototype.addVoxel = function (position, connexity) {
 	// --------------------------------------
 	if (this.isIn (x, y, z)) {
 		if (this.matVoxel[x][y][z] === null) {
-			this.matVoxel[x][y][z] = new Voxel(position);
-			this.matVoxel[x][y][z].setConnexity(connexity);
+			this.matVoxel[x][y][z] = new Voxel(position, connexity);
 
 			var size = DirectionEnum.size;
 			for (var i = 0; i < size; ++i) {
@@ -173,7 +174,7 @@ Surface.prototype.addVoxel = function (position, connexity) {
  * - the voxel is out of bounds
  */
 Surface.prototype.removeVoxel = function (position) {
-	if (!(position instanceof Vector) {
+	if (!position instanceof Vector) {
 		throw "Surface.removeVoxel.ErrorNotAVector";
 	}
 	// --------------------------------------
@@ -271,7 +272,7 @@ Surface.prototype.clear = function () {
  */
 Surface.prototype.getNbNeighbor = function (position) {
 	//console.log ("Surface.getNbNeighbor x= " + x + " y= " + y + " z= " + z);
-	if (!(position instanceof Vector) {
+	if (!position instanceof Vector) {
 		throw "Surface.getNbNeighbor.ErrorNotAVector";
 	}
 	// --------------------------------------
@@ -315,7 +316,7 @@ Surface.prototype.getNbCube = function () {
  */
 Surface.prototype.setVoxelVisibility = function (position, visibility) {
 	//console.log ("Surface.getNbCube");
-	if(!(position instanceof Vector){
+	if(!position instanceof Vector){
 		throw "Surface.setVoxelVisibility.ErrorNotAVector";
 	}
 	if(typeof visibility !== "boolean"){
@@ -346,7 +347,7 @@ Surface.prototype.setVoxelVisibility = function (position, visibility) {
  */
 Surface.prototype.isVoxelVisible = function (position) {
 	//console.log ("Surface.getNbCube");
-	if(!(position instanceof Vector){
+	if(!position instanceof Vector){
 		throw "Surface.isVoxelVisible.ErrorNotAVector";
 	}
 	// --------------------------------------
@@ -393,9 +394,34 @@ Surface.prototype.printOnly = function (range, axis) {
 					default :
 						visible = false;
 					break;
-				this.matVoxel[x][y][z].setVisiblity(visible);
+				if (this.matVoxel[x][y][z] != null){
+					this.matVoxel[x][y][z].setVisiblity(visible);
+				}
 			}
 		}
 	}
 };
 
+
+//==============================================================================
+/**
+ * @param {EnumConnexity} connexity - the new connexity of the surface
+ * @throws {String} "Surface.setConnexity.ErrorNotAConnexity" - connexity should
+ * be a ConnexityEnum
+ */
+Surface.prototype.setConnexity = function (connexity) {
+	if (typeof position != "number" || position < 0 
+		|| position > ConnexityEnum.length){
+		throw "Surface.setConnexity.ErrorNotAConnexity";
+	}
+	for(var x = 0; x < this.dimension.m[0]; ++x){
+		for(var y = 0; y < this.dimension.m[1]; ++y){			
+			for(var z = 0; z < this.dimension.m[2]; ++z){
+				var vox = this.matVoxel[x][y][z];
+				if(vox != null && vox.getConnexity() <= connexity){
+					vox.setVisibility(true);
+				}
+			}
+		}
+	}
+}
