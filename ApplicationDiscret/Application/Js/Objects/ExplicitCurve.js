@@ -5,7 +5,7 @@ function ExplicitCurve(equation) {
 	FormulaCurve.call(this, equation);
 }
 
-ExplicitCurve.prototype.computePoints(ranX, ranY, step) {
+ExplicitCurve.prototype.computePoints = function (ranX, ranY, step) {
 	if (! ranX instanceof Range || ! ranY instanceof Range) {
 		throw "ExplicitCurve.computePoints.ErrorNotARange";
 	} else if (!this.equation.check) {

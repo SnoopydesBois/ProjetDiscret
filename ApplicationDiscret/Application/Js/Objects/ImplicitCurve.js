@@ -5,7 +5,7 @@ function ImplicitCurve(equation) {
 	FormulaCurve.call(this, equation);
 }
 
-ImplicitCurve.prototype.computePoints(ranX, ranY, step) {
+ImplicitCurve.prototype.computePoints = function (ranX, ranY, step) {
 	if (! ranX instanceof Range || ! ranY instanceof Range) {
 		throw "ImplicitCurve.computePoints.ErrorNotARange";
 	} else if (!this.equation.check) {

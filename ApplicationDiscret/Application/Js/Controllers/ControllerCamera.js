@@ -360,7 +360,7 @@ ControllerCamera.prototype.reinit = function () {
 
 	// -Math.sqrt(((3.5 * 3.5) - (3.5 / 2.0) * (3.5 / 2.0)) / 2.0);
 	// => -Math.sqrt(9.1875);
-	var val = 3,0310889132455352636730310976353; 
+	var val = 3.0310889132455352636730310976353; 
 	cameraAt.m[0] = val;
 	cameraAt.m[1] = val;
 	

@@ -83,10 +83,10 @@ function ModelGen (dimension) {
  * exist
  */
 ModelGen.prototype.getVoxel = function(position){
-	if(this.surface.isVoxel(position){
+	if(this.surface.isVoxel(position)) {
 		return this.surface.getVoxel(position);
 	}
-	else{
+	else {
 		return null;
 	}
 }
@@ -135,14 +135,13 @@ ModelGen.prototype.getDimension = function(){
  */
 ModelGen.prototype.generate = function(meridian, curveRevolution){
 	if (meridian instanceof ExplicitCurve 
-		&& curveRevolution instanceof ImplicitCurve){
-			this.algoExplicit(meridian, curveRevolution);
-		}
-	else if (meridian instanceof ParametricCurve 
-		&& curveRevolution instanceof ImplicitCurve){
-			this.algoParametric(meridian, curveRevolution);
-		}
-	else{
+			&& curveRevolution instanceof ImplicitCurve) {
+		this.algoExplicit(meridian, curveRevolution);
+	} else if (meridian instanceof ParametricCurve 
+			&& curveRevolution instanceof ImplicitCurve)
+	{
+		this.algoParametric(meridian, curveRevolution);
+	} else {
 		throw "ModelGen.generate.ErrorBadCurveType";
 	}
 	return this.surface;
@@ -166,18 +165,17 @@ ModelGen.prototype.algoParametric = function(meridian, curveRevolution){
 	var dimz = dim.z;
 	var maxx = Math.trunc(dimx/2);
 	var maxy = Math.trunc(dimy/2);
-	for (var z = 0; z < dimz, z++){
+	for (var z = 0; z < dimz; ++z){
 		var rz = fMeridian.compute(z);
 		var rz1 = fMeridian.compute(z - 0.5);
 		var rz2 = fMeridian.compute(z + 0.5);
-		for (var y = 0; y < dimy, y++){
-			for (var x = 0; x < dimx, x++){
+		for (var y = 0; y < dimy; y++){
+			for (var x = 0; x < dimx; x++){
 				if(check26Connex(fRevol, x - maxx, y - maxyy, [rz, rz1, rz2])){
 					this.surface.addVoxel(new Vector(x,y,z), ConnexityEnum.c26);
-				}else if (check18Connex(fRevol, x - maxx, y - maxyy, [rz, rz1, rz2])) {
+				} else if (check18Connex(fRevol, x - maxx, y - maxyy, [rz, rz1, rz2])) {
 					this.surface.addVoxel(new Vector(x,y,z), ConnexityEnum.c18);
-				}
-				else if (check6Connex(fRevol, x - maxx, y - maxyy, [rz1, rz2])){
+				} else if (check6Connex(fRevol, x - maxx, y - maxyy, [rz1, rz2])){
 					this.surface.addVoxel(new Vector(x,y,z),ConnexityEnum.c6);
 				}
 			}

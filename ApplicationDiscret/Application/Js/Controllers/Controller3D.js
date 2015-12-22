@@ -190,8 +190,7 @@ Controller3D.prototype.setGetCurveRevolution = function(curveRevolution){
  * @param {Vector} position - The coordinates of the click
  * @return {void}
  */
-ControllerSelect.prototype.mouseDown = function (event, position) {
-//	console.log ("ControllerSelect.mouseDown");
+Controller3D.prototype.mouseDown = function (event, position) {
 	if (!(event instanceof WindowEvent)){ // A vérifier
 		throw "event is not a WindowEvent";
 	}
