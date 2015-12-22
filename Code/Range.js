@@ -142,3 +142,14 @@ Range.prototype.getIncludeMin = function (){
 Range.prototype.getIncludeMax = function (){
 	return this.includeMax;
 }
+
+/**
+ * 
+ */ 
+Range.prototype.isIn = function(coord){
+	
+	var min = this.includeMin ? this.min : this.min + 1;
+	var max = this.includeMax ? this.max : this.max - 1;
+	
+	return coord > this.min && coord < this.max;
+}
