@@ -128,11 +128,23 @@ ModelGen.prototype.getDimension = function(){
  * This function generate the surface
  * @param {Curve} meridian - the meridian to use to model.
  * @param {Curve} curveRevolution - the curve of revolution to use to model.
+ * @throws {String} "ModelGen.generate.ErrorBadCurveType" - The meridian must
+ * be explicit or parametric and the revolution curve must be implicit.
  * @return {Surface} the surface modeled using the meridian and the curve
  * of revolution
  */
-ModelGen.protoype.generate = function(meridian, curveRevolution){
-	//XXX ALGO DE GENERATION
+ModelGen.prototype.generate = function(meridian, curveRevolution){
+	if (meridian instanceof ExplicitCurve 
+		&& curveRevolution instanceof ImplicitCurve){
+			this.algoExplicit(meridian, curveRevolution);
+		}
+	else if (meridian instanceof ParametricCurve 
+		&& curveRevolution instanceof ImplicitCurve){
+			this.algoParametric(meridian, curveRevolution);
+		}
+	else{
+		throw "ModelGen.generate.ErrorBadCurveType";
+	}
 	return this.surface;
 }
 
@@ -143,16 +155,112 @@ ModelGen.protoype.generate = function(meridian, curveRevolution){
  * functions
  * @param {Curve} meridian - the meridian to use to model
  * @param {Curve} curveRevolution - the curve of revolution to use to model
- * @return {Surface} the surface modeled using the meridian and the curve 
- * of revolution
  */
 ModelGen.prototype.algoParametric = function(meridian, curveRevolution){
-	//XXX ALGO DE GENERATION
-	return this.surface;
+	dim = this.repere.getDimension();
+	this.surface = new Surface(dim);
+	var fMeridian = meridian.getEquation();
+	var fRevol = curveRevolution.getEquation();
+	var dimx = dim.x;
+	var dimy = dim.y;
+	var dimz = dim.z;
+	var maxx = Math.trunc(dimx/2);
+	var maxy = Math.trunc(dimy/2);
+	for (var z = 0; z < dimz, z++){
+		var rz = fMeridian.compute(z);
+		var rz1 = fMeridian.compute(z - 0.5);
+		var rz2 = fMeridian.compute(z + 0.5);
+		for (var y = 0; y < dimy, y++){
+			for (var x = 0; x < dimx, x++){
+				if (check6Connex(fRevol, x-maxx, y-maxyy, [rz1, rz2])){
+				}
+				check18Connex(fRevol, x-maxx, y-maxyy, [rz, rz1, rz2]);
+				check26Connex(fRevol, x-maxx, y-maxyy, [rz, rz1, rz2]);
+			}
+		}
+	}
 }
 
 
+/**
+ * Return true if the array has positives AND negative values else return false.
+ * @param {float[]} tab - The array to be tested.
+ */
+function arrayPosNeg(tab){
+	length = tab.length;
+	var neg = false;
+	var pos = false;
+	for(var i = 0; i < length; i++){
+		neg = neg || tab[i] <= 0;
+		pos = pos || tab[i] >= 0;
+	}
+	return neg && pos;
+}
 
+/**
+ * Check whether a voxel is part of the 26 connexe revolution surface.
+ * @param {Equation} fRevol - The equation for the revolution curve.
+ * @param {int} x - x coordinate of the voxel
+ * @param {int} y - y coordinate of the voxel
+ * @param {float[3]} - z array containing f(z), f(z-0.5), f(z+0.5), f being the
+ * equation of the meridian and z the coordinate of the voxel.
+ */
+function check26Connex(fRevol, x, y, z){
+	var values = [];
+	values[0] = fRevol.compute((x+0.5)/z[0], (y+0.5)/z[0]);
+	values[1] = fRevol.compute((x-0.5)/z[0], (y+0.5)/z[0]);
+	values[2] = fRevol.compute((x+0.5)/z[0], (y-0.5)/z[0]);
+	values[3] = fRevol.compute((x-0.5)/z[0], (y-0.5)/z[0]);
+	values[4] = fRevol.compute((x+0.5)/z[1], (y)/z[1]);
+	values[5] = fRevol.compute((x-0.5)/z[1], (y)/z[1]);
+	values[6] = fRevol.compute((x)/z[1], (y+0.5)/z[1]);
+	values[7] = fRevol.compute((x)/z[1], (y-0.5)/z[1]);
+	values[8] = fRevol.compute((x+0.5)/z[2], (y)/z[2]);
+	values[9] = fRevol.compute((x-0.5)/z[2], (y)/z[2]);
+	values[10] = fRevol.compute((x)/z[2], (y+0.5)/z[2]);
+	values[11] = fRevol.compute((x)/z[2], (y-0.5)/z[2]);
+	return arrayPosNeg(values);
+}
+
+/**
+ * Check whether a voxel is part of the 18 connexe revolution surface.
+ * @param {Equation} fRevol - The equation for the revolution curve.
+ * @param {int} x - x coordinate of the voxel
+ * @param {int} y - y coordinate of the voxel
+ * @param {float[3]} - z array containing f(z), f(z-0.5), f(z+0.5), f being the
+ * equation of the meridian and z the coordinate of the voxel.
+ */
+function check18Connex(fRevol, x, y, z){
+	var values = [];
+	values[0] = fRevol.compute((x+0.5)/z[0], (y)/z[0]);
+	values[1] = fRevol.compute((x-0.5)/z[0], (y)/z[0]);
+	values[2] = fRevol.compute((x)/z[0], (y+0.5)/z[0]);
+	values[3] = fRevol.compute((x)/z[0], (y-0.5)/z[0]);
+	values[4] = fRevol.compute((x)/z[1], (y)/z[1]);
+	values[5] = fRevol.compute((x)/z[2], (y)/z[2]);
+	return arrayPosNeg(values);
+}
+
+/**
+ * Check whether a voxel is part of the 6 connexe revolution surface.
+ * @param {Equation} fRevol - The equation for the revolution curve.
+ * @param {int} x - x coordinate of the voxel
+ * @param {int} y - y coordinate of the voxel
+ * @param {float[2]} - z array containing f(z-0.5), f(z+0.5), f being the
+ * equation of the meridian and z the coordinate of the voxel.
+ */
+function check6Connex(fRevol, x, y, z){
+	var values = [];
+	values[0] = fRevol.compute((x+0.5)/z[1], (y+0.5)/z[1]);
+	values[1] = fRevol.compute((x-0.5)/z[1], (y+0.5)/z[1]);
+	values[2] = fRevol.compute((x+0.5)/z[1], (y-0.5)/z[1]);
+	values[3] = fRevol.compute((x-0.5)/z[1], (y-0.5)/z[1]);
+	values[4] = fRevol.compute((x+0.5)/z[0], (y+0.5)/z[0]);
+	values[5] = fRevol.compute((x-0.5)/z[0], (y+0.5)/z[0]);
+	values[6] = fRevol.compute((x+0.5)/z[0], (y-0.5)/z[0]);
+	values[7] = fRevol.compute((x-0.5)/z[0], (y-0.5)/z[0]);
+	return arrayPosNeg(values);
+}
 
 //==============================================================================
 /**
@@ -163,8 +271,8 @@ ModelGen.prototype.algoParametric = function(meridian, curveRevolution){
  * @return {Surface} the surface modeled using the meridian and the curve 
  * of revolution
  */
-ModelGen.prototype.algoImplicit = function(meridian, curveRevolution){
-	//XXX ALGO DE GENERATION
+ModelGen.prototype.algoExplicit = function(meridian, curveRevolution){
+	throw "ModelGen.algoExplicit.NotImplementedYet";
 	return this.surface;
 }
 
