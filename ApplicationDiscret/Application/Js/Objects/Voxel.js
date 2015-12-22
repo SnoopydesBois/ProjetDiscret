@@ -64,10 +64,11 @@ Voxel.prototype.constructor = Voxel;
 /**
  * @constructor
  * @param {Vector} pos - vector to define the position of the Voxel.
+ * @param {EnumConnexity} connexity - the connexity for which the voxel should 
+ * be displayed
  */
-function Voxel (pos) {
-//	console.log ("Voxel.constructor");
-	if (typeof pos != "object") {
+function Voxel (pos, connexity) {
+	if (!pos instanceof Vector) {
 		console.error ("ERROR - Voxel.constructor : bad type of parameter");
 	}
 	// --------------------------------------
@@ -84,6 +85,8 @@ function Voxel (pos) {
 	for (var i = 0; i < DirectionEnum.size; ++i) {
 		this.faces.push (true);
 	}
+	
+	this.connexity = connexity;
 }
 
 
@@ -91,12 +94,14 @@ function Voxel (pos) {
 /**
  * Assessor on the faces.
  * @param {DirectionEnum} dir - direction of the face.
+ * @throws {string} Voxel.hasFacet.ErrorNotADirection - dir should be a
+ * DirectionEnum
  * @return {boolean} true if the face exists, false otherwise.
  */
 Voxel.prototype.hasFacet = function (dir) {
 //	console.log ("Voxel.hasFacet);
-	if (typeof dir != "number") {
-		console.error ("ERROR - Voxel.hasFacet : bad type of parameter");
+	if (typeof dir != "number" || dir < 0 || dir > DirectionEnum.length) {
+		throw "Voxel.hasFacet.ErrorNotADirection";
 	}
 	// --------------------------------------
 	return this.faces[dir];
@@ -118,12 +123,14 @@ Voxel.prototype.getPosition = function () {
 /**
  * Add a face.
  * @param {DirectionEnum} dir - direction of the face.
+ * @throws {string} Voxel.hasFacet.ErrorNotADirection - dir should be a
+ * DirectionEnum
  * @return {void}
  */
 Voxel.prototype.addFacet = function (dir) {
 	//console.log ("Voxel.addFacet");
-	if (typeof dir != "number") {
-		console.error ("ERROR - Voxel.addFacet : bad type of parameter");
+	if (typeof dir != "number" || dir < 0 || dir > DirectionEnum.length) {
+		throw "Voxel.hasFacet.ErrorNotADirection";
 	}
 	// --------------------------------------
 	this.faces[dir] = true;
@@ -134,12 +141,14 @@ Voxel.prototype.addFacet = function (dir) {
 /**
  * Remove a face.
  * @param {DirectionEnum} dir - direction of the face.
+ * @throws {string} Voxel.hasFacet.ErrorNotADirection - dir should be a
+ * DirectionEnum
  * @return {void}
  */
 Voxel.prototype.removeFacet = function (dir) {
 //	console.log ("Voxel.removeFacet");
-	if (typeof dir != "number") {
-		console.error ("ERROR - Voxel.removeFacet : bad type of parameter");
+	if (typeof dir != "number" || dir < 0 || dir > DirectionEnum.length) {
+		throw "Voxel.hasFacet.ErrorNotADirection";
 	}
 	// --------------------------------------
 	this.faces[dir] = false;
@@ -179,3 +188,10 @@ Voxel.prototype.getNbVisibleFace = function () {
 };
 
 
+//==============================================================================
+/**
+ * @return {ConnexityEnum} the connexity for which the voxel should be visible
+ */
+Voxel.prototype.getConnexity = function () {
+	return this.connexity;
+};
