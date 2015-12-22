@@ -372,34 +372,32 @@ Surface.prototype.isVoxelVisible = function (position) {
  */
  // Nom à revoir
 Surface.prototype.printOnly = function (range, axis) {
-	//console.log ("Surface.getNbCube");
-	if(!(range instanceof Range)){
+	if (!(range instanceof Range))
 		throw "Surface.printOnly.ErrorNotARange";
-	}
-	// --------------------------------------
+	
 	var visible;
-	for(var x = 0; x < this.dimension.m[0]; ++x){
-		for(var y = 0; y < this.dimension.m[1]; ++y){			
-			for(var z = 0; z < this.dimension.m[2]; ++z){
-				switch axis :
-					case X :
-						visible = range.isIn(x);
+	for (var x = 0; x < this.dimension.m[0]; ++x) {
+		for (var y = 0; y < this.dimension.m[1]; ++y) {			
+			for (var z = 0; z < this.dimension.m[2]; ++z) {
+				switch (axis) {
+					case AxisEnum.X :
+						visible = range.isIn (x);
 					break;
-					case Y :
-						visible = range.isIn(y);
+					case AxisEnum.Y :
+						visible = range.isIn (y);
 					break;
-					case Z :
-						visible = range.isIn(z);
+					case AxisEnum.Z :
+						visible = range.isIn (z);
 					break;
 					default :
 						visible = false;
 					break;
-				if (this.matVoxel[x][y][z] != null){
-					this.matVoxel[x][y][z].setVisiblity(visible);
 				}
-			}
-		}
-	}
+				if (this.matVoxel[x][y][z] != null)
+					this.matVoxel[x][y][z].setVisiblity (visible);
+			} // end for z
+		} // end for y
+	} // end for x
 };
 
 
@@ -424,4 +422,6 @@ Surface.prototype.setConnexity = function (connexity) {
 			}
 		}
 	}
-}
+};
+
+
