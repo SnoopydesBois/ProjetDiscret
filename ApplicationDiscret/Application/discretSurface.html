@@ -64,6 +64,11 @@
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/common.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/style.css">
+		
+	<!-- les script pour faire la traduction -->	
+<script src="translatemodule/jquery.js"></script>
+<script src="translatemodule/main.js"></script>	
 	</head>
 	<body>
 		
@@ -71,10 +76,11 @@
 		<!-- Menus -->
 		<ul class="menus header">
 			<li id="fileMenu" tabindex="1">
-				<h1>Fichier</h1>
+				<h1 key="home" class="tr">Fichier</h1>
 				<ul>
 					<li title="Créer un nouveau modèle"
-						onclick="">Nouveau</li>
+						onclick="" key="home" class="tr">Nouveau</li>
+
 					<li title="Ouvrir un modèle depuis un fichier sur cet ordinateur"
 						onclick="this.firstElementChild.click()">
 						<input type="file" id="i_file" onchange=""
@@ -155,15 +161,41 @@
 					<li>À propos</li>
 				</ul>
 			</li>
+			
+			<li id="translatemenu" tabindex="6">
+			<h1>Traduction</h1>
+				<ul>
+				 <div class="lang_switcher">
+                <button id="en" class="lang">EN</button>
+                <button id="ru" class="lang">RU</button>
+            </div>
+				</ul>
+			</li>
 		</ul><!-- end menus -->
 		
 		
 		<!-- Workspace -->
 		
-<div style="border:1px solid #808080; position: absolute; width: 50%; height: 50%; z-index: 202; left: 0; top: 4%;; background-color: #000000" id="couche1">
-<div style="border:1px solid #808080; position: absolute; width: 20%; height: 80%; z-index: 1; left: 0; top: 0" id="couche2"></div>
-<div style="border:1px solid #808080; position: absolute; width: 100%; height: 20%; z-index: 2; left: 0; top: 80%" id="couche3"></div>
-<div style="border:1px solid #808080; position: absolute; width: 80%; height: 80%; z-index: 2; left: 20%; top: 0" id="couche4"></div>
+<div id="couche1" class="couche1">
+	<div id="couche2" class="couche2" ></div>
+	<div class="couche3" id="couche3"></div>
+	<div class="couche4" id="couche4"></div>
+</div>
+
+
+<div class="couche5" id="couche5">
+<div class="couche6" id="couche6"></div>
+<div class="couche7" id="couche7"></div>
+<div class="couche8" id="couche8"></div>
+</div>
+
+<div class="couche9"  id="couche9">
+<div class="couche10"  id="couche10">
+</div>
+<div class="couche11"  id="couche11">
+</div>
+<div class="couche12"  id="couche12">
+</div>
 </div>
 
 <!--		<div id="workspace" class="">-->
