@@ -93,21 +93,13 @@ function addEvent (elem, type, eventHandle) {
 
 //==============================================================================
 /**
- * @param {Object} object - the object to test
- * @param  {Type} type - the type to test
- * @return {boolean} true if the object is of the type specified, else false
- * @see https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Le_mod%C3%A8le_objet_JavaScript_en_d%C3%A9tails
+ * @param {Object} object - the object to test.
+ * 
+ * @return {String} the name of the classe.
  */
-function instanceOf (object, type) {
-	while (object != null) {
-		if (object == type.prototype)
-			return true;
-		if (typeof object == 'xml') {
-			return type.prototype == XML.prototype;
-		}
-		object = object.__proto__;
-	}
-	return false;
+function type (obj) {
+	return (object === undefined || obj === null) ? "" : 
+		((typeof obj === "object") ? obj.constructor.name : typeof obj);
 }
 
 

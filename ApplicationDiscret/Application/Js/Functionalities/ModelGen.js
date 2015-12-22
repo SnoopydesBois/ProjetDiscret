@@ -111,7 +111,7 @@ ModelGen.prototype.isSelectedVoxel = function (position) {
 		throw "the surface is not generated";
 	}
 	// --------------------------------------
-	
+	return this.surface.getSelectedVoxel().getCoordinates().equals(position);
 };
 
 
@@ -121,4 +121,17 @@ ModelGen.prototype.isSelectedVoxel = function (position) {
  */
 ModelGen.prototype.getDimension = function(){
 	return this.repere.getDimension();
+}
+
+
+//==============================================================================
+/**
+ * @return {Voxel} the voxel selected
+ */
+ModelGen.prototype.getSelectVoxel = function(){
+	if(this.surface === undefined){
+		throw "the surface is not generated";
+	}
+	
+	return this.surface.getSelectedVoxel();
 }
