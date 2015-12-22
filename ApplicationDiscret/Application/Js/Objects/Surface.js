@@ -93,7 +93,7 @@ function Surface (size) {
 	}
 	
 	/**
-	 * Number of voxels the surface contains
+	 * {int} Number of voxels the surface contains
 	 */
 	this.nbVoxel = 0;
 }
@@ -371,32 +371,27 @@ Surface.prototype.isVoxelVisible = function (position) {
  // Nom à revoir
 Surface.prototype.printOnly = function (range, axis) {
 	//console.log ("Surface.getNbCube");
-	if(!(range instanceof Range){
+	if(!(range instanceof Range)){
 		throw "Surface.printOnly.ErrorNotARange";
 	}
 	// --------------------------------------
-
-	var min = range.getIncludeMin() ? range.getMin() : range.getMin() + 1;
-	var max = range.getIncludeMax() ? range.getMax() : range.getMax() - 1;
-	
 	var visible;
-	
 	for(var x = 0; x < this.dimension.m[0]; ++x){
 		for(var y = 0; y < this.dimension.m[1]; ++y){			
 			for(var z = 0; z < this.dimension.m[2]; ++z){
-			switch axis :
-				case X :
-					visible = range.isIn(x);
-				break;
-				case Y :
-					visible = range.isIn(y);
-				break;
-				case Z :
-					visible = range.isIn(z);
-				break;
-				default :
-					visible = false;
-				break;
+				switch axis :
+					case X :
+						visible = range.isIn(x);
+					break;
+					case Y :
+						visible = range.isIn(y);
+					break;
+					case Z :
+						visible = range.isIn(z);
+					break;
+					default :
+						visible = false;
+					break;
 				this.matVoxel[x][y][z].setVisiblity(visible);
 			}
 		}
