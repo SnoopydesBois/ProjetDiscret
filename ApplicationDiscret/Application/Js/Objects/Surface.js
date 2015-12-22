@@ -43,22 +43,21 @@
 
 
 /* matVoxel : Voxel[][][]
- * size : Vector
+ * dimension : Vector
  * nbVoxel : int
  *
  * Surface(size : Vector)
- * getCube(x : int, y : int, z : int) : Voxel
- * addCube(x : int, y : int, z : int) : bool
- * removeCube(x : int, y : int, z : int) : bool
+ * getVoxel(position : Vector) : Voxel
+ * addVoxel(position : Vector) : bool
+ * removeVoxel(position : Vector) : bool
  * isIn(x : int, y : int, z : int) : bool
- * getSize() : Vector
- * andModel(other : Surface) : void
- * orModel(other : Surface) : void
- * xorModel(other : Surface) : void
+ * getDimension() : Vector
  * clear() : void
- * copy() : Surface
  * getNbNeighbor(x : int, y : int, z : int) : int
  * getNbCube() : int
+ * setVoxelVisibility(position : Vector, visiblity : bool) : void
+ * isVoxelVisible(position : Vector) : bool
+ * printOnly(range : Range, axis : AxisEnum) : void
  */
 
 /// CODE ///////////////////////////////////////////////////////////////////////
@@ -104,11 +103,12 @@ function Surface (size) {
 /**
  * @param {Vector} position - the voxel's coordinates
  * @return {Voxel} voxel at the specified coordinates.
- * @throws {String} in case of bad type parameter
+ * @throws {String} "Surface.getVoxel.ErrorNotAVector"
+ * - position should be of type Vector
  */
 Surface.prototype.getVoxel = function (position) {
 	if (!(position instanceof Vector)) {
-		throw "position is not a vector";
+		throw "Surface.getVoxel.ErrorNotAVector";
 	}
 	// --------------------------------------
 	return this.matVoxel[x][y][z];
@@ -120,12 +120,14 @@ Surface.prototype.getVoxel = function (position) {
  * Add a voxel to the model.
  * @param {Vector} position - the coordinates of the voxel to add.
  * @return {boolean} true if the voxel has been added.
- * @throws {String} if the parameter is of bad type or 
- * if the coordinates are out of bounds
+ * @throws {String} "Surface.addVoxel.ErrorNotAVector"
+ * - position should be of type Vector
+ * @throws {String} "Surface.addVoxel.OutOfBounds"
+ * - the voxel is out of bounds
  */
 Surface.prototype.addVoxel = function (position) {
 	if (!(position instanceof Vector)) {
-		throw "position is not a vector";
+		throw "Surface.addVoxel.ErrorNotAVector";
 	}
 	var x = position.m[0];
 	var y = position.m[1];
@@ -154,7 +156,7 @@ Surface.prototype.addVoxel = function (position) {
 		return true;
 	} 
 	else {
-		throw "out of bounds : " + x + " " + y + " " + z ;
+		throw "Surface.addVoxel.OutOfBounds";
 	}
 };
 
@@ -164,11 +166,14 @@ Surface.prototype.addVoxel = function (position) {
  * Remove a voxel from the model.
  * @param {Vector} position - the coordinates of the voxel to remove
  * @return {boolean} true if there is no error, false otherwise.
- * @throws {String} in case of bad type parameter or out of bounds coordinates
+ * @throws {String} "Surface.removeVoxel.ErrorNotAVector"
+ * - the position should be of type Vector
+ * @throws {String} "Surface.removeVoxel.OutOfBounds"
+ * - the voxel is out of bounds
  */
 Surface.prototype.removeVoxel = function (position) {
 	if (!(position instanceof Vector) {
-		throw "position is not a vector";
+		throw "Surface.removeVoxel.ErrorNotAVector";
 	}
 	// --------------------------------------
 	var x = position.m[0];
@@ -196,7 +201,7 @@ Surface.prototype.removeVoxel = function (position) {
 		return true;
 	} 
 	else {
-		throw  "out of bounds : " + x + " " + y + " " + z ;
+		throw  "Surface.removeVoxel.OutOfBounds";
 	}
 	
 };
@@ -208,7 +213,8 @@ Surface.prototype.removeVoxel = function (position) {
  * @param {int} y - y-coordinates.
  * @param {int} z - z-coordinates.
  * @return {boolean} true if the coordinates are in the matrix, false otherwise.
- * @throws {String} in case of bad type parameter
+ * @throws {String} "Surface.isIn.ErrorNotANumber"
+ * - the coordinates should be numbers
  */
 Surface.prototype.isIn = function (x, y, z) {
 	//console.log ("Surface.isIn");
@@ -216,7 +222,7 @@ Surface.prototype.isIn = function (x, y, z) {
 			|| typeof y != "number"
 			|| typeof z != "number")
 	{
-		throw "x || y || z : bad type of parameter";
+		throw "Surface.isIn.ErrorNotANumber";
 	}
 	// --------------------------------------
 	return (x >= 0 && x < this.dimension.m[0] && y >= 0 && y < this.dimension.m[1]
@@ -259,12 +265,13 @@ Surface.prototype.clear = function () {
  * @parma {Vector} position - the coordinates of the voxel of which 
  * we want to know how much neighbors it has
  * @return {int} number of neighboring voxels.
- * @throws {String} in case of bad type parameter
+ * @throws {String} "Surface.getNbNeighbor.ErrorNotAVector"
+ * - the position should be of type Vector
  */
 Surface.prototype.getNbNeighbor = function (position) {
 	//console.log ("Surface.getNbNeighbor x= " + x + " y= " + y + " z= " + z);
 	if (!(position instanceof Vector) {
-		throw "position is not a vector";
+		throw "Surface.getNbNeighbor.ErrorNotAVector";
 	}
 	// --------------------------------------
 	
@@ -298,15 +305,20 @@ Surface.prototype.getNbCube = function () {
 /**
  * @param {Vector} position - the coordinates of the voxel to set the visibility 
  * @param {boolean} visibility - the visibility to set to the voxel 
- * @throws {String} in case of bad type parameter or out of bounds coordinates
+ * @throws {String} "Surface.setVoxelVisibility.ErrorNotAVector"
+ * - the position should be of type Vector
+ * @throws {String} "Surface.setVoxelVisibility.ErrorNotABoolean"
+ * - the visibility should be a boolean
+ * @throws {String} "Surface.setVoxelVisibility.OutOfBounds"
+ * - the voxel is out of bounds
  */
 Surface.prototype.setVoxelVisibility = function (position, visibility) {
 	//console.log ("Surface.getNbCube");
 	if(!(position instanceof Vector){
-		throw "position is not a vector";
+		throw "Surface.setVoxelVisibility.ErrorNotAVector";
 	}
 	if(typeof visibility !== "boolean"){
-		throw "visibility is not a boolean";
+		throw "Surface.setVoxelVisibility.ErrorNotABoolean";
 	}
 	// --------------------------------------
 	var x = position.m[0];
@@ -317,7 +329,7 @@ Surface.prototype.setVoxelVisibility = function (position, visibility) {
 		this.matVoxel[x][y][z].setVisibility(visibility);
 	}
 	else{
-		throw "out of bounds : " + x " " + y + " " + z;
+		throw "Surface.setVoxelVisibility.OutOfBounds";
 	}
 };
 
@@ -326,12 +338,15 @@ Surface.prototype.setVoxelVisibility = function (position, visibility) {
 /**
  * @param {Vector} position - the coordinates of the voxel to test 
  * @return {boolean} true if the voxel is visible, else false
- * @throws {String} in case of bad type parameter or out of bounds coordinates
+ * @throws {String} "Surface.isVoxelVisible.ErrorNotAVector"
+ * - the position should be of type Vector
+ * @throws {String} "Surface.isVoxelVisible.OutOfBounds"
+ * - the voxel is out of bounds
  */
 Surface.prototype.isVoxelVisible = function (position) {
 	//console.log ("Surface.getNbCube");
 	if(!(position instanceof Vector){
-		throw "position is not a vector";
+		throw "Surface.isVoxelVisible.ErrorNotAVector";
 	}
 	// --------------------------------------
 	var x = position.m[0];
@@ -342,7 +357,7 @@ Surface.prototype.isVoxelVisible = function (position) {
 		this.matVoxel[x][y][z].isVisible(visibility);
 	}
 	else{
-		throw "out of bounds : " + x " " + y + " " + z;
+		throw "Surface.isVoxelVisible.OutOfBounds";
 	}
 };
 
@@ -350,13 +365,14 @@ Surface.prototype.isVoxelVisible = function (position) {
 /**
  * @param {Vector} position - the coordinates of the voxel to set the visibility 
  * @param {boolean} visibility - the visibility to set to the voxel 
- * @throws {String} in case of bad type parameter or out of bounds coordinates
+ * @throws {String} "Surface.printOnly.ErrorNotARange" 
+ * - the range should be of type Range
  */
  // Nom à revoir
 Surface.prototype.printOnly = function (range, axis) {
 	//console.log ("Surface.getNbCube");
 	if(!(range instanceof Range){
-		throw "range is not a Range";
+		throw "Surface.printOnly.ErrorNotARange";
 	}
 	// --------------------------------------
 
