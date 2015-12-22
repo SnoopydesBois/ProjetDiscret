@@ -1,5 +1,5 @@
 /* I - la div englobante en haut à gauche */
-#couche1{
+#meridianView{
 box-sizing : border-box;
 	-moz-box-sizing : border-box;
 	-webkit-box-sizing : border-box;
@@ -11,7 +11,7 @@ top: 4%;
 background-color: #000000; 
 }
 /*la div du I : à gauche*/
-#couche2 {
+#meridianParam {
 	border:1px solid #808080; 
 	position: absolute; 
 	width: 20%; 
@@ -20,7 +20,7 @@ background-color: #000000;
 	top: 0 ;
 }
 /*la div du I : en bas*/
-#couche3 {
+#meridianOption {
 	border:1px solid #808080; 
 	position: absolute; 
 	width: 100%; 
@@ -31,7 +31,7 @@ background-color: #000000;
 }
 
 /*la div du I : à droite*/
-#couche4 {
+#meridianCanvas {
 	border:1px solid #808080; 
 	position: absolute; 
 	width: 80%; 
@@ -42,7 +42,7 @@ background-color: #000000;
 
 /*La deuxiémme couche englobante en bas à gauche II*/
 
-#couche5{
+#revolutionView{
 box-sizing : border-box;
 	-moz-box-sizing : border-box;
 	-webkit-box-sizing : border-box;
@@ -54,7 +54,7 @@ top: 50%;
 background-color: #000000; 
 }
 /*la div du II : à gauche*/
-#couche6{
+#revolutionParam{
 border:1px solid #808080; 
 position: absolute; 
 width: 20%; 
@@ -63,7 +63,7 @@ left: 0;
 top: 0;
 }
 /*la div du II : en bas*/
-#couche7{
+#revolutionOption{
 border:1px solid #808080; 
 position: absolute; 
 width: 100%; 
@@ -72,7 +72,7 @@ left: 0;
 top: 80%;
 }
 /*la div du II : à droite*/
-#couche8{
+#revolutionCanvas{
 border:1px solid #808080; 
 position: absolute; 
 width: 80%; 
@@ -83,7 +83,7 @@ top: 0;
 
 /*La troisiémme couche englobante à droite III*/
 
-#couche9{
+#revolutionCurve{
 box-sizing : border-box;
 	-moz-box-sizing : border-box;
 	-webkit-box-sizing : border-box;
@@ -96,7 +96,7 @@ background-color:#000000;
 }
 
 /*la div du III : EN BAS*/
-#couche10{
+#surfaceOption{
 border:1px solid #808080; 
 position: absolute; 
 width: 100%;
@@ -106,7 +106,7 @@ width: 100%;
 }
 
 /*la div du III : à droite*/
-#couche11{
+#surfaceParam{
 border:1px solid #808080; 
 position: absolute;
  width: 20%;
@@ -115,7 +115,7 @@ position: absolute;
  top: 0px;
 }
 /*la div du III : à gauche*/
-#couche12{
+#surfaceView{
 border:1px solid #808080; 
 position: absolute;
  width: 80%;
