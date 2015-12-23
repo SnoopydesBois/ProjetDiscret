@@ -1,0 +1,124 @@
+#workspace,
+#workspace div,
+#workspace canvas {
+	box-sizing : border-box;
+	-moz-box-sizing : border-box;
+	-webkit-box-sizing : border-box;
+	position: absolute; 
+}
+
+
+#workspace {
+	top : 25px;
+	left : 0;
+	width : 100%;
+	height : calc(100% - 25px - 25px);
+}
+
+
+#curvesView {
+	top : 0;
+	left : 0;
+	width : 35%;
+	height : 100%;
+	border-right : 1px solid gray;
+}
+
+
+.paramPanel {
+	top : 0;
+	left : 0;
+	width : 20%;
+	height : calc(100% - 42px);
+	background-color : #DDD;
+	border-right : 1px solid gray;
+}
+
+
+.optionPanel {
+	bottom : 0;
+	left : 0;
+	width : 100%;
+	height : 42px;
+	background-color : #DDD;
+	border-top : 1px solid gray;
+}
+
+
+#curvesView canvas {
+	top : 0;
+	right : 0;
+	width : 80%;
+	height : calc(100% - 42px);
+	background-color : white;	
+}
+
+
+	/*** Meridian ***/
+
+
+/* I - la div englobante en haut à gauche */
+#meridianView {
+	top: 0; 
+	left: 0; 
+	width: 100%; 
+	height: 50%;
+	border-bottom : 1px solid gray;
+}
+
+
+
+	/*** Revolution ***/
+
+
+/*La deuxiémme couche englobante en bas à gauche II*/
+#revolutionView {
+	bottom: 0;
+	left: 0; 
+	width: 100%; 
+	height: 50%; 
+}
+
+
+
+	/*** Surface ***/
+
+
+/*La troisiémme couche englobante à droite III*/
+#surfaceView {
+	top: 0;
+	right: 0;
+	width: 65%;
+	height: 100%; 
+}
+
+
+/*la div du III : à droite*/
+#surfaceView .paramPanel {
+	right : 0;
+	left : auto;
+	height : calc(100% - 42px);
+	border-right : none;
+	border-left : 1px solid gray;
+}
+
+
+/*la div du III : EN BAS*/
+#surfaceView .optionPanel {
+	width : 100%;
+	height : 42px;
+}
+
+
+/*la div du III : à gauche*/
+#surfaceCanvas {
+	top: 0;
+	left: 0;
+	width: 80%;
+	height : calc(100% - 42px);
+	background-color : black;
+}
+
+
+
+

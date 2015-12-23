@@ -1,14 +1,3 @@
-#surfaceCanvas {
-	background-color : black;
-	border : 2px solid lime;
-	width : 512px;
-	height : 512px;
-	margin-top : 25px;
-	margin-left : auto;
-	margin-right : auto;
-}
-
-
 
 .red {
 	border : solid 2px brown;
