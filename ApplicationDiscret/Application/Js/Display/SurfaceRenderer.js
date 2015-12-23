@@ -52,30 +52,47 @@
  * hoveribo : Buffer
  *
  * ModelView (modelController : ModelController, name : String, shader : Shader)
-
  */
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
-ModelView3D.prototype = new ModelView();
-ModelView3D.prototype.constructor = ModelView3D;
+
+/**
+ * @classdesc 
+ */
+
+
+SurfaceRenderer.prototype = new GenericStructure ();
+SurfaceRenderer.prototype.constructor = SurfaceRenderer;
+
+
+
+//##############################################################################
+//	Static variable
+//##############################################################################
+
+
+/**
+ * {int} The number of created surface. Increased for each new SurfaceRenderer.
+ */
+SurfaceRenderer.prototype.counter = 0;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
 
 
 /**
  * @constructor
- * @param {Controller3D} modelController - the model to display.
- * @param {Shader} shader - shader for display.
  */
-function ModelView3D (controller, shader) {
-//	console.log ("ModelView3D.constructor");
-	if (!(controller instanceof Controller3D)
-		|| !(shader instanceof Shader))
-	{
-		console.error ("ERROR - ModelView3D.constructor : bad type of "
-				+ "parameter");
-	}
-	
-	ModelView.call (this, controller, shader);
+function SurfaceRenderer (surfaceController, glContext) {
+	++SurfaceRenderer.prototype.counter;
+	GenericStructure.call ("surface" + SurfaceRenderer.prototype.counter, 
+		new DefaultShader (glContext)
+	);
 	
 	
 	/**
@@ -93,15 +110,15 @@ function ModelView3D (controller, shader) {
 	 */
 	this.glIndicesBuffer = [];
 	
-	/**
-	 * TODO
-	 */
-	this.selectvbo = [];
-	
-	/**
-	 * TODO
-	 */
-	this.selectibo = [];
+//	/**
+//	 * TODO
+//	 */
+//	this.selectvbo = [];
+//	
+//	/**
+//	 * TODO
+//	 */
+//	this.selectibo = [];
 	
 	/**
 	 * TODO
@@ -110,19 +127,37 @@ function ModelView3D (controller, shader) {
 };
 
 
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
+
+
+/**
+ * Set the model controller.
+ * {Controller} newController - The new model controller.
+ * @return {void}
+ * @throws FIXME compléter
+ */
+SurfaceRenderer.prototype.setModelController = function (newController) {
+	throw "SurfaceRenderer.setModelController: the modelController is not"
+		+ "mutable";
+};
+
+
+
 //=============================================================================
 /**
  * Prepare the model (create the triangles).
- * @param {GLContext} gl - the gl context.
+ * @param {WebGLRenderingContext} gl - the gl context.
  * @return {void}
+ * @throws FIXME compléter
  */
-ModelView3D.prototype.prepare = function (gl) {
-//	console.log ("ModelView3D.prepare");
-	if (typeof gl != "object") {
-		console.error ("ERROR - ModelView3D.prepare : bad type of parameter");
-	}
-	// --------------------------------------
-	var size = this.controller.getDimension ();
+SurfaceRenderer.prototype.prepare = function (gl) {
+	if (!(gl instanceof WebGLRenderingContext))
+		throw"SurfaceRenderer.prepare: argument is not a WebGLRenderingContext";
+	
+	var size = this.modelController.getDimension ();
 	this.nbBuffer = size.m[0] / 5;
 
 	var vertexBuffer = [];
@@ -154,12 +189,12 @@ ModelView3D.prototype.prepare = function (gl) {
 	}
 	// 2 triangles per faces
 	// No triangles strips because there are a lot of degenerated triangles
-	for (var x = 0; x < size.m[0]; ++x) {
-		for (var y = 0; y < size.m[1]; ++y) {
-			for (var z = 0; z < size.m[2]; ++z) {
-				if (this.controller.hasVoxel (x, y, z)) {
+	for (var x = 0; x < size.x; ++x) {
+		for (var y = 0; y < size.y; ++y) {
+			for (var z = 0; z < size.z; ++z) {
+				if (this.modelController.hasVoxel (x, y, z)) {
 					this.prepareVoxel (
-						this.controller.getVoxel (x, y, z),
+						this.modelController.getVoxel (x, y, z),
 						0,
 						vertexBuffer[Math.floor (x / this.nbBuffer)], 
 						indicesBuffer[Math.floor (x / this.nbBuffer)], 
@@ -228,61 +263,6 @@ ModelView3D.prototype.prepare = function (gl) {
 
 //==============================================================================
 /**
- * Draw the model (draw the triangles).
- * @param {GLContext} gl - The gl context.
- * @return {void}
- */
-ModelView3D.prototype.draw = function (gl) {
-	//console.log ("ModelView3D.draw");
-	if (typeof gl != "object") {
-		console.error ("ERROR - ModelView3D.draw : bad type of parameter");
-	}
-	// --------------------------------------
-	this.shader.setMode (2);
-	for (var tmp = 0; tmp < this.nbBuffer; ++tmp) {
-		// Let's the shader prepare its attributes
-		this.shader.setAttributes (gl, this.glVertexBuffer[tmp]);
-		// Let's render !
-		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
-		gl.drawElements (gl.TRIANGLES, this.glIndicesBuffer[tmp].numItems,
-			gl.UNSIGNED_SHORT, 0);
-
-		// Let's the shader prepare its attributes
-//		this.shader.setAttributes (gl, this.selectvbo[tmp]);
-		// Let's render !
-//		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.selectibo[tmp]);
-//		gl.drawElements (gl.TRIANGLES, this.selectibo[tmp].numItems,
-//			gl.UNSIGNED_SHORT, 0);
-	}
-};
-
-
-//==============================================================================
-/**
- * Draw the model for picking.
- * @param {GLContext} gl - the gl context.
- * @return {void}
- */
-ModelView3D.prototype.backBufferDraw = function (gl) {
-	if (typeof gl != "object") {
-		console.error ("ERROR - ModelView3D.backBufferDraw : bad type of "
-			+ "parameter");
-	}
-	
-	this.shader.setMode (1);
-	for (var tmp = 0; tmp < this.nbBuffer; ++tmp) {
-		// Let's the shader prepare its attributes
-		this.shader.setAttributes (gl, this.glBackBuffer[tmp]);
-		// Let's render !
-		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
-		gl.drawElements (gl.TRIANGLES, this.glIndicesBuffer[tmp].numItems, 
-			gl.UNSIGNED_SHORT, 0);
-	}
-};
-
-
-//==============================================================================
-/**
  * Prepare each face of the voxel for rendering.
  * 
  * @param {Voxel} voxel - The current voxel.
@@ -297,12 +277,12 @@ ModelView3D.prototype.backBufferDraw = function (gl) {
  * each triangle.
  * @param {Array} backColorBuffer - The normal buffer which contains the normal
  * of each face.
- * @param {ColorEnum} colorVoxel - The color of the face to draw.
+ * @param {float[4]} colorVoxel - The color of the face to draw.
  * @param {Vector} universSize - The size of the univers.
  * 
  * @return {void}
  */
-ModelView3D.prototype.prepareVoxel = function (
+SurfaceRenderer.prototype.prepareVoxel = function (
 	voxel,
 	offset,
 	vertexBuffer, 
@@ -313,18 +293,20 @@ ModelView3D.prototype.prepareVoxel = function (
 	colorVoxel,
 	universSize
 ) {
-//	console.log (ModelView3D.prepareVoxel);
-	if (!(voxel instanceof Voxel
+	if (!(voxel instanceof Voxel && typeof offset === "number"
 			&& vertexBuffer instanceof Array
 			&& indicesBuffer instanceof Array
 			&& colorBuffer instanceof Array
 			&& backColorBuffer instanceof Array
-			&& normalBuffer instanceof Array))
+			&& normalBuffer instanceof Array
+			&& colorVoxel instanceof Array
+			&& universSize instanceof Vector))
 	{
-		console.error ("ERROR - ModelView3D.prepareCubeNormal : bad type of" 
-				+ " parameter");
+		console.error ("SurfaceRenderer.prepareCubeNormal : bad type(s) of" 
+				+ " parameter(s)");
 		showType (voxel, offset, vertexBuffer, indicesBuffer, 
-			colorBuffer, normalBuffer, backColorBuffer, colorVoxel, universSize);
+			colorBuffer, normalBuffer, backColorBuffer, colorVoxel,
+			universSize);
 		return;
 	}
 	
@@ -389,7 +371,7 @@ var offsetVertexInCube = [
  * 
  * @return {void}
  */
-ModelView3D.prototype.prepareFace = function (
+SurfaceRenderer.prototype.prepareFace = function (
 	voxel,
 	direction, 
 	offset,
@@ -403,11 +385,17 @@ ModelView3D.prototype.prepareFace = function (
 ) {
 	// TODO vérifier les entrés
 	if (!(voxel instanceof Voxel && typeof offset === "number" 
+			&& typeof direction === "number"
+			&& vertexBuffer instanceof Array
+			&& indicesBuffer instanceof Array
+			&& colorBuffer instanceof Array
+			&& backColorBuffer instanceof Array
+			&& normalBuffer instanceof Array
 			&& colorFace instanceof Array
 			&& universSize instanceof Vector
 	)) {
 		console.error (	
-			"ModelView3D.prepareFace : bad type(s) of parameter(s) !");
+			"SurfaceRenderer.prepareFace : bad type(s) of parameter(s) !");
 		showType (voxel, direction, offset, vertexBuffer, indicesBuffer, 
 			colorBuffer, normalBuffer, backColorBuffer, colorFace, universSize);
 		return;
@@ -484,7 +472,69 @@ ModelView3D.prototype.prepareFace = function (
 		backColorBuffer.push (this.posToColor (voxel, direction));
 };
 
+
 //==============================================================================
+/**
+ * Draw the model (draw the triangles).
+ * @param {WebGLRenderingContext} gl - The gl context.
+ * @return {void}
+ */
+SurfaceRenderer.prototype.draw = function (gl) {
+	//console.log ("SurfaceRenderer.draw");
+	if (typeof gl != "object") {
+		console.error ("SurfaceRenderer.draw : bad type of parameter");
+	}
+	// --------------------------------------
+	this.shader.setMode (2);
+	for (var tmp = 0; tmp < this.nbBuffer; ++tmp) {
+		// Let's the shader prepare its attributes
+		this.shader.setAttributes (gl, this.glVertexBuffer[tmp]);
+		// Let's render !
+		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
+		gl.drawElements (gl.TRIANGLES, this.glIndicesBuffer[tmp].numItems,
+			gl.UNSIGNED_SHORT, 0);
+
+		// Let's the shader prepare its attributes
+//		this.shader.setAttributes (gl, this.selectvbo[tmp]);
+		// Let's render !
+//		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.selectibo[tmp]);
+//		gl.drawElements (gl.TRIANGLES, this.selectibo[tmp].numItems,
+//			gl.UNSIGNED_SHORT, 0);
+	}
+};
+
+
+//==============================================================================
+/**
+ * Draw the model for picking.
+ * @param {WebGLRenderingContext} gl - the gl context.
+ * @return {void}
+ */
+SurfaceRenderer.prototype.drawBackBuffer = function (gl) {
+	if (typeof gl != "object") {
+		console.error ("SurfaceRenderer.drawBackBuffer : bad type of "
+			+ "parameter");
+	}
+	
+	this.shader.setMode (1);
+	for (var tmp = 0; tmp < this.nbBuffer; ++tmp) {
+		// Let's the shader prepare its attributes
+		this.shader.setAttributes (gl, this.glBackBuffer[tmp]);
+		// Let's render !
+		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
+		gl.drawElements (gl.TRIANGLES, this.glIndicesBuffer[tmp].numItems, 
+			gl.UNSIGNED_SHORT, 0);
+	}
+};
+
+
+
+//##############################################################################
+//	Other methods
+//##############################################################################
+
+
+
 /**
  * Add a vertex into a buffer. Transform all coordinates beetween -1.0 and +1.0.
  * 
@@ -497,7 +547,7 @@ ModelView3D.prototype.prepareFace = function (
  * 
  * @return {void}
  */
-ModelView3D.prototype.addVertexBuffer = function (dataVertexBuffer, x, y, z, 
+SurfaceRenderer.prototype.addVertexBuffer = function (dataVertexBuffer, x, y, z, 
 	limit) 
 {
 	if (!(dataVertexBuffer instanceof Array)
@@ -505,7 +555,7 @@ ModelView3D.prototype.addVertexBuffer = function (dataVertexBuffer, x, y, z,
 			|| typeof y != "number"
 			|| typeof z != "number"
 			|| ! (limit instanceof Vector)) {
-		console.error ("ERROR - ModelView3D.addVertexBuffer : bad type(s) of "
+		console.error ("SurfaceRenderer.addVertexBuffer : bad type(s) of "
 				+ "parameter(s)");
 	}
 	// --------------------------------------
@@ -527,7 +577,7 @@ ModelView3D.prototype.addVertexBuffer = function (dataVertexBuffer, x, y, z,
  * 
  * @return {void}
  */
-ModelView3D.prototype.addVertexBuffer2 = function (datavertexBuffer, vertex, 
+SurfaceRenderer.prototype.addVertexBuffer2 = function (datavertexBuffer, vertex, 
 	limit) 
 {
 	this.addVertexBuffer (datavertexBuffer, vertex.x, vertex.y, vertex.z, 
@@ -544,7 +594,7 @@ ModelView3D.prototype.addVertexBuffer2 = function (datavertexBuffer, vertex,
  * 
  * @return {Array[4]} The RGBA color corresponding to the position of the face.
  */
-ModelView3D.prototype.posToColor = function (voxel, direction) {
+SurfaceRenderer.prototype.posToColor = function (voxel, direction) {
 	return [
 		((voxel.getPosition().x + 1) * 10 + direction) / 255, // red
 		((voxel.getPosition().y + 1) * 10) / 255, // green

@@ -89,17 +89,12 @@ function Scene () {
 	this.objectList = [];
 	
 	/**
-	 * {Array} List of shaders.
-	 */
-	this.shaderList = [];
-	
-	/**
  	 * {Camera} The camera used in the scene
  	 */
-	this.camera = undefined;
+	this.camera;
 		
 	/**
-	 * {float} 
+	 * {float} Tha scla factor.
 	 */
 	this.scale = 1.0;
 	
@@ -132,24 +127,37 @@ function Scene () {
 	 * {int} The Y mouse coordinate.
 	 */
 	this.mouseY = 384;
-	
-	/**
-	 * {} 
-	 */
-	this.repere = null;
 }
 
 
-	  //////////////////////////////
-	 /// Accessors and Mutators ///
-	//////////////////////////////
+//==============================================================================
+/**
+ * {Camera} The default camera. Use when no camera has set. FIXME anglais corecte ?
+ */
+Scene.prototype.defaultCamera = new Camera (
+	new Vector (10, 10, 10),
+	new Vector (0, 0, 0),
+	new Vector (0, 0, 1),
+	800,
+	600,
+	30.0,
+	0.1,
+	1000.0
+);
+
+
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
+
 
 
 /**
- * @return {int} The length of the list of objects.
+ * @return {int} The number of objects in this scene (the length of the list of
+ * objects).
  */
 Scene.prototype.getLength = function () {
-//	console.log ("Scene.getLength");
 	return this.objectList.length;
 };
 
@@ -162,16 +170,24 @@ Scene.prototype.getLength = function () {
  * exists, null otherwise.
  */
 Scene.prototype.getObjectByName = function (aName) {
-//	console.log ("Scene.getObjectByName");
 	var length = this.objectList.length;
 	for (var i = 0; i < length; ++i) {
-		if (this.objectList[i].getName() === aName) {
+		if (this.objectList[i].getName() === aName)
 			return this.objectList[i];
-		}
 	}
 	console.error ("Scene.getObjectByName : object : \"" + aName
 			+ "\" not found");
 	return null;
+};
+
+
+//==============================================================================
+/**
+ * Get the light position.
+ * @return {Vector} The light position.
+ */
+Scene.prototype.getLightPosition = function () {
+	return this.lightPosition;
 };
 
 
@@ -182,31 +198,32 @@ Scene.prototype.getObjectByName = function (aName) {
  * @return {void}
  */
 Scene.prototype.setLightPosition = function (pos) {
-//	console.log ("Scene.setLightPosition");
 	this.lightPosition = new Vector (pos);
 };
 
 
 //==============================================================================
 /**
- * Get a camera.
+ * Get the camera.
  * @return {Camera} the camera corresponding to the id if it exists, null
  * otherwise.
  */
 Scene.prototype.getCamera = function () {
-//	console.log ("Scene.getCameraById");
 	return this.camera;
 };
 
 
 //==============================================================================
 /**
- * Get a camera.
+ * Set a camera.
  * @param {Camera} camera - The new camera of the scene
+ * @throws FIXME compléter
  */
 Scene.prototype.setCamera = function (camera) {
-//	console.log ("Scene.getCameraById");
-	this.camera = camera;
+	if (camera instanceof Camera)
+		this.camera = camera;
+	else
+		throw "Scene.setCamera: parameter is not a Camera";
 };
 
 
@@ -217,7 +234,6 @@ Scene.prototype.setCamera = function (camera) {
  * @return {void}
  */
 Scene.prototype.setScale = function (scale) {
-//	console.log ("Scene.setScale");
 	this.scale = scale;
 };
 
@@ -227,7 +243,6 @@ Scene.prototype.setScale = function (scale) {
  * @return {float} the scale of the scene.
  */
 Scene.prototype.getScale = function () {
-//	console.log ("Scene.getScale");
 	return this.scale;
 };
 
@@ -239,7 +254,6 @@ Scene.prototype.getScale = function () {
  * @return {void}
  */
 Scene.prototype.multScale = function (scale) {
-//	console.log ("Scene.multScale");
 	this.scale *= scale;
 };
 
@@ -251,7 +265,6 @@ Scene.prototype.multScale = function (scale) {
  * @return {void}
  */
 Scene.prototype.setWidth = function (width) {
-//	console.log ("Scene.setWidth");
 	this.width = width;
 };
 
@@ -263,7 +276,6 @@ Scene.prototype.setWidth = function (width) {
  * @return {void}
  */
 Scene.prototype.setHeight = function (height) {
-//	console.log ("Scene.setHeight");
 	this.height = height;
 };
 
@@ -274,7 +286,6 @@ Scene.prototype.setHeight = function (height) {
  * @return {int} the width of the scene.
  */
 Scene.prototype.getWidth = function () {
-//	console.log ("Scene.getWidth");
 	return this.width;
 };
 
@@ -285,7 +296,6 @@ Scene.prototype.getWidth = function () {
  * @return {int} the height of the scene.
  */
 Scene.prototype.getHeight = function () {
-//	console.log ("Scene.getHeight");
 	return this.height;
 };
 
@@ -298,7 +308,6 @@ Scene.prototype.getHeight = function () {
  * @return {void}
  */
 Scene.prototype.setTranslate = function (x, y) {
-//	console.log ("Scene.setTranslate");
 	this.translateX = x;
 	this.translateY = y;
 };
@@ -311,7 +320,6 @@ Scene.prototype.setTranslate = function (x, y) {
  * @return {void}
  */
 Scene.prototype.addTranslateX = function (x) {
-//	console.log ("Scene.addTranslateX");
 	this.translateX += x;
 };
 
@@ -323,14 +331,15 @@ Scene.prototype.addTranslateX = function (x) {
  * @return {void}
  */
 Scene.prototype.addTranslateY = function (y) {
-//	console.log ("Scene.addTranslateY");
 	this.translateY += y;
 };
 
 
-	  //////////////////////
-	 /// Others methods ///
-	//////////////////////
+
+//##############################################################################
+//	Other methods
+//##############################################################################
+
 
 
 /**
@@ -351,10 +360,8 @@ Scene.prototype.addObject = function (anObject) {
  * @return {void}
  */
 Scene.prototype.removeObjectById = function (id) {
-//	console.log ("Scene.removeObjectById");
-	if (id >= 0 && id < this.objectList.length) {
+	if (id >= 0 && id < this.objectList.length)
 		this.objectList.splice (id, 1); // Remove from the list
-	}
 };
 
 
@@ -365,7 +372,6 @@ Scene.prototype.removeObjectById = function (id) {
  * @return {void}
  */
 Scene.prototype.removeObjectByName = function (anObjectName) {
-//	console.log ("Scene.removeObjectByName");
 	for (var i = 0; i < this.objectList.length; ++i) {
 		if (this.objectList[i].getName() === anObjectName) {
 			this.objectList.splice (i, 1); // Remove from the list
@@ -379,65 +385,19 @@ Scene.prototype.removeObjectByName = function (anObjectName) {
 
 //==============================================================================
 /**
- * Add a shader.
- * @param {Shader} aShader - the shader to add to the scene.
- * @return {void}
- */
-Scene.prototype.addShader = function (aShader) {
-//	console.log ("Scene.addShader");
-	this.shaderList.push(aShader);
-};
-
-
-//==============================================================================
-/**
- * Remove a shader from list given its name.
- * @param {String} aName - the name of the shader to remove.
- * @return {void}
- */
-Scene.prototype.removeShaderByName = function (aName) {
-//	console.log ("Scene.removeShaderByName");
-	for (var i = 0; i < this.objectList.length; ++i) {
-		if (this.shaderList[i].getName() === aName) {
-			this.shaderList.splice (i, 1); // Remove from the list
-			break;
-		}
-	}
-	console.error ("Scene.removeShaderByName : shader : \"" + aName
-			+ "\" not found");
-};
-
-
-//==============================================================================
-/**
  * Prepare Scene before render.
  * @param {glContext} gl - the gl context.
  * @return {void}
  */
 Scene.prototype.prepare = function (gl) {
-//	console.log ("Scene.prepare");
-	// Prepare each objects 
-	if (this.repere != null)
-		this.repere.prepare(gl);
-	
 	for (var i = 0; i < this.objectList.length; ++i)
-		this.objectList[i].prepare(gl);
+		this.objectList[i].prepare (gl);
 	
 	// If no camera 
-	if (this.camera === undefined) {
-		// Default Camera
-		this.camera = new Camera (new Vector (10, 10, 10),
-			new Vector (0, 0, 0),
-			new Vector (0, 0, 1),
-			800,
-			600,
-			30.0,
-			0.1,
-			1000.0
-		);
-	}
+	if (this.camera === undefined)
+		this.camera = Scene.prototype.defaultCamera;
 
-	this.prepareSelect (gl);
+//	this.prepareSelect (gl);
 };
 
 
@@ -447,14 +407,11 @@ Scene.prototype.prepare = function (gl) {
  * @return {void}
  */
 Scene.prototype.reload = function () {
-//	console.log ("Scene.reload");
-	var length = this.objectList.length;
+	var length = this.getLength ();
 	for (var i = 0; i < length; ++i) {
 		var obj = this.objectList[i];
-		if (obj.displayMe()) { 
-			var shad = obj.getShader();
-			shad.Reload(); 
-		}
+		if (obj.displayMe ())
+			obj.getShader ().reload(); 
 	}
 };
 
@@ -468,31 +425,23 @@ Scene.prototype.reload = function () {
  * @return {void}
  */
 Scene.prototype.draw = function (gl, backBuffer) {
-//	console.log ("Scene.draw");
 	var taille = Math.min (this.height, this.width) * 2;
-	gl.viewport ((this.width - taille) / 2, (this.height - taille) / 2,
-			taille, taille);
+	gl.viewport ((this.width - taille) / 2, (this.height - taille) / 2, taille,
+		taille);
 			
-	var colorFont = [0.0, 0.0, 0.0, 1.0];
-	
-	gl.clearColor (colorFont[0], colorFont[1], colorFont[2], colorFont[3]);
+	gl.clearColor (0.0, 0.0, 0.0, 1.0);
 	gl.clear (gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-	
-	// Get Current Camera Matrices
-	var cam = this.camera;
-	var mvMat = cam.getViewMatrix();
-	var pjMat = cam.getProjectionMatrix();
-	
-	if (this.repere !== undefined && this.repere.displayMe()) {
-		// Get Object Properties
-		var obj = this.repere;
-		this.prepareDraw (gl, obj);
-		// RenderObject
-		if (!backBuffer)
-			obj.draw (gl, this);
-	}
+		
+//	if (this.repere !== undefined && this.repere.displayMe()) {
+//		// Get Object Properties
+//		var obj = this.repere;
+//		this.prepareDraw (gl, obj);
+//		// RenderObject
+//		if (!backBuffer)
+//			obj.draw (gl, this);
+//	}
 
-	var length = this.objectList.length;
+	var length = this.getLength ();
 	for (var i = 0; i < length; ++i) {
 		// Get Object Properties 
 		var obj = this.objectList[i];
@@ -510,9 +459,10 @@ Scene.prototype.draw = function (gl, backBuffer) {
 };
 
 
+//==============================================================================
 /**
  * Compute the data to draw
- * @param [glContext} gl - the gl context
+ * @param {glContext} gl - the gl context
  * @param {}
  */
 Scene.prototype.prepareDraw = function (gl, obj) {
@@ -577,26 +527,14 @@ Scene.prototype.prepareDraw = function (gl, obj) {
  * @return {void}
  */
 Scene.prototype.prepareSelect = function (gl) {
-//	console.log ("Scene.prepareSelect");
 	// Prepare each objects 
-	var lengthObject = this.objectList.length;
-	for (var i = 0; i < lengthObject; ++i) {
+	var lengthObject = this.getLength ();
+	for (var i = 0; i < lengthObject; ++i)
 		this.objectList[i].prepareSelection(gl);
-	}
 	
 	// If no camera
-	if (this.camera === undefined) {
-		// Default Camera
-		this.camera	= new Camera (new Vector (10, 10, 10),
-			new Vector (0, 0, 0),
-			new Vector (0, 0, 1),
-			800,
-			600,
-			30.0,
-			0.1,
-			1000.0
-		);
-	}
+	if (this.camera === undefined)
+		this.camera	= Scene.prototype.defaultCamera;
 };
 
 

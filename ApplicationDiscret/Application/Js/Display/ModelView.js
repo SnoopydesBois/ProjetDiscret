@@ -62,84 +62,90 @@ ModelView.prototype.constructor = ModelView;
 
 /**
  * @constructor
- * @param {Controller3D} modelController - the model to display.
  * @param {Shader} shader - a shader for display.
  */
-function ModelView (controller, shader) {
-	//console.log ("ModelView.constructor ");
-	if (arguments.length != 0 && (!(controller instanceof Controller)
-		|| !(shader instanceof Shader)))
-	{
-		console.error ("ERROR - ModelView.constructor : bad type of parameter");
-	}
-	// --------------------------------------
-	this.controller = controller;
-	
-	GenericStructure.call (this, "", shader);
+function ModelView (canvas, glContextType, shader) {
+};
+
+
+
+//##############################################################################
+//	Accessors and mutators
+//##############################################################################
+
+
+
+/**
+ * @return {Controller} the model controller.
+ */
+ModelView.prototype.getModelController = function () {
+	return this.modelController;
+};
+
+
+//==============================================================================
+/**
+ * Set the model controller.
+ * {Controller} newController - .
+ */
+ModelView.prototype.setModelController = function (newController) {
+	this.modelController = newController;
+};
+
+
+
+//##############################################################################
+//	Other methodes
+//##############################################################################
+
+
+
+/**
+ * Show the model. Prepare the model and the selection and draw both. Prepare
+ * and draw the picking.
+ * @return {void}
+ */
+ModelView.prototype.show = function () {
+	this.prepare ();
+	this.prepareSelection ();
+	this.draw ();
+	this.drawBackBuffer ();
 };
 
 
 //==============================================================================
 /**
  * Prepare the model (create the triangles).
- * @param {GLContext} gl - the gl context.
- * @param {int} nb - number of buffer to prepare
- * (if undefined then all buffer are prepared).
+ * MUST BE OVERLOAD IN DAUGHTER CLASSES !
  * @return {void}
  */
-ModelView.prototype.prepare = function (gl, nb) {
-	//console.log ("ModelView.prepare");
-	if (typeof gl != "object"
-			|| (typeof nb != "number" && typeof nb != "undefined")) {
-		console.error ("ERROR - ModelView.prepare : bad type of parameter");
-	}
-	// --------------------------------------
-	this.prepareSelection (gl, nb);
-};
+ModelView.prototype.prepare = function () {};
 
 
 //==============================================================================
 /**
- * To overload.
  * Draw the model (draw the triangles).
- * @param {GLContext} gl - the gl context.
+ * MUST BE OVERLOAD IN DAUGHTER CLASSES !
  * @return {void}
  */
-ModelView.prototype.draw = function (gl) {
-};
+ModelView.prototype.draw = function () {};
 
 
 //==============================================================================
 /**
  * Prepare the selection of model (create the triangles).
- * To overload.
- * @param {GLContext} gl - the gl context
- * @param {int} nb - number of buffer to prepare 
- * (if undefined then all buffet are prepared)
+ * MUST BE OVERLOAD IN DAUGHTER CLASSES !
  * @return {void}
  */
-ModelView.prototype.prepareSelection = function (gl, nb) {
-};
+ModelView.prototype.prepareSelection = function () {};
 
 
 //==============================================================================
 /**
  * Draw the model for picking.
- * To overload.
- * @param {GLContext} gl - the gl context.
+ * MUST BE OVERLOAD IN DAUGHTER CLASSES !
  * @return {void}
  */
-ModelView.prototype.backBufferDraw = function (gl) {
-};
-
-
-//==============================================================================
-/**
- * @return {Controller} the model controller.
- */
-ModelView.prototype.getController = function () {
-//	console.log ("ModelView3D.getModelController");
-	return this.controller;
-};
+ModelView.prototype.drawBackBuffer = function () {};
 
 

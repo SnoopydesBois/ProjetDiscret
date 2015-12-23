@@ -70,11 +70,11 @@
  * @param {glContext} gl - the gl context.
  * @param {Attribute} attributes - the attributes of the shader.
  */
-function Shader (name, vertexSourceText, fragmentSourceText 
-	, gl, attributes)
+function Shader (name, vertexSourceText, fragmentSourceText,
+	gl, attributes)
 {
 //	console.log ("Shader.constructor");
-	this.name = name; 
+	this.shaderName = name; 
 	this.vertexShaderName = vertexSourceText;
 	this.fragmentShaderName = fragmentSourceText;
 	this.attributes = attributes;
@@ -84,7 +84,7 @@ function Shader (name, vertexSourceText, fragmentSourceText
 	this.fragmentShad = null; 
 	
 	// Keep gl context 
-	this.gl = gl; 
+	this.glContext = gl; 
 	
 	// Compile shader 
 	this.reload();
@@ -93,12 +93,11 @@ function Shader (name, vertexSourceText, fragmentSourceText
 
 //==============================================================================
 /**
- * reload the shaders ...
+ * Load/reload the shaders.
  * @return {void}
  */
 Shader.prototype.reload = function () {
-//	console.log ("Shader.reload");
-	if (this.gl !== undefined) {
+	if (this.glContext !== undefined) {
 		this.prepareShader();
 	}
 }
@@ -114,25 +113,25 @@ Shader.prototype.prepareShader = function () {
 	this.vertexSourceText = LoadFileSync(this.vertexShaderName);
 	this.fragmentSourceText = LoadFileSync(this.fragmentShaderName);
 	
-	var gl = this.gl; 
+	var gl = this.glContext; 
 	
 	// Create vertex shader 
-	this.vertexShad = gl.createShader(gl.VERTEX_SHADER);
+	this.vertexShad = gl.createShader (gl.VERTEX_SHADER);
 	
 	// Compile vertex shader 
-	gl.shaderSource(this.vertexShad, this.vertexSourceText);
-	gl.compileShader(this.vertexShad);
+	gl.shaderSource (this.vertexShad, this.vertexSourceText);
+	gl.compileShader (this.vertexShad);
 	
-	if (!gl.getShaderParameter(this.vertexShad, gl.COMPILE_STATUS)) {
+	if (!gl.getShaderParameter (this.vertexShad, gl.COMPILE_STATUS)) {
 		console.log ("Vertex shader: " + gl.getShaderInfoLog(this.vertexShad));
 	}
 	
 	// Create fragment shader 
-	this.fragmentShad = gl.createShader(gl.FRAGMENT_SHADER); 
-	gl.shaderSource(this.fragmentShad, this.fragmentSourceText);
-	gl.compileShader(this.fragmentShad);
+	this.fragmentShad = gl.createShader (gl.FRAGMENT_SHADER); 
+	gl.shaderSource (this.fragmentShad, this.fragmentSourceText);
+	gl.compileShader (this.fragmentShad);
 	
-	if (!gl.getShaderParameter(this.fragmentShad, gl.COMPILE_STATUS)) {
+	if (!gl.getShaderParameter (this.fragmentShad, gl.COMPILE_STATUS)) {
 		console.log (gl.getShaderInfoLog(this.fragmentShad));
 	}
 	
@@ -143,7 +142,7 @@ Shader.prototype.prepareShader = function () {
 	gl.linkProgram (this.program);
 	
 	if (! gl.getProgramParameter (this.program, gl.LINK_STATUS)) {
-		console.log ("Could not initialise shaders");
+		console.error ("Could not initialise shaders");
 	}
 };
 
@@ -154,8 +153,7 @@ Shader.prototype.prepareShader = function () {
  * @return {void}
  */
 Shader.prototype.setActive = function () {
-//	console.log ("Shader.setActive");
-	this.gl.useProgram (this.program); 
+	this.glContext.useProgram (this.program); 
 };
 
 
@@ -164,8 +162,7 @@ Shader.prototype.setActive = function () {
  * @return {String} the name the shader
  */
 Shader.prototype.getName = function () {
-//	console.log ("Shader.getName");
-	return this.name;
+	return this.shaderName;
 };
 
 
@@ -177,8 +174,7 @@ Shader.prototype.getName = function () {
  * @return {WebGLUniformLocation} the uniformLocation from the program.
  */
 Shader.prototype.getUniformLocation = function (aName) {
-//	console.log ("Shader.getUniformLocation");
-	return this.gl.getUniformLocation(this.program, aName);
+	return this.glContext.getUniformLocation (this.program, aName);
 };
 
 
@@ -190,8 +186,7 @@ Shader.prototype.getUniformLocation = function (aName) {
  * @return {int} the attribLocation from the program.
  */
 Shader.prototype.getAttributeLocation = function (aName) {
-//	console.log ("Shader.getAttributeLocation");
-	return this.gl.getAttribLocation(this.program, aName);
+	return this.glContext.getAttribLocation (this.program, aName);
 };
 
 
@@ -202,7 +197,6 @@ Shader.prototype.getAttributeLocation = function (aName) {
  * @return {boolean} true if the attribute exist, false otherwise.
  */
 Shader.prototype.getAttribute = function (attrib) {
-//	console.log ("Shader.getAttribute");
 	for (var i = 0; i < this.attributes.length; ++i) {
 		if (this.attributes[i] == attrib) {
 			return true;

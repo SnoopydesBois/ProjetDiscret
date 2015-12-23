@@ -64,7 +64,7 @@ function Controller3D (dimension, shader)
 {
 //	console.log ("Controller3D.constructor");
 	if (!(dimension instanceof Vector)) {
-		console.error ("ERROR - Controller3D.constructor : "
+		console.error ("Controller3D.constructor : "
 				+ "bad type of parameter");
 	}
 	// --------------------------------------

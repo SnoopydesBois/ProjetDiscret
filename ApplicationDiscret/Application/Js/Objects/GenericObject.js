@@ -65,75 +65,57 @@
 
 /**
  * @constructor Class to manage an Object (you must inherit from this class).
- * @param {String} name - name of the object.
- * @param {int} number - id of the object.
- * @param {Function} callback.
+ * @param {HTMLCanvasElement} canvas - The associated canvas.
+ * @param {String} glContextType - The type of webGl context for drawing. The
+ * value is one of "2d", "3d".
  */
-function GenericObject (name, number, callback) {
-//	console.log ("GenericObject.constructor");
-	/**
-	 * {String} 
-	 */
-	this.UIname = name;
-	
-	/**
-	 * {int} 
-	 */
-	this.number = number;
-	
-	/**
-	 * {Array} List of renderTarget.
-	 */
-	this.renderTarget_list = new Array();
-	this.scene = null;
-
-	this.name = "object" + this.number;
-
-	if (callback === undefined) {
+function GenericObject (canvas, glContextType) {
+	if (!((canvas instanceof HTMLCanvasElement) 
+		&& (typeof glContextType === "string")))
+	{
+		console.error ("GenericObject.constructor : bad type(s) of parameter(s)");
 		return;
+	}
+	
+	/**
+	 * {Scene} The scene which containt all objects.
+	 */
+	this.scene = new Scene ();
+	
+	/**
+	 * {HTMLCanvasElement} The associated canvas FIXME où le dessin du modèle
+	 * est effectué.
+	 */
+	this.canvas = canvas;
+	
+	/**
+	 * {CanvasRenderingContext2D | WebGLRenderingContext} The webGl context.
+	 */
+	this.glContext;
+	switch (glContextType) {
+		case "2d" :
+			this.glContext = this.canvas.getContext ("2d");
+			break;
+		case "3d" :
+			this.glContext = this.canvas.getContext ("webgl") 
+				|| this.canvas.getContext ("experimental-webgl");
+			break;
+		default :
+			this.glContext = null;
+			console.error ("ModelView.constructor : unknow value for "
+				+ "glContextType parameter : " + glContextType);
+			return;
 	}
 };
 
 
-	  //////////////////////////////
-	 /// Accessors and Mutators ///
-	//////////////////////////////
+
+//##############################################################################
+//	Accessors and mutators
+//##############################################################################
 
 
-/** 
- * @return {String} the object name.
- */
-GenericObject.prototype.getName = function () {
-//	console.log ("GenericObject.getName");
-	return this.name;
-};
 
-
-//==============================================================================
-/** 
- * @return {int} the object number (for UI).
- */
-GenericObject.prototype.getNumber = function () {
-//	console.log ("GenericObject.getNumber");
-	return this.number;
-};
-
-
-//==============================================================================
-/**
- * Reload an object (UI) : can (should?) be overloaded.
- * @return {void}
- */
-GenericObject.prototype.reload = function () {
-//	console.log ("GenericObject.reload");
-	if (this.scene == null) {
-		return;
-	}
-	this.scene.Reload ();
-};
-
-
-//==============================================================================
 /**
  * Change dimensions ... can be overloaded.
  * @param {int} width - the scene width.
@@ -141,12 +123,10 @@ GenericObject.prototype.reload = function () {
  * @return {void}
  */
 GenericObject.prototype.setDimension = function (width, height) {
-//	console.log ("GenericObject.setDimension");
-	if (this.scene == null) {
-		return;
+	if (this.scene !== null) {
+		this.scene.setWidth (width);
+		this.scene.setHeight (height);
 	}
-	this.scene.setWidth (width);
-	this.scene.setHeight (height);
 };
 
 
@@ -158,17 +138,63 @@ GenericObject.prototype.setDimension = function (width, height) {
  * @return {void}
  */
 GenericObject.prototype.setMouse = function (x, y) {
-//	console.log ("GenericObject.setMouse");
-	if (this.scene == null) {
-		return;
-	}
-	this.scene.setMouse (x, y);
+	if (this.scene !== null)
+		this.scene.setMouse (x, y);
 };
 
 
-	  /////////////////////
-	 /// Other methods ///
-	/////////////////////
+
+//##############################################################################
+//	Draw
+//##############################################################################
+
+
+/**
+ * Reload the scene.
+ * @return {void}
+ */
+GenericObject.prototype.reload = function () {
+	if (!(this.scene instanceof Scene))
+		console.error ("GenericObject.reload : scene does not exist !");
+	else
+		this.scene.reload ();
+};
+
+
+//==============================================================================
+/**
+ * Show the scene (prepare it and draw it).
+ * @return {void}
+ */
+GenericObject.prototype.show = function () {
+	this.prepare ();
+	this.draw ();
+};
+
+
+//==============================================================================
+/**
+ * Overload this function in order to compute additionnal items before drawing.
+ * You should at least specify links between renderTargets and the scene ...
+ * FIXME doc
+ * @return {void}
+ */
+GenericObject.prototype.prepare = function () {};
+
+
+//==============================================================================
+/**
+ * Overload this method in order to draw something.
+ * @return {void}
+ */
+GenericObject.prototype.draw = function () {};
+
+
+
+//##############################################################################
+//	Other methods
+//##############################################################################
+
 
 
 /**
@@ -177,10 +203,8 @@ GenericObject.prototype.setMouse = function (x, y) {
  * @return {void}
  */
 GenericObject.prototype.addTranslateX = function (x) {
-//	console.log ("GenericObject.addTranslateX");
-	if (this.scene != null) {
+	if (this.scene !== null)
 		this.scene.addTranslateX(x);
-	}
 };
 
 
@@ -191,10 +215,8 @@ GenericObject.prototype.addTranslateX = function (x) {
  * @return {void}
  */
 GenericObject.prototype.addTranslateY = function (x) {
-//	console.log ("GenericObject.addTranslateY");
-	if (this.scene != null) {
+	if (this.scene !== null)
 		this.scene.addTranslateY(x);
-	}
 };
 
 
@@ -205,14 +227,31 @@ GenericObject.prototype.addTranslateY = function (x) {
  * @return {void}
  */
 GenericObject.prototype.multScale = function (x) {
-//	console.log ("GenericObject.multScale");
-	if (this.scene != null) {
+	if (this.scene != null)
 		this.scene.multScale(x);
-	}
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Event
+//##############################################################################
+
+
+// FIXME chager les noms et ajouter celles manquantes.
+//onblur
+//onclick
+//ondbclick
+//onfocus
+//onkeydown
+//onkeypress
+//onkeyup
+//onmousedown
+//onmousemove
+//onmouseout
+//onmouseover
+//onmouseup
+
 /** 
  * user actions: you should overload it !
  * @param {MouseEvent} event - the mouse event.
@@ -255,23 +294,5 @@ GenericObject.prototype.interval = function () {};
  */
 GenericObject.prototype.onKeyPress = function (event) {};
 
-
-//==============================================================================
-/**
- * Overload this function in order to compute additionnal items before drawing.
- * You should at least specify links between renderTargets and the scene ...
- * @param {glContext} gl - the gl context.
- * @return {void}
- */
-GenericObject.prototype.prepare = function (gl) {};
-
-
-//==============================================================================
-/**
- * Overload this method in order to draw something.
- * @param {glContext} gl - the gl context.
- * @return {void}
- */
-GenericObject.prototype.draw = function (gl) {};
 
 
