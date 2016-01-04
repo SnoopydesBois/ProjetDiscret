@@ -1,7 +1,9 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -39,7 +41,8 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
- 
+
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
@@ -48,219 +51,262 @@
  * frame3D : Frame3D
  *
  * Repere(name : String, shader : DefaultShader, frame3D : Frame3D)
- * prepare(gl : glContext) : void
+ * prepare(glContext : glContextContext) : void
  * addVertice(stripVertices : Array, x : int, y : int, z : int) : void
- * hoverPrepare(gl : glContext) : void
- * draw(gl : glContext) : void
+ * hoverPrepare(glContext : glContextContext) : void
+ * draw(glContext : glContextContext) : void
  * setFrame(frame3D : Frame3D) : void
  */
+
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
-
-Repere.prototype = new GenericStructure();
+/**
+ * @extends GenericStructure
+ * @classdesc TODO
+ */
+Repere.prototype = new GenericStructure;
 Repere.prototype.constructor = Repere;
 
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
+
 /**
- * Create a Repere given an origin and a size
  * @constructor 
- * @param {String} name - The name of the repere
- * @param {Shader} shader - The shader to use
- * @param {Vector} dimension - The dimensions of the 3D space
+ * Create a Repere given an origin and a size
+ * 
+ * @param {Vector} dimension - The dimensions of the 3D space.
+ * @param {WebGLRenderingContext} glContext - The gl context (used by the
+ * shader) TODO vérifier anglais
  */
-function Repere (name, shader, dimension) {
-	// Call parent constructor (mandatory !)
-	GenericStructure.call(this, name, shader);
-	if (shader.getAttribute(AttributeEnum.normal) 
-			|| shader.getAttribute(AttributeEnum.tangent) 
-			|| shader.getAttribute(AttributeEnum.bitangent) 
-			|| shader.getAttribute(AttributeEnum.texcoord)) 
-	{
-		console.error ("Repere created with bad shader <"+shader.GetName()+">");
-	}
-	this.origin = new Vector(-1.0, -1.0, -1.0);
-	this.sizeRangeRange = 2;
+function Repere (dimension, glContext) {
+	GenericStructure.call (this, "repere", null, new DefaultShader (glContext));
+//	if (shader.getAttribute(AttributeEnum.normal) 
+//			|| shader.getAttribute(AttributeEnum.tangent) 
+//			|| shader.getAttribute(AttributeEnum.bitangent) 
+//			|| shader.getAttribute(AttributeEnum.texcoord)) 
+//	{
+//		console.error ("Repere created with bad shader <" 
+//			+ shader.GetName() + ">");
+//	}
 	
+	/**
+	 * {Vector} The dimension of the 3D space in voxel.
+	 */
 	this.dimension = dimension;
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
+
+
+
 /**
- * Overload Prepare.
- * @param {glContext} gl - the gl context.
- */
-Repere.prototype.prepare = function (gl) {
-	var vertices = [// the vertex of the box which serve as repere
-		[this.origin.X()				, this.origin.Y()				, 
-			this.origin.Z()				],
-		[this.origin.X()				, this.origin.Y() + this.sizeRange	, 
-			this.origin.Z()				],
-		[this.origin.X() + this.sizeRange	, this.origin.Y()				,
-			 this.origin.Z()				],
-		[this.origin.X() + this.sizeRange	, this.origin.Y() + this.sizeRange	, 
-			this.origin.Z()				],
-		[this.origin.X()				, this.origin.Y()				, 
-			this.origin.Z() + this.sizeRange	],
-		[this.origin.X()				, this.origin.Y() + this.sizeRange	, 
-			this.origin.Z() + this.sizeRange	],
-		[this.origin.X() + this.sizeRange	, this.origin.Y()				, 
-			this.origin.Z() + this.sizeRange	],
-		[this.origin.X() + this.sizeRange	, this.origin.Y() + this.sizeRange	, 
-			this.origin.Z() + this.sizeRange	],
-	];
-
-	// Color of each vertices, the box is black
-	var colors = [];
-	for (var i=0; i<vertices.length; ++i) {
-		colors.push([0.1, 0.1, 0.1, 1.0]);
-	}
-
-	// Indices to draw the box
-	var indices = [
-		0,1,2,3,	// BOTTOM
-		6,7,		// RIGHT
-		4,5,		// TOP
-		0,1,		// LEFT
-		1,0,
-		0,2,4,6,	// FRONT
-		6,3,
-		3,1,7,5		// BACK
-	];
-
-	// Create buffer 
-	this.vbo = gl.createBuffer();
-	this.vbo.numItems = vertices.length; 
-	
-	// and fill it!
-	var data = [];
-	for (vert=0; vert<vertices.length; ++vert) {
-		this.addAPoint(data, vertices[vert]); 
-		this.addAColor(data, colors[vert]);
-	}
-	
-	gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo); 
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
-
-	this.ibo = gl.createBuffer();
-	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ibo);
-	
-	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), 
-	gl.STATIC_DRAW);
-	this.ibo.numItems = indices.length;
-	
-};
-
-
-//==============================================================================
-/**
- * Fill the vertices for the repere.
- * @param {float[]} stripVertices - Array to fill with coordinates.
- * @param {float} x - X coordinates of hovered cube.
- * @param {float} y - Y coordinates of hovered cube.
- * @param {float} z - Z coordinates of hovered cube.
- */
-Repere.prototype.addVertice = function (stripVertices, x, y, z) {
-	// Allows some lisibility
-	// Origin point
-	var originX = this.origin.m[0];
-	var originY = this.origin.m[1];
-	var originZ = this.origin.m[2];
-
-	// Coordinate in X and Coordinate in X next to the last point
-	var offsetSizeX = [this.sizeRange * x /25, this.sizeRange * (x+1)/25];
-
-	// Coordinate in y and Coordinate in y next to the last point
-	var offsetSizeY = [this.sizeRange * y /25, this.sizeRange * (y+1)/25];
-
-	// Coordinate in Z and Coordinate in Z next to the last point
-	var offsetSizeZ = [this.sizeRange * z /25, this.sizeRange * (z+1)/25];
-
-	var tmp = 0.001;
-
-	// Factorize
-	// Ring 1
-	for (var i=0; i<2; ++i) {
-		stripVertices.push([originX + offsetSizeX[i], 
-				originY + tmp, originZ + tmp]);
-		stripVertices.push([originX + offsetSizeX[i],
-				originY + tmp, originZ + this.sizeRange - tmp]);
-		stripVertices.push([originX + offsetSizeX[i], 
-				originY + this.sizeRange - tmp, originZ + this.sizeRange - tmp]);
-		stripVertices.push([originX + offsetSizeX[i], 
-				originY + this.sizeRange - tmp, originZ + tmp]);
-	}
-
-	// Ring 2
-	for (var i=0; i<2; ++i) {
-		stripVertices.push([originX + tmp, 
-				originY + offsetSizeY[i], originZ + tmp]);
-		stripVertices.push([originX + this.sizeRange - tmp, 
-				originY + offsetSizeY[i], originZ + tmp]);
-		stripVertices.push([originX + this.sizeRange - tmp, 
-				originY + offsetSizeY[i], originZ + this.sizeRange - tmp]);
-		stripVertices.push([originX + tmp, 
-				originY + offsetSizeY[i], originZ + this.sizeRange - tmp]);
-	}
-
-	// Ring 3
-	for (var i=0; i<2; ++i) {
-		stripVertices.push([originX + tmp, 
-				originY + tmp, originZ + offsetSizeZ[i]]);
-		stripVertices.push([originX + tmp, 
-				originY + this.sizeRange - tmp, originZ + offsetSizeZ[i]]);
-		stripVertices.push([originX + this.sizeRange - tmp, 
-				originY + this.sizeRange - tmp, originZ + offsetSizeZ[i]]);
-		stripVertices.push([originX + this.sizeRange - tmp, 
-				originY + tmp, originZ + offsetSizeZ[i]]);
-	}
-};
-
-
-//==============================================================================
-/**
- * Overload draw.
- * @param {glContext} gl - the GL context.
- */
-Repere.prototype.draw = function (gl) {
-	if (this.vbo == undefined || this.ibo == undefined) {
-		return;
-	}
-	this.shader.setMode(0);
-	// Let's the shader prepare its attributes
-	this.shader.setAttributes(gl, this.vbo);
-	
-	// Let's render !
-	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ibo);
-	gl.drawElements(gl.TRIANGLE_STRIP, this.ibo.numItems, gl.UNSIGNED_SHORT, 0);
-	
-	if (this.stripIbo == undefined || this.stripVbo == undefined) {
-		return;
-	}
-	// Draw the stripes
-	this.shader.setAttributes(gl, this.stripVbo);
-	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.stripIbo);
-	gl.drawElements(gl.TRIANGLE_STRIP, 
-			this.stripIbo.numItems, gl.UNSIGNED_SHORT, 0);
-};
-
-
-//==============================================================================
-/**
- * Associate a new frame to the repere.
- * @param {Frame} frame - the new frame for the repere.
- */
-Repere.prototype.setFrame = function (frame) {
-	this.frame3D = frame;
-};
-
-
-//==============================================================================
-/**
- * Associate a new frame to the repere.
- * @return {Vector} the dimensions of the 3D space.
+ * @return {Vector} The dimensions of the repere/3Dspace.
  */
 Repere.prototype.getDimension = function () {
 	return this.dimension;
-}
+};
+
+
+
+//##############################################################################
+//	Draw
+//##############################################################################
+
+
+
+/**
+ * @override
+ * 
+ * @param {WebGLRenderingContext} glContext - The gl context.
+ */
+Repere.prototype.prepare = function (glContext) {
+	var halfDimBox = (new Vector (this.dimension)).mul (
+		1.0 / Math.max (this.dimension.x, this.dimension.y, this.dimension.z));
+	var vertexBuffer = [ // the vertex of the box which serve as repere
+		[-0.2, -0.2, -0.2],
+		[-0.2,  0.2, -0.2],
+		[ 0.2, -0.2, -0.2],
+		[ 0.2,  0.2, -0.2],
+		[-0.2, -0.2,  0.2],
+		[-0.2,  0.2,  0.2],
+		[ 0.2, -0.2,  0.2],
+		[ 0.2,  0.2,  0.2]
+//		[-halfDimBox.x, -halfDimBox.y, -halfDimBox.z],
+//		[-halfDimBox.x,  halfDimBox.y, -halfDimBox.z],
+//		[ halfDimBox.x, -halfDimBox.y, -halfDimBox.z],
+//		[ halfDimBox.x,  halfDimBox.y, -halfDimBox.z],
+//		[-halfDimBox.x, -halfDimBox.y,  halfDimBox.z],
+//		[-halfDimBox.x,  halfDimBox.y,  halfDimBox.z],
+//		[ halfDimBox.x, -halfDimBox.y,  halfDimBox.z],
+//		[ halfDimBox.x,  halfDimBox.y,  halfDimBox.z],
+
+//		[origin.x,            origin.y,            origin.z],
+//		[origin.x,            origin.y + dimBox.y, origin.z],
+//		[origin.x + dimBox.x, origin.y,            origin.z],
+//		[origin.x + dimBox.x, origin.y + dimBox.y, origin.z],
+//		[origin.x,            origin.y,            origin.z + dimBox.z],
+//		[origin.x,            origin.y + dimBox.y, origin.z + dimBox.z],
+//		[origin.x + dimBox.x, origin.y,            origin.z + dimBox.z],
+//		[origin.x + dimBox.x, origin.y + dimBox.y, origin.z + dimBox.z],
+	];
+
+	// Color of each vertices, the box is black
+	var colorBuffer = [];
+	var vertexBufferLength = vertexBuffer.length;
+	for (var i = 0; i < vertexBufferLength; ++i)
+		colorBuffer.push ([0.9, 0.1, 0.1, 1.0]);
+
+	// Indices to draw the box
+	var indicesBuffer = [
+		0, 1, 2, 3, // BOTTOM
+		6, 7,       // RIGHT
+		4, 5,       // TOP
+		0, 1,       // LEFT
+		1, 0,
+		0, 2, 4, 6, // FRONT
+		6, 3,
+		3, 1, 7, 5  // BACK
+	];
+
+	/// Vertex Buffer
+	this.glVertexBuffer = glContext.createBuffer ();
+	this.glVertexBuffer.numItems = vertexBufferLength; 
+	
+	var data = [];
+	for (var vert = 0; vert < vertexBufferLength; ++vert) {
+		this.addAPoint (data, vertexBuffer[vert]); 
+		this.addAColor (data, colorBuffer[vert]);
+	}
+	
+	glContext.bindBuffer (glContext.ARRAY_BUFFER, this.glVertexBuffer); 
+	glContext.bufferData (glContext.ARRAY_BUFFER, new Float32Array (data), 
+		glContext.STATIC_DRAW);
+	
+	
+	/// Indices Buffer
+	this.glIndiciesBuffer = glContext.createBuffer();
+	glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer);
+	
+	glContext.bufferData (glContext.ELEMENT_ARRAY_BUFFER,
+		new Uint16Array (indicesBuffer), glContext.STATIC_DRAW);
+	this.glIndiciesBuffer.numItems = indicesBuffer.length;
+};
+
+
+//==============================================================================
+///**
+// * Fill the vertices for the repere.
+// * @param {float[]} stripVertices - Array to fill with coordinates.
+// * @param {float} x - X coordinates of hovered cube.
+// * @param {float} y - Y coordinates of hovered cube.
+// * @param {float} z - Z coordinates of hovered cube.
+// */
+//Repere.prototype.addVertice = function (stripVertices, x, y, z) {
+//	// Allows some lisibility
+//	// Origin point
+//	var originX = this.origin.m[0];
+//	var originY = this.origin.m[1];
+//	var originZ = this.origin.m[2];
+
+//	// Coordinate in X and Coordinate in X next to the last point
+//	var offsetSizeX = [this.size * x /25, this.size * (x+1)/25];
+
+//	// Coordinate in y and Coordinate in y next to the last point
+//	var offsetSizeY = [this.size * y /25, this.size * (y+1)/25];
+
+//	// Coordinate in Z and Coordinate in Z next to the last point
+//	var offsetSizeZ = [this.size * z /25, this.size * (z+1)/25];
+
+//	var tmp = 0.001;
+
+//	// Factorize
+//	// Ring 1
+//	for (var i=0; i<2; ++i) {
+//		stripVertices.push([originX + offsetSizeX[i], 
+//				originY + tmp, originZ + tmp]);
+//		stripVertices.push([originX + offsetSizeX[i],
+//				originY + tmp, originZ + this.size - tmp]);
+//		stripVertices.push([originX + offsetSizeX[i], 
+//				originY + this.size - tmp, originZ + this.size - tmp]);
+//		stripVertices.push([originX + offsetSizeX[i], 
+//				originY + this.size - tmp, originZ + tmp]);
+//	}
+
+//	// Ring 2
+//	for (var i=0; i<2; ++i) {
+//		stripVertices.push([originX + tmp, 
+//				originY + offsetSizeY[i], originZ + tmp]);
+//		stripVertices.push([originX + this.size - tmp, 
+//				originY + offsetSizeY[i], originZ + tmp]);
+//		stripVertices.push([originX + this.size - tmp, 
+//				originY + offsetSizeY[i], originZ + this.size - tmp]);
+//		stripVertices.push([originX + tmp, 
+//				originY + offsetSizeY[i], originZ + this.size - tmp]);
+//	}
+
+//	// Ring 3
+//	for (var i=0; i<2; ++i) {
+//		stripVertices.push([originX + tmp, 
+//				originY + tmp, originZ + offsetSizeZ[i]]);
+//		stripVertices.push([originX + tmp, 
+//				originY + this.size - tmp, originZ + offsetSizeZ[i]]);
+//		stripVertices.push([originX + this.size - tmp, 
+//				originY + this.size - tmp, originZ + offsetSizeZ[i]]);
+//		stripVertices.push([originX + this.size - tmp, 
+//				originY + tmp, originZ + offsetSizeZ[i]]);
+//	}
+//};
+
+
+//==============================================================================
+/**
+ * @override
+ * 
+ * @param {WebGLRenderingContext} glContext - The gl context.
+ */
+Repere.prototype.draw = function (glContext) {
+	if (!(glContext instanceof WebGLRenderingContext)) {
+		console.error("Repere.draw : glContext is not a WebGLRenderingContext");
+		return;
+	}
+	
+	if (this.glVertexBuffer === undefined 
+		|| this.glIndiciesBuffer === undefined)
+	{
+		console.error ("Repere.draw : prepare the repere BEFORE draw it !"); // TODO vérifer anglais
+		return;
+	}
+	
+	this.shader.setMode(0);
+	// Let's the shader prepare its attributes
+	this.shader.setAttributes (glContext, this.glVertexBuffer);
+	
+	// Let's render !
+	glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer);
+	glContext.drawElements (glContext.TRIANGLE_STRIP, 
+		this.glIndiciesBuffer.numItems, 
+		glContext.UNSIGNED_SHORT, 0);
+	
+//	if (this.stripIbo === undefined || this.stripVbo === undefined)
+//		return;
+//	
+//	// Draw the stripes
+//	this.shader.setAttributes(glContext, this.stripVbo);
+//	glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, this.stripIbo);
+//	glContext.drawElements(glContext.TRIANGLE_STRIP, 
+//			this.stripIbo.numItems, glContext.UNSIGNED_SHORT, 0);
+};
+
+
+

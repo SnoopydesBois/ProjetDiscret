@@ -1,6 +1,8 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -39,7 +41,9 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
+
 
 /* constructor (name : String,
  *              vertexSourceText : String,
@@ -55,13 +59,21 @@
  * getAttribute (attrib : Object) : boolean
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
+
 /**
- * Class for managing shaders.
  * @constructor
+ * Class for managing shaders.
+ * 
  * @param {String} name - name of the shader.
  * @param {String} vertexSourceText - the name of the file containing the
  * vertex shader.
@@ -70,10 +82,7 @@
  * @param {glContext} gl - the gl context.
  * @param {Attribute} attributes - the attributes of the shader.
  */
-function Shader (name, vertexSourceText, fragmentSourceText,
-	gl, attributes)
-{
-//	console.log ("Shader.constructor");
+function Shader (name, vertexSourceText, fragmentSourceText, gl, attributes) {
 	this.shaderName = name; 
 	this.vertexShaderName = vertexSourceText;
 	this.fragmentShaderName = fragmentSourceText;
@@ -91,21 +100,28 @@ function Shader (name, vertexSourceText, fragmentSourceText,
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Static variable
+//##############################################################################
+
+
+
 /**
  * Load/reload the shaders.
+ * 
  * @return {void}
  */
 Shader.prototype.reload = function () {
-	if (this.glContext !== undefined) {
+	if (this.glContext !== undefined)
 		this.prepareShader();
-	}
-}
+};
 
 
 //==============================================================================
 /**
  * Compile and link shader.
+ * 
  * @return {void}
  */
 Shader.prototype.prepareShader = function () {
@@ -149,7 +165,8 @@ Shader.prototype.prepareShader = function () {
 
 //==============================================================================
 /**
- * Make shader active 
+ * Make shader active.
+ * 
  * @return {void}
  */
 Shader.prototype.setActive = function () {
@@ -159,7 +176,7 @@ Shader.prototype.setActive = function () {
 
 //==============================================================================
 /**
- * @return {String} the name the shader
+ * @return {String} The name the shader.
  */
 Shader.prototype.getName = function () {
 	return this.shaderName;
@@ -170,8 +187,10 @@ Shader.prototype.getName = function () {
 /**
  * Get uniform location given a name.
  * !!!!! Shader must be active before using this function !
- * @param {String} aName - the name of the uniformLocation.
- * @return {WebGLUniformLocation} the uniformLocation from the program.
+ * 
+ * @param {String} aName - The name of the uniformLocation.
+ * 
+ * @return {WebGLUniformLocation} The uniformLocation from the program.
  */
 Shader.prototype.getUniformLocation = function (aName) {
 	return this.glContext.getUniformLocation (this.program, aName);
@@ -182,7 +201,9 @@ Shader.prototype.getUniformLocation = function (aName) {
 /**
  * Get attribute location given a name.
  * !!!!! Shader must be active before using this function !
+ * 
  * @param {String} aName - the name of the attribute.
+ * 
  * @return {int} the attribLocation from the program.
  */
 Shader.prototype.getAttributeLocation = function (aName) {
@@ -193,14 +214,15 @@ Shader.prototype.getAttributeLocation = function (aName) {
 //==============================================================================
 /**
  * Get the attribute list, necessary to construct the VBO.
+ * 
  * @param {Object} attrib - the list of attribute.
+ * 
  * @return {boolean} true if the attribute exist, false otherwise.
  */
 Shader.prototype.getAttribute = function (attrib) {
 	for (var i = 0; i < this.attributes.length; ++i) {
-		if (this.attributes[i] == attrib) {
+		if (this.attributes[i] == attrib)
 			return true;
-		}
 	}
 	return false;
 };

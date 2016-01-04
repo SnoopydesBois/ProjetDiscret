@@ -11,7 +11,9 @@
 		<!-- TODO Modifié title pour le mutilangue -->
 		
 		<!-- javascript imports -->
-		<!-- Ce script est à executer à la racine de l'application -->
+		<script type="text/javascript" src="Js/Utils/function.js"></script>
+		<script type="text/javascript" src="Js/Utils/Util.js"></script>
+		
 		<script type="text/javascript" src="Js/Enum/AxisEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/AttributeEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/CubeStateEnum.js"></script>
@@ -42,14 +44,15 @@
 		<script type="text/javascript" src="Js/Objects/GenericObject.js"></script>
 		<script type="text/javascript" src="Js/Objects/Scene.js"></script>
 		<script type="text/javascript" src="Js/Objects/GenericStructure.js"></script>
-		<script type="text/javascript" src="Js/Objects/SurfaceRenderer.js"></script>
 		<script type="text/javascript" src="Js/Objects/Repere.js"></script>
+		
+		<script type="text/javascript" src="Js/Display/SurfaceRenderer.js"></script>
 		
 		<script type="text/javascript" src="Js/Display/Display.js"></script>
 		<script type="text/javascript" src="Js/Display/Display2D.js"></script>
 		<script type="text/javascript" src="Js/Display/Display3D.js"></script>
 		<script type="text/javascript" src="Js/Display/ModelView.js"></script>
-		<script type="text/javascript" src="Js/Display/CurveView.js"></script>
+		<script type="text/javascript" src="Js/Display/CurveRenderer.js"></script>
 		<script type="text/javascript" src="Js/Display/SurfaceView.js"></script>
 		
 		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
@@ -62,9 +65,6 @@
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Colors.js"></script>
-		
-		<script type="text/javascript" src="Js/Utils/function.js"></script>
-		<script type="text/javascript" src="Js/Utils/Util.js"></script>
 		
 		<script type="text/javascript" src="Js/Shader/Shader.js"></script>
 		<script type="text/javascript" src="Js/Shader/DefaultShader.js"></script>
@@ -228,9 +228,10 @@
 		<script>
 			var scanvas = document.getElementById ("surfaceCanvas");
 			var gl = scanvas.getContext("webgl") || scanvas.getContext("experimental-webgl");
-			console.log (SurfaceRenderer.prototype.counter);
-			var sr = new SurfaceRenderer (null, gl);
-			console.log (SurfaceRenderer.prototype.counter);
+			//var sr = new SurfaceRenderer (null, gl);
+			var r = new Repere (new Vector (2, 4, 8), gl);
+			r.prepare (gl);
+			r.draw (gl);
 		</script>
 	</body>
 </html>

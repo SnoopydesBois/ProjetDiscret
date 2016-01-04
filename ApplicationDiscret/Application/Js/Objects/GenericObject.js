@@ -1,6 +1,8 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -65,6 +67,7 @@
 
 /**
  * @constructor Class to manage an Object (you must inherit from this class).
+ * 
  * @param {HTMLCanvasElement} canvas - The associated canvas.
  * @param {String} glContextType - The type of webGl context for drawing. The
  * value is one of "2d", "3d".
@@ -89,7 +92,7 @@ function GenericObject (canvas, glContextType) {
 	this.canvas = canvas;
 	
 	/**
-	 * {CanvasRenderingContext2D | WebGLRenderingContext} The webGl context.
+	 * {(CanvasRenderingContext2D | WebGLRenderingContext)} The webGl context.
 	 */
 	this.glContext;
 	switch (glContextType) {
@@ -118,8 +121,10 @@ function GenericObject (canvas, glContextType) {
 
 /**
  * Change dimensions ... can be overloaded.
+ * 
  * @param {int} width - the scene width.
  * @param {int} height - the scene height.
+ * 
  * @return {void}
  */
 GenericObject.prototype.setDimension = function (width, height) {
@@ -133,8 +138,10 @@ GenericObject.prototype.setDimension = function (width, height) {
 //==============================================================================
 /**
  * Change the mouse position .. can be overloaded.
+ * 
  * @param {int} x - the mouse position along the x axis.
  * @param {int} y - the mouse position along the y axis.
+ * 
  * @return {void}
  */
 GenericObject.prototype.setMouse = function (x, y) {
@@ -151,6 +158,7 @@ GenericObject.prototype.setMouse = function (x, y) {
 
 /**
  * Reload the scene.
+ * 
  * @return {void}
  */
 GenericObject.prototype.reload = function () {
@@ -164,6 +172,7 @@ GenericObject.prototype.reload = function () {
 //==============================================================================
 /**
  * Show the scene (prepare it and draw it).
+ * 
  * @return {void}
  */
 GenericObject.prototype.show = function () {
@@ -174,9 +183,10 @@ GenericObject.prototype.show = function () {
 
 //==============================================================================
 /**
- * Overload this function in order to compute additionnal items before drawing.
+ * @abstract
  * You should at least specify links between renderTargets and the scene ...
  * FIXME doc
+ * 
  * @return {void}
  */
 GenericObject.prototype.prepare = function () {};
@@ -184,7 +194,8 @@ GenericObject.prototype.prepare = function () {};
 
 //==============================================================================
 /**
- * Overload this method in order to draw something.
+ * @abstract
+ * 
  * @return {void}
  */
 GenericObject.prototype.draw = function () {};
@@ -199,7 +210,9 @@ GenericObject.prototype.draw = function () {};
 
 /**
  * Translation along the x axis.
+ * 
  * @param {float} x - how much do we translate.
+ * 
  * @return {void}
  */
 GenericObject.prototype.addTranslateX = function (x) {
@@ -211,7 +224,9 @@ GenericObject.prototype.addTranslateX = function (x) {
 //==============================================================================
 /**
  * Translation along the y axis.
+ * 
  * @param {float} x - how much do we translate.
+ * 
  * @return {void}
  */
 GenericObject.prototype.addTranslateY = function (x) {
@@ -223,7 +238,9 @@ GenericObject.prototype.addTranslateY = function (x) {
 //==============================================================================
 /**
  * Scaling.
- * @param {float} x - how much do we scale.
+ * 
+ * @param {float} x - How much do we scale.
+ * 
  * @return {void}
  */
 GenericObject.prototype.multScale = function (x) {
@@ -253,8 +270,10 @@ GenericObject.prototype.multScale = function (x) {
 //onmouseup
 
 /** 
- * user actions: you should overload it !
+ * @abstract
+ * 
  * @param {MouseEvent} event - the mouse event.
+ * 
  * @return {void}
  */
 GenericObject.prototype.onMousePressRight = function (event) {};
@@ -262,8 +281,10 @@ GenericObject.prototype.onMousePressRight = function (event) {};
 
 //==============================================================================
 /**
- * user actions: you should overload it !
+ * @abstract
+ * 
  * @param {MouseEvent} event - the mouse event.
+ * 
  * @return {void}
  */
 GenericObject.prototype.onMouseUpRight = function (event) {};
@@ -271,8 +292,10 @@ GenericObject.prototype.onMouseUpRight = function (event) {};
 
 //==============================================================================
 /**
- * user actions: you should overload it!
+ * @abstract
+ * 
  * @param {MouseEvent} event - the mouse event.
+ * 
  * @return {void}
  */
 GenericObject.prototype.mouv = function (event) {};
@@ -281,6 +304,7 @@ GenericObject.prototype.mouv = function (event) {};
 //==============================================================================
 /**
  * @deprecated
+ * 
  * @return {void}
  */
 GenericObject.prototype.interval = function () {};
@@ -288,8 +312,10 @@ GenericObject.prototype.interval = function () {};
 
 //==============================================================================
 /**
- * user actions: you should overload it!
+ * @abstract
+ * 
  * @param {KeyboardEvent} event - the keyboard event.
+ * 
  * @return {void}
  */
 GenericObject.prototype.onKeyPress = function (event) {};

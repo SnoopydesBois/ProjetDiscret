@@ -1,7 +1,9 @@
 /////// LICENCE ////////////////////////////////////////////////////////////////
 
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -66,12 +68,13 @@
  * toString () : String
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////
+
 
 /**
  * @classdesc Simple 3 dimensional Vector class.
  */
-Vector.prototype = new Object();
 Vector.prototype.constructor = Vector;
 
 
@@ -291,7 +294,7 @@ Vector.prototype.mul = function (that) {
 		return this;
 	}
 	else {
-		throw("Vector.mul: bad parameter");
+		throw "Vector.mul: bad parameter";
 	}
 };
 

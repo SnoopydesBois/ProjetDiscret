@@ -1,6 +1,8 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -86,12 +88,25 @@
 
 
 /**
- * @constructor 
+ * @constructor
+ * 
  * @param {String} name - The name of the structure.
  * @param {Controler} modelController - The model controller.
  * @param {Shader} shader - The shader used to draw the structure.
  */
 function GenericStructure (name, modelController, shader) {
+	
+	if (arguments.length !== 0 // GenericStructure is a super class.
+		&& !(typeof name === "string"
+		&& (modelController === null || modelController instanceof Controller)
+		&& shader instanceof Shader)) 
+	{
+		console.error ("GenericStructure.constructor : bad type(s) of " + 
+			"parameter(s)");
+		console.log (this);
+		showType (name, modelController, shader);
+		return;
+	}
 	
 	/**
 	 * {Controller} The model controller which contain the model to draw. FIXME vérifier anglais
@@ -122,6 +137,23 @@ function GenericStructure (name, modelController, shader) {
 	 * {boolean} Indicate if the structure is pickable. True by default.
 	 */
 	this.isPickable = true;
+	
+	/**
+	 * TODO
+	 */
+	this.glVertexBuffer = [];
+	
+	/**
+	 * TODO
+	 */
+	this.glBackBuffer = [];
+	
+	/**
+	 * TODO
+	 */
+	this.glIndicesBuffer = [];
+	
+
 }
 
 
@@ -143,7 +175,9 @@ GenericStructure.prototype.getModelController = function () {
 //==============================================================================
 /**
  * Set the model controller.
- * {Controller} newController - The new model controller.
+ * 
+ * @param {Controller} newController - The new model controller.
+ * 
  * @return {void}
  * @throws FIXME compléter
  */
@@ -168,7 +202,9 @@ GenericStructure.prototype.getName = function () {
 //==============================================================================
 /**
  * Set name of current structure.
+ * 
  * @param {String} aName - the new name of the structure.
+ * 
  * @return {void}
  * @throws FIXME compléter
  */
@@ -192,7 +228,9 @@ GenericStructure.prototype.getMatrix = function () {
 //==============================================================================
 /**
  * Set ModelMatrix.
+ * 
  * @param {Matrix} aMatrix - the new matrix for the structure.
+ * 
  * @return {void}
  * @throws FIXME compléter
  */
@@ -216,7 +254,9 @@ GenericStructure.prototype.getShader = function () {
 //==============================================================================
 /**
  * Set the shader.
+ * 
  * @param {Shader} aShader - the new shader for the structure.
+ * 
  * @return {void}
  * @throws FIXME compléter
  */
@@ -240,8 +280,10 @@ GenericStructure.prototype.displayMe = function () {
 //==============================================================================
 /**
  * Set if the structure should be display.
+ * 
  * @param {boolean} isDisplayable - true if the structure should be displayed,
  * false otherwise.
+ * 
  * @return {void}
  * @throws FIXME compléter
  */
@@ -265,8 +307,10 @@ GenericStructure.prototype.isPickable = function () {
 //==============================================================================
 /**
  * Set if the structure is pickable.
+ * 
  * @param {boolean} isDisplayable - True if the structure is pickable, false
  * otherwise.
+ * 
  * @return {void}
  * @throws FIXME compléter
  */
@@ -286,21 +330,24 @@ GenericStructure.prototype.setPickable = function (isPickable) {
 
 
 /**
- * Overload this function in order to compute additionnal items before drawing.
+ * @abstract
  * Warning : In order to use the shader, you need to ask it about the attributes
  * it needs ...
- * @param {glContext} gl - the webGl context.
+ * @param {glContext} gl - The webGl context.
+ * 
  * @return {void}
  */
 GenericStructure.prototype.prepare = function (gl) {};
 
 
 //==============================================================================
-/** 
- * Overload this method in order to draw something.
+/**
+ * @abstract
  * Draw an object.
- * @param {glContext} gl - the webGl context.
- * @param {Scene} scn - the scene.
+ * 
+ * @param {glContext} gl - The webGl context.
+ * @param {Scene} scn - The scene.
+ * 
  * @return {void}
  */
 GenericStructure.prototype.draw = function (gl, scn) {};
@@ -308,13 +355,28 @@ GenericStructure.prototype.draw = function (gl, scn) {};
 
 //==============================================================================
 /**
- * Overload this method in order to draw into the backbuffer.
+ * @abstract
  * Draw an objects with differents color to implements the picking.
- * @param {glContext} gl - the webGl context.
- * @param {Scene} scn - the scene.
+ * 
+ * @param {glContext} gl - The webGl context.
+ * @param {Scene} scn - The scene.
+ * 
  * @return {void}
  */
 GenericStructure.prototype.drawBackBuffer = function (gl, scn) {};
+
+
+//==============================================================================
+///**
+// * Show the model. Prepare the model and draw it. Prepare and draw the picking.
+// * 
+// * @return {void}
+// */
+//GenericStructure.prototype.show = function () {
+//	this.prepare ();
+//	this.draw ();
+//	this.drawBackBuffer ();
+//};
 
 
 
@@ -326,10 +388,12 @@ GenericStructure.prototype.drawBackBuffer = function (gl, scn) {};
 
 /**
  * Add a position into an array of data.
+ * 
  * @param {Array} data - the array to push position into.
  * @param {float} X - the X coordinate of the point, can be an array.
  * @param {float} Y - the Y coordinate of the point.
  * @param {float} Z - the Z coordinate of the point.
+ * 
  * @return {int} 0 if the shader doesn't accept position, 3 otherwise.
  * FIXME expliquer le valeur de retour, les changer si besion
  */
@@ -356,11 +420,13 @@ GenericStructure.prototype.addAPoint = function (data, X, Y, Z) {
 //==============================================================================
 /**
  * Add a color into an array of data.
+ * 
  * @param {Array} data - the array to push position into.
  * @param {float} R - the Red value to push into data, can be an array.
  * @param {float} G - the Green value to push into data.
  * @param {float} B - the Blue value to push into data.
  * @param {float} A - the Alpha value to push into data.
+ * 
  * @return {int} 0 if the shader doesn't accept color, 4 otherwise 
  * FIXME expliquer le valeur de retour, les changer si besion
  */
@@ -386,11 +452,13 @@ GenericStructure.prototype.addAColor = function (data, R, G, B, A) {
 //==============================================================================
 /**
  * Add a normal into an array of data.
+ * 
  * @param {Array} data - the array to push position into.
  * @param {float} X - the X value of the vector, can be an array.
  * @param {float} Y - the Y value of the vector.
  * @param {float} Z - the Z value of the vector.
  * @return {int} 0 if the shader doesn't accept normal, 3 otherwise.
+ * 
  * FIXME expliquer le valeur de retour, les changer si besion
  */
 GenericStructure.prototype.addANormal = function (data, X, Y, Z) {
@@ -415,10 +483,12 @@ GenericStructure.prototype.addANormal = function (data, X, Y, Z) {
 //==============================================================================
 /**
  * Add a tangent into an array of data.
+ * 
  * @param {Array} data - the array to push position into.
  * @param {float} X - the X value of the vector, can be an array.
  * @param {float} Y - the Y value of the vector.
  * @param {float} Z - the Z value of the vector.
+ * 
  * @return {int} 0 if the shader doesn't accept tangent, 3 otherwise.
  * FIXME expliquer le valeur de retour, les changer si besion
  */
@@ -428,13 +498,13 @@ GenericStructure.prototype.addATangent = function (data, X, Y, Z) {
 	}
 	
 	if (X instanceof Array) { // If X is an array
-		data.push(X[0], X[1], X[2]);
+		data.push (X[0], X[1], X[2]);
 	}
 	else if (typeof Z === "undefined") { // If one parameter is missing
 		throw "GenericObject.addATangent: missing parameter (typeof X: "
 				+ (typeof X) + ")";
 	}
-	else { // X,Y,Z are 3 values
+	else { // X, Y, Z are 3 values
 		data.push (X, Y, Z);
 	}
 	return 3;
@@ -444,10 +514,12 @@ GenericStructure.prototype.addATangent = function (data, X, Y, Z) {
 //==============================================================================
 /**
  * Add a bitangent into an array of data.
+ * 
  * @param {Array} data - the array to push position into.
  * @param {float} X - the X value of the vector, can be an array.
  * @param {float} Y - the Y value of the vector.
  * @param {float} Z - the Z value of the vector.
+ * 
  * @return {int} 0 if the shader doesn't accept tangent, 3 otherwise.
  * FIXME expliquer le valeur de retour, les changer si besion
  */
@@ -473,9 +545,11 @@ GenericStructure.prototype.addABitangent = function (data, X, Y, Z) {
 //==============================================================================
 /**
  * Add texture coordinates into an array of data.
+ * 
  * @param {Array} data - the array to push coordinates into.
  * @param {float} U - the texture coordinates, can be an array.
  * @param {float} V - the texture coordinates.
+ * 
  * @return {int} 0 if the shader doesn't accept textureCoordinates, 2 otherwise.
  * FIXME expliquer le valeur de retour, les changer si besion
  */

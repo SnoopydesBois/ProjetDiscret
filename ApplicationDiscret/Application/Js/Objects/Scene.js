@@ -1,6 +1,8 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -73,15 +75,17 @@
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
+
 /**
  * @classdesc Scene class management.
  */
+
+
 
 /**
  * @constructor 
  */
 function Scene () {
-//	console.log ("Scene.constructor");
 	
 	/**
 	 * {Array} List of objects.
@@ -99,12 +103,12 @@ function Scene () {
 	this.scale = 1.0;
 	
 	/**
-	 * {int} 
+	 * {int} TODO compléter
 	 */
 	this.width = 0; 
 	
 	/**
-	 * {int} 
+	 * {int} TODO compléter
 	 */
 	this.height = 0;
 	
@@ -132,6 +136,7 @@ function Scene () {
 
 //==============================================================================
 /**
+ * @static
  * {Camera} The default camera. Use when no camera has set. FIXME anglais corecte ?
  */
 Scene.prototype.defaultCamera = new Camera (
@@ -165,9 +170,11 @@ Scene.prototype.getLength = function () {
 //==============================================================================
 /**
  * Get an object given its name.
+ * 
  * @param {String} aName - name of the object to return.
+ * 
  * @return {Object} the object corresponding to the name in parameter if it
- * exists, null otherwise.
+ * exists, null otherwise. FIXME type de retour pas précis.
  */
 Scene.prototype.getObjectByName = function (aName) {
 	var length = this.objectList.length;
@@ -184,6 +191,7 @@ Scene.prototype.getObjectByName = function (aName) {
 //==============================================================================
 /**
  * Get the light position.
+ * 
  * @return {Vector} The light position.
  */
 Scene.prototype.getLightPosition = function () {
@@ -194,7 +202,9 @@ Scene.prototype.getLightPosition = function () {
 //==============================================================================
 /**
  * Set the light position.
+ * 
  * @param {Vector} pos - the position of the light.
+ * 
  * @return {void}
  */
 Scene.prototype.setLightPosition = function (pos) {
@@ -205,6 +215,7 @@ Scene.prototype.setLightPosition = function (pos) {
 //==============================================================================
 /**
  * Get the camera.
+ * 
  * @return {Camera} the camera corresponding to the id if it exists, null
  * otherwise.
  */
@@ -216,7 +227,9 @@ Scene.prototype.getCamera = function () {
 //==============================================================================
 /**
  * Set a camera.
+ * 
  * @param {Camera} camera - The new camera of the scene
+ * 
  * @throws FIXME compléter
  */
 Scene.prototype.setCamera = function (camera) {
@@ -230,7 +243,9 @@ Scene.prototype.setCamera = function (camera) {
 //==============================================================================
 /**
  * Scaling.
+ * 
  * @param {float} scale - the scaling of the scene.
+ * 
  * @return {void}
  */
 Scene.prototype.setScale = function (scale) {
@@ -250,7 +265,9 @@ Scene.prototype.getScale = function () {
 //==============================================================================
 /**
  * Multiply the scale of the scene.
+ * 
  * @param {float} scale - how much do we scale.
+ * 
  * @return {void}
  */
 Scene.prototype.multScale = function (scale) {
@@ -261,7 +278,9 @@ Scene.prototype.multScale = function (scale) {
 //==============================================================================
 /**
  * Set a new width for the scene.
+ * 
  * @param {int} width - the new width for the scene.
+ * 
  * @return {void}
  */
 Scene.prototype.setWidth = function (width) {
@@ -272,7 +291,9 @@ Scene.prototype.setWidth = function (width) {
 //==============================================================================
 /**
  * Set a new height for the scene.
+ * 
  * @param {int} height - the new height for the scene.
+ * 
  * @return {void}
  */
 Scene.prototype.setHeight = function (height) {
@@ -283,6 +304,7 @@ Scene.prototype.setHeight = function (height) {
 //==============================================================================
 /**
  * Get the width of the scene.
+ * 
  * @return {int} the width of the scene.
  */
 Scene.prototype.getWidth = function () {
@@ -293,6 +315,7 @@ Scene.prototype.getWidth = function () {
 //==============================================================================
 /**
  * Get the height of the scene.
+ * 
  * @return {int} the height of the scene.
  */
 Scene.prototype.getHeight = function () {
@@ -303,8 +326,10 @@ Scene.prototype.getHeight = function () {
 //==============================================================================
 /**
  * Translate the scene along x and y axis.
+ * 
  * @param {float} x - how much we translate along the x axis.
  * @param {float} y - how much we translate along the y axis.
+ * 
  * @return {void}
  */
 Scene.prototype.setTranslate = function (x, y) {
@@ -316,7 +341,9 @@ Scene.prototype.setTranslate = function (x, y) {
 //==============================================================================
 /**
  * Translate along the x axis.
+ * 
  * @param {float} x - how much we translate along the x axis.
+ * 
  * @return {void}
  */
 Scene.prototype.addTranslateX = function (x) {
@@ -327,7 +354,9 @@ Scene.prototype.addTranslateX = function (x) {
 //==============================================================================
 /**
  * Translate along the y axis.
+ * 
  * @param {float} y - how much we translate along the y axis.
+ * 
  * @return {void}
  */
 Scene.prototype.addTranslateY = function (y) {
@@ -344,7 +373,9 @@ Scene.prototype.addTranslateY = function (y) {
 
 /**
  * Add an object.
+ * 
  * @param {Object} anObject - object to add to the scene.
+ * 
  * @return {void}
  */
 Scene.prototype.addObject = function (anObject) {
@@ -356,7 +387,9 @@ Scene.prototype.addObject = function (anObject) {
 //==============================================================================
 /**
  * Remove an object by id.
+ * 
  * @param {int} id - the id in the object list.
+ * 
  * @return {void}
  */
 Scene.prototype.removeObjectById = function (id) {
@@ -368,7 +401,9 @@ Scene.prototype.removeObjectById = function (id) {
 //==============================================================================
 /**
  * Remove an object by name.
+ * 
  * @param {String} anObjectName - name of the object to remove.
+ * 
  * @return {void}
  */
 Scene.prototype.removeObjectByName = function (anObjectName) {
@@ -386,7 +421,9 @@ Scene.prototype.removeObjectByName = function (anObjectName) {
 //==============================================================================
 /**
  * Prepare Scene before render.
+ * 
  * @param {glContext} gl - the gl context.
+ * 
  * @return {void}
  */
 Scene.prototype.prepare = function (gl) {
@@ -404,6 +441,7 @@ Scene.prototype.prepare = function (gl) {
 //==============================================================================
 /**
  * Reload the shader, reinit the scene (the time).
+ * 
  * @return {void}
  */
 Scene.prototype.reload = function () {
@@ -419,9 +457,11 @@ Scene.prototype.reload = function () {
 //==============================================================================
 /**
  * Draw a scene.
+ * 
  * @param {glContext} gl - the gl context.
  * @param {boolean} [backBuffer] - indicate if we have to draw the scene 
  * normally or if we need to draw for picking (with color on each object).
+ * 
  * @return {void}
  */
 Scene.prototype.draw = function (gl, backBuffer) {
@@ -462,8 +502,9 @@ Scene.prototype.draw = function (gl, backBuffer) {
 //==============================================================================
 /**
  * Compute the data to draw
+ * 
  * @param {glContext} gl - the gl context
- * @param {}
+ * @param {} obj - TODO compléter
  */
 Scene.prototype.prepareDraw = function (gl, obj) {
 	var cam = this.camera;
@@ -523,7 +564,9 @@ Scene.prototype.prepareDraw = function (gl, obj) {
 //==============================================================================
 /**
  * Prepare the scene for selection.
- * @param {glContext} gl - the gl context.
+ * 
+ * @param {glContext} gl - The gl context.
+ * 
  * @return {void}
  */
 Scene.prototype.prepareSelect = function (gl) {

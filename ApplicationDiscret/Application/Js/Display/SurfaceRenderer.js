@@ -1,7 +1,8 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -42,6 +43,7 @@
 
 /// INDEX //////////////////////////////////////////////////////////////////////
 
+
 /* nbBuffer : int
  * vbo : Array(Buffer)
  * bbo : Array(Buffer)
@@ -54,15 +56,16 @@
  * ModelView (modelController : ModelController, name : String, shader : Shader)
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 /**
- * @classdesc 
+ * @extends GenericStructure
+ * @classdesc TODO traduire Cette clase permet d'afficher une et une seule 
+ * surface.
  */
-
-
-SurfaceRenderer.prototype = new GenericStructure ();
+SurfaceRenderer.prototype = new GenericStructure;
 SurfaceRenderer.prototype.constructor = SurfaceRenderer;
 
 
@@ -87,28 +90,19 @@ SurfaceRenderer.prototype.counter = 0;
 
 /**
  * @constructor
+ * 
+ * @param {Controller3D} surfaceController - Le controller de la surface à 
+ * afficher. TODO traduire
+ * @param {(|)}
  */
 function SurfaceRenderer (surfaceController, glContext) {
 	++SurfaceRenderer.prototype.counter;
-	GenericStructure.call ("surface" + SurfaceRenderer.prototype.counter, 
+	GenericStructure.call (this,
+		"surface" + SurfaceRenderer.prototype.counter,
+		surfaceController,
 		new DefaultShader (glContext)
 	);
 	
-	
-	/**
-	 * TODO
-	 */
-	this.glVertexBuffer = [];
-	
-	/**
-	 * TODO
-	 */
-	this.glBackBuffer = [];
-	
-	/**
-	 * TODO
-	 */
-	this.glIndicesBuffer = [];
 	
 //	/**
 //	 * TODO
@@ -123,7 +117,7 @@ function SurfaceRenderer (surfaceController, glContext) {
 	/**
 	 * TODO
 	 */
-	this.nbBuffer = 0;
+	this.nbGlBuffer = 0;
 };
 
 
@@ -135,7 +129,8 @@ function SurfaceRenderer (surfaceController, glContext) {
 
 /**
  * Set the model controller.
- * {Controller} newController - The new model controller.
+ * 
+ * @param {Controller} newController - The new model controller.
  * @return {void}
  * @throws FIXME compléter
  */
@@ -146,10 +141,16 @@ SurfaceRenderer.prototype.setModelController = function (newController) {
 
 
 
-//=============================================================================
+//##############################################################################
+//	Draw
+//##############################################################################
+
+
+
 /**
  * Prepare the model (create the triangles).
- * @param {WebGLRenderingContext} gl - the gl context.
+ * 
+ * @param {WebGLRenderingContext} gl - The gl context.
  * @return {void}
  * @throws FIXME compléter
  */
@@ -158,7 +159,7 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 		throw"SurfaceRenderer.prepare: argument is not a WebGLRenderingContext";
 	
 	var size = this.modelController.getDimension ();
-	this.nbBuffer = size.m[0] / 5;
+	this.nbGlBuffer = size.m[0] / 5;
 
 	var vertexBuffer = [];
 	var indicesBuffer = [];
@@ -170,7 +171,7 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 
 	var tmp;
 	
-	for (tmp = 0; tmp < this.nbBuffer; ++tmp) {
+	for (tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
 		/* On large models, the indices are > a 2^16 bits and the display 
 		 * won't work correctly.
 		 * To fix that, we cut in 5 the buffer along the X axis.
@@ -196,11 +197,11 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 					this.prepareVoxel (
 						this.modelController.getVoxel (x, y, z),
 						0,
-						vertexBuffer[Math.floor (x / this.nbBuffer)], 
-						indicesBuffer[Math.floor (x / this.nbBuffer)], 
-						colorBuffer[Math.floor (x / this.nbBuffer)],
-						normalBuffer[Math.floor (x / this.nbBuffer)],
-						backColorBuffer[Math.floor (x / this.nbBuffer)],
+						vertexBuffer[Math.floor (x / this.nbGlBuffer)], 
+						indicesBuffer[Math.floor (x / this.nbGlBuffer)], 
+						colorBuffer[Math.floor (x / this.nbGlBuffer)],
+						normalBuffer[Math.floor (x / this.nbGlBuffer)],
+						backColorBuffer[Math.floor (x / this.nbGlBuffer)],
 						[0.8, 0.8, 0.8, 1.0], // FIXME 
 						size
 					);
@@ -210,7 +211,7 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 	} // end for x
 
 	// Create vertex buffer 
-	for (tmp = 0; tmp < this.nbBuffer; ++tmp) {
+	for (tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
 		this.glVertexBuffer[tmp] = gl.createBuffer();
 		this.glVertexBuffer[tmp].numItems = vertexBuffer[tmp].length / 3.0;
 		for (var i = 0; i < colorBuffer[tmp].length; ++i) {
@@ -231,7 +232,7 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 	}
 
 	// Create the "backbuffer" used for the picking
-	for (tmp = 0; tmp < this.nbBuffer; ++tmp) {
+	for (tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
 		this.glBackBuffer[tmp] = gl.createBuffer ();
 		this.glBackBuffer[tmp].numItems = vertexBuffer[tmp].length / 3.0;
 		for (var i = 0; i < colorBuffer[tmp].length; ++i) {
@@ -251,7 +252,7 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 	}
 
 	// Create index buffer
-	for (tmp = 0; tmp < this.nbBuffer; ++tmp) {
+	for (tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
 		this.glIndicesBuffer[tmp] = gl.createBuffer ();
 		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
 		gl.bufferData (gl.ELEMENT_ARRAY_BUFFER, new Uint16Array (
@@ -486,7 +487,7 @@ SurfaceRenderer.prototype.draw = function (gl) {
 	}
 	// --------------------------------------
 	this.shader.setMode (2);
-	for (var tmp = 0; tmp < this.nbBuffer; ++tmp) {
+	for (var tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
 		// Let's the shader prepare its attributes
 		this.shader.setAttributes (gl, this.glVertexBuffer[tmp]);
 		// Let's render !
@@ -517,7 +518,7 @@ SurfaceRenderer.prototype.drawBackBuffer = function (gl) {
 	}
 	
 	this.shader.setMode (1);
-	for (var tmp = 0; tmp < this.nbBuffer; ++tmp) {
+	for (var tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
 		// Let's the shader prepare its attributes
 		this.shader.setAttributes (gl, this.glBackBuffer[tmp]);
 		// Let's render !

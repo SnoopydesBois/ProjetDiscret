@@ -1,6 +1,8 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -39,7 +41,9 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
+
 
 /* constructor (gl : glContext)
  * setMode (mode : int) : void
@@ -47,16 +51,30 @@
  * setAttributes (gl : glContext, vbo : buffer) : void
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
-DefaultShader.prototype = new Shader();
+/**
+ * @extends Shader
+ * @classdesc TODO
+ */
+DefaultShader.prototype = new Shader;
 DefaultShader.prototype.constructor = DefaultShader;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
 
 /**
  * @constructor
- * @param {glContext} gl - the gl context.
+ * 
+ * @param {glContext} gl - The gl context.
  */
 function DefaultShader (gl) {
 //	console.log ("DefaultShader.constructor");
@@ -66,6 +84,10 @@ function DefaultShader (gl) {
 		gl,
 		DefaultShader.prototype.attributes
 	);
+	
+	/**
+	 * TODO
+	 */
 	this.mode = 2;
 };
 
@@ -128,7 +150,7 @@ DefaultShader.prototype.setAttributes = function (gl, vbo) {
 	gl.vertexAttribPointer (attrCol, 4, gl.FLOAT, false, 28, 12);
 	
 	var uloc = this.getUniformLocation ("uMode");
-	this.gl.uniform1i (uloc, this.mode);
+	this.glContext.uniform1i (uloc, this.mode);
 };
 
 

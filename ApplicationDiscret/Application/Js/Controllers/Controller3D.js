@@ -1,6 +1,8 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -39,6 +41,7 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
@@ -51,23 +54,38 @@
  * getVoxel(position : Vector) : Voxel
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
+
+
+/**
+ * @extends Controller
+ * @classdesc TODO
+ */
+
 
 Controller3D.prototype = new Controller;
 Controller3D.prototype.constructor = Controller3D;
 
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
+
 /**
- * @constructor 
+ * @constructor
+ * 
  * @param {Vector} dimension - Vector to define the dimension of the 3D space.
  */ 
-function Controller3D (dimension, shader)
-{
-//	console.log ("Controller3D.constructor");
+function Controller3D (dimension, shader) {
 	if (!(dimension instanceof Vector)) {
 		console.error ("Controller3D.constructor : "
 				+ "bad type of parameter");
 	}
-	// --------------------------------------
+	
 	Controller.call (this);
 	
 	/**
@@ -81,27 +99,33 @@ function Controller3D (dimension, shader)
 	this.getMeridian = null;
 	 
 	/**
-	 * {Function} A function that provide a frozen reference to the curve of revolution
+	 * {Function} A function that provide a frozen reference to the curve of
+	 * revolution
 	 */
 	this.getCurveRevolution = null;
 }
 
+
+
 //==============================================================================
 /**
- * Function that start the generation of the surface from the meridian and the curbe of revolution
- * @return {Surface} The surface surfaceed by the meridian and the curve of revolution
+ * Function that start the generation of the surface from the meridian and the
+ * curbe of revolution.
+ * 
+ * @return {Surface} The surface surfaceed by the meridian and the curve of
+ * revolution.
  */
-Controller3D.prototype.generate = function() {
-	if(!(this.getMeridian instanceof Function) 
+Controller3D.prototype.generate = function () {
+	if (!(this.getMeridian instanceof Function) 
 		|| !(this.getCurveRevolution instanceof Function)){
 		throw "The meridian or the curve of revolution are not functions."
 	}
-	else{
-		meridian = this.getMeridian();
-		curveRevolution = this.getCurveRevolution();
-		return this.modelGen.generate(meridian, curveRevolution);
+	else {
+		meridian = this.getMeridian ();
+		curveRevolution = this.getCurveRevolution ();
+		return this.modelGen.generate (meridian, curveRevolution);
 	}
-}
+};
 
 
 //==============================================================================
@@ -109,32 +133,31 @@ Controller3D.prototype.generate = function() {
  * @return {Surface} the surface.
  */
 Controller3D.prototype.getSurface = function () {
-//	console.log ("Controller3D.getsurface");
-	// --------------------------------------
 	return this.modelGen.getSurface();
 };
 
 
 //==============================================================================
 /**
- * @param {Vector} position - The coordinates of the voxel
- * @return {Voxel} the voxel at the x, y, z coordinates
+ * @param {Vector} position - The coordinates of the voxel.
+ * 
+ * @return {Voxel} The voxel at the x, y, z coordinates.
  */
 Controller3D.prototype.getVoxel = function (x, y, z) {
 	switch (arguments.length) {
 		case 1 :
-			if(!(x instanceof Vector)){
+			if (!(x instanceof Vector)){
 				throw "Controller3D.getVoxel.ErrorNotAVector";
 			}
 			return this.modelGen.getVoxel (x);
 			break;
 		case 3 :
-			if(typeof x !== "number"
+			if (typeof x !== "number"
 				|| typeof y !== "number"
 				|| typeof z !== "number"){
 				throw "Controller3D.getVoxel.ErrorNotANumber";
 			}
-			return this.modelGen.getVoxel (new Vector(x, y, z));
+			return this.modelGen.getVoxel (new Vector (x, y, z));
 			break;
 		default :
 			throw "Controller3D.getVoxel.ErrorLengthArguments";
@@ -145,24 +168,27 @@ Controller3D.prototype.getVoxel = function (x, y, z) {
 //==============================================================================
 /**
  * TODO
- * @param {Vector} position - The coordinates of the voxel
- * @return {boolean} true if the voxel is a voxel of the surface, else false
+ * 
+ * @param {Vector} position - The coordinates of the voxel.
+ * 
+ * @return {boolean} True if the voxel is a voxel of the surface, false
+ * otherwise.
  */
 Controller3D.prototype.hasVoxel = function (x, y, z) {
 	switch (arguments.length) {
 		case 1 :
-			if(!(x instanceof Vector)){
+			if (!(x instanceof Vector)){
 				throw "Controller3D.getVoxel.ErrorNotAVector";
 			}
 			return this.modelGen.getVoxel (x) !== null;
 			break;
 		case 3 :
-			if(typeof x !== "number"
+			if (typeof x !== "number"
 				|| typeof y !== "number"
 				|| typeof z !== "number"){
 				throw "Controller3D.getVoxel.ErrorNotANumber";
 			}
-			return this.modelGen.getVoxel (new Vector(x, y, z)) !== null;
+			return this.modelGen.getVoxel (new Vector (x, y, z)) !== null;
 			break;
 		default :
 			throw "Controller3D.getVoxel.ErrorLengthArguments";
@@ -173,6 +199,7 @@ Controller3D.prototype.hasVoxel = function (x, y, z) {
 //==============================================================================
 /**
  * Get the nth selected cube.
+ * 
  * @return {Voxel} the selected voxel.
  */
 Controller3D.prototype.getSelectedVoxel = function () {
@@ -182,11 +209,9 @@ Controller3D.prototype.getSelectedVoxel = function () {
 
 //==============================================================================
 /**
- * @return {Vector} the dimension of the surface.
+ * @return {Vector} The dimension of the surface.
  */
 Controller3D.prototype.getDimension = function () {
-//	console.log ("Controller3D.getDimension");
-	// --------------------------------------
 	return this.modelGen.getDimension();
 };
 
@@ -194,54 +219,63 @@ Controller3D.prototype.getDimension = function () {
 //==============================================================================
 /**
  * Is this cube selected.
+ * 
  * @param {Vector} position - The coordinates of the voxel to test
- * @return {boolean} true if the voxel is selected, false otherwise.
+ * 
+ * @return {boolean} True if the voxel is selected, false otherwise.
  */
 Controller3D.prototype.isSelectedVoxel = function (position) {
 	if(!(position instanceof Vector)){
 		throw "position is not a Vector"
 	}
-	// -------------------------------------
 	return this.modelGen.isSelectedVoxel(position);
 };
 
 
 //==============================================================================
 /**
- * @param {Function} meridian - The function that allows this controller to obtain a frozen reference to the meridian
+ * @param {Function} meridian - The function that allows this controller to
+ * obtain a frozen reference to the meridian.
+ * 
+ * @return {void}
  */
-Controller3D.prototype.setGetMeridian = function(meridian){
-	this.getMeridian = meridian();
-}
+Controller3D.prototype.setGetMeridian = function (meridian){
+	this.getMeridian = meridian;
+};
 
 
 //==============================================================================
 /**
- * @param {Function} curveRevolution - The function that allows this controller to obtain a frozen reference to the curve of revolution
+ * @param {Function} curveRevolution - The function that allows this controller
+ * to obtain a frozen reference to the curve of revolution.
+ * 
+ * @return {void}
  */
-Controller3D.prototype.setGetCurveRevolution = function(curveRevolution){
-	this.getCurveRevolution = curveRevolution();
-}
+Controller3D.prototype.setGetCurveRevolution = function (curveRevolution){
+	this.getCurveRevolution = curveRevolution;
+};
 
 
 //==============================================================================
 /**
  * Action when a mouse button is pressed.
- * @param {WindowEvent} event - event captured by the window.
- * @param {Vector} position - The coordinates of the click
+ * 
+ * @param {WindowEvent} event - Event captured by the window.
+ * @param {Vector} position - The coordinates of the click.
+ * 
  * @return {void}
  */
 Controller3D.prototype.mouseDown = function (event, position) {
 	if (!(event instanceof WindowEvent)){ // A vérifier
 		throw "event is not a WindowEvent";
 	}
-	else if(!(position instanceof Vector)) {
+	else if (!(position instanceof Vector)) {
 		throw "position is not a Vector"
 	}
-	// --------------------------------------
-	if (event.button === 0) {		
+	
+	if (event.button === 0) { // FIXME ça veut dire quoi 0 ?
 		if (this.modelGen !== undefined) {
-			this.modelGen.selectVoxel(position);
+			this.modelGen.selectVoxel (position);
 		}
 	}
 };

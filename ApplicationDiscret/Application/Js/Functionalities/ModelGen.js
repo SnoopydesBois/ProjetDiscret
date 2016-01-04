@@ -1,6 +1,7 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/*
+/**
+ * @license
  * Copyright BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy,
  * LAURET Karl, (juin 2015)
  *
@@ -40,6 +41,7 @@
  * termes
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
@@ -52,6 +54,7 @@
  * face (modelContr : ModelController) : void
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
@@ -59,18 +62,19 @@
 ModelGen.prototype.constructor = ModelGen;
 
 /**
- * @constructor Do nothing.
- * @param {Vector} dimension - The dimension of the 3D space
+ * @constructor
+ * 
+ * @param {Vector} dimension - The dimension of the 3D space.
  */
 function ModelGen (dimension, shader) {
 
 	/**
 	 * {Repere} The repere of the 3D space
 	 */
-	this.repere = new Repere ("", shader, dimension);
+//	this.repere = new Repere ("", shader, dimension);
 	
 	/**
-	 * The surface of the 3D space, there is no surface by default
+	 * {Surface} The surface of the 3D space, there is no surface by default
 	 */
 	this.surface = undefined;
 }
@@ -106,7 +110,7 @@ ModelGen.prototype.getSelectedVoxel = function(){
  */
 ModelGen.prototype.getSurface = function(){
 	return this.surface;
-}
+};
 
 
 //==============================================================================
@@ -114,8 +118,8 @@ ModelGen.prototype.getSurface = function(){
  * @return {Vector} the dimensions of the 3D space
  */
 ModelGen.prototype.getDimension = function(){
-	return this.repere.getDimension();
-}
+	return this.repere.getDimension ();
+};
 
 
 //==============================================================================
@@ -128,7 +132,7 @@ ModelGen.prototype.getDimension = function(){
  * @return {Surface} the surface modeled using the meridian and the curve
  * of revolution
  */
-ModelGen.prototype.generate = function(meridian, curveRevolution){
+ModelGen.prototype.generate = function (meridian, curveRevolution){
 	if (meridian instanceof ExplicitCurve 
 			&& curveRevolution instanceof ImplicitCurve) {
 		this.algoExplicit(meridian, curveRevolution);
@@ -150,59 +154,62 @@ ModelGen.prototype.generate = function(meridian, curveRevolution){
  * @param {Curve} meridian - the meridian to use to model
  * @param {Curve} curveRevolution - the curve of revolution to use to model
  */
-ModelGen.prototype.algoParametric = function(meridian, curveRevolution){
-	dim = this.repere.getDimension();
-	this.surface = new Surface(dim);
-	var fMeridian = meridian.getEquation();
-	var fRevol = curveRevolution.getEquation();
+ModelGen.prototype.algoParametric = function (meridian, curveRevolution){
+	var dim = this.getDimension ();
+	this.surface = new Surface (dim);
+	var fMeridian = meridian.getEquation ();
+	var fRevol = curveRevolution.getEquation ();
 	var dimx = dim.x;
 	var dimy = dim.y;
 	var dimz = dim.z;
-	var maxx = Math.trunc(dimx/2);
-	var maxy = Math.trunc(dimy/2);
-	for (var z = 0; z < dimz; ++z){
+	var maxx = Math.trunc(dimx / 2);
+	var maxy = Math.trunc(dimy / 2);
+	for (var z = 0; z < dimz; ++z) {
 		var rz = fMeridian.compute(z);
 		var rz1 = fMeridian.compute(z - 0.5);
 		var rz2 = fMeridian.compute(z + 0.5);
 		for (var y = 0; y < dimy; y++){
 			for (var x = 0; x < dimx; x++){
-				if(check26Connex(fRevol, x - maxx, y - maxyy, [rz, rz1, rz2])){
+				if (check26Connex(fRevol, x - maxx, y - maxyy, [rz, rz1, rz2])){
 					this.surface.addVoxel(new Vector(x,y,z), ConnexityEnum.c26);
 				} else if (check18Connex(fRevol, x - maxx, y - maxyy, [rz, rz1, rz2])) {
 					this.surface.addVoxel(new Vector(x,y,z), ConnexityEnum.c18);
 				} else if (check6Connex(fRevol, x - maxx, y - maxyy, [rz1, rz2])){
 					this.surface.addVoxel(new Vector(x,y,z),ConnexityEnum.c6);
 				}
-			}
-		}
-	}
-}
+			} // end for x
+		} // end for y
+	} // end for z
+};
 
 
+//==============================================================================
 /**
  * Return true if the array has positives AND negative values else return false.
  * @param {float[]} tab - The array to be tested.
  */
-function arrayPosNeg(tab){
-	length = tab.length;
+function arrayPosNeg (tab){
+	var length = tab.length;
 	var neg = false;
 	var pos = false;
-	for(var i = 0; i < length; i++){
+	for (var i = 0; i < length; i++){
 		neg = neg || tab[i] <= 0;
 		pos = pos || tab[i] >= 0;
 	}
 	return neg && pos;
-}
+};
 
+
+//==============================================================================
 /**
  * Check whether a voxel is part of the 26 connexe revolution surface.
  * @param {Equation} fRevol - The equation for the revolution curve.
  * @param {int} x - x coordinate of the voxel
  * @param {int} y - y coordinate of the voxel
- * @param {float[3]} - z array containing f(z), f(z-0.5), f(z+0.5), f being the
- * equation of the meridian and z the coordinate of the voxel.
+ * @param {float[3]} z - z array containing f(z), f(z-0.5), f(z+0.5), f being
+ * the equation of the meridian and z the coordinate of the voxel.
  */
-function check26Connex(fRevol, x, y, z){
+function check26Connex (fRevol, x, y, z){
 	var values = [];
 	values[0] = fRevol.compute((x+0.5)/z[0], (y+0.5)/z[0]);
 	values[1] = fRevol.compute((x-0.5)/z[0], (y+0.5)/z[0]);
@@ -216,9 +223,12 @@ function check26Connex(fRevol, x, y, z){
 	values[9] = fRevol.compute((x-0.5)/z[2], (y)/z[2]);
 	values[10] = fRevol.compute((x)/z[2], (y+0.5)/z[2]);
 	values[11] = fRevol.compute((x)/z[2], (y-0.5)/z[2]);
-	return arrayPosNeg(values);
+	
+	return arrayPosNeg (values);
 }
 
+
+//==============================================================================
 /**
  * Check whether a voxel is part of the 18 connexe revolution surface.
  * @param {Equation} fRevol - The equation for the revolution curve.
@@ -235,9 +245,12 @@ function check18Connex(fRevol, x, y, z){
 	values[3] = fRevol.compute((x)/z[0], (y-0.5)/z[0]);
 	values[4] = fRevol.compute((x)/z[1], (y)/z[1]);
 	values[5] = fRevol.compute((x)/z[2], (y)/z[2]);
+	
 	return arrayPosNeg(values);
 }
 
+
+//==============================================================================
 /**
  * Check whether a voxel is part of the 6 connexe revolution surface.
  * @param {Equation} fRevol - The equation for the revolution curve.
@@ -259,6 +272,7 @@ function check6Connex(fRevol, x, y, z){
 	return arrayPosNeg(values);
 }
 
+
 //==============================================================================
 /**
  * This function generate the surface using the algorithm for implicit 
@@ -268,10 +282,10 @@ function check6Connex(fRevol, x, y, z){
  * @return {Surface} the surface modeled using the meridian and the curve 
  * of revolution
  */
-ModelGen.prototype.algoExplicit = function(meridian, curveRevolution){
+ModelGen.prototype.algoExplicit = function (meridian, curveRevolution){
 	throw "ModelGen.algoExplicit.NotImplementedYet";
-	return this.surface;
-}
+//	return this.surface;
+};
 
 
 //==============================================================================
@@ -280,17 +294,16 @@ ModelGen.prototype.algoExplicit = function(meridian, curveRevolution){
  * @return {void}
  */
 ModelGen.prototype.selectVoxel = function (position) {
-	//	console.log ("ModelGen.select");
 	if (!(position instanceof Vector)){
 		throw "position is not a Vector";
 	} else if(this.surface === undefined){
 		throw "the surface is not generated";
 	}
-	// --------------------------------------
-	if (this.surface.isVoxel(position)){
-		this.surface.select(position); // Select
-	} else{
-		this.surface.select(null); // Unselect
+	
+	if (this.surface.isVoxel (position)){
+		this.surface.select (position); // Select
+	} else {
+		this.surface.select (null); // Unselect
 	}
 };
 
@@ -301,11 +314,13 @@ ModelGen.prototype.selectVoxel = function (position) {
  * @return {boolean} true if the voxel is selected, else false
  */
 ModelGen.prototype.isSelectedVoxel = function (position) {
-	if (!(position instanceof Vector)){
+	if (!(position instanceof Vector)) {
 		throw "position is not a Vector";
-	} else if(this.surface === undefined){
+	} else if (this.surface === undefined) {
 		throw "the surface is not generated";
 	}
-	// --------------------------------------
-	return this.surface.getSelectedVoxel().getCoordinates().equals(position);
+	
+	return this.surface.getSelectedVoxel().getCoordinates().equals (position);
 };
+
+
