@@ -1,6 +1,8 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -44,7 +46,7 @@
 
 
 /**
- * Enumeration of Attributes that can be given to a Shader.
+ * Enumeration of attributes that can be given to a Shader.
  */
 var AttributeEnum = {
 	position : {},
@@ -59,8 +61,7 @@ var AttributeEnum = {
 /**
  * Allows the Enumeration to be constant.
  */
-if (Object.freeze) {
+if (Object.freeze)
 	Object.freeze (AttributeEnum);
-}
 
 

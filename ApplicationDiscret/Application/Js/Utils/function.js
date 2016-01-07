@@ -105,7 +105,7 @@ function type (obj) {
 /**
  * Print a list of type of each arguments.
  * 
- * @see type() TODO vérifier syntaxe jsdoc
+ * @see {@link type}
  */
 function showType () {
 	var types = "";
@@ -115,11 +115,27 @@ function showType () {
 }
 
 
+//==============================================================================
+/**
+ * Search if a value is in an enumeration.
+ * 
+ * @param {Object} enumeration - An enumeration-like build with an object. It
+ * is like {KEY_1: NUMBER, KEY_N: NUMBER}.
+ * @param {(Number | String)} value - The value to test.
+ */
+function isValueOfEnum (enumeration, value) {
+	for (var i in enumeration)
+		if (value == enumeration[i])
+			return true;
+	return false;
+}
+
 
 //==============================================================================
 /**
- * Switch images
- * @param {String} imgTag - The path to the image
+ * Switch images.
+ * 
+ * @param {String} imgTag - The path to the image.
  */
 function switchImage (imgTag) {
 	var preffix = imgTag.src.slice (0, imgTag.src.lastIndexOf ("/") + 1);
