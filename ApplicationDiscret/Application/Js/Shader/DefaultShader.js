@@ -45,10 +45,10 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* constructor (gl : glContext)
+/* constructor (glContext : glContext)
  * setMode (mode : int) : void
  * getMode () : int
- * setAttributes (gl : glContext, vbo : buffer) : void
+ * setAttributes (glContext : glContext, vbo : buffer) : void
  */
 
 
@@ -66,34 +66,14 @@ DefaultShader.prototype.constructor = DefaultShader;
 
 
 //##############################################################################
-//	Constructor
+//	Static attributes
 //##############################################################################
 
 
 
 /**
- * @constructor
+ * @static
  * 
- * @param {glContext} gl - The gl context.
- */
-function DefaultShader (gl) {
-//	console.log ("DefaultShader.constructor");
-	Shader.call (this, "default",
-		"./Js/Shader/default.vs",
-		"./Js/Shader/default.fs",
-		gl,
-		DefaultShader.prototype.attributes
-	);
-	
-	/**
-	 * TODO
-	 */
-	this.mode = 2;
-};
-
-
-//==============================================================================
-/**
  * Define the attributes used by the shader
  */
 DefaultShader.prototype.attributes = [
@@ -102,38 +82,91 @@ DefaultShader.prototype.attributes = [
 ];
 
 
-//==============================================================================
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
+
 /**
- * Set a mode for the shader to use to render.
+ * @constructor
+ * 
+ * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
+ * webGl context.
+ */
+function DefaultShader (glContext) {
+	Shader.call (this,
+		"default",
+		"./Js/Shader/default.vs",
+		"./Js/Shader/default.fs",
+		glContext,
+		DefaultShader.prototype.attributes
+	);
+	
+	/**
+	 * {RenderingModeEnum} The current rendering mode.
+	 */
+	this.renderingMode = RenderingModeEnum.NORMAL;
+};
+
+
+
+//##############################################################################
+//	Accessors and mutators
+//##############################################################################
+
+
+
+/**
+ * Set the rendering mode for the shader. If the mode is not correct, nothing 
+ * happend. TODO vérifier anglais.
+ * @see {@link RenderingModeEnum}
+ * 
  * @param {int} mode - The mode to set.
+ * 
  * @return {void}
  */
-DefaultShader.prototype.setMode = function (mode) {
-//	console.log ("DefaultShader.setMode");
-	this.mode = mode;
+// Anciennement nommé setMode 
+DefaultShader.prototype.setRenderingMode = function (mode) {
+	if (! isValueOfEnum (RenderingModeEnum, mode))
+		console.error ("DefaultShader.setRenderingMode : give a correct mode");
+	else
+		this.renderingMode = mode;
 };
 
+DefaultShader.prototype.setMode = function (m) {
+	this.setRenderingMode (m);
+	console.error ("Cette methode à été renommé, il faut utiliser DefaultShader.setRenderingMode");
+}
 
 //==============================================================================
 /**
- * @return {int} The mode used to render by the shader.
+ * @return {RenderingModeEnum} The mode used to render by the shader.
  */
-DefaultShader.prototype.getMode = function () {
-//	console.log ("DefaultShader.getMode");
-	return this.mode;
+DefaultShader.prototype.getRenderingMode = function () {
+	return this.renderingMode;
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Other methods
+//##############################################################################
+
+
+
 /**
  * Set the attributes for the shader.
- * @param {glContext} gl - the gl context.
- * @param {buffer} vbo - the buffer data.
+ * 
+ * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
+ * webGl context.
+ * @param {buffer} vbo - the buffer data. FIXME bad type
+ * 
  * @return {void}
  */
-DefaultShader.prototype.setAttributes = function (gl, vbo) {
-//	console.log ("DefaultShader.setAttributes");
-	gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+DefaultShader.prototype.setAttributes = function (glContext, vbo) {
+	glContext.bindBuffer (glContext.ARRAY_BUFFER, vbo);
 	
 	// Get Position attribute
 	var attrPos = this.getAttributeLocation ("aPosition");
@@ -142,15 +175,15 @@ DefaultShader.prototype.setAttributes = function (gl, vbo) {
 	var attrCol = this.getAttributeLocation ("aColor");
 	
 	// Activate Attribute
-	gl.enableVertexAttribArray (attrPos);
-	gl.enableVertexAttribArray (attrCol);
+	glContext.enableVertexAttribArray (attrPos);
+	glContext.enableVertexAttribArray (attrCol);
 	
 	// Fill all parameters for rendering
-	gl.vertexAttribPointer (attrPos, 3, gl.FLOAT, false, 28, 0);
-	gl.vertexAttribPointer (attrCol, 4, gl.FLOAT, false, 28, 12);
+	glContext.vertexAttribPointer (attrPos, 3, glContext.FLOAT, false, 28, 0);
+	glContext.vertexAttribPointer (attrCol, 4, glContext.FLOAT, false, 28, 12);
 	
 	var uloc = this.getUniformLocation ("uMode");
-	this.glContext.uniform1i (uloc, this.mode);
+	this.glContext.uniform1i (uloc, this.renderingMode);
 };
 
 

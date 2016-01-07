@@ -74,35 +74,87 @@
  * @constructor
  * Class for managing shaders.
  * 
- * @param {String} name - name of the shader.
- * @param {String} vertexSourceText - the name of the file containing the
- * vertex shader.
- * @param {String} fragmentSourceText - the name of the file containing the
- * fragment shader.
- * @param {glContext} gl - the gl context.
- * @param {Attribute} attributes - the attributes of the shader.
+ * @param {String} name - Name of the shader.
+ * @param {String} vertexSourcePath - The path to the file containing the
+ * vertex shader source code.
+ * @param {String} fragmentSourcePath - The path to the file containing the
+ * fragment shader source code.
+ * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
+ * webGl context.
+ * @param {AttributeEnum[]} attributes - attributes of the shader.
  */
-function Shader (name, vertexSourceText, fragmentSourceText, gl, attributes) {
-	this.shaderName = name; 
-	this.vertexShaderName = vertexSourceText;
-	this.fragmentShaderName = fragmentSourceText;
+function Shader (name, vertexSourcePath, fragmentSourcePath, glContext, 
+	attributes) 
+{
+	
+	/**
+	 * {String} The name of the shader.
+	 */
+	this.shaderName = name;
+	
+	/**
+	 * {String} The path to the .vs file. This path if relative to the root of
+	 * the applicaton.
+	 */
+	this.vertexShaderPath = vertexSourcePath;
+	
+	/**
+	 * {String} The path to the .fs file. This path if relative to the root of
+	 * the applicaton.
+	 */
+	this.fragmentShaderPath = fragmentSourcePath;
+	
+	/**
+	 * {AttributeEnum[]} A list of attributes for the shader. FIXME mal exprimé, mal expliqué
+	 */
 	this.attributes = attributes;
-
+	
+	/**
+	 * {WebGLProgram} The webGl program.
+	 */
 	this.program = null;
+	
+	/**
+	 * {WebGLShader} The gl vertex shader.
+	 */
 	this.vertexShad = null;
+	
+	/**
+	 * {WebGLShader} The gl fragment shader.
+	 */
 	this.fragmentShad = null; 
 	
-	// Keep gl context 
-	this.glContext = gl; 
+	/**
+	 * {(CanvasRenderingContext2D | WebGLRenderingContext)} A reference to the
+	 * using gl context.
+	 */
+	this.glContext = glContext; 
 	
-	// Compile shader 
-	this.reload();
+	// Compile shader
+	if (this.glContext)
+		this.reload ();
 };
 
 
 
 //##############################################################################
-//	Static variable
+//	Accessors
+//##############################################################################
+
+
+
+/**
+ * @return {String} The name the shader.
+
+ */
+Shader.prototype.getName = function () {
+	return this.shaderName;
+};
+
+
+
+//##############################################################################
+//	Gl program
 //##############################################################################
 
 
@@ -111,10 +163,13 @@ function Shader (name, vertexSourceText, fragmentSourceText, gl, attributes) {
  * Load/reload the shaders.
  * 
  * @return {void}
+ * @throws {String} TODO
  */
 Shader.prototype.reload = function () {
 	if (this.glContext !== undefined)
-		this.prepareShader();
+		this.prepareShader ();
+	else
+		throw "Shader.reload : gl context does not exist !";
 };
 
 
@@ -125,41 +180,38 @@ Shader.prototype.reload = function () {
  * @return {void}
  */
 Shader.prototype.prepareShader = function () {
-//	console.log ("Shader.prepareShader");
-	this.vertexSourceText = LoadFileSync(this.vertexShaderName);
-	this.fragmentSourceText = LoadFileSync(this.fragmentShaderName);
+	var vertexSourceText = LoadFileSync (this.vertexShaderPath);
+	var fragmentSourceText = LoadFileSync (this.fragmentShaderPath);
 	
 	var gl = this.glContext; 
 	
-	// Create vertex shader 
-	this.vertexShad = gl.createShader (gl.VERTEX_SHADER);
 	
-	// Compile vertex shader 
-	gl.shaderSource (this.vertexShad, this.vertexSourceText);
+	/// Vertex shader
+	this.vertexShad = gl.createShader (gl.VERTEX_SHADER);
+	gl.shaderSource (this.vertexShad, vertexSourceText);
 	gl.compileShader (this.vertexShad);
 	
-	if (!gl.getShaderParameter (this.vertexShad, gl.COMPILE_STATUS)) {
-		console.log ("Vertex shader: " + gl.getShaderInfoLog(this.vertexShad));
-	}
+	if (! gl.getShaderParameter (this.vertexShad, gl.COMPILE_STATUS))
+		console.log ("Vertex shader: " + gl.getShaderInfoLog (this.vertexShad));
 	
-	// Create fragment shader 
+	
+	/// Fragment shader
 	this.fragmentShad = gl.createShader (gl.FRAGMENT_SHADER); 
-	gl.shaderSource (this.fragmentShad, this.fragmentSourceText);
+	gl.shaderSource (this.fragmentShad, fragmentSourceText);
 	gl.compileShader (this.fragmentShad);
 	
-	if (!gl.getShaderParameter (this.fragmentShad, gl.COMPILE_STATUS)) {
-		console.log (gl.getShaderInfoLog(this.fragmentShad));
-	}
+	if (! gl.getShaderParameter (this.fragmentShad, gl.COMPILE_STATUS))
+		console.log (gl.getShaderInfoLog (this.fragmentShad));
 	
-	// Compile and link program
-	this.program = gl.createProgram();
+	
+	/// Program
+	this.program = gl.createProgram ();
 	gl.attachShader (this.program, this.vertexShad);
 	gl.attachShader (this.program, this.fragmentShad);
 	gl.linkProgram (this.program);
 	
-	if (! gl.getProgramParameter (this.program, gl.LINK_STATUS)) {
+	if (! gl.getProgramParameter (this.program, gl.LINK_STATUS))
 		console.error ("Could not initialise shaders");
-	}
 };
 
 
@@ -169,17 +221,14 @@ Shader.prototype.prepareShader = function () {
  * 
  * @return {void}
  */
-Shader.prototype.setActive = function () {
+// Anciennement nommé setActive
+Shader.prototype.activate = function () {
 	this.glContext.useProgram (this.program); 
 };
 
-
-//==============================================================================
-/**
- * @return {String} The name the shader.
- */
-Shader.prototype.getName = function () {
-	return this.shaderName;
+Shader.prototype.setActive = function () {
+	console.error ("Cette methode à été renommé, il faut utiliser Shader.activate"); 
+	this.activate();
 };
 
 
@@ -187,12 +236,18 @@ Shader.prototype.getName = function () {
 /**
  * Get uniform location given a name.
  * !!!!! Shader must be active before using this function !
+ * @see activate()
  * 
  * @param {String} aName - The name of the uniformLocation.
  * 
  * @return {WebGLUniformLocation} The uniformLocation from the program.
  */
 Shader.prototype.getUniformLocation = function (aName) {
+	if (typeof aName !== "string") {
+		console.error ("Shader.getUniformLocation : the given name is not a "
+			+ "string !");
+		return;
+	}
 	return this.glContext.getUniformLocation (this.program, aName);
 };
 
@@ -201,12 +256,18 @@ Shader.prototype.getUniformLocation = function (aName) {
 /**
  * Get attribute location given a name.
  * !!!!! Shader must be active before using this function !
+ * @see activate()
  * 
- * @param {String} aName - the name of the attribute.
+ * @param {String} aName - The name of the attribute.
  * 
- * @return {int} the attribLocation from the program.
+ * @return {int} The attribLocation from the program.
  */
 Shader.prototype.getAttributeLocation = function (aName) {
+	if (typeof aName !== "string") {
+		console.error ("Shader.getAttributeLocation : the given name is not a "
+			+ "string !");
+		return;
+	}
 	return this.glContext.getAttribLocation (this.program, aName);
 };
 
@@ -215,16 +276,22 @@ Shader.prototype.getAttributeLocation = function (aName) {
 /**
  * Get the attribute list, necessary to construct the VBO.
  * 
- * @param {Object} attrib - the list of attribute.
+ * @param {AttributeEnum} attrib - An attribute.
  * 
- * @return {boolean} true if the attribute exist, false otherwise.
+ * @return {boolean} True if the attribute exist, false otherwise.
  */
-Shader.prototype.getAttribute = function (attrib) {
-	for (var i = 0; i < this.attributes.length; ++i) {
-		if (this.attributes[i] == attrib)
+// Anciennement nommé getAttribute
+Shader.prototype.hasAttribute = function (attrib) {
+	var len = this.attributes.length;
+	
+	for (var i = 0; i < len; ++i) {
+		if (this.attributes[i] === attrib)
 			return true;
 	}
 	return false;
 };
-
+Shader.prototype.getAttribute = function (attrib) {
+	console.error ("Cette methode à été renommé, il faut utiliser Shader.activate"); 
+	this.hasAttribute (attrib);
+}
 
