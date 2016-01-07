@@ -398,12 +398,12 @@ GenericStructure.prototype.drawBackBuffer = function (gl, scn) {};
  * FIXME expliquer le valeur de retour, les changer si besion
  */
 GenericStructure.prototype.addAPoint = function (data, X, Y, Z) {
-	if (!this.shader.getAttribute (AttributeEnum.position)) {
+	if (!this.shader.hasAttribute (AttributeEnum.position)) {
 		return 0;
 	}
 	
 	if (X instanceof Array) { // If X is an Array
-		data.push(X[0], X[1], X[2]);
+		data.push (X[0], X[1], X[2]);
 	}
 	else if (Z === undefined) { // If one parameter is missing
 		throw "GenericObject.addAPoint: missing parameter (typeof X: "
@@ -431,7 +431,7 @@ GenericStructure.prototype.addAPoint = function (data, X, Y, Z) {
  * FIXME expliquer le valeur de retour, les changer si besion
  */
 GenericStructure.prototype.addAColor = function (data, R, G, B, A) {
-	if (!this.shader.getAttribute (AttributeEnum.color)) {
+	if (!this.shader.hasAttribute (AttributeEnum.color)) {
 		return 0;
 	}
 	
@@ -462,7 +462,7 @@ GenericStructure.prototype.addAColor = function (data, R, G, B, A) {
  * FIXME expliquer le valeur de retour, les changer si besion
  */
 GenericStructure.prototype.addANormal = function (data, X, Y, Z) {
-	if (!this.shader.getAttribute (AttributeEnum.normal)) {
+	if (!this.shader.hasAttribute (AttributeEnum.normal)) {
 		return 0;
 	}
 	
@@ -493,7 +493,7 @@ GenericStructure.prototype.addANormal = function (data, X, Y, Z) {
  * FIXME expliquer le valeur de retour, les changer si besion
  */
 GenericStructure.prototype.addATangent = function (data, X, Y, Z) {
-	if (!this.shader.getAttribute(AttributeEnum.tangent)) {
+	if (!this.shader.hasAttribute(AttributeEnum.tangent)) {
 		return 0;
 	}
 	
@@ -524,7 +524,7 @@ GenericStructure.prototype.addATangent = function (data, X, Y, Z) {
  * FIXME expliquer le valeur de retour, les changer si besion
  */
 GenericStructure.prototype.addABitangent = function (data, X, Y, Z) {
-	if (!this.shader.getAttribute (AttributeEnum.bitangent)) {
+	if (!this.shader.hasAttribute (AttributeEnum.bitangent)) {
 		return 0;
 	}
 	
@@ -554,7 +554,7 @@ GenericStructure.prototype.addABitangent = function (data, X, Y, Z) {
  * FIXME expliquer le valeur de retour, les changer si besion
  */
 GenericStructure.prototype.addTextureCoordinates = function (data, U, V) {
-	if (!this.shader.getAttribute(AttributeEnum.texcoord)) {
+	if (!this.shader.hasAttribute(AttributeEnum.texcoord)) {
 		return 0;
 	}
 	

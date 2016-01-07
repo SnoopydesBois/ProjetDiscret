@@ -88,7 +88,7 @@
 function Scene () {
 	
 	/**
-	 * {Array} List of objects.
+	 * {GenericStructure[]} List of objects.
 	 */
 	this.objectList = [];
 	
@@ -137,7 +137,7 @@ function Scene () {
 //==============================================================================
 /**
  * @static
- * {Camera} The default camera. Use when no camera has set. FIXME anglais corecte ?
+ * {Camera} The default camera. Use when no camera has set. FIXME vérifier anglais
  */
 Scene.prototype.defaultCamera = new Camera (
 	new Vector (10, 10, 10),
@@ -173,15 +173,17 @@ Scene.prototype.getLength = function () {
  * 
  * @param {String} aName - name of the object to return.
  * 
- * @return {Object} the object corresponding to the name in parameter if it
- * exists, null otherwise. FIXME type de retour pas précis.
+ * @return {GenericStructure} the object corresponding to the name in parameter
+ * if it exists, null otherwise. FIXME type de retour pas précis.
  */
 Scene.prototype.getObjectByName = function (aName) {
 	var length = this.objectList.length;
+	
 	for (var i = 0; i < length; ++i) {
 		if (this.objectList[i].getName() === aName)
 			return this.objectList[i];
 	}
+	
 	console.error ("Scene.getObjectByName : object : \"" + aName
 			+ "\" not found");
 	return null;
@@ -203,7 +205,7 @@ Scene.prototype.getLightPosition = function () {
 /**
  * Set the light position.
  * 
- * @param {Vector} pos - the position of the light.
+ * @param {Vector} pos - The position of the light.
  * 
  * @return {void}
  */
@@ -216,7 +218,7 @@ Scene.prototype.setLightPosition = function (pos) {
 /**
  * Get the camera.
  * 
- * @return {Camera} the camera corresponding to the id if it exists, null
+ * @return {Camera} The camera corresponding to the id if it exists, null
  * otherwise.
  */
 Scene.prototype.getCamera = function () {
@@ -366,21 +368,23 @@ Scene.prototype.addTranslateY = function (y) {
 
 
 //##############################################################################
-//	Other methods
+//	Object managing methods
 //##############################################################################
 
 
 
 /**
- * Add an object.
+ * Add an object (only if is a GenericStructure subclass).
  * 
- * @param {Object} anObject - object to add to the scene.
+ * @param {!GenericStructure} anObject - Object to add to the scene.
  * 
  * @return {void}
  */
 Scene.prototype.addObject = function (anObject) {
-//	console.log ("Scene.addObject");
+	if (anObject instanceof GenericStructure)
 	this.objectList.push (anObject);
+	else
+		throw "Scene.addObject: parameter is not a GenericStructure";
 };
 
 
@@ -388,7 +392,7 @@ Scene.prototype.addObject = function (anObject) {
 /**
  * Remove an object by id.
  * 
- * @param {int} id - the id in the object list.
+ * @param {int} id - The id in the object list.
  * 
  * @return {void}
  */
@@ -402,7 +406,7 @@ Scene.prototype.removeObjectById = function (id) {
 /**
  * Remove an object by name.
  * 
- * @param {String} anObjectName - name of the object to remove.
+ * @param {!String} anObjectName - Name of the object to remove.
  * 
  * @return {void}
  */
@@ -418,39 +422,48 @@ Scene.prototype.removeObjectByName = function (anObjectName) {
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Drawing methods
+//##############################################################################
+
+
+
 /**
- * Prepare Scene before render.
- * 
- * @param {glContext} gl - the gl context.
- * 
- * @return {void}
- */
-Scene.prototype.prepare = function (gl) {
-	for (var i = 0; i < this.objectList.length; ++i)
-		this.objectList[i].prepare (gl);
-	
-	// If no camera 
-	if (this.camera === undefined)
-		this.camera = Scene.prototype.defaultCamera;
-
-//	this.prepareSelect (gl);
-};
-
-
-//==============================================================================
-/**
- * Reload the shader, reinit the scene (the time).
+ * Reload the scene. Reload shader for each displayable object.
  * 
  * @return {void}
  */
 Scene.prototype.reload = function () {
 	var length = this.getLength ();
+	
 	for (var i = 0; i < length; ++i) {
 		var obj = this.objectList[i];
 		if (obj.displayMe ())
-			obj.getShader ().reload(); 
+			obj.getShader ().reload (); 
 	}
+};
+
+
+//==============================================================================
+/**
+ * Prepare the scene before render. Prepare all object and check if there are a
+ * camera. If not, the default camera is set to the scene. TODO vérifier anglais
+ * 
+ * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
+ * gl context.
+ * 
+ * @return {void}
+ */
+Scene.prototype.prepare = function (glContext) {
+	for (var i = 0; i < this.objectList.length; ++i)
+		this.objectList[i].prepare (glContext);
+	
+	// If no camera 
+	if (this.camera === undefined)
+		this.camera = Scene.prototype.defaultCamera;
+
+//	this.prepareSelect (glContext);
 };
 
 
@@ -458,27 +471,28 @@ Scene.prototype.reload = function () {
 /**
  * Draw a scene.
  * 
- * @param {glContext} gl - the gl context.
+ * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
+ * gl context.
  * @param {boolean} [backBuffer] - indicate if we have to draw the scene 
  * normally or if we need to draw for picking (with color on each object).
  * 
  * @return {void}
  */
-Scene.prototype.draw = function (gl, backBuffer) {
+Scene.prototype.draw = function (glContext, backBuffer) {
 	var taille = Math.min (this.height, this.width) * 2;
-	gl.viewport ((this.width - taille) / 2, (this.height - taille) / 2, taille,
-		taille);
+	glContext.viewport ((this.width - taille) / 2, (this.height - taille) / 2,
+		taille, taille);
 			
-	gl.clearColor (0.0, 0.0, 0.0, 1.0);
-	gl.clear (gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+	glContext.clearColor (0.0, 0.0, 0.0, 1.0);
+	glContext.clear (glContext.COLOR_BUFFER_BIT | glContext.DEPTH_BUFFER_BIT);
 		
 //	if (this.repere !== undefined && this.repere.displayMe()) {
 //		// Get Object Properties
 //		var obj = this.repere;
-//		this.prepareDraw (gl, obj);
+//		this.prepareDraw (glContext, obj);
 //		// RenderObject
 //		if (!backBuffer)
-//			obj.draw (gl, this);
+//			obj.draw (glContext, this);
 //	}
 
 	var length = this.getLength ();
@@ -488,13 +502,13 @@ Scene.prototype.draw = function (gl, backBuffer) {
 		if (!obj.displayMe ())
 			continue;
 		
-		this.prepareDraw (gl, obj);
+		this.prepareDraw (glContext, obj);
 		
 		// RenderObject 
 		if (backBuffer)
-			obj.backBufferDraw (gl, this);
+			obj.backBufferDraw (glContext, this);
 		else
-			obj.draw (gl, this);
+			obj.draw (glContext, this);
 	} // end for
 };
 
@@ -503,10 +517,11 @@ Scene.prototype.draw = function (gl, backBuffer) {
 /**
  * Compute the data to draw
  * 
- * @param {glContext} gl - the gl context
+ * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
+ * gl context.
  * @param {} obj - TODO compléter
  */
-Scene.prototype.prepareDraw = function (gl, obj) {
+Scene.prototype.prepareDraw = function (glContext, obj) {
 	var cam = this.camera;
 	var mvMat = cam.getViewMatrix();
 	var pjMat = cam.getProjectionMatrix();
@@ -514,7 +529,7 @@ Scene.prototype.prepareDraw = function (gl, obj) {
 	
 	// Get Location of uniform variables
 	var shad = obj.getShader();
-	shad.setActive (gl); 
+	shad.setActive (glContext); 
 	var locMvMat = shad.getUniformLocation ("uModelViewMatrix");
 	var locPjMat = shad.getUniformLocation ("uProjectionMatrix");
 	var locNmMat = shad.getUniformLocation ("uNormalMatrix");
@@ -524,39 +539,39 @@ Scene.prototype.prepareDraw = function (gl, obj) {
 	
 	// Set Uniform Matrices
 	if (locMvMat != null)
-		gl.uniformMatrix4fv (locMvMat, false, mv.getGLVector());
+		glContext.uniformMatrix4fv (locMvMat, false, mv.getGLVector());
 	
 	if (locPjMat != null)
-		gl.uniformMatrix4fv (locPjMat, false, pjMat.getGLVector());
+		glContext.uniformMatrix4fv (locPjMat, false, pjMat.getGLVector());
 	
 	// If Shader has normal matrix give it !
 	if (locNmMat != null) {
 		// Compute Normal matrix 
 		var nm = new Matrix (mv).toNormal();
-		gl.uniformMatrix4fv (locNmMat, false, nm.getGLVector()); 
+		glContext.uniformMatrix4fv (locNmMat, false, nm.getGLVector()); 
 	}
 	
 	// scaling ...
 	var locScale = shad.getUniformLocation ("uScale");
 	if (locScale != null)
-		gl.uniform1f(locScale, this.scale);
+		glContext.uniform1f(locScale, this.scale);
 	
 	// resolution
 	var locResol = shad.getUniformLocation ("uResolution");
 	if (locResol != null)
-		gl.uniform2f (locResol, this.width, this.height);
+		glContext.uniform2f (locResol, this.width, this.height);
 	
 	// translation
 	var locTranslate = shad.getUniformLocation ("uTranslate");
 	if (locTranslate != null)
-		gl.uniform2f (locTranslate, this.translateX, this.translateY);
+		glContext.uniform2f (locTranslate, this.translateX, this.translateY);
 	
 	// mouse
 	var locMouse = shad.getUniformLocation ("uMouse");
 	if (locMouse != null) {
 		var x = Math.floor ((this.mouseX) * this.scale);
 		var y = Math.floor ((this.mouseY) * this.scale);
-		gl.uniform2f (locMouse, x, y);
+		glContext.uniform2f (locMouse, x, y);
 	}
 }
 
@@ -565,15 +580,16 @@ Scene.prototype.prepareDraw = function (gl, obj) {
 /**
  * Prepare the scene for selection.
  * 
- * @param {glContext} gl - The gl context.
+ * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
+ * gl context.
  * 
  * @return {void}
  */
-Scene.prototype.prepareSelect = function (gl) {
+Scene.prototype.prepareSelect = function (glContext) {
 	// Prepare each objects 
 	var lengthObject = this.getLength ();
 	for (var i = 0; i < lengthObject; ++i)
-		this.objectList[i].prepareSelection(gl);
+		this.objectList[i].prepareSelection (glContext);
 	
 	// If no camera
 	if (this.camera === undefined)

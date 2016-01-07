@@ -76,7 +76,8 @@ function GenericObject (canvas, glContextType) {
 	if (!((canvas instanceof HTMLCanvasElement) 
 		&& (typeof glContextType === "string")))
 	{
-		console.error ("GenericObject.constructor : bad type(s) of parameter(s)");
+		console.error ("GenericObject.constructor : bad type(s) of " 
+			+ "parameter(s)");
 		return;
 	}
 	
@@ -87,7 +88,7 @@ function GenericObject (canvas, glContextType) {
 	
 	/**
 	 * {HTMLCanvasElement} The associated canvas FIXME où le dessin du modèle
-	 * est effectué.
+	 * est effectué. TODO traduire
 	 */
 	this.canvas = canvas;
 	
