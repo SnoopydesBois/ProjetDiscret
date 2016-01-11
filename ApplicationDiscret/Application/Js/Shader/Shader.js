@@ -166,8 +166,13 @@ Shader.prototype.getName = function () {
  * @throws {String} TODO
  */
 Shader.prototype.reload = function () {
-	if (this.glContext !== undefined)
+	var gl = this.glContext;
+	
+	if (gl !== undefined) {
+		gl.viewport (0, 0, gl.viewportWidth, gl.viewportHeight);
+//		gl.clear (gl.COLOR_BUFFER_BIT);
 		this.prepareShader ();
+	}
 	else
 		throw "Shader.reload : gl context does not exist !";
 };
@@ -187,31 +192,33 @@ Shader.prototype.prepareShader = function () {
 	
 	
 	/// Vertex shader
-	this.vertexShad = gl.createShader (gl.VERTEX_SHADER);
-	gl.shaderSource (this.vertexShad, vertexSourceText);
-	gl.compileShader (this.vertexShad);
-	
-	if (! gl.getShaderParameter (this.vertexShad, gl.COMPILE_STATUS))
-		console.log ("Vertex shader: " + gl.getShaderInfoLog (this.vertexShad));
-	
+//	this.vertexShad = gl.createShader (gl.VERTEX_SHADER);
+//	gl.shaderSource (this.vertexShad, vertexSourceText);
+//	gl.compileShader (this.vertexShad);
+//	
+//	if (! gl.getShaderParameter (this.vertexShad, gl.COMPILE_STATUS))
+//		console.log ("Vertex shader: " + gl.getShaderInfoLog (this.vertexShad));
+	this.vertexShad = createShader (gl, gl.VERTEX_SHADER, vertexSourceText);
 	
 	/// Fragment shader
-	this.fragmentShad = gl.createShader (gl.FRAGMENT_SHADER); 
-	gl.shaderSource (this.fragmentShad, fragmentSourceText);
-	gl.compileShader (this.fragmentShad);
-	
-	if (! gl.getShaderParameter (this.fragmentShad, gl.COMPILE_STATUS))
-		console.log (gl.getShaderInfoLog (this.fragmentShad));
+//	this.fragmentShad = gl.createShader (gl.FRAGMENT_SHADER); 
+//	gl.shaderSource (this.fragmentShad, fragmentSourceText);
+//	gl.compileShader (this.fragmentShad);
+//	
+//	if (! gl.getShaderParameter (this.fragmentShad, gl.COMPILE_STATUS))
+//		console.log (gl.getShaderInfoLog (this.fragmentShad));
+	this.fragmentShad = createShader (gl, gl.FRAGMENT_SHADER, fragmentSourceText);
 	
 	
 	/// Program
-	this.program = gl.createProgram ();
-	gl.attachShader (this.program, this.vertexShad);
-	gl.attachShader (this.program, this.fragmentShad);
-	gl.linkProgram (this.program);
-	
-	if (! gl.getProgramParameter (this.program, gl.LINK_STATUS))
-		console.error ("Could not initialise shaders");
+//	this.program = gl.createProgram ();
+//	gl.attachShader (this.program, this.vertexShad);
+//	gl.attachShader (this.program, this.fragmentShad);
+//	gl.linkProgram (this.program);
+//	
+//	if (! gl.getProgramParameter (this.program, gl.LINK_STATUS))
+//		console.error ("Could not initialise shaders");
+	this.program = createProgram (gl, this.vertexShad, this.fragmentShad);
 };
 
 
@@ -223,6 +230,7 @@ Shader.prototype.prepareShader = function () {
  */
 // Anciennement nommé setActive
 Shader.prototype.activate = function () {
+	console.trace ();
 	this.glContext.useProgram (this.program); 
 };
 

@@ -51,7 +51,7 @@
  * frame3D : Frame3D
  *
  * Repere(name : String, shader : DefaultShader, frame3D : Frame3D)
- * prepare(glContext : glContextContext) : void
+ * prepare(glContext : glContext) : void
  * addVertice(stripVertices : Array, x : int, y : int, z : int) : void
  * hoverPrepare(glContext : glContextContext) : void
  * draw(glContext : glContextContext) : void
@@ -134,14 +134,19 @@ Repere.prototype.prepare = function (glContext) {
 	var halfDimBox = (new Vector (this.dimension)).mul (
 		1.0 / Math.max (this.dimension.x, this.dimension.y, this.dimension.z));
 	var vertexBuffer = [ // the vertex of the box which serve as repere
-		[-0.2, -0.2, -0.2],
-		[-0.2,  0.2, -0.2],
-		[ 0.2, -0.2, -0.2],
-		[ 0.2,  0.2, -0.2],
-		[-0.2, -0.2,  0.2],
-		[-0.2,  0.2,  0.2],
-		[ 0.2, -0.2,  0.2],
-		[ 0.2,  0.2,  0.2]
+		[0.0, 0.0, 0.0],
+		[1.0, 0.0, 0.0],
+		[1.0, 1.0, 0.0]
+		
+//		[-0.2, -0.2, -0.2],
+//		[-0.2,  0.2, -0.2],
+//		[ 0.2, -0.2, -0.2],
+//		[ 0.2,  0.2, -0.2],
+//		[-0.2, -0.2,  0.2],
+//		[-0.2,  0.2,  0.2],
+//		[ 0.2, -0.2,  0.2],
+//		[ 0.2,  0.2,  0.2]
+
 //		[-halfDimBox.x, -halfDimBox.y, -halfDimBox.z],
 //		[-halfDimBox.x,  halfDimBox.y, -halfDimBox.z],
 //		[ halfDimBox.x, -halfDimBox.y, -halfDimBox.z],
@@ -169,14 +174,15 @@ Repere.prototype.prepare = function (glContext) {
 
 	// Indices to draw the box
 	var indicesBuffer = [
-		0, 1, 2, 3, // BOTTOM
-		6, 7,       // RIGHT
-		4, 5,       // TOP
-		0, 1,       // LEFT
-		1, 0,
-		0, 2, 4, 6, // FRONT
-		6, 3,
-		3, 1, 7, 5  // BACK
+//		0, 1, 2, 3, // BOTTOM
+//		6, 7,       // RIGHT
+//		4, 5,       // TOP
+//		0, 1,       // LEFT
+//		1, 0,
+//		0, 2, 4, 6, // FRONT
+//		6, 3,
+//		3, 1, 7, 5  // BACK
+		0, 1, 2
 	];
 
 	/// Vertex Buffer
@@ -189,6 +195,23 @@ Repere.prototype.prepare = function (glContext) {
 		this.addAColor (data, colorBuffer[vert]);
 	}
 	
+	
+	//////
+//	var dataLen = data.length;
+//	var line, ind;
+//	for (var i = 0; i < dataLen; i += 7) {
+//		line = [];
+//		ind = [];
+//		for (var j = 0; j < 7 && i + j < dataLen; ++j) {
+//			line.push (data[i + j]);
+//			ind.push (i + j);
+//		}
+//		console.log (line);
+//		console.log (ind);
+//	}
+	//////
+	
+	
 	glContext.bindBuffer (glContext.ARRAY_BUFFER, this.glVertexBuffer); 
 	glContext.bufferData (glContext.ARRAY_BUFFER, new Float32Array (data), 
 		glContext.STATIC_DRAW);
@@ -196,11 +219,11 @@ Repere.prototype.prepare = function (glContext) {
 	
 	/// Indices Buffer
 	this.glIndiciesBuffer = glContext.createBuffer();
-	glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer);
+	this.glIndiciesBuffer.numItems = indicesBuffer.length;
 	
+	glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer);
 	glContext.bufferData (glContext.ELEMENT_ARRAY_BUFFER,
 		new Uint16Array (indicesBuffer), glContext.STATIC_DRAW);
-	this.glIndiciesBuffer.numItems = indicesBuffer.length;
 };
 
 
@@ -274,29 +297,38 @@ Repere.prototype.prepare = function (glContext) {
  * @override
  * 
  * @param {WebGLRenderingContext} glContext - The gl context.
+ * 
+ * @return {void}
  */
 Repere.prototype.draw = function (glContext) {
+	glContext.clearColor (0.1, 0.9, 0.3, 1.0);
+	/// Parameter verification
 	if (!(glContext instanceof WebGLRenderingContext)) {
-		console.error("Repere.draw : glContext is not a WebGLRenderingContext");
+		console.error("Repere.draw: glContext is not a WebGLRenderingContext");
 		return;
 	}
 	
+	/// Buufer verification
 	if (this.glVertexBuffer === undefined 
 		|| this.glIndiciesBuffer === undefined)
 	{
-		console.error ("Repere.draw : prepare the repere BEFORE draw it !"); // TODO vérifer anglais
+		console.error ("Repere.draw: prepare the repere BEFORE draw it !"); // TODO vérifer anglais
 		return;
 	}
 	
+	/// Set shader parameters
 	this.shader.setRenderingMode (RenderingModeEnum.DOTTED);
 	// Let's the shader prepare its attributes
 	this.shader.setAttributes (glContext, this.glVertexBuffer);
 	
 	// Let's render !
 	glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer);
-	glContext.drawElements (glContext.TRIANGLE_STRIP, 
-		this.glIndiciesBuffer.numItems, 
-		glContext.UNSIGNED_SHORT, 0);
+//	glContext.drawElements (glContext.TRIANGLE_STRIP, 
+//		this.glIndiciesBuffer.numItems, 
+//		glContext.UNSIGNED_SHORT,
+//		0
+//	);
+	glContext.drawArrays (glContext.TRIANGLE, 0, this.glVertexBuffer);
 	
 //	if (this.stripIbo === undefined || this.stripVbo === undefined)
 //		return;

@@ -103,7 +103,6 @@ function GenericStructure (name, modelController, shader) {
 	{
 		console.error ("GenericStructure.constructor : bad type(s) of " + 
 			"parameter(s)");
-		console.log (this);
 		showType (name, modelController, shader);
 		return;
 	}
@@ -153,7 +152,6 @@ function GenericStructure (name, modelController, shader) {
 	 */
 	this.glIndicesBuffer = [];
 	
-
 }
 
 
@@ -389,16 +387,19 @@ GenericStructure.prototype.drawBackBuffer = function (gl, scn) {};
 /**
  * Add a position into an array of data.
  * 
- * @param {Array} data - the array to push position into.
- * @param {float} X - the X coordinate of the point, can be an array.
- * @param {float} Y - the Y coordinate of the point.
- * @param {float} Z - the Z coordinate of the point.
+ * @param {Array} data - The array to push position's coordinate into.
+ * @param {(float | float[3])} X - The X coordinate (if it is a float value) or
+ * all coordinates (if it is an array) of the point.
+ * @param {float} [Y] - The Y coordinate of the point. Mandatory if X is a float
+ * value.
+ * @param {float} [Z] - The Z coordinate of the point. Mandatory if X is a float
+ * value.
  * 
  * @return {int} 0 if the shader doesn't accept position, 3 otherwise.
  * FIXME expliquer le valeur de retour, les changer si besion
  */
 GenericStructure.prototype.addAPoint = function (data, X, Y, Z) {
-	if (!this.shader.hasAttribute (AttributeEnum.position)) {
+	if (! this.shader.hasAttribute (AttributeEnum.position)) {
 		return 0;
 	}
 	
@@ -409,7 +410,7 @@ GenericStructure.prototype.addAPoint = function (data, X, Y, Z) {
 		throw "GenericObject.addAPoint: missing parameter (typeof X: "
 				+ typeof X + ")";
 	}
-	else { // X, Y, Z are 3 points
+	else { // X, Y, Z are 3 coordinates
 		data.push (X, Y, Z);
 	}
 	
@@ -421,24 +422,28 @@ GenericStructure.prototype.addAPoint = function (data, X, Y, Z) {
 /**
  * Add a color into an array of data.
  * 
- * @param {Array} data - the array to push position into.
- * @param {float} R - the Red value to push into data, can be an array.
- * @param {float} G - the Green value to push into data.
- * @param {float} B - the Blue value to push into data.
- * @param {float} A - the Alpha value to push into data.
+ * @param {Array} data - The array to push color's component into.
+ * @param {(flaot | float[4])} R - The Red value (if it is a float value) or the
+ * four color component (if it is an array) to push into data.
+ * @param {float} [G] - The Green value to push into data. Mandatory if R is a
+ * float value.
+ * @param {float} [B] - The Blue value to push into data. Mandatory if R is a
+ * float value.
+ * @param {float} [A] - The Alpha value to push into data. Mandatory if R is a
+ * float value.
  * 
  * @return {int} 0 if the shader doesn't accept color, 4 otherwise 
  * FIXME expliquer le valeur de retour, les changer si besion
  */
 GenericStructure.prototype.addAColor = function (data, R, G, B, A) {
-	if (!this.shader.hasAttribute (AttributeEnum.color)) {
+	if (! this.shader.hasAttribute (AttributeEnum.color)) {
 		return 0;
 	}
 	
 	if (R instanceof Array) { // If R is an array
 		data.push (R[0], R[1], R[2], R[3]);
 	}
-	else if (typeof A == "undefined") { // If one parameter is missing
+	else if (A === undefined) { // If one parameter is missing
 		throw "GenericObject.addAColor: missing parameter (typeof R: "
 				+ typeof R + ")";
 	}
@@ -453,28 +458,31 @@ GenericStructure.prototype.addAColor = function (data, R, G, B, A) {
 /**
  * Add a normal into an array of data.
  * 
- * @param {Array} data - the array to push position into.
- * @param {float} X - the X value of the vector, can be an array.
- * @param {float} Y - the Y value of the vector.
- * @param {float} Z - the Z value of the vector.
- * @return {int} 0 if the shader doesn't accept normal, 3 otherwise.
+ * @param {Array} data - The array to push normal's coordinate into.
+ * @param {(float | float[3])} X - The X coordinate (if it is a float value) or
+ * all coordinates (if it is an array) of the normal.
+ * @param {float} [Y] - The Y coordinate of the normal. Mandatory if X is a
+ * float value.
+ * @param {float} [Z] - The Z coordinate of the normal. Mandatory if X is a
+ * float value.
  * 
+ * @return {int} 0 if the shader doesn't accept normal, 3 otherwise.
  * FIXME expliquer le valeur de retour, les changer si besion
  */
 GenericStructure.prototype.addANormal = function (data, X, Y, Z) {
-	if (!this.shader.hasAttribute (AttributeEnum.normal)) {
+	if (! this.shader.hasAttribute (AttributeEnum.normal)) {
 		return 0;
 	}
 	
 	if (X instanceof Array) { // If X is an array
-		data.push(X[0], X[1], X[2]);
+		data.push (X[0], X[1], X[2]);
 	}
-	else if (typeof Z === "undefined") { // If one parameter is missing
+	else if (Z === undefined) { // If one parameter is missing
 		throw "GenericObject.addANormal: missing parameter (typeof X: "
 				+ typeof X + ")";
 	}
 	else { // X,Y,Z are 3 values
-		data.push(X, Y, Z);
+		data.push (X, Y, Z);
 	}
 	return 3;
 };
@@ -484,23 +492,26 @@ GenericStructure.prototype.addANormal = function (data, X, Y, Z) {
 /**
  * Add a tangent into an array of data.
  * 
- * @param {Array} data - the array to push position into.
- * @param {float} X - the X value of the vector, can be an array.
- * @param {float} Y - the Y value of the vector.
- * @param {float} Z - the Z value of the vector.
+ * @param {Array} data - The array to push tangent's coordinate into.
+ * @param {(float | float[3])} X - The X coordinate (if it is a float value) or
+ * all coordinates (if it is an array) of the tangent.
+ * @param {float} [Y] - The Y coordinate of the tangent. Mandatory if X is a
+ * float value.
+ * @param {float} [Z] - The Z coordinate of the tangent. Mandatory if X is a
+ * float value.
  * 
  * @return {int} 0 if the shader doesn't accept tangent, 3 otherwise.
  * FIXME expliquer le valeur de retour, les changer si besion
  */
 GenericStructure.prototype.addATangent = function (data, X, Y, Z) {
-	if (!this.shader.hasAttribute(AttributeEnum.tangent)) {
+	if (! this.shader.hasAttribute (AttributeEnum.tangent)) {
 		return 0;
 	}
 	
 	if (X instanceof Array) { // If X is an array
 		data.push (X[0], X[1], X[2]);
 	}
-	else if (typeof Z === "undefined") { // If one parameter is missing
+	else if (Z === undefined) { // If one parameter is missing
 		throw "GenericObject.addATangent: missing parameter (typeof X: "
 				+ (typeof X) + ")";
 	}
@@ -515,25 +526,28 @@ GenericStructure.prototype.addATangent = function (data, X, Y, Z) {
 /**
  * Add a bitangent into an array of data.
  * 
- * @param {Array} data - the array to push position into.
- * @param {float} X - the X value of the vector, can be an array.
- * @param {float} Y - the Y value of the vector.
- * @param {float} Z - the Z value of the vector.
+ * @param {Array} data - The array to push bitangent's coordinate into.
+ * @param {(float | float[3])} X - The X coordinate (if it is a float value) or
+ * all coordinates (if it is an array) of the normal.
+ * @param {float} [Y] - The Y coordinate of the normal. Mandatory if X is a
+ * float value.
+ * @param {float} [Z] - The Z coordinate of the normal. Mandatory if X is a
+ * float value.
  * 
  * @return {int} 0 if the shader doesn't accept tangent, 3 otherwise.
  * FIXME expliquer le valeur de retour, les changer si besion
  */
 GenericStructure.prototype.addABitangent = function (data, X, Y, Z) {
-	if (!this.shader.hasAttribute (AttributeEnum.bitangent)) {
+	if (! this.shader.hasAttribute (AttributeEnum.bitangent)) {
 		return 0;
 	}
 	
 	if (X instanceof Array) { // If X is an array
 		data.push (X[0], X[1], X[2]);
 	}
-	else if (typeof Z == "undefined") { // If one parameter is missing
+	else if (Z === undefined) { // If one parameter is missing
 		throw "GenericObject.addABitangent: missing parameter (typeof X: "
-				+ (typeof X) + ")";
+				+ typeof X + ")";
 	}
 	else { // X,Y,Z are 3 values
 		data.push (X, Y, Z);
@@ -546,22 +560,24 @@ GenericStructure.prototype.addABitangent = function (data, X, Y, Z) {
 /**
  * Add texture coordinates into an array of data.
  * 
- * @param {Array} data - the array to push coordinates into.
- * @param {float} U - the texture coordinates, can be an array.
- * @param {float} V - the texture coordinates.
+ * @param {Array} data - the array to push texture coordinates into.
+ * @param {(float | float[3])} U - The U texture coordinate (if it is a float
+ * value) or all coordinates (if it is an array) of the texture coordinates.
+ * @param {float} [V] - The V texture coordinate. Mandatory if X is a float
+ * value.
  * 
  * @return {int} 0 if the shader doesn't accept textureCoordinates, 2 otherwise.
  * FIXME expliquer le valeur de retour, les changer si besion
  */
 GenericStructure.prototype.addTextureCoordinates = function (data, U, V) {
-	if (!this.shader.hasAttribute(AttributeEnum.texcoord)) {
+	if (! this.shader.hasAttribute (AttributeEnum.texcoord)) {
 		return 0;
 	}
 	
 	if (U instanceof Array) { // If U is an array
 		data.push (U[0], U[1]);
 	}
-	else if (typeof V === "undefined") { // If one parameter is missing
+	else if (V === undefined) { // If one parameter is missing
 		throw "GenericObject.addTextureCoordinates: missing parameter " +
 				+ "(typeof U: " + typeof U + ")";
 	}

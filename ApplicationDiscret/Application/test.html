@@ -231,8 +231,12 @@
 			var gl = scanvas.getContext("webgl") || scanvas.getContext("experimental-webgl");
 			//var sr = new SurfaceRenderer (null, gl);
 			var r = new Repere (new Vector (2, 4, 8), gl);
+			console.log ("########### Repère créé ##########");
 			r.prepare (gl);
+			console.log ("########### Repère préparé ##########");
+			r.shader.activate ();
 			r.draw (gl);
+			console.log ("########### Repère désiné ##########");
 		</script>
 	</body>
 </html>

@@ -161,19 +161,21 @@ DefaultShader.prototype.getRenderingMode = function () {
  * 
  * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
  * webGl context.
- * @param {buffer} vbo - the buffer data. FIXME bad type
+ * @param {buffer} vertexBuffer - the buffer data. FIXME bad type
  * 
  * @return {void}
  */
-DefaultShader.prototype.setAttributes = function (glContext, vbo) {
-	glContext.bindBuffer (glContext.ARRAY_BUFFER, vbo);
+DefaultShader.prototype.setAttributes = function (glContext, vertexBuffer) {
+//console.error (this);
+	glContext.bindBuffer (glContext.ARRAY_BUFFER, vertexBuffer);
 	
 	// Get Position attribute
 	var attrPos = this.getAttributeLocation ("aPosition");
 	
 	// Get Color attribute
 	var attrCol = this.getAttributeLocation ("aColor");
-	
+//	console.log ("attrPos", attrPos);
+//	console.log ("attrCol", attrCol);
 	// Activate Attribute
 	glContext.enableVertexAttribArray (attrPos);
 	glContext.enableVertexAttribArray (attrCol);
@@ -182,8 +184,9 @@ DefaultShader.prototype.setAttributes = function (glContext, vbo) {
 	glContext.vertexAttribPointer (attrPos, 3, glContext.FLOAT, false, 28, 0);
 	glContext.vertexAttribPointer (attrCol, 4, glContext.FLOAT, false, 28, 12);
 	
-	var uloc = this.getUniformLocation ("uMode");
-	this.glContext.uniform1i (uloc, this.renderingMode);
+	var ulocc = this.getUniformLocation ("uMode");
+//	console.log ("Ulocc", ulocc);
+	this.glContext.uniform1i (ulocc, this.renderingMode);
 };
 
 
