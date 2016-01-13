@@ -192,7 +192,7 @@ Repere.prototype.prepare = function (glContext) {
 	var data = [];
 	for (var vert = 0; vert < vertexBufferLength; ++vert) {
 		this.addAPoint (data, vertexBuffer[vert]); 
-		this.addAColor (data, colorBuffer[vert]);
+//		this.addAColor (data, colorBuffer[vert]);
 	}
 	
 	
@@ -322,12 +322,13 @@ Repere.prototype.draw = function (glContext) {
 	this.shader.setAttributes (glContext, this.glVertexBuffer);
 	
 	// Let's render !
-	glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer);
+//	glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer);
 //	glContext.drawElements (glContext.TRIANGLE_STRIP, 
 //		this.glIndiciesBuffer.numItems, 
 //		glContext.UNSIGNED_SHORT,
 //		0
 //	);
+	glContext.bindBuffer (glContext.ARRAY_BUFFER, this.glVertexBuffer);
 	glContext.drawArrays (glContext.TRIANGLE, 0, this.glVertexBuffer);
 	
 //	if (this.stripIbo === undefined || this.stripVbo === undefined)

@@ -170,7 +170,7 @@ Shader.prototype.reload = function () {
 	
 	if (gl !== undefined) {
 		gl.viewport (0, 0, gl.viewportWidth, gl.viewportHeight);
-//		gl.clear (gl.COLOR_BUFFER_BIT);
+		gl.clear (gl.COLOR_BUFFER_BIT);
 		this.prepareShader ();
 	}
 	else
@@ -192,23 +192,28 @@ Shader.prototype.prepareShader = function () {
 	
 	
 	/// Vertex shader
-//	this.vertexShad = gl.createShader (gl.VERTEX_SHADER);
-//	gl.shaderSource (this.vertexShad, vertexSourceText);
-//	gl.compileShader (this.vertexShad);
-//	
-//	if (! gl.getShaderParameter (this.vertexShad, gl.COMPILE_STATUS))
-//		console.log ("Vertex shader: " + gl.getShaderInfoLog (this.vertexShad));
-	this.vertexShad = createShader (gl, gl.VERTEX_SHADER, vertexSourceText);
+	this.vertexShad = gl.createShader (gl.VERTEX_SHADER);
+	gl.shaderSource (this.vertexShad, vertexSourceText);
+	gl.compileShader (this.vertexShad);
+	
+	if (! gl.getShaderParameter (this.vertexShad, gl.COMPILE_STATUS))
+		console.log ("Vertex shader: " + gl.getShaderInfoLog (this.vertexShad));
+//	this.vertexShad = createShader (gl, gl.VERTEX_SHADER, vertexSourceText);
 	
 	/// Fragment shader
-//	this.fragmentShad = gl.createShader (gl.FRAGMENT_SHADER); 
-//	gl.shaderSource (this.fragmentShad, fragmentSourceText);
-//	gl.compileShader (this.fragmentShad);
-//	
-//	if (! gl.getShaderParameter (this.fragmentShad, gl.COMPILE_STATUS))
-//		console.log (gl.getShaderInfoLog (this.fragmentShad));
-	this.fragmentShad = createShader (gl, gl.FRAGMENT_SHADER, fragmentSourceText);
+	this.fragmentShad = gl.createShader (gl.FRAGMENT_SHADER); 
+	gl.shaderSource (this.fragmentShad, fragmentSourceText);
+	gl.compileShader (this.fragmentShad);
 	
+	if (! gl.getShaderParameter (this.fragmentShad, gl.COMPILE_STATUS))
+		console.log (gl.getShaderInfoLog (this.fragmentShad));
+//	this.fragmentShad = createShader (gl, gl.FRAGMENT_SHADER, 
+//		fragmentSourceText);
+	
+	if (this.vertexShad === null || this.fragmentShad === null) {
+		console.error ("Shader.prepareShader: shader creation failed");
+		return;
+	}
 	
 	/// Program
 //	this.program = gl.createProgram ();
@@ -230,13 +235,13 @@ Shader.prototype.prepareShader = function () {
  */
 // Anciennement nommé setActive
 Shader.prototype.activate = function () {
-	console.trace ();
+//	console.trace ();
 	this.glContext.useProgram (this.program); 
 };
 
 Shader.prototype.setActive = function () {
 	console.error ("Cette methode à été renommé, il faut utiliser Shader.activate"); 
-	this.activate();
+	this.activate ();
 };
 
 
@@ -252,7 +257,7 @@ Shader.prototype.setActive = function () {
  */
 Shader.prototype.getUniformLocation = function (aName) {
 	if (typeof aName !== "string") {
-		console.error ("Shader.getUniformLocation : the given name is not a "
+		console.error ("Shader.getUniformLocation: the given name is not a "
 			+ "string !");
 		return;
 	}
@@ -272,7 +277,7 @@ Shader.prototype.getUniformLocation = function (aName) {
  */
 Shader.prototype.getAttributeLocation = function (aName) {
 	if (typeof aName !== "string") {
-		console.error ("Shader.getAttributeLocation : the given name is not a "
+		console.error ("Shader.getAttributeLocation: the given name is not a "
 			+ "string !");
 		return;
 	}
@@ -299,7 +304,7 @@ Shader.prototype.hasAttribute = function (attrib) {
 	return false;
 };
 Shader.prototype.getAttribute = function (attrib) {
-	console.error ("Cette methode à été renommé, il faut utiliser Shader.activate"); 
+	console.error ("Cette methode à été renommé, il faut utiliser Shader.hasAttribute"); 
 	this.hasAttribute (attrib);
 }
 

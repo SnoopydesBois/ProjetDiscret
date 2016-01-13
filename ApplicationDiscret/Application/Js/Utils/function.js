@@ -215,7 +215,6 @@ function createShader (glContext, type, source) {
 		shader = null;
 	}
 	
-	console.trace ("gl.createShader, gl.shaderSource, gl.compileShader");
 	return shader;
 }
 
@@ -260,7 +259,7 @@ function createProgram (glContext) {
 		console.error ("createProgram: failed to attach shaders");
 		program = null;
 	}
-	console.trace ("gl.createProgram, [gl.attachShader, gl.linkProgram]");
+	
 	return program;
 }
 
