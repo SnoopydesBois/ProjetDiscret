@@ -282,7 +282,7 @@ Shader.prototype.getAttributeLocation = function (aName) {
 
 //==============================================================================
 /**
- * Get the attribute list, necessary to construct the VBO.
+ * Get the attribute list, necessary to construct the vertex buffer.
  * 
  * @param {AttributeEnum} attrib - An attribute.
  * 
