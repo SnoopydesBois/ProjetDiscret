@@ -313,5 +313,3 @@ Repere.prototype.draw = function (glContext) {
 //};
 
 
-
-
