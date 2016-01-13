@@ -165,10 +165,9 @@ Repere.prototype.prepare = function (glContext) {
 	];
 
 	var vertexBufferLength = vertexBuffer.length; // 8
-	// Color of each vertices, the box is black
-	var colorBuffer = [];
-	for (var i = 0; i < vertexBufferLength; ++i)
-		colorBuffer.push ([0.9, 0.2, 0.1, 1.0]);
+	// Color of each vertices, lines are white
+//	var color = [1.0, 1.0, 1.0, 0.8];
+	var color = [0.9, 0.2, 0.1, 1.0];
 
 
 	/// Vertex Buffer
@@ -178,7 +177,7 @@ Repere.prototype.prepare = function (glContext) {
 	var data = [];
 	for (var vertice = 0; vertice < vertexBufferLength; ++vertice) {
 		this.addAPoint (data, vertexBuffer[vertice]); 
-		this.addAColor (data, colorBuffer[vertice]);
+		this.addAColor (data, color);
 	}
 	glContext.bindBuffer (glContext.ARRAY_BUFFER, this.glVertexBuffer); 
 	glContext.bufferData (glContext.ARRAY_BUFFER, new Float32Array (data), 
@@ -216,7 +215,6 @@ Repere.prototype.prepare = function (glContext) {
  * @return {void}
  */
 Repere.prototype.draw = function (glContext) {
-	glContext.clearColor (0.1, 0.9, 0.3, 1.0);
 	/// Parameter verification
 	if (!(glContext instanceof WebGLRenderingContext)) {
 		console.error("Repere.draw: glContext is not a WebGLRenderingContext");
@@ -231,10 +229,26 @@ Repere.prototype.draw = function (glContext) {
 		return;
 	}
 	
+	/// General parameters
+	glContext.clearColor (0.1, 0.5, 0.3, 1.0);
+	glContext.viewport(0, 0, glContext.viewportWidth, glContext.viewportHeight);
+	glContext.clear (glContext.COLOR_BUFFER_BIT);
+	
 	/// Set shader parameters
 	this.shader.setRenderingMode (RenderingModeEnum.DOTTED);
 	// Let's the shader prepare its attributes
 	this.shader.setAttributes (glContext, this.glVertexBuffer);
+	
+//	glContext.vertexAttribPointer (
+//		prog.vertexPositionAttribute,
+//		glVertexBuffer.itemSize,
+//		glContext.FLOAT,
+//		false,
+//		0,
+//		0
+//	);
+//	glContext.enableVertexAttribArray (prog.vertexPositionAttribute);
+
 	
 	// Let's render !
 	glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer);
@@ -243,7 +257,12 @@ Repere.prototype.draw = function (glContext) {
 //		glContext.UNSIGNED_SHORT,
 //		0
 //	);
-	glContext.drawArrays (glContext.LINE_STRIP, 0, this.glVertexBuffer);
+	glContext.drawElements (
+		glContext.LINE_STRIP, 
+		this.glIndiciesBuffer.numItems, 
+		glContext.UNSIGNED_SHORT,
+		0
+	);
 	
 };
 

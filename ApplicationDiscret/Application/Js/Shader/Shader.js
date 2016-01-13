@@ -192,23 +192,23 @@ Shader.prototype.prepareShader = function () {
 	
 	
 	/// Vertex shader
-	this.vertexShad = gl.createShader (gl.VERTEX_SHADER);
-	gl.shaderSource (this.vertexShad, vertexSourceText);
-	gl.compileShader (this.vertexShad);
-	
-	if (! gl.getShaderParameter (this.vertexShad, gl.COMPILE_STATUS))
-		console.log ("Vertex shader: " + gl.getShaderInfoLog (this.vertexShad));
-//	this.vertexShad = createShader (gl, gl.VERTEX_SHADER, vertexSourceText);
+//	this.vertexShad = gl.createShader (gl.VERTEX_SHADER);
+//	gl.shaderSource (this.vertexShad, vertexSourceText);
+//	gl.compileShader (this.vertexShad);
+//	
+//	if (! gl.getShaderParameter (this.vertexShad, gl.COMPILE_STATUS))
+//		console.log ("Vertex shader: " + gl.getShaderInfoLog (this.vertexShad));
+	this.vertexShad = createShader (gl, gl.VERTEX_SHADER, vertexSourceText);
 	
 	/// Fragment shader
-	this.fragmentShad = gl.createShader (gl.FRAGMENT_SHADER); 
-	gl.shaderSource (this.fragmentShad, fragmentSourceText);
-	gl.compileShader (this.fragmentShad);
-	
-	if (! gl.getShaderParameter (this.fragmentShad, gl.COMPILE_STATUS))
-		console.log (gl.getShaderInfoLog (this.fragmentShad));
-//	this.fragmentShad = createShader (gl, gl.FRAGMENT_SHADER, 
-//		fragmentSourceText);
+//	this.fragmentShad = gl.createShader (gl.FRAGMENT_SHADER); 
+//	gl.shaderSource (this.fragmentShad, fragmentSourceText);
+//	gl.compileShader (this.fragmentShad);
+//	
+//	if (! gl.getShaderParameter (this.fragmentShad, gl.COMPILE_STATUS))
+//		console.log (gl.getShaderInfoLog (this.fragmentShad));
+	this.fragmentShad = createShader (gl, gl.FRAGMENT_SHADER, 
+		fragmentSourceText);
 	
 	if (this.vertexShad === null || this.fragmentShad === null) {
 		console.error ("Shader.prepareShader: shader creation failed");
