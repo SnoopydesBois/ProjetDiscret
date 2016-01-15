@@ -98,8 +98,8 @@ DefaultShader.prototype.attributes = [
 function DefaultShader (glContext) {
 	Shader.call (this,
 		"default",
-		"./Js/Shader/test.vs",
-		"./Js/Shader/test.fs",
+		"./Js/Shader/default.vs",
+		"./Js/Shader/default.fs",
 		glContext,
 		DefaultShader.prototype.attributes
 	);
@@ -134,11 +134,11 @@ DefaultShader.prototype.setRenderingMode = function (mode) {
 	else
 		this.renderingMode = mode;
 };
-
 DefaultShader.prototype.setMode = function (m) {
 	this.setRenderingMode (m);
 	console.error ("Cette methode à été renommé, il faut utiliser DefaultShader.setRenderingMode");
 }
+
 
 //==============================================================================
 /**

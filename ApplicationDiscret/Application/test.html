@@ -229,15 +229,14 @@
 		<script>
 			var scanvas = document.getElementById ("surfaceCanvas");
 			var gl = get3DGlContext (scanvas);
-			//var sr = new SurfaceRenderer (null, gl);
-			var r = new Repere (new Vector (2, 4, 8), gl);
-			console.log ("########### Repère créé ##########");
-			gl.clearColor (0.3, 0.6, 0.5, 1.0);
-			r.prepare (gl);
-			r.shader.activate ();
-			console.log ("########### Repère préparé et activé ##########");
-			r.draw (gl);
-			console.log ("########### Repère désiné ##########");
+			var sc = new Scene ();
+			var r = new Repere (new Vector (12, 14, 9), gl);
+			sc.addObject (r);
+			sc.prepare (gl);
+			sc.draw (gl);
+			//r.prepare (gl);
+			//r.shader.activate ();
+			//r.draw (gl);
 		</script>
 	</body>
 </html>

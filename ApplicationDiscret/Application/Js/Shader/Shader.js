@@ -192,21 +192,9 @@ Shader.prototype.prepareShader = function () {
 	
 	
 	/// Vertex shader
-//	this.vertexShad = gl.createShader (gl.VERTEX_SHADER);
-//	gl.shaderSource (this.vertexShad, vertexSourceText);
-//	gl.compileShader (this.vertexShad);
-//	
-//	if (! gl.getShaderParameter (this.vertexShad, gl.COMPILE_STATUS))
-//		console.log ("Vertex shader: " + gl.getShaderInfoLog (this.vertexShad));
 	this.vertexShad = createShader (gl, gl.VERTEX_SHADER, vertexSourceText);
 	
 	/// Fragment shader
-//	this.fragmentShad = gl.createShader (gl.FRAGMENT_SHADER); 
-//	gl.shaderSource (this.fragmentShad, fragmentSourceText);
-//	gl.compileShader (this.fragmentShad);
-//	
-//	if (! gl.getShaderParameter (this.fragmentShad, gl.COMPILE_STATUS))
-//		console.log (gl.getShaderInfoLog (this.fragmentShad));
 	this.fragmentShad = createShader (gl, gl.FRAGMENT_SHADER, 
 		fragmentSourceText);
 	
@@ -216,13 +204,6 @@ Shader.prototype.prepareShader = function () {
 	}
 	
 	/// Program
-//	this.program = gl.createProgram ();
-//	gl.attachShader (this.program, this.vertexShad);
-//	gl.attachShader (this.program, this.fragmentShad);
-//	gl.linkProgram (this.program);
-//	
-//	if (! gl.getProgramParameter (this.program, gl.LINK_STATUS))
-//		console.error ("Could not initialise shaders");
 	this.program = createProgram (gl, this.vertexShad, this.fragmentShad);
 };
 
@@ -306,5 +287,6 @@ Shader.prototype.hasAttribute = function (attrib) {
 Shader.prototype.getAttribute = function (attrib) {
 	console.error ("Cette methode à été renommé, il faut utiliser Shader.hasAttribute"); 
 	this.hasAttribute (attrib);
-}
+};
+
 

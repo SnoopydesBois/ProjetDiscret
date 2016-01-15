@@ -74,7 +74,7 @@
  */
 function GenericObject (canvas, glContextType) {
 	if (!((canvas instanceof HTMLCanvasElement) 
-		&& (typeof glContextType === "string")))
+		&& (typeof glContextType == "string")))
 	{
 		console.error ("GenericObject.constructor : bad type(s) of " 
 			+ "parameter(s)");
@@ -101,8 +101,7 @@ function GenericObject (canvas, glContextType) {
 			this.glContext = this.canvas.getContext ("2d");
 			break;
 		case "3d" :
-			this.glContext = this.canvas.getContext ("webgl") 
-				|| this.canvas.getContext ("experimental-webgl");
+			this.glContext = get3DGlContext (this.canvas);
 			break;
 		default :
 			this.glContext = null;
@@ -123,8 +122,8 @@ function GenericObject (canvas, glContextType) {
 /**
  * Change dimensions ... can be overloaded.
  * 
- * @param {int} width - the scene width.
- * @param {int} height - the scene height.
+ * @param {int} width - The scene width.
+ * @param {int} height - The scene height.
  * 
  * @return {void}
  */
@@ -140,8 +139,8 @@ GenericObject.prototype.setDimension = function (width, height) {
 /**
  * Change the mouse position .. can be overloaded.
  * 
- * @param {int} x - the mouse position along the x axis.
- * @param {int} y - the mouse position along the y axis.
+ * @param {int} x - The mouse position along the x axis.
+ * @param {int} y - The mouse position along the y axis.
  * 
  * @return {void}
  */
@@ -164,7 +163,7 @@ GenericObject.prototype.setMouse = function (x, y) {
  */
 GenericObject.prototype.reload = function () {
 	if (!(this.scene instanceof Scene))
-		console.error ("GenericObject.reload : scene does not exist !");
+		console.error ("GenericObject.reload: scene does not exist !");
 	else
 		this.scene.reload ();
 };
@@ -184,22 +183,26 @@ GenericObject.prototype.show = function () {
 
 //==============================================================================
 /**
- * @abstract
- * You should at least specify links between renderTargets and the scene ...
- * FIXME doc
+ * Prepare the scene if there are object. TODO vérifier anglais
  * 
  * @return {void}
  */
-GenericObject.prototype.prepare = function () {};
+GenericObject.prototype.prepare = function () {
+	if (this.scene.getNbObject () != 0)
+		this.scene.prepare (this.glContext);
+};
 
 
 //==============================================================================
 /**
- * @abstract
+ * Draw the scene if there are object. TODO vérifier anglais
  * 
  * @return {void}
  */
-GenericObject.prototype.draw = function () {};
+GenericObject.prototype.draw = function () {
+	if (this.scene.getNbObject () != 0)
+		this.scene.draw (this.glContext)
+};
 
 
 
@@ -209,45 +212,45 @@ GenericObject.prototype.draw = function () {};
 
 
 
-/**
- * Translation along the x axis.
- * 
- * @param {float} x - how much do we translate.
- * 
- * @return {void}
- */
-GenericObject.prototype.addTranslateX = function (x) {
-	if (this.scene !== null)
-		this.scene.addTranslateX(x);
-};
+///**
+// * Translation along the x axis.
+// * 
+// * @param {float} x - how much do we translate.
+// * 
+// * @return {void}
+// */
+//GenericObject.prototype.addTranslateX = function (x) {
+//	if (this.scene !== null)
+//		this.scene.addTranslateX (x);
+//};
 
 
-//==============================================================================
-/**
- * Translation along the y axis.
- * 
- * @param {float} x - how much do we translate.
- * 
- * @return {void}
- */
-GenericObject.prototype.addTranslateY = function (x) {
-	if (this.scene !== null)
-		this.scene.addTranslateY(x);
-};
+////==============================================================================
+///**
+// * Translation along the y axis.
+// * 
+// * @param {float} x - how much do we translate.
+// * 
+// * @return {void}
+// */
+//GenericObject.prototype.addTranslateY = function (x) {
+//	if (this.scene !== null)
+//		this.scene.addTranslateY (x);
+//};
 
 
-//==============================================================================
-/**
- * Scaling.
- * 
- * @param {float} x - How much do we scale.
- * 
- * @return {void}
- */
-GenericObject.prototype.multScale = function (x) {
-	if (this.scene != null)
-		this.scene.multScale(x);
-};
+////==============================================================================
+///**
+// * Scaling.
+// * 
+// * @param {float} x - How much do we scale.
+// * 
+// * @return {void}
+// */
+//GenericObject.prototype.multScale = function (x) {
+//	if (this.scene != null)
+//		this.scene.multScale (x);
+//};
 
 
 
@@ -256,70 +259,117 @@ GenericObject.prototype.multScale = function (x) {
 //##############################################################################
 
 
-// FIXME chager les noms et ajouter celles manquantes.
+// FIXME ajouter celles manquantes.
 //onblur
-//onclick
-//ondbclick
 //onfocus
-//onkeydown
-//onkeypress
-//onkeyup
-//onmousedown
-//onmousemove
-//onmouseout
-//onmouseover
-//onmouseup
 
 /** 
  * @abstract
  * 
- * @param {MouseEvent} event - the mouse event.
+ * @param {MouseEvent} event - The mouse event.
  * 
  * @return {void}
  */
-GenericObject.prototype.onMousePressRight = function (event) {};
+GenericObject.prototype.onMouseDown = function (event) {};
 
 
 //==============================================================================
 /**
  * @abstract
  * 
- * @param {MouseEvent} event - the mouse event.
+ * @param {MouseEvent} event - The mouse event.
  * 
  * @return {void}
  */
-GenericObject.prototype.onMouseUpRight = function (event) {};
+GenericObject.prototype.onMouseUp = function (event) {};
 
 
 //==============================================================================
 /**
  * @abstract
  * 
- * @param {MouseEvent} event - the mouse event.
+ * @param {MouseEvent} event - The mouse event.
  * 
  * @return {void}
  */
-GenericObject.prototype.mouv = function (event) {};
-
-
-//==============================================================================
-/**
- * @deprecated
- * 
- * @return {void}
- */
-GenericObject.prototype.interval = function () {};
+GenericObject.prototype.onMouseOver = function (event) {};
 
 
 //==============================================================================
 /**
  * @abstract
  * 
- * @param {KeyboardEvent} event - the keyboard event.
+ * @param {MouseEvent} event - The mouse event.
+ * 
+ * @return {void}
+ */
+GenericObject.prototype.onMouseOut = function (event) {};
+
+
+//==============================================================================
+/**
+ * @abstract
+ * 
+ * @param {MouseEvent} event - The mouse event.
+ * 
+ * @return {void}
+ */
+GenericObject.prototype.onMouseMove = function (event) {};
+
+
+//==============================================================================
+/**
+ * @abstract
+ * 
+ * @param {MouseEvent} event - The mouse event.
+ * 
+ * @return {void}
+ */
+GenericObject.prototype.onClick = function (event) {};
+
+
+//==============================================================================
+/**
+ * @abstract
+ * 
+ * @param {MouseEvent} event - The mouse event.
+ * 
+ * @return {void}
+ */
+GenericObject.prototype.onDblClick = function (event) {};
+
+
+//==============================================================================
+/**
+ * @abstract
+ * 
+ * @param {KeyboardEvent} event - The keyboard event.
  * 
  * @return {void}
  */
 GenericObject.prototype.onKeyPress = function (event) {};
+
+
+//==============================================================================
+/**
+ * @abstract
+ * 
+ * @param {KeyboardEvent} event - The keyboard event.
+ * 
+ * @return {void}
+ */
+GenericObject.prototype.onKeyDown = function (event) {};
+
+
+//==============================================================================
+/**
+ * @abstract
+ * 
+ * @param {KeyboardEvent} event - The keyboard event.
+ * 
+ * @return {void}
+ */
+GenericObject.prototype.onKeyUp = function (event) {};
 
 
 

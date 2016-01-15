@@ -86,20 +86,18 @@ Repere.prototype.constructor = Repere;
  * shader) TODO vérifier anglais
  */
 function Repere (dimension, glContext) {
-	GenericStructure.call (this, "repere", null, new DefaultShader (glContext));
-//	if (shader.getAttribute(AttributeEnum.normal) 
-//			|| shader.getAttribute(AttributeEnum.tangent) 
-//			|| shader.getAttribute(AttributeEnum.bitangent) 
-//			|| shader.getAttribute(AttributeEnum.texcoord)) 
-//	{
-//		console.error ("Repere created with bad shader <" 
-//			+ shader.GetName() + ">");
-//	}
-	
+	GenericStructure.call (this, "repere", new DefaultShader (glContext));
+		
 	/**
 	 * {Vector} The dimension of the 3D space in voxel.
 	 */
 	this.dimension = dimension;
+	
+	/**
+	 * @inheritdoc
+	 * The repere is not pickable ! TODO vérifier anglais
+	 */
+	this.isPickable = false;
 };
 
 
@@ -120,7 +118,7 @@ Repere.prototype.getDimension = function () {
 
 
 //##############################################################################
-//	Draw
+//	Drawing methods
 //##############################################################################
 
 
@@ -136,23 +134,23 @@ Repere.prototype.prepare = function (glContext) {
 	
 	/// Vertex and color buffers
 	var vertexBuffer = [ // the vertex of the box which serve as repere
-		[-0.2, -0.2, -0.2],
-		[-0.2,  0.2, -0.2],
-		[ 0.2, -0.2, -0.2],
-		[ 0.2,  0.2, -0.2],
-		[-0.2, -0.2,  0.2],
-		[-0.2,  0.2,  0.2],
-		[ 0.2, -0.2,  0.2],
-		[ 0.2,  0.2,  0.2]
+//		[-0.2, -0.2, -0.2],
+//		[-0.2,  0.2, -0.2],
+//		[ 0.2, -0.2, -0.2],
+//		[ 0.2,  0.2, -0.2],
+//		[-0.2, -0.2,  0.2],
+//		[-0.2,  0.2,  0.2],
+//		[ 0.2, -0.2,  0.2],
+//		[ 0.2,  0.2,  0.2]
 
-//		[-halfDimBox.x, -halfDimBox.y, -halfDimBox.z],
-//		[-halfDimBox.x,  halfDimBox.y, -halfDimBox.z],
-//		[ halfDimBox.x, -halfDimBox.y, -halfDimBox.z],
-//		[ halfDimBox.x,  halfDimBox.y, -halfDimBox.z],
-//		[-halfDimBox.x, -halfDimBox.y,  halfDimBox.z],
-//		[-halfDimBox.x,  halfDimBox.y,  halfDimBox.z],
-//		[ halfDimBox.x, -halfDimBox.y,  halfDimBox.z],
-//		[ halfDimBox.x,  halfDimBox.y,  halfDimBox.z],
+		[-halfDimBox.x, -halfDimBox.y, -halfDimBox.z],
+		[-halfDimBox.x,  halfDimBox.y, -halfDimBox.z],
+		[ halfDimBox.x, -halfDimBox.y, -halfDimBox.z],
+		[ halfDimBox.x,  halfDimBox.y, -halfDimBox.z],
+		[-halfDimBox.x, -halfDimBox.y,  halfDimBox.z],
+		[-halfDimBox.x,  halfDimBox.y,  halfDimBox.z],
+		[ halfDimBox.x, -halfDimBox.y,  halfDimBox.z],
+		[ halfDimBox.x,  halfDimBox.y,  halfDimBox.z],
 
 //		[origin.x,            origin.y,            origin.z],
 //		[origin.x,            origin.y + dimBox.y, origin.z],
@@ -217,7 +215,7 @@ Repere.prototype.prepare = function (glContext) {
 Repere.prototype.draw = function (glContext) {
 	/// Parameter verification
 	if (!(glContext instanceof WebGLRenderingContext)) {
-		console.error("Repere.draw: glContext is not a WebGLRenderingContext");
+		console.error ("Repere.draw: glContext is not a WebGLRenderingContext");
 		return;
 	}
 	
@@ -228,12 +226,7 @@ Repere.prototype.draw = function (glContext) {
 		console.error ("Repere.draw: prepare the repere BEFORE draw it !"); // TODO vérifer anglais
 		return;
 	}
-	
-	/// General parameters
-	glContext.clearColor (0.1, 0.5, 0.3, 1.0);
-	glContext.viewport(0, 0, glContext.viewportWidth, glContext.viewportHeight);
-	glContext.clear (glContext.COLOR_BUFFER_BIT);
-	
+		
 	/// Set shader parameters
 	this.shader.setRenderingMode (RenderingModeEnum.DOTTED);
 	// Let's the shader prepare its attributes
@@ -264,6 +257,20 @@ Repere.prototype.draw = function (glContext) {
 		0
 	);
 	
+};
+
+
+
+//==============================================================================
+/**
+ * @override
+ * 
+ * Always throw an error. The repere can't be pickable. TODO vérifier anglais
+ * 
+ * @throws {String}
+ */
+Repere.prototype.drawBackBuffer = function () {
+	throw "Repere can't be pickable !"
 };
 
 

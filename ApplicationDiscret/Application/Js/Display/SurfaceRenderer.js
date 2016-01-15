@@ -93,9 +93,18 @@ SurfaceRenderer.prototype.counter = 0;
  * 
  * @param {Controller3D} surfaceController - Le controller de la surface à 
  * afficher. TODO traduire
- * @param {(|)}
+ * @param {WebGLRenderingContext} glContext - The gl context.
  */
 function SurfaceRenderer (surfaceController, glContext) {
+	/// Parameters verification
+	if (! (surfaceController instanceof Controller3D)) {
+		console.error ("SurfaceRenderer.constructor: bad type(s) of "
+			+ "parameter(s)");
+		showType (surfaceController, glContext);
+		return;
+	}
+	
+	
 	++SurfaceRenderer.prototype.counter;
 	GenericStructure.call (this,
 		"surface" + SurfaceRenderer.prototype.counter,
@@ -104,15 +113,10 @@ function SurfaceRenderer (surfaceController, glContext) {
 	);
 	
 	
-//	/**
-//	 * TODO
-//	 */
-//	this.selectvbo = [];
-//	
-//	/**
-//	 * TODO
-//	 */
-//	this.selectibo = [];
+	/**
+	 * {Controller} The model controller which contain the model to draw. FIXME vérifier anglais
+	 */
+	this.modelController = modelController;
 	
 	/**
 	 * TODO
@@ -131,11 +135,12 @@ function SurfaceRenderer (surfaceController, glContext) {
  * Set the model controller.
  * 
  * @param {Controller} newController - The new model controller.
+ * 
  * @return {void}
  * @throws FIXME compléter
  */
 SurfaceRenderer.prototype.setModelController = function (newController) {
-	throw "SurfaceRenderer.setModelController: the modelController is not"
+	throw "SurfaceRenderer.setModelController: the modelController is not "
 		+ "mutable";
 };
 
@@ -151,6 +156,7 @@ SurfaceRenderer.prototype.setModelController = function (newController) {
  * Prepare the model (create the triangles).
  * 
  * @param {WebGLRenderingContext} gl - The gl context.
+ * 
  * @return {void}
  * @throws FIXME compléter
  */
@@ -477,7 +483,9 @@ SurfaceRenderer.prototype.prepareFace = function (
 //==============================================================================
 /**
  * Draw the model (draw the triangles).
+ * 
  * @param {WebGLRenderingContext} gl - The gl context.
+ * 
  * @return {void}
  */
 SurfaceRenderer.prototype.draw = function (gl) {
@@ -508,7 +516,9 @@ SurfaceRenderer.prototype.draw = function (gl) {
 //==============================================================================
 /**
  * Draw the model for picking.
- * @param {WebGLRenderingContext} gl - the gl context.
+ * 
+ * @param {WebGLRenderingContext} gl - The gl context.
+ * 
  * @return {void}
  */
 SurfaceRenderer.prototype.drawBackBuffer = function (gl) {
@@ -539,11 +549,11 @@ SurfaceRenderer.prototype.drawBackBuffer = function (gl) {
 /**
  * Add a vertex into a buffer. Transform all coordinates beetween -1.0 and +1.0.
  * 
- * @param {Array} dataVertexBuffer - the vertex buffer.
- * @param {int} x - the x coordinate of the vertex.
- * @param {int} y - the y coordinate of the vertex.
- * @param {int} z - the z coordinate of the vertex.
- * @param {Vector} limit - maximum quantity of voxel on each dimension. Each 
+ * @param {Array} dataVertexBuffer - The vertex buffer.
+ * @param {int} x - The x coordinate of the vertex.
+ * @param {int} y - The y coordinate of the vertex.
+ * @param {int} z - The z coordinate of the vertex.
+ * @param {Vector} limit - Maximum quantity of voxel on each dimension. Each 
  * vertex coordinates is in [0, limit[i]].
  * 
  * @return {void}
@@ -571,9 +581,9 @@ SurfaceRenderer.prototype.addVertexBuffer = function (dataVertexBuffer, x, y, z,
  * FIXME chager de nom
  * Add a vertex into a buffer. Transform all coordinates beetween -1.0 and +1.0.
  * 
- * @param {Array} datavertexBuffer - the vertex buffer.
- * @param {Vector} vertex - a vertex.
- * @param {Vector} limit - maximum quantity of voxel on each dimension. Each 
+ * @param {Array} datavertexBuffer - The vertex buffer.
+ * @param {Vector} vertex - A vertex.
+ * @param {Vector} limit - Maximum quantity of voxel on each dimension. Each 
  * vertex coordinates is in [0, limit[i]].
  * 
  * @return {void}

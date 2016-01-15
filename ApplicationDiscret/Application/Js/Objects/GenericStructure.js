@@ -91,26 +91,19 @@
  * @constructor
  * 
  * @param {String} name - The name of the structure.
- * @param {Controler} modelController - The model controller.
  * @param {Shader} shader - The shader used to draw the structure.
  */
-function GenericStructure (name, modelController, shader) {
+function GenericStructure (name, shader) {
 	
 	if (arguments.length !== 0 // GenericStructure is a super class.
 		&& !(typeof name === "string"
-		&& (modelController === null || modelController instanceof Controller)
 		&& shader instanceof Shader)) 
 	{
 		console.error ("GenericStructure.constructor : bad type(s) of " + 
 			"parameter(s)");
-		showType (name, modelController, shader);
+		showType (name, shader);
 		return;
 	}
-	
-	/**
-	 * {Controller} The model controller which contain the model to draw. FIXME vérifier anglais
-	 */
-	this.modelController = modelController;
 	
 	/**
 	 * {String} Name of object to use.
@@ -344,11 +337,10 @@ GenericStructure.prototype.prepare = function (gl) {};
  * Draw an object.
  * 
  * @param {glContext} gl - The webGl context.
- * @param {Scene} scn - The scene.
  * 
  * @return {void}
  */
-GenericStructure.prototype.draw = function (gl, scn) {};
+GenericStructure.prototype.draw = function (gl) {};
 
 
 //==============================================================================
@@ -357,11 +349,10 @@ GenericStructure.prototype.draw = function (gl, scn) {};
  * Draw an objects with differents color to implements the picking.
  * 
  * @param {glContext} gl - The webGl context.
- * @param {Scene} scn - The scene.
  * 
  * @return {void}
  */
-GenericStructure.prototype.drawBackBuffer = function (gl, scn) {};
+GenericStructure.prototype.drawBackBuffer = function (gl) {};
 
 
 //==============================================================================
