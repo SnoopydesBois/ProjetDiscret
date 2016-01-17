@@ -1,6 +1,8 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -63,42 +65,37 @@
 
 
 /**
- * Define the size of the elements which cannot be defined in CSS
+ * Define the size of the elements which cannot be defined in CSS.
+ * 
  * @return {void}
  */
 Application.prototype.resizeInterface = function () {
-//	console.log ("Application.resizeInterface");
-	var windowsHeight = window.innerHeight;
-	var headerHeight = parseInt ($('.header').height());
-	var footerHeight = parseInt ($('.footer').height());
-	/// Define the size of the .content blocs
-	$('.content').height(windowsHeight - headerHeight - footerHeight);
-	$('.content').css("top",headerHeight);
-	/// Define the width of the workspace
-	var wsWidth = parseInt ($('.header').width()) 
-		- parseInt ($('#toolPanel').width());
-	$('#workspace').width (wsWidth);
+	this.surfaceView.onResize ();
+//	var windowsHeight = window.innerHeight;
+//	var headerHeight = parseInt ($('.header').height());
+//	var footerHeight = parseInt ($('.footer').height());
+//	/// Define the size of the .content blocs
+//	$('.content').height(windowsHeight - headerHeight - footerHeight);
+//	$('.content').css("top",headerHeight);
+//	/// Define the width of the workspace
+//	var wsWidth = parseInt ($('.header').width()) 
+//		- parseInt ($('#toolPanel').width());
+//	$('#workspace').width (wsWidth);
 
-	/// Define the size of #toolSpace
-	$('#toolSpace').height (windowsHeight - headerHeight 
-		- parseInt ($('#buttonBar').height()) - footerHeight-1);
-	this.workspaceWidth = parseInt($('#workspace').width());
-	this.getFrame3D().update ();
-	if (this.getFrameList().idIFrameContent != null) // a changé plus tard
-		this.getFrameList().scrollWidthAdjust();
-	if (this.getFrame2D().iBody != undefined) // a changé plus tard
-		this.getFrame2D().onResize();
+//	/// Define the size of #toolSpace
+//	$('#toolSpace').height (windowsHeight - headerHeight 
+//		- parseInt ($('#buttonBar').height()) - footerHeight-1);
+//	this.workspaceWidth = parseInt($('#workspace').width());
 };
 
 
 //==============================================================================
 /**
  * @param {Entry} entry - A new entry for the menu.
+ * 
  * @return {void}
  */
 Application.prototype.addMenuEntry = function (entry) {
-//	console.log ("Application.addMenuEntry");
-	
 	var listMenu = $("#" + MenuEntryEnum.properties[entry.getMenu()].htmlClass 
 		+ " > ul > li").not (".split");
 	var nbMenuEntry = listMenu.length;
@@ -129,14 +126,14 @@ Application.prototype.addMenuEntry = function (entry) {
 //==============================================================================
 /**
  * Add a split bar in a menu.
- * @param {MenuEntryEnum} menu - the menu.
- * @param {Number} index - the index in the menu. 0 for the first place, -1 for 
+ * 
+ * @param {MenuEntryEnum} menu - The menu.
+ * @param {Number} index - The index in the menu. 0 for the first place, -1 for 
  * the last. Invalid number is equals to -1.
+ * 
  * @return {void}
  */
 Application.prototype.addMenuSplit = function (menu, index) {
-//	console.log ("Application.addMenuSplit");
-	
 	/// get list 
 	var listMenu = $("#" + MenuEntryEnum.properties[menu].htmlClass 
 		+ " > ul > li").not (".split");
@@ -161,14 +158,13 @@ Application.prototype.addMenuSplit = function (menu, index) {
 };
 
 
-
 //==============================================================================
 /**
- * @param {Entry} entry - a new entry for the toolbar.
+ * @param {Entry} entry - A new entry for the toolbar.
+ * 
  * @return {void}
  */
 Application.prototype.addToolsEntry = function (entry) {
-//	console.log ("Application.addToolsEntry");
 	var toolsButton = $("#toolsButton li");
 	var nbMenuEntry = toolsButton.length;
 	var element = "<li><button class=\"tool " 
@@ -180,7 +176,6 @@ Application.prototype.addToolsEntry = function (entry) {
 		+ "\" alt=\"" + entry.getImgAlternateText() 
 		+ "\" width=\"24px\"" + " height=\"24px\"></button></li>";
 	
-//	console.log (element);
 	if (entry.getIndexTool() < 0 || entry.getIndexTool() >= nbMenuEntry)
 		toolsButton.eq (nbMenuEntry - 1).after (element);
 	else
@@ -188,161 +183,16 @@ Application.prototype.addToolsEntry = function (entry) {
 };
 
 
-
-//==============================================================================
-/**
- * Add a frame to this application.
- * @param {Frame} frame - a frame.
- * @param {WorkspaceEnum} [ws] - the iframe workspace. If it is empty or
- * null, the frame is just add to the application but not active.
- * @return {void}
- */
-Application.prototype.addFrame = function (frame, ws) {
-//	console.log ("Application.addFrame" + ws);
-	if (!instanceOf (frame, Frame))
-		throw "Application.addFrame() : frame is not an object !";
-	
-	this.frames.push (frame);
-	if (ws != null) {
-		this.nbFramePrepared ++;
-		/*console.log ("Application.addFrame() : préparation dans " 
-		+ WorkspaceEnum.properties[ws].htmlId);*/
-		$('#' + WorkspaceEnum.properties[ws].htmlId).attr ("src", 
-			frame.getHtmlSrc());
-		waitReady (this, WorkspaceEnum.properties[ws].htmlId, frame);
-	}
-};
-
-
-//==============================================================================
-/**
- * Associate a frame to a workspace
- * @param {Frame} frame - The frame to associate
- * @param {WorkspaceEnum} ws - The workspace where to put the frame
- * @return {void}
- */
-Application.prototype.setActiveFrame = function (frame, ws) {
-//	console.log ("Application.setActiveFrame : " + ws);
-	if (!instanceOf (frame, Frame)) {
-		console.error ("Application.setActiveFrame : frame is not an object !");
-		return;	
-	}
-	if (ws == null || ws == undefined) {
-		console.error ("Application.setActiveFrame : ws is null or undefined");
-		return;
-	} 
-	
-	this.iframeReady[WorkspaceEnum.properties[ws].htmlId] = false;
-	
-	var iFrame = window.frames[WorkspaceEnum.properties[ws].htmlId];
-	iFrame.src = frame.getHtmlSrc();
-	waitReady(this, WorkspaceEnum.properties[ws].htmlId, frame);
-	
-};
-
-
-//==============================================================================
-/**
- * Display the 2D space in fullscreen.
- * @return {void}
- */
-Application.prototype.fullScreen2D = function () {
-//	console.log ("Application.fullScreen2D");
-	if (this.activeScreen != ViewEnum.VIEW2D) {
-		this.activeScreen = ViewEnum.VIEW2D;
-		this.getFrame2D().setFullScreen (true);
-		$('#leftWorkspaceWrapper').css ("display", "none");
-		$('#rightWorkspaceWrapper').css ({
-			"display": "block", 
-			"width" : "100%", 
-		});
-		this.getFrame2D().onResize();
-		$('#'+this.getFrame2D().getIdIFrame()).focus();
-		this.activeToolButton("toolView", "buttonFullScreen2D");
-	}
-};
-
-
-//==============================================================================
-/**
- * Display the 3D space in fullscreen.
- * @return {void}
- */
-Application.prototype.fullScreen3D = function () {
-//	console.log ("Application.fullScreen3D");
-	if (this.activeScreen != ViewEnum.VIEW3D) {
-		this.activeScreen = ViewEnum.VIEW3D;
-		$('#rightWorkspaceWrapper').css ("display", "none");
-		$('#leftWorkspaceWrapper').css ({
-			"display": "block", 
-			"width" : "100%", 
-		});
-		this.getFrame3D().update ();
-		$('#'+this.getFrame3D().getIdIFrame()).focus();
-		this.activeToolButton("toolView", "buttonFullScreen3D");
-	}
-};
-
-
-//==============================================================================
-/**
- * Display the 3D and 2D view.
- * @return {void}
- */
-Application.prototype.bothView = function () {
-//	console.log ("Application.bothView");
-	if (this.activeScreen != ViewEnum.BOTH) {
-		this.activeScreen = ViewEnum.BOTH;
-		this.getFrame2D().setFullScreen (false);
-		$('#leftWorkspaceWrapper').css ({
-			"display" : "block",
-			"width" : "80%",
-		});
-		$('#rightWorkspaceWrapper').css ({
-			"display": "block", 
-			"width" : "20%", 
-		});
-		this.getFrame2D().onResize();
-		this.getFrame3D().update ();
-		$('#'+this.getFrame3D().getIdIFrame()).focus();
-		this.activeToolButton("toolView", "buttonBothView");
-	}
-};
-
-
-//==============================================================================
-/**
- * Display slices coresponding to an axis.
- * @param {AxisEnum} axis - the axis.
- * @return {void}
- */
-Application.prototype.displaySlice = function (axis) {
-//	console.log ("Application.displaySlice");
-	this.frame2D.displayTab (axis);
-	switch (axis) {
-	case AxisEnum.X :
-		this.activeToolButton ("sliceView", "buttonYZ");
-		break;
-	case AxisEnum.Y :
-		this.activeToolButton ("sliceView", "buttonXZ");
-		break;
-	case AxisEnum.Z :
-		this.activeToolButton ("sliceView", "buttonXY");
-		break;
-	}
-};
-
-
 //==============================================================================
 /**
  * Enable a button in a specific class element and disable the activeted button.
- * @param {String} className - the class name of the element.
- * @param {String} id - the id of the element to enable.
+ * 
+ * @param {String} className - The class name of the element.
+ * @param {String} id - The id of the element to enable.
+ * 
  * @return {void}
  */
 Application.prototype.activeToolButton = function (className, id) {
-//	console.log ("Application.activeButton : className = " + className + 
-//		", id = " + id);
 	$("." + className + ".active").removeClass ("active");
 	$("#" + id).addClass ("active");
 };
@@ -351,11 +201,12 @@ Application.prototype.activeToolButton = function (className, id) {
 //==============================================================================
 /**
  * Enable or disable an element. Add or remove the class attribute "active".
- * @param {HTMLElement} element - the element.
+ * 
+ * @param {HTMLElement} element - The element.
+ * 
  * @return {void}
  */
 Application.prototype.switchActive = function (element) {
-//	console.log ("Application.switchActive");
 	var elem = $(element);
 	if (elem.hasClass ("active"))
 		elem.removeClass ("active");
@@ -367,12 +218,13 @@ Application.prototype.switchActive = function (element) {
 //==============================================================================
 /**
  * Enable or disable an element. Add or remove the class attribute "active".
- * @param {HTMLElement} element - the element.
- * @param {boolean} active - true for add "active" class, false for remove it.
+ * 
+ * @param {HTMLElement} element - The element.
+ * @param {boolean} active - True for add "active" class, false for remove it.
+ * 
  * @return {void}
  */
 Application.prototype.setActiveClass = function (element, active) {
-//	console.log ("Application.setActiveClass");
 	var elem = $(element);
 	if (active) {
 		elem.addClass ("active");
@@ -386,10 +238,10 @@ Application.prototype.setActiveClass = function (element, active) {
 //==============================================================================
 /**
  * Update class of the Undo/Redo menu item.
+ * 
  * @return {void}
  */
 Application.prototype.updateUndoRedoMenuItem = function () {
-//	console.log ("Application.updateUndoRedoMenuItem");
 	if (typeof (undoItemMenu) == "undefined")
 		undoItemMenu = $('#toolUndo');
 	if (typeof (redoItemMenu) == "undefined")
@@ -412,11 +264,12 @@ Application.prototype.updateUndoRedoMenuItem = function () {
 //==============================================================================
 /**
  * Update the tips field in the dialogs windows.
- * @param {String} t - error message.
+ * 
+ * @param {String} t - Error message.
+ * 
  * @return {void}
  */
 Application.prototype.updateTips = function (t) {
-//	console.log ("Application.updateTips");
 	$(".validateTips")
 		.text(t)
 		.addClass("ui-state-highlight");

@@ -12,6 +12,7 @@
 		
 		<!-- javascript imports -->
 		<script type="text/javascript" src="Js/Utils/function.js"></script>
+		<script type="text/javascript" src="Js/Utils/webglFunction.js"></script>
 		<script type="text/javascript" src="Js/Utils/Util.js"></script>
 		
 		<script type="text/javascript" src="Js/Enum/AxisEnum.js"></script>
@@ -42,18 +43,28 @@
 		<script type="text/javascript" src="Js/Objects/FormulaCurve.js"></script>
 		<script type="text/javascript" src="Js/Objects/ImplicitCurve.js"></script>
 		<script type="text/javascript" src="Js/Objects/ExplicitCurve.js"></script>
-		<script type="text/javascript" src="Js/Objects/GenericObject.js"></script>
-		<script type="text/javascript" src="Js/Objects/Scene.js"></script>
 		<script type="text/javascript" src="Js/Objects/GenericStructure.js"></script>
+		<script type="text/javascript" src="Js/Objects/Scene.js"></script>
+		<script type="text/javascript" src="Js/Objects/GenericViewer.js"></script>
 		<script type="text/javascript" src="Js/Objects/Repere.js"></script>
 		
+		<script type="text/javascript" src="Js/Shader/Shader.js"></script>
+		<script type="text/javascript" src="Js/Shader/DefaultShader.js"></script>
+		
+		<script type="text/javascript" src="Js/Controllers/Controller.js"></script>
+		<script type="text/javascript" src="Js/Controllers/Controller3D.js"></script>
+		<script type="text/javascript" src="Js/Controllers/ControllerCamera.js"></script>
+		
+		<script type="text/javascript" src="Js/Functionalities/ModelGen.js"></script>
+		
 		<script type="text/javascript" src="Js/Display/SurfaceRenderer.js"></script>
+		<script type="text/javascript" src="Js/Display/SurfaceViewer.js"></script>
+		<script type="text/javascript" src="Js/Display/CurveRenderer.js"></script>
 		
 		<script type="text/javascript" src="Js/Display/Display.js"></script>
 		<script type="text/javascript" src="Js/Display/Display2D.js"></script>
 		<script type="text/javascript" src="Js/Display/Display3D.js"></script>
 		<script type="text/javascript" src="Js/Display/ModelView.js"></script>
-		<script type="text/javascript" src="Js/Display/CurveRenderer.js"></script>
 		<script type="text/javascript" src="Js/Display/SurfaceView.js"></script>
 		
 		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
@@ -67,15 +78,6 @@
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Colors.js"></script>
 		
-		<script type="text/javascript" src="Js/Shader/Shader.js"></script>
-		<script type="text/javascript" src="Js/Shader/DefaultShader.js"></script>
-		
-		<script type="text/javascript" src="Js/Controllers/Controller.js"></script>
-		<script type="text/javascript" src="Js/Controllers/Controller3D.js"></script>
-		<script type="text/javascript" src="Js/Controllers/ControllerCamera.js"></script>
-		
-		<script type="text/javascript" src="Js/Functionalities/ModelGen.js"></script>
-		
 		<script type="text/javascript" src="translatemodule/main.js"></script>
 		
 		<!-- css imports -->
@@ -84,6 +86,115 @@
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/style2.css">
+		
+		<!-- shader -->
+		<script id="shader-vs" type="x-shader/x-vertex">
+			attribute vec3 aPosition;
+			attribute vec4 aColor;
+
+			uniform mat4 uProjectionMatrix;
+			uniform mat4 uModelViewMatrix;
+
+			varying vec4 vColor;
+			varying vec3 vPos;
+
+			void main(void) {
+				gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aPosition, 1.0);
+				vPos = aPosition;
+				vColor = aColor;
+			}
+		</script>
+		<script id="shader-fs" type="x-shader/x-fragment">
+			precision mediump float;
+
+			varying vec4 vColor;
+			varying vec3 vPos;
+
+			uniform int uMode;
+
+
+			void main(void) {
+				vec4 tight = vec4(0.05, 0.95, 0.05, 0.95); // values
+				if (uMode == 1) { // Rendering the repere (DOTTED = 1)
+					 // Pixel coordinates on the screen
+					vec3 pos = ((vPos + 1.0) / 2.0) * 25.0;
+					bool dot = false;
+		
+					int nb = 0; // We count the number of coordinates that are integers
+					if (step(tight[2], fract(pos.x)) == 0.0 
+						|| step(tight[3], fract(pos.x)) == 1.0) {
+						nb++;
+					}
+					else if (mod(fract(pos.x), 0.4) > 0.2) {
+						dot = true;
+					}
+	
+					if (step(tight[2], fract(pos.y)) == 0.0 
+						|| step(tight[3], fract(pos.y)) == 1.0) {
+						nb++;
+					}
+					else if (mod(fract(pos.y), 0.4) > 0.2) {
+						dot = true;
+					}
+	
+					if (step(tight[2], fract(pos.z)) == 0.0 
+						|| step(tight[3], fract(pos.z)) == 1.0) {
+						nb++;
+					}
+					else if (mod(fract(pos.z), 0.4) > 0.2) {
+						dot = true;
+					}
+		
+					// If there is only one integer coordinate, we render normally
+					if (nb >= 2 && !dot) {
+						float colorX = vColor.x * 1.8;
+						float colorY = vColor.y * 1.8;
+						float colorZ = vColor.z * 1.8; 
+						gl_FragColor = vec4(colorX, colorY, colorZ, 1.0);
+					}
+					// The pixel is on a line, we draw
+					else {
+						gl_FragColor = vColor;
+			
+					}
+				}
+				else if (uMode == 2) { // If picking we render the model without lines (PICKING = 2)
+					gl_FragColor = vColor;
+				}
+				else {
+					 // Pixel coordinates on the screen
+					vec3 pos = ((vPos + 1.0) / 2.0) * 25.0;
+
+					int nb = 0; // We count the number of coordinates that are integers
+					if (step(tight[0], fract(pos.x)) == 0.0 
+						|| step(tight[1], fract(pos.x)) == 1.0) {
+						nb++;
+					}
+	
+					if (step(tight[0], fract(pos.y)) == 0.0 
+						|| step(tight[1], fract(pos.y)) == 1.0) {
+						nb++;
+					}
+	
+					if (step(tight[0], fract(pos.z)) == 0.0 
+						|| step(tight[1], fract(pos.z)) == 1.0) {
+						nb++;
+					}
+					// If there is only one integer coordinate, we render normally
+					if (nb < 2) {
+						gl_FragColor = vColor;
+					}
+					else {
+						// The pixel is on a line, we draw more darkly
+						float colorX = vColor.x * 0.7;
+						float colorY = vColor.y * 0.7;
+						float colorZ = vColor.z * 0.7; 
+			
+						gl_FragColor = vec4(colorX, colorY, colorZ, 1.0);
+					}
+				} // end switch uMode
+			}
+		</script>
 	</head>
 	<body>
 		<!-- Menus -->
@@ -107,12 +218,8 @@
 			--><li id="viewMenu" tabindex="2">
 				<h1>Affichage</h1>
 				<ul>
-					<li title="Afficher en même temps les coupes 2D et la vue 3D" 
-						onclick="">Toutes les vues</li>
-					<li title="Afficher seulement la vue 3D" 
-						onclick="">3D</li>
-					<li title="Afficher seulement la vue 2D" 
-						onclick="">2D</li>
+					<li title="Générer la surface dans la vue 3D" 
+						onclick="appli.surfaceView.showScene ()">Générer</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="toolsMenu" tabindex="3">
@@ -211,9 +318,14 @@
 			</div>
 			<div id="surfaceView">
 				<div id="surfaceParam" class="paramPanel">
+					<button onclick="appli.surfaceView.showScene ();">Générer</button>
+					<hr/>
+					<button onclick="cam.eyePos.x = -cam.eyePos.x;appli.surfaceView.showScene ();">Flip X</button>
+					<button onclick="cam.eyePos.y = -cam.eyePos.y;appli.surfaceView.showScene ();">Flip Y</button>
+					<button onclick="cam.eyePos.z = -cam.eyePos.z;appli.surfaceView.showScene ();">Flip Z</button>
 					Liste des paramètres Surface
 				</div>
-				<canvas id="surfaceCanvas"></canvas>
+				<canvas id="surfaceCanvas" width="640" height="480"></canvas>
 				<div id="surfaceOption" class="optionPanel">
 					Option Surface
 				</div>
@@ -227,16 +339,45 @@
 		</div>
 		
 		<script>
-			var scanvas = document.getElementById ("surfaceCanvas");
-			var gl = get3DGlContext (scanvas);
-			var sc = new Scene ();
-			var r = new Repere (new Vector (12, 14, 9), gl);
-			sc.addObject (r);
-			sc.prepare (gl);
-			sc.draw (gl);
-			//r.prepare (gl);
-			//r.shader.activate ();
-			//r.draw (gl);
+			var dim = new Vector (3, 3, 3);
+			var s = new Surface (dim);
+			for (var x = 0; x < dim.x; ++x)
+				for (var y = 0; y < dim.y; ++y)
+					for (var z = 0; z < dim.z; ++z)
+						if ((x+y+z) == 3 || (x+y+z) == 4)
+							s.addVoxel (new Vector (dim.x - 1 -x, y, dim.z -1 -z));
+/*			var ss = "";
+			for (var x = 0; x < dim.x; ++x) {
+				for (var y = 0; y < dim.y; ++y) {
+					ss = "";
+					for (var z = 0; z < dim.z; ++z) {
+						ss += (s.matVoxel[x][y][z] == null ? "0 " : "1 "); 
+					}
+					console.log (ss);
+				}
+				console.log ("");
+			}*/
+			var appli = new Application ();
+			var forme = new SurfaceRenderer (new Controller3D (dim, s), appli.surfaceView.glContext);
+			forme.modelController.modelGen.surface = s;
+			appli.surfaceView.scene.addObject (forme);
+			var cam = new Camera (
+				new Vector (-10, 3, 5),
+				new Vector (0, 0, 0),
+				new Vector (0, 0, 1),
+				400, 300,
+				30.0, 0.1, 100.0
+			);
+			appli.surfaceView.scene.setCamera (cam);
+			appli.surfaceView.scene.setScale (0.9);
+			var gl = appli.surfaceView.glContext;
+			gl.enable(gl.CULL_FACE)
+			appli.initAppli ();
+			
+			/* voir
+			http://webglfundamentals.org/webgl/lessons/webgl-drawing-multiple-things.html
+			http://stackoverflow.com/questions/24538310/the-difference-between-glortho-and-glviewport-in-opengl
+			*/
 		</script>
 	</body>
 </html>

@@ -1,6 +1,8 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -42,14 +44,8 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 /* initAppli () : void
- * initAppli () : void
  * initFunctionnalities () : void
  * initWindowEvent () : void
- * initDefaultFrame () : void
- * ready (idIFrame : String) : void
- * isReady (idIFrame : String) : bool
- * 
- * waitReady (appli : Application, idIFrame : String, frame : Frame) : void
  */
 
 /// CODE ///////////////////////////////////////////////////////////////////////
@@ -58,173 +54,68 @@
 
 /**
  * Init all.
+ * 
  * @return {void}
  */
 Application.prototype.initAppli = function () {
-//	console.log ("Application.initAppli");
-	
 	/// Application initialization
-	for (var id in this.iframeID) {
-		this.iframeReady[this.iframeID[id]] = false;
-	}
-	this.initDefaultFrame ();
+	this.resizeInterface ();
+	this.surfaceView.showScene ();
 	
 	/// Interface initialization
-	this.initWindowEvent ();
-	$('.ui-resizable-e').bind ("mousedown", 
-		function (event) {
-			$('.iframeResizeFix').css ("display", "block");
-		});
-	// If the mouse move too fast, the resize is done anyway.
-	this.resizeInterface ();
+//	this.initWindowEvent ();
+//	$('.ui-resizable-e').bind ("mousedown", 
+//		function (event) {
+//			$('.resizeFix').css ("display", "block");
+//		});
+//	// If the mouse move too fast, the resize is done anyway.
+//	this.resizeInterface ();
 	if (!this.hasMessage ())
 		this.showDefaultMessage ();
-	
-	/// Add functionalities
-	this.initFunctionnalities ();
 };
 
 
 //==============================================================================
 /**
- * Add the main functionalities.
+ * Init the main functionalities.
+ * 
  * @return {void}
  */
 Application.prototype.initFunctionnalities = function () {
-//	console.log ("Application.initFunctionnalities");
-	this.select ();
+	//
 };
 
 
 //==============================================================================
 /**
  * Init all window events.
+ * 
  * @return {void}
  */
 Application.prototype.initWindowEvent = function () {
-//	console.log ("Application.initWindowEvent");
-	wkLeft = document.getElementById ("leftWorkspaceWrapper");
-	
-	$("#leftWorkspaceWrapper").resizable ({
-		handles: 'e', // e = est
-		maxWidth: 10000, // i.e. pas de limite
-		minWidth: 150,
-		ghost : true,
-		create: function (event, ui) {
-			$(this).parent().on('resize', function (e) {
-				e.stopPropagation();
-			});
-		},
-		stop : function (event, ui) {
-				$('.iframeResizeFix').css ("display", "none");
-				var currentWidth = ui.size.width;
-				// set the content panel width
-				$("#rightWorkspaceWrapper").css ("width", ((appli.workspaceWidth 
-					- currentWidth) / appli.workspaceWidth) * 100 + "%");
-				$('#leftWorkspaceWrapper').css ("width", (100 * currentWidth 
-					/ appli.workspaceWidth) + "%");
-				$('#leftWorkspaceWrapper').css ("height", "100%"); // bug fix
-				appli.frame3D.update (); // sale mais fonctionne
-				appli.frame2D.onResize (); // idem...
-			} // end fonction for stop attribute
-	}); // end object for resiable()
+//	$("#curvesView").resizable ({
+//		handles: 'e', // e = east
+//		maxWidth: 10000, // i.e. no limit
+//		minWidth: 150,
+//		ghost : true,
+//		create: function (event, ui) {
+//			$(this).parent().on('resize', function (e) {
+//				e.stopPropagation();
+//			});
+//		},
+//		stop : function (event, ui) {
+//				$('.resizeFix').css ("display", "none");
+//				var currentWidth = ui.size.width;
+//				// set the content panel width
+//				$("#surfaceView").css ("width", ((appli.workspaceWidth 
+//					- currentWidth) / appli.workspaceWidth) * 100 + "%");
+//				$('#curvesView').css ("width", (100 * currentWidth 
+//					/ appli.workspaceWidth) + "%");
+////				$('#curvesView').css ("height", "100%"); // bug fix
+//			} // end fonction for stop attribute
+//	}); // end object for resiable()
 };
 
 
-//==============================================================================
-/**
- * By default, 3D,2D and List frame are loaded.
- * @return {void}
- */
-Application.prototype.initDefaultFrame = function () {
-//	console.log ("Application.initDefaultFrame");
-	/// frame 3d
-	this.frame3D = new Frame3D (this);
-	this.addFrame (this.frame3D, WorkspaceEnum.LEFT);
-	
-	/// frame 2d
-	this.frame2D = new Frame2D (this);
-	this.addFrame (this.frame2D, WorkspaceEnum.RIGHT);
-	
-	/// frame list model
-	this.frameList = new FrameList (this);
-	this.addFrame (this.frameList, WorkspaceEnum.TOOL);
-	
-	/// frame save form
-	this.frameForm = new FrameForm (this.frame3D, this);
-	this.addFrame(this.frameForm);
-	
-	this.frameList.setList (this.listModel);
-	this.frameList.setSelectedModel (this.selectedModel);
-	this.frame3D.setListModel (this.frameList.getListModelVisible3D());
-	this.frame2D.setListModel (this.frameList.getListModelVisible2D());
-};
-
-
-//==============================================================================
-/**
- * Set a frame to ready.
- * @param {String} idIFrame - the iframe tag id.
- * @return {void}
- */
-Application.prototype.ready = function (idIFrame) {
-//	console.log ("Application.ready");
-	if (typeof (this.iframeReady[idIFrame]) != undefined) {
-		this.iframeReady[idIFrame] = true;
-	}
-	else
-		throw "Application.ready() : id\"" + idIFrame + "\" does not exist !";
-};
-
-
-
-//==============================================================================
-/**
- * @param {String} idIFrame - the iframe tag id.
- * @return {boolean} true if the frame is ready, false otherwise.
- */
-Application.prototype.isReady = function (idIFrame) {
-//	console.log ("Application.isReady");
-	if (this.iframeReady && typeof (this.iframeReady) != undefined
-		&& typeof (this.iframeReady[idIFrame]) != undefined)
-		return this.iframeReady[idIFrame];
-	else
-		throw "Application.isReady() : id \"" + idIFrame +"\" does not exist !";
-};
-
-
-//==============================================================================
-/**
- * Wait until a frame is ready.
- * @param {Application} appli - The appli which must wait.
- * @param {String} idIFrame - id of the iFrame tag in which the frame is.
- * @param {Frame} frame - The frame to wait.
- * @return {void}
- */
-function waitReady (appli, idIFrame, frame) {
-//	console.log ("Appel de wait avec " + idIFrame)
-	glob__iframeLoaded = appli.isReady (idIFrame);
-	if (!glob__iframeLoaded) {
-		//console.log (idIFrame + " en attente....")
-		setTimeout (waitReady, 100, appli, idIFrame, frame);
-	}
-	else {
-		//console.log (idIFrame + " chargé")
-		frame.prepare (idIFrame, 
-				document.getElementById (idIFrame).contentWindow.document);
-		appli.nbFrameEndPrepared++;
-		if (appli.nbFrameEndPrepared != appli.nbFramePrepared
-				&& (appli.nbFrameEndPrepared / appli.nbFramePrepared)<=1) {
-			appli.showMessage("Chargement " + Math.floor(
-				100 * appli.nbFrameEndPrepared / appli.nbFramePrepared) + "%");
-		} 
-		else {
-			appli.showDefaultMessage ();
-			if (appli.nbFrameEndPrepared == appli.nbFramePrepared) {
-				appli.initFunctionnalities ();
-			}
-		}
-	}
-};
 
 

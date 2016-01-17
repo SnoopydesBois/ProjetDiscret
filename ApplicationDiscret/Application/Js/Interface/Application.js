@@ -1,6 +1,8 @@
 // LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+/** 
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -39,32 +41,38 @@
  * termes.
  */
 
+
 // INDEX //////////////////////////////////////////////////////////////////////
+
 
 /* constructor ()
  */
 
+
 // CODE ///////////////////////////////////////////////////////////////////////
 
 
-
 /**
- * @classdesc This class is the main controller of the application. It store and
- * manage all frame object.
+ * @classdesc This class is the main controller of the application.
  */
 
-	  ///////////////////
+
+
+	  //////////////////
 	 // Constructor ///
-	///////////////////
+	//////////////////
 
 
 Application.prototype.constructor = Application;
 
 /**
- *@constructor
+ * @constructor
  */
 function Application () {
-	// Licence
+	
+		// Licence //
+	
+	/*
 	console.log ('%c©2015 : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl\n'
 	+'%c\n'
 	+'benoist.thomas@hotmail.fr\n'
@@ -106,28 +114,30 @@ function Application () {
 	, 'color: #FF0000; font-weight:bold',
 	'color: #FF0000; text-decoration: underline', 'color: #FF0000',
 	'color: #FF0000; text-decoration: underline', 'color: #FF0000');
+	*/
 	
 	
+		// Attributes //
 	
-		// Attributes ///
-
 	
 	/**
-	 * {ViewEnum} The active screen (3Dview, slices or both).
+	 * {SurfaceViewer} TODO
 	 */
-	this.activeScreen = ViewEnum.BOTH;
+	this.surfaceView = new SurfaceViewer (
+		document.getElementById ("surfaceCanvas")
+	);
 	
-	/**
-	 * Width of the #workspace in pixel. 
-	 */
-	this.workspaceWidth = parseInt($('#workspace').width());
-	
-	/**
-	 * Height of the #workspace in pixel. 
-	 */
-	this.workspaceHeight = parseInt ($('.footer').css("top"))
-		- parseInt ($('.header').css("top"))
-		- $('.header').height();
+//	/**
+//	 * Width of the #workspace in pixel. 
+//	 */
+//	this.workspaceWidth = parseInt($('#workspace').width());
+//	
+//	/**
+//	 * Height of the #workspace in pixel. 
+//	 */
+//	this.workspaceHeight = parseInt ($('.footer').css("top"))
+//		- parseInt ($('.header').css("top"))
+//		- $('.header').height();
 	
 	/**
 	 * {String} The default message in the state bar.
@@ -135,185 +145,41 @@ function Application () {
 	this.defaultMessage = "";
 	
 	/**
-	 * {boolan[]} Defined which workspace is ready.
+	 * {ListUndoRedoAction} The list of undoable/redoable action.
 	 */
-	this.iframeReady = [];
+	this.listAction = new ListUndoRedoAction (25);
 	
-	/**
-	 * {ListAction} The list of undoable/redoable action.
-	 */
-	this.listAction = new ListAction (25);
-	
-	/**
-	 * {Controller[]} List of all functionalities.
-	 */
-	this.functionalities = [];
-	
-	/**
-	 * {ControllerRotate} The rotate functionality controller. Provide a direct
-	 * access to the rotation tool.
-	 */
-	this.rotateFunctionality;
+//	/**
+//	 * {Controller[]} List of all functionalities.
+//	 */
+//	this.functionalities = [];
+//	
+//	/**
+//	 * {ControllerRotate} The rotate functionality controller. Provide a direct
+//	 * access to the rotation tool.
+//	 */
+//	this.rotateFunctionality;
 	
 	
-		// Colors ///
+		// Colors //
 	
 	
-	/**
-	 * {float[4][]} The default RGBA color of each cube.
-	 */
-	this.cubeColors = [];
-	for (var i = 0; i < CubeStateEnum.size; i++) {
-		this.cubeColors.push (CubeStateEnum.color[i]);
-	}
-	
-	/**
-	 * {float[4]} The RGBA background color.
-	 */
-	this.backgroundColor = [0.1, 0.1, 0.1, 1.0];
-	
-	/**
-	 * {float[4]} The RGBA strip leader on the background.
-	 */
-	this.leaderColor = [0.11, 0.15, 0.19, 1.0];
-	
-	/**
-	 * {float[4]} The RGBA canvas color.
-	 */
-	this.canvasColor = [0.0, 0.0, 0.0, 1.0];
-	
-	
-		//  Frame and Workspace ///
-	
-	
-	/**
-	 * {Frame[]} All frame loaded in the application.
-	 */
-	this.frames = [];
-	
-	/**
-	 * {Frame3D} The 3D workspace.
-	 */
-	this.frame3D;
-	
-	/**
-	 * {Frame2D} The 2D workspace.
-	 */
-	this.frame2D;
-	
-	/**
-	 * {FrameList} The list model workspace.
-	 */
-	this.frameList;
-	
-	/**
-	 * {FrameForm} The form to save model.
-	 */
-	this.frameSave;
-	
-	/**
-	 * {ModelController[]} All model loaded in the application.
-	 */
-	this.listModel = [];
-	
-	/**
-	 * {ModelController[]} The modelController selected.
-	 */
-	this.selectedModel = [];
-	
-	/**
-	 * {int} Number of complete loaded frame.
-	 */
-	this.nbFrameEndPrepared = 0;
-	
-	/**
-	 * {int} Number of frame.
-	 */
-	this.nbFramePrepared = 0;
-	
-	/**
-	 * {jqueryDialog} Handle the dialog for the SVG export
-	 */
-	this.dialogSVG = $("#dialog-form-svg").dialog ({
-		autoOpen : false,
-		height : 350,
-		width : 350,
-		modal : true,
-		buttons : {
-			"Exporter en SVG": this.exportSVGFormValid.bind (this),
-			"Annuler": this.exportSVGFormClose.bind (this),
-		},
-		close : function () {
-			$('#dialog-form-svg input').removeClass("ui-state-error");
-		}
-	});
+//	/**
+//	 * {float[][4]} The default RGBA color of each cube.
+//	 */
+//	this.cubeColors = [];
+//	for (var i = 0; i < CubeStateEnum.size; i++) {
+//		this.cubeColors.push (CubeStateEnum.color[i]);
+//	}
+//	
+//	/**
+//	 * {float[4]} The RGBA background color.
+//	 */
+//	this.backgroundColor = [0.1, 0.1, 0.1, 1.0];
+//	
+//	/**
+//	 * {float[4]} The RGBA canvas color.
+//	 */
+//	this.canvasColor = [0.0, 0.0, 0.0, 1.0];
+}
 
-	// Handle the submit on the form
-	this.dialogSVG.find("form").on("submit", function (event) {
-		event.preventDefault();
-	}).on("submit", this.exportSVGFormValid.bind (this));
-	
-	/**
-	 * {jqueryObject} Handle the dialog to add a model
-	 */
-	this.dialogAddModel = $("#dialog-form-model").dialog ({
-		autoOpen : false,
-		height : 350,
-		width : 350,
-		modal : true,
-		buttons : {
-			"Ajouter un modèle": this.addModelFormValid.bind (this),
-			"Annuler": this.addModelFormClose.bind (this),
-		},
-		close : function () {
-			$('#dialog-form-model input').removeClass("ui-state-error");
-		}
-	});
-	
-	// Handle the submit on the form
-	this.dialogAddModel.find("form").on("submit", function (event) {
-		event.preventDefault();
-	}).on("submit", this.addModelFormValid.bind (this));
-		
-		
-	/**
-	 * {jqueryObject} Handle the dialog to merge models
-	 */
-	this.dialogFusionModel = $("#dialog-form-fusion-model").dialog ({
-		autoOpen : false,
-		height : 350,
-		width : 350,
-		modal : true,
-		buttons : {
-			"Ajouter un modèle": this.fusionModelFormValid.bind (this),
-			"Annuler": this.fusionModelFormClose.bind (this),
-		},
-		close : function () {
-			$('#dialog-form-fusion-model input').removeClass("ui-state-error");
-		}
-	});
-	
-	// Handle the submit on the form
-	this.dialogFusionModel.find("form").on("submit", function (event) {
-		event.preventDefault();
-	}).on("submit", this.fusionModelFormValid.bind (this));
-
-
-	
-	/**
-	 * {jqueryObject} Handle the dialog to remove a model
-	 */	
-	this.dialogRemoveModel = $("#dialog-form-remove-model").dialog ({
-		autoOpen : false,
-		height : 350,
-		width : 350,
-		modal : true,
-		buttons : {
-			"Enlever un modèle": this.removeModelFormValid.bind (this),
-			"Annuler": this.removeModelFormClose.bind (this),
-		},
-		close : function () {
-			$('#name-remove-model').empty();
-		}
-	});
-};

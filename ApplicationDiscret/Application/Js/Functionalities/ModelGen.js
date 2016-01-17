@@ -67,12 +67,11 @@ ModelGen.prototype.constructor = ModelGen;
  * @param {Vector} dimension - The dimension of the 3D space.
  */
 function ModelGen (dimension, shader) {
-
-	/**
-	 * {Repere} The repere of the 3D space
-	 */
-//	this.repere = new Repere ("", shader, dimension);
 	
+	/**
+	 * 
+	 */
+	this.dimension = dimension;
 	/**
 	 * {Surface} The surface of the 3D space, there is no surface by default
 	 */
@@ -117,8 +116,9 @@ ModelGen.prototype.getSurface = function(){
 /**
  * @return {Vector} the dimensions of the 3D space
  */
-ModelGen.prototype.getDimension = function(){
-	return this.repere.getDimension ();
+ModelGen.prototype.getDimension = function () {
+	return this.dimension;
+//	return this.repere.getDimension ();
 };
 
 

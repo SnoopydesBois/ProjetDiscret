@@ -72,13 +72,13 @@ Surface.prototype.constructor = Surface;
  */
 function Surface (size) {
 	if (! size instanceof Vector) {
-		console.error ("ERROR - Surface.constructor : bad type of parameter");
+		console.error ("Surface.constructor: parameter is not a Vector");
 	}
-	// --------------------------------------
+	
 	/**
-	 * {Vector} the dimensions of the surface
+	 * {Vector} The dimensions of the surface
 	 */
-	this.dimension = new Vector(size);
+	this.dimension = new Vector (size);
 	
 	/**
 	 * {Array} 3 dimensionnal array containing the surface data
@@ -136,10 +136,10 @@ Surface.prototype.addVoxel = function (position, connexity) {
 	var x = position.m[0];
 	var y = position.m[1];
 	var z = position.m[2];
-	// --------------------------------------
+	
 	if (this.isIn (x, y, z)) {
 		if (this.matVoxel[x][y][z] === null) {
-			this.matVoxel[x][y][z] = new Voxel(position, connexity);
+			this.matVoxel[x][y][z] = new Voxel (position, connexity);
 
 			var size = DirectionEnum.size;
 			for (var i = 0; i < size; ++i) {
@@ -158,7 +158,7 @@ Surface.prototype.addVoxel = function (position, connexity) {
 			this.nbVoxel++;
 		}
 		return true;
-	} 
+	}
 	else {
 		throw "Surface.addVoxel.OutOfBounds";
 	}
@@ -179,7 +179,7 @@ Surface.prototype.removeVoxel = function (position) {
 	if (!position instanceof Vector) {
 		throw "Surface.removeVoxel.ErrorNotAVector";
 	}
-	// --------------------------------------
+	
 	var x = position.m[0];
 	var y = position.m[1];
 	var z = position.m[2];
@@ -221,14 +221,13 @@ Surface.prototype.removeVoxel = function (position) {
  * - the coordinates should be numbers
  */
 Surface.prototype.isIn = function (x, y, z) {
-	//console.log ("Surface.isIn");
 	if (typeof x != "number"
 			|| typeof y != "number"
 			|| typeof z != "number")
 	{
 		throw "Surface.isIn.ErrorNotANumber";
 	}
-	// --------------------------------------
+	
 	return (x >= 0 && x < this.dimension.m[0] && y >= 0 && y < this.dimension.m[1]
 			&& z >= 0 && z < this.dimension.m[2]);
 };
@@ -239,8 +238,6 @@ Surface.prototype.isIn = function (x, y, z) {
  * @return {Vector} the size of the matrix.
  */
 Surface.prototype.getDimension = function () {
-	//console.log ("Surface.getDimension");
-	// --------------------------------------
 	return this.dimension;
 };
 
@@ -251,8 +248,6 @@ Surface.prototype.getDimension = function () {
  * @return {void}
  */
 Surface.prototype.clear = function () {
-	//console.log ("Surface.clear");
-	// --------------------------------------
 	for (var x = 0; x < this.dimension.m[0]; ++x) {
 		for (var y = 0; y < this.dimension.m[1]; ++y) {
 			for (var z = 0; z < this.dimension.m[2]; ++z) {
@@ -273,11 +268,9 @@ Surface.prototype.clear = function () {
  * - the position should be of type Vector
  */
 Surface.prototype.getNbNeighbor = function (position) {
-	//console.log ("Surface.getNbNeighbor x= " + x + " y= " + y + " z= " + z);
 	if (!position instanceof Vector) {
 		throw "Surface.getNbNeighbor.ErrorNotAVector";
 	}
-	// --------------------------------------
 	
 	var nb = 0; // number of neighbors
 	var size = DirectionEnum.size;
@@ -299,8 +292,6 @@ Surface.prototype.getNbNeighbor = function (position) {
  * @return {int} the number of voxels of the model.
  */
 Surface.prototype.getNbCube = function () {
-	//console.log ("Surface.getNbCube");
-	// --------------------------------------
 	return this.nbVoxel;
 };
 
@@ -317,22 +308,21 @@ Surface.prototype.getNbCube = function () {
  * - the voxel is out of bounds
  */
 Surface.prototype.setVoxelVisibility = function (position, visibility) {
-	//console.log ("Surface.getNbCube");
 	if(!position instanceof Vector){
 		throw "Surface.setVoxelVisibility.ErrorNotAVector";
 	}
 	if(typeof visibility !== "boolean"){
 		throw "Surface.setVoxelVisibility.ErrorNotABoolean";
 	}
-	// --------------------------------------
+	
 	var x = position.m[0];
 	var y = position.m[1];
 	var z = position.m[2];
 	
-	if(this.isIn(x, y, z)){
+	if (this.isIn (x, y, z)) {
 		this.matVoxel[x][y][z].setVisibility(visibility);
 	}
-	else{
+	else {
 		throw "Surface.setVoxelVisibility.OutOfBounds";
 	}
 };
@@ -372,7 +362,7 @@ Surface.prototype.isVoxelVisible = function (position) {
  * @throws {String} "Surface.printOnly.ErrorNotARange" 
  * - the range should be of type Range
  */
- // Nom à revoir
+ // FIXME Nom à revoir
 Surface.prototype.printOnly = function (range, axis) {
 	if (!(range instanceof Range))
 		throw "Surface.printOnly.ErrorNotARange";

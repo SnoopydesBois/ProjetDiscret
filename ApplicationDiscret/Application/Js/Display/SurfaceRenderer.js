@@ -108,7 +108,6 @@ function SurfaceRenderer (surfaceController, glContext) {
 	++SurfaceRenderer.prototype.counter;
 	GenericStructure.call (this,
 		"surface" + SurfaceRenderer.prototype.counter,
-		surfaceController,
 		new DefaultShader (glContext)
 	);
 	
@@ -116,7 +115,7 @@ function SurfaceRenderer (surfaceController, glContext) {
 	/**
 	 * {Controller} The model controller which contain the model to draw. FIXME vérifier anglais
 	 */
-	this.modelController = modelController;
+	this.modelController = surfaceController;
 	
 	/**
 	 * TODO
@@ -165,7 +164,8 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 		throw"SurfaceRenderer.prepare: argument is not a WebGLRenderingContext";
 	
 	var size = this.modelController.getDimension ();
-	this.nbGlBuffer = size.m[0] / 5;
+	this.nbGlBuffer = size.m[0] / 5; // FIXME trouver une meilleur façon
+	this.nbGlBuffer = 1
 
 	var vertexBuffer = [];
 	var indicesBuffer = [];
@@ -203,12 +203,17 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 					this.prepareVoxel (
 						this.modelController.getVoxel (x, y, z),
 						0,
-						vertexBuffer[Math.floor (x / this.nbGlBuffer)], 
-						indicesBuffer[Math.floor (x / this.nbGlBuffer)], 
-						colorBuffer[Math.floor (x / this.nbGlBuffer)],
-						normalBuffer[Math.floor (x / this.nbGlBuffer)],
-						backColorBuffer[Math.floor (x / this.nbGlBuffer)],
-						[0.8, 0.8, 0.8, 1.0], // FIXME 
+//						vertexBuffer[Math.floor (x / this.nbGlBuffer)], 
+//						indicesBuffer[Math.floor (x / this.nbGlBuffer)], 
+//						colorBuffer[Math.floor (x / this.nbGlBuffer)],
+//						normalBuffer[Math.floor (x / this.nbGlBuffer)],
+//						backColorBuffer[Math.floor (x / this.nbGlBuffer)],
+						vertexBuffer[0], 
+						indicesBuffer[0], 
+						colorBuffer[0],
+						normalBuffer[0],
+						backColorBuffer[0],
+						[0.8, 0.8, 0.8, 1.0], // FIXME mettre la bonne couleur
 						size
 					);
 				} // end if
@@ -247,7 +252,8 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 				this.addAPoint (bdata[tmp], 
 					vertexBuffer[tmp][offset],
 					vertexBuffer[tmp][offset + 1], 
-					vertexBuffer[tmp][offset + 2]);
+					vertexBuffer[tmp][offset + 2]
+				);
 				this.addAColor (bdata[tmp], backColorBuffer[tmp][i]);
 				this.addANormal (bdata[tmp], normalBuffer[tmp][i]);
 			} // end for j
@@ -262,7 +268,9 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 		this.glIndicesBuffer[tmp] = gl.createBuffer ();
 		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
 		gl.bufferData (gl.ELEMENT_ARRAY_BUFFER, new Uint16Array (
-			indicesBuffer[tmp]), gl.STATIC_DRAW);
+			indicesBuffer[tmp]), 
+			gl.STATIC_DRAW
+		);
 		this.glIndicesBuffer[tmp].numItems = indicesBuffer[tmp].length;
 	}
 };
@@ -309,16 +317,27 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 			&& colorVoxel instanceof Array
 			&& universSize instanceof Vector))
 	{
-		console.error ("SurfaceRenderer.prepareCubeNormal : bad type(s) of" 
+		console.error ("SurfaceRenderer.prepareVoxel: bad type(s) of" 
 				+ " parameter(s)");
 		showType (voxel, offset, vertexBuffer, indicesBuffer, 
 			colorBuffer, normalBuffer, backColorBuffer, colorVoxel,
 			universSize);
 		return;
 	}
-	
-	for (var i = 0; i < DirectionEnum.size; i++) {
-		if (voxel.hasFacet(i)) {
+	var color;
+	for (var i = 0; i < DirectionEnum.size; ++i) {
+		if (voxel.hasFacet (i)) {
+			switch (DirectionEnum.properties[i].axis) {
+			case AxisEnum.X :
+				color = [0.9, 0.0, 0.0, 1.0];
+				break;	
+			case AxisEnum.Y :
+				color = [0.0, 0.9, 0.0, 1.0];
+				break;	
+			case AxisEnum.Z :
+				color = [0.0, 0.0, 0.9, 1.0];
+				break;	
+			}
 			this.prepareFace (
 				voxel, 
 				i, 
@@ -328,7 +347,8 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 				colorBuffer, 
 				normalBuffer, 
 				backColorBuffer, 
-				colorVoxel, // FIXME en fonction de la direction
+//				colorVoxel, // FIXME en fonction de la direction
+				color,
 				universSize
 			);
 		}
@@ -337,7 +357,8 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 
 
 //==============================================================================
-/* TODO écrire une petite explication sur la variable suivante
+/**
+ * {float[6][4][3]} TODO écrire une petite explication sur la variable suivante
  */
 var offsetVertexInCube = [
 	// Top
@@ -390,9 +411,8 @@ SurfaceRenderer.prototype.prepareFace = function (
 	colorFace,
 	universSize
 ) {
-	// TODO vérifier les entrés
-	if (!(voxel instanceof Voxel && typeof offset === "number" 
-			&& typeof direction === "number"
+	if (!(voxel instanceof Voxel && typeof offset == "number" 
+			&& typeof direction == "number"
 			&& vertexBuffer instanceof Array
 			&& indicesBuffer instanceof Array
 			&& colorBuffer instanceof Array
@@ -402,7 +422,7 @@ SurfaceRenderer.prototype.prepareFace = function (
 			&& universSize instanceof Vector
 	)) {
 		console.error (	
-			"SurfaceRenderer.prepareFace : bad type(s) of parameter(s) !");
+			"SurfaceRenderer.prepareFace: bad type(s) of parameter(s) !");
 		showType (voxel, direction, offset, vertexBuffer, indicesBuffer, 
 			colorBuffer, normalBuffer, backColorBuffer, colorFace, universSize);
 		return;
@@ -412,9 +432,11 @@ SurfaceRenderer.prototype.prepareFace = function (
 	var vertexBufferize = vertexBuffer.length / 3; // 3 points per vertexBuffer
 	for (var i = 0; i < 4; ++i) { 
 		// for each point of a face
-		var vertex = new Vector (DirectionEnum.properties[direction].x * offset,
+		var vertex = new Vector (
+			DirectionEnum.properties[direction].x * offset,
 			DirectionEnum.properties[direction].y * offset,
-			DirectionEnum.properties[direction].z * offset);
+			DirectionEnum.properties[direction].z * offset
+		);
 		vertex.add (addVector (voxel.getPosition (), 
 			offsetVertexInCube[direction][i]));
 		this.addVertexBuffer2 (vertexBuffer, vertex, universSize);
@@ -470,9 +492,11 @@ SurfaceRenderer.prototype.prepareFace = function (
 	
 	colorBuffer.push (colorFace);
 	if (normalBuffer != undefined && normalBuffer != null)
-		normalBuffer.push ([DirectionEnum.properties[direction].x,
-				DirectionEnum.properties[direction].y,
-				DirectionEnum.properties[direction].z]);
+		normalBuffer.push ([
+			DirectionEnum.properties[direction].x,
+			DirectionEnum.properties[direction].y,
+			DirectionEnum.properties[direction].z
+		]);
 	
 	// The color used by the picking according to the facet position
 	if (backColorBuffer != undefined && backColorBuffer != null)
@@ -489,12 +513,13 @@ SurfaceRenderer.prototype.prepareFace = function (
  * @return {void}
  */
 SurfaceRenderer.prototype.draw = function (gl) {
-	//console.log ("SurfaceRenderer.draw");
-	if (typeof gl != "object") {
-		console.error ("SurfaceRenderer.draw : bad type of parameter");
+	if (! gl instanceof WebGLRenderingContext) {
+		console.error ("SurfaceRenderer.draw: parameter is not a "
+			+ "WebGLRenderingContext");
+		return;
 	}
-	// --------------------------------------
-	this.shader.setMode (2);
+	
+	this.shader.setRenderingMode (RenderingModeEnum.NORMAL);
 	for (var tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
 		// Let's the shader prepare its attributes
 		this.shader.setAttributes (gl, this.glVertexBuffer[tmp]);
@@ -522,12 +547,13 @@ SurfaceRenderer.prototype.draw = function (gl) {
  * @return {void}
  */
 SurfaceRenderer.prototype.drawBackBuffer = function (gl) {
-	if (typeof gl != "object") {
-		console.error ("SurfaceRenderer.drawBackBuffer : bad type of "
-			+ "parameter");
+	if (! gl instanceof WebGLRenderingContext) {
+		console.error ("SurfaceRenderer.drawBackBuffer: parameter is not a "
+			+ "WebGLRenderingContext");
+		return;
 	}
 	
-	this.shader.setMode (1);
+	this.shader.setMode (RenderingModeEnum.PICKING);
 	for (var tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
 		// Let's the shader prepare its attributes
 		this.shader.setAttributes (gl, this.glBackBuffer[tmp]);
@@ -539,13 +565,7 @@ SurfaceRenderer.prototype.drawBackBuffer = function (gl) {
 };
 
 
-
-//##############################################################################
-//	Other methods
-//##############################################################################
-
-
-
+//==============================================================================
 /**
  * Add a vertex into a buffer. Transform all coordinates beetween -1.0 and +1.0.
  * 
@@ -581,17 +601,17 @@ SurfaceRenderer.prototype.addVertexBuffer = function (dataVertexBuffer, x, y, z,
  * FIXME chager de nom
  * Add a vertex into a buffer. Transform all coordinates beetween -1.0 and +1.0.
  * 
- * @param {Array} datavertexBuffer - The vertex buffer.
+ * @param {Array} dataVertexBuffer - The vertex buffer.
  * @param {Vector} vertex - A vertex.
  * @param {Vector} limit - Maximum quantity of voxel on each dimension. Each 
  * vertex coordinates is in [0, limit[i]].
  * 
  * @return {void}
  */
-SurfaceRenderer.prototype.addVertexBuffer2 = function (datavertexBuffer, vertex, 
+SurfaceRenderer.prototype.addVertexBuffer2 = function (dataVertexBuffer, vertex, 
 	limit) 
 {
-	this.addVertexBuffer (datavertexBuffer, vertex.x, vertex.y, vertex.z, 
+	this.addVertexBuffer (dataVertexBuffer, vertex.x, vertex.y, vertex.z, 
 		limit);
 };
 
@@ -613,5 +633,6 @@ SurfaceRenderer.prototype.posToColor = function (voxel, direction) {
 		1.0 // alpha
 	];
 };
+
 
 

@@ -1,7 +1,9 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -44,6 +46,7 @@
 
 
 /**
+ * @enum
  * Enumeration of Directions.
  * x, y and z indicate how much me move along this axis;
  * oppose is the value of the opposite face;

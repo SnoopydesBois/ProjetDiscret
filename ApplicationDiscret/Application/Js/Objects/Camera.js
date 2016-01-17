@@ -1,6 +1,8 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -39,6 +41,7 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
@@ -70,6 +73,7 @@
  * getProjection () : float
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
@@ -78,16 +82,18 @@ Camera.prototype.constructor = Camera;
 
 /**
  * @constructor Perspective camera class.
- * @param {Vector} eyePos - position of the camera.
- * @param {Vector} centerPos - position of the center where the camera look at.
- * @param {Vector} up - perpendicular vector (going up) to centerPos vector.
- * @param {int} width - width of the camera.
- * @param {int} height - height of the camera.
- * @param {float} fov - field of view of the camera.
- * @param {float} near - nearest point of the camera.
- * @param {float} far - the farthest point of the camera.
+ * 
+ * @param {Vector} eyePos - Position of the camera.
+ * @param {Vector} centerPos - Position of the center where the camera look at.
+ * @param {Vector} up - Perpendicular vector (going up) to centerPos vector.
+ * @param {int} width - Width of the camera.
+ * @param {int} height - Height of the camera.
+ * @param {float} fov - Field of view of the camera.
+ * @param {float} near - Nearest point of the camera.
+ * @param {float} far - The farthest point of the camera.
  */
-function Camera(eyePos, centerPos, up, width, height, fov, near, far) {
+function Camera (eyePos, centerPos, up, width, height, fov, near, far) {
+	// TODO doc !
 	this.eyePos = eyePos;
 	this.centerPos = centerPos;
 	this.up = up;
@@ -101,32 +107,37 @@ function Camera(eyePos, centerPos, up, width, height, fov, near, far) {
 	this.projectionMatrix = null;
 	this.constProjection = 2.5; // Allow to modify the zoom
 	
-	this.computeMatrices(); // Matrix calcul
-};
+	this.computeMatrices (); // Matrix calcul
+}
 
 
 //==============================================================================
 /**
  * Compute View and Projection Matrix.
+ * 
  * @return {void}
  */
 Camera.prototype.computeMatrices = function () {
-//	console.log ("Camera.computeMatrices");
-	this.viewMatrix = new Matrix(this.eyePos, this.centerPos, this.up);
+	this.viewMatrix = new Matrix (this.eyePos, this.centerPos, this.up);
 	// Orthogonal Matrix
-	this.projectionMatrix = new Matrix (- this.constProjection,
-			this.constProjection, -this.constProjection, this.constProjection, 
-			this.near, this.far);
+	this.projectionMatrix = new Matrix (
+		-this.constProjection,
+		this.constProjection, 
+		-this.constProjection, 
+		this.constProjection, 
+		this.near,
+		this.far
+	);
 };
 
 
 //==============================================================================
 /**
  * Get view matrix.
- * @return {Matrix} the view matrix.
+ * 
+ * @return {Matrix} The view matrix.
  */
 Camera.prototype.getViewMatrix = function () {
-//	console.log ("Camera.getViewMatrix");
 	return this.viewMatrix;
 };
 
@@ -134,10 +145,10 @@ Camera.prototype.getViewMatrix = function () {
 //==============================================================================
 /**
  * Get projection matrix.
- * @return {Matrix} the projection matrix.
+ * 
+ * @return {Matrix} The projection matrix.
  */
 Camera.prototype.getProjectionMatrix = function () {
-//	console.log ("Camera.getProjectionMatrix");
 	return this.projectionMatrix;
 };
 
@@ -145,41 +156,46 @@ Camera.prototype.getProjectionMatrix = function () {
 //==============================================================================
 /**
  * Set current field of view.
- * @param {float} aFov - the new field of view.
+ * 
+ * @param {float} aFov - The new field of view.
+ * 
  * @return {void}
  */
 Camera.prototype.setFov = function (aFov) {
-//	console.log ("Camera.setFov");
-	this.fov = aFov;
-	this.computeMatrices();
+	if (typeof aFov == "number") {
+		this.fov = aFov;
+		this.computeMatrices ();
+	}
+	else
+		throw "Camera.setFov: parameter is not a number";
 };
 
 
 //==============================================================================
 /** 
- * Set the zoom
- * @param {float} nb - zoom.
+ * Set the zoom. TODO compléter la doc
+ * 
+ * @param {float} [nb] - Zoom.
+ * 
  * @return {void}
  */
 Camera.prototype.setProjection = function (nb) {
-//	console.log ("Camera.setProjection");
 	if (typeof nb == "undefined") {
 		this.constProjection = 2.5;
+		this.computeMatrices ();
 	}
-	else {
-		if (nb > 0.25 && nb < 7.0) {
-			this.constProjection = nb;
-		}
+	else if (nb > 0.25 && nb < 7.0) {
+		this.constProjection = nb;
+		this.computeMatrices ();
 	}
 };
 
 
 //==============================================================================
 /**
- * @return {float} the zoom.
+ * @return {float} The zoom.
  */
 Camera.prototype.getProjection = function () {
-//	console.log ("Camera.getProjection");
 	return this.constProjection;
 };
 

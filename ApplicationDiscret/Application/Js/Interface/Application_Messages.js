@@ -1,6 +1,8 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -42,23 +44,24 @@
 
 /// INDEX //////////////////////////////////////////////////////////////////////
 
+
 /* hasMessage () : bool
- * showMessage (msg : String, time : int, color : String) : void
+ * showMessage (msg : String, duration : int, color : String) : void
  * showDefaultMessage () : void
- * alertMessage (msg : String, time : int) : void
- * validMessage (msg : String, time : int) : void
+ * alertMessage (msg : String, duration : int) : void
+ * validMessage (msg : String, duration : int) : void
  */
+
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
 /**
- * @return {boolean} true if there is a message in the state bar different 
- * than the default message or empty
+ * @return {boolean} True if there is a message in the state bar different 
+ * than the default message or empty.
  */
 Application.prototype.hasMessage = function () {
-//	console.log ("Application.hasMessage")
 	var p = $('#stateBar p').html ();
 	return (p != "" && p != this.defaultMessage);
 };
@@ -67,17 +70,18 @@ Application.prototype.hasMessage = function () {
 //==============================================================================
 /**
  * Display a message in the status bar with a color.
- * @param {String} msg - the message.
- * @param {int} time - Duration of the display of the message in ms (0 for
- * infinity).
- * @param {float[]} color - the color in CSS format.
+ * 
+ * @param {String} msg - The message.
+ * @param {int} duration - Duration of the display of the message in millisecond
+ * (0 for infinity).
+ * @param {float[]} color - The color in CSS format.
+ * 
  * @return {void}
  */
-Application.prototype.showMessage = function (msg, time, color) {
-//	console.log ("Application.showMessage");
+Application.prototype.showMessage = function (msg, duration, color) {
 	var p = $('#stateBar p').html (msg);
-	if (instanceOf (time, Number) && time > 0)
-		setTimeout (this.showMessage, time, this.defaultMessage)
+	if (typeof duration == "number" && duration > 0)
+		setTimeout (this.showMessage, duration, this.defaultMessage)
 	if (!color)
 		color = "black";
 	p.css ("color", color);
@@ -87,10 +91,10 @@ Application.prototype.showMessage = function (msg, time, color) {
 //==============================================================================
 /**
  * Display the default message in the status bar.
+ * 
  * @return {void}
  */
 Application.prototype.showDefaultMessage = function () {
-//	console.log ("Application.showDefaultMessage");
 	this.showMessage (this.defaultMessage);
 };
 
@@ -98,28 +102,30 @@ Application.prototype.showDefaultMessage = function () {
 //==============================================================================
 /**
  * Display an alert message in red in the status bar.
- * @param {String} msg - the message.
- * @param {int} time - Duration of the display of the message in ms (0 for
- * infinity).
+ * 
+ * @param {String} msg - The message.
+ * @param {int} duration - Duration of the display of the message in millisecond
+ * (0 for infinity).
+ * 
  * @return {void}
  */
-Application.prototype.alertMessage = function (msg, time) {
-//	console.log ("Application.alertMessage");
-	this.showMessage (msg, time, "red");
+Application.prototype.alertMessage = function (msg, duration) {
+	this.showMessage (msg, duration, "red");
 };
 
 
 //==============================================================================
 /**
  * Display a validation message in green in the status bar.
- * @param {String} msg - the message.
- * @param {int} time - Duration of the display of the message in ms (0 for
- * infinity).
+ * 
+ * @param {String} msg - The message.
+ * @param {int} duration - Duration of the display of the message in millisecond
+ * (0 for infinity).
+ * 
  * @return {void}
  */
-Application.prototype.validMessage = function (msg, time) {
-//	console.log ("Application.validMessage");
-	this.showMessage (msg, time, "green");
+Application.prototype.validMessage = function (msg, duration) {
+	this.showMessage (msg, duration, "green");
 };
 
 

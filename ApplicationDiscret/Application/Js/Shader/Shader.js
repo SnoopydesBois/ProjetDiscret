@@ -169,12 +169,12 @@ Shader.prototype.reload = function () {
 	var gl = this.glContext;
 	
 	if (gl !== undefined) {
-		gl.viewport (0, 0, gl.viewportWidth, gl.viewportHeight);
+//		gl.viewport (0, 0, gl.viewportWidth, gl.viewportHeight);
 		gl.clear (gl.COLOR_BUFFER_BIT);
 		this.prepareShader ();
 	}
 	else
-		throw "Shader.reload : gl context does not exist !";
+		throw "Shader.reload: gl context does not exist !";
 };
 
 
@@ -185,8 +185,11 @@ Shader.prototype.reload = function () {
  * @return {void}
  */
 Shader.prototype.prepareShader = function () {
-	var vertexSourceText = LoadFileSync (this.vertexShaderPath);
-	var fragmentSourceText = LoadFileSync (this.fragmentShaderPath);
+//	var vertexSourceText = LoadFileSync (this.vertexShaderPath);
+//	var fragmentSourceText = LoadFileSync (this.fragmentShaderPath);
+	
+	var vertexSourceText = document.getElementById ("shader-vs").innerHTML;
+	var fragmentSourceText = document.getElementById ("shader-fs").innerHTML;
 	
 	var gl = this.glContext; 
 	

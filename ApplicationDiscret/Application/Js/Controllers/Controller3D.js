@@ -121,8 +121,8 @@ Controller3D.prototype.generate = function () {
 		throw "The meridian or the curve of revolution are not functions."
 	}
 	else {
-		meridian = this.getMeridian ();
-		curveRevolution = this.getCurveRevolution ();
+		var meridian = this.getMeridian ();
+		var curveRevolution = this.getCurveRevolution ();
 		return this.modelGen.generate (meridian, curveRevolution);
 	}
 };
@@ -239,7 +239,7 @@ Controller3D.prototype.isSelectedVoxel = function (position) {
  * 
  * @return {void}
  */
-Controller3D.prototype.setGetMeridian = function (meridian){
+Controller3D.prototype.setGetMeridian = function (meridian) {
 	this.getMeridian = meridian;
 };
 
@@ -251,7 +251,7 @@ Controller3D.prototype.setGetMeridian = function (meridian){
  * 
  * @return {void}
  */
-Controller3D.prototype.setGetCurveRevolution = function (curveRevolution){
+Controller3D.prototype.setGetCurveRevolution = function (curveRevolution) {
 	this.getCurveRevolution = curveRevolution;
 };
 

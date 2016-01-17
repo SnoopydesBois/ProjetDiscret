@@ -72,12 +72,13 @@
  * @param {String} glContextType - The type of webGl context for drawing. The
  * value is one of "2d", "3d".
  */
-function GenericObject (canvas, glContextType) {
-	if (!((canvas instanceof HTMLCanvasElement) 
-		&& (typeof glContextType == "string")))
+function GenericViewer (canvas, glContextType) {
+	if (arguments.length != 0 && // GenericViewer is a superclass
+		!checkType (arguments, HTMLCanvasElement, "string"))
 	{
-		console.error ("GenericObject.constructor : bad type(s) of " 
+		console.error ("GenericViewer.constructor : bad type(s) of " 
 			+ "parameter(s)");
+		showType (canvas, glContextType);
 		return;
 	}
 	
@@ -103,9 +104,13 @@ function GenericObject (canvas, glContextType) {
 		case "3d" :
 			this.glContext = get3DGlContext (this.canvas);
 			break;
+		case undefined :
+			// constructor call for inheritance
+			// do nothing
+			break;
 		default :
 			this.glContext = null;
-			console.error ("ModelView.constructor : unknow value for "
+			console.error ("ModelView.GenericViewer : unknow value for "
 				+ "glContextType parameter : " + glContextType);
 			return;
 	}
@@ -127,7 +132,7 @@ function GenericObject (canvas, glContextType) {
  * 
  * @return {void}
  */
-GenericObject.prototype.setDimension = function (width, height) {
+GenericViewer.prototype.setDimension = function (width, height) {
 	if (this.scene !== null) {
 		this.scene.setWidth (width);
 		this.scene.setHeight (height);
@@ -144,7 +149,7 @@ GenericObject.prototype.setDimension = function (width, height) {
  * 
  * @return {void}
  */
-GenericObject.prototype.setMouse = function (x, y) {
+GenericViewer.prototype.setMouse = function (x, y) {
 	if (this.scene !== null)
 		this.scene.setMouse (x, y);
 };
@@ -161,9 +166,9 @@ GenericObject.prototype.setMouse = function (x, y) {
  * 
  * @return {void}
  */
-GenericObject.prototype.reload = function () {
+GenericViewer.prototype.reload = function () {
 	if (!(this.scene instanceof Scene))
-		console.error ("GenericObject.reload: scene does not exist !");
+		console.error ("GenericViewer.reload: scene does not exist !");
 	else
 		this.scene.reload ();
 };
@@ -175,9 +180,9 @@ GenericObject.prototype.reload = function () {
  * 
  * @return {void}
  */
-GenericObject.prototype.show = function () {
-	this.prepare ();
-	this.draw ();
+GenericViewer.prototype.showScene = function () {
+	this.prepareScene ();
+	this.drawScene ();
 };
 
 
@@ -187,9 +192,11 @@ GenericObject.prototype.show = function () {
  * 
  * @return {void}
  */
-GenericObject.prototype.prepare = function () {
+GenericViewer.prototype.prepareScene = function () {
 	if (this.scene.getNbObject () != 0)
 		this.scene.prepare (this.glContext);
+	else
+		console.log ("No object to prepare");
 };
 
 
@@ -197,11 +204,16 @@ GenericObject.prototype.prepare = function () {
 /**
  * Draw the scene if there are object. TODO vérifier anglais
  * 
+ * @param {boolean} [backBuffer] - Indicate if we have to draw the scene 
+ * normally or if we need to draw for picking.
+ * 
  * @return {void}
  */
-GenericObject.prototype.draw = function () {
+GenericViewer.prototype.drawScene = function (backBuffer) {
 	if (this.scene.getNbObject () != 0)
-		this.scene.draw (this.glContext)
+		this.scene.draw (this.glContext, backBuffer)
+	else
+		console.log ("No object to draw");
 };
 
 
@@ -219,7 +231,7 @@ GenericObject.prototype.draw = function () {
 // * 
 // * @return {void}
 // */
-//GenericObject.prototype.addTranslateX = function (x) {
+//GenericViewer.prototype.addTranslateX = function (x) {
 //	if (this.scene !== null)
 //		this.scene.addTranslateX (x);
 //};
@@ -233,7 +245,7 @@ GenericObject.prototype.draw = function () {
 // * 
 // * @return {void}
 // */
-//GenericObject.prototype.addTranslateY = function (x) {
+//GenericViewer.prototype.addTranslateY = function (x) {
 //	if (this.scene !== null)
 //		this.scene.addTranslateY (x);
 //};
@@ -247,7 +259,7 @@ GenericObject.prototype.draw = function () {
 // * 
 // * @return {void}
 // */
-//GenericObject.prototype.multScale = function (x) {
+//GenericViewer.prototype.multScale = function (x) {
 //	if (this.scene != null)
 //		this.scene.multScale (x);
 //};
@@ -259,9 +271,6 @@ GenericObject.prototype.draw = function () {
 //##############################################################################
 
 
-// FIXME ajouter celles manquantes.
-//onblur
-//onfocus
 
 /** 
  * @abstract
@@ -270,7 +279,7 @@ GenericObject.prototype.draw = function () {
  * 
  * @return {void}
  */
-GenericObject.prototype.onMouseDown = function (event) {};
+GenericViewer.prototype.onMouseDown = function (event) {};
 
 
 //==============================================================================
@@ -281,7 +290,7 @@ GenericObject.prototype.onMouseDown = function (event) {};
  * 
  * @return {void}
  */
-GenericObject.prototype.onMouseUp = function (event) {};
+GenericViewer.prototype.onMouseUp = function (event) {};
 
 
 //==============================================================================
@@ -292,7 +301,7 @@ GenericObject.prototype.onMouseUp = function (event) {};
  * 
  * @return {void}
  */
-GenericObject.prototype.onMouseOver = function (event) {};
+GenericViewer.prototype.onMouseOver = function (event) {};
 
 
 //==============================================================================
@@ -303,7 +312,33 @@ GenericObject.prototype.onMouseOver = function (event) {};
  * 
  * @return {void}
  */
-GenericObject.prototype.onMouseOut = function (event) {};
+GenericViewer.prototype.onMouseOut = function (event) {};
+
+
+//==============================================================================
+/**
+
+ * @abstract
+ * 
+ * @param {MouseEvent} event - The mouse event.
+ * 
+ * @return {void}
+
+ */
+GenericViewer.prototype.onMouseMove = function (event) {};
+
+
+//==============================================================================
+/**
+
+ * @abstract
+ * 
+ * @param {MouseEvent} event - The mouse event.
+ * 
+ * @return {void}
+
+ */
+GenericViewer.prototype.onWheel = function (event) {};
 
 
 //==============================================================================
@@ -314,7 +349,7 @@ GenericObject.prototype.onMouseOut = function (event) {};
  * 
  * @return {void}
  */
-GenericObject.prototype.onMouseMove = function (event) {};
+GenericViewer.prototype.onClick = function (event) {};
 
 
 //==============================================================================
@@ -325,18 +360,7 @@ GenericObject.prototype.onMouseMove = function (event) {};
  * 
  * @return {void}
  */
-GenericObject.prototype.onClick = function (event) {};
-
-
-//==============================================================================
-/**
- * @abstract
- * 
- * @param {MouseEvent} event - The mouse event.
- * 
- * @return {void}
- */
-GenericObject.prototype.onDblClick = function (event) {};
+GenericViewer.prototype.onDblClick = function (event) {};
 
 
 //==============================================================================
@@ -347,7 +371,7 @@ GenericObject.prototype.onDblClick = function (event) {};
  * 
  * @return {void}
  */
-GenericObject.prototype.onKeyPress = function (event) {};
+GenericViewer.prototype.onKeyPress = function (event) {};
 
 
 //==============================================================================
@@ -358,7 +382,7 @@ GenericObject.prototype.onKeyPress = function (event) {};
  * 
  * @return {void}
  */
-GenericObject.prototype.onKeyDown = function (event) {};
+GenericViewer.prototype.onKeyDown = function (event) {};
 
 
 //==============================================================================
@@ -369,7 +393,17 @@ GenericObject.prototype.onKeyDown = function (event) {};
  * 
  * @return {void}
  */
-GenericObject.prototype.onKeyUp = function (event) {};
+GenericViewer.prototype.onKeyUp = function (event) {};
 
+
+//==============================================================================
+/**
+ * @abstract
+ * 
+ * @param {WindowEvent} event - The window event.
+ * 
+ * @return {void}
+ */
+GenericViewer.prototype.onResize = function (event) {};
 
 

@@ -43,7 +43,7 @@
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
-/*
+/* TODO marqueur jsDoc
  * Function usefull in all the program
  */
 
@@ -106,13 +106,22 @@ function addEvent (elem, type, eventHandle) {
 
 
 /**
- * @param {Object} obj - The object to test.
+ * @param {*} obj - The object to test.
  * 
- * @return {String} The "obj" class name.
+ * @return {String} The 'obj' class name or type if 'obj' is not an object.
  */
 function type (obj) {
-	return (obj === undefined || obj === null) ? "(no object)" : 
-		((typeof obj === "object") ? obj.constructor.name : typeof obj);
+	switch (obj) {
+	case undefined :
+		return "undefined";
+	case null :
+		return "null";
+	default :
+		return ((typeof obj === "object") || (typeof obj === "function") ? 
+			obj.constructor.name : 
+			typeof obj
+		);
+	}
 }
 
 
@@ -133,6 +142,59 @@ function showType () {
 
 //==============================================================================
 /**
+ * Check if a variable have the expected type.
+ * 
+ * @param {*} variable - An object.
+ * @param {(String | Function)} expectedType - The expected type of argument.
+ * 
+ * @return {boolean} True if 'variable' have the good type, false otherwise.
+ */
+function isA (variable, expectedType) {
+	if (expectedType === null)
+		return variable === null;
+	else if (expectedType === undefined)
+		return variable === undefined;
+	else if (typeof expectedType == "string")
+		return typeof variable == expectedType;
+	else
+		return variable instanceof expectedType;
+}
+
+
+
+//==============================================================================
+/**
+ * TODO
+ * 
+ * @param {Array} args - The list of argument.
+ * @param {...(String | Function)} The expected type of argument.
+ * 
+ * @return {boolean} True if all items in 'args' have the good type, false
+ * otherwise.
+ */
+function checkType (args) {
+	var nbTest = Math.min (args.length, arguments.length - 1);
+	
+	var i = 0;
+	var goodArgs = true;
+	while (goodArgs && i < nbTest) {
+		if (arguments[i + 1] instanceof Array) {
+			var goodType = false, nbType =  arguments[i + 1].length, j = 0;
+			while (!goodType && j < nbType) {
+				goodType = goodType || (isA (args[i], arguments[i + 1][j]));
+				++j;
+			}
+		}
+		else
+			goodArgs = goodArgs && (isA (args[i], arguments[i + 1]));
+		++i;
+	} // end while
+	return goodArgs;
+}
+
+
+//==============================================================================
+/**
  * Search if a value is in an enumeration.
  * 
  * @param {Object} enumeration - An enumeration-like build with an object. It
@@ -144,123 +206,6 @@ function isValueOfEnum (enumeration, value) {
 		if (value == enumeration[i])
 			return true;
 	return false;
-}
-
-
-
-//##############################################################################
-//	WebGL
-//##############################################################################
-
-
-
-/**
- * Get a 3D gl context. Set the context viewport dimension with the canvas
- * dimension.
- * 
- * @param {HTMLCanvasElement} canvas - A canvas.
- * 
- * @return {WebGLRenderingContext} The 3D gl context if exist or null.
- */
-function get3DGlContext (canvas) {
-	var gl = null;
-	try {
-		gl = canvas.getContext ("webgl") 
-			|| canvas.getContext ("experimental-webgl");
-		gl.viewportWidth = canvas.width;
-		gl.viewportHeight = canvas.height;
-	} 
-	catch (e) {
-		console.error ("HTMLCanvasElement.getContext() FAILED !");
-	}
-	return gl;
-}
-
-
-//==============================================================================
-/**
- * Create a shader with its source code and compile it.
- * 
- * @param {!WebGLRenderingContext} glContext - The gl context.
- * @param {!Number} type - The type of the shader. This value is the parameter to 
- * WebGLRenderingContext.createShader(). 
- * @param {!String} source - The source code of the shader.
- * TODO vérifier le type 2.
- * 
- * @return {WebGLShader} The created shader or null.
- */
-function createShader (glContext, type, source) {
-	/// Type verification
-	if (! (glContext instanceof WebGLRenderingContext
-		&& typeof source === "string")) 
-	{
-		// TODO vérifier le paramètre 2
-		console.error ("createShader: bad type(s) of parameter(s) !");
-		return null;
-	}
-	
-	/// Variables initialisation
-	var shader = null;
-	
-	/// Shader creation and compilation
-	shader = glContext.createShader (type);
-	glContext.shaderSource (shader, source);
-	glContext.compileShader (shader);
-	
-	/// Shader verification
-	if (! glContext.getShaderParameter (shader, gl.COMPILE_STATUS)) {
-		console.error ("Error compiling shader:", 
-			glContext.getShaderInfoLog (shader));
-		glContext.deleteShader (shader);
-		shader = null;
-	}
-	
-	return shader;
-}
-
-
-//==============================================================================
-/**
- * Create a gl program and link given shaders.
- * 
- * @param {!WebGLRenderingContext} glContext - The gl context.
- * @param {...WebGLShader} A compiled shader.
- * @see {@link cerateShader ()}
- * 
- * @return {WebGLProgram} A gl program or null.
- */
-function createProgram (glContext) {
-	var argLen = arguments.length;
-	
-	/// Type verification
-	if (! (glContext instanceof WebGLRenderingContext)) {
-		console.error ("createProgram: give a corect gl context !");
-		return null;
-	}
-	for (var i = 1; i < argLen; ++i)
-		if (! arguments[i] instanceof WebGLShader) {
-			console.error ("createProgram: one of parameter is not a "
-				+ "WebGLShader");
-			return null;
-		}
-	
-	/// Variables initialisation
-	var program = glContext.createProgram ();
-	
-	/// Link shaders
-	if (argLen > 1) {
-		for (var i = 1; i < argLen; ++i)
-			glContext.attachShader (program, arguments[i]);
-		glContext.linkProgram (program);
-	}
-	
-	/// Link verification
-	if (! glContext.getProgramParameter (program, glContext.LINK_STATUS)) {
-		console.error ("createProgram: failed to attach shaders");
-		program = null;
-	}
-	
-	return program;
 }
 
 

@@ -1,7 +1,9 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -40,33 +42,36 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
+
 
 /* LoadFileSync (aFileName : String) : String
  * requestAnimFrame () : void
  */
+
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
 /**
-
  * Load a file and return its string content.
  * Synchronous function (not the better one ...).
- * @param {String} aFileName - file where to load the content.
- * @return {String} the file's content (as a string) if it loaded correctly,
+ * 
+ * @param {String} aFileName - File where to load the content.
+ * 
+ * @return {String} The file's content (as a string) if it loaded correctly,
  * null otherwise.
  */
 function LoadFileSync (aFileName) {
-//	console.log ("LoadFileSync");
 	if (typeof (aFileName) == "undefined") {
 		return "";
 	}
-	var xhr = new XMLHttpRequest();
-	xhr.overrideMimeType('../text/text');
-	xhr.open("GET", aFileName, false);
-	xhr.send(null); 
+	var xhr = new XMLHttpRequest ();
+	xhr.overrideMimeType ('../text/text');
+	xhr.open ("GET", aFileName, false);
+	xhr.send (null); 
 	
 	if (xhr.status === 200 || xhr.status === 0) {
 		return xhr.responseText; 

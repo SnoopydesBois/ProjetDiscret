@@ -130,19 +130,10 @@ Repere.prototype.getDimension = function () {
  */
 Repere.prototype.prepare = function (glContext) {
 	var halfDimBox = (new Vector (this.dimension)).mul (
-		1.0 / Math.max (this.dimension.x, this.dimension.y, this.dimension.z));
+		1.01 / Math.max (this.dimension.x, this.dimension.y, this.dimension.z));
 	
 	/// Vertex and color buffers
 	var vertexBuffer = [ // the vertex of the box which serve as repere
-//		[-0.2, -0.2, -0.2],
-//		[-0.2,  0.2, -0.2],
-//		[ 0.2, -0.2, -0.2],
-//		[ 0.2,  0.2, -0.2],
-//		[-0.2, -0.2,  0.2],
-//		[-0.2,  0.2,  0.2],
-//		[ 0.2, -0.2,  0.2],
-//		[ 0.2,  0.2,  0.2]
-
 		[-halfDimBox.x, -halfDimBox.y, -halfDimBox.z],
 		[-halfDimBox.x,  halfDimBox.y, -halfDimBox.z],
 		[ halfDimBox.x, -halfDimBox.y, -halfDimBox.z],
@@ -151,21 +142,11 @@ Repere.prototype.prepare = function (glContext) {
 		[-halfDimBox.x,  halfDimBox.y,  halfDimBox.z],
 		[ halfDimBox.x, -halfDimBox.y,  halfDimBox.z],
 		[ halfDimBox.x,  halfDimBox.y,  halfDimBox.z],
-
-//		[origin.x,            origin.y,            origin.z],
-//		[origin.x,            origin.y + dimBox.y, origin.z],
-//		[origin.x + dimBox.x, origin.y,            origin.z],
-//		[origin.x + dimBox.x, origin.y + dimBox.y, origin.z],
-//		[origin.x,            origin.y,            origin.z + dimBox.z],
-//		[origin.x,            origin.y + dimBox.y, origin.z + dimBox.z],
-//		[origin.x + dimBox.x, origin.y,            origin.z + dimBox.z],
-//		[origin.x + dimBox.x, origin.y + dimBox.y, origin.z + dimBox.z],
 	];
 
 	var vertexBufferLength = vertexBuffer.length; // 8
 	// Color of each vertices, lines are white
-//	var color = [1.0, 1.0, 1.0, 0.8];
-	var color = [0.9, 0.2, 0.1, 1.0];
+	var color = [0.9, 0.9, 0.9, 1.0];
 
 
 	/// Vertex Buffer
@@ -174,8 +155,24 @@ Repere.prototype.prepare = function (glContext) {
 	
 	var data = [];
 	for (var vertice = 0; vertice < vertexBufferLength; ++vertice) {
-		this.addAPoint (data, vertexBuffer[vertice]); 
-		this.addAColor (data, color);
+		this.addAPoint (data, vertexBuffer[vertice]);
+		switch (vertice) {
+		case 0 :
+			this.addAColor (data, [0.9, 0.9, 0.0, 1.0]);
+			break;
+		case 1 :
+			this.addAColor (data, [0.0, 0.9, 0.0, 1.0]);
+			break;
+		case 2 :
+			this.addAColor (data, [0.9, 0.0, 0.0, 1.0]);
+			break;
+		case 4 :
+			this.addAColor (data, [0.0, 0.0, 0.9, 1.0]);
+			break;
+		default :
+			this.addAColor (data, color);
+			break;
+		}
 	}
 	glContext.bindBuffer (glContext.ARRAY_BUFFER, this.glVertexBuffer); 
 	glContext.bufferData (glContext.ARRAY_BUFFER, new Float32Array (data), 
@@ -183,16 +180,20 @@ Repere.prototype.prepare = function (glContext) {
 	
 	
 	/// Indices Buffer
+	/*    5-------7   Y Z
+	 *   /|      /|   |/
+	 *  / |     / |   *--X
+	 * 1-------3  |
+	 * |  4----|--6  back face (4, 5, 7, 6)
+	 * | /     | /
+	 * |/      |/
+	 * 0-------2  front face (0, 1, 3, 2)
+	 */
 	var indicesBuffer = [
-		0, 1, 3, 2, 6, 7, 5, 4, 0
-//		0, 1, 2, 3, // BOTTOM
-//		6, 7,       // RIGHT
-//		4, 5,       // TOP
-//		0, 1,       // LEFT
-//		1, 0,
-//		0, 2, 4, 6, // FRONT
-//		6, 3,
-//		3, 1, 7, 5  // BACK
+		0, 2,  2, 3,  3, 1,  1, 0, // Front
+		0, 4,  2, 6,  3, 7,  1, 5, // Middle
+		4, 6,  6, 7,  7, 5,  5, 4  // Back
+		
 	];
 	this.glIndiciesBuffer = glContext.createBuffer();
 	this.glIndiciesBuffer.numItems = indicesBuffer.length;
@@ -203,6 +204,7 @@ Repere.prototype.prepare = function (glContext) {
 		glContext.STATIC_DRAW
 	);
 };
+
 
 //==============================================================================
 /**
@@ -232,33 +234,15 @@ Repere.prototype.draw = function (glContext) {
 	// Let's the shader prepare its attributes
 	this.shader.setAttributes (glContext, this.glVertexBuffer);
 	
-//	glContext.vertexAttribPointer (
-//		prog.vertexPositionAttribute,
-//		glVertexBuffer.itemSize,
-//		glContext.FLOAT,
-//		false,
-//		0,
-//		0
-//	);
-//	glContext.enableVertexAttribArray (prog.vertexPositionAttribute);
-
-	
 	// Let's render !
 	glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer);
-//	glContext.drawElements (glContext.TRIANGLE_STRIP, 
-//		this.glIndiciesBuffer.numItems, 
-//		glContext.UNSIGNED_SHORT,
-//		0
-//	);
 	glContext.drawElements (
-		glContext.LINE_STRIP, 
+		glContext.LINES, 
 		this.glIndiciesBuffer.numItems, 
 		glContext.UNSIGNED_SHORT,
 		0
 	);
-	
 };
-
 
 
 //==============================================================================

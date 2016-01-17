@@ -84,30 +84,6 @@
 
 
 //##############################################################################
-//	Static attributes
-//##############################################################################
-
-
-
-/**
- * @static
- * 
- * {Camera} The default camera. Use when no camera has set. FIXME vérifier anglais
- */
-Scene.prototype.defaultCamera = new Camera (
-	new Vector (10, 10, 10),
-	new Vector (0, 0, 0),
-	new Vector (0, 0, 1),
-	800,
-	600,
-	30.0,
-	0.1,
-	1000.0
-);
-
-
-
-//##############################################################################
 //	Constructor
 //##############################################################################
 
@@ -124,12 +100,21 @@ function Scene () {
 	this.objectList = [];
 	
 	/**
- 	 * {Camera} The camera used in the scene
+ 	 * {Camera} The camera used in the scene.
  	 */
-	this.camera;
+	this.camera = new Camera (
+		new Vector (10, 10, 10),
+		new Vector (0, 0, 0),
+		new Vector (0, 0, 1),
+		800,
+		600,
+		30.0,
+		0.1,
+		1000.0
+	);
 		
 	/**
-	 * {float} Tha scla factor.
+	 * {float} Tha scale factor.
 	 */
 	this.scale = 1.0;
 	
@@ -177,6 +162,7 @@ function Scene () {
  * objects).
  */
 Scene.prototype.getNbObject = function () {
+//	console.error (this.objectList.length);
 	return this.objectList.length;
 };
 Scene.prototype.getLength = function () {
@@ -250,8 +236,9 @@ Scene.prototype.setCamera = function (camera) {
  * @throws {String} If the provied parameter is not a number. TODO vérifier anglais
  */
 Scene.prototype.setScale = function (scale) {
-	if (typeof scale == "number")
+	if (typeof scale == "number") {
 		this.scale = scale;
+	}
 	else
 		throw "Scene.setScale: parameter is not a number"
 };
@@ -411,7 +398,7 @@ Scene.prototype.setTranslate = function (x, y) {
  */
 Scene.prototype.addObject = function (anObject) {
 	if (anObject instanceof GenericStructure)
-		this.objectList.push (anObject);
+		this.objectList.splice (0, 0, anObject); // push at the beginning
 	else
 		throw "Scene.addObject: parameter is not a GenericStructure";
 };
@@ -514,10 +501,6 @@ Scene.prototype.prepare = function (glContext) {
 		this.objectList[i].getShader ().activate ();
 	}
 	
-	// If no camera 
-	if (this.camera == undefined)
-		this.camera = Scene.prototype.defaultCamera;
-
 //	this.prepareSelect (glContext);
 };
 
@@ -534,24 +517,23 @@ Scene.prototype.prepare = function (glContext) {
  */
 Scene.prototype.draw = function (glContext, backBuffer) {
 	var size = Math.min (this.height, this.width) * 2;
-	glContext.viewport (
-		(this.width - size) / 2,
-		(this.height - size) / 2,
-		size, 
-		size
-	);
-
-	glContext.clearColor (0.08, 0.08, 0.08, 1.0);
-	glContext.viewport(0, 0, glContext.viewportWidth, glContext.viewportHeight);
+	// voir SurfaceViewer.onResize()
+//	glContext.viewport (
+//		(this.width - size) / 2,
+//		(this.height - size) / 2,
+//		size, 
+//		size
+//	);
+//	glContext.clearColor (0.1, 0.11, 0.12, 1.0);
 	glContext.clear (glContext.COLOR_BUFFER_BIT | glContext.DEPTH_BUFFER_BIT);
-	
+//	this.camera.computeMatrices ();
 	var length = this.getNbObject ();
 	for (var i = 0; i < length; ++i) {
 		// Get Object Properties 
 		var obj = this.objectList[i];
 		if (!obj.displayMe ())
 			continue;
-		
+		console.log ("Scene.draw :", i);
 		this.drawObject (glContext, obj);
 		
 		// RenderObject 
@@ -591,7 +573,7 @@ Scene.prototype.drawObject = function (glContext, obj) {
 //	shad.activate (glContext); 
 	var locMvMat = shad.getUniformLocation ("uModelViewMatrix");
 	var locPjMat = shad.getUniformLocation ("uProjectionMatrix");
-	var locNmMat = shad.getUniformLocation ("uNormalMatrix");
+//	var locNmMat = shad.getUniformLocation ("uNormalMatrix");
 	
 	// Compute real ModelView matrix
 	var mv = new Matrix (mvMat).mul (objMat);
@@ -603,39 +585,50 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	if (locPjMat != null)
 		glContext.uniformMatrix4fv (locPjMat, false, pjMat.getGLVector ());
 	
-	// If Shader has normal matrix give it !
-	if (locNmMat != null) {
-		// Compute Normal matrix 
-		var nm = new Matrix (mv).toNormal();
-		glContext.uniformMatrix4fv (locNmMat, false, nm.getGLVector ()); 
-	}
+//	// If Shader has normal matrix give it !
+//	if (locNmMat != null) {
+//		// Compute Normal matrix 
+//		var nm = new Matrix (mv).toNormal();
+//		glContext.uniformMatrix4fv (locNmMat, false, nm.getGLVector ()); 
+//	}
 	
-	// scaling
-	var locScale = shad.getUniformLocation ("uScale");
-	if (locScale != null)
-		glContext.uniform1f(locScale, this.scale);
+//	// scaling
+//	var locScale = shad.getUniformLocation ("uScale");
+//	if (locScale != null)
+//		glContext.uniform1f (locScale, this.scale);
 	
-	// resolution
-	var locResol = shad.getUniformLocation ("uResolution");
-	if (locResol != null)
-		glContext.uniform2f (locResol, this.width, this.height);
+//	// resolution
+//	var locResol = shad.getUniformLocation ("uResolution");
+//	if (locResol != null)
+//		glContext.uniform2f (locResol, this.width, this.height);
 	
-	// translation
-	var locTranslate = shad.getUniformLocation ("uTranslate");
-	if (locTranslate != null)
-		glContext.uniform2f (locTranslate, this.translateX, this.translateY);
+//	// translation
+//	var locTranslate = shad.getUniformLocation ("uTranslate");
+//	if (locTranslate != null)
+//		glContext.uniform2f (locTranslate, this.translateX, this.translateY);
 	
-	// mouse
-	var locMouse = shad.getUniformLocation ("uMouse");
-	if (locMouse !== null) {
-		var x = Math.floor ((this.mouseX) * this.scale);
-		var y = Math.floor ((this.mouseY) * this.scale);
-		glContext.uniform2f (locMouse, x, y);
-	}
+//	// mouse
+//	var locMouse = shad.getUniformLocation ("uMouse");
+//	if (locMouse !== null) {
+//		var x = Math.floor ((this.mouseX) * this.scale);
+//		var y = Math.floor ((this.mouseY) * this.scale);
+//		glContext.uniform2f (locMouse, x, y);
+//	}
 };
 
 
 //==============================================================================
+/**
+ * TODO
+ * 
+ * @param {(Vector | Number[3])} position - The new position of the camera.
+ */
+Scene.prototype.setCameraAt = function (posistion) {
+	this.camera.eyePos = new Vector (position);
+};
+
+
+
 ///**
 // * Prepare the scene for selection.
 // * 
@@ -648,10 +641,6 @@ Scene.prototype.drawObject = function (glContext, obj) {
 //	var lengthObject = this.getNbObject ();
 //	for (var i = 0; i < lengthObject; ++i)
 //		this.objectList[i].prepareSelection (glContext);
-//	
-//	// If no camera
-//	if (this.camera === undefined)
-//		this.camera	= Scene.prototype.defaultCamera;
 //};
 
 
