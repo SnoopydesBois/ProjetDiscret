@@ -127,7 +127,7 @@ function Application () {
 		document.getElementById ("surfaceCanvas")
 	);
 	
-	this.surfaceController = new Controller3D(new Vector(25,25,25));
+	this.surfaceController = new Controller3D(new Vector(20,20,20));
 	
 //	/**
 //	 * Width of the #workspace in pixel. 
@@ -189,7 +189,7 @@ function Application () {
 Application.prototype.generateAndDraw = function () {
 	this.surfaceController.generate();
 	this.surfaceRenderer = new SurfaceRenderer(this.surfaceController,
-												this.surface.getGLContext());
-	this.surfaceViewer.scene.addObject(this.surfaceRenderer);
-	this.surfaceViewer.showScene();
+												this.surfaceView.getGLContext());
+	this.surfaceView.scene.addObject(this.surfaceRenderer);
+	this.surfaceView.showScene();
 };

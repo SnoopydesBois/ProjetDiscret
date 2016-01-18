@@ -227,7 +227,7 @@
 		</div>
 		
 		<script type="text/javascript">
-			var dim = new Vector (3, 3, 3);
+/*			var dim = new Vector (3, 3, 3);
 			var s = new Surface (dim);
 			for (var x = 0; x < dim.x; ++x)
 				for (var y = 0; y < dim.y; ++y)
@@ -245,10 +245,14 @@
 				}
 				console.log ("");
 			}*/
+			var meridian = new ExplicitCurve("cos(x/9.0)*10.0");
+			var revol = new ImplicitCurve("x^2 + y^2 - 1");
 			var appli = new Application ();
-			var forme = new SurfaceRenderer (new Controller3D (dim, s), appli.surfaceView.glContext);
-			forme.modelController.modelGen.surface = s;
-			appli.surfaceView.scene.addObject (forme);
+//			var forme = new SurfaceRenderer (new Controller3D (dim, s), appli.surfaceView.glContext);
+//			forme.modelController.modelGen.surface = s;
+//			appli.surfaceView.scene.addObject (forme);
+			appli.surfaceController.getMeridian = function(){return meridian};
+			appli.surfaceController.getCurveRevolution = function(){return revol};
 			var cam = new Camera (
 				new Vector (-10, 3, 5),
 				new Vector (0, 0, 0),
