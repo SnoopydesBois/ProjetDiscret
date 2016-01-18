@@ -230,7 +230,7 @@ Repere.prototype.draw = function (glContext) {
 	}
 		
 	/// Set shader parameters
-	this.shader.setRenderingMode (RenderingModeEnum.NORMAL);
+	this.shader.setRenderingMode (RenderingModeEnum.DOTTED);
 	// Let's the shader prepare its attributes
 	this.shader.setAttributes (glContext, this.glVertexBuffer);
 	

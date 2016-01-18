@@ -123,7 +123,7 @@ function SurfaceRenderer (surfaceController, glContext) {
 	this.nbGlBuffer = 0;
 	
 	/// Initialisation 
-	this.shader.setRenderingMode (RenderingModeEnum.PICKING);
+	this.shader.setRenderingMode (RenderingModeEnum.NORMAL);
 };
 
 
