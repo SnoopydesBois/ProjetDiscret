@@ -188,18 +188,16 @@ Shader.prototype.prepareShader = function () {
 //	var vertexSourceText = LoadFileSync (this.vertexShaderPath);
 //	var fragmentSourceText = LoadFileSync (this.fragmentShaderPath);
 	
-	var vertexSourceText = document.getElementById ("shader-vs").innerHTML;
-	var fragmentSourceText = document.getElementById ("shader-fs").innerHTML;
+	//var vertexSourceText = document.getElementById ("shader-vs").innerHTML;
+	//var fragmentSourceText = document.getElementById ("shader-fs").innerHTML;
 	
 	var gl = this.glContext; 
 	
-	
 	/// Vertex shader
-	this.vertexShad = createShader (gl, gl.VERTEX_SHADER, vertexSourceText);
+	this.vertexShad = createShader (gl, gl.VERTEX_SHADER, vertsrc);
 	
 	/// Fragment shader
-	this.fragmentShad = createShader (gl, gl.FRAGMENT_SHADER, 
-		fragmentSourceText);
+	this.fragmentShad = createShader (gl, gl.FRAGMENT_SHADER, fragsrc);
 	
 	if (this.vertexShad === null || this.fragmentShad === null) {
 		console.error ("Shader.prepareShader: shader creation failed");
