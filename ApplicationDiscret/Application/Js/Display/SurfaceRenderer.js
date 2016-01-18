@@ -145,6 +145,17 @@ SurfaceRenderer.prototype.setModelController = function (newController) {
 };
 
 
+//==============================================================================
+/**
+ * Get the model controller.
+ * 
+ * @return {Controller}
+ */
+SurfaceRenderer.prototype.getModelController = function () {
+	return this.modelController;
+};
+
+
 
 //##############################################################################
 //	Draw
@@ -635,5 +646,18 @@ SurfaceRenderer.prototype.posToColor = function (voxel, direction) {
 	];
 };
 
+
+
+//##############################################################################
+//	Other method
+//##############################################################################
+
+
+/**
+ * 
+ */
+SurfaceRenderer.prototype.getDimension = function () {
+	return this.getModelController().getDimension();
+};
 
 
