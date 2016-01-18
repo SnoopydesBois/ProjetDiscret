@@ -398,7 +398,8 @@ Scene.prototype.setTranslate = function (x, y) {
  */
 Scene.prototype.addObject = function (anObject) {
 	if (anObject instanceof GenericStructure)
-		this.objectList.splice (0, 0, anObject); // push at the beginning
+//		this.objectList.splice (0, 0, anObject); // push at the beginning
+		this.objectList.push (anObject); // push at the beginning
 	else
 		throw "Scene.addObject: parameter is not a GenericStructure";
 };
@@ -573,6 +574,7 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	shad.activate (glContext); 
 	var locMvMat = shad.getUniformLocation ("uModelViewMatrix");
 	var locPjMat = shad.getUniformLocation ("uProjectionMatrix");
+	var locDim = shad.getUniformLocation ("uDimension");
 //	var locNmMat = shad.getUniformLocation ("uNormalMatrix");
 	
 	// Compute real ModelView matrix
@@ -581,9 +583,12 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	// Set Uniform Matrices
 	if (locMvMat != null)
 		glContext.uniformMatrix4fv (locMvMat, false, mv.getGLVector ());
-	
+
 	if (locPjMat != null)
 		glContext.uniformMatrix4fv (locPjMat, false, pjMat.getGLVector ());
+	
+	if (locMvMat != null)
+		glContext.uniform3fv (locDim, obj.getDimension().getGLVector ());
 	
 //	// If Shader has normal matrix give it !
 //	if (locNmMat != null) {

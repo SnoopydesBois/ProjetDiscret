@@ -166,11 +166,13 @@ DefaultShader.prototype.getRenderingMode = function () {
  * @return {void}
  */
 DefaultShader.prototype.setAttributes = function (glContext, vertexBuffer) {
+	console.trace ();
 	glContext.bindBuffer (glContext.ARRAY_BUFFER, vertexBuffer);
 	
 	// Get attribute
 	var attrPos = this.getAttributeLocation ("aPosition");
 	var attrCol = this.getAttributeLocation ("aColor");
+	var attrMode = this.getUniformLocation ("uMode");
 	
 	// Activate Attribute
 	glContext.enableVertexAttribArray (attrPos);
@@ -180,7 +182,6 @@ DefaultShader.prototype.setAttributes = function (glContext, vertexBuffer) {
 	glContext.vertexAttribPointer (attrPos, 3, glContext.FLOAT, false, 28, 0);
 	glContext.vertexAttribPointer (attrCol, 4, glContext.FLOAT, false, 28, 12);
 	
-	var attrMode = this.getUniformLocation ("uMode");
 	this.glContext.uniform1i (attrMode, this.renderingMode);
 };
 
