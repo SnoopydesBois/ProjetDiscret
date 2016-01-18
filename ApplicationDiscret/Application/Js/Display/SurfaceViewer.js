@@ -34,7 +34,7 @@ function SurfaceViewer (canvas) {
 	 * {Scene} The scene to display the surface.
 	 */
 	this.scene = new Scene ();
-	this.scene.addObject (new Repere (new Vector (12, 18, 12), this.glContext));
+	this.scene.addObject (new Repere (new Vector (25, 25, 25), this.glContext));
 	
 	this.initCanvasEvent ();
 	this.glContext.enable (this.glContext.CULL_FACE);

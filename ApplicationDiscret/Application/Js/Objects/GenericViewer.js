@@ -184,7 +184,6 @@ GenericViewer.prototype.showScene = function () {
 	this.drawScene ();
 };
 
-
 //==============================================================================
 /**
  * Prepare the scene if there are objects.
