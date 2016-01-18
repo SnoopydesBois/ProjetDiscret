@@ -118,7 +118,7 @@ function Controller3D (dimension, shader) {
 Controller3D.prototype.generate = function () {
 	if (!(this.getMeridian instanceof Function) 
 		|| !(this.getCurveRevolution instanceof Function)){
-		throw "The meridian or the curve of revolution are not functions."
+		throw "Controller3D.generate : The meridian or the curve of revolution is not a function."
 	}
 	else {
 		var meridian = this.getMeridian ();
