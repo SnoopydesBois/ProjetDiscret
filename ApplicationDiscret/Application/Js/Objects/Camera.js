@@ -133,6 +133,15 @@ Camera.prototype.computeMatrices = function () {
 
 //==============================================================================
 /**
+ * @return {Vector} The eye position of the camera.
+ */
+Camera.prototype.getPosition = function () {
+	return this.eyePos;
+};
+
+
+//==============================================================================
+/**
  * Get view matrix.
  * 
  * @return {Matrix} The view matrix.

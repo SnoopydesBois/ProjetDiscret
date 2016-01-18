@@ -631,8 +631,9 @@ Scene.prototype.drawObject = function (glContext, obj) {
  * 
  * @param {(Vector | Number[3])} position - The new position of the camera.
  */
-Scene.prototype.setCameraAt = function (posistion) {
+Scene.prototype.setCameraAt = function (position) {
 	this.camera.eyePos = new Vector (position);
+	this.camera.computeMatrices ();
 };
 
 
