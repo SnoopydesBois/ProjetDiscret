@@ -165,7 +165,6 @@ DefaultShader.prototype.getRenderingMode = function () {
  * @return {void}
  */
 DefaultShader.prototype.setAttributes = function (glContext, vertexBuffer) {
-	console.trace ();
 	glContext.bindBuffer (glContext.ARRAY_BUFFER, vertexBuffer);
 	
 	// Get attribute
