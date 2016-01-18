@@ -1,6 +1,8 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -331,9 +333,9 @@ Matrix.prototype.equals = function (that) {
  */
 Matrix.prototype.defaultConstructor = function () {
 	this.m = new MAT_ARRAY_TYPE(16);
-	for (var i=0; i<4; ++i) {
-		for (var j=0; j<4; ++j) {
-			this.set(i, j, i == j ? 1 : 0);
+	for (var i = 0; i < 4; ++i) {
+		for (var j = 0; j < 4; ++j) {
+			this.set (i, j, i == j ? 1 : 0);
 		}
 	}
 };
