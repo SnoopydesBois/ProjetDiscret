@@ -85,6 +85,19 @@
 
 	</head>
 	<body>
+	
+		<script type="text/javascript">
+
+			function make_base(src, offsetWidth, offsetHeight, context)
+			{
+			  var base_image = new Image();
+			  base_image.src = src;
+			  base_image.onload = function(){
+				var width = document.getElementById('revolutionView').style.width - document.getElementById('revolutionParam').style.width;
+				context.drawImage(base_image, width + offsetWidth, document.getElementById('revolutionParam').style.height + offsetHeight);
+			  }
+			}
+		</script>
 		<!-- Menus -->
 		<ul class="menus header">
 			<li id="fileMenu" tabindex="1">
@@ -271,6 +284,12 @@
 						Liste des paramètres Méridienne
 					</div>
 					<canvas id="meridianCanvas"></canvas>
+					<script>
+						var canvasMeridian = document.getElementById('meridianCanvas'),
+						contextMeridian = canvasMeridian.getContext('2d');
+						make_base('Curves/Meridian/meridian.png', -100 , -30, contextMeridian);
+					</script>
+					
 					<div id="meridianOption" class="optionPanel">
 						Option Méridienne
 					</div>
@@ -280,6 +299,13 @@
 						Liste des paramètres Révolution
 					</div>
 					<canvas id="revolutionCanvas"></canvas>
+					
+					<script>
+						var canvasRevolution = document.getElementById('revolutionCanvas'),
+						contextRevolution = canvasRevolution.getContext('2d');
+						make_base('Curves/Revolution/courberevolution.png', 65, 20, contextRevolution);
+					</script>
+					
 					<div id="revolutionOption" class="optionPanel">
 						Option Révolution
 					</div>
