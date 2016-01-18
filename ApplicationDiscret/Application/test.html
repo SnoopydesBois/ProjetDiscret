@@ -85,6 +85,19 @@
 
 	</head>
 	<body>
+	
+		<script type="text/javascript">
+
+			function make_base(src, offsetWidth, offsetHeight, context)
+			{
+			  var base_image = new Image();
+			  base_image.src = src;
+			  base_image.onload = function(){
+				var width = document.getElementById('revolutionView').style.width - document.getElementById('revolutionParam').style.width;
+				context.drawImage(base_image, width + offsetWidth, document.getElementById('revolutionParam').style.height + offsetHeight);
+			  }
+			}
+		</script>
 		<!-- Menus -->
 		<ul class="menus header">
 			<li id="fileMenu" tabindex="1">
@@ -100,7 +113,6 @@
 					</li>
 					<li title="Enregistrer le modèle actuel" 
 						onclick="">Enregistrer</li>
-					<li title="Fermer le modèle">Fermer</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="viewMenu" tabindex="2">
@@ -108,6 +120,9 @@
 				<ul>
 					<li title="Générer la surface dans la vue 3D" 
 						onclick="appli.surfaceView.showScene ()">Générer</li>
+						
+					<li title="Centrer la caméra" 
+						onclick="">Centrer la caméra</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="toolsMenu" tabindex="3">
@@ -122,47 +137,126 @@
 						class="inaccessible"
 						title="Refaire la dernière action annulée" 
 						onclick="">Refaire</li>
+
+					<li class="split"><hr/></li>
+					
+					<li id="tool2D"
+						class="submenu"
+						title="Outils 2D"> Outils 2D
+						<ul> 
+							<li id="meridianChoice"
+								class="inaccessible"
+								title="Choix de la méridienne"
+								onclick="">Méridiennes</li>
+								
+							<li id="curveOfRevolutionChoice"
+								class="inaccessible"
+								title="Choix de la courbe de révolution"
+								onclick="">Courbes de révolution</li>
+								
+							<li class="split"><hr/></li>
+							
+							<li id="meridianFormula"
+								class="inaccessible"
+								title="Rentrer une formule pour la méridienne"
+								onclick="">Formule méridienne</li>
+								
+							<li id="showSimpleParameter"
+								class="inaccessible"
+								title="Rentrer une formule pour la courbe de révolution"
+								onclick="">Formule courbe de révolution</li>
+						
+							<li class="split"><hr/></li>
+							
+							<li id="handFreeDrawing"
+								class="inaccessible"
+								title="Dessiner à main levée"
+								onclick="">Dessiner à main levée </li>
+						
+							<li class="split"><hr/></li>
+							
+							<li id="showSimpleParameter"
+								class="inaccessible"
+								title="Afficher les paramètres simples"
+								onclick="">Paramètres simples</li>
+							
+							<li id="showAdvancedParameter"
+								class="inaccessible"
+								title="Afficher les paramètres avancés"
+								onclick="">Paramètres avancés</li>
+								
+								
+							<li class="split"><hr/></li>
+							
+							<li id="addMeridian"
+								class="inaccessible"
+								title="Ajout méridienne"
+								onclick="">Ajout méridienne</li>
+							
+							<li id="addCurve"
+								class="inaccessible"
+								title="Ajout courbe de révolution"
+								onclick="">Ajout courbe de révolution</li>
+						
+						</ul>
+					</li>	
+					
+					<li class="split"><hr/></li>
+					<li id="tool3D"
+						class="submenu"
+						title="Outils 3D"> Outils 3D
+						<ul> 
+							
+							<li id="connexity"
+								class="inaccessible"
+								title="Choix de connexité"
+								onclick="">Connexité</li>
+								
+							<li id="dimension"
+								class="inaccessible"
+								title="Choix des dimensions"
+								onclick="">Dimension</li>
+							
+							<li id="repereDisplay"
+								class="inaccessible"
+								title="Affichage du repère"
+								onclick="">Afficher le repère</li>
+								
+							<li id="voxelSize"
+								class="inaccessible"
+								title="Taille des voxels"
+								onclick="">Taille des voxels</li>
+								
+							<li id="multiSlice"
+								class="inaccessible"
+								title="Multicoupe"
+								onclick="">Multicoupe</li>
+								
+						</ul>
+					</li>		
+					
+				</ul>
+			</li><!-- because inline-block put a small space between blocks
+			--><li id="exportMenu" tabindex="5">
+				<h1>Export</h1>
+				<ul>
+					<li>Export PNG</li>
 					
 					<li class="split"><hr/></li>
 					
-					<li title="Outils pour ajouter des cubes" 
-						onclick="">Ajouter des cubes</li>
-					
-					<li title="Outils pour supprimer des cubes" 
-						onclick="">Supprimer des cubes</li>
-					
-					<li class="split"><hr/></li>
-					
-					<li title="Déplacer la forme"
-						onclick="">Déplacer</li>
-					
-					<li class="submenu" title="Tourner le modèle">
-						<h1>Tourner</h1>
+					<li id="tool3D"
+						class="submenu"
+						title="Outils 3D"> Export 3D
 						<ul>
-							<li class="submenu">
-								<h1>Axe X</h1>
-								<ul>
-									<li title="Tourner de 90° suivant l'axe X"
-										onclick="">90°</li>
-									<li title="Tourner de 180° suivant l'axe X"
-										onclick="">180°</li>
-									<li title="Tourner de 270° suivant l'axe X"
-										onclick="">270°</li>
-								</ul>
-							</li>
-							<li class="submenu">
-								<h1>Axe Z</h1>
-								<ul>
-									<li title="Tourner de 90° suivant l'axe Z">90°</li>
-									<li title="Tourner de 180° suivant l'axe Z">180°</li>
-									<li title="Tourner de 270° suivant l'axe Z">270°</li>
-								</ul>
-							</li>
+							<li> Export X3D </li>
+							<li> Export impression 3D </li>
 						</ul>
 					</li>
 				</ul>
+			</li>
+			
 			</li><!-- because inline-block put a small space between blocks
-			--><li id="helpMenu" tabindex="5">
+			--><li id="helpMenu" tabindex="6">
 				<h1>Aide</h1>
 				<ul>
 					<li>Afficher l'aide</li>
@@ -170,12 +264,12 @@
 				</ul>
 			</li>
 			
-			<li id="translatemenu" tabindex="6">
+			<li id="translatemenu" tabindex="7">
 			<h1>Traduction</h1>
 				<ul>
 				 <!-- <div class="lang_switcher">-->
                 <li id="en" class="lang">EN</li>
-                <li id="ru" class="lang">RU</li>
+                <li id="fr" class="lang">FR</li>
             <!-- </div> -->
 				</ul>
 			</li>
@@ -190,6 +284,12 @@
 						Liste des paramètres Méridienne
 					</div>
 					<canvas id="meridianCanvas"></canvas>
+					<script>
+						var canvasMeridian = document.getElementById('meridianCanvas'),
+						contextMeridian = canvasMeridian.getContext('2d');
+						make_base('Curves/Meridian/meridian.png', -100 , -30, contextMeridian);
+					</script>
+					
 					<div id="meridianOption" class="optionPanel">
 						Option Méridienne
 					</div>
@@ -199,6 +299,13 @@
 						Liste des paramètres Révolution
 					</div>
 					<canvas id="revolutionCanvas"></canvas>
+					
+					<script>
+						var canvasRevolution = document.getElementById('revolutionCanvas'),
+						contextRevolution = canvasRevolution.getContext('2d');
+						make_base('Curves/Revolution/courberevolution.png', 65, 20, contextRevolution);
+					</script>
+					
 					<div id="revolutionOption" class="optionPanel">
 						Option Révolution
 					</div>
@@ -206,12 +313,12 @@
 			</div>
 			<div id="surfaceView">
 				<div id="surfaceParam" class="paramPanel">
-					<button onclick="appli.surfaceView.showScene ();">Générer</button>
+					<button onclick="appli.generateAndDraw ();">Générer</button>
 					<hr/>
 					<button onclick="cam.eyePos.x = -cam.eyePos.x;appli.surfaceView.showScene ();">Flip X</button>
 					<button onclick="cam.eyePos.y = -cam.eyePos.y;appli.surfaceView.showScene ();">Flip Y</button>
 					<button onclick="cam.eyePos.z = -cam.eyePos.z;appli.surfaceView.showScene ();">Flip Z</button>
-					Liste des paramètres Surface
+					Liste des paramètres de la Surface
 				</div>
 				<canvas id="surfaceCanvas" width="640" height="480"></canvas>
 				<div id="surfaceOption" class="optionPanel">
@@ -227,7 +334,7 @@
 		</div>
 		
 		<script type="text/javascript">
-			var dim = new Vector (4, 5, 3);
+/*			var dim = new Vector (3, 3, 3);
 			var s = new Surface (dim);
 			for (var x = 0; x < dim.x; ++x)
 				for (var y = 0; y < dim.y; ++y)
@@ -245,10 +352,14 @@
 				}
 				console.log ("");
 			}*/
+			var meridian = new ExplicitCurve("cos(x/9.0)*10.0");
+			var revol = new ImplicitCurve("x^2 + y^2 - 1");
 			var appli = new Application ();
-			var forme = new SurfaceRenderer (new Controller3D (dim, s), appli.surfaceView.glContext);
-			forme.modelController.modelGen.surface = s;
-			appli.surfaceView.scene.addObject (forme);
+//			var forme = new SurfaceRenderer (new Controller3D (dim, s), appli.surfaceView.glContext);
+//			forme.modelController.modelGen.surface = s;
+//			appli.surfaceView.scene.addObject (forme);
+			appli.surfaceController.getMeridian = function(){return meridian};
+			appli.surfaceController.getCurveRevolution = function(){return revol};
 			var cam = new Camera (
 				new Vector (-10, 3, 5),
 				new Vector (0, 0, 0),

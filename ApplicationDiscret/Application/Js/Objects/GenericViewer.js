@@ -184,7 +184,6 @@ GenericViewer.prototype.showScene = function () {
 	this.drawScene ();
 };
 
-
 //==============================================================================
 /**
  * Prepare the scene if there are objects.
@@ -215,6 +214,14 @@ GenericViewer.prototype.drawScene = function (backBuffer) {
 		console.log ("No object to draw");
 };
 
+
+//==============================================================================
+/**
+ * @return glContext
+ */
+GenericViewer.prototype.getGLContext = function () {
+	return this.glContext;
+};
 
 
 //##############################################################################

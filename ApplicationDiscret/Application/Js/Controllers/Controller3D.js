@@ -80,7 +80,7 @@ Controller3D.prototype.constructor = Controller3D;
  * 
  * @param {Vector} dimension - Vector to define the dimension of the 3D space.
  */ 
-function Controller3D (dimension, shader) {
+function Controller3D (dimension) {
 	if (!(dimension instanceof Vector)) {
 		console.error ("Controller3D.constructor : "
 				+ "bad type of parameter");
@@ -91,7 +91,7 @@ function Controller3D (dimension, shader) {
 	/**
 	 * {modelGen} The model which can generate the surface.
 	 */
-	this.modelGen = new ModelGen (dimension, shader);
+	this.modelGen = new ModelGen (dimension);
 	
 	/**
 	 * {Function} A function that provide a frozen reference to the meridian
@@ -111,9 +111,6 @@ function Controller3D (dimension, shader) {
 /**
  * Function that start the generation of the surface from the meridian and the
  * curbe of revolution.
- * 
- * @return {Surface} The surface surfaceed by the meridian and the curve of
- * revolution.
  */
 Controller3D.prototype.generate = function () {
 	if (!(this.getMeridian instanceof Function) 
@@ -123,7 +120,7 @@ Controller3D.prototype.generate = function () {
 	else {
 		var meridian = this.getMeridian ();
 		var curveRevolution = this.getCurveRevolution ();
-		return this.modelGen.generate (meridian, curveRevolution);
+		this.modelGen.generate (meridian, curveRevolution);
 	}
 };
 
