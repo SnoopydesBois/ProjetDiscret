@@ -72,7 +72,7 @@ Point.prototype.copyConstructor = function (that) {
 
 //==============================================================================
 /**
- * TODO compléter la doc
+ * Transform an array of two coordinates to a Point
  * @param {Point} tab - the vector to copy.
  * @return {Point} a vector initialized with the value from that.
  */

@@ -1,3 +1,6 @@
+/**
+* Vertex shader for the application
+*/
 var vertsrc=
 "attribute vec3 aPosition;\n"
 +"attribute vec4 aColor;\n"

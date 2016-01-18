@@ -31,7 +31,7 @@ function SurfaceViewer (canvas) {
 	GenericViewer.call (this, canvas, "3d");
 	
 	/**
-	 * {Scene} The scene. TODO
+	 * {Scene} The scene to display the surface.
 	 */
 	this.scene = new Scene ();
 	this.scene.addObject (new Repere (new Vector (12, 18, 12), this.glContext));

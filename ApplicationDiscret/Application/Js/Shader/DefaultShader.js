@@ -119,7 +119,7 @@ function DefaultShader (glContext) {
 
 /**
  * Set the rendering mode for the shader. If the mode is not correct, nothing 
- * happend. TODO vérifier anglais.
+ * happen.
  * @see {@link RenderingModeEnum}
  * 
  * @param {int} mode - The mode to set.

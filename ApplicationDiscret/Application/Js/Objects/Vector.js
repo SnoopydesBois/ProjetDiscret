@@ -167,7 +167,7 @@ Vector.prototype.copyConstructor = function (that) {
 
 //==============================================================================
 /**
- * TODO compléter la doc
+ * Transform an array to a Vector
  * @param {Vector} tab - the vector to copy.
  * @return {Vector} a vector initialized with the value from that.
  */
