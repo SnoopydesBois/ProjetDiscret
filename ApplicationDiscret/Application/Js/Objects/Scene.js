@@ -587,8 +587,11 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	if (locPjMat != null)
 		glContext.uniformMatrix4fv (locPjMat, false, pjMat.getGLVector ());
 	
-	if (locMvMat != null)
-		glContext.uniform3fv (locDim, obj.getDimension().getGLVector ());
+	if (locDim != null) {
+		glContext.uniform3fv (locDim, 
+			obj.getDimension().getGLVector ()
+		);
+	}
 	
 //	// If Shader has normal matrix give it !
 //	if (locNmMat != null) {
