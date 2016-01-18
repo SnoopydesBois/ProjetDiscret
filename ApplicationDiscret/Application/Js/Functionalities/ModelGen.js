@@ -66,7 +66,7 @@ ModelGen.prototype.constructor = ModelGen;
  * 
  * @param {Vector} dimension - The dimension of the 3D space.
  */
-function ModelGen (dimension, shader) {
+function ModelGen (dimension) {
 	
 	/**
 	 * 

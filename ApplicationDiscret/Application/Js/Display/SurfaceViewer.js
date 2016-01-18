@@ -138,6 +138,3 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
 };
 
-
-
-
