@@ -533,7 +533,7 @@ Scene.prototype.draw = function (glContext, backBuffer) {
 		var obj = this.objectList[i];
 		if (!obj.displayMe ())
 			continue;
-		console.log ("Scene.draw :", i);
+		
 		this.drawObject (glContext, obj);
 		
 		// RenderObject 
@@ -570,7 +570,7 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	
 	// Get Location of uniform variables
 	var shad = obj.getShader ();
-//	shad.activate (glContext); 
+	shad.activate (glContext); 
 	var locMvMat = shad.getUniformLocation ("uModelViewMatrix");
 	var locPjMat = shad.getUniformLocation ("uProjectionMatrix");
 //	var locNmMat = shad.getUniformLocation ("uNormalMatrix");

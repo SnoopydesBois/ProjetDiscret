@@ -61,11 +61,11 @@
 		<script type="text/javascript" src="Js/Display/SurfaceViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/CurveRenderer.js"></script>
 		
-		<script type="text/javascript" src="Js/Display/Display.js"></script>
-		<script type="text/javascript" src="Js/Display/Display2D.js"></script>
-		<script type="text/javascript" src="Js/Display/Display3D.js"></script>
-		<script type="text/javascript" src="Js/Display/ModelView.js"></script>
-		<script type="text/javascript" src="Js/Display/SurfaceView.js"></script>
+<!--		<script type="text/javascript" src="Js/Display/Display.js"></script>-->
+<!--		<script type="text/javascript" src="Js/Display/Display2D.js"></script>-->
+<!--		<script type="text/javascript" src="Js/Display/Display3D.js"></script>-->
+<!--		<script type="text/javascript" src="Js/Display/ModelView.js"></script>-->
+<!--		<script type="text/javascript" src="Js/Display/SurfaceView.js"></script>-->
 		
 		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
 		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>
@@ -98,8 +98,8 @@
 			varying vec4 vColor;
 			varying vec3 vPos;
 
-			void main(void) {
-				gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aPosition, 1.0);
+			void main (void) {
+				gl_Position = uProjectionMatrix * uModelViewMatrix * vec4 (aPosition, 1.0);
 				vPos = aPosition;
 				vColor = aColor;
 			}
@@ -113,14 +113,15 @@
 			uniform int uMode;
 
 
-			void main(void) {
-				vec4 tight = vec4(0.05, 0.95, 0.05, 0.95); // values
+			void main (void) {
+				vec4 tight = vec4 (0.05, 0.95, 0.05, 0.95); // values
 				if (uMode == 1) { // Rendering the repere (DOTTED = 1)
 					 // Pixel coordinates on the screen
 					vec3 pos = ((vPos + 1.0) / 2.0) * 25.0;
 					bool dot = false;
 		
 					int nb = 0; // We count the number of coordinates that are integers
+					// X axis
 					if (step(tight[2], fract(pos.x)) == 0.0 
 						|| step(tight[3], fract(pos.x)) == 1.0) {
 						nb++;
@@ -128,7 +129,8 @@
 					else if (mod(fract(pos.x), 0.4) > 0.2) {
 						dot = true;
 					}
-	
+					
+					// Y axis
 					if (step(tight[2], fract(pos.y)) == 0.0 
 						|| step(tight[3], fract(pos.y)) == 1.0) {
 						nb++;
@@ -136,7 +138,8 @@
 					else if (mod(fract(pos.y), 0.4) > 0.2) {
 						dot = true;
 					}
-	
+					
+					// Z axis
 					if (step(tight[2], fract(pos.z)) == 0.0 
 						|| step(tight[3], fract(pos.z)) == 1.0) {
 						nb++;
@@ -150,12 +153,11 @@
 						float colorX = vColor.x * 1.8;
 						float colorY = vColor.y * 1.8;
 						float colorZ = vColor.z * 1.8; 
-						gl_FragColor = vec4(colorX, colorY, colorZ, 1.0);
+						gl_FragColor = vec4 (colorX, colorY, colorZ, 1.0);
 					}
 					// The pixel is on a line, we draw
 					else {
 						gl_FragColor = vColor;
-			
 					}
 				}
 				else if (uMode == 2) { // If picking we render the model without lines (PICKING = 2)
@@ -163,7 +165,7 @@
 				}
 				else {
 					 // Pixel coordinates on the screen
-					vec3 pos = ((vPos + 1.0) / 2.0) * 25.0;
+					vec3 pos = ((vPos + 1.0) / 2.0) * 3.0;
 
 					int nb = 0; // We count the number of coordinates that are integers
 					if (step(tight[0], fract(pos.x)) == 0.0 
@@ -190,7 +192,7 @@
 						float colorY = vColor.y * 0.7;
 						float colorZ = vColor.z * 0.7; 
 			
-						gl_FragColor = vec4(colorX, colorY, colorZ, 1.0);
+						gl_FragColor = vec4 (colorX, colorY, colorZ, 1.0);
 					}
 				} // end switch uMode
 			}
@@ -338,14 +340,14 @@
 			<p>Message...</p>
 		</div>
 		
-		<script>
+		<script type="text/javascript">
 			var dim = new Vector (3, 3, 3);
 			var s = new Surface (dim);
 			for (var x = 0; x < dim.x; ++x)
 				for (var y = 0; y < dim.y; ++y)
 					for (var z = 0; z < dim.z; ++z)
 						if ((x+y+z) == 3 || (x+y+z) == 4)
-							s.addVoxel (new Vector (dim.x - 1 -x, y, dim.z -1 -z));
+							s.addVoxel (new Vector (x, y, z));
 /*			var ss = "";
 			for (var x = 0; x < dim.x; ++x) {
 				for (var y = 0; y < dim.y; ++y) {
@@ -371,7 +373,9 @@
 			appli.surfaceView.scene.setCamera (cam);
 			appli.surfaceView.scene.setScale (0.9);
 			var gl = appli.surfaceView.glContext;
-			gl.enable(gl.CULL_FACE)
+			gl.enable(gl.CULL_FACE);
+			gl.enable(gl.DEPTH_TEST);
+			gl.frontFace(gl.CW);
 			appli.initAppli ();
 			
 			/* voir

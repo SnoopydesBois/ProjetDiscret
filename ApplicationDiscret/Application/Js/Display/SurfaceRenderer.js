@@ -121,6 +121,9 @@ function SurfaceRenderer (surfaceController, glContext) {
 	 * TODO
 	 */
 	this.nbGlBuffer = 0;
+	
+	/// Initialisation 
+	this.shader.setRenderingMode (RenderingModeEnum.PICKING);
 };
 
 
@@ -164,7 +167,7 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 		throw"SurfaceRenderer.prepare: argument is not a WebGLRenderingContext";
 	
 	var size = this.modelController.getDimension ();
-	this.nbGlBuffer = size.m[0] / 5; // FIXME trouver une meilleur façon
+//	this.nbGlBuffer = size.m[0] / 5; // FIXME trouver une meilleur façon
 	this.nbGlBuffer = 1
 
 	var vertexBuffer = [];
