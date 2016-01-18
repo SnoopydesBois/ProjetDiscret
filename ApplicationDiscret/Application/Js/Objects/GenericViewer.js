@@ -88,8 +88,7 @@ function GenericViewer (canvas, glContextType) {
 	this.scene = new Scene ();
 	
 	/**
-	 * {HTMLCanvasElement} The associated canvas FIXME où le dessin du modèle
-	 * est effectué. TODO traduire
+	 * {HTMLCanvasElement} The associated canvas where the model is drawn.
 	 */
 	this.canvas = canvas;
 	
@@ -188,7 +187,7 @@ GenericViewer.prototype.showScene = function () {
 
 //==============================================================================
 /**
- * Prepare the scene if there are object. TODO vérifier anglais
+ * Prepare the scene if there are objects.
  * 
  * @return {void}
  */
@@ -202,7 +201,7 @@ GenericViewer.prototype.prepareScene = function () {
 
 //==============================================================================
 /**
- * Draw the scene if there are object. TODO vérifier anglais
+ * Draw the scene if there are objects.
  * 
  * @param {boolean} [backBuffer] - Indicate if we have to draw the scene 
  * normally or if we need to draw for picking.

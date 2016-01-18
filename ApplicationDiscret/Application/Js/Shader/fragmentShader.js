@@ -1,3 +1,6 @@
+/**
+* Fragment shader for the application
+*/
 var fragsrc=
 "precision mediump float;\n"
 +"\n"
