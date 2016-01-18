@@ -83,7 +83,7 @@ Repere.prototype.constructor = Repere;
  * 
  * @param {Vector} dimension - The dimensions of the 3D space.
  * @param {WebGLRenderingContext} glContext - The gl context (used by the
- * shader) TODO vérifier anglais
+ * shader).
  */
 function Repere (dimension, glContext) {
 	GenericStructure.call (this, "repere", new DefaultShader (glContext));
@@ -95,7 +95,7 @@ function Repere (dimension, glContext) {
 	
 	/**
 	 * @inheritdoc
-	 * The repere is not pickable ! TODO vérifier anglais
+	 * An user cannot select the repere
 	 */
 	this.isPickable = false;
 };
@@ -225,12 +225,12 @@ Repere.prototype.draw = function (glContext) {
 	if (this.glVertexBuffer === undefined 
 		|| this.glIndiciesBuffer === undefined)
 	{
-		console.error ("Repere.draw: prepare the repere BEFORE draw it !"); // TODO vérifer anglais
+		console.error ("Repere.draw: prepare the repere BEFORE drawing it !");
 		return;
 	}
 		
 	/// Set shader parameters
-	this.shader.setRenderingMode (RenderingModeEnum.NORMAL);
+	this.shader.setRenderingMode (RenderingModeEnum.DOTTED);
 	// Let's the shader prepare its attributes
 	this.shader.setAttributes (glContext, this.glVertexBuffer);
 	
@@ -249,12 +249,12 @@ Repere.prototype.draw = function (glContext) {
 /**
  * @override
  * 
- * Always throw an error. The repere can't be pickable. TODO vérifier anglais
+ * Always throw an error. The repere is not pickable.
  * 
  * @throws {String}
  */
 Repere.prototype.drawBackBuffer = function () {
-	throw "Repere can't be pickable !"
+	throw "Repere is not pickable !"
 };
 
 

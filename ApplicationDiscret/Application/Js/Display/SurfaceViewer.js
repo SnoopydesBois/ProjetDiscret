@@ -31,12 +31,15 @@ function SurfaceViewer (canvas) {
 	GenericViewer.call (this, canvas, "3d");
 	
 	/**
-	 * {Scene} The scene. TODO
+	 * {Scene} The scene to display the surface.
 	 */
 	this.scene = new Scene ();
-	this.scene.addObject (new Repere (new Vector (12, 12, 12), this.glContext));
+	this.scene.addObject (new Repere (new Vector (12, 18, 12), this.glContext));
 	
 	this.initCanvasEvent ();
+	this.glContext.enable (this.glContext.CULL_FACE);
+	this.glContext.enable (this.glContext.DEPTH_TEST);
+	this.glContext.frontFace (this.glContext.CW);
 };
 
 

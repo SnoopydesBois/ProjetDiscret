@@ -3,6 +3,7 @@ precision mediump float;
 varying vec4 vColor;
 varying vec3 vPos;
 
+uniform vec3 uDimension;
 uniform int uMode;
 
 
@@ -10,7 +11,7 @@ void main(void) {
 	vec4 tight = vec4(0.05, 0.95, 0.05, 0.95); // values
 	if (uMode == 1) { // Rendering the repere (DOTTED = 1)
 		 // Pixel coordinates on the screen
-		vec3 pos = ((vPos + 1.0) / 2.0) * 25.0;
+		vec3 pos = ((vPos + 1.0) / 2.0) * uDimension;
 		bool dot = false;
 		
 		int nb = 0; // We count the number of coordinates that are integers
@@ -56,7 +57,7 @@ void main(void) {
 	}
 	else {
 		 // Pixel coordinates on the screen
-		vec3 pos = ((vPos + 1.0) / 2.0) * 25.0;
+		vec3 pos = ((vPos + 1.0) / 2.0) * uDimension;
 
 		int nb = 0; // We count the number of coordinates that are integers
 		if (step(tight[0], fract(pos.x)) == 0.0 

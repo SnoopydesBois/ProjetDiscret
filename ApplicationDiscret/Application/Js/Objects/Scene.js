@@ -177,9 +177,9 @@ Scene.prototype.getLength = function () {
  * 
  * @return {Vector} The light position.
  */
-Scene.prototype.getLightPosition = function () {
+/*Scene.prototype.getLightPosition = function () {
 	return this.lightPosition;
-};
+};*/
 
 
 //==============================================================================
@@ -193,9 +193,9 @@ Scene.prototype.getLightPosition = function () {
  * 
  * @return {void}
  */
-Scene.prototype.setLightPosition = function (pos) {
+/*Scene.prototype.setLightPosition = function (pos) {
 	this.lightPosition = new Vector (pos);
-};
+};*/
 
 
 //==============================================================================
@@ -216,7 +216,7 @@ Scene.prototype.getCamera = function () {
  * 
  * @param {Camera} camera - The new camera of the scene
  * 
- * @throws {String} If the provied parameter is not a Camera. TODO vérifier anglais
+ * @throws {String} If the provided parameter is not a Camera.
  */
 Scene.prototype.setCamera = function (camera) {
 	if (camera instanceof Camera)
@@ -233,14 +233,14 @@ Scene.prototype.setCamera = function (camera) {
  * @param {float} scale - The scaling of the scene.
  * 
  * @return {void}
- * @throws {String} If the provied parameter is not a number. TODO vérifier anglais
+ * @throws {String} If the provided parameter is not a number.
  */
 Scene.prototype.setScale = function (scale) {
 	if (typeof scale == "number") {
 		this.scale = scale;
 	}
 	else
-		throw "Scene.setScale: parameter is not a number"
+		throw "Scene.setScale: parameter is not a number";
 };
 
 
@@ -260,13 +260,13 @@ Scene.prototype.getScale = function () {
  * @param {float} scale - How much do we scale.
  * 
  * @return {void}
- * @throws {String} If the provied parameter is not a number. TODO vérifier anglais
+ * @throws {String} If the provided parameter is not a number.
  */
 Scene.prototype.multScale = function (scale) {
 	if (typeof scale == "number")
 		this.scale *= scale;
 	else
-		throw "Scene.multScale: parameter is not a number"
+		throw "Scene.multScale: parameter is not a number";
 };
 
 
@@ -288,13 +288,13 @@ Scene.prototype.getWidth = function () {
  * @param {int} width - The new width for the scene.
  * 
  * @return {void}
- * @throws {String} If the provied parameter is not a number. TODO vérifier anglais
+ * @throws {String} If the provided parameter is not a number.
  */
 Scene.prototype.setWidth = function (width) {
 	if (typeof width == "number")
 		this.width = width;
 	else
-		throw "Scene.setWidth: parameter is not a number"
+		throw "Scene.setWidth: parameter is not a number";
 };
 
 
@@ -316,13 +316,13 @@ Scene.prototype.getHeight = function () {
  * @param {int} height - The new height for the scene.
  * 
  * @return {void}
- * @throws {String} If the provied parameter is not a number. TODO vérifier anglais
+ * @throws {String} If the provided parameter is not a number.
  */
 Scene.prototype.setHeight = function (height) {
 	if (typeof height == "number")
 		this.height = height;
 	else
-		throw "Scene.setHeight: parameter is not a number"
+		throw "Scene.setHeight: parameter is not a number";
 };
 
 
@@ -333,13 +333,13 @@ Scene.prototype.setHeight = function (height) {
  * @param {float} x - How much we translate along the x axis.
  * 
  * @return {void}
- * @throws {String} If the provied parameter is not a number. TODO vérifier anglais
+ * @throws {String} If the provided parameter is not a number.
  */
 Scene.prototype.addTranslateX = function (x) {
 	if (typeof x == "number")
 		this.translateX += x;
 	else
-		throw "Scene.addTranslateX: parameter is not a number"
+		throw "Scene.addTranslateX: parameter is not a number";
 };
 
 
@@ -350,13 +350,13 @@ Scene.prototype.addTranslateX = function (x) {
  * @param {float} y - How much we translate along the y axis.
  * 
  * @return {void}
- * @throws {String} If the provied parameter is not a number. TODO vérifier anglais
+ * @throws {String} If the provided parameter is not a number.
  */
 Scene.prototype.addTranslateY = function (y) {
 	if (typeof y == "number")
 		this.translateY += y;
 	else
-		throw "Scene.addTranslateY: parameter is not a number"
+		throw "Scene.addTranslateY: parameter is not a number";
 };
 
 
@@ -368,7 +368,7 @@ Scene.prototype.addTranslateY = function (y) {
  * @param {float} y - How much we translate along the y axis.
  * 
  * @return {void}
- * @throws {String} If the provied parameter is not a number. TODO vérifier anglais
+ * @throws {String} If one of the provided parameters is not a number.
  */
 Scene.prototype.setTranslate = function (x, y) {
 	if (typeof x == "number" && typeof y == "number") {
@@ -376,7 +376,7 @@ Scene.prototype.setTranslate = function (x, y) {
 		this.translateY = y;
 	}
 	else
-		throw "Scene.setHeight: one of parameters is not a number"
+		throw "Scene.setTranslate: one parameter is not a number";
 };
 
 
@@ -393,12 +393,13 @@ Scene.prototype.setTranslate = function (x, y) {
  * @param {!GenericStructure} anObject - Object to add to the scene.
  * 
  * @return {void}
- * @throws {String} If the provied parameter is not a GenericStructure or
- * GenericStructure subclass. TODO vérifier anglais
+ * @throws {String} If the provided parameter is not a GenericStructure or
+ * a GenericStructure subclass.
  */
 Scene.prototype.addObject = function (anObject) {
 	if (anObject instanceof GenericStructure)
-		this.objectList.splice (0, 0, anObject); // push at the beginning
+//		this.objectList.splice (0, 0, anObject); // push at the beginning
+		this.objectList.push (anObject); // push at the beginning
 	else
 		throw "Scene.addObject: parameter is not a GenericStructure";
 };
@@ -429,7 +430,7 @@ Scene.prototype.getObjectByName = function (aName) {
 
 //==============================================================================
 /**
- * Remove an object by id (if id is out of bound, nothing happend). TODO vérifier anglais
+ * Remove an object by id (if id is out of bound, nothing happen).
  * 
  * @param {int} id - The id in the object list.
  * 
@@ -486,8 +487,8 @@ Scene.prototype.reload = function () {
 
 //==============================================================================
 /**
- * Prepare the scene before render. Prepare all object and check if there are a
- * camera. If not, the default camera is set to the scene. TODO vérifier anglais
+ * Prepare the scene before rendering. Prepare all objects and check if there is a
+ * camera. If not, the default camera is set to the scene.
  * 
  * @param {WebGLRenderingContext} glContext - The gl context.
  * 
@@ -547,10 +548,10 @@ Scene.prototype.draw = function (glContext, backBuffer) {
 
 //==============================================================================
 /**
- * Draw an object. Compute the data to draw TODO reformuler
+ * Draw an object. Compute the data to draw. TODO reformuler
  * 
  * @param {WebGLRenderingContext} glContext - The gl context.
- * @param {GenericStructure} obj - The object to draw. TODO vérifier anglais
+ * @param {GenericStructure} obj - The object to draw.
  * 
  * @return {void}
  */
@@ -573,6 +574,7 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	shad.activate (glContext); 
 	var locMvMat = shad.getUniformLocation ("uModelViewMatrix");
 	var locPjMat = shad.getUniformLocation ("uProjectionMatrix");
+	var locDim = shad.getUniformLocation ("uDimension");
 //	var locNmMat = shad.getUniformLocation ("uNormalMatrix");
 	
 	// Compute real ModelView matrix
@@ -581,9 +583,12 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	// Set Uniform Matrices
 	if (locMvMat != null)
 		glContext.uniformMatrix4fv (locMvMat, false, mv.getGLVector ());
-	
+
 	if (locPjMat != null)
 		glContext.uniformMatrix4fv (locPjMat, false, pjMat.getGLVector ());
+	
+	if (locMvMat != null)
+		glContext.uniform3fv (locDim, obj.getDimension().getGLVector ());
 	
 //	// If Shader has normal matrix give it !
 //	if (locNmMat != null) {

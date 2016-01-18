@@ -10,7 +10,7 @@
 
 /**
  * @enum
- * Rendering Mode. TODO traduire
+ * Rendering Mode.
  * 
  * NORMAL : Dessine la face d'un cube avec un cadre plus foncé.
  * DOTTED : Dessine la face d'un cube avec un cadre plus foncé en petit trait.

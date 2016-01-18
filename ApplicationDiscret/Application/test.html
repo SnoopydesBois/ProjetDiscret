@@ -47,7 +47,9 @@
 		<script type="text/javascript" src="Js/Objects/Scene.js"></script>
 		<script type="text/javascript" src="Js/Objects/GenericViewer.js"></script>
 		<script type="text/javascript" src="Js/Objects/Repere.js"></script>
-		
+
+		<script type="text/javascript" src="Js/Shader/vertexShader.js"></script>
+		<script type="text/javascript" src="Js/Shader/fragmentShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/Shader.js"></script>
 		<script type="text/javascript" src="Js/Shader/DefaultShader.js"></script>
 		
@@ -60,13 +62,7 @@
 		<script type="text/javascript" src="Js/Display/SurfaceRenderer.js"></script>
 		<script type="text/javascript" src="Js/Display/SurfaceViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/CurveRenderer.js"></script>
-		
-<!--		<script type="text/javascript" src="Js/Display/Display.js"></script>-->
-<!--		<script type="text/javascript" src="Js/Display/Display2D.js"></script>-->
-<!--		<script type="text/javascript" src="Js/Display/Display3D.js"></script>-->
-<!--		<script type="text/javascript" src="Js/Display/ModelView.js"></script>-->
-<!--		<script type="text/javascript" src="Js/Display/SurfaceView.js"></script>-->
-		
+				
 		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
 		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>
 		<script type="text/javascript" src="Js/Interface/ListUndoRedoAction.js"></script>
@@ -86,117 +82,7 @@
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/style2.css">
-		
-		<!-- shader -->
-		<script id="shader-vs" type="x-shader/x-vertex">
-			attribute vec3 aPosition;
-			attribute vec4 aColor;
 
-			uniform mat4 uProjectionMatrix;
-			uniform mat4 uModelViewMatrix;
-
-			varying vec4 vColor;
-			varying vec3 vPos;
-
-			void main (void) {
-				gl_Position = uProjectionMatrix * uModelViewMatrix * vec4 (aPosition, 1.0);
-				vPos = aPosition;
-				vColor = aColor;
-			}
-		</script>
-		<script id="shader-fs" type="x-shader/x-fragment">
-			precision mediump float;
-
-			varying vec4 vColor;
-			varying vec3 vPos;
-
-			uniform int uMode;
-
-
-			void main (void) {
-				vec4 tight = vec4 (0.05, 0.95, 0.05, 0.95); // values
-				if (uMode == 1) { // Rendering the repere (DOTTED = 1)
-					 // Pixel coordinates on the screen
-					vec3 pos = ((vPos + 1.0) / 2.0) * 25.0;
-					bool dot = false;
-		
-					int nb = 0; // We count the number of coordinates that are integers
-					// X axis
-					if (step(tight[2], fract(pos.x)) == 0.0 
-						|| step(tight[3], fract(pos.x)) == 1.0) {
-						nb++;
-					}
-					else if (mod(fract(pos.x), 0.4) > 0.2) {
-						dot = true;
-					}
-					
-					// Y axis
-					if (step(tight[2], fract(pos.y)) == 0.0 
-						|| step(tight[3], fract(pos.y)) == 1.0) {
-						nb++;
-					}
-					else if (mod(fract(pos.y), 0.4) > 0.2) {
-						dot = true;
-					}
-					
-					// Z axis
-					if (step(tight[2], fract(pos.z)) == 0.0 
-						|| step(tight[3], fract(pos.z)) == 1.0) {
-						nb++;
-					}
-					else if (mod(fract(pos.z), 0.4) > 0.2) {
-						dot = true;
-					}
-		
-					// If there is only one integer coordinate, we render normally
-					if (nb >= 2 && !dot) {
-						float colorX = vColor.x * 1.8;
-						float colorY = vColor.y * 1.8;
-						float colorZ = vColor.z * 1.8; 
-						gl_FragColor = vec4 (colorX, colorY, colorZ, 1.0);
-					}
-					// The pixel is on a line, we draw
-					else {
-						gl_FragColor = vColor;
-					}
-				}
-				else if (uMode == 2) { // If picking we render the model without lines (PICKING = 2)
-					gl_FragColor = vColor;
-				}
-				else {
-					 // Pixel coordinates on the screen
-					vec3 pos = ((vPos + 1.0) / 2.0) * 3.0;
-
-					int nb = 0; // We count the number of coordinates that are integers
-					if (step(tight[0], fract(pos.x)) == 0.0 
-						|| step(tight[1], fract(pos.x)) == 1.0) {
-						nb++;
-					}
-	
-					if (step(tight[0], fract(pos.y)) == 0.0 
-						|| step(tight[1], fract(pos.y)) == 1.0) {
-						nb++;
-					}
-	
-					if (step(tight[0], fract(pos.z)) == 0.0 
-						|| step(tight[1], fract(pos.z)) == 1.0) {
-						nb++;
-					}
-					// If there is only one integer coordinate, we render normally
-					if (nb < 2) {
-						gl_FragColor = vColor;
-					}
-					else {
-						// The pixel is on a line, we draw more darkly
-						float colorX = vColor.x * 0.7;
-						float colorY = vColor.y * 0.7;
-						float colorZ = vColor.z * 0.7; 
-			
-						gl_FragColor = vec4 (colorX, colorY, colorZ, 1.0);
-					}
-				} // end switch uMode
-			}
-		</script>
 	</head>
 	<body>
 		<!-- Menus -->
@@ -373,9 +259,9 @@
 			appli.surfaceView.scene.setCamera (cam);
 			appli.surfaceView.scene.setScale (0.9);
 			var gl = appli.surfaceView.glContext;
-			gl.enable(gl.CULL_FACE);
+			/*gl.enable(gl.CULL_FACE);
 			gl.enable(gl.DEPTH_TEST);
-			gl.frontFace(gl.CW);
+			gl.frontFace(gl.CW);*/
 			appli.initAppli ();
 			
 			/* voir

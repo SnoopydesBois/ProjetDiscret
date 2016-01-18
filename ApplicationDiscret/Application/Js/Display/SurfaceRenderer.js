@@ -62,8 +62,7 @@
 
 /**
  * @extends GenericStructure
- * @classdesc TODO traduire Cette clase permet d'afficher une et une seule 
- * surface.
+ * @classdesc This class display one surface only
  */
 SurfaceRenderer.prototype = new GenericStructure;
 SurfaceRenderer.prototype.constructor = SurfaceRenderer;
@@ -91,8 +90,7 @@ SurfaceRenderer.prototype.counter = 0;
 /**
  * @constructor
  * 
- * @param {Controller3D} surfaceController - Le controller de la surface à 
- * afficher. TODO traduire
+ * @param {Controller3D} surfaceController - The controller of the surface to display
  * @param {WebGLRenderingContext} glContext - The gl context.
  */
 function SurfaceRenderer (surfaceController, glContext) {
@@ -123,7 +121,7 @@ function SurfaceRenderer (surfaceController, glContext) {
 	this.nbGlBuffer = 0;
 	
 	/// Initialisation 
-	this.shader.setRenderingMode (RenderingModeEnum.PICKING);
+	this.shader.setRenderingMode (RenderingModeEnum.NORMAL);
 };
 
 
