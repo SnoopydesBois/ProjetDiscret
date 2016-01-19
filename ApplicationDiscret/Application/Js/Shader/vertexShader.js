@@ -12,8 +12,7 @@ var vertsrc =
 + "varying vec3 vPos;\n"
 + "\n"
 + "void main (void) {\n"
-+ "	 vec4 pos = uProjectionMatrix * uModelViewMatrix * vec4 (aPosition, 1.0);\n"
-+ "  gl_Position = vec4 (pos.xyz, 1.0);\n"
++ "  gl_Position = uProjectionMatrix * uModelViewMatrix * vec4 (aPosition, 1.0);\n"
 + "	 vPos = aPosition;\n"
 + "	 vColor = aColor;\n"
 + "}";

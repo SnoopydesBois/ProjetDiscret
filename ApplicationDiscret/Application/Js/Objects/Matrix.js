@@ -571,13 +571,63 @@ Matrix.prototype.rotateZ = function (angleRad) {
 
 //==============================================================================
 /**
- * Create an orthographic view matrix.
- * @param {float} left - X coordinate of the minimum corner.
+ * Create an perspective view matrix.
+ * 
+ * @param {float} fov - Field of view in radian.
  * @param {float} right - X coordinate of the maximum corner.
  * @param {float} bottom - Z coordinate of the minimum corner.
  * @param {float} top - Z coordinate of the maximum corner.
  * @param {float} near - -Y coordinate of the minimum corner.
  * @param {float} far - -Y coordinate of the maximum corner.
+ * 
+ * @return {Matrix} An perspective view matrix.
+ */
+Matrix.prototype.createPerspective = function (left, right,
+		bottom, top, near, far)
+{
+	this.m = new MAT_ARRAY_TYPE(16);
+	var lr = 1.0 / (left - right),
+		bt = 1.0 / (bottom - top),
+		nf = 1.0 / (near - far);
+	// First line
+	this.m[0] = -2.0 * lr;
+	this.m[1] = 0.0;
+	this.m[2] = 0.0;
+	this.m[3] = 0.0;
+	
+	// Second line
+	this.m[4] = 0.0;
+	this.m[5] = -2.0 * bt;
+	this.m[6] = 0.0;
+	this.m[7] = 0.0;
+	
+	// Third line
+	this.m[8] = 0.0;
+	this.m[9] = 0.0;
+	this.m[10] = 2.0 * nf;
+	this.m[11] = 0.0;
+	
+	// Last line
+	this.m[12] = (left + right) * lr;
+	this.m[13] = (top + bottom) * bt;
+	this.m[14] = (far + near) * nf;
+	this.m[15] = 1.0;
+	
+	return this;
+};
+
+
+//==============================================================================
+/**
+ * Create an orthographic view matrix.
+ * @param {float} left - X coordinate of the minimum corner.
+
+ * @param {float} right - X coordinate of the maximum corner.
+ * @param {float} bottom - Z coordinate of the minimum corner.
+ * @param {float} top - Z coordinate of the maximum corner.
+ * @param {float} near - -Y coordinate of the minimum corner.
+ * @param {float} far - -Y coordinate of the maximum corner.
+
  * @return {Matrix} An orthographic view matrix.
  */
 Matrix.prototype.createOrthographic = function (left, right,
