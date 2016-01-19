@@ -91,14 +91,14 @@
 	
 		<script type="text/javascript">
 
-			function make_base(src, offsetWidth, offsetHeight, context)
+			function make_base(src, id, imgWidth, imgHeight, context)
 			{
 			  var base_image = new Image();
 			  base_image.src = src;
+			  
 			  base_image.onload = function(){
-				var width = document.getElementById('revolutionView').style.width - document.getElementById('revolutionParam').style.width;
-				context.drawImage(base_image, width + offsetWidth, document.getElementById('revolutionParam').style.height + offsetHeight);
-			  }
+				context.drawImage(base_image, document.getElementById(id).style.width, document.getElementById(id).style.height, imgWidth, imgHeight);
+			  };
 			}
 		</script>
 		<!-- Menus -->
@@ -290,7 +290,7 @@
 					<script>
 						var canvasMeridian = document.getElementById('meridianCanvas'),
 						contextMeridian = canvasMeridian.getContext('2d');
-						make_base('Curves/Meridian/meridian.png', -100 , -30, contextMeridian);
+						make_base('Curves/Meridian/meridian.png', 'meridianCanvas', 454, 368, contextMeridian);
 					</script>
 					
 					<div id="meridianOption" class="optionPanel">
@@ -306,7 +306,7 @@
 					<script>
 						var canvasRevolution = document.getElementById('revolutionCanvas'),
 						contextRevolution = canvasRevolution.getContext('2d');
-						make_base('Curves/Revolution/courberevolution.png', 65, 20, contextRevolution);
+						make_base('Curves/Revolution/courberevolution.png', 'revolutionCanvas', 398, 374, contextRevolution);
 					</script>
 					
 					<div id="revolutionOption" class="optionPanel">
