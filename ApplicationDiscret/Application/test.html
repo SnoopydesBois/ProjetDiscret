@@ -74,6 +74,9 @@
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Colors.js"></script>
 		
+		<script type="text/javascript" src="Js/Objects/N64.js"></script>
+		<script type="text/javascript" src="Js/Utils/globalParameter.js"></script>
+		
 		<script type="text/javascript" src="translatemodule/main.js"></script>
 		
 		<!-- css imports -->
@@ -313,7 +316,7 @@
 			</div>
 			<div id="surfaceView">
 				<div id="surfaceParam" class="paramPanel">
-					<button onclick="appli.surfaceView.showScene ();">Générer</button>
+					<button onclick="appli.generateAndDraw ();">Générer</button>
 					<hr/>
 					<button onclick="cam.eyePos.x = -cam.eyePos.x;appli.surfaceView.showScene ();">Flip X</button>
 					<button onclick="cam.eyePos.y = -cam.eyePos.y;appli.surfaceView.showScene ();">Flip Y</button>
@@ -334,41 +337,27 @@
 		</div>
 		
 		<script type="text/javascript">
-			var dim = new Vector (3, 3, 3);
-			var s = new Surface (dim);
-			for (var x = 0; x < dim.x; ++x)
-				for (var y = 0; y < dim.y; ++y)
-					for (var z = 0; z < dim.z; ++z)
-						if ((x+y+z) == 3 || (x+y+z) == 4)
-							s.addVoxel (new Vector (x, y, z));
-/*			var ss = "";
-			for (var x = 0; x < dim.x; ++x) {
-				for (var y = 0; y < dim.y; ++y) {
-					ss = "";
-					for (var z = 0; z < dim.z; ++z) {
-						ss += (s.matVoxel[x][y][z] == null ? "0 " : "1 "); 
-					}
-					console.log (ss);
-				}
-				console.log ("");
-			}*/
+			var meridian = new ExplicitCurve("cos(x/9.0)*10.0");
+			var revol = new ImplicitCurve("x^2 + y^2 - 1");
+			
 			var appli = new Application ();
-			var forme = new SurfaceRenderer (new Controller3D (dim, s), appli.surfaceView.glContext);
-			forme.modelController.modelGen.surface = s;
-			appli.surfaceView.scene.addObject (forme);
+			
+			appli.surfaceController.getMeridian = function(){return meridian};
+			appli.surfaceController.getCurveRevolution = function(){return revol};
+			
 			var cam = new Camera (
-				new Vector (-10, 3, 5),
+				new Vector (20, 20, 20),
 				new Vector (0, 0, 0),
 				new Vector (0, 0, 1),
 				400, 300,
-				30.0, 0.1, 100.0
+				45.0, 0.001, 1000.0
 			);
 			appli.surfaceView.scene.setCamera (cam);
-			appli.surfaceView.scene.setScale (0.9);
+			//appli.surfaceView.scene.setScale (0.9);
+			
 			var gl = appli.surfaceView.glContext;
-			/*gl.enable(gl.CULL_FACE);
-			gl.enable(gl.DEPTH_TEST);
-			gl.frontFace(gl.CW);*/
+			var n64 = new N64 (gl, 2, 4);
+			appli.surfaceView.scene.addObject (n64);
 			appli.initAppli ();
 			
 			/* voir

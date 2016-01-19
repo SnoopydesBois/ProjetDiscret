@@ -14,7 +14,7 @@ function FormulaCurve(equation){
 }
 
 FormulaCurve.prototype.getEquation = function(){
-	return this.Equation;
+	return this.equation;
 };
 
 FormulaCurve.prototype.setEquation = function(equation){

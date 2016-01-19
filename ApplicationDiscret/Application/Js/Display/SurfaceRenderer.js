@@ -95,12 +95,12 @@ SurfaceRenderer.prototype.counter = 0;
  */
 function SurfaceRenderer (surfaceController, glContext) {
 	/// Parameters verification
-	if (! (surfaceController instanceof Controller3D)) {
-		console.error ("SurfaceRenderer.constructor: bad type(s) of "
-			+ "parameter(s)");
-		showType (surfaceController, glContext);
-		return;
-	}
+//	if (! (surfaceController instanceof Controller3D)) {
+//		console.error ("SurfaceRenderer.constructor: bad type(s) of "
+//			+ "parameter(s)");
+//		showType (surfaceController, glContext);
+//		return;
+//	}
 	
 	
 	++SurfaceRenderer.prototype.counter;
@@ -215,17 +215,12 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 					this.prepareVoxel (
 						this.modelController.getVoxel (x, y, z),
 						0,
-//						vertexBuffer[Math.floor (x / this.nbGlBuffer)], 
-//						indicesBuffer[Math.floor (x / this.nbGlBuffer)], 
-//						colorBuffer[Math.floor (x / this.nbGlBuffer)],
-//						normalBuffer[Math.floor (x / this.nbGlBuffer)],
-//						backColorBuffer[Math.floor (x / this.nbGlBuffer)],
 						vertexBuffer[0], 
 						indicesBuffer[0], 
 						colorBuffer[0],
 						normalBuffer[0],
 						backColorBuffer[0],
-						[0.8, 0.8, 0.8, 1.0], // FIXME mettre la bonne couleur
+						[0.8, 0.8, 0.8, 1],
 						size
 					);
 				} // end if
@@ -336,19 +331,26 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 			universSize);
 		return;
 	}
-	var color;
 	for (var i = 0; i < DirectionEnum.size; ++i) {
 		if (voxel.hasFacet (i)) {
-			switch (DirectionEnum.properties[i].axis) {
-			case AxisEnum.X :
-				color = [0.9, 0.0, 0.0, 1.0];
-				break;	
-			case AxisEnum.Y :
-				color = [0.0, 0.9, 0.0, 1.0];
-				break;	
-			case AxisEnum.Z :
-				color = [0.0, 0.0, 0.9, 1.0];
-				break;	
+			var color = [0.0, 0.0, 0.0, 1.0];
+			if (globalParam.cubeColorDebug) {
+				switch (DirectionEnum.properties[i].axis) {
+				case AxisEnum.X :
+					color = [0.9, 0, 0, 1];
+					break;	
+				case AxisEnum.Y :
+					color = [0, 0.9, 0, 1];
+					break;	
+				case AxisEnum.Z :
+					color = [0, 0, 0.9, 1];
+					break;	
+				}
+			}
+			else {
+				for (var a = 0; a < 3; ++a)
+					color[a] = colorVoxel[a] 
+						+ DirectionEnum.properties[i].axis.colorOffset;
 			}
 			this.prepareFace (
 				voxel, 
@@ -359,7 +361,6 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 				colorBuffer, 
 				normalBuffer, 
 				backColorBuffer, 
-//				colorVoxel, // FIXME en fonction de la direction
 				color,
 				universSize
 			);

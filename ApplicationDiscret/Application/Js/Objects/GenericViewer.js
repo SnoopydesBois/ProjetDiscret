@@ -215,6 +215,14 @@ GenericViewer.prototype.drawScene = function (backBuffer) {
 };
 
 
+//==============================================================================
+/**
+ * @return glContext
+ */
+GenericViewer.prototype.getGLContext = function () {
+	return this.glContext;
+};
+
 
 //##############################################################################
 //	Other methods

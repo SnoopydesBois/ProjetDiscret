@@ -173,7 +173,7 @@ Vector.prototype.copyConstructor = function (that) {
  */
 Vector.prototype.arrayToVectorConstructor = function (tab) {
 	if (tab.length != 3) { 
-		throw "Vector : bad array length in array to vector constructor call";
+		throw "Vector: bad array length in array to vector constructor call";
 	}
 	return this.coordinateConstructor (tab[0], tab[1], tab[2]);
 };
@@ -266,7 +266,7 @@ Vector.prototype.cross = function (that) {
 	return new Vector(this.m[1]*that.m[2] - this.m[2]*that.m[1],
 			   this.m[2]*that.m[0] - this.m[0]*that.m[2],
 			   this.m[0]*that.m[1] - this.m[1]*that.m[0]);
-}
+};
 
 
 //==============================================================================
@@ -277,7 +277,7 @@ Vector.prototype.cross = function (that) {
  */
 Vector.prototype.dot = function (that) {
   return this.m[0]*that.m[0] + this.m[1]*that.m[1] + this.m[2]*that.m[2];
-}
+};
 
 
 //==============================================================================
@@ -285,6 +285,7 @@ Vector.prototype.dot = function (that) {
  * Multiplication by a scalar (this *= scalar).
  * @param {Vector} that - a scalar to multiply with.
  * @return {Vector} a vector result of the multiplication with a scalar.
+
  */
 Vector.prototype.mul = function (that) {
 	if (isFinite(that)) {
@@ -296,6 +297,19 @@ Vector.prototype.mul = function (that) {
 	else {
 		throw "Vector.mul: bad parameter";
 	}
+};
+
+
+//==============================================================================
+/**
+ * @return {Number} The euclian length of the vector.
+ */
+Vector.prototype.getLength = function () {
+	return Math.sqrt (
+		this.m[0] * this.m[0]
+		+ this.m[1] * this.m[1]
+		+ this.m[2] * this.m[2]
+	);
 };
 
 
@@ -323,7 +337,7 @@ Vector.prototype.invert = function () {
 	this.m[1] = -this.m[1];
 	this.m[2] = -this.m[2];
 	return this;
-}
+};
 
 
 //==============================================================================
@@ -336,7 +350,7 @@ Vector.prototype.rotateX = function (rad) {
 	return new Vector(this.m[0], 
 			   this.m[1]*Math.cos(rad) - this.m[2]*Math.sin(rad), 
 			   this.m[1]*Math.sin(rad) + this.m[2]*Math.cos(rad));
-}
+};
 
 
 //==============================================================================
@@ -349,7 +363,7 @@ Vector.prototype.rotateY = function (rad) {
 	return new Vector(this.m[0]*Math.cos(rad) - this.m[2]*Math.sin(rad),
 			   this.m[1], 
 			   this.m[0]*Math.sin(rad) + this.m[2]*Math.cos(rad));
-}
+};
 
 
 //==============================================================================
@@ -362,7 +376,7 @@ Vector.prototype.rotateZ = function (rad) {
 	return new Vector(this.m[0]*Math.cos(rad) - this.m[1]*Math.sin(rad), 
 			   this.m[0]*Math.sin(rad) + this.m[1]*Math.cos(rad), 
 			   this.m[2]);
-}
+};
 
 
 //==============================================================================
@@ -389,6 +403,8 @@ Vector.prototype.equals = function (vect){
 			&& this.m[1] === vect.m[1]
 			&& this.m[2] === vect.m[2];
 };
+
+
 
 	  //////////////////////
 	 /// other function ///

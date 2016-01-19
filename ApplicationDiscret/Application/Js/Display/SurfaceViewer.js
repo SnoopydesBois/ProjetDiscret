@@ -34,7 +34,17 @@ function SurfaceViewer (canvas) {
 	 * {Scene} The scene to display the surface.
 	 */
 	this.scene = new Scene ();
-	this.scene.addObject (new Repere (new Vector (12, 18, 12), this.glContext));
+	this.scene.addObject (new Repere (new Vector (25, 25, 25), this.glContext));
+	
+	/**
+	 * {int[2]} TODO
+	 */
+	this.mousePosOnPress = [0, 0];
+	
+	/**
+	 * {Vector} TODO
+	 */
+	this.camPosWhenClick;
 	
 	this.initCanvasEvent ();
 	this.glContext.enable (this.glContext.CULL_FACE);
@@ -95,13 +105,35 @@ SurfaceViewer.prototype.onResize = function (event) {
 
 //==============================================================================
 /**
+
+ * @override
+ * 
+ * TODO
+ */
+SurfaceViewer.prototype.onMouseDown = function (event) {
+	if (event.buttons === 1) { // FIXME right click is pressed
+		this.camPosWhenClick = this.scene.getCamera().getPosition();
+		this.mousePosOnPress[0] = event.layerX;
+		this.mousePosOnPress[1] = event.layerY;
+//		event.preventDefault ();
+	}
+};
+
+
+//==============================================================================
+/**
+
  * @override
  * 
  * TODO
  */
 SurfaceViewer.prototype.onMouseMove = function (event) {
-	if (event.buttons === 2) { // right click is pressed when move
-		console.log (event);
+	if (event.buttons === 1) { // FIXME right click is pressed when move
+		var len = this.scene.getCamera().getPosition().getLength();
+		this.moveCameraAt (
+			(this.mousePosOnPress[0] - event.layerX) * 0.01,
+			(event.layerY - this.mousePosOnPress[1]) * 0.01
+		);
 	}
 };
 
@@ -134,13 +166,45 @@ SurfaceViewer.prototype.onWheel = function (event) {
  * TODO
  */
 SurfaceViewer.prototype.initCanvasEvent = function () {
-	// Mouse wheel for zoom
+	// mouse wheel for zoom
 	this.canvas.addEventListener ("wheel", this.onWheel.bind (this));
 	
 	// mouse move for mouvement
 	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
+	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this), false);
+//	this.canvas.addEventListener ("contextmenu", function () {return false;});
+	
 };
 
 
+//==============================================================================
+/** 
+ * TODO
+ * 
+ * @param {Number} phiOffset - Lattitude offset.
+ * @param {Number} thetaOffset - Longitude offset.
+ */
+SurfaceViewer.prototype.moveCameraAt = function (phiOffset, thetaOffset) {
+	/// parameter verification 
+	if (! checkType (arguments, "number", "number")) {	
+		throw "SurfaceViewer.moveCameraAt: parameters are not number";
+	}
+	
+	/// compute angle
+	var pos = this.camPosWhenClick;
+	var dist = pos.getLength ();
+	var phi = Math.acos (pos.x / dist) * Math.sign (pos.y / dist);
+	var theta = Math.asin (pos.z / dist);
+	
+	/// compute pos
+	this.scene.setCameraAt ([
+		dist * Math.cos (phi + phiOffset) * Math.cos (theta + thetaOffset),
+		dist * Math.sin (phi + phiOffset) * Math.cos (theta + thetaOffset),
+		dist * Math.sin (theta + thetaOffset)
+	]);
+	
+	/// drawing
+	this.drawScene ();
+};
 
 
