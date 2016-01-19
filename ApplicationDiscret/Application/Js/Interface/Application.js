@@ -127,7 +127,7 @@ function Application () {
 		document.getElementById ("surfaceCanvas")
 	);
 	
-	this.surfaceController = new Controller3D(new Vector(20,20,20));
+	this.surfaceController = new Controller3D(new Vector(21,21,21));
 	
 //	/**
 //	 * Width of the #workspace in pixel. 
