@@ -12,5 +12,10 @@ var globalParam = {
 	/**
 	 * TODO
 	 */
-	cubeColorDebug : false
+	cubeColorDebug : true,
+	
+	/**
+	 * TODO
+	 */
+	perspectiveView : false
 };

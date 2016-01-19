@@ -147,10 +147,19 @@ SurfaceViewer.prototype.onMouseMove = function (event) {
 SurfaceViewer.prototype.onWheel = function (event) {
 	if (event.deltaY != 0) {
 		var epsilon = event.deltaY < 0 ? -0.1 : 0.1 ;
-		this.scene.getCamera ().setProjection (
-			this.scene.getCamera ().getProjection () + epsilon
+		var cam = this.scene.getCamera ();
+		// orthographic zoom
+		cam.setProjection (
+			cam.getProjection () + epsilon
 		);
-		this.scene.getCamera ().computeMatrices ();
+		// perspective zoom
+		var normPos = new Vector (cam.getPosition ()).normalize ();
+		this.scene.setCameraAt ([
+			cam.getPosition ().x + normPos.x * epsilon,
+			cam.getPosition ().y + normPos.y * epsilon,
+			cam.getPosition ().z + normPos.z * epsilon,
+		]);
+		cam.computeMatrices ();
 		this.drawScene ();
 	}
 };

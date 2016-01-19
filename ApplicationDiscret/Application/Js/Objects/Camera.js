@@ -119,27 +119,31 @@ function Camera (eyePos, centerPos, up, width, height, fov, near, far) {
  */
 Camera.prototype.computeMatrices = function () {
 	this.viewMatrix = new Matrix (this.eyePos, this.centerPos, this.up);
-	// Orthogonal Matrix
-	this.projectionMatrix = new Matrix (
-		-this.constProjection,
-		this.constProjection, 
-		-this.constProjection, 
-		this.constProjection, 
-		this.near,
-		this.far
-	);
-	// Perspective Matrix
-	// see https://developer.mozilla.org/fr/docs/Web/API/WebGL_API/WebGL_model_view_projection
-//	this.projectionMatrix = new Matrix ();
-//	var f = 1.0 / Math.tan (this.fov / 2);
-//	var rangeInv = 1 / (this.near - this.far);
-//	var ratio = this.width / this.height;
-//	this.projectionMatrix.set (0, 0, f / ratio);
-//	this.projectionMatrix.set (1, 1, f);
-//	this.projectionMatrix.set (2, 2, (this.near + this.far) * rangeInv);
-//	this.projectionMatrix.set (3, 3, 0);
-//	this.projectionMatrix.set (3, 2, this.near * this.far * rangeInv * 2);
-//	this.projectionMatrix.set (2, 3, -1);
+	if (globalParam.perspectiveView) {
+		// Perspective Matrix
+		// see https://developer.mozilla.org/fr/docs/Web/API/WebGL_API/WebGL_model_view_projection
+		this.projectionMatrix = new Matrix ();
+		var f = 1.0 / Math.tan (this.fov * Math.PI / 360);
+		var rangeInv = 1 / (this.near - this.far);
+		var ratio = this.width / this.height;
+		this.projectionMatrix.set (0, 0, f / ratio);
+		this.projectionMatrix.set (1, 1, f);
+		this.projectionMatrix.set (2, 2, (this.near + this.far) * rangeInv);
+		this.projectionMatrix.set (3, 3, 0);
+		this.projectionMatrix.set (2, 3, this.near * this.far * rangeInv * 2);
+		this.projectionMatrix.set (3, 2, -1);
+	}
+	else {
+		// Orthogonal Matrix
+		this.projectionMatrix = new Matrix (
+			-this.constProjection,
+			this.constProjection, 
+			-this.constProjection, 
+			this.constProjection, 
+			this.near,
+			this.far
+		);
+	}
 };
 
 
