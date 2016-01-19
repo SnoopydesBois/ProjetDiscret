@@ -280,6 +280,9 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 		);
 		this.glIndicesBuffer[tmp].numItems = indicesBuffer[tmp].length;
 	}
+	
+	/// Finish, tell it
+	this.prepared = true;
 };
 
 

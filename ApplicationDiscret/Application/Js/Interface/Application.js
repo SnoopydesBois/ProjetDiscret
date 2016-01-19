@@ -70,7 +70,7 @@ Application.prototype.constructor = Application;
  */
 function Application () {
 	
-		// Licence //
+		// Licence
 	
 	/*
 	console.log ('%c©2015 : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl\n'
@@ -127,19 +127,10 @@ function Application () {
 		document.getElementById ("surfaceCanvas")
 	);
 	
-	this.surfaceController = new Controller3D(new Vector(21,21,21));
-	
-//	/**
-//	 * Width of the #workspace in pixel. 
-//	 */
-//	this.workspaceWidth = parseInt($('#workspace').width());
-//	
-//	/**
-//	 * Height of the #workspace in pixel. 
-//	 */
-//	this.workspaceHeight = parseInt ($('.footer').css("top"))
-//		- parseInt ($('.header').css("top"))
-//		- $('.header').height();
+	/**
+	 * TODO
+	 */
+	this.surfaceController = new Controller3D (new Vector (21, 21, 21));
 	
 	/**
 	 * {String} The default message in the state bar.
@@ -150,39 +141,6 @@ function Application () {
 	 * {ListUndoRedoAction} The list of undoable/redoable action.
 	 */
 	this.listAction = new ListUndoRedoAction (25);
-	
-//	/**
-//	 * {Controller[]} List of all functionalities.
-//	 */
-//	this.functionalities = [];
-//	
-//	/**
-//	 * {ControllerRotate} The rotate functionality controller. Provide a direct
-//	 * access to the rotation tool.
-//	 */
-//	this.rotateFunctionality;
-	
-	
-		// Colors //
-	
-	
-//	/**
-//	 * {float[][4]} The default RGBA color of each cube.
-//	 */
-//	this.cubeColors = [];
-//	for (var i = 0; i < CubeStateEnum.size; i++) {
-//		this.cubeColors.push (CubeStateEnum.color[i]);
-//	}
-//	
-//	/**
-//	 * {float[4]} The RGBA background color.
-//	 */
-//	this.backgroundColor = [0.1, 0.1, 0.1, 1.0];
-//	
-//	/**
-//	 * {float[4]} The RGBA canvas color.
-//	 */
-//	this.canvasColor = [0.0, 0.0, 0.0, 1.0];
 }
 
 

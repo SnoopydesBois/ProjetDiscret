@@ -17,5 +17,5 @@ var globalParam = {
 	/**
 	 * TODO
 	 */
-	perspectiveView : false
+	perspectiveView : true
 };

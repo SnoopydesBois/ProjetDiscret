@@ -230,45 +230,6 @@ GenericViewer.prototype.getGLContext = function () {
 
 
 
-///**
-// * Translation along the x axis.
-// * 
-// * @param {float} x - how much do we translate.
-// * 
-// * @return {void}
-// */
-//GenericViewer.prototype.addTranslateX = function (x) {
-//	if (this.scene !== null)
-//		this.scene.addTranslateX (x);
-//};
-
-
-////==============================================================================
-///**
-// * Translation along the y axis.
-// * 
-// * @param {float} x - how much do we translate.
-// * 
-// * @return {void}
-// */
-//GenericViewer.prototype.addTranslateY = function (x) {
-//	if (this.scene !== null)
-//		this.scene.addTranslateY (x);
-//};
-
-
-////==============================================================================
-///**
-// * Scaling.
-// * 
-// * @param {float} x - How much do we scale.
-// * 
-// * @return {void}
-// */
-//GenericViewer.prototype.multScale = function (x) {
-//	if (this.scene != null)
-//		this.scene.multScale (x);
-//};
 
 
 

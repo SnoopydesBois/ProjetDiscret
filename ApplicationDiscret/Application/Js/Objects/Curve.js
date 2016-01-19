@@ -8,7 +8,7 @@ function Curve(){
 /**
 *
 */
-Curve.prototype.setActive = fucntion(nom){
+Curve.prototype.setActive = function(nom){
 	
 }
 

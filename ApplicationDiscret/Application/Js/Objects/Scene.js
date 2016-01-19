@@ -498,8 +498,10 @@ Scene.prototype.prepare = function (glContext) {
 	var length = this.getNbObject ();
 	
 	for (var i = 0; i < length; ++i) {
-		this.objectList[i].prepare (glContext);
-		this.objectList[i].getShader ().activate ();
+		if (! this.objectList[i].isPrepared ()) {
+			this.objectList[i].prepare (glContext);
+			this.objectList[i].getShader ().activate ();
+		}
 	}
 	
 //	this.prepareSelect (glContext);

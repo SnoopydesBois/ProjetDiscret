@@ -145,6 +145,10 @@ function GenericStructure (name, shader) {
 	 */
 	this.glIndicesBuffer = [];
 	
+	/**
+	 * {boolean} TODO
+	 */
+	this.prepared = false;
 }
 
 
@@ -310,6 +314,15 @@ GenericStructure.prototype.setPickable = function (isPickable) {
 		this.isPickable = isPickable;
 	else
 		throw "GenericStructure.setPickable: parameter is not a boolean";
+};
+
+
+//==============================================================================
+/**
+ * @return {boolean} True if this object is already prepared, false otherwise.
+ */
+GenericStructure.prototype.isPrepared = function () {
+	return this.prepared;
 };
 
 

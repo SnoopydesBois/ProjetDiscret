@@ -78,9 +78,10 @@
 
 /**
  * @classdesc Coefficients are stored by COLUMN, so access is made using 
- * ROW+COLUMN*4 ...
+ * ROW + COLUMN * 4 ...
  */
-Matrix.prototype = new Object();
+ 
+Matrix.prototype = new Object;
 Matrix.prototype.constructor = Matrix;
 
 
@@ -88,7 +89,8 @@ Matrix.prototype.constructor = Matrix;
 /**
  * The type of array (for best performances, if possible).
  */
-var MAT_ARRAY_TYPE=(typeof Float32Array == 'undefined') ? Array : Float32Array;
+var MAT_ARRAY_TYPE = (typeof Float32Array == 'undefined') ? 
+	Array : Float32Array;
 
 
 //==============================================================================
@@ -98,7 +100,8 @@ var MAT_ARRAY_TYPE=(typeof Float32Array == 'undefined') ? Array : Float32Array;
  * different matrix construction.
  * 	0 : Default constructor : 4x4 matrix.
  * 	1 : Copy constructor : copy of the matrix in argument.
- * 	2 : Creation of a lookAt Matrix for a camera.
+ * 	3 : Creation of a lookAt Matrix for a camera.
+ *  4 : Creation of a Perspective Matrix.
  * 	6 : Creation of an Orthogonal Matrix.
  * 	defaut : Error.
  * @return {Matrix} the new Matrix.
@@ -107,16 +110,22 @@ function Matrix() {
 	// A 4x4 matrix contains 16 floats ...
 	switch (arguments.length) {
 	case 0: 
-		return this.defaultConstructor();
+		return this.defaultConstructor ();
 	case 1: 
-		return this.copyConstructor(arguments[0]);
+		return this.copyConstructor (arguments[0]);
 	case 3:
-		return this.createLookAt(arguments[0], arguments[1], arguments[2]);
+		return this.createLookAt (arguments[0], arguments[1], arguments[2]);
+	case 4:
+		return this.createPerspective (
+			arguments[0], arguments[1], 
+			arguments[2], arguments[3]
+		);
 	case 6: 
-		return this.createOrthographic(arguments[0], arguments[1],
-					  arguments[2], arguments[3],
-					  arguments[4], arguments[5]
-					);
+		return this.createOrthographic (
+			arguments[0], arguments[1],
+			arguments[2], arguments[3],
+			arguments[4], arguments[5]
+		);
 	default:
 		throw "Bad Matrix constructor call";
 	};
@@ -178,12 +187,12 @@ Matrix.prototype.getGLVector = function () {
  */
 Matrix.prototype.toString = function () {
 	var ch = "";
-	for (l=0;l<4;++l) {
-		ch+="[";
-		for (c=0;c<3;++c) {
-			ch+=this.get(l,c)+", ";
+	for (l = 0; l < 4; ++l) {
+		ch += "[";
+		for (c = 0; c < 3; ++c) {
+			ch+=this.get (l, c) + ", ";
 		}
-		ch+=this.get(l,3)+"]\n";
+		ch += this.get (l, 3) + "]\n";
 	}
 	return ch;
 };
@@ -192,9 +201,11 @@ Matrix.prototype.toString = function () {
 //==============================================================================
 /**
  * Create a lookAt Matrix.
+ * 
  * @param {Vector} eye - the eye position.
  * @param {Vector} center - the position where the camera look at.
  * @param {Vector} up - the up vector.
+ * 
  * @return {Matrix} the lookAt Matrix.
  */
 Matrix.prototype.createLookAt = function (eye, center, up) {
@@ -531,18 +542,19 @@ Matrix.prototype.rotateX = function (angleRad) {
 //==============================================================================
 /**
  * @param {float} angleRad - the angle of rotation (in rad).
- * @return {Matrix} this=RotateY(angeRad)*this.
+ * 
+ * @return {Matrix} this = RotateY (angeRad) * this.
  */
 Matrix.prototype.rotateY = function (angleRad) {
 	var c = Math.cos(angleRad); 
 	var s = Math.sin(angleRad);
 
 	// only the first and third lines are modified ...
-	for (var i=0;i<4;i++) {
-		var a0 = this.get(0, i);
-		var a2 = this.get(2, i);
-		this.set(0, i, c*a0 + s*a2);
-		this.set(2, i,-s*a0 + c*a2);
+	for (var i = 0; i < 4; i++) {
+		var a0 = this.get (0, i);
+		var a2 = this.get (2, i);
+		this.set (0, i, c * a0 + s * a2);
+		this.set (2, i, - s * a0 + c * a2);
 	}
 
 	return this;
@@ -551,19 +563,20 @@ Matrix.prototype.rotateY = function (angleRad) {
 
 //==============================================================================
 /**
- * @param {float} angleRad- the angle of rotation (in rad).
- * @return {Matrix} this=RotateZ(angeRad)*this.
+ * @param {float} angleRad - the angle of rotation (in rad).
+ * 
+ * @return {Matrix} this = RotateZ (angeRad) * this.
  */
 Matrix.prototype.rotateZ = function (angleRad) {
-	var c = Math.cos(angleRad); 
-	var s = Math.sin(angleRad);
+	var c = Math.cos (angleRad); 
+	var s = Math.sin (angleRad);
 
 	// only the first two lines are modified ...
-	for (var i=0; i<4; ++i) {
-		var a0 = this.get(0, i);
-		var a1 = this.get(1, i);
-		this.set(0, i, c*a0-s*a1);
-		this.set(1, i, s*a0+c*a1);
+	for (var i = 0; i < 4; ++i) {
+		var a0 = this.get (0, i);
+		var a1 = this.get (1, i);
+		this.set (0, i, c * a0 - s * a1);
+		this.set (1, i, s * a0 + c * a1);
 	}
 	return this;
 };
@@ -572,46 +585,48 @@ Matrix.prototype.rotateZ = function (angleRad) {
 //==============================================================================
 /**
  * Create an perspective view matrix.
+ * @see https://developer.mozilla.org/fr/docs/Web/API/WebGL_API/WebGL_model_view_projection
  * 
  * @param {float} fov - Field of view in radian.
- * @param {float} right - X coordinate of the maximum corner.
- * @param {float} bottom - Z coordinate of the minimum corner.
- * @param {float} top - Z coordinate of the maximum corner.
- * @param {float} near - -Y coordinate of the minimum corner.
- * @param {float} far - -Y coordinate of the maximum corner.
+ * @param {float} ratio - The aspect ratio of the scene (width divided by
+ * height).
+ * @param {float} near - Nearest point of the camera.
+ * @param {float} far - Farest point of the camera.
  * 
  * @return {Matrix} An perspective view matrix.
+ * @throws {String} If one of parameter is not a number.
  */
-Matrix.prototype.createPerspective = function (left, right,
-		bottom, top, near, far)
-{
-	this.m = new MAT_ARRAY_TYPE(16);
-	var lr = 1.0 / (left - right),
-		bt = 1.0 / (bottom - top),
-		nf = 1.0 / (near - far);
+Matrix.prototype.createPerspective = function (fov, ratio, near, far) {
+	/// parameters verification
+	if (! checkType (arguments, "number", "number", "number", "number")) {
+		throw "Matrix.createPerspective: one of parameters is not a number";
+	}
+	
+	/// Fills the matrix
+	this.m = new MAT_ARRAY_TYPE (16);
+	var f = 1.0 / Math.tan (fov / 2);
+	var rangeInv = 1 / (near - far);
+	
 	// First line
-	this.m[0] = -2.0 * lr;
+	this.m[0] = f / ratio;
 	this.m[1] = 0.0;
 	this.m[2] = 0.0;
 	this.m[3] = 0.0;
-	
 	// Second line
 	this.m[4] = 0.0;
-	this.m[5] = -2.0 * bt;
+	this.m[5] = f;
 	this.m[6] = 0.0;
 	this.m[7] = 0.0;
-	
 	// Third line
-	this.m[8] = 0.0;
-	this.m[9] = 0.0;
-	this.m[10] = 2.0 * nf;
-	this.m[11] = 0.0;
-	
+	this.m[8]  = 0.0;
+	this.m[9]  = 0.0;
+	this.m[10] = (near + far) * rangeInv;
+	this.m[11] = -1.0;
 	// Last line
-	this.m[12] = (left + right) * lr;
-	this.m[13] = (top + bottom) * bt;
-	this.m[14] = (far + near) * nf;
-	this.m[15] = 1.0;
+	this.m[12] = 0.0;
+	this.m[13] = 0.0;
+	this.m[14] = near * far * rangeInv * 2.0;
+	this.m[15] = 0.0;
 	
 	return this;
 };
@@ -620,23 +635,32 @@ Matrix.prototype.createPerspective = function (left, right,
 //==============================================================================
 /**
  * Create an orthographic view matrix.
+ * 
  * @param {float} left - X coordinate of the minimum corner.
-
  * @param {float} right - X coordinate of the maximum corner.
  * @param {float} bottom - Z coordinate of the minimum corner.
  * @param {float} top - Z coordinate of the maximum corner.
- * @param {float} near - -Y coordinate of the minimum corner.
- * @param {float} far - -Y coordinate of the maximum corner.
+ * @param {float} near - Y coordinate of the minimum corner.
+ * @param {float} far - Y coordinate of the maximum corner.
 
  * @return {Matrix} An orthographic view matrix.
  */
 Matrix.prototype.createOrthographic = function (left, right,
 		bottom, top, near, far)
 {
-	this.m = new MAT_ARRAY_TYPE(16);
+	/// parameters verification
+	if (! checkType (arguments, "number", "number", "number", "number", 
+		"number", "number"))
+	{
+		throw "Matrix.createPerspective: one of parameters is not a number";
+	}
+	
+	/// Fills the matrix
+	this.m = new MAT_ARRAY_TYPE (16);
 	var lr = 1.0 / (left - right),
 		bt = 1.0 / (bottom - top),
 		nf = 1.0 / (near - far);
+	
 	// First line
 	this.m[0] = -2.0 * lr;
 	this.m[1] = 0.0;
@@ -668,18 +692,20 @@ Matrix.prototype.createOrthographic = function (left, right,
 //==============================================================================
 /**
  * Transform a matrix by modifying the line "which".
+ * 
  * @param {int} which - which coordinate is changed
  * @param {int} from - using this one.
  * @param {int} value - multiplication factor.
+ * 
  * @return {Matrix} the new matrix.
  */
 Matrix.prototype.shearing = function (which, from, value) {
-	if (from<0 || from>3 || which<0 || which>3 || from==which) {
-		throw("Matrix shearing: bad parameter");
+	if (from < 0 || from > 3 || which < 0 || which > 3 || from == which) {
+		throw "Matrix.shearing: bad type(s) of parameter(s)";
 	}
 	// same matrice, except the line "which"
-	for (var c=0;c<4;++c) {
-		this.set(from, c, this.get(from,c) + value*this.get(which, from));
+	for (var c = 0; c < 4; ++c) {
+		this.set (from, c, this.get (from, c) + value * this.get (which, from));
 	}
 	// mandatory
 	return this;

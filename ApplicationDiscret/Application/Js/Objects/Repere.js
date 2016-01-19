@@ -203,6 +203,9 @@ Repere.prototype.prepare = function (glContext) {
 		new Uint16Array (indicesBuffer), 
 		glContext.STATIC_DRAW
 	);
+	
+	/// Finish, tell it
+	this.prepared = true;
 };
 
 
@@ -256,70 +259,5 @@ Repere.prototype.draw = function (glContext) {
 Repere.prototype.drawBackBuffer = function () {
 	throw "Repere is not pickable !"
 };
-
-
-//==============================================================================
-///**
-// * Fill the vertices for the repere.
-// * @param {float[]} stripVertices - Array to fill with coordinates.
-// * @param {float} x - X coordinates of hovered cube.
-// * @param {float} y - Y coordinates of hovered cube.
-// * @param {float} z - Z coordinates of hovered cube.
-// */
-//Repere.prototype.addVertice = function (stripVertices, x, y, z) {
-//	// Allows some lisibility
-//	// Origin point
-//	var originX = this.origin.m[0];
-//	var originY = this.origin.m[1];
-//	var originZ = this.origin.m[2];
-
-//	// Coordinate in X and Coordinate in X next to the last point
-//	var offsetSizeX = [this.size * x /25, this.size * (x+1)/25];
-
-//	// Coordinate in y and Coordinate in y next to the last point
-//	var offsetSizeY = [this.size * y /25, this.size * (y+1)/25];
-
-//	// Coordinate in Z and Coordinate in Z next to the last point
-//	var offsetSizeZ = [this.size * z /25, this.size * (z+1)/25];
-
-//	var tmp = 0.001;
-
-//	// Factorize
-//	// Ring 1
-//	for (var i=0; i<2; ++i) {
-//		stripVertices.push([originX + offsetSizeX[i], 
-//				originY + tmp, originZ + tmp]);
-//		stripVertices.push([originX + offsetSizeX[i],
-//				originY + tmp, originZ + this.size - tmp]);
-//		stripVertices.push([originX + offsetSizeX[i], 
-//				originY + this.size - tmp, originZ + this.size - tmp]);
-//		stripVertices.push([originX + offsetSizeX[i], 
-//				originY + this.size - tmp, originZ + tmp]);
-//	}
-
-//	// Ring 2
-//	for (var i=0; i<2; ++i) {
-//		stripVertices.push([originX + tmp, 
-//				originY + offsetSizeY[i], originZ + tmp]);
-//		stripVertices.push([originX + this.size - tmp, 
-//				originY + offsetSizeY[i], originZ + tmp]);
-//		stripVertices.push([originX + this.size - tmp, 
-//				originY + offsetSizeY[i], originZ + this.size - tmp]);
-//		stripVertices.push([originX + tmp, 
-//				originY + offsetSizeY[i], originZ + this.size - tmp]);
-//	}
-
-//	// Ring 3
-//	for (var i=0; i<2; ++i) {
-//		stripVertices.push([originX + tmp, 
-//				originY + tmp, originZ + offsetSizeZ[i]]);
-//		stripVertices.push([originX + tmp, 
-//				originY + this.size - tmp, originZ + offsetSizeZ[i]]);
-//		stripVertices.push([originX + this.size - tmp, 
-//				originY + this.size - tmp, originZ + offsetSizeZ[i]]);
-//		stripVertices.push([originX + this.size - tmp, 
-//				originY + tmp, originZ + offsetSizeZ[i]]);
-//	}
-//};
 
 

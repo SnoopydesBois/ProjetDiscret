@@ -34,7 +34,7 @@ function SurfaceViewer (canvas) {
 	 * {Scene} The scene to display the surface.
 	 */
 	this.scene = new Scene ();
-	this.scene.addObject (new Repere (new Vector (25, 25, 25), this.glContext));
+	this.scene.addObject (new Repere (new Vector (25, 20, 25), this.glContext));
 	
 	/**
 	 * {int[2]} TODO
@@ -72,7 +72,8 @@ SurfaceViewer.prototype.setViewDimension = function () {
 		this.glContext.viewportWidth, 
 		this.glContext.viewportHeight
 	);
-
+	this.scene.getCamera ().height = this.canvas.height;
+	this.scene.getCamera ().width = this.canvas.width;
 };
 
 
@@ -95,22 +96,42 @@ SurfaceViewer.prototype.setViewDimension = function () {
  * @return {void}
  */
 SurfaceViewer.prototype.onResize = function (event) {
+	console.log ("resize du canvas");
 	$("canvas").each (function (id, elem) {
 		elem.height = $(elem).height ();
 		elem.width = $(elem).width ();
 	});
 	this.setViewDimension ();
+	this.scene.getCamera().computeMatrices();
+	this.showScene ();
 };
 
 
 //==============================================================================
 /**
-
  * @override
  * 
  * TODO
  */
 SurfaceViewer.prototype.onMouseDown = function (event) {
+	if (event.buttons === 1) { // FIXME right click is pressed
+		this.camPosWhenClick = this.scene.getCamera().getPosition();
+		console.log ("nouveau :", event.layerX, event.layerY);
+		console.log ("cam pos now:", this.scene.getCamera().getPosition().x, this.scene.getCamera().getPosition().y, this.scene.getCamera().getPosition().z);
+		this.mousePosOnPress[0] = event.layerX;
+		this.mousePosOnPress[1] = event.layerY;
+//		event.preventDefault ();
+	}
+};
+
+
+//==============================================================================
+/**
+ * @override
+ * 
+ * TODO
+ */
+SurfaceViewer.prototype.onMouseUp = function (event) {
 	if (event.buttons === 1) { // FIXME right click is pressed
 		this.camPosWhenClick = this.scene.getCamera().getPosition();
 		this.mousePosOnPress[0] = event.layerX;
@@ -122,14 +143,14 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
 
 //==============================================================================
 /**
-
  * @override
  * 
  * TODO
  */
 SurfaceViewer.prototype.onMouseMove = function (event) {
 	if (event.buttons === 1) { // FIXME right click is pressed when move
-		var len = this.scene.getCamera().getPosition().getLength();
+		console.log ("cam pos:", this.scene.getCamera().getPosition().x, this.scene.getCamera().getPosition().y, this.scene.getCamera().getPosition().z);
+//		console.log ("move at:", (this.mousePosOnPress[0] - event.layerX) * 0.01, (event.layerY - this.mousePosOnPress[1]) * 0.01);
 		this.moveCameraAt (
 			(this.mousePosOnPress[0] - event.layerX) * 0.01,
 			(event.layerY - this.mousePosOnPress[1]) * 0.01
@@ -165,6 +186,31 @@ SurfaceViewer.prototype.onWheel = function (event) {
 };
 
 
+//==============================================================================
+/**
+ * @override
+ * 
+ * TODO
+ */
+SurfaceViewer.prototype.onKeyDown = function (event) {
+	console.log (event)
+	switch (event.keyCode) {
+	case 38 : // Up
+		this.moveCameraAt (0.0, 0.01);
+		break;
+	case 40 : // Down
+		this.moveCameraAt (0.0, -0.01);
+		break;
+	case 37 : // Left
+		this.moveCameraAt (0.01, 0.0);
+		break;
+	case 39 : // Right
+		this.moveCameraAt (-0.01, 0.0);
+		break;
+	}
+};
+
+
 
 //##############################################################################
 //	Other methods
@@ -175,12 +221,19 @@ SurfaceViewer.prototype.onWheel = function (event) {
  * TODO
  */
 SurfaceViewer.prototype.initCanvasEvent = function () {
+	// resize 
+	this.canvas.addEventListener ("resize", this.onResize.bind (this));
+	
 	// mouse wheel for zoom
 	this.canvas.addEventListener ("wheel", this.onWheel.bind (this));
 	
+	// key down for camera mouvement
+	this.canvas.addEventListener ("keydown", this.onKeyDown.bind (this));
+	window.addEventListener ("keydown", this.onKeyDown.bind (this));
+	
 	// mouse move for mouvement
 	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
-	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this), false);
+	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this));
 //	this.canvas.addEventListener ("contextmenu", function () {return false;});
 	
 };
