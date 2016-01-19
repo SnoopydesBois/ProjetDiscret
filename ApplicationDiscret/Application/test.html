@@ -11,6 +11,7 @@
 		<!-- TODO Modifié title pour le mutilangue -->
 		
 		<!-- javascript imports -->
+		<script type="text/javascript" src="Js/Utils/globalParameters.js"></script>
 		<script type="text/javascript" src="Js/Utils/function.js"></script>
 		<script type="text/javascript" src="Js/Utils/webglFunction.js"></script>
 		<script type="text/javascript" src="Js/Utils/Util.js"></script>
@@ -75,7 +76,6 @@
 		<script type="text/javascript" src="Js/Interface/Application_Colors.js"></script>
 		
 		<script type="text/javascript" src="Js/Objects/N64.js"></script>
-		<script type="text/javascript" src="Js/Utils/globalParameter.js"></script>
 		
 		<script type="text/javascript" src="translatemodule/main.js"></script>
 		
@@ -346,7 +346,7 @@
 			appli.surfaceController.getCurveRevolution = function(){return revol};
 			
 			var cam = new Camera (
-				new Vector (20, 20, 20),
+				new Vector (3, 3, 3),
 				new Vector (0, 0, 0),
 				new Vector (0, 0, 1),
 				400, 300,
@@ -356,7 +356,7 @@
 			//appli.surfaceView.scene.setScale (0.9);
 			
 			var gl = appli.surfaceView.glContext;
-			var n64 = new N64 (gl, 2, 4);
+			var n64 = new N64 (gl, 6, 9);
 			appli.surfaceView.scene.addObject (n64);
 			appli.initAppli ();
 			
