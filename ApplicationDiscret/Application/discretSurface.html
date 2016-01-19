@@ -11,68 +11,96 @@
 		<!-- TODO Modifié title pour le mutilangue -->
 		
 		<!-- javascript imports -->
+		<script type="text/javascript" src="Js/Utils/globalParameters.js"></script>
+		<script type="text/javascript" src="Js/Utils/function.js"></script>
+		<script type="text/javascript" src="Js/Utils/webglFunction.js"></script>
+		<script type="text/javascript" src="Js/Utils/Util.js"></script>
+		
 		<script type="text/javascript" src="Js/Enum/AxisEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/AttributeEnum.js"></script>
-		<script type="text/javascript" src="Js/Enum/DirectionEnum.js"></script>
-		<script type="text/javascript" src="Js/Enum/MenuEntryEnum.js"></script>
+		<script type="text/javascript" src="Js/Enum/RenderingModeEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/CubeStateEnum.js"></script>
-		<script type="text/javascript" src="Js/Libraries/FileSaver.js"></script>
+		<script type="text/javascript" src="Js/Enum/MenuEntryEnum.js"></script>
+		<script type="text/javascript" src="Js/Enum/DirectionEnum.js"></script>
+		<script type="text/javascript" src="Js/Enum/ConnexityEnum.js"></script>
+		
+		<script type="text/javascript" src="Js/Libraries/math.js"></script>
 		<script type="text/javascript" src="Js/Libraries/jquery.js"></script>
 		<script type="text/javascript" src="Js/Libraries/jquery-ui.js"></script>
 		<script type="text/javascript" src="Js/Libraries/jszip.js"></script>
+		<script type="text/javascript" src="Js/Libraries/FileSaver.js"></script>
 		<script type="text/javascript" src="Js/Libraries/webgl-debug.js"></script>
-		<script type="text/javascript" src="Js/Utils/function.js"></script>
-		<script type="text/javascript" src="Js/Utils/Util.js"></script>
-		<script type="text/javascript" src="Js/Shader/Shader.js"></script>
-		<script type="text/javascript" src="Js/Shader/DefaultShader.js"></script>
+		
+		<script type="text/javascript" src="Js/Objects/Range.js"></script>
+		<script type="text/javascript" src="Js/Objects/Equation.js"></script>
+		<script type="text/javascript" src="Js/Objects/Camera.js"></script>
 		<script type="text/javascript" src="Js/Objects/Vector.js"></script>
 		<script type="text/javascript" src="Js/Objects/Matrix.js"></script>
-		<script type="text/javascript" src="Js/Objects/Voxel.js"></script>
-		<script type="text/javascript" src="Js/Objects/Scene.js"></script>
-		<script type="text/javascript" src="Js/Objects/GenericStructure.js"></script>
-		<script type="text/javascript" src="Js/Objects/GenericObject.js"></script>
 		<script type="text/javascript" src="Js/Objects/Point.js"></script>
-		<script type="text/javascript" src="Js/Objects/Repere.js"></script>
+		<script type="text/javascript" src="Js/Objects/Voxel.js"></script>
 		<script type="text/javascript" src="Js/Objects/Facet.js"></script>
-		<script type="text/javascript" src="Js/Objects/Camera.js"></script>
 		<script type="text/javascript" src="Js/Objects/Surface.js"></script>
-		<script type="text/javascript" src="Js/Controllers/SurfaceController.js"></script>
-		<script type="text/javascript" src="Js/Display/Display.js"></script>
-		<script type="text/javascript" src="Js/Display/Display2D.js"></script>
-		<script type="text/javascript" src="Js/Display/Display3D.js"></script>
-		<script type="text/javascript" src="Js/Display/ModelView.js"></script>
-		<script type="text/javascript" src="Js/Display/ModelView3D.js"></script>
-		<script type="text/javascript" src="Js/Display/ModelView3D_prepare.js"></script>
-		<script type="text/javascript" src="Js/Functionalities/Controller.js"></script>
-		<script type="text/javascript" src="Js/Functionalities/ControllerCamera.js"></script>
-		<script type="text/javascript" src="Js/Functionalities/KernelSelect.js"></script>
-		<script type="text/javascript" src="Js/Functionalities/ControllerSelect.js"></script>
+		<script type="text/javascript" src="Js/Objects/Curve.js"></script>
+		<script type="text/javascript" src="Js/Objects/FormulaCurve.js"></script>
+		<script type="text/javascript" src="Js/Objects/ImplicitCurve.js"></script>
+		<script type="text/javascript" src="Js/Objects/ExplicitCurve.js"></script>
+		<script type="text/javascript" src="Js/Objects/GenericStructure.js"></script>
+		<script type="text/javascript" src="Js/Objects/Scene.js"></script>
+		<script type="text/javascript" src="Js/Objects/GenericViewer.js"></script>
+		<script type="text/javascript" src="Js/Objects/Repere.js"></script>
+
+		<script type="text/javascript" src="Js/Shader/vertexShader.js"></script>
+		<script type="text/javascript" src="Js/Shader/fragmentShader.js"></script>
+		<script type="text/javascript" src="Js/Shader/Shader.js"></script>
+		<script type="text/javascript" src="Js/Shader/DefaultShader.js"></script>
+		
+		<script type="text/javascript" src="Js/Controllers/Controller.js"></script>
+		<script type="text/javascript" src="Js/Controllers/Controller3D.js"></script>
+		<script type="text/javascript" src="Js/Controllers/ControllerCamera.js"></script>
+		
+		<script type="text/javascript" src="Js/Functionalities/ModelGen.js"></script>
+		
+		<script type="text/javascript" src="Js/Display/SurfaceRenderer.js"></script>
+		<script type="text/javascript" src="Js/Display/SurfaceViewer.js"></script>
+		<script type="text/javascript" src="Js/Display/CurveRenderer.js"></script>
+				
+		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
 		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>
 		<script type="text/javascript" src="Js/Interface/ListUndoRedoAction.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application.js"></script>
-		<script type="text/javascript" src="Js/Interface/Application_Messages.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Tools.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Controller.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Messages.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
-		<script type="text/javascript" src="Js/Interface/Application_Tools.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Colors.js"></script>
-		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
-<!--		<script type="text/javascript" src="Js/.js"></script>-->
-
+		
+		<script type="text/javascript" src="Js/Objects/N64.js"></script>
+		
+		<script type="text/javascript" src="translatemodule/main.js"></script>
+		
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/temp.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/common.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
-		<link rel="stylesheet" type="text/css" media="all" href="Styles/style.css">
-		
-	<!-- les script pour faire la traduction -->	
-<script src="translatemodule/jquery.js"></script>
-<script src="translatemodule/main.js"></script>	
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/style2.css">
+
 	</head>
 	<body>
-		
-		
+	
+		<script type="text/javascript">
+
+			function make_base(src, offsetWidth, offsetHeight, context)
+			{
+			  var base_image = new Image();
+			  base_image.src = src;
+			  base_image.onload = function(){
+				var width = document.getElementById('revolutionView').style.width - document.getElementById('revolutionParam').style.width;
+				context.drawImage(base_image, width + offsetWidth, document.getElementById('revolutionParam').style.height + offsetHeight);
+			  }
+			}
+		</script>
 		<!-- Menus -->
 		<ul class="menus header">
 			<li id="fileMenu" tabindex="1">
@@ -88,18 +116,16 @@
 					</li>
 					<li title="Enregistrer le modèle actuel" 
 						onclick="">Enregistrer</li>
-					<li title="Fermer le modèle">Fermer</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="viewMenu" tabindex="2">
 				<h1>Affichage</h1>
 				<ul>
-					<li title="Afficher en même temps les coupes 2D et la vue 3D" 
-						onclick="">Toutes les vues</li>
-					<li title="Afficher seulement la vue 3D" 
-						onclick="">3D</li>
-					<li title="Afficher seulement la vue 2D" 
-						onclick="">2D</li>
+					<li title="Générer la surface dans la vue 3D" 
+						onclick="appli.surfaceView.showScene ()">Générer</li>
+						
+					<li title="Centrer la caméra" 
+						onclick="">Centrer la caméra</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="toolsMenu" tabindex="3">
@@ -114,47 +140,126 @@
 						class="inaccessible"
 						title="Refaire la dernière action annulée" 
 						onclick="">Refaire</li>
+
+					<li class="split"><hr/></li>
+					
+					<li id="tool2D"
+						class="submenu"
+						title="Outils 2D"> Outils 2D
+						<ul> 
+							<li id="meridianChoice"
+								class="inaccessible"
+								title="Choix de la méridienne"
+								onclick="">Méridiennes</li>
+								
+							<li id="curveOfRevolutionChoice"
+								class="inaccessible"
+								title="Choix de la courbe de révolution"
+								onclick="">Courbes de révolution</li>
+								
+							<li class="split"><hr/></li>
+							
+							<li id="meridianFormula"
+								class="inaccessible"
+								title="Rentrer une formule pour la méridienne"
+								onclick="">Formule méridienne</li>
+								
+							<li id="showSimpleParameter"
+								class="inaccessible"
+								title="Rentrer une formule pour la courbe de révolution"
+								onclick="">Formule courbe de révolution</li>
+						
+							<li class="split"><hr/></li>
+							
+							<li id="handFreeDrawing"
+								class="inaccessible"
+								title="Dessiner à main levée"
+								onclick="">Dessiner à main levée </li>
+						
+							<li class="split"><hr/></li>
+							
+							<li id="showSimpleParameter"
+								class="inaccessible"
+								title="Afficher les paramètres simples"
+								onclick="">Paramètres simples</li>
+							
+							<li id="showAdvancedParameter"
+								class="inaccessible"
+								title="Afficher les paramètres avancés"
+								onclick="">Paramètres avancés</li>
+								
+								
+							<li class="split"><hr/></li>
+							
+							<li id="addMeridian"
+								class="inaccessible"
+								title="Ajout méridienne"
+								onclick="">Ajout méridienne</li>
+							
+							<li id="addCurve"
+								class="inaccessible"
+								title="Ajout courbe de révolution"
+								onclick="">Ajout courbe de révolution</li>
+						
+						</ul>
+					</li>	
+					
+					<li class="split"><hr/></li>
+					<li id="tool3D"
+						class="submenu"
+						title="Outils 3D"> Outils 3D
+						<ul> 
+							
+							<li id="connexity"
+								class="inaccessible"
+								title="Choix de connexité"
+								onclick="">Connexité</li>
+								
+							<li id="dimension"
+								class="inaccessible"
+								title="Choix des dimensions"
+								onclick="">Dimension</li>
+							
+							<li id="repereDisplay"
+								class="inaccessible"
+								title="Affichage du repère"
+								onclick="">Afficher le repère</li>
+								
+							<li id="voxelSize"
+								class="inaccessible"
+								title="Taille des voxels"
+								onclick="">Taille des voxels</li>
+								
+							<li id="multiSlice"
+								class="inaccessible"
+								title="Multicoupe"
+								onclick="">Multicoupe</li>
+								
+						</ul>
+					</li>		
+					
+				</ul>
+			</li><!-- because inline-block put a small space between blocks
+			--><li id="exportMenu" tabindex="5">
+				<h1>Export</h1>
+				<ul>
+					<li>Export PNG</li>
 					
 					<li class="split"><hr/></li>
 					
-					<li title="Outils pour ajouter des cubes" 
-						onclick="">Ajouter des cubes</li>
-					
-					<li title="Outils pour supprimer des cubes" 
-						onclick="">Supprimer des cubes</li>
-					
-					<li class="split"><hr/></li>
-					
-					<li title="Déplacer la forme"
-						onclick="">Déplacer</li>
-					
-					<li class="submenu" title="Tourner le modèle">
-						<h1>Tourner</h1>
+					<li id="tool3D"
+						class="submenu"
+						title="Outils 3D"> Export 3D
 						<ul>
-							<li class="submenu">
-								<h1>Axe X</h1>
-								<ul>
-									<li title="Tourner de 90° suivant l'axe X"
-										onclick="">90°</li>
-									<li title="Tourner de 180° suivant l'axe X"
-										onclick="">180°</li>
-									<li title="Tourner de 270° suivant l'axe X"
-										onclick="">270°</li>
-								</ul>
-							</li>
-							<li class="submenu">
-								<h1>Axe Z</h1>
-								<ul>
-									<li title="Tourner de 90° suivant l'axe Z">90°</li>
-									<li title="Tourner de 180° suivant l'axe Z">180°</li>
-									<li title="Tourner de 270° suivant l'axe Z">270°</li>
-								</ul>
-							</li>
+							<li> Export X3D </li>
+							<li> Export impression 3D </li>
 						</ul>
 					</li>
 				</ul>
+			</li>
+			
 			</li><!-- because inline-block put a small space between blocks
-			--><li id="helpMenu" tabindex="5">
+			--><li id="helpMenu" tabindex="6">
 				<h1>Aide</h1>
 				<ul>
 					<li>Afficher l'aide</li>
@@ -162,12 +267,12 @@
 				</ul>
 			</li>
 			
-			<li id="translatemenu" tabindex="6">
+			<li id="translatemenu" tabindex="7">
 			<h1>Traduction</h1>
 				<ul>
 				 <!-- <div class="lang_switcher">-->
                 <li id="en" class="lang">EN</li>
-                <li id="ru" class="lang">RU</li>
+                <li id="fr" class="lang">FR</li>
             <!-- </div> -->
 				</ul>
 			</li>
@@ -175,84 +280,92 @@
 		
 		
 		<!-- Workspace -->
+		<div id="workspace">
+			<div id="curvesView">
+				<div id="meridianView">
+					<div id="meridianParam" class="paramPanel">
+						Liste des paramètres Méridienne
+					</div>
+					<canvas id="meridianCanvas"></canvas>
+					<script>
+						var canvasMeridian = document.getElementById('meridianCanvas'),
+						contextMeridian = canvasMeridian.getContext('2d');
+						make_base('Curves/Meridian/meridian.png', -100 , -30, contextMeridian);
+					</script>
+					
+					<div id="meridianOption" class="optionPanel">
+						Option Méridienne
+					</div>
+				</div>
+				<div id="revolutionView">
+					<div id="revolutionParam" class="paramPanel">
+						Liste des paramètres Révolution
+					</div>
+					<canvas id="revolutionCanvas"></canvas>
+					
+					<script>
+						var canvasRevolution = document.getElementById('revolutionCanvas'),
+						contextRevolution = canvasRevolution.getContext('2d');
+						make_base('Curves/Revolution/courberevolution.png', 65, 20, contextRevolution);
+					</script>
+					
+					<div id="revolutionOption" class="optionPanel">
+						Option Révolution
+					</div>
+				</div>
+			</div>
+			<div id="surfaceView">
+				<div id="surfaceParam" class="paramPanel">
+					<button onclick="appli.generateAndDraw ();">Générer</button>
+					<hr/>
+					<button onclick="cam.eyePos.x = -cam.eyePos.x;appli.surfaceView.showScene ();">Flip X</button>
+					<button onclick="cam.eyePos.y = -cam.eyePos.y;appli.surfaceView.showScene ();">Flip Y</button>
+					<button onclick="cam.eyePos.z = -cam.eyePos.z;appli.surfaceView.showScene ();">Flip Z</button>
+					Liste des paramètres de la Surface
+				</div>
+				<canvas id="surfaceCanvas" width="640" height="480"></canvas>
+				<div id="surfaceOption" class="optionPanel">
+					Option Surface
+				</div>
+			</div>
+		</div>
 		
-<div id="meridianView" class="meridianView">
-	<div id="meridianParam" class="meridianParam" ></div>
-	<div class="meridianOption" id="meridianOption"></div>
-	<div class="meridianCanvas" id="meridianCanvas"></div>
-</div>
-
-
-<div class="revolutionView" id="revolutionView">
-<div class="revolutionParam" id="revolutionParam"></div>
-<div class="revolutionOption" id="revolutionOption"></div>
-<div class="revolutionCanvas" id="revolutionCanvas"></div>
-</div>
-
-<div class="revolutionCurve"  id="revolutionCurve">
-<div class="surfaceOption"  id="surfaceOption">
-</div>
-<div class="surfaceParam"  id="surfaceParam">
-</div>
-<div class="surfaceView"  id="surfaceView">
-</div>
-</div>
-
-<!--		<div id="workspace" class="">-->
-<!--			<div class="hbox">-->
-<!--				<div id="curvesView" class="yellow">-->
-<!--					<div class="vbox">-->
-<!--						<div id="meridianView" class="vbox ">-->
-<!--							<div class="hbox">-->
-<!--								<div id="meridianParam" class="paramPanel ">-->
-<!--									Liste des paramètres Méridienne-->
-<!--								</div><!---->
-<!--								<canvas id="meridianCanvas" class="">-->
-
-<!--								<canvas>-->
-<!--							</div>-->
-<!--							<div id="meridianOption" class="">-->
-<!--								Option Méridienne-->
-<!--							</div>-->
-<!--						</div>-->
-<!--						<div id="revolutionView" class="vbox ">-->
-<!--							<div class="hbox">-->
-<!--								<div id="revolutionParam" class="paramPanel ">-->
-<!--									Liste des paramètres Révolution-->
-<!--								</div><!---->
-<!--								<canvas id="revolutionCanvas" class="">-->
-
-<!--								<canvas>-->
-<!--							</div>-->
-<!--							<div id="revolutionOption" class="">-->
-<!--								Option Révolution-->
-<!--							</div>-->
-<!--						</div>-->
-<!--					</div>-->
-<!--				</div><!---->
-<!--				<div id="surfaceView" class="vbox orange">-->
-<!--					<div class="hbox">-->
-<!--						<div id="surfaceParam" class="paramPanel ">-->
-<!--							Liste des paramètres Révolution-->
-<!--						</div><!---->
-<!--						<canvas id="surfaceCanvas" class="">-->
-
-<!--						<canvas>-->
-<!--					</div>-->
-<!--					<div id="surfaceOption" class="">-->
-<!--						Option Révolution-->
-<!--					</div>-->
-<!--				</div>-->
-<!--			</div>-->
-<!--		</div>-->
-<!--		-->
 		
 		<!-- State bar -->
 		<div id="stateBar" class="footer">
 			<p>Message...</p>
 		</div>
-		<script>
+		
+		<script type="text/javascript">
+			var meridian = new ExplicitCurve("cos(x/9.0)*10.0");
+			var revol = new ImplicitCurve("x^2 + y^2 - 1");
+			
+			var appli = new Application ();
+			
+			appli.surfaceController.getMeridian = function(){return meridian};
+			appli.surfaceController.getCurveRevolution = function(){return revol};
+			
+			var cam = new Camera (
+				new Vector (3, 3, 3),
+				new Vector (0, 0, 0),
+				new Vector (0, 0, 1),
+				400, 300,
+				45.0, 0.001, 1000.0
+			);
+			appli.surfaceView.scene.setCamera (cam);
+			//appli.surfaceView.scene.setScale (0.9);
+			
+			var gl = appli.surfaceView.glContext;
+			var n64 = new N64 (gl, 6, 9);
+			appli.surfaceView.scene.addObject (n64);
+			appli.initAppli ();
+			
+			/* voir
+			http://webglfundamentals.org/webgl/lessons/webgl-drawing-multiple-things.html
+			http://stackoverflow.com/questions/24538310/the-difference-between-glortho-and-glviewport-in-opengl
+			*/
 		</script>
 	</body>
 </html>
+
 
