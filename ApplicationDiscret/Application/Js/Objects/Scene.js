@@ -503,8 +503,6 @@ Scene.prototype.prepare = function (glContext) {
 			this.objectList[i].getShader ().activate ();
 		}
 	}
-	
-//	this.prepareSelect (glContext);
 };
 
 
@@ -520,14 +518,6 @@ Scene.prototype.prepare = function (glContext) {
  */
 Scene.prototype.draw = function (glContext, backBuffer) {
 	var size = Math.min (this.height, this.width) * 2;
-	// voir SurfaceViewer.onResize()
-//	glContext.viewport (
-//		(this.width - size) / 2,
-//		(this.height - size) / 2,
-//		size, 
-//		size
-//	);
-//	glContext.clearColor (0.1, 0.11, 0.12, 1.0);
 	glContext.clear (glContext.COLOR_BUFFER_BIT | glContext.DEPTH_BUFFER_BIT);
 //	this.camera.computeMatrices ();
 	var length = this.getNbObject ();
@@ -577,7 +567,6 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	var locMvMat = shad.getUniformLocation ("uModelViewMatrix");
 	var locPjMat = shad.getUniformLocation ("uProjectionMatrix");
 	var locDim = shad.getUniformLocation ("uDimension");
-//	var locNmMat = shad.getUniformLocation ("uNormalMatrix");
 	
 	// Compute real ModelView matrix
 	var mv = new Matrix (mvMat).mul (objMat);
@@ -591,39 +580,9 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	
 	if (locDim != null) {
 		glContext.uniform3fv (locDim, 
-			obj.getDimension().getGLVector ()
+			obj.getDimension ().getGLVector ()
 		);
 	}
-	
-//	// If Shader has normal matrix give it !
-//	if (locNmMat != null) {
-//		// Compute Normal matrix 
-//		var nm = new Matrix (mv).toNormal();
-//		glContext.uniformMatrix4fv (locNmMat, false, nm.getGLVector ()); 
-//	}
-	
-//	// scaling
-//	var locScale = shad.getUniformLocation ("uScale");
-//	if (locScale != null)
-//		glContext.uniform1f (locScale, this.scale);
-	
-//	// resolution
-//	var locResol = shad.getUniformLocation ("uResolution");
-//	if (locResol != null)
-//		glContext.uniform2f (locResol, this.width, this.height);
-	
-//	// translation
-//	var locTranslate = shad.getUniformLocation ("uTranslate");
-//	if (locTranslate != null)
-//		glContext.uniform2f (locTranslate, this.translateX, this.translateY);
-	
-//	// mouse
-//	var locMouse = shad.getUniformLocation ("uMouse");
-//	if (locMouse !== null) {
-//		var x = Math.floor ((this.mouseX) * this.scale);
-//		var y = Math.floor ((this.mouseY) * this.scale);
-//		glContext.uniform2f (locMouse, x, y);
-//	}
 };
 
 
@@ -637,21 +596,5 @@ Scene.prototype.setCameraAt = function (position) {
 	this.camera.eyePos = new Vector (position);
 	this.camera.computeMatrices ();
 };
-
-
-
-///**
-// * Prepare the scene for selection.
-// * 
-// * @param {WebGLRenderingContext} glContext - The gl context.
-// * 
-// * @return {void}
-// */
-//Scene.prototype.prepareSelect = function (glContext) {
-//	// Prepare each objects 
-//	var lengthObject = this.getNbObject ();
-//	for (var i = 0; i < lengthObject; ++i)
-//		this.objectList[i].prepareSelection (glContext);
-//};
 
 

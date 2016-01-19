@@ -65,12 +65,12 @@
  *         fov : float,
  *         near : float,
  *         far : float)
- * computeMatrices () : void
  * getViewMatrix () : Matrix
  * getProjectionMatrix () : Matrix
  * setFov (aFov : float) : void
  * setProjection (nb : float) : void
  * getProjection () : float
+ * computeMatrices () : void
  */
 
 
@@ -79,6 +79,14 @@
 
 
 Camera.prototype.constructor = Camera;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
 
 /**
  * @constructor Perspective camera class.
@@ -111,39 +119,12 @@ function Camera (eyePos, centerPos, up, width, height, fov, near, far) {
 }
 
 
-//==============================================================================
-/**
- * Compute View and Projection Matrix.
- * 
- * @return {void}
- */
-Camera.prototype.computeMatrices = function () {
-	this.viewMatrix = new Matrix (this.eyePos, this.centerPos, this.up);
-	
-	if (globalParam.perspectiveView) {
-		// Perspective Matrix
-		this.projectionMatrix = new Matrix (
-			this.fov * Math.PI / 180,
-			this.width / this.height,
-			this.near,
-			this.far
-		);
-	}
-	else {
-		// Orthogonal Matrix
-		this.projectionMatrix = new Matrix (
-			-this.constProjection,
-			this.constProjection, 
-			-this.constProjection, 
-			this.constProjection, 
-			this.near,
-			this.far
-		);
-	}
-};
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
 
 
-//==============================================================================
 /**
  * @return {Vector} The eye position of the camera.
  */
@@ -193,6 +174,15 @@ Camera.prototype.setFov = function (aFov) {
 
 
 //==============================================================================
+/**
+ * @return {float} The zoom.
+ */
+Camera.prototype.getProjection = function () {
+	return this.constProjection;
+};
+
+
+//==============================================================================
 /** 
  * Set the zoom. TODO compléter la doc
  * 
@@ -212,12 +202,41 @@ Camera.prototype.setProjection = function (nb) {
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Other methods
+//##############################################################################
+
+
+
 /**
- * @return {float} The zoom.
+ * Compute View and Projection Matrix.
+ * 
+ * @return {void}
  */
-Camera.prototype.getProjection = function () {
-	return this.constProjection;
+Camera.prototype.computeMatrices = function () {
+	this.viewMatrix = new Matrix (this.eyePos, this.centerPos, this.up);
+	
+	if (globalParam.perspectiveView) {
+		// Perspective Matrix
+		this.projectionMatrix = new Matrix (
+			this.fov * Math.PI / 180,
+			this.width / this.height,
+			this.near,
+			this.far
+		);
+	}
+	else {
+		// Orthogonal Matrix
+		this.projectionMatrix = new Matrix (
+			-this.constProjection,
+			this.constProjection, 
+			-this.constProjection, 
+			this.constProjection, 
+			this.near,
+			this.far
+		);
+	}
 };
 
 

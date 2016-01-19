@@ -46,8 +46,11 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* 
- * Repere(name : String, shader : DefaultShader, frame3D : Frame3D)
+/* origin : Vector
+ * size : int
+ * frame3D : Frame3D
+ *
+ * BoundingBox(name : String, shader : DefaultShader, frame3D : Frame3D)
  * prepare(glContext : glContext) : void
  * addVertice(stripVertices : Array, x : int, y : int, z : int) : void
  * draw(glContext : glContext) : void
@@ -61,8 +64,8 @@
  * @extends GenericStructure
  * @classdesc TODO
  */
-Repere.prototype = new GenericStructure;
-Repere.prototype.constructor = Repere;
+BoundingBox.prototype = new GenericStructure;
+BoundingBox.prototype.constructor = BoundingBox;
 
 
 
@@ -74,22 +77,23 @@ Repere.prototype.constructor = Repere;
 
 /**
  * @constructor 
- * Create a Repere given an origin and a size
+ * Create a bounding box TODO
  * 
+ * @param {Vector} dimension - The dimensions of the 3D space.
  * @param {WebGLRenderingContext} glContext - The gl context (used by the
  * shader).
  */
-function Repere (glContext) {
-	GenericStructure.call (this, "repere", new RepereShader (glContext));
+function BoundingBox (dimension, glContext) {
+	GenericStructure.call (this, "boundingBox", new DefaultShader (glContext));
 		
 	/**
 	 * {Vector} The dimension of the 3D space in voxel.
 	 */
-	this.dimension = new Vector (1, 1, 1);
+	this.dimension = dimension;
 	
 	/**
 	 * @inheritdoc
-	 * An user cannot select the repere
+	 * An user cannot select the box.
 	 */
 	this.isPickable = false;
 };
@@ -105,7 +109,7 @@ function Repere (glContext) {
 /**
  * @return {Vector} The dimensions of the box/3Dspace.
  */
-Repere.prototype.getDimension = function () {
+BoundingBox.prototype.getDimension = function () {
 	return this.dimension;
 };
 
@@ -122,37 +126,25 @@ Repere.prototype.getDimension = function () {
  * 
  * @param {WebGLRenderingContext} glContext - The gl context.
  */
-Repere.prototype.prepare = function (glContext) {
+BoundingBox.prototype.prepare = function (glContext) {
+	var halfDimBox = (new Vector (this.dimension)).mul (
+		1.01 / Math.max (this.dimension.x, this.dimension.y, this.dimension.z));
+	
 	/// Vertex and color buffers
-	var vertexBuffer = [ // the vertex of the box which serve as repere
-		// X axis
-		[0.1,  0.0   ,  0.095 ],
-		[0.7,  0.0   ,  0.095 ],
-		[0.7, -0.1   ,  0.195 ],
-		[1.0,  0.0495,  0.0495],
-		[0.7,  0.195 , -0.1   ],
-		[0.7,  0.095 ,  0.0   ],
-		[0.1,  0.095 ,  0.0   ],
-		// Y axis
-		[ 0.095 , 0.1,  0.0   ],
-		[ 0.095 , 0.7,  0.0   ],
-		[ 0.195 , 0.7, -0.1   ],
-		[ 0.0495, 1.0,  0.0495],
-		[-0.1   , 0.7,  0.195 ],
-		[ 0.0   , 0.7,  0.095 ],
-		[ 0.0   , 0.1,  0.095 ],
-		// Z axis
-		[ 0.0   ,  0.095 , 0.1],
-		[ 0.0   ,  0.095 , 0.7],
-		[-0.1   ,  0.195 , 0.7],
-		[ 0.0495,  0.0495, 1.0],
-		[ 0.195 , -0.1   , 0.7],
-		[ 0.095 ,  0.0   , 0.7],
-		[ 0.095 ,  0.0   , 0.1]
+	var vertexBuffer = [
+		[-halfDimBox.x, -halfDimBox.y, -halfDimBox.z],
+		[-halfDimBox.x,  halfDimBox.y, -halfDimBox.z],
+		[ halfDimBox.x, -halfDimBox.y, -halfDimBox.z],
+		[ halfDimBox.x,  halfDimBox.y, -halfDimBox.z],
+		[-halfDimBox.x, -halfDimBox.y,  halfDimBox.z],
+		[-halfDimBox.x,  halfDimBox.y,  halfDimBox.z],
+		[ halfDimBox.x, -halfDimBox.y,  halfDimBox.z],
+		[ halfDimBox.x,  halfDimBox.y,  halfDimBox.z],
 	];
 
 	var vertexBufferLength = vertexBuffer.length; // 8
 	// Color of each vertices, lines are white
+	var color = [0.9, 0.9, 0.9, 1.0];
 
 
 	/// Vertex Buffer
@@ -162,17 +154,54 @@ Repere.prototype.prepare = function (glContext) {
 	var data = [];
 	for (var vertice = 0; vertice < vertexBufferLength; ++vertice) {
 		this.addAPoint (data, vertexBuffer[vertice]);
-		if (vertice < 7)
-			this.addAColor (data, [0.9, 0.0, 0.0, 1.0]);
-		else if (vertice < 14)
-			this.addAColor (data, [0.0, 0.9, 0.0, 1.0]);
-		else
-			this.addAColor (data, [0.0, 0.0, 0.9, 1.0]);
+//		switch (vertice) {
+//		case 0 :
+//			this.addAColor (data, [0.9, 0.9, 0.0, 1.0]);
+//			break;
+//		case 1 :
+//			this.addAColor (data, [0.0, 0.9, 0.0, 1.0]);
+//			break;
+//		case 2 :
+//			this.addAColor (data, [0.9, 0.0, 0.0, 1.0]);
+//			break;
+//		case 4 :
+//			this.addAColor (data, [0.0, 0.0, 0.9, 1.0]);
+//			break;
+//		default :
+//			this.addAColor (data, color);
+//			break;
+//		}
+		this.addAColor (data, color);
 	}
 	glContext.bindBuffer (glContext.ARRAY_BUFFER, this.glVertexBuffer); 
 	glContext.bufferData (glContext.ARRAY_BUFFER, new Float32Array (data), 
 		glContext.STATIC_DRAW);
 	
+	
+	/// Indices Buffer
+	/*    5-------7   Y Z
+	 *   /|      /|   |/
+	 *  / |     / |   *--X
+	 * 1-------3  |
+	 * |  4----|--6  back face (4, 5, 7, 6)
+	 * | /     | /
+	 * |/      |/
+	 * 0-------2  front face (0, 1, 3, 2)
+	 */
+	var indicesBuffer = [
+		0, 2,  2, 3,  3, 1,  1, 0, // Front
+		0, 4,  2, 6,  3, 7,  1, 5, // Middle
+		4, 6,  6, 7,  7, 5,  5, 4  // Back
+		
+	];
+	this.glIndiciesBuffer = glContext.createBuffer();
+	this.glIndiciesBuffer.numItems = indicesBuffer.length;
+	glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer);
+	glContext.bufferData (
+		glContext.ELEMENT_ARRAY_BUFFER,
+		new Uint16Array (indicesBuffer), 
+		glContext.STATIC_DRAW
+	);
 	
 	/// Finish, tell it
 	this.prepared = true;
@@ -187,25 +216,35 @@ Repere.prototype.prepare = function (glContext) {
  * 
  * @return {void}
  */
-Repere.prototype.draw = function (glContext) {
+BoundingBox.prototype.draw = function (glContext) {
 	/// Parameter verification
 	if (!(glContext instanceof WebGLRenderingContext)) {
-		console.error ("Repere.draw: glContext is not a WebGLRenderingContext");
+		console.error ("BoundingBox.draw: glContext is not a "
+			+ "WebGLRenderingContext");
 		return;
 	}
 	
 	/// Buffers verification
-	if (this.glVertexBuffer === undefined)
+	if (this.glVertexBuffer === undefined 
+		|| this.glIndiciesBuffer === undefined)
 	{
-		console.error ("Repere.draw: prepare the repere BEFORE drawing it !");
+		console.error ("BoundingBox.draw: prepare the box BEFORE drawing it !");
 		return;
 	}
 		
+	/// Set shader parameters
+	this.shader.setRenderingMode (RenderingModeEnum.DOTTED);
 	// Let's the shader prepare its attributes
 	this.shader.setAttributes (glContext, this.glVertexBuffer);
 	
 	// Let's render !
-	glContext.drawArrays (glContext.LINE_LOOP, 0, this.glVertexBuffer.numItems);
+	glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer);
+	glContext.drawElements (
+		glContext.LINES, 
+		this.glIndiciesBuffer.numItems, 
+		glContext.UNSIGNED_SHORT,
+		0
+	);
 };
 
 
@@ -213,12 +252,12 @@ Repere.prototype.draw = function (glContext) {
 /**
  * @override
  * 
- * Always throw an error. The repere is not pickable.
+ * Always throw an error. The box is not pickable.
  * 
  * @throws {String}
  */
-Repere.prototype.drawBackBuffer = function () {
-	throw "Repere is not pickable !"
+BoundingBox.prototype.drawBackBuffer = function () {
+	throw "BoundingBox is not pickable !"
 };
 
 

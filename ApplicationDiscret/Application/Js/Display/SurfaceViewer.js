@@ -34,7 +34,11 @@ function SurfaceViewer (canvas) {
 	 * {Scene} The scene to display the surface.
 	 */
 	this.scene = new Scene ();
-	this.scene.addObject (new Repere (new Vector (25, 20, 25), this.glContext));
+	this.scene.addObject (new BoundingBox (
+		new Vector (5, 4, 5), 
+		this.glContext
+	));
+	this.scene.addObject (new Repere (this.glContext));
 	
 	/**
 	 * {int[2]} TODO
@@ -116,8 +120,8 @@ SurfaceViewer.prototype.onResize = function (event) {
 SurfaceViewer.prototype.onMouseDown = function (event) {
 	if (event.buttons === 1) { // FIXME right click is pressed
 		this.camPosWhenClick = this.scene.getCamera().getPosition();
-		console.log ("nouveau :", event.layerX, event.layerY);
-		console.log ("cam pos now:", this.scene.getCamera().getPosition().x, this.scene.getCamera().getPosition().y, this.scene.getCamera().getPosition().z);
+//		console.log ("nouveau :", event.layerX, event.layerY);
+//		console.log ("cam pos now:", this.scene.getCamera().getPosition().x, this.scene.getCamera().getPosition().y, this.scene.getCamera().getPosition().z);
 		this.mousePosOnPress[0] = event.layerX;
 		this.mousePosOnPress[1] = event.layerY;
 //		event.preventDefault ();
@@ -149,7 +153,7 @@ SurfaceViewer.prototype.onMouseUp = function (event) {
  */
 SurfaceViewer.prototype.onMouseMove = function (event) {
 	if (event.buttons === 1) { // FIXME right click is pressed when move
-		console.log ("cam pos:", this.scene.getCamera().getPosition().x, this.scene.getCamera().getPosition().y, this.scene.getCamera().getPosition().z);
+//		console.log ("cam pos:", this.scene.getCamera().getPosition().x, this.scene.getCamera().getPosition().y, this.scene.getCamera().getPosition().z);
 //		console.log ("move at:", (this.mousePosOnPress[0] - event.layerX) * 0.01, (event.layerY - this.mousePosOnPress[1]) * 0.01);
 		this.moveCameraAt (
 			(this.mousePosOnPress[0] - event.layerX) * 0.01,
@@ -193,7 +197,6 @@ SurfaceViewer.prototype.onWheel = function (event) {
  * TODO
  */
 SurfaceViewer.prototype.onKeyDown = function (event) {
-	console.log (event)
 	switch (event.keyCode) {
 	case 38 : // Up
 		this.moveCameraAt (0.0, 0.01);

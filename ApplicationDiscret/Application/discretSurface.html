@@ -48,11 +48,15 @@
 		<script type="text/javascript" src="Js/Objects/Scene.js"></script>
 		<script type="text/javascript" src="Js/Objects/GenericViewer.js"></script>
 		<script type="text/javascript" src="Js/Objects/Repere.js"></script>
+		<script type="text/javascript" src="Js/Objects/BoundingBox.js"></script>
 
 		<script type="text/javascript" src="Js/Shader/vertexShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/fragmentShader.js"></script>
+		<script type="text/javascript" src="Js/Shader/vertexShader_repere.js"></script>
+		<script type="text/javascript" src="Js/Shader/fragmentShader_repere.js"></script>
 		<script type="text/javascript" src="Js/Shader/Shader.js"></script>
 		<script type="text/javascript" src="Js/Shader/DefaultShader.js"></script>
+		<script type="text/javascript" src="Js/Shader/RepereShader.js"></script>
 		
 		<script type="text/javascript" src="Js/Controllers/Controller.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller3D.js"></script>
@@ -356,8 +360,8 @@
 			//appli.surfaceView.scene.setScale (0.9);
 			
 			var gl = appli.surfaceView.glContext;
-			var n64 = new N64 (gl, 11, 22);
-			appli.surfaceView.scene.addObject (n64);
+			//var n64 = new N64 (gl, 11, 22);
+			//appli.surfaceView.scene.addObject (n64);
 			appli.initAppli ();
 			
 			/* voir

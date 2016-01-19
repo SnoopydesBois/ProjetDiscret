@@ -75,15 +75,13 @@
  * Class for managing shaders.
  * 
  * @param {String} name - Name of the shader.
- * @param {String} vertexSourcePath - The path to the file containing the
- * vertex shader source code.
- * @param {String} fragmentSourcePath - The path to the file containing the
- * fragment shader source code.
+ * @param {String} vertexSource - The vertex shader source code.
+ * @param {String} fragmentSource - The fragment shader source code.
  * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
  * webGl context.
  * @param {AttributeEnum[]} attributes - attributes of the shader.
  */
-function Shader (name, vertexSourcePath, fragmentSourcePath, glContext, 
+function Shader (name, vertexSource, fragmentSource, glContext, 
 	attributes) 
 {
 	
@@ -93,16 +91,14 @@ function Shader (name, vertexSourcePath, fragmentSourcePath, glContext,
 	this.shaderName = name;
 	
 	/**
-	 * {String} The path to the .vs file. This path if relative to the root of
-	 * the applicaton.
+	 * {String} The vertex shader source code.
 	 */
-	this.vertexShaderPath = vertexSourcePath;
+	this.vertexShaderSource = vertexSource;
 	
 	/**
-	 * {String} The path to the .fs file. This path if relative to the root of
-	 * the applicaton.
+	 * {String} The fragment shader source code.
 	 */
-	this.fragmentShaderPath = fragmentSourcePath;
+	this.fragmentShaderSource = fragmentSource;
 	
 	/**
 	 * {AttributeEnum[]} A list of attributes for the shader. FIXME mal exprimé, mal expliqué
@@ -169,7 +165,6 @@ Shader.prototype.reload = function () {
 	var gl = this.glContext;
 	
 	if (gl !== undefined) {
-//		gl.viewport (0, 0, gl.viewportWidth, gl.viewportHeight);
 		gl.clear (gl.COLOR_BUFFER_BIT);
 		this.prepareShader ();
 	}
@@ -185,19 +180,21 @@ Shader.prototype.reload = function () {
  * @return {void}
  */
 Shader.prototype.prepareShader = function () {
-//	var vertexSourceText = LoadFileSync (this.vertexShaderPath);
-//	var fragmentSourceText = LoadFileSync (this.fragmentShaderPath);
-	
-	//var vertexSourceText = document.getElementById ("shader-vs").innerHTML;
-	//var fragmentSourceText = document.getElementById ("shader-fs").innerHTML;
-	
 	var gl = this.glContext; 
 	
 	/// Vertex shader
-	this.vertexShad = createShader (gl, gl.VERTEX_SHADER, vertsrc);
+	this.vertexShad = createShader (
+		gl, 
+		gl.VERTEX_SHADER,
+		this.vertexShaderSource
+	);
 	
 	/// Fragment shader
-	this.fragmentShad = createShader (gl, gl.FRAGMENT_SHADER, fragsrc);
+	this.fragmentShad = createShader (
+		gl,
+		gl.FRAGMENT_SHADER,
+		this.fragmentShaderSource
+	);
 	
 	if (this.vertexShad === null || this.fragmentShad === null) {
 		console.error ("Shader.prepareShader: shader creation failed");
@@ -215,9 +212,7 @@ Shader.prototype.prepareShader = function () {
  * 
  * @return {void}
  */
-// Anciennement nommé setActive
 Shader.prototype.activate = function () {
-//	console.trace ();
 	this.glContext.useProgram (this.program); 
 };
 
@@ -275,7 +270,6 @@ Shader.prototype.getAttributeLocation = function (aName) {
  * 
  * @return {boolean} True if the attribute exist, false otherwise.
  */
-// Anciennement nommé getAttribute
 Shader.prototype.hasAttribute = function (attrib) {
 	var len = this.attributes.length;
 	
