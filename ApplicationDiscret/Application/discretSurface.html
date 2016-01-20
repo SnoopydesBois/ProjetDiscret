@@ -32,6 +32,7 @@
 		<script type="text/javascript" src="Js/Libraries/webgl-debug.js"></script>
 		
 		<script type="text/javascript" src="Js/Objects/Range.js"></script>
+		<script type="text/javascript" src="Js/Objects/Dimension.js"></script>
 		<script type="text/javascript" src="Js/Objects/Equation.js"></script>
 		<script type="text/javascript" src="Js/Objects/Camera.js"></script>
 		<script type="text/javascript" src="Js/Objects/Vector.js"></script>
@@ -49,7 +50,10 @@
 		<script type="text/javascript" src="Js/Objects/BoundingBox.js"></script>
 
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo1Worker.js"></script>
-
+		
+		<!-- Default objects -->
+		<script type="text/javascript" src="Curves/Revolution/Circle.js"></script>
+		
 		<script type="text/javascript" src="Js/Shader/vertexShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/fragmentShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/vertexShader_repere.js"></script>
@@ -59,11 +63,13 @@
 		<script type="text/javascript" src="Js/Shader/RepereShader.js"></script>
 		
 		<script type="text/javascript" src="Js/Controllers/Controller.js"></script>
-		<script type="text/javascript" src="Js/Controllers/Controller3D.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller2D.js"></script>
+		<script type="text/javascript" src="Js/Controllers/Controller2DMeridian.js"></script>
+		<script type="text/javascript" src="Js/Controllers/Controller3D.js"></script>
 		<script type="text/javascript" src="Js/Controllers/ControllerCamera.js"></script>
 		
 		<script type="text/javascript" src="Js/Functionalities/ModelGen.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/ModelCurve.js"></script>
 		
 		<script type="text/javascript" src="Js/Display/SurfaceRenderer.js"></script>
 		<script type="text/javascript" src="Js/Display/GenericContener.js"></script>
@@ -100,14 +106,14 @@
 	
 		<script type="text/javascript">
 
-			function make_base(src, offsetWidth, offsetHeight, context)
+			function make_base(src, id, imgWidth, imgHeight, context)
 			{
 			  var base_image = new Image();
 			  base_image.src = src;
+			  
 			  base_image.onload = function(){
-				var width = document.getElementById('revolView').style.width - document.getElementById('revolParam').style.width;
-				context.drawImage(base_image, width + offsetWidth, document.getElementById('revolParam').style.height + offsetHeight);
-			  }
+				context.drawImage(base_image, document.getElementById(id).style.width, document.getElementById(id).style.height, imgWidth, imgHeight);
+			  };
 			}
 		</script>
 		<!-- Menus -->
@@ -299,7 +305,7 @@
 					<script>
 						var canvasMeridian = document.getElementById('meridianCanvas'),
 						contextMeridian = canvasMeridian.getContext('2d');
-						make_base('Curves/Meridian/meridian.png', -100 , -30, contextMeridian);
+						make_base('Curves/Meridian/meridian.png', 'meridianCanvas', 454, 368, contextMeridian);
 					</script>
 					
 					<div id="meridianOption" class="optionPanel">
@@ -315,7 +321,7 @@
 					<script>
 						var canvasRevolution = document.getElementById('revolCanvas'),
 						contextRevolution = canvasRevolution.getContext('2d');
-						make_base('Curves/Revolution/courberevolution.png', 65, 20, contextRevolution);
+						make_base('Curves/Revolution/courberevolution.png', 'revolCanvas', 398, 374, contextRevolution);
 					</script>
 					
 					<div id="revolOption" class="optionPanel">
@@ -343,6 +349,15 @@
 		</div>
 		
 		<script type="text/javascript">
+			var circle = new Circle();
+			circle.getEquation().setParameter("h", 2.0);
+			circle.getEquation().setParameter("k", -5.0);
+			circle.getEquation().setParameter("r", 3.0);
+			
+			var result = circle.computePoints(new Range(-1.0, 5.0), new Range(-8.0, -2.0), 90);
+			
+			console.log(result);
+			
 			var meridian = new ExplicitCurve("cos(x/9.0)*10.0");
 			var revol = new ImplicitCurve("x^2 + y^2 - 1");
 			

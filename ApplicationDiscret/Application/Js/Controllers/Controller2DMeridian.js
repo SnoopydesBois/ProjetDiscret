@@ -1,6 +1,5 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-
 /**
  * @license
  * Copyright (juin 2015)
@@ -42,29 +41,23 @@
  * termes.
  */
 
-
 /// INDEX //////////////////////////////////////////////////////////////////////
-
-
 /*
+ * 
  * constructor ()
+ * pressKey (event : WindowEvent) : void
+ * mouseDown (event : WindowEvent) : void
+ * mouseUp (event : WindowEvent) : void
+ * mouseMouv (event : WindowEvent) : void
+ * scroll (event : WindowEvent) : void
  */
-
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
-Controller2D.prototype = new Controller;
-Controller2D.prototype.constructor = Controller2D;
-
-
-
-//##############################################################################
-//	Constructor
-//##############################################################################
-
-
+Controller2DMeridian.prototype = new Controller2D;
+Controller2DMeridian.prototype.constructor = Controller2DMeridian;
 
 /**
  * @constructor
@@ -74,91 +67,72 @@ Controller2D.prototype.constructor = Controller2D;
  * @param {Number} antecedantMax - The upper bound of the input range
  * @param {DrawModeEnum} mode - The drawing method used
  */
-function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
-	if(arguments.length == 0){
-		Controller.call (this);
-	}
-	else{
-		if(!checkType(arguments, Number, Number, Number, Number, DrawModeEnum)){
-			console.error ("ERROR - Controller2D.constructor : bad type of parameter");
-		}
-		Controller.call (this);	
-		this.modelCurve = new ModelCurve(new Intervalle(imageMin, imageMax), new Intervalle(antecedantMin, antecedantMax));
-			
-		/**
-		* {DrawModeEnum} The type of drawing method used
-		*/
-		this.mode = mode;
-		//this.modelParser = new ModelParser();
-		//this.modelParameter = new ModelParameter();
-	}
+function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 	
-
+	Controller2D.call (this, imageMin, imageMax, antecedantMin, antecedantMax, mode);
+	
+	this.modelDraw = new ModelDraw();
 };
 
 
-
-//##############################################################################
-//	Accessors and Mutators
-//##############################################################################
-
-
+//==============================================================================
 /**
-*
-*/
-Controller2D.prototype.setActive = function(nom){
-	this.modelController2D.setActive(nom);
-}
+ * TODO
+ */
+Controller2DMeridian.prototype.startFreeHand = function(dim){
+	if(!(dim instanceof Dimension)){
+		throw "Controlelr2DMeridian.startFreeHand : bad type of parameter";
+	}
+	throw "Controller2DMeridian.startFreeHand : this function is not implemented";
+};
 
+//==============================================================================
+/**
+* TODO
+*/
+Controller2DMeridian.prototype.newFreeHand = function(dim, coord){
+	if(!checkType(arguments, Dimension, Vector)){
+		throw "Controller2DMeridian.newFreeHand : bad type of parameter";
+	}
+	throw "Controller2DMeridian.newFreeHand : this function is not implemented";
+};
+
+//==============================================================================
+/**
+* Add a point to the current drawn curve
+* @param {Dimension} 
+* @param {Vector} coord - The coordinate of the point to add
+*/
+Controller2DMeridian.prototype.addPoint = function(dim, coord){
+	if(!(checkType(arguments, Dimension, Vector))){
+		throw "Controller2DMeridian.addPoint : bad type of paramter";
+	}
+	this.modelDraw.addPoint(coord, dim);
+};
 
 //==============================================================================
 /**
 *
 */
-Controller2D.prototype.getPoints = function(dim){
-	return this.modelCurve.getPoints(dim);
-}
-
-//==============================================================================
-/**
-* To redefine in child controllers
-*/
-Controller2D.prototype.startFreeHand = function(dim){
-	throw "Controller2D.startFreeHand : this function is not implemented";
-}
-
-//==============================================================================
-/**
-* To redefine in child controllers
-*/
-Controller2D.prototype.newFreeHand = function(dim, coord){
-	throw "Controller2D.newFreeHand : this function is not implemented";
-}
-
-
-//==============================================================================
-/**
-*
-*/
-Controller2D.prototype.parseImplicit = function(eq){
+Controller2DMeridian.prototype.parseImplicit = function(eq){
 	// TODO parsing
-	throw "Controller2D.parseImplicit : this function is not implemented";
-}
+	throw "Controller2DMeridian.parseImplicit : this function is not implemented";
+};
 
 //==============================================================================
 /**
 *
 */
-Controller2D.prototype.parseParametric = function(eqX, eqY){
+Controller2DMeridian.prototype.parseParametric = function(eqX, eqY){
 	// TODO parsing
-	throw "Controller2D.parseParametric : this function is not implemented";
-}
+	throw "Controller2DMeridian.parseParametric : this function is not implemented";
+};
 
 //==============================================================================
 /**
 *
 */
-Controller2D.prototype.parseExplicit = function(eq){
+Controller2DMeridian.prototype.parseExplicit = function(eq){
 	// TODO parsing
-	throw "Controller2D.parseExplicit : this function is not implemented";
-}
+	throw "Controller2DMeridian.parseExplicit : this function is not implemented";
+};
