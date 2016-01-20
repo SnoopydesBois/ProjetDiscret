@@ -14,6 +14,7 @@
 
 
 
+
 Point.prototype = new Vector ();
 Point.prototype.constructor = Point;
 
@@ -21,6 +22,7 @@ Point.prototype.constructor = Point;
  * 
  */
 function Point () {
+	Vector.call (this);
 	switch (arguments.length) {
 		case 0 : 
 			return this.defaultConstructor ();
@@ -93,7 +95,7 @@ Point.prototype.arrayToPointConstructor = function (tab) {
  * @return {Point} a vector initialized with x, y and z.
  */
 Point.prototype.coordinateConstructor = function (x, y) {
-	if (isFinite (x) && isFinite (y) && isFinite (z)) {
+	if (isFinite (x) && isFinite (y)) {
 		this.m[0] = x;
 		this.m[1] = y;
 		return this;
