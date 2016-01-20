@@ -78,8 +78,13 @@
 
 
 /**
+ * @extends GenericContener
  * @classdesc Scene class management.
  */
+
+
+Scene.prototype = new GenericContener;
+Scene.prototype.constructor = Scene;
 
 
 
@@ -95,49 +100,19 @@
 function Scene () {
 	
 	/**
-	 * {GenericStructure[]} List of objects.
-	 */
-	this.objectList = [];
-	
-	/**
  	 * {Camera} The camera used in the scene.
  	 */
 	this.camera = new Camera (
-		new Vector (10, 10, 10),
+		new Vector (3, 3, 3),
 		new Vector (0, 0, 0),
 		new Vector (0, 0, 1),
 		800,
 		600,
-		30.0,
-		0.1,
-		1000.0
+		45.0,
+		0.0001,
+		7.0
 	);
 		
-	/**
-	 * {float} Tha scale factor.
-	 */
-	this.scale = 1.0;
-	
-	/**
-	 * {int} TODO compléter
-	 */
-	this.width = 0; 
-	
-	/**
-	 * {int} TODO compléter
-	 */
-	this.height = 0;
-	
-	/**
-	 * {float} The translation along the X axis.
-	 */
-	this.translateX = 0.0;
-	
-	/**
-	 * {float} The translation along the Y axis.
-	 */
-	this.translateY = 0.0;
-	
 	/**
 	 * {int} The X mouse coordinate.
 	 */
@@ -157,48 +132,6 @@ function Scene () {
 
 
 
-/**
- * @return {int} The number of objects in this scene (the length of the list of
- * objects).
- */
-Scene.prototype.getNbObject = function () {
-//	console.error (this.objectList.length);
-	return this.objectList.length;
-};
-Scene.prototype.getLength = function () {
-	console.error ("Cette methode à été renommé, il faut utiliser Scene.getNbObject");
-	return this.getNbObject ();
-};
-
-
-//==============================================================================
-/**
- * Get the light position.
- * 
- * @return {Vector} The light position.
- */
-/*Scene.prototype.getLightPosition = function () {
-	return this.lightPosition;
-};*/
-
-
-//==============================================================================
-/**
- * Set the light position.
- * 
- * @param {(Vector | Number | Number[3])} pos - The xyz position of the light.
- * If juste one Number are provied, a Vector is created with the same value for
- * all coordinate. TODO vérifier anglais
- * @see {@link Vector}
- * 
- * @return {void}
- */
-/*Scene.prototype.setLightPosition = function (pos) {
-	this.lightPosition = new Vector (pos);
-};*/
-
-
-//==============================================================================
 /**
  * Get the camera.
  * 
@@ -226,168 +159,14 @@ Scene.prototype.setCamera = function (camera) {
 };
 
 
-//==============================================================================
-/**
- * Scaling.
- * 
- * @param {float} scale - The scaling of the scene.
- * 
- * @return {void}
- * @throws {String} If the provided parameter is not a number.
- */
-Scene.prototype.setScale = function (scale) {
-	if (typeof scale == "number") {
-		this.scale = scale;
-	}
-	else
-		throw "Scene.setScale: parameter is not a number";
-};
-
-
-//==============================================================================
-/**
- * @return {float} The scale of the scene.
- */
-Scene.prototype.getScale = function () {
-	return this.scale;
-};
-
-
-//==============================================================================
-/**
- * Multiply the scale of the scene.
- * 
- * @param {float} scale - How much do we scale.
- * 
- * @return {void}
- * @throws {String} If the provided parameter is not a number.
- */
-Scene.prototype.multScale = function (scale) {
-	if (typeof scale == "number")
-		this.scale *= scale;
-	else
-		throw "Scene.multScale: parameter is not a number";
-};
-
-
-//==============================================================================
-/**
- * Get the width of the scene.
- * 
- * @return {int} the width of the scene.
- */
-Scene.prototype.getWidth = function () {
-	return this.width;
-};
-
-
-//==============================================================================
-/**
- * Set a new width for the scene.
- * 
- * @param {int} width - The new width for the scene.
- * 
- * @return {void}
- * @throws {String} If the provided parameter is not a number.
- */
-Scene.prototype.setWidth = function (width) {
-	if (typeof width == "number")
-		this.width = width;
-	else
-		throw "Scene.setWidth: parameter is not a number";
-};
-
-
-//==============================================================================
-/**
- * Get the height of the scene.
- * 
- * @return {int} the height of the scene.
- */
-Scene.prototype.getHeight = function () {
-	return this.height;
-};
-
-
-//==============================================================================
-/**
- * Set a new height for the scene.
- * 
- * @param {int} height - The new height for the scene.
- * 
- * @return {void}
- * @throws {String} If the provided parameter is not a number.
- */
-Scene.prototype.setHeight = function (height) {
-	if (typeof height == "number")
-		this.height = height;
-	else
-		throw "Scene.setHeight: parameter is not a number";
-};
-
-
-//==============================================================================
-/**
- * Translate along the x axis.
- * 
- * @param {float} x - How much we translate along the x axis.
- * 
- * @return {void}
- * @throws {String} If the provided parameter is not a number.
- */
-Scene.prototype.addTranslateX = function (x) {
-	if (typeof x == "number")
-		this.translateX += x;
-	else
-		throw "Scene.addTranslateX: parameter is not a number";
-};
-
-
-//==============================================================================
-/**
- * Translate along the y axis.
- * 
- * @param {float} y - How much we translate along the y axis.
- * 
- * @return {void}
- * @throws {String} If the provided parameter is not a number.
- */
-Scene.prototype.addTranslateY = function (y) {
-	if (typeof y == "number")
-		this.translateY += y;
-	else
-		throw "Scene.addTranslateY: parameter is not a number";
-};
-
-
-//==============================================================================
-/**
- * Translate the scene along x and y axis.
- * 
- * @param {float} x - How much we translate along the x axis.
- * @param {float} y - How much we translate along the y axis.
- * 
- * @return {void}
- * @throws {String} If one of the provided parameters is not a number.
- */
-Scene.prototype.setTranslate = function (x, y) {
-	if (typeof x == "number" && typeof y == "number") {
-		this.translateX = x;
-		this.translateY = y;
-	}
-	else
-		throw "Scene.setTranslate: one parameter is not a number";
-};
-
-
 
 //##############################################################################
 //	Object managing methods
 //##############################################################################
 
 
-
 /**
+ * @override
  * Add an object (only if is a GenericStructure subclass).
  * 
  * @param {!GenericStructure} anObject - Object to add to the scene.
@@ -397,9 +176,10 @@ Scene.prototype.setTranslate = function (x, y) {
  * a GenericStructure subclass.
  */
 Scene.prototype.addObject = function (anObject) {
-	if (anObject instanceof GenericStructure)
-//		this.objectList.splice (0, 0, anObject); // push at the beginning
-		this.objectList.push (anObject); // push at the beginning
+	if (anObject instanceof GenericStructure) {
+		this.objectList.push (anObject);
+//		console.log ("On push l'object", anObject);
+	}
 	else
 		throw "Scene.addObject: parameter is not a GenericStructure";
 };
@@ -425,20 +205,6 @@ Scene.prototype.getObjectByName = function (aName) {
 	console.error ("Scene.getObjectByName : object : \"" + aName
 			+ "\" not found");
 	return null;
-};
-
-
-//==============================================================================
-/**
- * Remove an object by id (if id is out of bound, nothing happen).
- * 
- * @param {int} id - The id in the object list.
- * 
- * @return {void}
- */
-Scene.prototype.removeObjectById = function (id) {
-	if (id >= 0 && id < this.objectList.length)
-		this.objectList.splice (id, 1); // Remove from the list
 };
 
 
@@ -498,11 +264,11 @@ Scene.prototype.prepare = function (glContext) {
 	var length = this.getNbObject ();
 	
 	for (var i = 0; i < length; ++i) {
-		this.objectList[i].prepare (glContext);
-		this.objectList[i].getShader ().activate ();
+		if (! this.objectList[i].isPrepared ()) {
+			this.objectList[i].prepare (glContext);
+			this.objectList[i].getShader ().activate ();
+		}
 	}
-	
-//	this.prepareSelect (glContext);
 };
 
 
@@ -518,14 +284,6 @@ Scene.prototype.prepare = function (glContext) {
  */
 Scene.prototype.draw = function (glContext, backBuffer) {
 	var size = Math.min (this.height, this.width) * 2;
-	// voir SurfaceViewer.onResize()
-//	glContext.viewport (
-//		(this.width - size) / 2,
-//		(this.height - size) / 2,
-//		size, 
-//		size
-//	);
-//	glContext.clearColor (0.1, 0.11, 0.12, 1.0);
 	glContext.clear (glContext.COLOR_BUFFER_BIT | glContext.DEPTH_BUFFER_BIT);
 //	this.camera.computeMatrices ();
 	var length = this.getNbObject ();
@@ -575,7 +333,6 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	var locMvMat = shad.getUniformLocation ("uModelViewMatrix");
 	var locPjMat = shad.getUniformLocation ("uProjectionMatrix");
 	var locDim = shad.getUniformLocation ("uDimension");
-//	var locNmMat = shad.getUniformLocation ("uNormalMatrix");
 	
 	// Compute real ModelView matrix
 	var mv = new Matrix (mvMat).mul (objMat);
@@ -589,43 +346,18 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	
 	if (locDim != null) {
 		glContext.uniform3fv (locDim, 
-			obj.getDimension().getGLVector ()
+			obj.getDimension ().getGLVector ()
 		);
 	}
-	
-//	// If Shader has normal matrix give it !
-//	if (locNmMat != null) {
-//		// Compute Normal matrix 
-//		var nm = new Matrix (mv).toNormal();
-//		glContext.uniformMatrix4fv (locNmMat, false, nm.getGLVector ()); 
-//	}
-	
-//	// scaling
-//	var locScale = shad.getUniformLocation ("uScale");
-//	if (locScale != null)
-//		glContext.uniform1f (locScale, this.scale);
-	
-//	// resolution
-//	var locResol = shad.getUniformLocation ("uResolution");
-//	if (locResol != null)
-//		glContext.uniform2f (locResol, this.width, this.height);
-	
-//	// translation
-//	var locTranslate = shad.getUniformLocation ("uTranslate");
-//	if (locTranslate != null)
-//		glContext.uniform2f (locTranslate, this.translateX, this.translateY);
-	
-//	// mouse
-//	var locMouse = shad.getUniformLocation ("uMouse");
-//	if (locMouse !== null) {
-//		var x = Math.floor ((this.mouseX) * this.scale);
-//		var y = Math.floor ((this.mouseY) * this.scale);
-//		glContext.uniform2f (locMouse, x, y);
-//	}
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Other methods
+//##############################################################################
+
+
 /**
  * TODO
  * 
@@ -635,21 +367,5 @@ Scene.prototype.setCameraAt = function (position) {
 	this.camera.eyePos = new Vector (position);
 	this.camera.computeMatrices ();
 };
-
-
-
-///**
-// * Prepare the scene for selection.
-// * 
-// * @param {WebGLRenderingContext} glContext - The gl context.
-// * 
-// * @return {void}
-// */
-//Scene.prototype.prepareSelect = function (glContext) {
-//	// Prepare each objects 
-//	var lengthObject = this.getNbObject ();
-//	for (var i = 0; i < lengthObject; ++i)
-//		this.objectList[i].prepareSelection (glContext);
-//};
 
 

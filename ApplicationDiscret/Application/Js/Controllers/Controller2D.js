@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,16 +42,14 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
+
+
 /*
- * 
  * constructor ()
- * pressKey (event : WindowEvent) : void
- * mouseDown (event : WindowEvent) : void
- * mouseUp (event : WindowEvent) : void
- * mouseMouv (event : WindowEvent) : void
- * scroll (event : WindowEvent) : void
  */
+
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
@@ -58,6 +57,14 @@
 
 Controller2D.prototype = new Controller;
 Controller2D.prototype.constructor = Controller2D;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
 
 /**
  * @constructor
@@ -90,7 +97,12 @@ function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
+
+
 /**
 *
 */
