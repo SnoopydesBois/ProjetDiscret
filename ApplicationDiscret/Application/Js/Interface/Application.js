@@ -175,6 +175,7 @@ function Application () {
 
 
 Application.prototype.generateAndDraw = function () {
+	console.log ("appel de Application.generateAndDraw");
 	this.surfaceController.generate();
 	this.surfaceRenderer = new SurfaceRenderer (this.surfaceController,
 												this.surfaceView.getGLContext());

@@ -178,7 +178,7 @@ Scene.prototype.setCamera = function (camera) {
 Scene.prototype.addObject = function (anObject) {
 	if (anObject instanceof GenericStructure) {
 		this.objectList.push (anObject);
-		console.log ("On push l'object", anObject);
+//		console.log ("On push l'object", anObject);
 	}
 	else
 		throw "Scene.addObject: parameter is not a GenericStructure";

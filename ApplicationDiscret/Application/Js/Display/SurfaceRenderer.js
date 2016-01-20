@@ -77,7 +77,7 @@ SurfaceRenderer.prototype.constructor = SurfaceRenderer;
 /**
  * {int} The number of created surface. Increased for each new SurfaceRenderer.
  */
-SurfaceRenderer.prototype.counter = 0;
+SurfaceRenderer.prototype.counter = -1;
 
 
 
@@ -120,6 +120,21 @@ function SurfaceRenderer (surfaceController, glContext) {
 	 */
 	this.nbGlBuffer = 0;
 	
+	/**
+	 * TODO
+	 */
+	this.glVertexBuffer = [];
+	
+	/**
+	 * TODO
+	 */
+	this.glBackBuffer = [];
+	
+	/**
+	 * TODO
+	 */
+	this.glIndiciesBuffer = [];
+
 	/// Initialisation 
 	this.shader.setRenderingMode (RenderingModeEnum.NORMAL);
 };
@@ -174,7 +189,7 @@ SurfaceRenderer.prototype.getModelController = function () {
 SurfaceRenderer.prototype.prepare = function (gl) {
 	if (!(gl instanceof WebGLRenderingContext))
 		throw"SurfaceRenderer.prepare: argument is not a WebGLRenderingContext";
-	console.trace ();
+	
 	var size = this.modelController.getDimension ();
 //	this.nbGlBuffer = size.m[0] / 5; // FIXME trouver une meilleur façon
 	this.nbGlBuffer = 1
@@ -202,9 +217,9 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 		backColorBuffer.push ([]);
 		data.push ([]);
 		bdata.push ([]);
-//		this.glVertexBuffer.push ([]);
-//		this.glBackBuffer.push ([]);
-//		this.glIndiciesBuffer.push ([]);
+		this.glVertexBuffer.push ([]);
+		this.glBackBuffer.push ([]);
+		this.glIndiciesBuffer.push ([]);
 	}
 	// 2 triangles per faces
 	// No triangles strips because there are a lot of degenerated triangles

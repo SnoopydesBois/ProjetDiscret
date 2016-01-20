@@ -1,13 +1,4 @@
 /**
- * GenericContener.js
- * 
- * author : abisutti
- * created : Wed, 20 Jan 2016 09:23:38 +0100
- * modified : Wed, 20 Jan 2016 09:23:38 +0100
- */
-
-
-/**
  * @classdesc 
  */
 

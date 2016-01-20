@@ -55,7 +55,7 @@
 
 
 
-Controller3D.prototype = new Controller;
+Controller2D.prototype = new Controller;
 Controller2D.prototype.constructor = Controller2D;
 
 
@@ -72,8 +72,6 @@ Controller2D.prototype.constructor = Controller2D;
 function Controller2D () {
 	
 	Controller.call (this);
-	
-	
 }
 
 
