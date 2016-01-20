@@ -301,7 +301,7 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 	}
 	
 	/// Finish, tell it
-	this.prepared = true;
+	//this.prepared = true; FIXME
 };
 
 
@@ -347,11 +347,11 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 			&& colorVoxel instanceof Array
 			&& universSize instanceof Vector))
 	{
-		console.error ("SurfaceRenderer.prepareVoxel: bad type(s) of" 
+		console.error ("surfacerenderer.preparevoxel: bad type(s) of" 
 				+ " parameter(s)");
-		showType (voxel, offset, vertexBuffer, indicesBuffer, 
-			colorBuffer, normalBuffer, backColorBuffer, colorVoxel,
-			universSize);
+		showtype (voxel, offset, vertexbuffer, indicesbuffer, 
+			colorbuffer, normalbuffer, backcolorbuffer, colorvoxel,
+			universsize);
 		return;
 	}
 	for (var i = 0; i < DirectionEnum.size; ++i) {

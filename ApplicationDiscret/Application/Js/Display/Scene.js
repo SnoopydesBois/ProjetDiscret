@@ -218,9 +218,9 @@ Scene.prototype.getObjectByName = function (aName) {
  */
 Scene.prototype.removeObjectByName = function (aName) {
 	for (var i = 0; i < this.objectList.length; ++i) {
-		if (this.objectList[i].getName() === aame) {
+		if (this.objectList[i].getName() === aName) {
 			this.objectList.splice (i, 1); // Remove from the list
-			break;
+			return;
 		}
 	}
 	console.error ("Scene.removeObjectByName: object : \"" + aName 
