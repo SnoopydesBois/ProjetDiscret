@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,16 +42,14 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
+
+
 /*
- * 
  * constructor ()
- * pressKey (event : WindowEvent) : void
- * mouseDown (event : WindowEvent) : void
- * mouseUp (event : WindowEvent) : void
- * mouseMouv (event : WindowEvent) : void
- * scroll (event : WindowEvent) : void
  */
+
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
@@ -59,18 +58,31 @@
 Controller3D.prototype = new Controller;
 Controller2D.prototype.constructor = Controller2D;
 
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
+
 /**
  * @constructor
- * @param {Frame} frame - The frame using the Controller2D.
- * @param {String} name - The name of the Controller2D.
- * @param {Application} application - The application 
  */
 function Controller2D () {
 	
 	Controller.call (this);
 	
 	
-};
+}
+
+
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
+
+
 
 
 //==============================================================================

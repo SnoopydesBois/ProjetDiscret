@@ -58,12 +58,15 @@
 
 
 
-	  //////////////////
-	 // Constructor ///
-	//////////////////
-
-
 Application.prototype.constructor = Application;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
 
 /**
  * @constructor
@@ -121,16 +124,40 @@ function Application () {
 	
 	
 	/**
-	 * {SurfaceViewer} TODO
+	 * {HTMLCanvasElement} TODO
 	 */
 	this.surfaceView = new SurfaceViewer (
 		document.getElementById ("surfaceCanvas")
 	);
 	
 	/**
-	 * TODO
+	 * {HTMLCanvasElement} TODO
+	 */
+	this.meridianView = new CurveViewer (
+		document.getElementById ("meridianCanvas")
+	);
+	
+	/**
+	 * {HTMLCanvasElement} TODO
+	 */
+	this.revolView = new CurveViewer (
+		document.getElementById ("revolCanvas")
+	);
+	
+	/**
+	 * {Controller3D} TODO
 	 */
 	this.surfaceController = new Controller3D (new Vector (21, 21, 21));
+	
+	/**
+	 * {Controller2D} TODO
+	 */
+	this.surfaceController = new Controller2D ();
+	
+	/**
+	 * {Controller2D} TODO
+	 */
+	this.surfaceController = new Controller2D ();
 	
 	/**
 	 * {String} The default message in the state bar.
@@ -144,10 +171,13 @@ function Application () {
 }
 
 
+
+
+
 Application.prototype.generateAndDraw = function () {
 	this.surfaceController.generate();
-	this.surfaceRenderer = new SurfaceRenderer(this.surfaceController,
+	this.surfaceRenderer = new SurfaceRenderer (this.surfaceController,
 												this.surfaceView.getGLContext());
-	this.surfaceView.scene.addObject(this.surfaceRenderer);
+	this.surfaceView.scene.addObject (this.surfaceRenderer);
 	this.surfaceView.showScene();
 };

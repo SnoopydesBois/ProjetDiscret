@@ -1,16 +1,19 @@
 /**
- * @license TODO
+ * DrawnCurve.js
+ * 
+ * author : abisutti
+ * created : Wed, 20 Jan 2016 09:23:38 +0100
+ * modified : Wed, 20 Jan 2016 09:23:38 +0100
  */
 
 
 /**
- * @extends GenericViewer
- * @classdesc TODO
+ * @classdesc 
  */
 
 
 
-CurveViewer.prototype.constructor = CurveViewer;
+DrawnCurve.prototype.constructor = DrawnCurve;
 
 
 
@@ -23,17 +26,8 @@ CurveViewer.prototype.constructor = CurveViewer;
 /**
  * @constructor
  * 
- * @param {HTMLCanvasElement} canvas - The associated canvas.
  */
-function CurveViewer (canvas) {
-	GenericViewer.call (this, canvas, "2d");
-	
-	/**
-	 * {Scene} The scene to display the surface.
-	 */
-	this.contener = new Layer ();
-//	this.contener.addObject ();
-	
+function DrawnCurve () {
 	
 };
 

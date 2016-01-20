@@ -174,7 +174,7 @@ SurfaceRenderer.prototype.getModelController = function () {
 SurfaceRenderer.prototype.prepare = function (gl) {
 	if (!(gl instanceof WebGLRenderingContext))
 		throw"SurfaceRenderer.prepare: argument is not a WebGLRenderingContext";
-	
+	console.trace ();
 	var size = this.modelController.getDimension ();
 //	this.nbGlBuffer = size.m[0] / 5; // FIXME trouver une meilleur façon
 	this.nbGlBuffer = 1
@@ -204,7 +204,7 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 		bdata.push ([]);
 //		this.glVertexBuffer.push ([]);
 //		this.glBackBuffer.push ([]);
-//		this.glIndicesBuffer.push ([]);
+//		this.glIndiciesBuffer.push ([]);
 	}
 	// 2 triangles per faces
 	// No triangles strips because there are a lot of degenerated triangles
@@ -272,13 +272,13 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 
 	// Create index buffer
 	for (tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
-		this.glIndicesBuffer[tmp] = gl.createBuffer ();
-		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
+		this.glIndiciesBuffer[tmp] = gl.createBuffer ();
+		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer[tmp]);
 		gl.bufferData (gl.ELEMENT_ARRAY_BUFFER, new Uint16Array (
 			indicesBuffer[tmp]), 
 			gl.STATIC_DRAW
 		);
-		this.glIndicesBuffer[tmp].numItems = indicesBuffer[tmp].length;
+		this.glIndiciesBuffer[tmp].numItems = indicesBuffer[tmp].length;
 	}
 	
 	/// Finish, tell it
@@ -540,8 +540,8 @@ SurfaceRenderer.prototype.draw = function (gl) {
 		// Let's the shader prepare its attributes
 		this.shader.setAttributes (gl, this.glVertexBuffer[tmp]);
 		// Let's render !
-		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
-		gl.drawElements (gl.TRIANGLES, this.glIndicesBuffer[tmp].numItems,
+		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer[tmp]);
+		gl.drawElements (gl.TRIANGLES, this.glIndiciesBuffer[tmp].numItems,
 			gl.UNSIGNED_SHORT, 0);
 
 		// Let's the shader prepare its attributes
@@ -574,8 +574,8 @@ SurfaceRenderer.prototype.drawBackBuffer = function (gl) {
 		// Let's the shader prepare its attributes
 		this.shader.setAttributes (gl, this.glBackBuffer[tmp]);
 		// Let's render !
-		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
-		gl.drawElements (gl.TRIANGLES, this.glIndicesBuffer[tmp].numItems, 
+		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer[tmp]);
+		gl.drawElements (gl.TRIANGLES, this.glIndiciesBuffer[tmp].numItems, 
 			gl.UNSIGNED_SHORT, 0);
 	}
 };
