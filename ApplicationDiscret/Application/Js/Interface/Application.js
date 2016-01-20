@@ -185,11 +185,28 @@ function Application () {
 //	this.canvasColor = [0.0, 0.0, 0.0, 1.0];
 }
 
+/**
+ * This function calls itself again every second in a different thread util the
+ * computation is finished. Then it redraws the scene.
+ */
+Application.prototype.computationFinished = function () {
+		this.surfaceView.showScene();
+	if (! this.surfaceController.isAlgoFinished()){
+		setTimeout(this.computationFinished.bind(this), 1000);
+	}else{
+		this.validMessage("Finished", 0);
+	}
+}
 
+/**
+ * This function is called by the generate button. Calls the aglorithm and draws
+ * the resulting surface
+ */
 Application.prototype.generateAndDraw = function () {
+	this.showMessage("Computing...", 0, "blue");
 	this.surfaceController.generate();
 	this.surfaceRenderer = new SurfaceRenderer(this.surfaceController,
 												this.surfaceView.getGLContext());
 	this.surfaceView.scene.addObject(this.surfaceRenderer);
-	this.surfaceView.showScene();
+	this.computationFinished();
 };
