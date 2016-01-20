@@ -147,7 +147,7 @@ function Application () {
 	/**
 	 * {Controller3D} TODO
 	 */
-	this.surfaceController = new Controller3D (new Vector (8, 8, 8));
+	this.surfaceController = new Controller3D (new Vector (21, 21, 21));
 	
 	/**
 	 * {Controller2D} TODO
@@ -191,16 +191,9 @@ Application.prototype.generateAndDraw = function () {
 	this.showMessage("Computing...", 0, "blue");
 	this.surfaceController.generate();
 	this.surfaceRenderer = new SurfaceRenderer (this.surfaceController,
-<<<<<<< HEAD
-												this.surfaceView.getGLContext());
-	this.surfaceView.contener.addObject (this.surfaceRenderer);
-	this.surfaceView.show ();
-};
-=======
 												this.surfaceView.getGLContext());
 	this.surfaceView.contener.addObject(this.surfaceRenderer);
 	
 	this.computationFinished();
 };
 
->>>>>>> cf75fad1dc127c9dad5dd87a74072781d27b202c
