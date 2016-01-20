@@ -72,6 +72,9 @@ function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 		Controller.call (this);
 	}
 	else{
+		if(!checkType(arguments, Number, Number, Number, Number, DrawModeEnum)){
+			console.error ("ERROR - Controller2D.constructor : bad type of parameter");
+		}
 		Controller.call (this);	
 		this.modelCurve = new ModelCurve(new Intervalle(imageMin, imageMax), new Intervalle(antecedantMin, antecedantMax));
 			
@@ -91,7 +94,7 @@ function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 /**
 *
 */
-Controller2D.prototype.setActive = fucntion(nom){
+Controller2D.prototype.setActive = function(nom){
 	this.modelController2D.setActive(nom);
 }
 
@@ -120,13 +123,6 @@ Controller2D.prototype.newFreeHand = function(dim, coord){
 	throw "Controller2D.newFreeHand : this function is not implemented";
 }
 
-//==============================================================================
-/**
-* To redefine in child controllers
-*/
-Controller2D.prototype.addPoint = function(coord, dim){
-	throw "Controller2D.addPoint : this function is not implemented";
-}
 
 //==============================================================================
 /**

@@ -32,6 +32,7 @@
 		<script type="text/javascript" src="Js/Libraries/webgl-debug.js"></script>
 		
 		<script type="text/javascript" src="Js/Objects/Range.js"></script>
+		<script type="text/javascript" src="Js/Objects/Dimension.js"></script>
 		<script type="text/javascript" src="Js/Objects/Equation.js"></script>
 		<script type="text/javascript" src="Js/Objects/Camera.js"></script>
 		<script type="text/javascript" src="Js/Objects/Vector.js"></script>
@@ -49,21 +50,27 @@
 		<script type="text/javascript" src="Js/Objects/GenericViewer.js"></script>
 		<script type="text/javascript" src="Js/Objects/Repere.js"></script>
 
+		<!-- Default objects -->
+		<script type="text/javascript" src="Curves/Revolution/Circle.js"></script>
+		
 		<script type="text/javascript" src="Js/Shader/vertexShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/fragmentShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/Shader.js"></script>
 		<script type="text/javascript" src="Js/Shader/DefaultShader.js"></script>
 		
 		<script type="text/javascript" src="Js/Controllers/Controller.js"></script>
+		<script type="text/javascript" src="Js/Controllers/Controller2D.js"></script>
+		<script type="text/javascript" src="Js/Controllers/Controller2DMeridian.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller3D.js"></script>
 		<script type="text/javascript" src="Js/Controllers/ControllerCamera.js"></script>
 		
 		<script type="text/javascript" src="Js/Functionalities/ModelGen.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/ModelCurve.js"></script>
 		
 		<script type="text/javascript" src="Js/Display/SurfaceRenderer.js"></script>
 		<script type="text/javascript" src="Js/Display/SurfaceViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/CurveRenderer.js"></script>
-				
+		
 		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
 		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>
 		<script type="text/javascript" src="Js/Interface/ListUndoRedoAction.js"></script>
@@ -337,6 +344,13 @@
 		</div>
 		
 		<script type="text/javascript">
+			var circle = new Circle();
+			circle.getEquation().setParameter("h", 2.0);
+			circle.getEquation().setParameter("k", -5.0);
+			circle.getEquation().setParameter("r", 3.0);
+			
+			var result = circle.computePoints(new Range(-1.0, 5.0), new Range(-8.0, -2.0), 90);
+			
 			var meridian = new ExplicitCurve("cos(x/9.0)*10.0");
 			var revol = new ImplicitCurve("x^2 + y^2 - 1");
 			
@@ -356,7 +370,7 @@
 			//appli.surfaceView.scene.setScale (0.9);
 			
 			var gl = appli.surfaceView.glContext;
-			var n64 = new N64 (gl, 16, 32);
+			var n64 = new N64 (gl, 4, 16);
 			appli.surfaceView.scene.addObject (n64);
 			appli.initAppli ();
 			

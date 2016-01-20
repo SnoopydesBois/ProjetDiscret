@@ -77,33 +77,37 @@ function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
 
 //==============================================================================
 /**
-* To redefine in child controllers
-*/
+ * TODO
+ */
 Controller2DMeridian.prototype.startFreeHand = function(dim){
+	if(!(dim instanceof Dimension)){
+		throw "Controlelr2DMeridian.startFreeHand : bad type of parameter";
+	}
 	throw "Controller2DMeridian.startFreeHand : this function is not implemented";
 };
 
 //==============================================================================
 /**
-* To redefine in child controllers
+* TODO
 */
 Controller2DMeridian.prototype.newFreeHand = function(dim, coord){
+	if(!checkType(arguments, Dimension, Vector)){
+		throw "Controller2DMeridian.newFreeHand : bad type of parameter";
+	}
 	throw "Controller2DMeridian.newFreeHand : this function is not implemented";
 };
 
 //==============================================================================
 /**
-* To redefine in child controllers
+* Add a point to the current drawn curve
+* @param {Dimension} 
+* @param {Vector} coord - The coordinate of the point to add
 */
-Controller2DMeridian.prototype.addPoint = function(coord, dim){
-	switch (this.mode) {
-		case DrawModeEnum.equation :
-			this.modelDraw.addPoint(coord, dim);
-			break;
-		case DrawModeEnum.handFree :
-			this.modelCurve.addPoint(coord, dim);
-			break;
+Controller2DMeridian.prototype.addPoint = function(dim, coord){
+	if(!(checkType(arguments, Dimension, Vector))){
+		throw "Controller2DMeridian.addPoint : bad type of paramter";
 	}
+	this.modelDraw.addPoint(coord, dim);
 };
 
 //==============================================================================
