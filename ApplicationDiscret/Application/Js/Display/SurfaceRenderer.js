@@ -187,6 +187,7 @@ SurfaceRenderer.prototype.getModelController = function () {
  * @throws FIXME compléter
  */
 SurfaceRenderer.prototype.prepare = function (gl) {
+	console.log ("PRÉPARATION de", this.structureName);
 	if (!(gl instanceof WebGLRenderingContext))
 		throw"SurfaceRenderer.prepare: argument is not a WebGLRenderingContext";
 	
@@ -221,12 +222,15 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 		this.glBackBuffer.push ([]);
 		this.glIndiciesBuffer.push ([]);
 	}
+	console.log ("SurfaceRenderer.prepare : buffer init fait");
 	// 2 triangles per faces
 	// No triangles strips because there are a lot of degenerated triangles
+	console.log ("var size ", size);
 	for (var x = 0; x < size.x; ++x) {
 		for (var y = 0; y < size.y; ++y) {
 			for (var z = 0; z < size.z; ++z) {
 				if (this.modelController.hasVoxel (x, y, z)) {
+					console.log ("SurfaceRenderer.prepare : voxel découvert -> prepareVoxel")
 					this.prepareVoxel (
 						this.modelController.getVoxel (x, y, z),
 						0,
@@ -242,7 +246,7 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 			} // end for z
 		} // end for y
 	} // end for x
-
+	console.log ("SurfaceRenderer.prepare : préparation voxel fait");
 	// Create vertex buffer 
 	for (tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
 		this.glVertexBuffer[tmp] = gl.createBuffer();
@@ -333,6 +337,7 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 	colorVoxel,
 	universSize
 ) {
+//	console.log ("voxel ", voxel.position.x, voxel.position.y, voxel.position.z)
 	if (!(voxel instanceof Voxel && typeof offset === "number"
 			&& vertexBuffer instanceof Array
 			&& indicesBuffer instanceof Array

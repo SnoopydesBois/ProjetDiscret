@@ -241,6 +241,7 @@ GenericContener.prototype.setTranslate = function (x, y) {
  * @return {void}
  */
 GenericContener.prototype.addObject = function (anObject) {
+	console.log ("Ajout de l'objet : ");
 	this.objectList.push (anObject);
 };
 
@@ -343,7 +344,8 @@ GenericContener.prototype.removeObject = function (id) {
  * Prepare the scene before rendering. Prepare all objects and check if there is a
  * camera. If not, the default camera is set to the scene.
  * 
- * @param {WebGLRenderingContext} glContext - The gl context.
+ * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
+ * gl context.
  * 
  * @return {void}
  */
@@ -354,7 +356,8 @@ GenericContener.prototype.prepare = function (glContext) {};
 /**
  * Draw a scene. TODO refaire doc
  * 
- * @param {WebGLRenderingContext} glContext - The gl context.
+ * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
+ * gl context.
  * @param {boolean} [backBuffer] - Indicate if we have to draw the scene 
  * normally or if we need to draw for picking.
  * 

@@ -86,7 +86,7 @@ function ModelGen (dimension) {
  * exist
  */
 ModelGen.prototype.getVoxel = function(position) {
-	return this.surface.getVoxel(position);
+	return this.surface.getVoxel (position);
 }
 
 
@@ -175,13 +175,14 @@ ModelGen.prototype.algoExplicit = function (meridian, curveRevolution){
 				} else if (check18Connex(fRevol, x - maxx, y - maxy, [rz, rz1, rz2])) {
 					this.surface.addVoxel(new Vector(x,y,z), ConnexityEnum.c18);
 				} else if (check6Connex(fRevol, x - maxx, y - maxy, [rz1, rz2])){
-					this.surface.addVoxel(new Vector(x,y,z),ConnexityEnum.c6);
+					this.surface.addVoxel(new Vector(x,y,z), ConnexityEnum.c6);
 				}
 			} // end for x
 		} // end for y
 	} // end for z
 	//for( var i = 0; i < 5; i++)
 		//this.surface.addVoxel(new Vector(i,i,i), ConnexityEnum.c26);
+//	this.surface = n64.modelController.modelGen.surface;
 };
 
 

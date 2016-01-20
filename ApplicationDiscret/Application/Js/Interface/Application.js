@@ -147,17 +147,17 @@ function Application () {
 	/**
 	 * {Controller3D} TODO
 	 */
-	this.surfaceController = new Controller3D (new Vector (21, 21, 21));
+	this.surfaceController = new Controller3D (new Vector (8, 8, 8));
 	
 	/**
 	 * {Controller2D} TODO
 	 */
-	this.surfaceController = new Controller2D ();
-	
-	/**
-	 * {Controller2D} TODO
-	 */
-	this.surfaceController = new Controller2D ();
+//	this.surfaceController = new Controller2D ();
+//	
+//	/**
+//	 * {Controller2D} TODO
+//	 */
+//	this.surfaceController = new Controller2D ();
 	
 	/**
 	 * {String} The default message in the state bar.
@@ -179,6 +179,6 @@ Application.prototype.generateAndDraw = function () {
 	this.surfaceController.generate();
 	this.surfaceRenderer = new SurfaceRenderer (this.surfaceController,
 												this.surfaceView.getGLContext());
-	this.surfaceView.scene.addObject (this.surfaceRenderer);
-	this.surfaceView.showScene();
+	this.surfaceView.contener.addObject (this.surfaceRenderer);
+	this.surfaceView.show ();
 };
