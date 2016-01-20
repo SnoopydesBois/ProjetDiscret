@@ -58,19 +58,22 @@
 
 
 
-	  //////////////////
-	 // Constructor ///
-	//////////////////
-
-
 Application.prototype.constructor = Application;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
 
 /**
  * @constructor
  */
 function Application () {
 	
-		// Licence //
+		// Licence
 	
 	/*
 	console.log ('%c©2015 : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl\n'
@@ -121,25 +124,40 @@ function Application () {
 	
 	
 	/**
-	 * {SurfaceViewer} TODO
+	 * {HTMLCanvasElement} TODO
 	 */
 	this.surfaceView = new SurfaceViewer (
 		document.getElementById ("surfaceCanvas")
 	);
 	
-	this.surfaceController = new Controller3D(new Vector(21,21,21));
+	/**
+	 * {HTMLCanvasElement} TODO
+	 */
+	this.meridianView = new CurveViewer (
+		document.getElementById ("meridianCanvas")
+	);
 	
-//	/**
-//	 * Width of the #workspace in pixel. 
-//	 */
-//	this.workspaceWidth = parseInt($('#workspace').width());
-//	
-//	/**
-//	 * Height of the #workspace in pixel. 
-//	 */
-//	this.workspaceHeight = parseInt ($('.footer').css("top"))
-//		- parseInt ($('.header').css("top"))
-//		- $('.header').height();
+	/**
+	 * {HTMLCanvasElement} TODO
+	 */
+	this.revolView = new CurveViewer (
+		document.getElementById ("revolCanvas")
+	);
+	
+	/**
+	 * {Controller3D} TODO
+	 */
+	this.surfaceController = new Controller3D (new Vector (21, 21, 21));
+	
+	/**
+	 * {Controller2D} TODO
+	 */
+	this.meridianController = new Controller2D ();
+	
+	/**
+	 * {Controller2D} TODO
+	 */
+	this.revolController = new Controller2D ();
 	
 	/**
 	 * {String} The default message in the state bar.
@@ -150,47 +168,14 @@ function Application () {
 	 * {ListUndoRedoAction} The list of undoable/redoable action.
 	 */
 	this.listAction = new ListUndoRedoAction (25);
-	
-//	/**
-//	 * {Controller[]} List of all functionalities.
-//	 */
-//	this.functionalities = [];
-//	
-//	/**
-//	 * {ControllerRotate} The rotate functionality controller. Provide a direct
-//	 * access to the rotation tool.
-//	 */
-//	this.rotateFunctionality;
-	
-	
-		// Colors //
-	
-	
-//	/**
-//	 * {float[][4]} The default RGBA color of each cube.
-//	 */
-//	this.cubeColors = [];
-//	for (var i = 0; i < CubeStateEnum.size; i++) {
-//		this.cubeColors.push (CubeStateEnum.color[i]);
-//	}
-//	
-//	/**
-//	 * {float[4]} The RGBA background color.
-//	 */
-//	this.backgroundColor = [0.1, 0.1, 0.1, 1.0];
-//	
-//	/**
-//	 * {float[4]} The RGBA canvas color.
-//	 */
-//	this.canvasColor = [0.0, 0.0, 0.0, 1.0];
 }
 
 /**
- * This function calls itself again every second in a different thread util the
+ * This function calls itself again every second in a different thread until the
  * computation is finished. Then it redraws the scene.
  */
 Application.prototype.computationFinished = function () {
-		this.surfaceView.showScene();
+	this.surfaceView.show();
 	if (! this.surfaceController.isAlgoFinished()){
 		setTimeout(this.computationFinished.bind(this), 1000);
 	}else{
@@ -199,14 +184,16 @@ Application.prototype.computationFinished = function () {
 }
 
 /**
- * This function is called by the generate button. Calls the aglorithm and draws
+ * This function is called by the generate button. Calls the algorithm and draws
  * the resulting surface
  */
 Application.prototype.generateAndDraw = function () {
 	this.showMessage("Computing...", 0, "blue");
 	this.surfaceController.generate();
-	this.surfaceRenderer = new SurfaceRenderer(this.surfaceController,
+	this.surfaceRenderer = new SurfaceRenderer (this.surfaceController,
 												this.surfaceView.getGLContext());
-	this.surfaceView.scene.addObject(this.surfaceRenderer);
+	this.surfaceView.contener.addObject(this.surfaceRenderer);
+	
 	this.computationFinished();
 };
+

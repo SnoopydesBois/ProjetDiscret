@@ -60,8 +60,8 @@
  * @extends Shader
  * @classdesc TODO
  */
-DefaultShader.prototype = new Shader;
-DefaultShader.prototype.constructor = DefaultShader;
+RepereShader.prototype = new Shader;
+RepereShader.prototype.constructor = RepereShader;
 
 
 
@@ -76,7 +76,7 @@ DefaultShader.prototype.constructor = DefaultShader;
  * 
  * Define the attributes used by the shader
  */
-DefaultShader.prototype.attributes = [
+RepereShader.prototype.attributes = [
 	AttributeEnum.position,
 	AttributeEnum.color
 ];
@@ -94,19 +94,19 @@ DefaultShader.prototype.attributes = [
  * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
  * webGl context.
  */
-function DefaultShader (glContext) {
+function RepereShader (glContext) {
 	Shader.call (this,
 		"default",
-		vertSrc,
+		vertRepereSrc,
 		fragSrc,
 		glContext,
-		DefaultShader.prototype.attributes
+		RepereShader.prototype.attributes
 	);
 	
 	/**
 	 * {RenderingModeEnum} The current rendering mode.
 	 */
-	this.renderingMode = RenderingModeEnum.NORMAL;
+	this.renderingMode = RenderingModeEnum.PICKING;
 };
 
 
@@ -118,32 +118,9 @@ function DefaultShader (glContext) {
 
 
 /**
- * Set the rendering mode for the shader. If the mode is not correct, nothing 
- * happen.
- * @see {@link RenderingModeEnum}
- * 
- * @param {int} mode - The mode to set.
- * 
- * @return {void}
- */
-// Anciennement nommé setMode 
-DefaultShader.prototype.setRenderingMode = function (mode) {
-	if (! isValueOfEnum (RenderingModeEnum, mode))
-		console.error ("DefaultShader.setRenderingMode : give a correct mode");
-	else
-		this.renderingMode = mode;
-};
-DefaultShader.prototype.setMode = function (m) {
-	this.setRenderingMode (m);
-	console.error ("Cette methode à été renommé, il faut utiliser DefaultShader.setRenderingMode");
-}
-
-
-//==============================================================================
-/**
  * @return {RenderingModeEnum} The mode used to render by the shader.
  */
-DefaultShader.prototype.getRenderingMode = function () {
+RepereShader.prototype.getRenderingMode = function () {
 	return this.renderingMode;
 };
 
@@ -164,7 +141,7 @@ DefaultShader.prototype.getRenderingMode = function () {
  * 
  * @return {void}
  */
-DefaultShader.prototype.setAttributes = function (glContext, vertexBuffer) {
+RepereShader.prototype.setAttributes = function (glContext, vertexBuffer) {
 	glContext.bindBuffer (glContext.ARRAY_BUFFER, vertexBuffer);
 	
 	// Get attribute

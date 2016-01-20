@@ -77,7 +77,7 @@ SurfaceRenderer.prototype.constructor = SurfaceRenderer;
 /**
  * {int} The number of created surface. Increased for each new SurfaceRenderer.
  */
-SurfaceRenderer.prototype.counter = 0;
+SurfaceRenderer.prototype.counter = -1;
 
 
 
@@ -120,6 +120,21 @@ function SurfaceRenderer (surfaceController, glContext) {
 	 */
 	this.nbGlBuffer = 0;
 	
+	/**
+	 * TODO
+	 */
+	this.glVertexBuffer = [];
+	
+	/**
+	 * TODO
+	 */
+	this.glBackBuffer = [];
+	
+	/**
+	 * TODO
+	 */
+	this.glIndiciesBuffer = [];
+
 	/// Initialisation 
 	this.shader.setRenderingMode (RenderingModeEnum.NORMAL);
 };
@@ -202,9 +217,9 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 		backColorBuffer.push ([]);
 		data.push ([]);
 		bdata.push ([]);
-//		this.glVertexBuffer.push ([]);
-//		this.glBackBuffer.push ([]);
-//		this.glIndicesBuffer.push ([]);
+		this.glVertexBuffer.push ([]);
+		this.glBackBuffer.push ([]);
+		this.glIndiciesBuffer.push ([]);
 	}
 	// 2 triangles per faces
 	// No triangles strips because there are a lot of degenerated triangles
@@ -272,14 +287,17 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 
 	// Create index buffer
 	for (tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
-		this.glIndicesBuffer[tmp] = gl.createBuffer ();
-		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
+		this.glIndiciesBuffer[tmp] = gl.createBuffer ();
+		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer[tmp]);
 		gl.bufferData (gl.ELEMENT_ARRAY_BUFFER, new Uint16Array (
 			indicesBuffer[tmp]), 
 			gl.STATIC_DRAW
 		);
-		this.glIndicesBuffer[tmp].numItems = indicesBuffer[tmp].length;
+		this.glIndiciesBuffer[tmp].numItems = indicesBuffer[tmp].length;
 	}
+	
+	/// Finish, tell it
+	//this.prepared = true; FIXME
 };
 
 
@@ -324,11 +342,11 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 			&& colorVoxel instanceof Array
 			&& universSize instanceof Vector))
 	{
-		console.error ("SurfaceRenderer.prepareVoxel: bad type(s) of" 
+		console.error ("surfacerenderer.preparevoxel: bad type(s) of" 
 				+ " parameter(s)");
-		showType (voxel, offset, vertexBuffer, indicesBuffer, 
-			colorBuffer, normalBuffer, backColorBuffer, colorVoxel,
-			universSize);
+		showtype (voxel, offset, vertexbuffer, indicesbuffer, 
+			colorbuffer, normalbuffer, backcolorbuffer, colorvoxel,
+			universsize);
 		return;
 	}
 	for (var i = 0; i < DirectionEnum.size; ++i) {
@@ -537,8 +555,8 @@ SurfaceRenderer.prototype.draw = function (gl) {
 		// Let's the shader prepare its attributes
 		this.shader.setAttributes (gl, this.glVertexBuffer[tmp]);
 		// Let's render !
-		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
-		gl.drawElements (gl.TRIANGLES, this.glIndicesBuffer[tmp].numItems,
+		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer[tmp]);
+		gl.drawElements (gl.TRIANGLES, this.glIndiciesBuffer[tmp].numItems,
 			gl.UNSIGNED_SHORT, 0);
 
 		// Let's the shader prepare its attributes
@@ -571,8 +589,8 @@ SurfaceRenderer.prototype.drawBackBuffer = function (gl) {
 		// Let's the shader prepare its attributes
 		this.shader.setAttributes (gl, this.glBackBuffer[tmp]);
 		// Let's render !
-		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndicesBuffer[tmp]);
-		gl.drawElements (gl.TRIANGLES, this.glIndicesBuffer[tmp].numItems, 
+		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer[tmp]);
+		gl.drawElements (gl.TRIANGLES, this.glIndiciesBuffer[tmp].numItems, 
 			gl.UNSIGNED_SHORT, 0);
 	}
 };

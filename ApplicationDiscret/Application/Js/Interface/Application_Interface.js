@@ -71,21 +71,6 @@
  */
 Application.prototype.resizeInterface = function () {
 	this.surfaceView.onResize ();
-//	var windowsHeight = window.innerHeight;
-//	var headerHeight = parseInt ($('.header').height());
-//	var footerHeight = parseInt ($('.footer').height());
-//	/// Define the size of the .content blocs
-//	$('.content').height(windowsHeight - headerHeight - footerHeight);
-//	$('.content').css("top",headerHeight);
-//	/// Define the width of the workspace
-//	var wsWidth = parseInt ($('.header').width()) 
-//		- parseInt ($('#toolPanel').width());
-//	$('#workspace').width (wsWidth);
-
-//	/// Define the size of #toolSpace
-//	$('#toolSpace').height (windowsHeight - headerHeight 
-//		- parseInt ($('#buttonBar').height()) - footerHeight-1);
-//	this.workspaceWidth = parseInt($('#workspace').width());
 };
 
 

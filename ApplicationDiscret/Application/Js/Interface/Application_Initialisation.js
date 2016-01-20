@@ -60,9 +60,11 @@
 Application.prototype.initAppli = function () {
 	/// Application initialization
 	this.resizeInterface ();
-	this.surfaceView.showScene ();
 	
 	/// Interface initialization
+	window.addEventListener ("resize",
+		this.surfaceView.onResize.bind (this.surfaceView)
+	);
 //	this.initWindowEvent ();
 //	$('.ui-resizable-e').bind ("mousedown", 
 //		function (event) {

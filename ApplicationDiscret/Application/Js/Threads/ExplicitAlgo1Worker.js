@@ -40,7 +40,7 @@ function ExplicitAlgo1Worker(explicitCurve, implicitCurve, dimension, surface ){
  * This method add the voxels contained in a buffer every time a new message
  * is received from a worker
  * @param {Array[]} buffer - a buffer containing voxel. Each voxel is an array :
- * [x, y, z, conexity]
+ * [x, y, z, connexity]
  * @param {Integer} size - size of the buffer
  */
 ExplicitAlgo1Worker.prototype.readBuffer = function (buffer, size) {

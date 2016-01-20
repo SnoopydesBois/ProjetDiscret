@@ -145,6 +145,10 @@ function GenericStructure (name, shader) {
 	 */
 	this.glIndicesBuffer = [];
 	
+	/**
+	 * {boolean} TODO
+	 */
+	this.prepared = false;
 }
 
 
@@ -306,10 +310,19 @@ GenericStructure.prototype.isPickable = function () {
  * @throws FIXME compléter
  */
 GenericStructure.prototype.setPickable = function (isPickable) {
-	if (typeof (isPickable) === "boolean")
+	if (typeof (isPickable) == "boolean")
 		this.isPickable = isPickable;
 	else
 		throw "GenericStructure.setPickable: parameter is not a boolean";
+};
+
+
+//==============================================================================
+/**
+ * @return {boolean} True if this object is already prepared, false otherwise.
+ */
+GenericStructure.prototype.isPrepared = function () {
+	return this.prepared;
 };
 
 

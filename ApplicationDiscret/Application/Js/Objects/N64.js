@@ -59,6 +59,7 @@ function N64 (gl, width, space) {
 	var forme = new Controller3D (new Vector (dim));
 	forme.modelGen.surface = s;
 	SurfaceRenderer.call (this, forme, gl);
+	this.structureName = "n64";
 };
 
 

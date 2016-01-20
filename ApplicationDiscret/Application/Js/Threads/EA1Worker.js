@@ -120,13 +120,13 @@ function algo(){
 		for (var y = 0; y < dimy; y++){
 			for (var x = 0; x < dimx; x++){
 				if (check26Connex(implicit_curve, x - maxx, y - maxy, [rz, rz1, rz2])){
-					buffer.push([x, y, z, ConnexityEnum.c26]);
+					buffer.push([x, y, z, ConnexityEnum.C26]);
 					bufferSize++;
 				} else if (check18Connex(implicit_curve, x - maxx, y - maxy, [rz, rz1, rz2])) {
-					buffer.push([x, y, z, ConnexityEnum.c18]);
+					buffer.push([x, y, z, ConnexityEnum.C18]);
 					bufferSize++;
 				} else if (check6Connex(implicit_curve, x - maxx, y - maxy, [rz1, rz2])){
-					buffer.push([x, y, z, ConnexityEnum.c6]);
+					buffer.push([x, y, z, ConnexityEnum.C6]);
 					bufferSize++;
 				}
 			} // end for x

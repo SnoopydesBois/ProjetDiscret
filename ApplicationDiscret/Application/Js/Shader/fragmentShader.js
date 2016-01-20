@@ -1,7 +1,7 @@
 /**
 * Fragment shader for the application
 */
-var fragsrc=
+var fragSrc =
 "precision mediump float;\n"
 +"\n"
 +"varying vec4 vColor;\n"
