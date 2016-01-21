@@ -29,7 +29,7 @@ Layer.prototype.constructor = Layer;
 function Layer () {
 	
 	/**
-	 * {Drawable2DObject} List of object to draw on the associted canvas. TODO documenté le type
+	 * {Drawable2DObject} List of object to draw on the associated canvas. TODO documenté le type
 	 */
 	this.objectList;
 	

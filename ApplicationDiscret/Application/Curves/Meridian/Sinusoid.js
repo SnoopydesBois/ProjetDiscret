@@ -42,10 +42,11 @@ Sinusoid.prototype.computePoints = function (ranX, ranY, step) {
 	var c = this.equation.getParameter("c");
 	var h = this.equation.getParameter("h");
 	
-	var convertRad = Math.PI /180;
-	// Convert from degrees to radians via multiplication by PI/180        
+	// Convert from degrees to radians via multiplication by PI/180
+	var convertRad = Math.PI /180;        
+	
 	for(var x = 0; x < 360; x += step){	
-		var y = a * Math.sin(b*x + c) + h;
+		var y = this.equation.compute([x]);
 		
 		/* 
 		 * If the point on the circle is within the display range,

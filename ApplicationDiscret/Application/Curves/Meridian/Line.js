@@ -32,14 +32,11 @@ Line.prototype.computePoints = function (ranX, ranY, step) {
 	
 	var points = [];
 	
-	var a = this.equation.getParameter("a");
-	var b = this.equation.getParameter("b");
-	
 	var xMin = ranX.getMin();
 	var xMax = ranX.getMax();
 	
 	for(var x = xMin; x <= xMax; x += step){	
-		var y = a * x + b
+		var y = this.equation.compute([x]);
 		
 		/* 
 		 * If the point on the circle is within the display range,
