@@ -147,7 +147,7 @@ function Application () {
 	/**
 	 * {Controller3D} TODO
 	 */
-	this.surfaceController = new Controller3D (new Vector (21, 21, 21));
+	this.surfaceController = new Controller3D (new Vector (25,25,25));
 	
 	/**
 	 * {Controller2D} TODO
