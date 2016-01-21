@@ -191,11 +191,6 @@ SurfaceViewer.prototype.draw = function (backBuffer) {
  * @return {void}
  */
 SurfaceViewer.prototype.onResize = function (event) {
-//	console.log ("resize du canvas");
-	$("canvas").each (function (id, elem) {
-		elem.height = $(elem).height ();
-		elem.width = $(elem).width ();
-	});
 	this.setViewDimension ();
 	this.contener.getCamera().computeMatrices();
 	this.show ();

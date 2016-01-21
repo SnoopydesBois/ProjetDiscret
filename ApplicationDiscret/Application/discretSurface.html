@@ -48,6 +48,7 @@
 		<script type="text/javascript" src="Js/Objects/GenericStructure.js"></script>
 		<script type="text/javascript" src="Js/Objects/Repere.js"></script>
 		<script type="text/javascript" src="Js/Objects/BoundingBox.js"></script>
+		<script type="text/javascript" src="Js/Objects/Grid.js"></script>
 
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo1Worker.js"></script>
 		
@@ -306,12 +307,6 @@
 						Liste des paramètres Méridienne
 					</div>
 					<canvas id="meridianCanvas"></canvas>
-					<script>
-						var canvasMeridian = document.getElementById('meridianCanvas'),
-						contextMeridian = canvasMeridian.getContext('2d');
-						make_base('Curves/Meridian/meridian.png', 'meridianCanvas', 454, 368, contextMeridian);
-					</script>
-					
 					<div id="meridianOption" class="optionPanel">
 						Option Méridienne
 					</div>

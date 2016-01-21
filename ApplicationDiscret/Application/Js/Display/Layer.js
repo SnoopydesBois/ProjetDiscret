@@ -8,11 +8,13 @@
 
 
 /**
+ * @extends GenericContener
  * @classdesc 
  */
 
 
 
+Layer.prototype = new GenericContener;
 Layer.prototype.constructor = Layer;
 
 
@@ -28,12 +30,11 @@ Layer.prototype.constructor = Layer;
  */
 function Layer () {
 	
+	GenericContener.call (this);
 	/**
 	 * {Drawable2DObject} List of object to draw on the associted canvas. TODO documenté le type
 	 */
 	this.objectList;
-	
-//	this.addObject (new Grid ());
 };
 
 
@@ -73,13 +74,14 @@ Layer.prototype.prepare = function (glContext) {
 
 //==============================================================================
 /**
- * TODO
+ * Draw all object of this layer on the associated canvas.
  * 
  * @param {CanvasRenderingContext2D} glContext - The gl context.
  * @param {boolean} [backBuffer] - Indicate if we have to draw the scene FIXME
  * normally or if we need to draw for picking.
  * 
  * @return {void}
+ * @throws {String} If one of parameter have a bad type.
  */
 Layer.prototype.draw = function (glContext, backBuffer) {
 	/// parameter verification
@@ -88,21 +90,50 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 	}
 	
 	/// Let's render
-	var pointList = [
-		[new Point (25, 25), new Point (20, 30), new Point (25, 30), new Point (25, 40)], 
-		[new Point (10, 10), new Point (10, 20), new Point (20, 20)]
-	];
-	
-	glContext.lineWidth = 5;
 	glContext.lineJoin = "round";
-	glContext.beginPath ();
-	for (var i = 0; i < pointList.length; ++i) {
-		glContext.moveTo (pointList[i][0].x, pointList[i][0].y);
-		for (var j = 1; j < pointList[i].length; ++j) {
-			glContext.lineTo (pointList[i][j].x, (pointList[i][j].y));
+	var len = this.getNbObject (),
+		color = "black",
+		lineWidth = 1,
+		dim = glContext.canvas.width,
+		xRangeLength, yRangeLength,
+		obj, pointList, nbLines, nbPoints;
+	
+	for (var id = 0; id < len; ++id) {
+		obj = this.getObject (id);
+		pointList = obj.getPoints ();
+		xRangeLength = obj.getXRange ().length ();
+		yRangeLength = obj.getYRange ().length ();
+		
+		if (obj instanceof Grid) {
+			color = "#80f";
+			lineWidth = 1;
 		}
-	}
-	glContext.stroke ();
+	
+		glContext.lineWidth = lineWidth;
+		glContext.fillStyle = color;
+		
+		glContext.beginPath ();
+		nbLines = pointList.length;
+		for (var x = 0; x < nbLines; ++x) {
+			nbPoints = pointList[x].length;
+			glContext.moveTo (
+				(pointList[x][0].x + (0 - obj.getXRange ().getMin ()))
+					* glContext.canvas.width / xRangeLength, 
+				(pointList[x][0].y + (0 - obj.getYRange ().getMin ()))
+					* glContext.canvas.height / yRangeLength
+			);
+			for (var y = 1; y < nbPoints; ++y) {
+				glContext.lineTo (
+					(pointList[x][y].x + (0 - obj.getXRange ().getMin ()))
+						* glContext.canvas.width / xRangeLength, 
+					(pointList[x][y].y + (0 - obj.getYRange ().getMin ()))
+						* glContext.canvas.height / yRangeLength
+				);
+			} // end for y
+		} // end for x
+		glContext.stroke ();
+		glContext.closePath ();
+	} // end for each object
 };
 
 
