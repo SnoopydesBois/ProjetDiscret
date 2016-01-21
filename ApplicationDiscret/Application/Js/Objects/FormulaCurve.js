@@ -45,6 +45,12 @@ FormulaCurve.prototype.setEquation = function(equation){
 };
 
 //==============================================================================
-FormulaCurve.prototype.computePoints = function(ranX, ranY, step){
+FormulaCurve.prototype.computePoints = function(ranX, ranY){
 	throw "FormulaCurve.computePoints.NotImplementedInThisClass";
 };
+
+
+//==============================================================================
+FormulaCurve.prototype.computeStep = function (ranX, ranY) {
+	return 0.1;
+}

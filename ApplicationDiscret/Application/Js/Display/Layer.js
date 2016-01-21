@@ -32,7 +32,7 @@ function Layer () {
 	
 	GenericContener.call (this);
 	/**
-	 * {Drawable2DObject} List of object to draw on the associted canvas. TODO documenté le type
+	 * {Drawable2DObject} List of object to draw on the associated canvas. TODO documenté le type
 	 */
 	this.objectList;
 };

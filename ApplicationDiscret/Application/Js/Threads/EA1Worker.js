@@ -113,8 +113,11 @@ function algo(){
 	zMax = Math.min(zMax, dimz);
 	for (var z = zMin; z < zMax; ++z) {
 		var rz = explicit_curve.compute([z]);
+		if (rz == 0) rz+=0.01;
 		var rz1 = explicit_curve.compute([z - 0.5]);
+		if (rz1 == 0) rz1+=0.01;
 		var rz2 = explicit_curve.compute([z + 0.5]);
+		if (rz2 == 0) rz2+=0.01;
 		var buffer = [];
 		var bufferSize = 0;
 		for (var y = 0; y < dimy; y++){

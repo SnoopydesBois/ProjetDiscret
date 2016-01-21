@@ -52,6 +52,7 @@
 		<script type="text/javascript" src="Js/Objects/Grid.js"></script>
 
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo1Worker.js"></script>
+		<script type="text/javascript" src="Js/Threads/ExplicitAlgo2Worker.js"></script>
 		
 		<!-- Default objects -->
 		<script type="text/javascript" src="Curves/Meridian/Line.js"></script>
@@ -361,8 +362,8 @@
 			circle.getEquation().setParameter("r", 5.0);
 
 			var sinWave = new Sinusoid();
-			sinWave.getEquation().setParameter("a", 1.0);
-			sinWave.getEquation().setParameter("b", 1/2);
+			sinWave.getEquation().setParameter("a", 10.0);
+			sinWave.getEquation().setParameter("b", 1/4);
 			sinWave.getEquation().setParameter("c", 0);
 			sinWave.getEquation().setParameter("h", 0);
 			
@@ -390,9 +391,6 @@
 			
 			var appli = new Application ();
 			
-			appli.surfaceController.getMeridian = function(){return sinWave};
-			appli.surfaceController.getCurveRevolution = function(){return revol};
-			
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 9);
 			//appli.surfaceView.contener.addObject (n64);
@@ -408,7 +406,7 @@
 			appli.revolView.container.addObject (c2);
 			
 			appli.surfaceController.getMeridian = function(){return sinWave};
-			appli.surfaceController.getCurveRevolution = function(){return revol};
+			appli.surfaceController.getCurveRevolution = function(){return heart};
 			
 			appli.initAppli ();
 			

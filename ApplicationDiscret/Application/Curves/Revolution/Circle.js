@@ -21,7 +21,7 @@ function Circle() {
  * @result {Point[][]} An array composed of list of points to represent the curve
  * (for exemple for 1/x we will have two list of points)
  */
-Circle.prototype.computePoints = function (ranX, ranY, step) {
+Circle.prototype.computePoints = function (ranX, ranY) {
 	if (! ranX instanceof Range || ! ranY instanceof Range) {
 		throw "Circle.computePoints.ErrorNotARange";
 	} else if (!this.equation.check) {
@@ -36,6 +36,8 @@ Circle.prototype.computePoints = function (ranX, ranY, step) {
 	var centerY = this.equation.getParameter("k");
 	
 	var radius = this.equation.getParameter("r");
+	
+	var step = this.computeStep(ranX, ranY);
 	
 	var convertRad = Math.PI /180;
 	// Convert from degrees to radians via multiplication by PI/180        
