@@ -1,5 +1,36 @@
+/////// LICENCE ////////////////////////////////////////////////////////////////
+
+
+/**
+ * @license
+ * TODO
+ */
+
+
+/// INDEX //////////////////////////////////////////////////////////
+
+
+/* TODO
+ */
+
+
+/// CODE ///////////////////////////////////////////////////////////
+
+
+/**
+ * @classdesc TODO
+ */
+
+
 Range.prototype.constructor = Range;
-// TODO refactoring code + class description
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
 /**
  * @constructor
  * 
@@ -26,15 +57,37 @@ function Range (min, max){
 	this.includeMax = true;
 }
 
+
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
+
+
+
 /**
- * @param {Number} min - new minimum for the range
- * @throws {String} "Range.setMin.ErrorMinGreaterThanMax" - the maximum must be
- * greater or equal to the minimum
- * @throws {String} "Range.setMin.ErrorNotANumber" - the parameter must be a
- * number
+ * @return {(Number | undefined)} this.min - Minimum of the range, possibly
+ * undefined.
+ */
+Range.prototype.getMin = function () {
+	return this.min;
+};
+
+
+//==============================================================================
+/**
+ * Set the minimum of the range.
+ * 
+ * @param {Number} min - New minimum for the range.
+ * 
+ * @return {void}
+ * @throws {String} "Range.setMin.ErrorMinGreaterThanMax" - The maximum must be
+ * greater or equal to the minimum.
+ * @throws {String} "Range.setMin.ErrorNotANumber" - The parameter must be a
+ * number.
  */
 Range.prototype.setMin = function (min) {
-	if (typeof min != "number" || isNaN (min)){
+	if (typeof min != "number" || isNaN (min)) {
 		throw "Range.setMin.ErrorNotANumber";
 	}
 	else if (min > this.max) {
@@ -45,39 +98,62 @@ Range.prototype.setMin = function (min) {
 	}
 };
 
+
+//==============================================================================
 /**
- * @param {Number} max - new maximum for the range
- * @throws {String} "Range.setMax.ErrorMinGreaterThanMax" - the maximum must be
- * greater or equal to the minimum
- * @throws {String} "Range.setMax.ErrorNotANumber" - the parameter must be a
+ * @return {(Number | undefined)} this.max - Maximum of the range, possibly
+ * undefined.
+ */
+Range.prototype.getMax = function () {
+	return this.max;
+};
+
+
+//==============================================================================
+/**
+ * Set the minimum of the range.
+ * 
+ * @param {Number} max - New maximum for the range.
+ * 
+ * @return {void}
+ * @throws {String} "Range.setMax.ErrorMinGreaterThanMax" - The maximum must be
+ * greater or equal to the minimum.
+ * @throws {String} "Range.setMax.ErrorNotANumber" - The parameter must be a
  * number
  */
 Range.prototype.setMax = function (max) {
-	if (typeof max != "number" || isNaN (max)){
+	if (typeof max != "number" || isNaN (max)) {
 		throw "Range.setMax.ErrorNotANumber";
 	}
-	else if (this.min > max){
+	else if (this.min > max) {
 		throw "Range.setMax.ErrorMinGreaterThanMax";
 	}
-	else{
+	else {
 		this.max = max;
 	}
 };
 
+
+//==============================================================================
 /**
- * @param {Number} min - new minimum for the range
- * @param {Number} max - new maximum for the range
+ * Set the minimum and the maximum of the range.
+ * 
+ * @param {Number} min - New minimum for the range.
+ * @param {Number} max - New maximum for the range.
+ * 
+ * @return {void}
  * @throws {String} "Range.setMinMax.ErrorMinGreaterThanMax" - the maximum must
- * be greater or equal to the minimum
+ * be greater or equal to the minimum.
  * @throws {String} "Range.setMinMax.ErrorNotANumber" - the parameters must be
- * numbers
+ * numbers.
  */
 Range.prototype.setMinMax = function (min, max) {
 	if (typeof max != "number" || isNaN (max) || typeof min != "number"
-		|| isNaN (min)){
+		|| isNaN (min))
+	{
 		throw "Range.setMinMax.ErrorNotANumber";
 	}
-	else if (min > max){
+	else if (min > max) {
 		throw "Range.setMinMax.ErrorMinGreaterThanMax";
 	}
 	else {
@@ -86,24 +162,48 @@ Range.prototype.setMinMax = function (min, max) {
 	}
 };
 
+
+//==============================================================================
+/**
+ * @return {Number} this.includeMin - Whether the minimum is included in the
+ * range.
+ */
+Range.prototype.getIncludeMin = function () {
+	return this.includeMin;
+};
+
+
+//==============================================================================
 /**
  * @param {boolean} include - Whether the minimum should be included in the
- * range
- * @throws {String} "Range.setIncludeMin.ErrorNotABoolean" - the include should
- * be a boolean
+ * range.
+ * @throws {String} "Range.setIncludeMin.ErrorNotABoolean" - The include should
+ * be a boolean.
  */
-Range.prototype.setIncludeMin = function (include){
+Range.prototype.setIncludeMin = function (include) {
 	if (typeof include != "boolean")
 		throw "Range.setIncludeMin.ErrorNotABoolean";
 	else
 		this.includeMin = include;
 };
 
+
+//==============================================================================
+/**
+ * @return {Number} this.includeMax - Whether the maximum is included in the
+ * range.
+ */
+Range.prototype.getIncludeMax = function () {
+	return this.includeMax;
+};
+
+
+//==============================================================================
 /**
  * @param {boolean} include - Whether the maximum should be included in the
- * range
+ * range.
  * @throws {String} "Range.setIncludeMax.ErrorNotABoolean" - the include should
- * be a boolean
+ * be a boolean.
  */
 Range.prototype.setIncludeMax = function (include) {
 	if (typeof include != "boolean")
@@ -112,51 +212,33 @@ Range.prototype.setIncludeMax = function (include) {
 		this.includeMax = include;
 };
 
-/**
- * @return {Number|undefined} this.min - Minimum of the range, possibly
- * undefined
- */
-Range.prototype.getMin = function () {
-	return this.min;
-};
+
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
+
+
 
 /**
- * @return {Number|undefined} this.max - Maximum of the range, possibly
- * undefined
- */
-Range.prototype.getMax = function () {
-	return this.max;
-};
-
-/**
- * @return {Number} this.includeMin - whether the minimum is included in the
- * range
- */
-Range.prototype.getIncludeMin = function () {
-	return this.includeMin;
-};
-
-/**
- * @return {Number} this.includeMax - whether the maximum is included in the
- * range
- */
-Range.prototype.getIncludeMax = function () {
-	return this.includeMax;
-};
-
-/**
- * @param {Number} coord - the coord to test
- * @return {boolean} true if the coord is in the range, false else
- * @throws {String} "Range.isIn.ErrorNotANumber" - the coord should be a number
+ * Test if the range contain a value.
+ * 
+ * @param {Number} value - The value to test.
+ * 
+ * @return {boolean} True if the value is in the range, false otherwise.
+ * @throws {String} "Range.isIn.ErrorNotANumber" - The value should be a number.
  */ 
-Range.prototype.isIn = function (coord) {
-	if (typeof coord !== "number") {
+Range.prototype.isIn = function (value) {
+	if (typeof value != "number") {
 		throw "Range.isIn.ErrorNotANumber";
 	}
-	var min = this.includeMin ? this.min : this.min + 1;
-	var max = this.includeMax ? this.max : this.max - 1;
 	
-	return coord >= this.min && coord <= this.max;
+	if (value == this.min)
+		return this.includeMin;
+	else if (value == this.max)
+		return this.includeMax;
+	else
+		return this.min <= value && value <= this.max;
 };
 
 
@@ -166,6 +248,17 @@ Range.prototype.isIn = function (coord) {
  */
 Range.prototype.length = function () {
 	return this.max - this.min;
+};
+
+
+//==============================================================================
+/**
+ * @return {String} A string to display the range.
+ */
+Range.prototype.toString = function () {
+	return (this.includeMin ? "[" : "]") 
+		+ this.min + "; " + this.max
+		+ (this.includeMax ? "]" : "[");
 };
 
 
