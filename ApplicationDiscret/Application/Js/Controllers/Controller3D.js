@@ -278,3 +278,11 @@ Controller3D.prototype.mouseDown = function (event, position) {
 };
 
 
+//==============================================================================
+/**
+ * This function return whether the algorithm finished his computations
+ * @return {boolean} whether the algorithm finished his computations
+ */
+Controller3D.prototype.isAlgoFinished = function (){
+	return this.modelGen.isAlgoFinished();
+}

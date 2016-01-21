@@ -11,7 +11,6 @@
 		<!-- TODO Modifié title pour le mutilangue -->
 		
 		<!-- javascript imports -->
-		<script type="text/javascript" src="Js/Utils/globalParameters.js"></script>
 		<script type="text/javascript" src="Js/Utils/function.js"></script>
 		<script type="text/javascript" src="Js/Utils/webglFunction.js"></script>
 		<script type="text/javascript" src="Js/Utils/Util.js"></script>
@@ -32,7 +31,6 @@
 		<script type="text/javascript" src="Js/Libraries/webgl-debug.js"></script>
 		
 		<script type="text/javascript" src="Js/Objects/Range.js"></script>
-		<script type="text/javascript" src="Js/Objects/Dimension.js"></script>
 		<script type="text/javascript" src="Js/Objects/Equation.js"></script>
 		<script type="text/javascript" src="Js/Objects/Camera.js"></script>
 		<script type="text/javascript" src="Js/Objects/Vector.js"></script>
@@ -46,39 +44,26 @@
 		<script type="text/javascript" src="Js/Objects/ImplicitCurve.js"></script>
 		<script type="text/javascript" src="Js/Objects/ExplicitCurve.js"></script>
 		<script type="text/javascript" src="Js/Objects/GenericStructure.js"></script>
+		<script type="text/javascript" src="Js/Objects/Scene.js"></script>
+		<script type="text/javascript" src="Js/Objects/GenericViewer.js"></script>
 		<script type="text/javascript" src="Js/Objects/Repere.js"></script>
-		<script type="text/javascript" src="Js/Objects/BoundingBox.js"></script>
 
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo1Worker.js"></script>
-		
-		<!-- Default objects -->
-		<script type="text/javascript" src="Curves/Meridian/Sinusoid.js"></script>
-		<script type="text/javascript" src="Curves/Revolution/Circle.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Shader/vertexShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/fragmentShader.js"></script>
-		<script type="text/javascript" src="Js/Shader/vertexShader_repere.js"></script>
-		<script type="text/javascript" src="Js/Shader/fragmentShader_repere.js"></script>
 		<script type="text/javascript" src="Js/Shader/Shader.js"></script>
 		<script type="text/javascript" src="Js/Shader/DefaultShader.js"></script>
-		<script type="text/javascript" src="Js/Shader/RepereShader.js"></script>
 		
 		<script type="text/javascript" src="Js/Controllers/Controller.js"></script>
-		<script type="text/javascript" src="Js/Controllers/Controller2D.js"></script>
-		<script type="text/javascript" src="Js/Controllers/Controller2DMeridian.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller3D.js"></script>
 		<script type="text/javascript" src="Js/Controllers/ControllerCamera.js"></script>
 		
 		<script type="text/javascript" src="Js/Functionalities/ModelGen.js"></script>
-		<script type="text/javascript" src="Js/Functionalities/ModelCurve.js"></script>
 		
 		<script type="text/javascript" src="Js/Display/SurfaceRenderer.js"></script>
-		<script type="text/javascript" src="Js/Display/GenericContener.js"></script>
-		<script type="text/javascript" src="Js/Display/Scene.js"></script>
-		<script type="text/javascript" src="Js/Display/Layer.js"></script>
-		<script type="text/javascript" src="Js/Display/GenericViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/SurfaceViewer.js"></script>
-		<script type="text/javascript" src="Js/Display/CurveViewer.js"></script>
+		<script type="text/javascript" src="Js/Display/CurveRenderer.js"></script>
 				
 		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
 		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>
@@ -92,6 +77,7 @@
 		<script type="text/javascript" src="Js/Interface/Application_Colors.js"></script>
 		
 		<script type="text/javascript" src="Js/Objects/N64.js"></script>
+		<script type="text/javascript" src="Js/Utils/globalParameter.js"></script>
 		
 		<script type="text/javascript" src="translatemodule/main.js"></script>
 		
@@ -107,14 +93,14 @@
 	
 		<script type="text/javascript">
 
-			function make_base(src, id, imgWidth, imgHeight, context)
+			function make_base(src, offsetWidth, offsetHeight, context)
 			{
 			  var base_image = new Image();
 			  base_image.src = src;
-			  
 			  base_image.onload = function(){
-				context.drawImage(base_image, document.getElementById(id).style.width, document.getElementById(id).style.height, imgWidth, imgHeight);
-			  };
+				var width = document.getElementById('revolutionView').style.width - document.getElementById('revolutionParam').style.width;
+				context.drawImage(base_image, width + offsetWidth, document.getElementById('revolutionParam').style.height + offsetHeight);
+			  }
 			}
 		</script>
 		<!-- Menus -->
@@ -287,8 +273,8 @@
 			<h1>Traduction</h1>
 				<ul>
 				 <!-- <div class="lang_switcher">-->
-                <li id="en" class="lang">English</li>
-                <li id="fr" class="lang">Français</li>
+                <li id="en" class="lang">EN</li>
+                <li id="fr" class="lang">FR</li>
             <!-- </div> -->
 				</ul>
 			</li>
@@ -306,26 +292,26 @@
 					<script>
 						var canvasMeridian = document.getElementById('meridianCanvas'),
 						contextMeridian = canvasMeridian.getContext('2d');
-						make_base('Curves/Meridian/meridian.png', 'meridianCanvas', 454, 368, contextMeridian);
+						make_base('Curves/Meridian/meridian.png', -100 , -30, contextMeridian);
 					</script>
 					
 					<div id="meridianOption" class="optionPanel">
 						Option Méridienne
 					</div>
 				</div>
-				<div id="revolView">
-					<div id="revolParam" class="paramPanel">
+				<div id="revolutionView">
+					<div id="revolutionParam" class="paramPanel">
 						Liste des paramètres Révolution
 					</div>
-					<canvas id="revolCanvas"></canvas>
+					<canvas id="revolutionCanvas"></canvas>
 					
 					<script>
-						var canvasRevolution = document.getElementById('revolCanvas'),
+						var canvasRevolution = document.getElementById('revolutionCanvas'),
 						contextRevolution = canvasRevolution.getContext('2d');
-						make_base('Curves/Revolution/courberevolution.png', 'revolCanvas', 398, 374, contextRevolution);
+						make_base('Curves/Revolution/courberevolution.png', 65, 20, contextRevolution);
 					</script>
 					
-					<div id="revolOption" class="optionPanel">
+					<div id="revolutionOption" class="optionPanel">
 						Option Révolution
 					</div>
 				</div>
@@ -333,7 +319,11 @@
 			<div id="surfaceView">
 				<div id="surfaceParam" class="paramPanel">
 					<button onclick="appli.generateAndDraw ();">Générer</button>
+					<button onclick="appli.surfaceView.showScene ();">redraw</button>
 					<hr/>
+					<button onclick="cam.eyePos.x = -cam.eyePos.x;appli.surfaceView.showScene ();">Flip X</button>
+					<button onclick="cam.eyePos.y = -cam.eyePos.y;appli.surfaceView.showScene ();">Flip Y</button>
+					<button onclick="cam.eyePos.z = -cam.eyePos.z;appli.surfaceView.showScene ();">Flip Z</button>
 					Liste des paramètres de la Surface
 				</div>
 				<canvas id="surfaceCanvas" width="640" height="480"></canvas>
@@ -350,25 +340,6 @@
 		</div>
 		
 		<script type="text/javascript">
-			var circle = new Circle();
-			circle.getEquation().setParameter("h", 2.0);
-			circle.getEquation().setParameter("k", -5.0);
-			circle.getEquation().setParameter("r", 3.0);
-			
-			var result = circle.computePoints(new Range(-1.0, 5.0), new Range(-8.0, -2.0), 90);
-			
-			
-			var sinWave = new Sinusoid();
-			sinWave.getEquation().setParameter("a", 2.0);
-			sinWave.getEquation().setParameter("b", 3.0);
-			sinWave.getEquation().setParameter("c", 1.0);
-			sinWave.getEquation().setParameter("h", -2.0);
-			
-			result = sinWave.computePoints(new Range(-2.0, 2.0), new Range(-5.0, 0.0), 0.1);
-			
-			console.log(result);
-			
-			
 			var meridian = new ExplicitCurve("cos(x/9.0)*10.0");
 			var revol = new ImplicitCurve("x^2 + y^2 - 1");
 			
@@ -377,13 +348,24 @@
 			appli.surfaceController.getMeridian = function(){return meridian};
 			appli.surfaceController.getCurveRevolution = function(){return revol};
 			
+			var cam = new Camera (
+				new Vector (20, 20, 20),
+				new Vector (0, 0, 0),
+				new Vector (0, 0, 1),
+				400, 300,
+				45.0, 0.001, 1000.0
+			);
+			appli.surfaceView.scene.setCamera (cam);
+			//appli.surfaceView.scene.setScale (0.9);
+			
 			var gl = appli.surfaceView.glContext;
-			var n64 = new N64 (gl, 6, 9);
-			//appli.surfaceView.contener.addObject (n64);
+			var n64 = new N64 (gl, 2, 4);
+			//appli.surfaceView.scene.addObject (n64);
 			appli.initAppli ();
 			
 			/* voir
 			http://webglfundamentals.org/webgl/lessons/webgl-drawing-multiple-things.html
+			http://stackoverflow.com/questions/24538310/the-difference-between-glortho-and-glviewport-in-opengl
 			*/
 		</script>
 	</body>
