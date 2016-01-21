@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <!--
 	author : abisutti
 	created : Fri, 18 Dec 2015 14:11:34 +0100
@@ -9,13 +9,13 @@
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 		<title>Surface de révolution discrète</title>
 		<!-- TODO Modifié title pour le mutilangue -->
-		
+
 		<!-- javascript imports -->
 		<script type="text/javascript" src="Js/Utils/globalParameters.js"></script>
 		<script type="text/javascript" src="Js/Utils/function.js"></script>
 		<script type="text/javascript" src="Js/Utils/webglFunction.js"></script>
 		<script type="text/javascript" src="Js/Utils/Util.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Enum/AxisEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/AttributeEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/RenderingModeEnum.js"></script>
@@ -23,14 +23,14 @@
 		<script type="text/javascript" src="Js/Enum/MenuEntryEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/DirectionEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/ConnexityEnum.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Libraries/math.js"></script>
 		<script type="text/javascript" src="Js/Libraries/jquery.js"></script>
 		<script type="text/javascript" src="Js/Libraries/jquery-ui.js"></script>
 		<script type="text/javascript" src="Js/Libraries/jszip.js"></script>
 		<script type="text/javascript" src="Js/Libraries/FileSaver.js"></script>
 		<script type="text/javascript" src="Js/Libraries/webgl-debug.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Objects/Range.js"></script>
 		<script type="text/javascript" src="Js/Objects/Dimension.js"></script>
 		<script type="text/javascript" src="Js/Objects/Equation.js"></script>
@@ -50,7 +50,8 @@
 		<script type="text/javascript" src="Js/Objects/BoundingBox.js"></script>
 
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo1Worker.js"></script>
-		
+		<script type="text/javascript" src="Js/Threads/ExplicitAlgo2Worker.js"></script>
+
 		<!-- Default objects -->
 		<script type="text/javascript" src="Curves/Meridian/Line.js"></script>
 		<script type="text/javascript" src="Curves/Meridian/Sinusoid.js"></script>
@@ -58,7 +59,7 @@
 		<script type="text/javascript" src="Curves/Revolution/Circle.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Heart.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Svastika.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Shader/vertexShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/fragmentShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/vertexShader_repere.js"></script>
@@ -66,16 +67,16 @@
 		<script type="text/javascript" src="Js/Shader/Shader.js"></script>
 		<script type="text/javascript" src="Js/Shader/DefaultShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/RepereShader.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Controllers/Controller.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller2D.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller2DMeridian.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller3D.js"></script>
 		<script type="text/javascript" src="Js/Controllers/ControllerCamera.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Functionalities/ModelGen.js"></script>
 		<script type="text/javascript" src="Js/Functionalities/ModelCurve.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Display/SurfaceRenderer.js"></script>
 		<script type="text/javascript" src="Js/Display/GenericContener.js"></script>
 		<script type="text/javascript" src="Js/Display/Scene.js"></script>
@@ -83,7 +84,7 @@
 		<script type="text/javascript" src="Js/Display/GenericViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/SurfaceViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/CurveViewer.js"></script>
-				
+
 		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
 		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>
 		<script type="text/javascript" src="Js/Interface/ListUndoRedoAction.js"></script>
@@ -94,11 +95,11 @@
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Colors.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Objects/N64.js"></script>
-		
+
 		<script type="text/javascript" src="translatemodule/main.js"></script>
-		
+
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/temp.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/common.css"/>
@@ -108,14 +109,14 @@
 
 	</head>
 	<body>
-	
+
 		<script type="text/javascript">
 
 			function make_base(src, id, imgWidth, imgHeight, context)
 			{
 			  var base_image = new Image();
 			  base_image.src = src;
-			  
+
 			  base_image.onload = function(){
 				context.drawImage(base_image, document.getElementById(id).style.width, document.getElementById(id).style.height, imgWidth, imgHeight);
 			  };
@@ -134,17 +135,17 @@
 						<input type="file" id="i_file" onchange=""
 							style="display:none">Ouvrir</input>
 					</li>
-					<li title="Enregistrer le modèle actuel" 
+					<li title="Enregistrer le modèle actuel"
 						onclick="">Enregistrer</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="viewMenu" tabindex="2">
 				<h1>Affichage</h1>
 				<ul>
-					<li title="Générer la surface dans la vue 3D" 
+					<li title="Générer la surface dans la vue 3D"
 						onclick="appli.surfaceView.showScene ()">Générer</li>
-						
-					<li title="Centrer la caméra" 
+
+					<li title="Centrer la caméra"
 						onclick="">Centrer la caméra</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
@@ -153,120 +154,120 @@
 				<ul>
 					<li id="toolUndo"
 						class="inaccessible"
-						title="Annuler la dernière action effectuée" 
+						title="Annuler la dernière action effectuée"
 						onclick="">Annuler</li>
-					
+
 					<li id="toolRedo"
 						class="inaccessible"
-						title="Refaire la dernière action annulée" 
+						title="Refaire la dernière action annulée"
 						onclick="">Refaire</li>
 
 					<li class="split"><hr/></li>
-					
+
 					<li id="tool2D"
 						class="submenu"
 						title="Outils 2D"> Outils 2D
-						<ul> 
+						<ul>
 							<li id="meridianChoice"
 								class="inaccessible"
 								title="Choix de la méridienne"
 								onclick="">Méridiennes</li>
-								
+
 							<li id="curveOfRevolutionChoice"
 								class="inaccessible"
 								title="Choix de la courbe de révolution"
 								onclick="">Courbes de révolution</li>
-								
+
 							<li class="split"><hr/></li>
-							
+
 							<li id="meridianFormula"
 								class="inaccessible"
 								title="Rentrer une formule pour la méridienne"
 								onclick="">Formule méridienne</li>
-								
+
 							<li id="showSimpleParameter"
 								class="inaccessible"
 								title="Rentrer une formule pour la courbe de révolution"
 								onclick="">Formule courbe de révolution</li>
-						
+
 							<li class="split"><hr/></li>
-							
+
 							<li id="handFreeDrawing"
 								class="inaccessible"
 								title="Dessiner à main levée"
 								onclick="">Dessiner à main levée </li>
-						
+
 							<li class="split"><hr/></li>
-							
+
 							<li id="showSimpleParameter"
 								class="inaccessible"
 								title="Afficher les paramètres simples"
 								onclick="">Paramètres simples</li>
-							
+
 							<li id="showAdvancedParameter"
 								class="inaccessible"
 								title="Afficher les paramètres avancés"
 								onclick="">Paramètres avancés</li>
-								
-								
+
+
 							<li class="split"><hr/></li>
-							
+
 							<li id="addMeridian"
 								class="inaccessible"
 								title="Ajout méridienne"
 								onclick="">Ajout méridienne</li>
-							
+
 							<li id="addCurve"
 								class="inaccessible"
 								title="Ajout courbe de révolution"
 								onclick="">Ajout courbe de révolution</li>
-						
+
 						</ul>
-					</li>	
-					
+					</li>
+
 					<li class="split"><hr/></li>
 					<li id="tool3D"
 						class="submenu"
 						title="Outils 3D"> Outils 3D
-						<ul> 
-							
+						<ul>
+
 							<li id="connexity"
 								class="inaccessible"
 								title="Choix de connexité"
 								onclick="">Connexité</li>
-								
+
 							<li id="dimension"
 								class="inaccessible"
 								title="Choix des dimensions"
 								onclick="">Dimension</li>
-							
+
 							<li id="repereDisplay"
 								class="inaccessible"
 								title="Affichage du repère"
 								onclick="">Afficher le repère</li>
-								
+
 							<li id="voxelSize"
 								class="inaccessible"
 								title="Taille des voxels"
 								onclick="">Taille des voxels</li>
-								
+
 							<li id="multiSlice"
 								class="inaccessible"
 								title="Multicoupe"
 								onclick="">Multicoupe</li>
-								
+
 						</ul>
-					</li>		
-					
+					</li>
+
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="exportMenu" tabindex="5">
 				<h1>Export</h1>
 				<ul>
 					<li>Export PNG</li>
-					
+
 					<li class="split"><hr/></li>
-					
+
 					<li id="tool3D"
 						class="submenu"
 						title="Outils 3D"> Export 3D
@@ -277,7 +278,7 @@
 					</li>
 				</ul>
 			</li>
-			
+
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="helpMenu" tabindex="6">
 				<h1>Aide</h1>
@@ -286,7 +287,7 @@
 					<li>À propos</li>
 				</ul>
 			</li>
-			
+
 			<li id="translatemenu" tabindex="7">
 			<h1>Traduction</h1>
 				<ul>
@@ -297,8 +298,8 @@
 				</ul>
 			</li>
 		</ul><!-- end menus -->
-		
-		
+
+
 		<!-- Workspace -->
 		<div id="workspace">
 			<div id="curvesView">
@@ -312,7 +313,7 @@
 						contextMeridian = canvasMeridian.getContext('2d');
 						make_base('Curves/Meridian/meridian.png', 'meridianCanvas', 454, 368, contextMeridian);
 					</script>
-					
+
 					<div id="meridianOption" class="optionPanel">
 						Option Méridienne
 					</div>
@@ -322,13 +323,13 @@
 						Liste des paramètres Révolution
 					</div>
 					<canvas id="revolCanvas"></canvas>
-					
+
 					<script>
 						var canvasRevolution = document.getElementById('revolCanvas'),
 						contextRevolution = canvasRevolution.getContext('2d');
 						make_base('Curves/Revolution/courberevolution.png', 'revolCanvas', 398, 374, contextRevolution);
 					</script>
-					
+
 					<div id="revolOption" class="optionPanel">
 						Option Révolution
 					</div>
@@ -351,13 +352,13 @@
 				</div>
 			</div>
 		</div>
-		
-		
+
+
 		<!-- State bar -->
 		<div id="stateBar" class="footer">
 			<p>Message...</p>
 		</div>
-		
+
 		<script type="text/javascript">
 			var circle = new Circle();
 			circle.getEquation().setParameter("h", 2.0);
@@ -368,40 +369,40 @@
 			sinWave.getEquation().setParameter("a", 10.0);
 			sinWave.getEquation().setParameter("b", 1/4);
 			sinWave.getEquation().setParameter("c", 0);
-			sinWave.getEquation().setParameter("h", 1);
-			
+			sinWave.getEquation().setParameter("h", 0);
+
 			var line = new Line();
 			line.getEquation().setParameter("a", 0.3);
 			line.getEquation().setParameter("b", 0.1);
-			
+
 			var lemni = new Lemniscate();
 			lemni.getEquation().setParameter("a", 0.25);
 			lemni.getEquation().setParameter("b", 0.15);
 			lemni.getEquation().setParameter("c", 0.2);
-			
+
 			var heart = new Heart();
 			/*heart.getEquation().setParameter("a", 0.5);
 			heart.getEquation().setParameter("b", 0.1);
 			heart.getEquation().setParameter("c", 0.8);
 			heart.getEquation().setParameter("c", 0.6);*/
-			
+
 			var meridian = new ExplicitCurve("cos(x/9.0)*10.0");
 			var revol = new ImplicitCurve("(x^2 + y^2) * (x^2 + y^2 - a*x - b*y) ^2 - r^2*x^2*y^2");
 			revol.getEquation().setParameter("r", 1);
 			revol.getEquation().setParameter("a", 0.7);
 			revol.getEquation().setParameter("b", 0.7);
 			var revol2 = new Svastika();
-			
+
 			var appli = new Application ();
-			
+
 			appli.surfaceController.getMeridian = function(){return sinWave};
-			appli.surfaceController.getCurveRevolution = function(){return revol};
-			
+			appli.surfaceController.getCurveRevolution = function(){return heart};
+
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 9);
 			//appli.surfaceView.contener.addObject (n64);
 			appli.initAppli ();
-			
+
 			/* voir
 			http://webglfundamentals.org/webgl/lessons/webgl-drawing-multiple-things.html
 			*/
