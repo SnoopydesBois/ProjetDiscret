@@ -3,12 +3,13 @@ importScripts("../Objects/Equation.js");
 importScripts("../Objects/Vector.js");
 importScripts("../Enum/ConnexityEnum.js");
 
-var id;
 var dimension;
 var implicit_curve;
 var explicit_curve;
-var zMin;
-var zMax;
+var checked = [];
+var dimx;
+var dimy;
+var dimz;
 
 //==============================================================================
 /**
@@ -99,41 +100,95 @@ function check6Connex(implicit_curve, x, y, z){
 	return arrayPosNeg(values);
 }
 
+
+function checkVoxel(x, y, z){
+	var res;
+	if (check26Connex(implicit_curve, x, y, z)){
+		res = ConnexityEnum.C26;
+	} else if (check18Connex(implicit_curve, x, y, z)) {
+		res = ConnexityEnum.C18;
+	} else if (check6Connex(implicit_curve,  x, y, [z[1],z[2]])){
+		res = ConnexityEnum.C6;
+	} else res = "No";
+	return res;
+}
+
+function addNeighboursToPile(x,y,z,pile){
+	if(x-1 >= 0 && !checked[x-1][y][z])
+		pile.push(new Vector(x-1, y, z));
+	if(x+1 < dimx && !checked[x+1][y][z])
+		pile.push(new Vector(x+1, y, z));
+	if(y-1 >= 0 && !checked[x][y-1][z])
+		pile.push(new Vector(x, y-1, z));
+	if(y+1 < dimy && !checked[x][y+1][z])
+		pile.push(new Vector(x, y+1, z));
+	if(z-1 >= 0 && !checked[x][y][z-1])
+		pile.push(new Vector(x, y, z-1));
+	if(z+1 < dimz && !checked[x][y][z+1])
+		pile.push(new Vector(x, y, z+1));
+}
+
 //==============================================================================
 /**
  * This function generate the surface using the algorithm for explicit
  * functions
  */
 function algo(){
-	var dimx = dimension.x;
-	var dimy = dimension.y;
-	var dimz = dimension.z;
 	var maxx = Math.trunc(dimx / 2);
 	var maxy = Math.trunc(dimy / 2);
-	zMax = Math.min(zMax, dimz);
-	for (var z = zMin; z < zMax; ++z) {
+	var buffer = [];
+	var bufferSize = 0;
+	var pile = [];
+	var zValues = [];
+	//find first voxel
+	for (var z = 0; z < dimz && bufferSize == 0; ++z) {
 		var rz = explicit_curve.compute([z]);
+		if (rz == 0) rz+=0.01;
 		var rz1 = explicit_curve.compute([z - 0.5]);
+		if (rz1 == 0) rz1+=0.01;
 		var rz2 = explicit_curve.compute([z + 0.5]);
-		var buffer = [];
-		var bufferSize = 0;
-		for (var y = 0; y < dimy; y++){
-			for (var x = 0; x < dimx; x++){
-				if (check26Connex(implicit_curve, x - maxx, y - maxy, [rz, rz1, rz2])){
-					buffer.push([x, y, z, ConnexityEnum.C26]);
+		if (rz2 == 0) rz2+=0.01;
+		zValues[z] = [rz, rz1, rz2];
+		for (var y = 0; y < dimy && bufferSize == 0; y++){
+			for (var x = 0; x < dimx && bufferSize == 0; x++){
+				var connexity = checkVoxel(x - maxx, y - maxy, [rz, rz1, rz2]);
+				if(connexity !== "No"){
+					buffer.push([x, y, z, connexity]);
 					bufferSize++;
-				} else if (check18Connex(implicit_curve, x - maxx, y - maxy, [rz, rz1, rz2])) {
-					buffer.push([x, y, z, ConnexityEnum.C18]);
-					bufferSize++;
-				} else if (check6Connex(implicit_curve, x - maxx, y - maxy, [rz1, rz2])){
-					buffer.push([x, y, z, ConnexityEnum.C6]);
-					bufferSize++;
+					addNeighboursToPile(x,y,z,pile);
 				}
+				checked[x][y][z] = true;
 			} // end for x
 		} // end for y
-		if(bufferSize !=0)
-			postMessage([buffer, bufferSize]);
 	} // end for z
+
+	//Incrementation
+	while(pile.length > 0){
+		if(bufferSize >= 1000){
+			postMessage([buffer, bufferSize]);
+			buffer = [];
+			bufferSize = 0;
+		}
+		var voxel = pile.pop();
+		checked[voxel.x][voxel.y][voxel.z] = true;
+		if(zValues[voxel.z] == undefined){
+			var rz = explicit_curve.compute([voxel.z]);
+			if (rz == 0) rz+=0.01;
+			var rz1 = explicit_curve.compute([voxel.z - 0.5]);
+			if (rz1 == 0) rz1+=0.01;
+			var rz2 = explicit_curve.compute([voxel.z + 0.5]);
+			if (rz2 == 0) rz2+=0.01;
+			zValues[voxel.z] = [rz, rz1, rz2];
+		}
+		var connexity = checkVoxel(voxel.x - maxx, voxel.y - maxy, zValues[voxel.z]);
+		if(connexity !== "No"){
+			buffer.push([voxel.x, voxel.y, voxel.z, connexity]);
+			bufferSize++;
+			addNeighboursToPile(voxel.x,voxel.y,voxel.z,pile);
+		}
+	}
+	//post last buffer
+	postMessage([buffer, bufferSize,"Terminate"]);
 }
 
 //==============================================================================
@@ -143,12 +198,20 @@ function algo(){
  * @param {Event} e - e.data contains the message received
  */
 onmessage = function(e){
-	id = e.data[0];
-	explicit_curve = new Equation (e.data[1]);
-	implicit_curve = new Equation (e.data[2]);
-	dimension = new Vector(e.data[3]);
-	zMin = e.data[4];
-	zMax = e.data[5];
+	explicit_curve = new Equation (e.data[0]);
+	implicit_curve = new Equation (e.data[1]);
+	dimension = new Vector(e.data[2]);
+	dimx = dimension.x;
+	dimy = dimension.y;
+	dimz = dimension.z;
+	for (var x = 0; x < dimx; ++x) {
+		checked[x] = [];
+		for (var y = 0; y < dimy; ++y) {
+			checked[x][y] = [];
+			for (var z = 0; z < dimz; ++z) {
+				checked[x][y][z] = null;
+			}
+		}
+	}
 	algo();
-	postMessage(["Terminate", id]);
 }

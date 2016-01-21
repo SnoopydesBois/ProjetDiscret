@@ -179,7 +179,7 @@ ModelGen.prototype.algoExplicit = function (meridian, curveRevolution){
 	this.surface = new Surface (dim);
 	var fMeridian = meridian.getEquation ();
 	var fRevol = curveRevolution.getEquation ();
-	this.worker = new ExplicitAlgo1Worker(fMeridian, fRevol, dim, this.surface);
+	this.worker = new ExplicitAlgo2Worker(fMeridian, fRevol, dim, this.surface);
 };
 
 //==============================================================================
