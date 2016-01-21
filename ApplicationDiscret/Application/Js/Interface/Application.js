@@ -170,6 +170,8 @@ function Application () {
 	this.listAction = new ListUndoRedoAction (25);
 }
 
+
+//==============================================================================
 /**
  * This function calls itself again every second in a different thread until the
  * computation is finished. Then it redraws the scene.
@@ -181,14 +183,21 @@ Application.prototype.computationFinished = function () {
 	}else{
 		this.validMessage("Finished", 0);
 	}
-}
+};
 
+
+//==============================================================================
 /**
  * This function is called by the generate button. Calls the algorithm and draws
  * the resulting surface
  */
 Application.prototype.generateAndDraw = function () {
 	this.showMessage("Computing...", 0, "blue");
+	this.surfaceController.setDimension ([
+		document.getElementById ("dimx").value,
+		document.getElementById ("dimy").value,
+		document.getElementById ("dimz").value
+	]);
 	this.surfaceController.generate();
 	this.surfaceRenderer = new SurfaceRenderer (this.surfaceController,
 												this.surfaceView.getGLContext());
@@ -196,4 +205,5 @@ Application.prototype.generateAndDraw = function () {
 	
 	this.computationFinished();
 };
+
 
