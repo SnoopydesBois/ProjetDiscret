@@ -361,10 +361,10 @@
 			circle.getEquation().setParameter("r", 5.0);
 
 			var sinWave = new Sinusoid();
-			sinWave.getEquation().setParameter("a", 1.0);
-			sinWave.getEquation().setParameter("b", 1/2);
+			sinWave.getEquation().setParameter("a", 10.0);
+			sinWave.getEquation().setParameter("b", 1/9);
 			sinWave.getEquation().setParameter("c", 0);
-			sinWave.getEquation().setParameter("h", 0);
+			sinWave.getEquation().setParameter("h", 0.1);
 			
 			var line = new Line();
 			line.getEquation().setParameter("a", 0.3);
@@ -390,9 +390,6 @@
 			
 			var appli = new Application ();
 			
-			appli.surfaceController.getMeridian = function(){return sinWave};
-			appli.surfaceController.getCurveRevolution = function(){return revol};
-			
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 9);
 			//appli.surfaceView.contener.addObject (n64);
@@ -408,7 +405,7 @@
 			appli.revolView.container.addObject (c2);
 			
 			appli.surfaceController.getMeridian = function(){return sinWave};
-			appli.surfaceController.getCurveRevolution = function(){return revol};
+			appli.surfaceController.getCurveRevolution = function(){return heart};
 			
 			appli.initAppli ();
 			

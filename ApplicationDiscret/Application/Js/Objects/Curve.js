@@ -8,6 +8,6 @@ function Curve () {}
 
 
 //==============================================================================
-Curve.prototype.computePoints = function (ranX, ranY, step){
+Curve.prototype.computePoints = function (ranX, ranY){
 	throw "Curve.computePoints.ErrorNotImplementedInAbstractClass";
 };
