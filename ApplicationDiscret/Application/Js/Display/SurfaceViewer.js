@@ -344,15 +344,16 @@ SurfaceViewer.prototype.moveCameraAt = function (phiOffset, thetaOffset) {
 	/// compute angle
 	var pos = this.camPosWhenClick;
 	var dist = pos.getLength ();
-	var phi = Math.acos (pos.x / dist) * Math.sign (pos.y / dist);
-	var theta = Math.asin (pos.z / dist);
+	var phi = Math.acos (pos.x / dist) * Math.sign (pos.y / dist)  + phiOffset;
+	var theta = clamp (-Math.PI / 2, Math.PI / 2, 
+		Math.asin (pos.z / dist) + thetaOffset);
+	
 	
 	/// compute pos
-	this.contener.setCameraAt ([
-		dist * Math.cos (phi + phiOffset) * Math.cos (theta + thetaOffset),
-		dist * Math.sin (phi + phiOffset) * Math.cos (theta + thetaOffset),
-		dist * Math.sin (theta + thetaOffset)
-	]);
+	var x = dist * Math.cos (phi) * Math.cos (theta);
+	var y = dist * Math.sin (phi) * Math.cos (theta);
+	var z = dist * Math.sin (theta);
+	this.contener.setCameraAt ([x, y, z]);
 	
 	/// drawing
 	this.draw ();
