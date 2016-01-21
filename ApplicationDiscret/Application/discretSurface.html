@@ -50,6 +50,7 @@
 		<script type="text/javascript" src="Js/Objects/BoundingBox.js"></script>
 		
 		<!-- Default objects -->
+		<script type="text/javascript" src="Curves/Meridian/Sinusoid.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Circle.js"></script>
 		
 		<script type="text/javascript" src="Js/Shader/vertexShader.js"></script>
@@ -355,6 +356,17 @@
 			var result = circle.computePoints(new Range(-1.0, 5.0), new Range(-8.0, -2.0), 90);
 			
 			console.log(result);
+			
+			var sinWave = new Sinusoid();
+			sinWave.getEquation().setParameter("a", 2.0);
+			sinWave.getEquation().setParameter("b", 3.0);
+			sinWave.getEquation().setParameter("c", 1.0);
+			sinWave.getEquation().setParameter("h", -2.0);
+			
+			result = sinWave.computePoints(new Range(-2.0, 2.0), new Range(-5.0, 0.0), 0.1);
+			
+			console.log(result);
+			
 			
 			var meridian = new ExplicitCurve("cos(x/9.0)*10.0");
 			var revol = new ImplicitCurve("x^2 + y^2 - 1");
