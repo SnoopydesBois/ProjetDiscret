@@ -7,7 +7,7 @@ Heart.prototype.constructor = Heart;
 * @constructor {Equation} the equation of the curve
 */
 function Heart() {
-	var equation = new Equation("(y - a*x + b)^2 + (c*x)^2 - d");
+	var equation = new Equation("(x^2 + y^2 -1)^3 - x^2 * y^3");
 	ImplicitCurve.call(this, equation);
 }
 

@@ -43,16 +43,12 @@
 
 /// INDEX //////////////////////////////////////////////////////////////////////
 
+
 /* resizeInterface () : void
  * addMenuEntry (entry : Entry) : void
  * addMenuSplit (menu : MenuEntryEnum, index : int) : void
  * addToolsEntry (entry : Entry) : void
  * addFrame (frame : Frame, ws : WorkspaceEnum) : void
- * setActiveFrame (frame : Frame, ws : WorkspaceEnum) : void
- * fullScreen2D () : void
- * fullScreen3D () : void
- * bothView () : void
- * displaySlice (axis : AxusEnum) : void
  * activeToolButton (className : String, id : String) : void
  * switchActive (element : HTMLElement) : void
  * setActiveClass (element : HTMLElement, active : bool) : void
@@ -60,17 +56,24 @@
  * updateTips (t : String) : void
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
 /**
- * Define the size of the elements which cannot be defined in CSS.
+ * TODO
  * 
  * @return {void}
  */
 Application.prototype.resizeInterface = function () {
+	$("canvas").each (function (id, elem) {
+		elem.height = $(elem).height ();
+		elem.width = $(elem).width ();
+	});
 	this.surfaceView.onResize ();
+	this.meridianView.onResize ();
+	this.revolView.onResize ();
 };
 
 

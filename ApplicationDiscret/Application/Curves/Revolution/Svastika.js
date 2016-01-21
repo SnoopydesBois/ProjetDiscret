@@ -1,13 +1,13 @@
-Lemniscate.prototype = new ImplicitCurve();
-Lemniscate.prototype.constructor = Lemniscate;
+Svastika.prototype = new ImplicitCurve();
+Svastika.prototype.constructor = Svastika;
 
 
 //==============================================================================
 /**
 * @constructor {Equation} the equation of the curve
 */
-function Lemniscate() {
-	var equation = new Equation("(a*x^2 + b*y^2)^2 - c * (a*x^2 - b*y^2)");
+function Svastika() {
+	var equation = new Equation("2x*y - x^4+y^4");
 	ImplicitCurve.call(this, equation);
 }
 
@@ -21,20 +21,16 @@ function Lemniscate() {
  * @result {Point[][]} An array composed of list of points to represent the curve
  * (for exemple for 1/x we will have two list of points)
  */
-Lemniscate.prototype.computePoints = function (ranX, ranY, step) {
+Svastika.prototype.computePoints = function (ranX, ranY, step) {
 	if (! ranX instanceof Range || ! ranY instanceof Range) {
-		throw "Lemniscate.computePoints.ErrorNotARange";
+		throw "Svastika.computePoints.ErrorNotARange";
 	} else if (!this.equation.check) {
-		throw "Lemniscate.computePoints.ErrorEquationNotDefined";
+		throw "Svastika.computePoints.ErrorEquationNotDefined";
 	}
 	
 	var result = [];
 	
 	var points = [];
-	
-	var a = this.equation.getParameter("a");
-	var b = this.equation.getParameter("b");
-	var c = this.equation.getParameter("c");
 	
 	var xMin = ranX.getMin();
 	var xMax = ranX.getMax();
@@ -43,6 +39,7 @@ Lemniscate.prototype.computePoints = function (ranX, ranY, step) {
 	
 	for(var x = xMin; x <= xMax; x += step){	
 		for (var y = yMin; y <= yMax; y += step){
+			
 			var compute = this.equation.compute([x,y]);
 			/* 
 			 * If the point on the circle is within the display range,

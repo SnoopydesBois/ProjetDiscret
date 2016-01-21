@@ -105,7 +105,7 @@ ModelGen.prototype.getSelectedVoxel = function(){
 
 //==============================================================================
 /**
- * @return {Surface} the surface to model
+ * @return {Surface} The surface to model.
  */
 ModelGen.prototype.getSurface = function(){
 	return this.surface;
@@ -114,11 +114,31 @@ ModelGen.prototype.getSurface = function(){
 
 //==============================================================================
 /**
- * @return {Vector} the dimensions of the 3D space
+ * @return {Vector} The dimensions of the 3D space.
  */
 ModelGen.prototype.getDimension = function () {
 	return this.dimension;
-//	return this.repere.getDimension ();
+};
+
+
+//==============================================================================
+/**
+ * Set the dimension of the generate surface.
+ * 
+ * @param {(Vector | Number[3] | Number} dimension - The dimensions of the 3D
+ * space (@see {@link Vector}).
+ * 
+ * @return {void}
+ * @throws {String} TODO
+ */
+ModelGen.prototype.setDimension = function (dimension) {
+	/// parameter verification 
+	if (! checkType (arguments, [Vector, Array, "number"])) {
+		throw "ModelGen.setDimension: bad type of parameter";
+	}
+	
+	/// set value
+	this.dimension = new Vector (dimension);
 };
 
 

@@ -68,33 +68,42 @@ Controller2D.prototype.constructor = Controller2D;
 
 /**
  * @constructor
- * @param {Number} imageMin - The lower bound of the output range
- * @param {Number} imageMax - The upper bound of the output range
- * @param {Number} antecedantMin - The lower bound of the input range
- * @param {Number} antecedantMax - The upper bound of the input range
- * @param {DrawModeEnum} mode - The drawing method used
+ * @param {Number} imageMin - The lower bound of the output range.
+ * @param {Number} imageMax - The upper bound of the output range.
+ * @param {Number} antecedantMin - The lower bound of the input range.
+ * @param {Number} antecedantMax - The upper bound of the input range.
+ * @param {DrawModeEnum} mode - The drawing method used.
  */
 function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
-	if(arguments.length == 0){
+	if (arguments.length == 0) {
 		Controller.call (this);
 	}
-	else{
-		if(!checkType(arguments, Number, Number, Number, Number, DrawModeEnum)){
-			console.error ("ERROR - Controller2D.constructor : bad type of parameter");
+	else {
+		if(!checkType (arguments, "number", "number", "number", "number", DrawModeEnum))
+		{
+			console.error ("Controller2D.constructor: bad type(s) of "
+				+ "parameter(s)");
+			showType ();
 		}
+		
 		Controller.call (this);	
-		this.modelCurve = new ModelCurve(new Intervalle(imageMin, imageMax), new Intervalle(antecedantMin, antecedantMax));
+		
+		/**
+		 * {ModelCurve} TODO
+		 */
+		this.modelCurve = new ModelCurve (
+			new Range (imageMin, imageMax), 
+			new Range (antecedantMin, antecedantMax)
+		);
 			
 		/**
-		* {DrawModeEnum} The type of drawing method used
-		*/
+		 * {DrawModeEnum} The type of drawing method used.
+		 */
 		this.mode = mode;
 		//this.modelParser = new ModelParser();
 		//this.modelParameter = new ModelParameter();
 	}
-	
-
-};
+}
 
 
 
@@ -103,62 +112,91 @@ function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 //##############################################################################
 
 
+
 /**
-*
-*/
-Controller2D.prototype.setActive = function(nom){
-	this.modelController2D.setActive(nom);
-}
+ * TODO doc
+ */
+Controller2D.prototype.setActive = function (nom) {
+	this.modelController2D.setActive (nom);
+};
 
 
 //==============================================================================
 /**
-*
-*/
-Controller2D.prototype.getPoints = function(dim){
-	return this.modelCurve.getPoints(dim);
-}
-
-//==============================================================================
-/**
-* To redefine in child controllers
-*/
-Controller2D.prototype.startFreeHand = function(dim){
-	throw "Controller2D.startFreeHand : this function is not implemented";
-}
-
-//==============================================================================
-/**
-* To redefine in child controllers
-*/
-Controller2D.prototype.newFreeHand = function(dim, coord){
-	throw "Controller2D.newFreeHand : this function is not implemented";
-}
+ * @return {Point[][]} A list of list of point. One list of point is a set of
+ * connected point.
+ */
+Controller2D.prototype.getPoints = function () {
+	return this.modelCurve.getPoints ();
+};
 
 
 //==============================================================================
 /**
-*
-*/
-Controller2D.prototype.parseImplicit = function(eq){
+ * TODO doc
+ */
+Controller2D.prototype.getXRange = function () {
+	return this.modelCurve.getImage ();
+};
+
+
+//==============================================================================
+/**
+ * TODO doc
+ */
+Controller2D.prototype.getYRange = function () {
+	return this.modelCurve.getInverseImage ();
+};
+
+
+//==============================================================================
+/**
+ * TODO doc
+ * To redefine in child controllers
+ */
+Controller2D.prototype.startHandFree = function (dim) {
+	throw "Controller2D.startHandFree: this function is not implemented";
+};
+
+
+//==============================================================================
+/**
+ * TODO doc
+ * To redefine in child controllers
+ */
+Controller2D.prototype.newHandFree = function (dim, coord) {
+	throw "Controller2D.newHandFree: this function is not implemented";
+};
+
+
+//==============================================================================
+/**
+ * TODO doc
+ *
+ */
+Controller2D.prototype.parseImplicit = function (eq) {
 	// TODO parsing
-	throw "Controller2D.parseImplicit : this function is not implemented";
-}
+	throw "Controller2D.parseImplicit: this function is not implemented";
+};
+
 
 //==============================================================================
 /**
-*
-*/
-Controller2D.prototype.parseParametric = function(eqX, eqY){
+ * TODO doc
+ */
+Controller2D.prototype.parseParametric = function (eqX, eqY) {
 	// TODO parsing
-	throw "Controller2D.parseParametric : this function is not implemented";
-}
+	throw "Controller2D.parseParametric: this function is not implemented";
+};
+
 
 //==============================================================================
 /**
-*
-*/
-Controller2D.prototype.parseExplicit = function(eq){
+ * TODO doc
+ */
+Controller2D.prototype.parseExplicit = function (eq) {
 	// TODO parsing
-	throw "Controller2D.parseExplicit : this function is not implemented";
-}
+	throw "Controller2D.parseExplicit: this function is not implemented";
+};
+
+

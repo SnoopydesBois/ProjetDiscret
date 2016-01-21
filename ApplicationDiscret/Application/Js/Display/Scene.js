@@ -110,7 +110,7 @@ function Scene () {
 		600,
 		45.0,
 		0.0001,
-		7.0
+		30.0
 	);
 		
 	/**
@@ -295,7 +295,7 @@ Scene.prototype.draw = function (glContext, backBuffer) {
 		
 		this.drawObject (glContext, obj);
 		
-		// RenderObject 
+		// Render Object 
 		if (backBuffer)
 			obj.backBufferDraw (glContext, this);
 		else

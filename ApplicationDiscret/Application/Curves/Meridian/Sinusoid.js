@@ -1,4 +1,4 @@
-Sinusoid.prototype = new ExplicitCurve();
+Sinusoid.prototype = new ExplicitCurve ();
 Sinusoid.prototype.constructor = Sinusoid;
 
 
@@ -6,14 +6,14 @@ Sinusoid.prototype.constructor = Sinusoid;
 /**
 * @constructor {Equation} the equation of the curve
 */
-function Sinusoid() {
+function Sinusoid () {
 	// a : amplitude
 	// b : period
 	// x : position
 	// C : phase shift
 	// h : vertical shift
-	var equation = new Equation("a*sin(b*x + c) + h");
-	ImplicitCurve.call(this, equation);
+	var equation = new Equation ("a*sin(b*x + c) + h");
+	ImplicitCurve.call (this, equation);
 }
 
 
@@ -32,27 +32,18 @@ Sinusoid.prototype.computePoints = function (ranX, ranY, step) {
 	} else if (!this.equation.check) {
 		throw "Sinusoid.computePoints.ErrorEquationNotDefined";
 	}
-	
 	var result = [];
 	
 	var points = [];
-	
-	var a = this.equation.getParameter("a");
-	var b = this.equation.getParameter("b");
-	var c = this.equation.getParameter("c");
-	var h = this.equation.getParameter("h");
-	
-	// Convert from degrees to radians via multiplication by PI/180
-	var convertRad = Math.PI /180;        
-	
-	for(var x = 0; x < 360; x += step){	
+	// Convert from degrees to radians via multiplication by PI/180        
+	for(var x = ranX.getMin(); x <= ranX.getMax(); x += step){
 		var y = this.equation.compute([x]);
 		
 		/* 
 		 * If the point on the circle is within the display range,
 		 * we add that point to the current connex part of the curve
 		 */
-		if(ranX.isIn(x) && ranY.isIn(y)){
+		if(ranY.isIn(y)){
 			points.push(new Point(x,y));
 		}
 		/* 

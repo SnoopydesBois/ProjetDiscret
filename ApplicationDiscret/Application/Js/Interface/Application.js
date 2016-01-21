@@ -147,7 +147,7 @@ function Application () {
 	/**
 	 * {Controller3D} TODO
 	 */
-	this.surfaceController = new Controller3D (new Vector (21, 21, 21));
+	this.surfaceController = new Controller3D (new Vector (25, 25, 25));
 	
 	/**
 	 * {Controller2D} TODO
@@ -170,30 +170,48 @@ function Application () {
 	this.listAction = new ListUndoRedoAction (25);
 }
 
+
+//==============================================================================
 /**
  * This function calls itself again every second in a different thread until the
  * computation is finished. Then it redraws the scene.
  */
 Application.prototype.computationFinished = function () {
-	this.surfaceView.show();
-	if (! this.surfaceController.isAlgoFinished()){
-		setTimeout(this.computationFinished.bind(this), 1000);
-	}else{
-		this.validMessage("Finished", 0);
+	this.surfaceView.show ();
+	if (! this.surfaceController.isAlgoFinished ()){
+		setTimeout (this.computationFinished.bind (this), 1000);
+	} 
+	else {
+		this.validMessage ("Finished", 0);
 	}
-}
+};
 
+
+//==============================================================================
 /**
  * This function is called by the generate button. Calls the algorithm and draws
  * the resulting surface
  */
 Application.prototype.generateAndDraw = function () {
 	this.showMessage("Computing...", 0, "blue");
+	this.surfaceController.setDimension ([
+		document.getElementById ("dimx").value,
+		document.getElementById ("dimy").value,
+		document.getElementById ("dimz").value
+	]);
+	this.surfaceView.contener.getObjectByName ("boundingBox").setDimension ([
+		document.getElementById ("dimx").value,
+		document.getElementById ("dimy").value,
+		document.getElementById ("dimz").value
+	]);
 	this.surfaceController.generate();
-	this.surfaceRenderer = new SurfaceRenderer (this.surfaceController,
-												this.surfaceView.getGLContext());
-	this.surfaceView.contener.addObject(this.surfaceRenderer);
+	this.surfaceRenderer = new SurfaceRenderer (
+		this.surfaceController,
+		this.surfaceView.getGLContext()
+	);
+	this.surfaceView.contener.addObject (this.surfaceRenderer);
 	
 	this.computationFinished();
 };
+
 

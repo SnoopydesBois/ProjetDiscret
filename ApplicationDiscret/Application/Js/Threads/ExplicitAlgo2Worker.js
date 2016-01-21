@@ -13,8 +13,8 @@ function ExplicitAlgo1Worker(explicitCurve, implicitCurve, dimension, surface ){
 	this.finished = false;
 	this.activeWorkers = 0;
 	this.worker = [];
-	var eq1 = explicitCurve.toStringNoParam();
-	var eq2 = implicitCurve.toStringNoParam();
+	var eq1 = explicitCurve.toString();
+	var eq2 = implicitCurve.toString();
 	var dim = dimension.m;
 	for (var i = 0; i< 8; i++){
 		this.worker[i] = new Worker ("Js/Threads/EA1Worker.js");

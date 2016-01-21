@@ -49,8 +49,8 @@
  * Enumeration of attributes that can be given to a Controller2D.
  */
 var DrawModeEnum = {
-	equation,
-	handFree,
+	equation : 0,
+	handFree : 1,
 	properties : {
 		0 : {name : "equation"},
 		1 : {name : "handFree"}

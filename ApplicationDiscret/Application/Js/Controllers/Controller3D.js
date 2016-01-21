@@ -200,7 +200,7 @@ Controller3D.prototype.hasVoxel = function (x, y, z) {
  * @return {Voxel} the selected voxel.
  */
 Controller3D.prototype.getSelectedVoxel = function () {
-	return this.modelGen.getSelectedVoxel();
+	return this.modelGen.getSelectedVoxel ();
 };
 
 
@@ -209,7 +209,20 @@ Controller3D.prototype.getSelectedVoxel = function () {
  * @return {Vector} The dimension of the surface.
  */
 Controller3D.prototype.getDimension = function () {
-	return this.modelGen.getDimension();
+	return this.modelGen.getDimension ();
+};
+
+
+//==============================================================================
+/**
+ * Set the dimension of the surface.
+ * 
+ * @param {Vector} dimension - The new dimension of the surface.
+ * 
+ * @return {void}
+ */
+Controller3D.prototype.setDimension = function (dimension) {
+	return this.modelGen.setDimension (dimension);
 };
 
 
@@ -225,7 +238,7 @@ Controller3D.prototype.isSelectedVoxel = function (position) {
 	if(!(position instanceof Vector)){
 		throw "position is not a Vector"
 	}
-	return this.modelGen.isSelectedVoxel(position);
+	return this.modelGen.isSelectedVoxel (position);
 };
 
 
@@ -280,9 +293,13 @@ Controller3D.prototype.mouseDown = function (event, position) {
 
 //==============================================================================
 /**
- * This function return whether the algorithm finished his computations
- * @return {boolean} whether the algorithm finished his computations
+ * This function return whether the algorithm finished his computations.
+ * 
+ * @return {boolean} Whether the algorithm finished his computations.
  */
 Controller3D.prototype.isAlgoFinished = function (){
 	return this.modelGen.isAlgoFinished();
-}
+};
+
+
+

@@ -31,10 +31,8 @@ function CurveViewer (canvas) {
 	/**
 	 * {Scene} The scene to display the surface.
 	 */
-	this.contener = new Layer ();
-//	this.contener.addObject ();
-	
-	
+	this.container = new Layer ();
+	this.container.addObject (new Grid ());
 };
 
 
@@ -72,7 +70,7 @@ CurveViewer.prototype.prepare = function () {
  * @return {void}
  */
 CurveViewer.prototype.show = function () {
-	
+	this.container.show (this.glContext);
 };
 
 
@@ -87,7 +85,7 @@ CurveViewer.prototype.show = function () {
  * @return {void}
  */
 CurveViewer.prototype.draw = function (backBuffer) {
-	
+	this.container.draw (this.glContext);
 };
 
 /*
@@ -180,9 +178,23 @@ Frame2D.prototype.gridCanvasInit = function () {
 };*/
 
 //##############################################################################
-//	Other methods
+//	Event methods
 //##############################################################################
 
 
+
+/**
+ * @override
+ * 
+ * @param {WindowEvent} event - The window event.
+ * 
+ * @return {void}
+ */
+CurveViewer.prototype.onResize = function (event) {
+	this.draw ();
+};
+
+
+//==============================================================================
 
 
