@@ -185,7 +185,23 @@ Equation.prototype.getListVariables = function() {
 };
 
 /**
- * @return {String} The formula describing the equation.
+ * @return {String} The formula describing the equation depending on the
+ * current environment
+ */
+Equation.prototype.toStringNoParam = function() {
+	var that = this;
+	var transformed = this.formulaTree.transform(function (node, path, parent) {
+		if (node.isSymbolNode && that.listParameters[node.name] != undefined) {
+			return new math.expression.node.ConstantNode(that.listParameters[node.name]);
+		} else {
+			return node;
+		}
+	});
+	return transformed.toString();
+};
+
+/**
+ * @return {String} The formula describing the equation
  */
 Equation.prototype.toString = function() {
 	return this.formulaTree.toString();
