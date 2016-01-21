@@ -45,7 +45,7 @@ Heart.prototype.computePoints = function (ranX, ranY, step) {
 	for(var x = xMin; x <= xMax; x += step){	
 		for (var y = yMin; y <= yMax; y += step){
 			
-			var compute = (y - a*x + b) * (y - a*x + b) + (c*x) * (c*x) - d;
+			var compute =  this.equation.compute([x,y]);
 			/* 
 			 * If the point on the circle is within the display range,
 			 * we add that point to the current connex part of the curve

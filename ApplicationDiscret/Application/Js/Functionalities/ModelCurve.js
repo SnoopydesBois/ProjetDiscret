@@ -68,7 +68,7 @@ ModelCurve.prototype.constructor = ModelCurve;
  */
 function ModelCurve (image, inverseImage) {
 	if (!checkType(arguments, Range, Range)) {
-		console.error ("ERROR - ModelCurve.constructor : bad type of parameter");
+		console.error ("ModelCurve.constructor: bad type of parameter");
 	}
 	/**
 	 * {Range} The image range of the curve
