@@ -1,18 +1,13 @@
-Sinusoid.prototype = new ExplicitCurve();
-Sinusoid.prototype.constructor = Sinusoid;
+Line.prototype = new ExplicitCurve();
+Line.prototype.constructor = Line;
 
 
 //==============================================================================
 /**
 * @constructor {Equation} the equation of the curve
 */
-function Sinusoid() {
-	// a : amplitude
-	// b : period
-	// x : position
-	// C : phase shift
-	// h : vertical shift
-	var equation = new Equation("a*sin(b*x + c) + h");
+function Line() {
+	var equation = new Equation("a*x + b");
 	ImplicitCurve.call(this, equation);
 }
 
@@ -26,11 +21,11 @@ function Sinusoid() {
  * @result {Point[][]} An array composed of list of points to represent the curve
  * (for exemple for 1/x we will have two list of points)
  */
-Sinusoid.prototype.computePoints = function (ranX, ranY, step) {
+Line.prototype.computePoints = function (ranX, ranY, step) {
 	if (! ranX instanceof Range || ! ranY instanceof Range) {
-		throw "Sinusoid.computePoints.ErrorNotARange";
+		throw "Line.computePoints.ErrorNotARange";
 	} else if (!this.equation.check) {
-		throw "Sinusoid.computePoints.ErrorEquationNotDefined";
+		throw "Line.computePoints.ErrorEquationNotDefined";
 	}
 	
 	var result = [];
@@ -39,19 +34,18 @@ Sinusoid.prototype.computePoints = function (ranX, ranY, step) {
 	
 	var a = this.equation.getParameter("a");
 	var b = this.equation.getParameter("b");
-	var c = this.equation.getParameter("c");
-	var h = this.equation.getParameter("h");
 	
-	var convertRad = Math.PI /180;
-	// Convert from degrees to radians via multiplication by PI/180        
-	for(var x = 0; x < 360; x += step){	
-		var y = a * Math.sin(b*x + c) + h;
+	var xMin = ranX.getMin();
+	var xMax = ranX.getMax();
+	
+	for(var x = xMin; x <= xMax; x += step){	
+		var y = a * x + b
 		
 		/* 
 		 * If the point on the circle is within the display range,
 		 * we add that point to the current connex part of the curve
 		 */
-		if(ranX.isIn(x) && ranY.isIn(y)){
+		if(ranY.isIn(y)){
 			points.push(new Point(x,y));
 		}
 		/* 

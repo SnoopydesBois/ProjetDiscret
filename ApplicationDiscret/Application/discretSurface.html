@@ -52,8 +52,11 @@
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo1Worker.js"></script>
 		
 		<!-- Default objects -->
+		<script type="text/javascript" src="Curves/Meridian/Line.js"></script>
 		<script type="text/javascript" src="Curves/Meridian/Sinusoid.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Lemniscate.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Circle.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Heart.js"></script>
 		
 		<script type="text/javascript" src="Js/Shader/vertexShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/fragmentShader.js"></script>
@@ -357,6 +360,7 @@
 			
 			var result = circle.computePoints(new Range(-1.0, 5.0), new Range(-8.0, -2.0), 90);
 			
+			console.log(result);
 			
 			var sinWave = new Sinusoid();
 			sinWave.getEquation().setParameter("a", 2.0);
@@ -368,6 +372,32 @@
 			
 			console.log(result);
 			
+			var line = new Line();
+			line.getEquation().setParameter("a", 3.0);
+			line.getEquation().setParameter("b", 0.0);
+			
+			result = line.computePoints(new Range(-2.5, 2.5), new Range(-10.0, 10.0), 0.5);
+			
+			console.log(result);
+			
+			var lemni = new Lemniscate();
+			lemni.getEquation().setParameter("a", 0.25);
+			lemni.getEquation().setParameter("b", 0.15);
+			lemni.getEquation().setParameter("c", 0.2);
+			
+			result = lemni.computePoints(new Range(-1.0, 1.0), new Range(-1.0, 1.0), 0.5);
+			
+			console.log(result);
+			
+			var heart = new Heart();
+			heart.getEquation().setParameter("a", 0.5);
+			heart.getEquation().setParameter("b", 0.1);
+			heart.getEquation().setParameter("c", 0.8);
+			heart.getEquation().setParameter("c", 0.6);
+			
+			result = heart.computePoints(new Range(-1.0, 1.0), new Range(-1.0, 1.0), 0.5);
+			
+			console.log(result);
 			
 			var meridian = new ExplicitCurve("cos(x/9.0)*10.0");
 			var revol = new ImplicitCurve("x^2 + y^2 - 1");
