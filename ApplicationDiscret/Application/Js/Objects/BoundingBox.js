@@ -114,6 +114,28 @@ BoundingBox.prototype.getDimension = function () {
 };
 
 
+//==============================================================================
+/**
+ * Set the dimension of the generate surface.
+ * 
+ * @param {(Vector | Number[3] | Number} dimension - The dimensions of the 3D
+ * space (@see {@link Vector}).
+ * 
+ * @return {void}
+ * @throws {String} TODO
+ */
+BoundingBox.prototype.setDimension = function (dimension) {
+	/// parameter verification 
+	if (! checkType (arguments, [Vector, Array, "number"])) {
+		throw "BoundingBox.setDimension: bad type of parameter";
+	}
+	
+	/// set value
+	this.dimension = new Vector (dimension);
+	this.prepared = false;
+};
+
+
 
 //##############################################################################
 //	Drawing methods

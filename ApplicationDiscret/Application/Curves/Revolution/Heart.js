@@ -7,7 +7,7 @@ Heart.prototype.constructor = Heart;
 * @constructor {Equation} the equation of the curve
 */
 function Heart() {
-	var equation = new Equation("(y - a*x + b)^2 + (c*x)^2 - d");
+	var equation = new Equation("(x^2 + y^2 -1)^3 - x^2 * y^3");
 	ImplicitCurve.call(this, equation);
 }
 
@@ -45,7 +45,7 @@ Heart.prototype.computePoints = function (ranX, ranY, step) {
 	for(var x = xMin; x <= xMax; x += step){	
 		for (var y = yMin; y <= yMax; y += step){
 			
-			var compute = (y - a*x + b) * (y - a*x + b) + (c*x) * (c*x) - d;
+			var compute =  this.equation.compute([x,y]);
 			/* 
 			 * If the point on the circle is within the display range,
 			 * we add that point to the current connex part of the curve

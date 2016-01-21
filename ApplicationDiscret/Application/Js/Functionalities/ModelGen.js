@@ -129,11 +129,12 @@ ModelGen.prototype.getDimension = function () {
  * space (@see {@link Vector}).
  * 
  * @return {void}
+ * @throws {String} TODO
  */
 ModelGen.prototype.setDimension = function (dimension) {
 	/// parameter verification 
 	if (! checkType (arguments, [Vector, Array, "number"])) {
-		
+		throw "ModelGen.setDimension: bad type of parameter";
 	}
 	
 	/// set value

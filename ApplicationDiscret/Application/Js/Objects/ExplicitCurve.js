@@ -11,6 +11,7 @@ function ExplicitCurve(equation) {
 }
 
 
+
 //==============================================================================
 /**
 * Compute the points of the curve based on its equation
@@ -29,3 +30,5 @@ ExplicitCurve.prototype.computePoints = function (ranX, ranY, step) {
 	return result;
 }
 
+
+// ocmputeStep

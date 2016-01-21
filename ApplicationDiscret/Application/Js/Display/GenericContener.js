@@ -241,7 +241,6 @@ GenericContener.prototype.setTranslate = function (x, y) {
  * @return {void}
  */
 GenericContener.prototype.addObject = function (anObject) {
-	console.log ("Ajout de l'objet : ");
 	this.objectList.push (anObject);
 };
 

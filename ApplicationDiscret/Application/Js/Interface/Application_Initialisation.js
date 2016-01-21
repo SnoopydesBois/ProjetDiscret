@@ -62,18 +62,7 @@ Application.prototype.initAppli = function () {
 	this.resizeInterface ();
 	
 	/// Interface initialization
-	window.addEventListener ("resize",
-		this.surfaceView.onResize.bind (this.surfaceView)
-	);
-//	this.initWindowEvent ();
-//	$('.ui-resizable-e').bind ("mousedown", 
-//		function (event) {
-//			$('.resizeFix').css ("display", "block");
-//		});
-//	// If the mouse move too fast, the resize is done anyway.
-//	this.resizeInterface ();
-	if (!this.hasMessage ())
-		this.showDefaultMessage ();
+	this.initWindowEvent ();
 };
 
 
@@ -95,27 +84,10 @@ Application.prototype.initFunctionnalities = function () {
  * @return {void}
  */
 Application.prototype.initWindowEvent = function () {
-//	$("#curvesView").resizable ({
-//		handles: 'e', // e = east
-//		maxWidth: 10000, // i.e. no limit
-//		minWidth: 150,
-//		ghost : true,
-//		create: function (event, ui) {
-//			$(this).parent().on('resize', function (e) {
-//				e.stopPropagation();
-//			});
-//		},
-//		stop : function (event, ui) {
-//				$('.resizeFix').css ("display", "none");
-//				var currentWidth = ui.size.width;
-//				// set the content panel width
-//				$("#surfaceView").css ("width", ((appli.workspaceWidth 
-//					- currentWidth) / appli.workspaceWidth) * 100 + "%");
-//				$('#curvesView').css ("width", (100 * currentWidth 
-//					/ appli.workspaceWidth) + "%");
-////				$('#curvesView').css ("height", "100%"); // bug fix
-//			} // end fonction for stop attribute
-//	}); // end object for resiable()
+	window.addEventListener ("resize",
+		this.surfaceView.onResize.bind (this.surfaceView)
+	);
+	this.showDefaultMessage ();
 };
 
 

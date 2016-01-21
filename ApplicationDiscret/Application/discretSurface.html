@@ -22,6 +22,7 @@
 		<script type="text/javascript" src="Js/Enum/CubeStateEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/MenuEntryEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/DirectionEnum.js"></script>
+		<script type="text/javascript" src="Js/Enum/DrawModeEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/ConnexityEnum.js"></script>
 		
 		<script type="text/javascript" src="Js/Libraries/math.js"></script>
@@ -48,6 +49,7 @@
 		<script type="text/javascript" src="Js/Objects/GenericStructure.js"></script>
 		<script type="text/javascript" src="Js/Objects/Repere.js"></script>
 		<script type="text/javascript" src="Js/Objects/BoundingBox.js"></script>
+		<script type="text/javascript" src="Js/Objects/Grid.js"></script>
 
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo1Worker.js"></script>
 		
@@ -57,6 +59,7 @@
 		<script type="text/javascript" src="Curves/Revolution/Lemniscate.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Circle.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Heart.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Svastika.js"></script>
 		
 		<script type="text/javascript" src="Js/Shader/vertexShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/fragmentShader.js"></script>
@@ -306,12 +309,6 @@
 						Liste des paramètres Méridienne
 					</div>
 					<canvas id="meridianCanvas"></canvas>
-					<script>
-						var canvasMeridian = document.getElementById('meridianCanvas'),
-						contextMeridian = canvasMeridian.getContext('2d');
-						make_base('Curves/Meridian/meridian.png', 'meridianCanvas', 454, 368, contextMeridian);
-					</script>
-					
 					<div id="meridianOption" class="optionPanel">
 						Option Méridienne
 					</div>
@@ -359,62 +356,60 @@
 		
 		<script type="text/javascript">
 			var circle = new Circle();
-			circle.getEquation().setParameter("h", 2.0);
-			circle.getEquation().setParameter("k", -5.0);
-			circle.getEquation().setParameter("r", 3.0);
-			
-			var result = circle.computePoints(new Range(-1.0, 5.0), new Range(-8.0, -2.0), 90);
-			
-			console.log(result);
-			
+			circle.getEquation().setParameter("h", 0);
+			circle.getEquation().setParameter("k", -0);
+			circle.getEquation().setParameter("r", 5.0);
+
 			var sinWave = new Sinusoid();
-			sinWave.getEquation().setParameter("a", 2.0);
-			sinWave.getEquation().setParameter("b", 3.0);
-			sinWave.getEquation().setParameter("c", 1.0);
-			sinWave.getEquation().setParameter("h", -2.0);
-			
-			result = sinWave.computePoints(new Range(-2.0, 2.0), new Range(-5.0, 0.0), 0.1);
-			
-			console.log(result);
+			sinWave.getEquation().setParameter("a", 1.0);
+			sinWave.getEquation().setParameter("b", 1/2);
+			sinWave.getEquation().setParameter("c", 0);
+			sinWave.getEquation().setParameter("h", 0);
 			
 			var line = new Line();
-			line.getEquation().setParameter("a", 3.0);
-			line.getEquation().setParameter("b", 0.0);
-			
-			result = line.computePoints(new Range(-2.5, 2.5), new Range(-10.0, 10.0), 0.5);
-			
-			console.log(result);
+			line.getEquation().setParameter("a", 0.3);
+			line.getEquation().setParameter("b", 0.1);
 			
 			var lemni = new Lemniscate();
 			lemni.getEquation().setParameter("a", 0.25);
 			lemni.getEquation().setParameter("b", 0.15);
 			lemni.getEquation().setParameter("c", 0.2);
 			
-			result = lemni.computePoints(new Range(-1.0, 1.0), new Range(-1.0, 1.0), 0.5);
-			
-			console.log(result);
-			
 			var heart = new Heart();
-			heart.getEquation().setParameter("a", 0.5);
+			/*heart.getEquation().setParameter("a", 0.5);
 			heart.getEquation().setParameter("b", 0.1);
 			heart.getEquation().setParameter("c", 0.8);
-			heart.getEquation().setParameter("c", 0.6);
-			
-			result = heart.computePoints(new Range(-1.0, 1.0), new Range(-1.0, 1.0), 0.5);
-			
-			console.log(result);
+			heart.getEquation().setParameter("c", 0.6);*/
 			
 			var meridian = new ExplicitCurve("cos(x/9.0)*10.0");
-			var revol = new ImplicitCurve("x^2 + y^2 - 1");
+			var revol = new ImplicitCurve("(x^2 + y^2) * (x^2 + y^2 - a*x - b*y) ^2 - r^2*x^2*y^2");
+			revol.getEquation().setParameter("r", 1);
+			revol.getEquation().setParameter("a", 0.7);
+			revol.getEquation().setParameter("b", 0.7);
+			var revol2 = new Svastika();
 			
 			var appli = new Application ();
 			
-			appli.surfaceController.getMeridian = function(){return meridian};
+			appli.surfaceController.getMeridian = function(){return sinWave};
 			appli.surfaceController.getCurveRevolution = function(){return revol};
 			
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 9);
 			//appli.surfaceView.contener.addObject (n64);
+			
+			var c = new Controller2D (-11, 11, -1.1, 1.1);
+			var c2 = new Controller2D (-5, 5, -5, 5);
+			
+			c.modelCurve.activeCurve = sinWave;
+			c2.modelCurve.activeCurve = circle;
+			
+			//sinWave.computePoints (new Range (-10, 10), new Range (-10, 10), 5)
+			appli.meridianView.container.addObject (c);
+			appli.revolView.container.addObject (c2);
+			
+			appli.surfaceController.getMeridian = function(){return sinWave};
+			appli.surfaceController.getCurveRevolution = function(){return revol};
+			
 			appli.initAppli ();
 			
 			/* voir
