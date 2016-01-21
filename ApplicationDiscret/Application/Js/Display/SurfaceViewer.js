@@ -34,7 +34,7 @@ function SurfaceViewer (canvas) {
 	 */
 	this.contener = new Scene ();
 	this.contener.addObject (new BoundingBox (
-		new Vector (5, 5, 5), 
+		new Vector (4, 4, 6), 
 		this.glContext
 	));
 	this.contener.addObject (new Repere (this.glContext));

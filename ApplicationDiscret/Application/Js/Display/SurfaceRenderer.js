@@ -612,18 +612,19 @@ SurfaceRenderer.prototype.drawBackBuffer = function (gl) {
 SurfaceRenderer.prototype.addVertexBuffer = function (dataVertexBuffer, x, y, z, 
 	limit) 
 {
-	if (!(dataVertexBuffer instanceof Array)
-			|| typeof x != "number"
-			|| typeof y != "number"
-			|| typeof z != "number"
-			|| ! (limit instanceof Vector)) {
-		console.error ("SurfaceRenderer.addVertexBuffer : bad type(s) of "
-				+ "parameter(s)");
+	/// parameters verification
+	if (!checkType (arguments, Array, "number", "number", "number", Vector)) {
+		showType (dataVertexBuffer, x, y, z, limit);
+		throw "SurfaceRenderer.addVertexBuffer: bad type(s) of parameter(s)";
 	}
-	// --------------------------------------
-	dataVertexBuffer.push ((x / limit.x) * 2.0 - 1.0,
-			(y / limit.y) * 2.0 - 1.0,
-			(z / limit.z) * 2.0 - 1.0);
+	
+	/// compute
+	var m = Math.max (limit.x, limit.y, limit.z) / 2;
+	dataVertexBuffer.push (
+		(x - limit.x / 2) / m,
+		(y - limit.y / 2) / m,
+		(z - limit.z / 2) / m
+	);
 };
 
 
