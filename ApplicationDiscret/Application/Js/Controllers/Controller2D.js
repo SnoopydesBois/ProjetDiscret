@@ -79,10 +79,11 @@ function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 		Controller.call (this);
 	}
 	else {
-		if(!checkType (arguments, Number, Number, Number, Number, DrawModeEnum))
+		if(!checkType (arguments, "number", "number", "number", "number", DrawModeEnum))
 		{
 			console.error ("Controller2D.constructor: bad type(s) of "
 				+ "parameter(s)");
+			showType ();
 		}
 		
 		Controller.call (this);	
@@ -125,8 +126,26 @@ Controller2D.prototype.setActive = function (nom) {
  * @return {Point[][]} A list of list of point. One list of point is a set of
  * connected point.
  */
-Controller2D.prototype.getPoints = function (dim) {
-	return this.modelCurve.getPoints (dim);
+Controller2D.prototype.getPoints = function () {
+	return this.modelCurve.getPoints ();
+};
+
+
+//==============================================================================
+/**
+ * TODO doc
+ */
+Controller2D.prototype.getXRange = function () {
+	return this.modelCurve.getImage ();
+};
+
+
+//==============================================================================
+/**
+ * TODO doc
+ */
+Controller2D.prototype.getYRange = function () {
+	return this.modelCurve.getInverseImage ();
 };
 
 

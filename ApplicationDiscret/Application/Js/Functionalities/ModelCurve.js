@@ -107,9 +107,9 @@ function ModelCurve (image, inverseImage) {
  * @param {String} curve - The equation of the curve or its name
  * @param {EquationTypeEnum} [type] - The type of the new active curve.
  */
-ModelCurve.prototype.setActive = function(curve, type){
+ModelCurve.prototype.setActive = function (curve, type){
 	if(!(typeof(curve) == "string")){		
-		console.error ("ERROR - ModelCurve.setActive : parameter curve is of wrong type");
+		console.error ("ModelCurve.setActive: parameter curve is of wrong type");
 	}
 	
 	switch (type) {
@@ -120,7 +120,7 @@ ModelCurve.prototype.setActive = function(curve, type){
 			this.activeCurve = new Explicit(curve);
 			break;
 		case EquationTypeEnum.parametric :
-			throw "ModelCurve.setActive : This model does not handle parametric curves";
+			throw "ModelCurve.setActive: This model does not handle parametric curves";
 			break;
 		case undefined:
 		case null:
@@ -128,11 +128,11 @@ ModelCurve.prototype.setActive = function(curve, type){
 				this.activeCurve = new (this.listCurve.get(curve))();
 			}
 			else{
-				throw "ModelCurve.setActive : Unknown type of equation";
+				throw "ModelCurve.setActive: Unknown type of equation";
 			}
 			break;
 		default :
-			throw "ModelCurve.setActive : Unknown type of equation";
+			throw "ModelCurve.setActive: Unknown type of equation";
 			break;
 	}
 	this.activeCurve = curve;
@@ -143,8 +143,8 @@ ModelCurve.prototype.setActive = function(curve, type){
 /**
  * @return {List<Vector>} A list of points of the curve.
  */
-ModelCurve.prototype.getPoints = function(){
-	return this.activeCurve.computePoints(this.image, this.inverseImage);
+ModelCurve.prototype.getPoints = function () {
+	return this.activeCurve.computePoints (this.image, this.inverseImage, 0.1);
 };
 
 

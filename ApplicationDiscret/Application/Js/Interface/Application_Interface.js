@@ -73,7 +73,7 @@ Application.prototype.resizeInterface = function () {
 	});
 	this.surfaceView.onResize ();
 	this.meridianView.onResize ();
-//	this.revolView.onResize ();
+	this.revolView.onResize ();
 };
 
 

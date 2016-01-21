@@ -101,9 +101,11 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 	for (var id = 0; id < len; ++id) {
 		obj = this.getObject (id);
 		pointList = obj.getPoints ();
+//		console.log("dessin de :", pointList)
 		xRangeLength = obj.getXRange ().length ();
 		yRangeLength = obj.getYRange ().length ();
-		
+//		console.log ("x range ", obj.getXRange (), xRangeLength)
+//		console.log ("y range ", obj.getYRange (), yRangeLength)
 		if (obj instanceof Grid) {
 			color = "#80f";
 			lineWidth = 1;
@@ -114,8 +116,10 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 		
 		glContext.beginPath ();
 		nbLines = pointList.length;
+//		console.log ("nbLines", nbLines);
 		for (var x = 0; x < nbLines; ++x) {
 			nbPoints = pointList[x].length;
+//			console.log ("nbPoints", nbPoints);
 			glContext.moveTo (
 				(pointList[x][0].x + (0 - obj.getXRange ().getMin ()))
 					* glContext.canvas.width / xRangeLength, 
