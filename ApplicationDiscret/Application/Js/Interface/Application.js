@@ -190,10 +190,10 @@ Application.prototype.computationFinished = function () {
 //==============================================================================
 /**
  * This function is called by the generate button. Calls the algorithm and draws
- * the resulting surface
+ * the resulting surface.
  */
 Application.prototype.generateAndDraw = function () {
-	this.showMessage("Computing...", 0, "blue");
+	this.showMessage ("Computing...", 0, "blue");
 	this.surfaceController.setDimension ([
 		document.getElementById ("dimx").value,
 		document.getElementById ("dimy").value,
@@ -207,11 +207,11 @@ Application.prototype.generateAndDraw = function () {
 	this.surfaceController.generate();
 	this.surfaceRenderer = new SurfaceRenderer (
 		this.surfaceController,
-		this.surfaceView.getGLContext()
+		this.surfaceView.getGLContext ()
 	);
 	this.surfaceView.contener.addObject (this.surfaceRenderer);
 	
-	this.computationFinished();
+	this.computationFinished ();
 };
 
 

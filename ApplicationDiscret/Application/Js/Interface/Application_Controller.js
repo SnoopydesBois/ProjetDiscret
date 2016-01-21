@@ -257,46 +257,6 @@ Application.prototype.removeModel = function (modelName) {
 
 //==============================================================================
 /**
- * @return {FrameList} the model list frame.
- */
-Application.prototype.getFrameList = function () {
-//	console.log ("Application.getFrameList");
-	return this.frameList;
-};
-
-
-//==============================================================================
-/**
- * @return {Frame3D} the 3D frame.
- */
-Application.prototype.getFrame3D = function () {
-//	console.log ("Application.getFrame3D");
-	return this.frame3D;
-};
-
-
-//==============================================================================
-/**
- * @return {Frame2D} the 2D frame.
- */
-Application.prototype.getFrame2D = function () {
-//	console.log ("Application.Frame2D");
-	return this.frame2D;
-};
-
-
-//==============================================================================
-/**
- * @return {FrameForm} the save and load frame.
- */
-Application.prototype.getFrameForm = function () {
-//	console.log ("Application.getFrameForm");
-	return this.frameForm;
-};
-
-
-//==============================================================================
-/**
  * Save a model.
  * Load the FormFrame to enter the data.
  * @return {void}

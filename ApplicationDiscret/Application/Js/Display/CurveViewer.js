@@ -98,6 +98,7 @@ CurveViewer.prototype.draw = function (backBuffer) {
 
 /**
  * @override
+ * TODO
  * 
  * @param {WindowEvent} event - The window event.
  * 
