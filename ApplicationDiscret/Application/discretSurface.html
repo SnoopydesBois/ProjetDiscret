@@ -22,6 +22,7 @@
 		<script type="text/javascript" src="Js/Enum/CubeStateEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/MenuEntryEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/DirectionEnum.js"></script>
+		<script type="text/javascript" src="Js/Enum/DrawModeEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/ConnexityEnum.js"></script>
 
 		<script type="text/javascript" src="Js/Libraries/math.js"></script>
@@ -48,6 +49,7 @@
 		<script type="text/javascript" src="Js/Objects/GenericStructure.js"></script>
 		<script type="text/javascript" src="Js/Objects/Repere.js"></script>
 		<script type="text/javascript" src="Js/Objects/BoundingBox.js"></script>
+		<script type="text/javascript" src="Js/Objects/Grid.js"></script>
 
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo1Worker.js"></script>
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo2Worker.js"></script>
@@ -125,102 +127,102 @@
 		<!-- Menus -->
 		<ul class="menus header">
 			<li id="fileMenu" tabindex="1">
-				<h1 key="home" class="tr">Fichier</h1>
+				<h1 key="m1" class="tr">Fichier</h1>
 				<ul>
 					<li title="Créer un nouveau modèle"
-						onclick="" key="home" class="tr">Nouveau</li>
+						onclick="" key="m11" class="tr">Nouveau</li>
 
 					<li title="Ouvrir un modèle depuis un fichier sur cet ordinateur"
 						onclick="this.firstElementChild.click()">
 						<input type="file" id="i_file" onchange=""
-							style="display:none">Ouvrir</input>
+							style="display:none" key="m12" class="tr">Ouvrir</input>
 					</li>
-					<li title="Enregistrer le modèle actuel"
-						onclick="">Enregistrer</li>
+					<li title="Enregistrer le modèle actuel" 
+						onclick="" key="m13" class="tr">Enregistrer</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="viewMenu" tabindex="2">
-				<h1>Affichage</h1>
+				<h1 key="m2" class="tr">Affichage</h1>
 				<ul>
-					<li title="Générer la surface dans la vue 3D"
-						onclick="appli.surfaceView.showScene ()">Générer</li>
-
-					<li title="Centrer la caméra"
-						onclick="">Centrer la caméra</li>
+					<li title="Générer la surface dans la vue 3D" 
+						onclick="appli.surfaceView.showScene ()" key="m21" class="tr">Générer</li>
+						
+					<li title="Centrer la caméra" 
+						onclick=""key="m22" class="tr">Centrer la caméra</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="toolsMenu" tabindex="3">
-				<h1>Outils</h1>
+				<h1 key="m3" class="tr">Outils</h1>
 				<ul>
 					<li id="toolUndo"
-						class="inaccessible"
-						title="Annuler la dernière action effectuée"
-						onclick="">Annuler</li>
-
+						class="inaccessible tr"
+						title="Annuler la dernière action effectuée" 
+						onclick="" key="m31">Annuler</li>
+					
 					<li id="toolRedo"
-						class="inaccessible"
-						title="Refaire la dernière action annulée"
-						onclick="">Refaire</li>
+						class="inaccessible tr"
+						title="Refaire la dernière action annulée" 
+						onclick="" key="m32"> Refaire</li>
 
 					<li class="split"><hr/></li>
 
 					<li id="tool2D"
 						class="submenu"
-						title="Outils 2D"> Outils 2D
-						<ul>
+						title="Outils 2D" > <div class="tr" key="m33">Outils 2D</div>
+						<ul> 
 							<li id="meridianChoice"
 								class="inaccessible"
 								title="Choix de la méridienne"
-								onclick="">Méridiennes</li>
-
+								onclick="" ><div class="tr" key="m331">Méridienne</div></li>
+								
 							<li id="curveOfRevolutionChoice"
 								class="inaccessible"
 								title="Choix de la courbe de révolution"
-								onclick="">Courbes de révolution</li>
+								onclick=""><div class="tr" key="m332">Courbes de révolution</div></li>
 
 							<li class="split"><hr/></li>
 
 							<li id="meridianFormula"
 								class="inaccessible"
 								title="Rentrer une formule pour la méridienne"
-								onclick="">Formule méridienne</li>
 
+								onclick=""><div class="tr" key="m333" >Formule méridienne</div></li>
+								
 							<li id="showSimpleParameter"
 								class="inaccessible"
 								title="Rentrer une formule pour la courbe de révolution"
-								onclick="">Formule courbe de révolution</li>
+								onclick=""><div class="tr" key="m334">Formule courbe de révolution</div></li>
 
 							<li class="split"><hr/></li>
 
 							<li id="handFreeDrawing"
 								class="inaccessible"
 								title="Dessiner à main levée"
-								onclick="">Dessiner à main levée </li>
-
+								onclick=""><div class="tr" key="m335" >Dessiner à main levée </div></li>
 							<li class="split"><hr/></li>
 
 							<li id="showSimpleParameter"
 								class="inaccessible"
 								title="Afficher les paramètres simples"
-								onclick="">Paramètres simples</li>
 
+								onclick=""><div class="tr" key="m336" >Paramètres simples</div></li>
+							
 							<li id="showAdvancedParameter"
 								class="inaccessible"
 								title="Afficher les paramètres avancés"
-								onclick="">Paramètres avancés</li>
-
+								onclick=""><div class="tr" key="m337" >Paramètres avancés</div></li>
 
 							<li class="split"><hr/></li>
 
 							<li id="addMeridian"
 								class="inaccessible"
 								title="Ajout méridienne"
-								onclick="">Ajout méridienne</li>
-
+								onclick=""><div class="tr" key="m338"> Ajout méridienne</div></li>
+							
 							<li id="addCurve"
 								class="inaccessible"
 								title="Ajout courbe de révolution"
-								onclick="">Ajout courbe de révolution</li>
+								onclick=""><div class="tr" key="m339" >Ajout courbe de révolution</div></li>
 
 						</ul>
 					</li>
@@ -228,33 +230,34 @@
 					<li class="split"><hr/></li>
 					<li id="tool3D"
 						class="submenu"
-						title="Outils 3D"> Outils 3D
-						<ul>
 
+						title="Outils 3D"> <div class="tr" key="m34"> Outils 3D </div>
+						<ul> 
+							
 							<li id="connexity"
 								class="inaccessible"
 								title="Choix de connexité"
-								onclick="">Connexité</li>
-
+								onclick=""><div class="tr" key="m341">Connexité</div></li>
+								
 							<li id="dimension"
 								class="inaccessible"
 								title="Choix des dimensions"
-								onclick="">Dimension</li>
-
+								onclick=""><div class="tr" key="m342">Dimension</div></li>
+							
 							<li id="repereDisplay"
 								class="inaccessible"
 								title="Affichage du repère"
-								onclick="">Afficher le repère</li>
-
+								onclick=""><div class="tr" key="m343">Afficher le repère</div></li>
+								
 							<li id="voxelSize"
 								class="inaccessible"
 								title="Taille des voxels"
-								onclick="">Taille des voxels</li>
-
+								onclick=""><div class="tr" key="m344">Taille des voxels</div></li>
+								
 							<li id="multiSlice"
 								class="inaccessible"
 								title="Multicoupe"
-								onclick="">Multicoupe</li>
+								onclick=""><div class="tr" key="m345">Multicoupe</div></li>
 
 						</ul>
 					</li>
@@ -291,10 +294,10 @@
 			<li id="translatemenu" tabindex="7">
 			<h1>Traduction</h1>
 				<ul>
-				 <!-- <div class="lang_switcher">-->
+				 <div class="lang_switcher">
                 <li id="en" class="lang">English</li>
                 <li id="fr" class="lang">Français</li>
-            <!-- </div> -->
+                </div> 
 				</ul>
 			</li>
 		</ul><!-- end menus -->
@@ -304,15 +307,10 @@
 		<div id="workspace">
 			<div id="curvesView">
 				<div id="meridianView">
-					<div id="meridianParam" class="paramPanel">
+					<div id="meridianParam" class="paramPanel tr" key="xx1">
 						Liste des paramètres Méridienne
 					</div>
 					<canvas id="meridianCanvas"></canvas>
-					<script>
-						var canvasMeridian = document.getElementById('meridianCanvas'),
-						contextMeridian = canvasMeridian.getContext('2d');
-						make_base('Curves/Meridian/meridian.png', 'meridianCanvas', 454, 368, contextMeridian);
-					</script>
 
 					<div id="meridianOption" class="optionPanel">
 						Option Méridienne
@@ -361,9 +359,9 @@
 
 		<script type="text/javascript">
 			var circle = new Circle();
-			circle.getEquation().setParameter("h", 2.0);
-			circle.getEquation().setParameter("k", -5.0);
-			circle.getEquation().setParameter("r", 3.0);
+			circle.getEquation().setParameter("h", 0);
+			circle.getEquation().setParameter("k", -0);
+			circle.getEquation().setParameter("r", 5.0);
 
 			var sinWave = new Sinusoid();
 			sinWave.getEquation().setParameter("a", 10.0);
@@ -401,6 +399,18 @@
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 9);
 			//appli.surfaceView.contener.addObject (n64);
+			
+			var c = new Controller2D (-11, 11, -1.1, 1.1);
+			var c2 = new Controller2D (-5, 5, -5, 5);
+			
+			c.modelCurve.activeCurve = sinWave;
+			c2.modelCurve.activeCurve = circle;
+			
+			//sinWave.computePoints (new Range (-10, 10), new Range (-10, 10), 5)
+			appli.meridianView.container.addObject (c);
+			appli.revolView.container.addObject (c2);
+			
+			
 			appli.initAppli ();
 
 			/* voir

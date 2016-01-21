@@ -1,9 +1,5 @@
 /**
- * Point.js
- * 
- * author : biscui
- * created : Thu, 17 Dec 2015 20:34:04 +0100
- * modified : Thu, 17 Dec 2015 20:34:04 +0100
+ * TODO
  */
 
 
@@ -15,11 +11,11 @@
 
 
 
-Point.prototype = new Vector ();
+Point.prototype = new Vector;
 Point.prototype.constructor = Point;
 
 /** 
- * 
+ * TODO
  */
 function Point () {
 	Vector.call (this);

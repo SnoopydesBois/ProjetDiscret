@@ -147,7 +147,7 @@ function Application () {
 	/**
 	 * {Controller3D} TODO
 	 */
-	this.surfaceController = new Controller3D (new Vector (25,25,25));
+	this.surfaceController = new Controller3D (new Vector (25, 25, 25));
 	
 	/**
 	 * {Controller2D} TODO
@@ -177,11 +177,12 @@ function Application () {
  * computation is finished. Then it redraws the scene.
  */
 Application.prototype.computationFinished = function () {
-	this.surfaceView.show();
-	if (! this.surfaceController.isAlgoFinished()){
-		setTimeout(this.computationFinished.bind(this), 1000);
-	}else{
-		this.validMessage("Finished", 0);
+	this.surfaceView.show ();
+	if (! this.surfaceController.isAlgoFinished ()){
+		setTimeout (this.computationFinished.bind (this), 1000);
+	} 
+	else {
+		this.validMessage ("Finished", 0);
 	}
 };
 
@@ -198,10 +199,17 @@ Application.prototype.generateAndDraw = function () {
 		document.getElementById ("dimy").value,
 		document.getElementById ("dimz").value
 	]);
+	this.surfaceView.contener.getObjectByName ("boundingBox").setDimension ([
+		document.getElementById ("dimx").value,
+		document.getElementById ("dimy").value,
+		document.getElementById ("dimz").value
+	]);
 	this.surfaceController.generate();
-	this.surfaceRenderer = new SurfaceRenderer (this.surfaceController,
-												this.surfaceView.getGLContext());
-	this.surfaceView.contener.addObject(this.surfaceRenderer);
+	this.surfaceRenderer = new SurfaceRenderer (
+		this.surfaceController,
+		this.surfaceView.getGLContext()
+	);
+	this.surfaceView.contener.addObject (this.surfaceRenderer);
 	
 	this.computationFinished();
 };

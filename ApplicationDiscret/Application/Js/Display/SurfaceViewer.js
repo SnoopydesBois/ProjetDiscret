@@ -34,7 +34,7 @@ function SurfaceViewer (canvas) {
 	 */
 	this.contener = new Scene ();
 	this.contener.addObject (new BoundingBox (
-		new Vector (4, 4, 6), 
+		new Vector (1, 1, 1), 
 		this.glContext
 	));
 	this.contener.addObject (new Repere (this.glContext));
@@ -191,11 +191,6 @@ SurfaceViewer.prototype.draw = function (backBuffer) {
  * @return {void}
  */
 SurfaceViewer.prototype.onResize = function (event) {
-//	console.log ("resize du canvas");
-	$("canvas").each (function (id, elem) {
-		elem.height = $(elem).height ();
-		elem.width = $(elem).width ();
-	});
 	this.setViewDimension ();
 	this.contener.getCamera().computeMatrices();
 	this.show ();

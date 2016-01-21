@@ -62,12 +62,18 @@
 
 
 /**
- * Define the size of the elements which cannot be defined in CSS.
+ * TODO
  * 
  * @return {void}
  */
 Application.prototype.resizeInterface = function () {
+	$("canvas").each (function (id, elem) {
+		elem.height = $(elem).height ();
+		elem.width = $(elem).width ();
+	});
 	this.surfaceView.onResize ();
+	this.meridianView.onResize ();
+	this.revolView.onResize ();
 };
 
 
