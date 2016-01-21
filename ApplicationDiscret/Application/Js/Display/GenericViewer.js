@@ -144,6 +144,7 @@ GenericViewer.prototype.getGLContext = function () {
  */
 GenericViewer.prototype.show = function () {};
 
+
 //==============================================================================
 /**
  * Prepare all objects in the contener.

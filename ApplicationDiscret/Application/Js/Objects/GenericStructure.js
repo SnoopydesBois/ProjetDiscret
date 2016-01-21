@@ -310,7 +310,7 @@ GenericStructure.prototype.isPickable = function () {
  * @throws FIXME compléter
  */
 GenericStructure.prototype.setPickable = function (isPickable) {
-	if (typeof (isPickable) === "boolean")
+	if (typeof (isPickable) == "boolean")
 		this.isPickable = isPickable;
 	else
 		throw "GenericStructure.setPickable: parameter is not a boolean";

@@ -124,9 +124,9 @@ SurfaceViewer.prototype.setMouse = function (x, y) {
  * 
  * @return {void}
  */
-GenericViewer.prototype.reload = function () {
+SurfaceViewer.prototype.reload = function () {
 	if (!(this.contener instanceof Scene))
-		console.error ("GenericViewer.reload: scene does not exist !");
+		console.error ("SurfaceViewer.reload: scene does not exist !");
 	else
 		this.contener.reload ();
 };
@@ -138,7 +138,7 @@ GenericViewer.prototype.reload = function () {
  * 
  * @return {void}
  */
-GenericViewer.prototype.show = function () {
+SurfaceViewer.prototype.show = function () {
 	this.prepare ();
 	this.draw ();
 };
@@ -150,7 +150,7 @@ GenericViewer.prototype.show = function () {
  * 
  * @return {void}
  */
-GenericViewer.prototype.prepare = function () {
+SurfaceViewer.prototype.prepare = function () {
 	if (this.contener.getNbObject () != 0)
 		this.contener.prepare (this.glContext);
 	else
@@ -167,7 +167,7 @@ GenericViewer.prototype.prepare = function () {
  * 
  * @return {void}
  */
-GenericViewer.prototype.draw = function (backBuffer) {
+SurfaceViewer.prototype.draw = function (backBuffer) {
 	if (this.contener.getNbObject () != 0)
 		this.contener.draw (this.glContext, backBuffer)
 	else

@@ -115,7 +115,7 @@ function Vector () {
 			case 0: 
 				return this.defaultConstructor ();
 			case 1:
-				if (arguments[0] instanceof Array)
+				if (arguments[0] instanceof Array || arguments[0] instanceof Float32Array)
 					return this.arrayToVectorConstructor (arguments[0]);
 				else if (typeof arguments[0] == "number")
 					return this.coordinateConstructor (arguments[0], arguments[0], 
