@@ -112,7 +112,7 @@ function Controller3D (dimension) {
  * Function that start the generation of the surface from the meridian and the
  * curbe of revolution.
  */
-Controller3D.prototype.generate = function () {
+Controller3D.prototype.generate = function (mode) {
 	if (!(this.getMeridian instanceof Function) 
 		|| !(this.getCurveRevolution instanceof Function)){
 		throw "Controller3D.generate : The meridian or the curve of revolution is not a function."
@@ -120,7 +120,7 @@ Controller3D.prototype.generate = function () {
 	else {
 		var meridian = this.getMeridian ();
 		var curveRevolution = this.getCurveRevolution ();
-		this.modelGen.generate (meridian, curveRevolution);
+		this.modelGen.generate (meridian, curveRevolution, mode);
 	}
 };
 
