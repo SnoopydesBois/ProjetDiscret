@@ -237,7 +237,7 @@ SurfaceViewer.prototype.onMouseUp = function (event) {
 //		this.mousePosOnPress[0] = event.layerX;
 //		this.mousePosOnPress[1] = event.layerY;
 //		event.preventDefault ();
-	}
+//	}
 };
 
 
