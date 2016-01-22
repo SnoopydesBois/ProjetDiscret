@@ -305,16 +305,20 @@
 		<!-- Workspace -->
 		<div id="workspace">
 			<div id="curvesView">
-				<div id="meridianView" class="wrapper">
+				<div id="meridianView">
 					<div id="meridianParam" class="paramPanel">
 						Liste des paramètres Méridienne
 					</div>
 					<canvas id="meridianCanvas"></canvas>
 					<div id="meridianOption" class="optionPanel">
 						Option Méridienne
+						<Select id="meridian" name="meridian" onselect="console.log($('#meridian').val());">
+						<option value="Line"> Line </option>
+						<option value="Sinusoid"> Sinusoid </option>
+						</Select>
 					</div>
 				</div>
-				<div id="revolView" class="wrapper">
+				<div id="revolView">
 					<div id="revolParam" class="paramPanel">
 						Liste des paramètres Révolution
 					</div>
@@ -331,7 +335,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="surfaceView" class="wrapper">
+			<div id="surfaceView">
 				<div id="surfaceParam" class="paramPanel">
 					<button onclick="appli.generateAndDraw ();">Générer</button>
 					<hr/>
