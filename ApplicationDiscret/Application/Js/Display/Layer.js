@@ -110,7 +110,7 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 			  target: '#revolCanvas2',
 			  yAxis : {domain: [obj.getYRange().getMin(), obj.getYRange().getMax()]},
 			  xAxis : {domain: [obj.getXRange().getMin(), obj.getXRange().getMax()]},
-			  disableZoom : true,
+//			  disableZoom : true,
 			  data: [{
 				color : color,
 				fn: obj.getEquation().toStringNoParam(),
@@ -123,7 +123,7 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 			  target: '#meridianCanvas2',
 			  yAxis : {domain: [obj.getYRange().getMin(), obj.getYRange().getMax()]},
 			  xAxis : {domain: [obj.getXRange().getMin(), obj.getXRange().getMax()]},
-			  disableZoom : true,
+//			  disableZoom : true,
 			  data: [{
 				x: obj.getEquation().toStringNoParam().replace(/x/g , 't'),
 				y: 't',

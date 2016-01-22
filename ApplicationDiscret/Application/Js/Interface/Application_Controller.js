@@ -79,6 +79,7 @@ Application.prototype.addAction = function (action) {
  */
 Application.prototype.changeMeridian = function (name) {
 	this.meridianController.setActive (name);
+	this.meridianView.draw ();
 };
 
 //==============================================================================
@@ -91,6 +92,7 @@ Application.prototype.changeMeridian = function (name) {
  */
 Application.prototype.changeRevol = function (name) {
 	this.revolController.setActive (name);
+	this.revolView.draw ();
 };
 
 

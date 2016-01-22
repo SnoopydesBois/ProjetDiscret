@@ -169,7 +169,7 @@ ModelCurve.prototype.setActive = function (curve, type) {
 			throw "ModelCurve.setActive: Unknown type of equation";
 			break;
 	}
-	this.activeCurve = curve;
+//	this.activeCurve = curve;
 };
 
 
@@ -186,7 +186,7 @@ ModelCurve.prototype.getPoints = function () {
 /**
  * @return {Curve} the active curve of the model.
  */
-ModelCurve.prototype.getActiveCurve = function(){
+ModelCurve.prototype.getActiveCurve = function () {
 	return this.activeCurve;
 };
 
@@ -195,8 +195,8 @@ ModelCurve.prototype.getActiveCurve = function(){
 /**
  * @return {Equation} The equation of the active curve
  */
-ModelCurve.prototype.getEquation = function(){
-	return this.activeCurve.getEquation();
+ModelCurve.prototype.getEquation = function () {
+	return this.activeCurve.getEquation ();
 };
 
 

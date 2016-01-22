@@ -123,26 +123,6 @@ function Application () {
 	
 		// Attributes //
 	
-	/**
-	 * {HTMLCanvasElement} TODO
-	 */
-	this.surfaceView = new SurfaceViewer (
-		document.getElementById ("surfaceCanvas")
-	);
-	
-	/**
-	 * {HTMLCanvasElement} TODO
-	 */
-	this.meridianView = new CurveViewer (
-		document.getElementById ("meridianCanvas")
-	);
-	
-	/**
-	 * {HTMLCanvasElement} TODO
-	 */
-	this.revolView = new CurveViewer (
-		document.getElementById ("revolCanvas")
-	);
 	
 	/**
 	 * {Controller3D} TODO
@@ -158,6 +138,29 @@ function Application () {
 	 * {Controller2D} TODO
 	 */
 	this.revolController = new Controller2D (-1, 1, -1, 1);
+	
+	/**
+	 * {HTMLCanvasElement} TODO
+	 */
+	this.surfaceView = new SurfaceViewer (
+		document.getElementById ("surfaceCanvas")
+	);
+	
+	/**
+	 * {HTMLCanvasElement} TODO
+	 */
+	this.meridianView = new CurveViewer (
+		document.getElementById ("meridianCanvas")
+	);
+	this.meridianView.container.addObject (this.meridianController); // FIXME 
+	
+	/**
+	 * {HTMLCanvasElement} TODO
+	 */
+	this.revolView = new CurveViewer (
+		document.getElementById ("revolCanvas")
+	);
+	this.revolView.container.addObject (this.revolController); // FIXME 
 	
 	/**
 	 * {String} The default message in the state bar.

@@ -62,6 +62,8 @@
 Application.prototype.initAppli = function () {
 	/// Application initialization
 	this.initControllers ();
+	this.meridianController.setActive ("Sinusoid");
+	this.revolController.setActive ("Circle");
 	
 	/// Interface initialization
 	this.resizeInterface ();
@@ -82,9 +84,17 @@ Application.prototype.initControllers = function () {
 	
 	/// add curve for revolution
 	this.revolController.addCurve ("Circle", Circle);
-	this.revolController.addCurve ("Heart", Line);
+	this.revolController.addCurve ("Heart", Heart);
 	this.revolController.addCurve ("Lemniscate", Lemniscate);
 	this.revolController.addCurve ("Svastika", Svastika);
+	
+	///
+	this.surfaceController.setGetCurveRevolution (
+		this.revolController.getActiveCurve.bind (this.revolController)
+	);
+	this.surfaceController.setGetMeridian (
+		this.meridianController.getActiveCurve.bind (this.meridianController)
+	);
 };
 
 

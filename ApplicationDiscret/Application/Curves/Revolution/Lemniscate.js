@@ -1,4 +1,4 @@
-Lemniscate.prototype = new ImplicitCurve();
+Lemniscate.prototype = new ImplicitCurve;
 Lemniscate.prototype.constructor = Lemniscate;
 
 

@@ -142,6 +142,17 @@ Controller2D.prototype.addCurve = function (name, constructor) {
  * 
  * @return {void}
  */
+Controller2D.prototype.getActiveCurve = function () {
+	return this.modelCurve.getActiveCurve ();
+};
+
+
+//==============================================================================
+/**
+ * TODO doc
+ * 
+ * @return {void}
+ */
 Controller2D.prototype.setActive = function (name) {
 	this.modelCurve.setActive (name);
 };
