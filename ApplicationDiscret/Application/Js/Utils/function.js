@@ -126,7 +126,6 @@ function type (obj) {
 }
 
 
-
 //==============================================================================
 /**
  * Print a list of type of each arguments.
