@@ -112,10 +112,129 @@
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/style2.css">
+		
+		<!-- Export 3D en PNG -->
+		<script src="Export/Export_PNG/jquery.min.js"></script>
+        <script src="Export/Export_PNG/d3.v2.js"></script>
+		
 
 	</head>
 	<body>
 	
+		<script type="text/javascript">
+		
+/**********************************************/
+		
+		function submit_download_form(output_format)
+{
+	// Get the d3js SVG element
+	var tmp = document.getElementById("ex1");
+	var svg = tmp.getElementsByTagName("svg")[0];
+	// Extract the data as SVG text string
+	var svg_xml = (new XMLSerializer).serializeToString(svg);
+
+	// Submit the <FORM> to the server.
+	// The result will be an attachment file to download.
+	var form = document.getElementById("svgform");
+	form['output_format'].value = output_format;
+	form['data'].value = svg_xml ;
+	form.submit();
+}
+
+/*
+d3js Example code, based on the "Three Little Circles" tutorial:
+http://mbostock.github.com/d3/tutorial/circle.html
+*/
+function create_d3js_drawing()
+{
+	var data = [32, 57, 112],
+		dataEnter = data.concat(293),
+		dataExit = data.slice(0, 2),
+		w = 360,
+		h = 180,
+		x = d3.scale.ordinal().domain([57, 32, 112]).rangePoints([0, w], 1),
+		y = d3.scale.ordinal().domain(data).rangePoints([0, h], 2);
+
+	var svg = d3.select("#ex1").append("svg")
+		.attr("width", w)
+		.attr("height", h);
+
+	svg.selectAll(".little")
+		.data(data)
+		.enter().append("circle")
+		.attr("class", "little")
+		.attr("cx", x)
+		.attr("cy", y)
+		.attr("r", 12);
+
+	d3.select("#randomize").on("click", function() {
+		svg.selectAll(".little")
+			.transition()
+			.duration(750)
+			.attr("cx", function() { return Math.random() * w; })
+			.attr("cy", function() { return Math.random() * h; })
+			.attr("fill", function() { return '#'+Math.floor(Math.random()*16777215).toString(16); });
+		/* Random Hex Color in Javascript, from: http://paulirish.com/2009/random-hex-color-code-snippets/ */
+
+		// Show the new SVG code
+		show_svg_code();
+		});
+}
+
+function show_svg_code()
+{
+	// Get the d3js SVG element
+	var tmp  = document.getElementById("ex1");
+	var svg = tmp.getElementsByTagName("svg")[0];
+
+	// Extract the data as SVG text string
+	var svg_xml = (new XMLSerializer).serializeToString(svg);
+
+	//Optional: prettify the XML with proper indentations
+	svg_xml = vkbeautify.xml(svg_xml);
+
+	// Set the content of the <pre> element with the XML
+	$("#svg_code").text(svg_xml);
+
+	//Optional: Use Google-Code-Prettifier to add colors.
+	prettyPrint();
+}
+
+/*
+    One-time initialization
+*/
+$(document).ready(function() {
+
+<!-- $("#save_as_svg").click(function() { submit_download_form("svg"); }); -->
+
+ 	$("#save_as_png").click(function() { submit_download_form("png"); }); 
+});
+
+/*******************convert canvas to svg***************************/
+		function importCanvas(sourceCanvas, targetSVG) {
+    // get base64 encoded png data url from Canvas
+    var img_dataurl = sourceCanvas.toDataURL("image/png");
+
+    var svg_img = document.createElementNS(
+        "http://www.w3.org/2000/svg", "image");
+
+    svg_img.setAttributeNS(
+        "http://www.w3.org/1999/xlink", "xlink:href", img_dataurl);
+
+    targetSVG.appendChild(svg_img);
+}
+/***************************************************************************/
+		
+			function make_base(src, id, imgWidth, imgHeight, context)
+			{
+			  var base_image = new Image();
+			  base_image.src = src;
+			  
+			  base_image.onload = function(){
+				context.drawImage(base_image, document.getElementById(id).style.width, document.getElementById(id).style.height, imgWidth, imgHeight);
+			  };
+			}
+		</script>
 		<!-- Menus -->
 		<ul class="menus header">
 			<li id="fileMenu" tabindex="1">
@@ -308,7 +427,7 @@
 			</li>
 		</ul><!-- end menus -->
 		
-		
+
 		<!-- Workspace -->
 		<div id="workspace">
 			<div id="curvesView">
@@ -347,22 +466,53 @@
 			<div id="surfaceView">
 				<div id="surfaceParam" class="paramPanel">
 					<button onclick="appli.generateAndDraw (0);">Générer</button>
+					<button class="btn btn-success" id="save_as_png" value="">Save as PNG</button>
 					<button onclick="appli.generateAndDraw (1);">Génération non optimisé</button>
 					<hr/>
 					Liste des paramètres de la Surface
 				</div>
-				<canvas id="surfaceCanvas" width="640" height="480"></canvas>
+			
+			<canvas id="surfaceCanvas" width="640" height="480"></canvas> 
+			
+		 	<div class="chart" id="ex1"> 
+	 		<svg id ="rre" width="640" height="480">  
+			</svg>  
+			 </div> 
+
+			importCanvas(surfaceCanvas, rre);
+				
+	<div>
+
+			
+			
+	</div>
 				<div id="surfaceOption" class="optionPanel">
 					<p>
 						Dimension&nbsp;:
 						<input id="dimx" type="text" value="21"/>
 						<input id="dimy" type="text" value="21"/>
 						<input id="dimz" type="text" value="21"/>
+						
+						
+
 					</p>
 				</div>
 			</div>
 		</div>
+
 		
+			
+			
+	   
+		
+<!-- Je ne sais pa il fait quoi -->
+<form id="svgform" method="post" action="https://d3export.housegordon.org/download.pl">
+ <input type="hidden" id="output_format" name="output_format" value="png">
+ 
+ <input type="hidden" id="data" name="data" value="&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;360&quot; height=&quot;180&quot;&gt;&lt;circle class=&quot;little&quot; cx=&quot;166.3085524365306&quot; cy=&quot;40.681163873523474&quot; r=&quot;12&quot; fill=&quot;#dea3d4&quot;/&gt;&lt;circle class=&quot;little&quot; cx=&quot;106.81351614184678&quot; cy=&quot;106.94102529902011&quot; r=&quot;12&quot; fill=&quot;#ff351d&quot;/&gt;&lt;circle class=&quot;little&quot; cx=&quot;113.3674605935812&quot; cy=&quot;151.6464523645118&quot; r=&quot;12&quot; fill=&quot;#ca15da&quot;/&gt;&lt;/svg&gt;">
+</form>
+		
+		<!-- Fin Je ne sais pa il fait quoi -->
 		
 		<!-- State bar -->
 		<div id="stateBar" class="footer">
