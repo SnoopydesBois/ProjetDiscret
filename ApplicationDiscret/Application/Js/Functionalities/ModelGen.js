@@ -152,10 +152,10 @@ ModelGen.prototype.setDimension = function (dimension) {
  * @return {Surface} the surface modeled using the meridian and the curve
  * of revolution
  */
-ModelGen.prototype.generate = function (meridian, curveRevolution){
+ModelGen.prototype.generate = function (meridian, curveRevolution, mode){
 	if (meridian instanceof ExplicitCurve
 			&& curveRevolution instanceof ImplicitCurve) {
-		this.algoExplicit(meridian, curveRevolution);
+		this.algoExplicit(meridian, curveRevolution, mode);
 	} else if (meridian instanceof ParametricCurve
 			&& curveRevolution instanceof ImplicitCurve)
 	{
@@ -174,12 +174,15 @@ ModelGen.prototype.generate = function (meridian, curveRevolution){
  * @param {Curve} meridian - the meridian to use to model
  * @param {Curve} curveRevolution - the curve of revolution to use to model
  */
-ModelGen.prototype.algoExplicit = function (meridian, curveRevolution){
+ModelGen.prototype.algoExplicit = function (meridian, curveRevolution, mode){
 	var dim = this.getDimension ();
 	this.surface = new Surface (dim);
 	var fMeridian = meridian.getEquation ();
 	var fRevol = curveRevolution.getEquation ();
-	this.worker = new ExplicitAlgo2Worker(fMeridian, fRevol, dim, this.surface);
+	if(mode === 0)
+		this.worker = new ExplicitAlgo2Worker(fMeridian, fRevol, dim, this.surface);
+	else
+		this.worker = new ExplicitAlgo1Worker(fMeridian, fRevol, dim, this.surface);
 };
 
 //==============================================================================
