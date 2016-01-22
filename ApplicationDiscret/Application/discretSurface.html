@@ -331,7 +331,13 @@
 					</script>
 					
 					<div id="revolOption" class="optionPanel">
-						Option Révolution
+						<span>Option Revolution</span>
+							<select id="listRevolutions" name="listRevolutions" onchange="console.log($('#listRevolutions').val());">
+							<option value="Circle"> Circle </option>
+							<option value="Heart"> Heart </option>
+							<option value="Lemniscate"> Lemniscate </option>
+							<option value="Svastika"> Svastika </option>
+							</select>
 					</div>
 				</div>
 			</div>
