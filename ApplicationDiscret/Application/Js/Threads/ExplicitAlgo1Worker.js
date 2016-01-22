@@ -13,6 +13,7 @@ function ExplicitAlgo1Worker(explicitCurve, implicitCurve, dimension, surface ){
 	this.finished = false;
 	this.activeWorkers = 0;
 	this.worker = [];
+	this.newVoxels = false;
 	var eq1 = explicitCurve.toStringNoParam();
 	var eq2 = implicitCurve.toStringNoParam();
 	var dim = dimension.m;
@@ -48,4 +49,5 @@ ExplicitAlgo1Worker.prototype.readBuffer = function (buffer, size) {
 		var voxel = buffer[i];
 		this.surface.addVoxel(new Vector(voxel[0],voxel[1],voxel[2]), voxel[3]);
 	}
+	this.newVoxels = true;
 }

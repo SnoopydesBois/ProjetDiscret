@@ -9,6 +9,9 @@
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 		<title>Surface de révolution discrète</title>
 		<!-- TODO Modifié title pour le mutilangue -->
+		<script type="text/javascript" src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script type="text/javascript" src="https://wzrd.in/standalone/function-plot@1.16.2"></script>
+		
 		
 		<!-- javascript imports -->
 		<script type="text/javascript" src="Js/Utils/globalParameters.js"></script>
@@ -416,7 +419,8 @@ $(document).ready(function() {
 					<div id="meridianParam" class="paramPanel">
 						Liste des paramètres Méridienne
 					</div>
-					<canvas id="meridianCanvas"></canvas>
+					<canvas id="meridianCanvas" style="display:none"></canvas>
+					<div id="meridianCanvas2"></div>
 					<div id="meridianOption" class="optionPanel">
 						<span>Option Méridienne</span>
 							<select id="listMeridians" name="listMeridians" onchange="console.log($('#listMeridians').val());">
@@ -429,7 +433,8 @@ $(document).ready(function() {
 					<div id="revolParam" class="paramPanel">
 						Liste des paramètres Révolution
 					</div>
-					<canvas id="revolCanvas"></canvas>
+					<canvas id="revolCanvas" style="display:none"></canvas>
+					<div id="revolCanvas2"></div>
 					
 					<script>
 						var canvasRevolution = document.getElementById('revolCanvas'),
@@ -544,7 +549,7 @@ $(document).ready(function() {
 			var n64 = new N64 (gl, 6, 9);
 			//appli.surfaceView.contener.addObject (n64);
 			
-			var c = new Controller2D (-11, 11, -1.1, 1.1);
+			var c = new Controller2D (-15, 15, -15, 15);
 			var c2 = new Controller2D (-5, 5, -5, 5);
 			
 			c.modelCurve.activeCurve = sinWave;
@@ -559,6 +564,7 @@ $(document).ready(function() {
 			
 			appli.initAppli ();
 			
+
 			/* voir
 			http://webglfundamentals.org/webgl/lessons/webgl-drawing-multiple-things.html
 			*/

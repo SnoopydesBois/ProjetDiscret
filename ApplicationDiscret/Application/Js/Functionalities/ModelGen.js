@@ -194,7 +194,13 @@ ModelGen.prototype.isAlgoFinished = function (){
 	return this.worker.finished;
 }
 
+ModelGen.prototype.newVoxels = function (){
+	return this.worker.newVoxels;
+};
 
+ModelGen.prototype.voxelsRead = function(){
+	this.worker.newVoxels = false;
+};
 
 //==============================================================================
 /**
