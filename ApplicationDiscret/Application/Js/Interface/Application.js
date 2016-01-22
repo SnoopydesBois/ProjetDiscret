@@ -1,5 +1,6 @@
 // LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /** 
  * @license
  * Copyright (juin 2015)
@@ -122,7 +123,6 @@ function Application () {
 	
 		// Attributes //
 	
-	
 	/**
 	 * {HTMLCanvasElement} TODO
 	 */
@@ -152,12 +152,12 @@ function Application () {
 	/**
 	 * {Controller2D} TODO
 	 */
-	this.meridianController = new Controller2D ();
+	this.meridianController = new Controller2D (-1, 1, -1, 1);
 	
 	/**
 	 * {Controller2D} TODO
 	 */
-	this.revolController = new Controller2D ();
+	this.revolController = new Controller2D (-1, 1, -1, 1);
 	
 	/**
 	 * {String} The default message in the state bar.

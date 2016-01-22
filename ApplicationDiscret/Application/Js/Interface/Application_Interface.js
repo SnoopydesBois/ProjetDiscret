@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,6 +42,7 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
@@ -70,16 +72,16 @@ Application.prototype.resizeInterface = function () {
 	$("#curvesView canvas").each (function (id, elem) {
 		elem.style.width = $(elem).height () + "px";
 	});
-	$("canvas").each (function (id, elem) {
-		elem.height = $(elem).height ();
-		elem.width = $(elem).width ();
-	});
 	$("#curvesView").width (
 		$("#meridianParam").width () + $("#meridianCanvas").width ()
 	);
 	$("#surfaceView").width (
 		$("#workspace").width () - $("#curvesView").width ()
 	);
+	$("canvas").each (function (id, elem) {
+		elem.height = $(elem).height ();
+		elem.width = $(elem).width ();
+	});
 	this.surfaceView.onResize ();
 	this.meridianView.onResize ();
 	this.revolView.onResize ();

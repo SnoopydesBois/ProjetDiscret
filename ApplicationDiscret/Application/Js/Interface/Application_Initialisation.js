@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,10 +42,11 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 /* initAppli () : void
- * initFunctionnalities () : void
+ * initControllers () : void
  * initWindowEvent () : void
  */
 
@@ -59,9 +61,10 @@
  */
 Application.prototype.initAppli = function () {
 	/// Application initialization
-	this.resizeInterface ();
+	this.initControllers ();
 	
 	/// Interface initialization
+	this.resizeInterface ();
 	this.initWindowEvent ();
 };
 
@@ -72,7 +75,17 @@ Application.prototype.initAppli = function () {
  * 
  * @return {void}
  */
-Application.prototype.initFunctionnalities = function () {};
+Application.prototype.initControllers = function () {
+	/// add curve for meridian
+	this.meridianController.addCurve ("Line", Line);
+	this.meridianController.addCurve ("Sinusoid", Sinusoid);
+	
+	/// add curve for revolution
+	this.revolController.addCurve ("Circle", Circle);
+	this.revolController.addCurve ("Heart", Line);
+	this.revolController.addCurve ("Lemniscate", Lemniscate);
+	this.revolController.addCurve ("Svastika", Svastika);
+};
 
 
 //==============================================================================

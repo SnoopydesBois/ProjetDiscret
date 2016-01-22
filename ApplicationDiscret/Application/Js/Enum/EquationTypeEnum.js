@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,17 +42,19 @@
  * termes.
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
 /**
+ * @enum
  * Enumeration of attributes that can be given to an Equation type.
  */
 var EquationTypeEnum = {
-	implicit,
-	explicit,
-	parametric,
+	implicit : 0,
+	explicit : 1,
+	parametric : 2,
 	properties : {
 		0 : {name : "implicit"},
 		1 : {name : "explicit"},

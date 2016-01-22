@@ -18,6 +18,7 @@
 		
 		<script type="text/javascript" src="Js/Enum/AxisEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/AttributeEnum.js"></script>
+		<script type="text/javascript" src="Js/Enum/EquationTypeEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/RenderingModeEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/CubeStateEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/MenuEntryEnum.js"></script>
@@ -96,7 +97,6 @@
 		<script type="text/javascript" src="Js/Interface/Application_Messages.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
-		<script type="text/javascript" src="Js/Interface/Application_Colors.js"></script>
 		
 		<script type="text/javascript" src="Js/Objects/N64.js"></script>
 		
@@ -112,18 +112,6 @@
 	</head>
 	<body>
 	
-		<script type="text/javascript">
-
-			function make_base(src, id, imgWidth, imgHeight, context)
-			{
-			  var base_image = new Image();
-			  base_image.src = src;
-			  
-			  base_image.onload = function(){
-				context.drawImage(base_image, document.getElementById(id).style.width, document.getElementById(id).style.height, imgWidth, imgHeight);
-			  };
-			}
-		</script>
 		<!-- Menus -->
 		<ul class="menus header">
 			<li id="fileMenu" tabindex="1">
@@ -134,8 +122,7 @@
 
 					<li title="Ouvrir un modèle depuis un fichier sur cet ordinateur"
 						onclick="this.firstElementChild.click()">
-						<input type="file" id="i_file" onchange=""
-							style="display:none">Ouvrir</input>
+						<input type="file" id="i_file" style="display:none">Ouvrir</input>
 					</li>
 					<li title="Enregistrer le modèle actuel" 
 						onclick="">Enregistrer</li>
@@ -145,10 +132,23 @@
 				<h1>Affichage</h1>
 				<ul>
 					<li title="Générer la surface dans la vue 3D" 
-						onclick="appli.surfaceView.showScene ()">Générer</li>
+						onclick="appli.surfaceView.show ()">Générer</li>
 						
 					<li title="Centrer la caméra" 
 						onclick="">Centrer la caméra</li>
+					
+					<li title="Afficher les cubes en persective" 
+						onclick="globalParam.perspectiveView = true; appli.surfaceView.show ()">Perspective</li>
+					
+					<li title="Afficher les cubes en vue orthographique" 
+						onclick="globalParam.perspectiveView = false; appli.surfaceView.show ()">Orthographique</li>
+					
+					<li class="split"><hr/></li>
+					
+					<li title="Ajouter un N64 pour le debug" 
+						onclick="appli.surfaceView.contener.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
+					<li title="Retirer le N64" 
+						onclick="appli.surfaceView.contener.removeObjectByName ('n64'); appli.surfaceView.show ()">Supprimer N64</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="toolsMenu" tabindex="3">
@@ -168,7 +168,8 @@
 					
 					<li id="tool2D"
 						class="submenu"
-						title="Outils 2D"> Outils 2D
+						title="Outils 2D">
+						<h1>Outils 2D</h1>
 						<ul> 
 							<li id="meridianChoice"
 								class="inaccessible"
@@ -230,7 +231,8 @@
 					<li class="split"><hr/></li>
 					<li id="tool3D"
 						class="submenu"
-						title="Outils 3D"> Outils 3D
+						title="Outils 3D">
+						<h1>Outils 3D</h1>
 						<ul> 
 							
 							<li id="connexity"
@@ -272,7 +274,8 @@
 					
 					<li id="tool3D"
 						class="submenu"
-						title="Outils 3D"> Export 3D
+						title="Outils 3D">
+						<h1>Export 3D</h1>
 						<ul>
 							<li> Export X3D </li>
 							<li> Export impression 3D </li>
@@ -312,10 +315,10 @@
 					<canvas id="meridianCanvas"></canvas>
 					<div id="meridianOption" class="optionPanel">
 						<span>Option Méridienne</span>
-							<select id="listMeridians" name="listMeridians" onchange="console.log($('#listMeridians').val());">
-							<option value="Line"> Line </option>
-							<option value="Sinusoid"> Sinusoid </option>
-							</select>
+						<select id="listMeridians" name="listMeridians" onchange="appli.changeMeridian (this.value)">
+							<option value="Line">Line</option>
+							<option value="Sinusoid">Sinusoid</option>
+						</select>
 					</div>
 				</div>
 				<div id="revolView">
@@ -323,20 +326,13 @@
 						Liste des paramètres Révolution
 					</div>
 					<canvas id="revolCanvas"></canvas>
-					
-					<script>
-						var canvasRevolution = document.getElementById('revolCanvas'),
-						contextRevolution = canvasRevolution.getContext('2d');
-						make_base('Curves/Revolution/courberevolution.png', 'revolCanvas', 398, 374, contextRevolution);
-					</script>
-					
 					<div id="revolOption" class="optionPanel">
 						<span>Option Revolution</span>
-							<select id="listRevolutions" name="listRevolutions" onchange="console.log($('#listRevolutions').val());">
-							<option value="Circle"> Circle </option>
-							<option value="Heart"> Heart </option>
-							<option value="Lemniscate"> Lemniscate </option>
-							<option value="Svastika"> Svastika </option>
+							<select id="listRevolutions" name="listRevolutions" onchange="appli.changeRevol (this.value)">
+							<option value="Circle">Circle</option>
+							<option value="Heart">Heart</option>
+							<option value="Lemniscate">Lemniscate</option>
+							<option value="Svastika">Svastika</option>
 							</select>
 					</div>
 				</div>
@@ -404,7 +400,6 @@
 			
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 9);
-			//appli.surfaceView.contener.addObject (n64);
 			
 			var c = new Controller2D (-11, 11, -1.1, 1.1);
 			var c2 = new Controller2D (-5, 5, -5, 5);
