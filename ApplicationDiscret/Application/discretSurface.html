@@ -111,19 +111,6 @@
 
 	</head>
 	<body>
-	
-		<script type="text/javascript">
-
-			function make_base(src, id, imgWidth, imgHeight, context)
-			{
-			  var base_image = new Image();
-			  base_image.src = src;
-			  
-			  base_image.onload = function(){
-				context.drawImage(base_image, document.getElementById(id).style.width, document.getElementById(id).style.height, imgWidth, imgHeight);
-			  };
-			}
-		</script>
 		<!-- Menus -->
 		<ul class="menus header">
 			<li id="fileMenu" tabindex="1">
@@ -149,6 +136,9 @@
 						
 					<li title="Centrer la caméra" 
 						onclick="">Centrer la caméra</li>
+					<li title="Centrer la caméra" 
+						onclick="appli.surfaceView.contener.addObject (n64); appli.surfaceView.show ()">Ajouter le N64</li>
+						
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="toolsMenu" tabindex="3">
@@ -319,13 +309,6 @@
 						Liste des paramètres Révolution
 					</div>
 					<canvas id="revolCanvas"></canvas>
-					
-					<script>
-						var canvasRevolution = document.getElementById('revolCanvas'),
-						contextRevolution = canvasRevolution.getContext('2d');
-						make_base('Curves/Revolution/courberevolution.png', 'revolCanvas', 398, 374, contextRevolution);
-					</script>
-					
 					<div id="revolOption" class="optionPanel">
 						Option Révolution
 					</div>

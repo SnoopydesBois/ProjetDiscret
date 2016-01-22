@@ -41,6 +41,7 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
@@ -48,7 +49,6 @@
  * addMenuEntry (entry : Entry) : void
  * addMenuSplit (menu : MenuEntryEnum, index : int) : void
  * addToolsEntry (entry : Entry) : void
- * addFrame (frame : Frame, ws : WorkspaceEnum) : void
  * activeToolButton (className : String, id : String) : void
  * switchActive (element : HTMLElement) : void
  * setActiveClass (element : HTMLElement, active : bool) : void
@@ -67,12 +67,9 @@
  * @return {void}
  */
 Application.prototype.resizeInterface = function () {
+	/// resize interface
 	$("#curvesView canvas").each (function (id, elem) {
 		elem.style.width = $(elem).height () + "px";
-	});
-	$("canvas").each (function (id, elem) {
-		elem.height = $(elem).height ();
-		elem.width = $(elem).width ();
 	});
 	$("#curvesView").width (
 		$("#meridianParam").width () + $("#meridianCanvas").width ()
@@ -80,9 +77,26 @@ Application.prototype.resizeInterface = function () {
 	$("#surfaceView").width (
 		$("#workspace").width () - $("#curvesView").width ()
 	);
+	
+	/// set attributes
+	$("canvas").each (function (id, elem) {
+		elem.height = $(elem).height ();
+		elem.width = $(elem).width ();
+	});
+	
+	/// compute display
 	this.surfaceView.onResize ();
 	this.meridianView.onResize ();
 	this.revolView.onResize ();
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+Application.prototype.getMeridianCurveName = fucntion () {
+	return $("listMeridians");
 };
 
 
@@ -138,7 +152,7 @@ Application.prototype.addMenuSplit = function (menu, index) {
 	
 	/// new element
 	var element = "<li class='split'><hr/></li>";
-	var effectiveIndex = (index instanceof Number) ? index : -1;
+	var effectiveIndex = (typeof index == "number") ? index : -1;
 	// Negative index -> Start from the end
 	if (index < 0)
 		effectiveIndex = nbMenuEntry + 1 + index;
@@ -223,12 +237,10 @@ Application.prototype.switchActive = function (element) {
  */
 Application.prototype.setActiveClass = function (element, active) {
 	var elem = $(element);
-	if (active) {
+	if (active)
 		elem.addClass ("active");
-	}
-	else {
+	else
 		elem.removeClass ("active");
-	}
 };
 
 
@@ -268,10 +280,10 @@ Application.prototype.updateUndoRedoMenuItem = function () {
  */
 Application.prototype.updateTips = function (t) {
 	$(".validateTips")
-		.text(t)
-		.addClass("ui-state-highlight");
-	setTimeout(function () {
-		$(".validateTips").removeClass("ui-state-highlight", 1500);
+		.text (t)
+		.addClass ("ui-state-highlight");
+	setTimeout (function () {
+		$(".validateTips").removeClass ("ui-state-highlight", 1500);
 	}, 500);
 };
 

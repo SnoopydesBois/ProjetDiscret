@@ -1,6 +1,9 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -41,8 +44,8 @@
 
 /// INDEX //////////////////////////////////////////////////////////////////////
 
-/* alertChange (signal : Signal) : void
- * property () : void
+
+/* property () : void
  * addModel (name : String,
  *           tabModel : tabModel,
  *           _modelCreator : String,
@@ -65,77 +68,9 @@
  * isNotInModelList (o : HTMLElement, n : String) : bool
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
-
-
-/**
- * Function call by Frames to alert the application of modification
- * @param {Signal} signal - The type of modification 
- */
-Application.prototype.alertChange = function (signal) {
-	//console.log ("Application.alertChange")
-	if (!instanceOf(signal, Signal)) {
-		console.error (signal);
-	}
-	switch (signal.getType ()) {
-	case SignalEnum.HOVER_CHANGE :
-		//console.log ("Signal HOVER_CHANGE");
-		this.getFrame2D().updateHover ();
-		this.getFrame3D().updateHover ();
-		break;
-		
-	case SignalEnum.SELECT_CHANGE :
-		//console.log ("Signal SELECT_CHANGE");
-		this.getFrame2D().updateSelect ();
-		this.getFrame3D().updateSelect ();
-		break;
-		
-	case SignalEnum.ADD_REMOVE_CUBES :
-		//console.log ("Signal ADD/REMOVE_CUBES");
-		// 2D view
-		if (this.activeScreen != ViewEnum.VIEW3D) {
-			var tmp = signal.getCubes();
-			if (tmp.length == 0) {
-				this.getFrame2D().update();
-			}
-			for (var j = 0; j < tmp.length; ++j) {
-				this.getFrame2D().update(
-					tmp[j].getCube().m[0],
-					tmp[j].getCube().m[1],
-					tmp[j].getCube().m[2]);
-			}
-		}
-		// 3d view
-		if (this.activeScreen != ViewEnum.VIEW2D)
-			this.getFrame3D().update();
-
-		break;
-		
-	case SignalEnum.LIST_MODEL_2D_CHANGE : 
-		//console.log ("Signal LIST_MODEL_2D_CHANGE");
-		if (this.activeScreen != ViewEnum.VIEW3D)
-			this.getFrame2D().update();
-		break;
-		
-	case SignalEnum.LIST_MODEL_3D_CHANGE :
-		//console.log ("Signal LIST_MODEL_3D_CHANGE");
-		if (this.activeScreen != ViewEnum.VIEW2D)
-			this.getFrame3D().update();
-		break;
-		
-	case SignalEnum.MODEL_EXTRUSION :
-		//console.log ("Signal MODEL_EXTRUSION");
-		if (this.activeScreen != ViewEnum.VIEW2D)
-			this.getFrame3D().updateExtrud();
-		break;
-				
-	default :
-		console.log ("Application_Controller.alertChange Signal inconnue : " 
-				+ signal.getType());
-		break;	
-	} // end switch
-};
 
 
 //==============================================================================
@@ -143,7 +78,6 @@ Application.prototype.alertChange = function (signal) {
  * Print the number of cube of the active model.
  */
 Application.prototype.property = function () {
-//	console.log ("Application.property");
 	var model = this.selectedModel[0];
 	if (model != null) {
 		this.showMessage ("Nombre de Cube : " + model.getNbCube(), 10000);
@@ -166,7 +100,6 @@ Application.prototype.property = function () {
  */
 Application.prototype.addModel = function (name, tabModel,_modelCreator,
 		_modelDescription,_modelCreationDate,_id) {
-//	console.log ("Application.addModel");
 
 	this.select();
 	//this.activeToolButton('toolButton', 'selectButton');
@@ -237,7 +170,6 @@ Application.prototype.addModel = function (name, tabModel,_modelCreator,
  * @param {String} modelName - the model name.
  */
 Application.prototype.removeModel = function (modelName) {
-//	console.log ("Application.removeModel");
 	if (modelName == undefined || modelName == null) {
 		var name = prompt ('Entrez le nom du modèle à enlenver', '');
 	}
@@ -262,7 +194,6 @@ Application.prototype.removeModel = function (modelName) {
  * @return {void}
  */
 Application.prototype.save = function () {
-//	console.log ("Application.save");
 	if (this.selectedModel.length == 0) {
 		this.alertMessage ("Veuillez sélectionner un modèle", 4000);
 		return;
@@ -288,7 +219,6 @@ Application.prototype.save = function () {
  * @return {void}
  */
 Application.prototype.load = function (event) {
-//	console.log ("Application.load");
 	var tmppath = URL.createObjectURL (event.target.files[0]);
 	this.frameForm.loadModel (tmppath);
 };
@@ -300,7 +230,6 @@ Application.prototype.load = function (event) {
  * @return {void}
  */
 Application.prototype.validation = function () {
-//	console.log ("Application.load");
 	var model = this.selectedModel[0];
 	if (model != null && model.isValid()) {
 		alert ("Ce modèle est valide");
@@ -330,7 +259,6 @@ Application.prototype.validation = function () {
  * @return {void}
  */
 Application.prototype.exportSVG = function (id, cubeSize) {
-//	console.log ("Application.exportSVG");
 	this.frameForm.setSelectedModel (this.selectedModel);
 	this.frameForm.exportAsSvg (id, cubeSize);
 };
@@ -344,7 +272,6 @@ Application.prototype.exportSVG = function (id, cubeSize) {
  * @return {void}
  */
 Application.prototype.addFunctionality = function (functionalityController) {
-//	console.log ("Application.addFuncionalitiy");
 	if (!(functionalityController instanceof Controller)) {
 		console.error ("Application.addFuncionalitiy : argument is not a "
 			+ "Controller");
@@ -363,7 +290,6 @@ Application.prototype.addFunctionality = function (functionalityController) {
  * @return {ControllerRotate} the rotate functionality.
  */
 Application.prototype.getRotateTool = function () {
-	//console.log ("Application.getRotateTool");
 	return this.rotateFunctionality;
 };
 
@@ -375,7 +301,6 @@ Application.prototype.getRotateTool = function () {
  * @return {void}
  */
 Application.prototype.addAction = function (action) {
-//	console.log ("Application.addAction");
 	if (!(action instanceof Action) || !action.isValidAction())
 		console.error ("Application.addAction : argument is not an Action !");
 	else 
@@ -390,7 +315,6 @@ Application.prototype.addAction = function (action) {
  * @return {Controller} the controller.
  */
 Application.prototype.getFunctionality = function (controllerName) {
-//	console.log ("Application.getFunctionality");
 	for (var i in this.functionalities) {
 		if (this.functionalities[i].getName() == controllerName)
 			return this.functionalities[i];
@@ -409,7 +333,6 @@ Application.prototype.getFunctionality = function (controllerName) {
  * @return {boolean}	
  */
 Application.prototype.checkRegexp = function (o, regexp, n) {
-//	console.log ("Application.checkRegexp");
 	if (!(regexp.test(o.val()))) {
 		o.addClass("ui-state-error");
 		this.updateTips(n);
@@ -432,7 +355,6 @@ Application.prototype.checkRegexp = function (o, regexp, n) {
  * @return {boolean}	
  */
 Application.prototype.isNotInModelList = function (o, n) {
-//	console.log ("Application.isNotInModelList");
 	for (var i in appli.listModel) {
 		if (appli.listModel[i].getName() == o.val()) {
 			o.addClass("ui-state-error");

@@ -282,7 +282,7 @@ SurfaceViewer.prototype.onWheel = function (event) {
 		this.contener.setCameraAt ([
 			cam.getPosition ().x + normPos.x * epsilon,
 			cam.getPosition ().y + normPos.y * epsilon,
-			cam.getPosition ().z + normPos.z * epsilon,
+			cam.getPosition ().z + normPos.z * epsilon
 		]);
 		cam.computeMatrices ();
 		this.draw ();
@@ -343,7 +343,6 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
 	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this));
 //	this.canvas.addEventListener ("contextmenu", function () {return false;});
-	
 };
 
 
