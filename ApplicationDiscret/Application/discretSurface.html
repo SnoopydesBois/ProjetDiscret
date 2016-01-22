@@ -9,6 +9,9 @@
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 		<title>Surface de révolution discrète</title>
 		<!-- TODO Modifié title pour le mutilangue -->
+		<script type="text/javascript" src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script type="text/javascript" src="https://wzrd.in/standalone/function-plot@1.16.2"></script>
+		
 		
 		<!-- javascript imports -->
 		<script type="text/javascript" src="Js/Utils/globalParameters.js"></script>
@@ -312,7 +315,8 @@
 					<div id="meridianParam" class="paramPanel">
 						Liste des paramètres Méridienne
 					</div>
-					<canvas id="meridianCanvas"></canvas>
+					<canvas id="meridianCanvas" style="display:none"></canvas>
+					<div id="meridianCanvas2"></div>
 					<div id="meridianOption" class="optionPanel">
 						<span>Option Méridienne</span>
 						<select id="listMeridians" name="listMeridians" onchange="appli.changeMeridian (this.value)">
@@ -325,7 +329,9 @@
 					<div id="revolParam" class="paramPanel">
 						Liste des paramètres Révolution
 					</div>
-					<canvas id="revolCanvas"></canvas>
+					<canvas id="revolCanvas" style="display:none"></canvas>
+					<div id="revolCanvas2"></div>
+					
 					<div id="revolOption" class="optionPanel">
 						<span>Option Revolution</span>
 							<select id="listRevolutions" name="listRevolutions" onchange="appli.changeRevol (this.value)">

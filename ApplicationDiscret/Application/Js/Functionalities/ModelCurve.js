@@ -193,6 +193,15 @@ ModelCurve.prototype.getActiveCurve = function(){
 
 //==============================================================================
 /**
+ * @return {Equation} The equation of the active curve
+ */
+ModelCurve.prototype.getEquation = function(){
+	return this.activeCurve.getEquation();
+};
+
+
+//==============================================================================
+/**
  * @return {Range} the image range of the curve.
  */
 ModelCurve.prototype.getImage = function(){

@@ -303,4 +303,11 @@ Controller3D.prototype.isAlgoFinished = function (){
 };
 
 
+Controller3D.prototype.newVoxels = function (){
+	return this.modelGen.newVoxels();
+};
 
+
+Controller3D.prototype.voxelsRead = function(){
+	this.modelGen.voxelsRead();
+};

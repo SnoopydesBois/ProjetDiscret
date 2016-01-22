@@ -177,7 +177,10 @@ function Application () {
  * computation is finished. Then it redraws the scene.
  */
 Application.prototype.computationFinished = function () {
-	this.surfaceView.show ();
+	if(this.surfaceController.newVoxels()){
+		this.surfaceController.voxelsRead();
+		this.surfaceView.show ();
+	}
 	if (! this.surfaceController.isAlgoFinished ()){
 		setTimeout (this.computationFinished.bind (this), 1000);
 	} 

@@ -149,11 +149,28 @@ Controller2D.prototype.setActive = function (name) {
 
 //==============================================================================
 /**
+ *
+ */
+Controller2D.prototype.isTypeOf = function (type) {
+	return this.modelCurve.getActiveCurve() instanceof type;
+};
+
+//==============================================================================
+/**
  * @return {Point[][]} A list of list of point. One list of point is a set of
  * connected point.
  */
 Controller2D.prototype.getPoints = function () {
 	return this.modelCurve.getPoints ();
+};
+
+
+//==============================================================================
+/**
+ * @return {Equation} the equation of the active curve
+ */
+Controller2D.prototype.getEquation = function () {
+	return this.modelCurve.getEquation ();
 };
 
 
