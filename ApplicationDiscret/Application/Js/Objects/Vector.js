@@ -75,41 +75,69 @@
 /**
  * @classdesc Simple 3 dimensional Vector class.
  */
+
+
 Vector.prototype.constructor = Vector;
+
+
+
+//##############################################################################
+//	Type
+//##############################################################################
 
 
 
 var VEC_ARRAY_TYPE = (typeof Float32Array == 'undefined')? Array : Float32Array;
 
 
+
+//##############################################################################
+//	Constructors
+//##############################################################################
+
+
+
 /**
- * Default constructor ...
+ * @constructor
  * Depending on the number of argument to the constructor, call for 
  * different vector construction.
  * 	0 : Default constructor : 3 dimensions vector
  * 	1 : Copy constructor : copy of the vector in argument
- * 	2 : Creation of a 3 dimensions vector initialized with the arguments
+ * 	3 : Creation of a 3 dimensions vector initialized with the arguments
  * 	defaut : Error
- * @constructor
+ * 
  * @return {Vector} the new vector
  */
 function Vector () {
+	
+	/**
+	 * {VEC_ARRAY_TYPE} The main array which containt the coordinates.
+	 */
 	this.m = new VEC_ARRAY_TYPE (3);
+	
+	/**
+	 * {Number} An alias to the 1st coordinate.
+	 */
 	Object.defineProperty (this, "x", { 
 		get : function () {return this.m[0]}, 
 		set : function (value) {this.m[0] = value}
-		}
-	);
+	});
+	
+	/**
+	 * {Number} An alias to the 2nd coordinate.
+	 */
 	Object.defineProperty (this, "y", { 
 		get : function () {return this.m[1]}, 
 		set : function (value) {this.m[1] = value}
-		}
-	);
+	});
+	
+	/**
+	 * {Number} An alias to the 3rd coordinate.
+	 */
 	Object.defineProperty (this, "z", { 
 		get : function () {return this.m[2]}, 
 		set : function (value) {this.m[2] = value}
-		}
-	);
+	});
 	try {
 		switch (arguments.length) {
 			case 0: 
@@ -118,8 +146,8 @@ function Vector () {
 				if (arguments[0] instanceof Array || arguments[0] instanceof Float32Array)
 					return this.arrayToVectorConstructor (arguments[0]);
 				else if (typeof arguments[0] == "number")
-					return this.coordinateConstructor (arguments[0], arguments[0], 
-						arguments[0])
+					return this.coordinateConstructor (arguments[0],
+						arguments[0], arguments[0])
 				else
 					return this.copyConstructor (arguments[0]);
 			case 3: 
@@ -128,17 +156,19 @@ function Vector () {
 			default: 
 				throw "Vector constructor bad syntax";
 		};
-	} catch (e) {
+	}
+	catch (e) {
 		console.error (e);
 	}
-	return this;
+//	return this;
 }
 
 
 //==============================================================================
 /**
  * Default constructor (no argument).
- * @return {Vector} a vector initialized with 0 in each dimension.
+ * 
+ * @return {Vector} A vector initialized with 0 in each coordinate.
  */
 Vector.prototype.defaultConstructor = function () {
 	this.m[0] = 0;
@@ -150,13 +180,15 @@ Vector.prototype.defaultConstructor = function () {
 
 //==============================================================================
 /**
- * Copy constructor (on argument, another vector).
- * @param {Vector} that - the vector to copy.
- * @return {Vector} a vector initialized with the value from that.
+ * Copy constructor.
+ * 
+ * @param {Vector} that - The vector to copy.
+ * 
+ * @return {Vector} A vector initialized with the value from 'that'.
  */
 Vector.prototype.copyConstructor = function (that) {
 	if (!(that instanceof Vector)) { 
-		throw("Vector: bad copy constructor call");
+		throw "Vector: bad copy constructor call";
 	}
 	this.m[0] = that.m[0];
 	this.m[1] = that.m[1];
@@ -167,9 +199,11 @@ Vector.prototype.copyConstructor = function (that) {
 
 //==============================================================================
 /**
- * Transform an array to a Vector
- * @param {Vector} tab - the vector to copy.
- * @return {Vector} a vector initialized with the value from that.
+ * Transform an array to a Vector.
+ * 
+ * @param {Vector} tab - The vector to copy.
+ * 
+ * @return {Vector} A vector initialized with the value from 'that'.
  */
 Vector.prototype.arrayToVectorConstructor = function (tab) {
 	if (tab.length != 3) { 
@@ -182,10 +216,12 @@ Vector.prototype.arrayToVectorConstructor = function (tab) {
 //==============================================================================
 /**
  * Constructor using three coordinates (float values).
- * @param {float} x - the first dimension value.
- * @param {float} y - the second dimension value.
- * @param {float} z - the third dimension value.
- * @return {Vector} a vector initialized with x, y and z.
+ * 
+ * @param {float} x - The first dimension value.
+ * @param {float} y - The second dimension value.
+ * @param {float} z - The third dimension value.
+ * 
+ * @return {Vector} A vector initialized with x, y and z.
  */
 Vector.prototype.coordinateConstructor = function (x, y, z) {
 	if (isFinite (x) && isFinite (y) && isFinite (z)) {
@@ -195,112 +231,19 @@ Vector.prototype.coordinateConstructor = function (x, y, z) {
 		return this;
 	}
 	else {
-		throw "Vector: bad (by coordinate) constructor call (" + x + ", " + y 
+		throw "Vector: bad coordinate constructor call (" + x + ", " + y 
 			+ ", " + z + ")";
 	}
 };
 
 
-//==============================================================================
-/**
- * @return {float} the X value (first value of the vector).
- */
-Vector.prototype.X = function () {
-	return this.m[0];
-};
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
 
 
-//==============================================================================
-/**
- * @return {float} the Y value (second value of the vector)
- */
-Vector.prototype.Y = function () {
-	return this.m[1];
-};
 
-
-//==============================================================================
-/**
- * @return {float} the Z value (third value of the vector).
- */
-Vector.prototype.Z = function () {
-  return this.m[2]; 
-};
-
-
-//==============================================================================
-/**
- * Addition (this += that).
- * @param {Vector} that - the vector to add with.
- * @return {Vector} the vector result of the addition.
- */
-Vector.prototype.add = function (that) {
-	this.m[0] += that.m[0];
-	this.m[1] += that.m[1];
-	this.m[2] += that.m[2];
-	return this;
-};
-
-
-//==============================================================================
-/**
- * Subtraction (this -= that).
- * @param {Vector} that - the vector to substract with.
- * @return {Vector} the vector result of the substraction.
- */
-Vector.prototype.sub = function (that) {
-	this.m[0] -= that.m[0];
-	this.m[1] -= that.m[1];
-	this.m[2] -= that.m[2];
-	return this;
-};
-
-
-//==============================================================================
-/**
- * Cross product (returns = this ^ that).
- * @param {Vector} that - the vector to realize the cross product with.
- * @return {Vector} the vector result of the cross product.
- */
-Vector.prototype.cross = function (that) {
-	return new Vector(this.m[1]*that.m[2] - this.m[2]*that.m[1],
-			   this.m[2]*that.m[0] - this.m[0]*that.m[2],
-			   this.m[0]*that.m[1] - this.m[1]*that.m[0]);
-};
-
-
-//==============================================================================
-/**
- * Dot product.
- * @param {Vector} that - the vector to realize the dot product with.
- * @return {Element} a scalar result of the dot product.
- */
-Vector.prototype.dot = function (that) {
-  return this.m[0]*that.m[0] + this.m[1]*that.m[1] + this.m[2]*that.m[2];
-};
-
-
-//==============================================================================
-/**
- * Multiplication by a scalar (this *= scalar).
- * @param {Vector} that - a scalar to multiply with.
- * @return {Vector} a vector result of the multiplication with a scalar.
-
- */
-Vector.prototype.mul = function (that) {
-	if (isFinite(that)) {
-		this.m[0] *= that;
-		this.m[1] *= that;
-		this.m[2] *= that;
-		return this;
-	}
-	else {
-		throw "Vector.mul: bad parameter";
-	}
-};
-
-
-//==============================================================================
 /**
  * @return {Number} The euclian length of the vector.
  */
@@ -315,12 +258,129 @@ Vector.prototype.getLength = function () {
 
 //==============================================================================
 /**
- * Normalization : this becomes unit vector.
- * @return {Vector} the vector normalized.
+
+ * @return {Array} The data to the GPU.
+ */
+Vector.prototype.getGLVector = function () {
+	return this.m; 
+};
+
+
+
+//##############################################################################
+//	Vector operations
+//##############################################################################
+
+
+
+/**
+ * Addition (this += that).
+ * 
+ * @param {Vector} that - The vector to add with.
+ * 
+ * @return {Vector} The vector result of the addition.
+ * @throws {String} If the 'that' is not a Vector.
+ */
+Vector.prototype.add = function (that) {
+	if (! that instanceof Vector) {
+		throw "Vector.add: given parameter is not a Vector"
+	}
+	this.m[0] += that.m[0];
+	this.m[1] += that.m[1];
+	this.m[2] += that.m[2];
+	return this;
+};
+
+
+//==============================================================================
+/**
+ * Subtraction (this -= that).
+ * 
+ * @param {Vector} that - The vector to substract with.
+ * 
+ * @return {Vector} The vector result of the substraction.
+ * @throws {String} If the 'that' is not a Vector.
+ */
+Vector.prototype.sub = function (that) {
+	if (! that instanceof Vector) {
+		throw "Vector.sub: given parameter is not a Vector"
+	}
+	this.m[0] -= that.m[0];
+	this.m[1] -= that.m[1];
+	this.m[2] -= that.m[2];
+	return this;
+};
+
+
+//==============================================================================
+/**
+ * Cross product (returns = this ^ that).
+ * 
+ * @param {Vector} that - The vector to realize the cross product with.
+ * 
+ * @return {Vector} The vector result of the cross product.
+ * @throws {String} If the 'that' is not a Vector.
+ */
+Vector.prototype.cross = function (that) {
+	if (! that instanceof Vector) {
+		throw "Vector.cross: given parameter is not a Vector"
+	}
+	return new Vector (
+		this.m[1] * that.m[2] - this.m[2] * that.m[1],
+		this.m[2] * that.m[0] - this.m[0] * that.m[2],
+		this.m[0] * that.m[1] - this.m[1] * that.m[0]
+	);
+};
+
+
+//==============================================================================
+/**
+ * Dot product (returns = this . that).
+ * 
+ * @param {Vector} that - The vector to realize the dot product with.
+ * 
+ * @return {Number} A scalar result of the dot product.
+ * @throws {String} If the 'that' is not a Vector.
+ */
+Vector.prototype.dot = function (that) {
+	if (! that instanceof Vector) {
+		throw "Vector.dot: given parameter is not a Vector"
+	}
+	return this.m[0] * that.m[0] + this.m[1] * that.m[1] 
+		+ this.m[2] * that.m[2];
+};
+
+
+//==============================================================================
+/**
+ * Multiplication by a scalar (this *= scalar).
+ * 
+ * @param {Vector} that - A scalar to multiply with.
+ * 
+ * @return {Vector} A vector result of the multiplication with a scalar.
+ */
+Vector.prototype.mul = function (that) {
+	if (isFinite (that)) {
+		this.m[0] *= that;
+		this.m[1] *= that;
+		this.m[2] *= that;
+		return this;
+	}
+	else {
+		throw "Vector.mul: bad parameter";
+	}
+};
+
+
+//==============================================================================
+/**
+ * Normalization. This becomes unit vector.
+ * 
+ * @return {Vector} The vector normalized.
  */
 Vector.prototype.normalize = function () {
-	var inv = 1.0 / Math.sqrt(this.m[0] * this.m[0] + this.m[1] * this.m[1] 
-			+ this.m[2] * this.m[2]);
+	var inv = 1.0 / Math.sqrt (this.m[0] * this.m[0] + this.m[1] * this.m[1] 
+		+ this.m[2] * this.m[2]);
 	this.m[0] *= inv;
 	this.m[1] *= inv;
 	this.m[2] *= inv;
@@ -330,7 +390,7 @@ Vector.prototype.normalize = function () {
 
 //==============================================================================
 /**
- * @return {Vector} the opposite of the vector.
+ * @return {Vector} The opposite of the vector.
  */
 Vector.prototype.invert = function () {
 	this.m[0] = -this.m[0];
@@ -342,96 +402,116 @@ Vector.prototype.invert = function () {
 
 //==============================================================================
 /**
- * Rotate a vector given an angle (in radian) around Z axis.
- * @param {float} rad - the angle of rotation (in radian).
- * @return {Vector} the vector after the rotation.
+ * Rotate a vector given an angle (in radian) around X axis.
+ * 
+ * @param {float} rad - The angle of rotation (in radian).
+ * 
+ * @return {Vector} The vector after the rotation.
  */
 Vector.prototype.rotateX = function (rad) {
-	return new Vector(this.m[0], 
-			   this.m[1]*Math.cos(rad) - this.m[2]*Math.sin(rad), 
-			   this.m[1]*Math.sin(rad) + this.m[2]*Math.cos(rad));
+	return new Vector (
+		this.m[0], 
+		this.m[1] * Math.cos (rad) - this.m[2] * Math.sin (rad), 
+		this.m[1] * Math.sin (rad) + this.m[2] * Math.cos (rad)
+	);
 };
 
 
 //==============================================================================
 /**
- * Rotate a vector given an angle (in radian) around Z axis.
- * @param {float} rad - the angle of rotation (in radian).
- * @return {Vector} the vector after the rotation.
+ * Rotate a vector given an angle (in radian) around Y axis.
+ * 
+ * @param {float} rad - The angle of rotation (in radian).
+ * 
+ * @return {Vector} The vector after the rotation.
  */
 Vector.prototype.rotateY = function (rad) {
-	return new Vector(this.m[0]*Math.cos(rad) - this.m[2]*Math.sin(rad),
-			   this.m[1], 
-			   this.m[0]*Math.sin(rad) + this.m[2]*Math.cos(rad));
+	return new Vector (
+		this.m[0] * Math.cos (rad) - this.m[2] * Math.sin (rad),
+		this.m[1], 
+		this.m[0] * Math.sin (rad) + this.m[2] * Math.cos (rad)
+	);
 };
 
 
 //==============================================================================
 /**
  * Rotate a vector given an angle (in radian) around Z axis.
- * @param {float} rad - the angle of rotation (in radian).
- * @return {Vector} the vector after the rotation.
+ * 
+ * @param {float} rad - The angle of rotation (in radian).
+ * 
+ * @return {Vector} The vector after the rotation.
  */
 Vector.prototype.rotateZ = function (rad) {
-	return new Vector(this.m[0]*Math.cos(rad) - this.m[1]*Math.sin(rad), 
-			   this.m[0]*Math.sin(rad) + this.m[1]*Math.cos(rad), 
-			   this.m[2]);
+	return new Vector (
+		this.m[0] * Math.cos (rad) - this.m[1] * Math.sin (rad), 
+		this.m[0] * Math.sin (rad) + this.m[1] * Math.cos (rad), 
+		this.m[2]
+	);
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Other methods
+//##############################################################################
+
+
+
 /**
- * @return {Array} the data to the GPU.
+ * @return {String} A string to display the vector.
  */
-Vector.prototype.getGLVector = function () {
-	return this.m; 
-};
-
-
-//==============================================================================
-/**
- * @return {String} a string to display a vector.
- */
-
 Vector.prototype.toString = function () {
-	return "["+this.m[0]+"; "+this.m[1]+"; "+this.m[2]+"]";
+	return "[" + this.m[0] + "; " + this.m[1] + "; " + this.m[2] + "]";
 };
 
 
-Vector.prototype.equals = function (vect){
-	return this.m[0] === vect.m[0]
-			&& this.m[1] === vect.m[1]
-			&& this.m[2] === vect.m[2];
+//==============================================================================
+/**
+ * Test if the vector is equals to an other.
+ * 
+ * @param {Vector} that - An other vector.
+ * 
+ * @return {boolean} True if 'that' equals to this for each coordinate, false
+ * otherwise.
+ * @throws {String} If the 'that' is not a Vector.
+ */
+Vector.prototype.equals = function (that) {
+	if (! that instanceof Vector) {
+		throw "Vector.sub: given parameter is not a Vector"
+	}
+	return this.m[0] === vect.m[0] && this.m[1] === vect.m[1] 
+		&& this.m[2] === vect.m[2];
 };
 
 
 
-	  //////////////////////
-	 /// other function ///
-	//////////////////////
-	
+//##############################################################################
+//	Other functions
+//##############################################################################
+
 
 
 /**
  * Return the addition of two vector.
  * 
- * @param a {Vector} - A vector.
- * @param b {Vector} - A vector.
+ * @param {(Vector | Number[3] | Number)} a - A vector or coordinates to
+ * construct a vector.
+ * @param {(Vector | Number[3] | Number)} b - A vector or coordinates to
+ * construct a vector.
+ * @see {@link copyConstructor, arrayToVectorConstructor, coordinateConstructor}
  * 
- * @return {Vector} a new vector corresponding to "a + b"
+ * @return {Vector} A new vector corresponding to "a + b"
  */
 function addVector (a, b) {
-	if ((!(a instanceof Vector) && !(a instanceof Array)) 
-		|| (!(b instanceof Vector) && !(b instanceof Array)))
+	if (! checkType (arguments, [Vector, Array, "number"],
+		[Vector, Array, "number"]))
 	{
-		throw "addVector : one of term is not a Vector"
+		throw "addVector: one of parameter is not a Vector"
 	}
 	var va = new Vector (a);
 	var vb = new Vector (b);
 	return va.add (vb);
 }
-
-
-
 
 

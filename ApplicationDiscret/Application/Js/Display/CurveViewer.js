@@ -185,6 +185,7 @@ Frame2D.prototype.gridCanvasInit = function () {
 
 /**
  * @override
+ * TODO
  * 
  * @param {WindowEvent} event - The window event.
  * 

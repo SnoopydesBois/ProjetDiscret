@@ -72,9 +72,7 @@ Application.prototype.initAppli = function () {
  * 
  * @return {void}
  */
-Application.prototype.initFunctionnalities = function () {
-	//
-};
+Application.prototype.initFunctionnalities = function () {};
 
 
 //==============================================================================
@@ -84,9 +82,7 @@ Application.prototype.initFunctionnalities = function () {
  * @return {void}
  */
 Application.prototype.initWindowEvent = function () {
-	window.addEventListener ("resize",
-		this.surfaceView.onResize.bind (this.surfaceView)
-	);
+	window.addEventListener ("resize", this.resizeInterface.bind (this));
 	this.showDefaultMessage ();
 };
 

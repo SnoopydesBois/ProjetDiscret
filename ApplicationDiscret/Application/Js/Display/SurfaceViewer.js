@@ -5,7 +5,8 @@
 
 /**
  * @extends GenericViewer
- * @classdesc TODO
+ * @classdesc Class to manage a canvas and object (FIXME traduire) et les objets
+ * à dessiner.
  */
 
 
@@ -40,15 +41,19 @@ function SurfaceViewer (canvas) {
 	this.contener.addObject (new Repere (this.glContext));
 	
 	/**
-	 * {int[2]} TODO
+	 * {int[2]} The position of the mouse on the canvas when the user press a
+	 * button (used for the camera mouvement).
+	 * @see {@link onMouseDown, onMouseMove}
 	 */
 	this.mousePosOnPress = [0, 0];
 	
 	/**
-	 * {Vector} TODO
+	 * {Vector} 
 	 */
 	this.camPosWhenClick;
 	
+	
+	/// Initialisation
 	this.initCanvasEvent ();
 	this.glContext.enable (this.glContext.CULL_FACE);
 	this.glContext.enable (this.glContext.DEPTH_TEST);
@@ -82,7 +87,7 @@ SurfaceViewer.prototype.setViewDimension = function () {
 
 //==============================================================================
 /**
- * Change dimensions ... can be overloaded.
+ * Change dimension of the scene.
  * 
  * @param {int} width - The scene width.
  * @param {int} height - The scene height.
@@ -99,7 +104,7 @@ SurfaceViewer.prototype.setDimension = function (width, height) {
 
 //==============================================================================
 /**
- * Change the mouse position .. can be overloaded.
+ * Change the mouse position.
  * 
  * @param {int} x - The mouse position along the x axis.
  * @param {int} y - The mouse position along the y axis.
@@ -192,7 +197,7 @@ SurfaceViewer.prototype.draw = function (backBuffer) {
  */
 SurfaceViewer.prototype.onResize = function (event) {
 	this.setViewDimension ();
-	this.contener.getCamera().computeMatrices();
+	this.contener.getCamera ().computeMatrices ();
 	this.show ();
 };
 
@@ -200,14 +205,16 @@ SurfaceViewer.prototype.onResize = function (event) {
 //==============================================================================
 /**
  * @override
+ * Save the camera coordinates and the mouse coordintates.
+ * @see {@link camPosWhenClick, mousePosOnPress}
  * 
- * TODO
+ * @param {MouseEvent} event - The event.
+ * 
+ * @return {void}
  */
 SurfaceViewer.prototype.onMouseDown = function (event) {
 	if (event.buttons === 1) { // FIXME right click is pressed
 		this.camPosWhenClick = this.contener.getCamera().getPosition();
-//		console.log ("nouveau :", event.layerX, event.layerY);
-//		console.log ("cam pos now:", this.contener.getCamera().getPosition().x, this.contener.getCamera().getPosition().y, this.contener.getCamera().getPosition().z);
 		this.mousePosOnPress[0] = event.layerX;
 		this.mousePosOnPress[1] = event.layerY;
 //		event.preventDefault ();
@@ -218,29 +225,33 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
 //==============================================================================
 /**
  * @override
- * 
  * TODO
+ * 
+ * @param {MouseEvent} event - The event.
+ * 
+ * @return {void}
  */
 SurfaceViewer.prototype.onMouseUp = function (event) {
-	if (event.buttons === 1) { // FIXME right click is pressed
-		this.camPosWhenClick = this.contener.getCamera().getPosition();
-		this.mousePosOnPress[0] = event.layerX;
-		this.mousePosOnPress[1] = event.layerY;
+//	if (event.buttons === 1) { // FIXME right click is pressed
+//		this.camPosWhenClick = this.contener.getCamera().getPosition();
+//		this.mousePosOnPress[0] = event.layerX;
+//		this.mousePosOnPress[1] = event.layerY;
 //		event.preventDefault ();
-	}
+//	}
 };
 
 
 //==============================================================================
 /**
  * @override
+ * Move the camera.
  * 
- * TODO
+ * @param {MouseEvent} event - The event.
+ * 
+ * @return {void}
  */
 SurfaceViewer.prototype.onMouseMove = function (event) {
 	if (event.buttons === 1) { // FIXME right click is pressed when move
-//		console.log ("cam pos:", this.contener.getCamera().getPosition().x, this.contener.getCamera().getPosition().y, this.contener.getCamera().getPosition().z);
-//		console.log ("move at:", (this.mousePosOnPress[0] - event.layerX) * 0.01, (event.layerY - this.mousePosOnPress[1]) * 0.01);
 		this.moveCameraAt (
 			(this.mousePosOnPress[0] - event.layerX) * 0.01,
 			(event.layerY - this.mousePosOnPress[1]) * 0.01
@@ -252,8 +263,11 @@ SurfaceViewer.prototype.onMouseMove = function (event) {
 //==============================================================================
 /**
  * @override
+ * Change the zoom of the camera.
  * 
- * TODO
+ * @param {MouseEvent} event - The event.
+ * 
+ * @return {void}
  */
 SurfaceViewer.prototype.onWheel = function (event) {
 	if (event.deltaY != 0) {
@@ -279,8 +293,11 @@ SurfaceViewer.prototype.onWheel = function (event) {
 //==============================================================================
 /**
  * @override
- * 
  * TODO
+ * 
+ * @param {KeyEvent} event - The event.
+ * 
+ * @return {void}
  */
 SurfaceViewer.prototype.onKeyDown = function (event) {
 	switch (event.keyCode) {
@@ -307,7 +324,9 @@ SurfaceViewer.prototype.onKeyDown = function (event) {
 
 
 /**
- * TODO
+ * Init all event on the canvas.
+ * 
+ * @return {void}
  */
 SurfaceViewer.prototype.initCanvasEvent = function () {
 	// resize 
@@ -330,29 +349,32 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 
 //==============================================================================
 /** 
- * TODO
+ * Move the camera at spheric coordintates.
  * 
  * @param {Number} phiOffset - Lattitude offset.
  * @param {Number} thetaOffset - Longitude offset.
+ * 
+ * @return {void}
  */
 SurfaceViewer.prototype.moveCameraAt = function (phiOffset, thetaOffset) {
 	/// parameter verification 
 	if (! checkType (arguments, "number", "number")) {	
-		throw "SurfaceViewer.moveCameraAt: parameters are not number";
+		throw "SurfaceViewer.moveCameraAt: one of parameter are not number";
 	}
 	
 	/// compute angle
 	var pos = this.camPosWhenClick;
 	var dist = pos.getLength ();
-	var phi = Math.acos (pos.x / dist) * Math.sign (pos.y / dist);
-	var theta = Math.asin (pos.z / dist);
+	var phi = Math.acos (pos.x / dist) * Math.sign (pos.y / dist)  + phiOffset;
+	var theta = clamp (-Math.PI / 2, Math.PI / 2, 
+		Math.asin (pos.z / dist) + thetaOffset);
 	
-	/// compute pos
-	this.contener.setCameraAt ([
-		dist * Math.cos (phi + phiOffset) * Math.cos (theta + thetaOffset),
-		dist * Math.sin (phi + phiOffset) * Math.cos (theta + thetaOffset),
-		dist * Math.sin (theta + thetaOffset)
-	]);
+	
+	/// compute position
+	var x = dist * Math.cos (phi) * Math.cos (theta);
+	var y = dist * Math.sin (phi) * Math.cos (theta);
+	var z = dist * Math.sin (theta);
+	this.contener.setCameraAt ([x, y, z]);
 	
 	/// drawing
 	this.draw ();

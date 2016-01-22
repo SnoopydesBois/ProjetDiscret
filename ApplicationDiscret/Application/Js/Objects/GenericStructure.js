@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,6 +42,7 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
@@ -71,13 +73,18 @@
  * addABitangent (data : Array, U : float, V : float) : int	
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
 /**
- * @classdesc Class to manage an object (you must inherit from this class).
+ * @classdesc Class to manage the 3D display of an object (you must inherit from
+ * this class).
  */
+
+
+GenericStructure.prototype.constructor = GenericStructure;
 
 
 
@@ -95,11 +102,11 @@
  */
 function GenericStructure (name, shader) {
 	
-	if (arguments.length !== 0 // GenericStructure is a super class.
-		&& !(typeof name === "string"
+	if (arguments.length != 0 // GenericStructure is a super class.
+		&& !(typeof name == "string"
 		&& shader instanceof Shader)) 
 	{
-		console.error ("GenericStructure.constructor : bad type(s) of " + 
+		console.error ("GenericStructure.constructor: bad type(s) of " + 
 			"parameter(s)");
 		showType (name, shader);
 		return;
@@ -146,7 +153,8 @@ function GenericStructure (name, shader) {
 	this.glIndicesBuffer = [];
 	
 	/**
-	 * {boolean} TODO
+	 * {boolean} This value indicate if the structure is already prepared or
+	 * not.
 	 */
 	this.prepared = false;
 }
@@ -160,7 +168,7 @@ function GenericStructure (name, shader) {
 
 
 /**
- * @return {Controller} the model controller.
+ * @return {Controller} The model controller.
  */
 GenericStructure.prototype.getModelController = function () {
 	return this.modelController;
@@ -174,20 +182,20 @@ GenericStructure.prototype.getModelController = function () {
  * @param {Controller} newController - The new model controller.
  * 
  * @return {void}
- * @throws FIXME compléter
+ * @throws {String} If the given parameter is not a Controller.
  */
 GenericStructure.prototype.setModelController = function (newController) {
 	if (newController instanceof Controller)
 		this.modelController = newController;
 	else
-		throw "GenericStructure.setModelController: argument is not a " 
+		throw "GenericStructure.setModelController: parameter is not a " 
 			+ "Controller";
 };
 
 
 //==============================================================================
 /**
- * @return {String} the name of the structure.
+ * @return {String} The name of the structure.
  */
 GenericStructure.prototype.getName = function () {
 	return this.structureName;
@@ -198,22 +206,22 @@ GenericStructure.prototype.getName = function () {
 /**
  * Set name of current structure.
  * 
- * @param {String} aName - the new name of the structure.
+ * @param {String} aName - The new name of the structure.
  * 
  * @return {void}
- * @throws FIXME compléter
+ * @throws {String} If the given parameter is not a string.
  */
 GenericStructure.prototype.setName = function (aName) {
-	if (typeof aName === "string")
+	if (typeof aName == "string")
 		this.structureName = aName;
 	else
-		throw "GenericStructure.setName: argument is not a String";
+		throw "GenericStructure.setName: argument is not a string";
 };
 
 
 //==============================================================================
 /**
- * @return {Matrix} the structure matrix.
+ * @return {Matrix} The model matrix.
  */
 GenericStructure.prototype.getMatrix = function () {
 	return this.matrix;
@@ -222,12 +230,12 @@ GenericStructure.prototype.getMatrix = function () {
 
 //==============================================================================
 /**
- * Set ModelMatrix.
+ * Set the model matrix.
  * 
- * @param {Matrix} aMatrix - the new matrix for the structure.
+ * @param {Matrix} aMatrix - The new matrix for the structure.
  * 
  * @return {void}
- * @throws FIXME compléter
+ * @throws {String} If the given parameter is not a Matrix.
  */
 GenericStructure.prototype.setMatrix = function (aMatrix) {
 	if (aMatrix instanceof Matrix)
@@ -253,7 +261,7 @@ GenericStructure.prototype.getShader = function () {
  * @param {Shader} aShader - the new shader for the structure.
  * 
  * @return {void}
- * @throws FIXME compléter
+ * @throws {String} If the given parameter is not a Shader.
  */
 GenericStructure.prototype.setShader = function (aShader) {
 	if (aShader instanceof Shader)
@@ -276,11 +284,11 @@ GenericStructure.prototype.displayMe = function () {
 /**
  * Set if the structure should be display.
  * 
- * @param {boolean} isDisplayable - true if the structure should be displayed,
+ * @param {boolean} isDisplayable - True if the structure should be displayed,
  * false otherwise.
  * 
  * @return {void}
- * @throws FIXME compléter
+ * @throws {String} If the given parameter is not a boolean.
  */
 GenericStructure.prototype.setDisplay = function (isDisplayable) {
 	if (typeof (isDisplayable) === "boolean")

@@ -58,11 +58,12 @@
 /**
  * Clamp the number between mini and maxi.
  * 
- * @param {float} mini - the minimum limit
- * @param {float} maxi - the maximum limit
- * @param {float} number - the number to clamp between mini and maxi
+ * @param {Number} mini - The minimum limit.
+ * @param {Number} maxi - The maximum limit.
+ * @param {Number} number - The number to clamp between mini and maxi.
  * 
- * @return {float} number if it is between mini et maxi, else maxi or mini
+ * @return {Number} 'number' if it is between 'mini' and 'maxi', else 'maxi' or
+ * 'mini'.
  */
 function clamp (mini, maxi, number) {
 	return Math.min (maxi, Math.max (mini, number));
