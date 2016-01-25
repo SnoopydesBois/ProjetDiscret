@@ -516,8 +516,8 @@ $(document).ready(function() {
 			circle.getEquation().setParameter("r", 5.0);
 
 			var sinWave = new Sinusoid();
-			sinWave.getEquation().setParameter("a", 10.0);
-			sinWave.getEquation().setParameter("b", 1/4);
+			sinWave.getEquation().setParameter("a", 5.0);
+			sinWave.getEquation().setParameter("b", 1);
 			sinWave.getEquation().setParameter("c", 0);
 			sinWave.getEquation().setParameter("h", 0);
 			
@@ -553,14 +553,14 @@ $(document).ready(function() {
 			var c2 = new Controller2D (-5, 5, -5, 5);
 			
 			c.modelCurve.activeCurve = sinWave;
-			c2.modelCurve.activeCurve = circle;
+			c2.modelCurve.activeCurve = revol2;
 			
 			//sinWave.computePoints (new Range (-10, 10), new Range (-10, 10), 5)
 			appli.meridianView.container.addObject (c);
 			appli.revolView.container.addObject (c2);
 			
 			appli.surfaceController.getMeridian = function(){return sinWave};
-			appli.surfaceController.getCurveRevolution = function(){return heart};
+			appli.surfaceController.getCurveRevolution = function(){return revol2};
 			
 			appli.initAppli ();
 			
