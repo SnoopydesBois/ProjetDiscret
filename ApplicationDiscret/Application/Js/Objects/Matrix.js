@@ -552,7 +552,7 @@ Matrix.prototype.add = function (that) {
  */
 Matrix.prototype.mul = function (that) {
 	if (!(that instanceof Matrix)) {
-		throw "Matrix multiplication: bad parameter!" ;
+		throw "Matrix multiplication: given parameter is not a Matrix" ;
 	}
 	var t = new MAT_ARRAY_TYPE (this.m);
 	
@@ -639,7 +639,7 @@ Matrix.prototype.invert = function () {
 /**
  * Translation constructor: this = T * this.
  * 
- * @param {Matrix} that - The vector containing the translation values.
+ * @param {Vector} that - The vector containing the translation values.
  * 
  * @return {Matrix} This matrix translated.
  */
@@ -660,18 +660,18 @@ Matrix.prototype.translate = function (that) {
 /**
  * Scaling constructor.
  * 
- * @param {Matrix} that - The coefficient of scaling.
+ * @param {Number} that - The coefficient of scaling.
  * 
  * @return {Matrix} This matrix scaled.
  */
 Matrix.prototype.scale = function (that) {
 	if (!isFinite (that)) {
-		throw "Matrix scale: bad parameter";
+		throw "Matrix scale: given parameter is not a finite number";
 	}
 	
-	for (var i=0;i<3;++i) {
-		for (var j=0;j<4; ++j) {
-			this.m[i+j*4] *= that;
+	for (var i = 0; i< 3; ++i) {
+		for (var j = 0; j < 4; ++j) {
+			this.m[i + j * 4] *= that;
 		}
 	}
 	return this;

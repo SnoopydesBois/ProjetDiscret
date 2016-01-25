@@ -358,7 +358,7 @@ Vector.prototype.dot = function (that) {
 /**
  * Multiplication by a scalar (this *= scalar).
  * 
- * @param {Vector} that - A scalar to multiply with.
+ * @param {Number} that - A scalar to multiply with.
  * 
  * @return {Vector} A vector result of the multiplication with a scalar.
  */
