@@ -218,6 +218,23 @@ ModelCurve.prototype.getInverseImage = function(){
 };
 
 
+//==============================================================================
+/**
+ * @param {Range} the image range of the curve to set.
+ */
+ModelCurve.prototype.setImage = function(image){
+	this.image = image;
+};
+
+
+//==============================================================================
+/**
+ * @param {Range} the inverse image range of the curve to set
+ */
+ModelCurve.prototype.setInverseImage = function(inverseImage){
+	this.inverseImage = inverseImage;
+};
+
 
 //##############################################################################
 //	Accessors and Mutators

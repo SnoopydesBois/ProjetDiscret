@@ -216,6 +216,24 @@ Controller2D.prototype.getYRange = function () {
 
 //==============================================================================
 /**
+ * @param {Range} the new xRange to set
+ */
+Controller2D.prototype.setXRange = function (xRange) {
+	return this.modelCurve.setImage (xRange);
+};
+
+
+//==============================================================================
+/**
+ * @param {Range} the new yRange to set
+ */
+Controller2D.prototype.setYRange = function (yRange) {
+	return this.modelCurve.setInverseImage (yRange);
+};
+
+
+//==============================================================================
+/**
  * TODO doc
  * To redefine in child controllers
  * 
