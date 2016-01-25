@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,7 +42,10 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
+
+
 /*
  * 
  * constructor ()
@@ -52,27 +56,44 @@
  * scroll (event : WindowEvent) : void
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
+
+/**
+ * @classdesc TODO
+ */
 
 
 Controller2DMeridian.prototype = new Controller2D;
 Controller2DMeridian.prototype.constructor = Controller2DMeridian;
 
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
+
 /**
  * @constructor
- * @param {Number} imageMin - The lower bound of the output range
- * @param {Number} imageMax - The upper bound of the output range
- * @param {Number} antecedantMin - The lower bound of the input range
- * @param {Number} antecedantMax - The upper bound of the input range
- * @param {DrawModeEnum} mode - The drawing method used
+ * 
+ * @param {Number} imageMin - The lower bound of the output range.
+ * @param {Number} imageMax - The upper bound of the output range.
+ * @param {Number} antecedantMin - The lower bound of the input range.
+ * @param {Number} antecedantMax - The upper bound of the input range.
+ * @param {DrawModeEnum} mode - The drawing method used.
  */
-function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
+function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
+	mode)
+{
 	
-	Controller2D.call (this, imageMin, imageMax, antecedantMin, antecedantMax, mode);
+	Controller2D.call (this, imageMin, imageMax, antecedantMin, antecedantMax,
+		mode);
 	
-	this.modelDraw = new ModelDraw();
-};
+	this.modelDraw = new ModelDraw ();
+}
 
 
 //==============================================================================

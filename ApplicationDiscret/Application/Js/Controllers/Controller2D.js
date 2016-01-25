@@ -79,7 +79,8 @@ function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 		Controller.call (this);
 	}
 	else {
-		if(!checkType (arguments, "number", "number", "number", "number", DrawModeEnum))
+		if (! checkType (arguments, "number", "number", "number", "number",
+			DrawModeEnum))
 		{
 			console.error ("Controller2D.constructor: bad type(s) of "
 				+ "parameter(s)");
@@ -114,10 +115,46 @@ function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 
 
 /**
- * TODO doc
+ * Add a curve to the model.
+ * @see {@link ModelCurve.addCurve}
+ * 
+ * @param {String} name - The name of the curve.
+ * @param {Function} constructor - The constructor of the curve. This class
+ * constructor must inherit from Curve.
+ * 
+ * @return {void}
  */
-Controller2D.prototype.setActive = function (nom) {
-	this.modelController2D.setActive (nom);
+Controller2D.prototype.addCurve = function (name, constructor) {
+	/// parameter verification
+	if (! checkType (arguments, "string", Function)) {
+		showType (name, constructor);
+		throw "Controller2D.addCurve: bad type(s) of parameter(s)";
+	}
+	
+	/// add the curve
+	this.modelCurve.addCurve (name, constructor);
+};
+
+
+//==============================================================================
+/**
+ * TODO doc
+ * 
+ * @return {void}
+ */
+Controller2D.prototype.getActiveCurve = function () {
+	return this.modelCurve.getActiveCurve ();
+};
+
+
+//==============================================================================
+/**
+ * TODO doc
+ * 
+ * @return {void}
+ */
+Controller2D.prototype.setActive = function (name) {
+	this.modelCurve.setActive (name);
 };
 
 

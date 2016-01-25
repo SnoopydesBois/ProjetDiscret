@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,10 +42,11 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 /* initAppli () : void
- * initFunctionnalities () : void
+ * initControllers () : void
  * initWindowEvent () : void
  */
 
@@ -59,9 +61,12 @@
  */
 Application.prototype.initAppli = function () {
 	/// Application initialization
-	this.resizeInterface ();
+	this.initControllers ();
+	this.meridianController.setActive ("Sinusoid");
+	this.revolController.setActive ("Circle");
 	
 	/// Interface initialization
+	this.resizeInterface ();
 	this.initWindowEvent ();
 };
 
@@ -72,7 +77,25 @@ Application.prototype.initAppli = function () {
  * 
  * @return {void}
  */
-Application.prototype.initFunctionnalities = function () {};
+Application.prototype.initControllers = function () {
+	/// add curve for meridian
+	this.meridianController.addCurve ("Line", Line);
+	this.meridianController.addCurve ("Sinusoid", Sinusoid);
+	
+	/// add curve for revolution
+	this.revolController.addCurve ("Circle", Circle);
+	this.revolController.addCurve ("Heart", Heart);
+	this.revolController.addCurve ("Lemniscate", Lemniscate);
+	this.revolController.addCurve ("Svastika", Svastika);
+	
+	///
+	this.surfaceController.setGetCurveRevolution (
+		this.revolController.getActiveCurve.bind (this.revolController)
+	);
+	this.surfaceController.setGetMeridian (
+		this.meridianController.getActiveCurve.bind (this.meridianController)
+	);
+};
 
 
 //==============================================================================

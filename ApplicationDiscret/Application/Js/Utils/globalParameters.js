@@ -12,7 +12,7 @@ var globalParam = {
 	/**
 	 * TODO
 	 */
-	cubeColorDebug : true,
+	cubeColorDebug : false,
 	
 	/**
 	 * TODO

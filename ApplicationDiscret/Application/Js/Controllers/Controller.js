@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,9 +42,11 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
+
+
 /*
- * 
  * constructor ()
  * pressKey (event : WindowEvent) : void
  * mouseDown (event : WindowEvent) : void
@@ -52,27 +55,44 @@
  * scroll (event : WindowEvent) : void
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
+/**
+ * @classdesc TODO
+ */
+
+
 Controller.prototype.constructor = Controller;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
 
 /**
  * @constructor
- * @param {Frame} frame - The frame using the controller.
- * @param {String} name - The name of the controller.
- * @param {Application} application - The application 
  */
-function Controller () {
-};
+function Controller () {}
 
 
-//==============================================================================
+
+//##############################################################################
+//	Event methods
+//##############################################################################
+
+
+
 /**
  * Button of the keyboard has been activated.
- * To redefined in children classes
+ * 
  * @param {WindowEvent} event - event captured by the window.
+ * 
  * @return {void}
  */
 Controller.prototype.pressKey = function (event) {
@@ -119,10 +139,14 @@ Controller.prototype.mouseMouv = function (event) {
 //==============================================================================
 /**
  * Scroll the midel button of the mouse.
- * To redefined in children classes
+ * To redefined in children classes.
+ * 
  * @param {WindowEvent} event - event captured by the window.
+ * 
  * @return {void}
  */
-Controller.prototype.scroll = function (event) {
-	throw "Controller.presskey, not implemented in abstract class";
+Controller.prototype.onWheel = function (event) {
+	throw "Controller.onWheel: not implemented in abstract class";
 };
+
+

@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy,
@@ -61,15 +62,25 @@
 
 ModelCurve.prototype.constructor = ModelCurve;
 
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
+
 /**
  * @constructor
+ * 
  * @param {Range} image - The image range of the curve.
  * @param {Range} inverseImage - The inverse image range of the curve.
  */
 function ModelCurve (image, inverseImage) {
-	if (!checkType(arguments, Range, Range)) {
+	if (! checkType (arguments, Range, Range)) {
 		console.error ("ModelCurve.constructor: bad type of parameter");
 	}
+	
 	/**
 	 * {Range} The image range of the curve
 	 */
@@ -85,7 +96,7 @@ function ModelCurve (image, inverseImage) {
 	 * Contain the default list of curves and the curves created by the
 	 * user (by formula or by loading is files)
 	 */
-	this.listCurve = new Map();
+	this.listCurve = new Map ();
 	
 	/**
 	 * {Curve} The active curve of the model
@@ -95,23 +106,46 @@ function ModelCurve (image, inverseImage) {
 };
 
 
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
+
+
+
+/**
+ * Add a curve to its list.
+ * 
+ * @param {String} name - The name of the curve.
+ * @param {Function} constructor - The constructor of the curve. This class
+ * constructor must inherit from Curve.
+ * 
+ * @return {void}
+ */
+ModelCurve.prototype.addCurve = function (name, constructor) {
+	this.listCurve.set (name, constructor);
+};
+
+
+
 //==============================================================================
 /**
  * Set the new active curve for the model.
  * If the type of the curve is provided, a new curve is created with 
- * the parameter curve as it's equation
+ * the parameter curve as it's equation.
  * If the type of the curve is not provided, the new active curve is a 
  * default curve and the parameter "curve" is the name of this default curve 
- * present in the attribute listCurve of the model
+ * present in the attribute listCurve of the model.
  *
  * @param {String} curve - The equation of the curve or its name
  * @param {EquationTypeEnum} [type] - The type of the new active curve.
  */
-ModelCurve.prototype.setActive = function (curve, type){
-	if(!(typeof(curve) == "string")){		
+ModelCurve.prototype.setActive = function (curve, type) {
+	/// paramters verification
+	if(!(typeof curve == "string")){		
 		console.error ("ModelCurve.setActive: parameter curve is of wrong type");
 	}
 	
+	/// set
 	switch (type) {
 		case EquationTypeEnum.implicit :
 			this.activeCurve = new ImplicitCurve(curve);
@@ -124,18 +158,18 @@ ModelCurve.prototype.setActive = function (curve, type){
 			break;
 		case undefined:
 		case null:
-			if(this.listCurve.has(curve)){
+			if (this.listCurve.has (curve))
 				this.activeCurve = new (this.listCurve.get(curve))();
-			}
-			else{
-				throw "ModelCurve.setActive: Unknown type of equation";
+			else {
+				this.consolePrintAvailableCurve ();
+				throw "ModelCurve.setActive: Unknown equation name";
 			}
 			break;
 		default :
 			throw "ModelCurve.setActive: Unknown type of equation";
 			break;
 	}
-	this.activeCurve = curve;
+//	this.activeCurve = curve;
 };
 
 
@@ -152,7 +186,7 @@ ModelCurve.prototype.getPoints = function () {
 /**
  * @return {Curve} the active curve of the model.
  */
-ModelCurve.prototype.getActiveCurve = function(){
+ModelCurve.prototype.getActiveCurve = function () {
 	return this.activeCurve;
 };
 
@@ -161,8 +195,8 @@ ModelCurve.prototype.getActiveCurve = function(){
 /**
  * @return {Equation} The equation of the active curve
  */
-ModelCurve.prototype.getEquation = function(){
-	return this.activeCurve.getEquation();
+ModelCurve.prototype.getEquation = function () {
+	return this.activeCurve.getEquation ();
 };
 
 
@@ -174,6 +208,7 @@ ModelCurve.prototype.getImage = function(){
 	return this.image;
 };
 
+
 //==============================================================================
 /**
  * @return {Range} the inverse image range of the curve
@@ -183,13 +218,35 @@ ModelCurve.prototype.getInverseImage = function(){
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
+
+
+
 /**
- * {Equation} eq - The equation to set to the active implicit/explicit curve
+ * @param {Equation} eq - The equation to set to the active implicit/explicit
+ * curve.
  */
 ModelCurve.prototype.addEquation = function(eq){
 	if(!(eq instanceof Equation)){
 		throw "ModelCurve.addEquation : eq parameter is of wrong type";
 	}
-	this.activeCurve.setEquation(eq);
+	this.activeCurve.setEquation (eq);
 };
+
+
+//==============================================================================
+/**
+ * Print (with console.log ()) all available curve in this model.
+ * 
+ * @return {void}
+ */
+ModelCurve.prototype.consolePrintAvailableCurve = function () {
+	this.listCurve.forEach (function (val, key, map) {
+		console.log (key);
+	});
+};
+
+
