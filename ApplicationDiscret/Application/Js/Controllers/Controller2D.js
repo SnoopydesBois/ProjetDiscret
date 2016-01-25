@@ -68,6 +68,7 @@ Controller2D.prototype.constructor = Controller2D;
 
 /**
  * @constructor
+ * 
  * @param {Number} imageMin - The lower bound of the output range.
  * @param {Number} imageMax - The upper bound of the output range.
  * @param {Number} antecedantMin - The lower bound of the input range.
@@ -151,20 +152,30 @@ Controller2D.prototype.getActiveCurve = function () {
 /**
  * TODO doc
  * 
+ * @param {###} name - TODO
+ * 
  * @return {void}
  */
 Controller2D.prototype.setActive = function (name) {
+	/// parameter verification
+//	if (! checkType (arguments, )) {
+//		showType (name);
+//		throw "Controller2D.setActive: given parameter is not a /*TODO*/";
+//	}
+	
+	/// set the curve
 	this.modelCurve.setActive (name);
 };
 
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 Controller2D.prototype.isTypeOf = function (type) {
-	return this.modelCurve.getActiveCurve() instanceof type;
+	return this.modelCurve.getActiveCurve () instanceof type;
 };
+
 
 //==============================================================================
 /**
@@ -178,7 +189,7 @@ Controller2D.prototype.getPoints = function () {
 
 //==============================================================================
 /**
- * @return {Equation} the equation of the active curve
+ * @return {Equation} The equation of the active curve.
  */
 Controller2D.prototype.getEquation = function () {
 	return this.modelCurve.getEquation ();
@@ -187,7 +198,7 @@ Controller2D.prototype.getEquation = function () {
 
 //==============================================================================
 /**
- * TODO doc
+ * @return {Range} TODO
  */
 Controller2D.prototype.getXRange = function () {
 	return this.modelCurve.getImage ();
@@ -196,7 +207,7 @@ Controller2D.prototype.getXRange = function () {
 
 //==============================================================================
 /**
- * TODO doc
+ * @return {Range} TODO
  */
 Controller2D.prototype.getYRange = function () {
 	return this.modelCurve.getInverseImage ();
@@ -225,6 +236,8 @@ Controller2D.prototype.setYRange = function (yRange) {
 /**
  * TODO doc
  * To redefine in child controllers
+ * 
+ * @param {} dim - 
  */
 Controller2D.prototype.startHandFree = function (dim) {
 	throw "Controller2D.startHandFree: this function is not implemented";
@@ -235,6 +248,9 @@ Controller2D.prototype.startHandFree = function (dim) {
 /**
  * TODO doc
  * To redefine in child controllers
+ * 
+ * @param {} dim - 
+ * @param {} coord - 
  */
 Controller2D.prototype.newHandFree = function (dim, coord) {
 	throw "Controller2D.newHandFree: this function is not implemented";
@@ -244,7 +260,8 @@ Controller2D.prototype.newHandFree = function (dim, coord) {
 //==============================================================================
 /**
  * TODO doc
- *
+ * 
+ * @param {} eq - 
  */
 Controller2D.prototype.parseImplicit = function (eq) {
 	// TODO parsing
@@ -255,6 +272,9 @@ Controller2D.prototype.parseImplicit = function (eq) {
 //==============================================================================
 /**
  * TODO doc
+ * 
+ * @param {} eqX - 
+ * @param {} eqY - 
  */
 Controller2D.prototype.parseParametric = function (eqX, eqY) {
 	// TODO parsing
@@ -265,6 +285,8 @@ Controller2D.prototype.parseParametric = function (eqX, eqY) {
 //==============================================================================
 /**
  * TODO doc
+ * 
+ * @param {} eq - 
  */
 Controller2D.prototype.parseExplicit = function (eq) {
 	// TODO parsing

@@ -225,12 +225,10 @@ Application.prototype.switchActive = function (element) {
  */
 Application.prototype.setActiveClass = function (element, active) {
 	var elem = $(element);
-	if (active) {
+	if (active)
 		elem.addClass ("active");
-	}
-	else {
+	else
 		elem.removeClass ("active");
-	}
 };
 
 

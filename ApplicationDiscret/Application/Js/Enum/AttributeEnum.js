@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,27 +42,23 @@
  * termes.
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
 /**
- * Enumeration of attributes that can be given to a Shader.
+ * @enum
+ * Enumeration of attributes that can be given to a Shader. TODO dire que les valeurs ne sont pas des nombres
  */
-var AttributeEnum = {
-	position : {},
-	color : {},
-	normal : {},
-	tangent : {},
+var AttributeEnum = Object.freeze ({
+	/// values
+	position  : {},
+	color     : {},
+	normal    : {},
+	tangent   : {},
 	bitangent : {},
-	texcoord : {}
-};
-
-
-/**
- * Allows the Enumeration to be constant.
- */
-if (Object.freeze)
-	Object.freeze (AttributeEnum);
+	texcoord  : {}
+});
 
 

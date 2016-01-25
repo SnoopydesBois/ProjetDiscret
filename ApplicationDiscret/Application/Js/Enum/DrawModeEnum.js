@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,27 +42,26 @@
  * termes.
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
 /**
+ * @enum
  * Enumeration of attributes that can be given to a Controller2D.
  */
-var DrawModeEnum = {
+// FIXME les nom des valeurs doivent être en MAJUSCULE.
+var DrawModeEnum = Object.freeze ({
+	/// values
 	equation : 0,
 	handFree : 1,
+	
+	/// properties
 	properties : {
 		0 : {name : "equation"},
 		1 : {name : "handFree"}
 	}
-};
-
-
-/**
- * Allows the Enumeration to be constant.
- */
-if (Object.freeze)
-	Object.freeze (DrawModeEnum);
+});
 
 

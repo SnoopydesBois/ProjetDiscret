@@ -8,7 +8,7 @@ Circle.prototype.constructor = Circle;
 */
 function Circle() {
 //	var equation = new Equation("a*(x - h)^2 + b*(y - k)^2 - r^2");
-	var equation = new Equation("x^2 + y^2 - 9");
+	var equation = new Equation("x^2 + y^2 - 1");
 	ImplicitCurve.call(this, equation);
 }
 
