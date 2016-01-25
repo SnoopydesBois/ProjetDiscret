@@ -42,6 +42,7 @@
  * termes.
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
@@ -52,7 +53,8 @@
  * oppose is the value of the opposite face;
  * size indicate the number of directions.
  */
-var DirectionEnum = {
+var DirectionEnum = Object.freeze ({
+	/// values
 	TOP    : 0,
 	BOTTOM : 1,
 	RIGHT  : 2,
@@ -61,6 +63,8 @@ var DirectionEnum = {
 	BACK   : 5,
 	ALL    : 6,
 	NONE   : 7,
+	
+	/// properties
 	properties : {
 		0 : {x :  0, y :  0, z :  1, oppose : 1, axis : AxisEnum.Z},
 		1 : {x :  0, y :  0, z : -1, oppose : 0, axis : AxisEnum.Z},
@@ -72,14 +76,6 @@ var DirectionEnum = {
 		7 : {x :  0, y :  0, z :  0, oppose : 6, axis : null}
 	},
 	size : 6
-};
-
-
-/**
- * Allows the Enumeration to be constant.
- */
-if (Object.freeze) {
-	Object.freeze (DirectionEnum);
-}
+});
 
 

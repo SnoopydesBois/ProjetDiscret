@@ -96,10 +96,49 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 		lineWidth = 1,
 		dim = glContext.canvas.width,
 		xRangeLength, yRangeLength,
-		obj, pointList, nbLines, nbPoints;
+		obj, pointList, nbLines, nbPoints,
+		type, curve;
 	
 	for (var id = 0; id < len; ++id) {
 		obj = this.getObject (id);
+		if(obj instanceof Grid){
+			continue;
+		}
+		type = obj.isTypeOf(ImplicitCurve);
+		if (type){
+			functionPlot({
+			  target: '#revolCanvas2',
+			  width : $('#revolCanvas2').width(),
+			  height : $('#revolCanvas2').height(),
+			  xAxis : {domain: [obj.getXRange().getMin(), obj.getXRange().getMax()]},
+			  yAxis : {domain: [obj.getYRange().getMin(), obj.getYRange().getMax()]},
+//			  disableZoom : true,
+			  data: [{
+				color : color,
+				fn: obj.getEquation().toStringNoParam(),
+				fnType: 'implicit',
+			  }]
+			});
+		}
+		else{
+			functionPlot({
+			  target: '#meridianCanvas2',
+			  width : $('#meridianCanvas2').width(),
+			  height : $('#meridianCanvas2').height(),
+			  xAxis : {domain: [obj.getXRange().getMin(), obj.getXRange().getMax()]},
+			  yAxis : {domain: [obj.getYRange().getMin(), obj.getYRange().getMax()]},
+//			  disableZoom : true,
+			  data: [{
+				x: obj.getEquation().toStringNoParam().replace(/x/g , 't'),
+				y: 't',
+				color : color,
+				range: [-10 * Math.PI, 10 * Math.PI],
+				fnType: 'parametric',
+				graphType: 'polyline'
+			  }]
+			})
+		}
+		/*
 		pointList = obj.getPoints ();
 //		console.log("dessin de :", pointList)
 		xRangeLength = obj.getXRange ().length ();
@@ -136,8 +175,16 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 			} // end for y
 		} // end for x
 		glContext.stroke ();
-		glContext.closePath ();
+		glContext.closePath ();*/
 	} // end for each object
 };
 
-
+//==============================================================================
+/**
+ *
+ */
+Layer.prototype.computeYScale = function(width, height, xRange) {
+  var xDiff = xRange.length;
+  var yDiff = height * xDiff / width;
+  return [-yDiff / 2, yDiff / 2]
+}

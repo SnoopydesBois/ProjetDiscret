@@ -1,4 +1,4 @@
-Heart.prototype = new ImplicitCurve();
+Heart.prototype = new ImplicitCurve;
 Heart.prototype.constructor = Heart;
 
 

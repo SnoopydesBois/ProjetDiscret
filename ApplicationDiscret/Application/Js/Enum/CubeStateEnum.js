@@ -42,11 +42,13 @@
  * termes.
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
-var CubeStateEnum = {
+var CubeStateEnum = Object.freeze ({
+	/// values
 	NULL     : 0,
 	NOTNULL  : 1,
 	NORMAL   : 2,
@@ -54,6 +56,8 @@ var CubeStateEnum = {
 	HOVER    : 4,
 	ILLEGAL  : 5,
 	VALID    : 6,
+	
+	/// properties
 	color : {
 		0 : [1.0,   1.0,   1.0,   1.0],
 		1 : [0.0,   0.0,   0.0,   0.0],
@@ -64,13 +68,6 @@ var CubeStateEnum = {
 		6 : [0.125, 0.5,   0.125, 1.0],
 	},
 	size : 7
-};
-
-
-/**
- * Allows the enumeration to be constant.
- */
-if (Object.freeze)
-	Object.freeze (CubeStateEnum);
+});
 
 

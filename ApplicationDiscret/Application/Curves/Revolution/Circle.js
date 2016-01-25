@@ -7,7 +7,8 @@ Circle.prototype.constructor = Circle;
 * @constructor {Equation} the equation of the curve
 */
 function Circle() {
-	var equation = new Equation("a*(x - h)^2 + b*(y - k)^2 - r^2");
+//	var equation = new Equation("a*(x - h)^2 + b*(y - k)^2 - r^2");
+	var equation = new Equation("x^2 + y^2 - 1");
 	ImplicitCurve.call(this, equation);
 }
 
@@ -32,10 +33,13 @@ Circle.prototype.computePoints = function (ranX, ranY) {
 	
 	var points = [];
 	
-	var centerX = this.equation.getParameter("h");
-	var centerY = this.equation.getParameter("k");
+//	var centerX = this.equation.getParameter("h");
+//	var centerY = this.equation.getParameter("k");
+	var centerX = 0;
+	var centerY = 0;
 	
-	var radius = this.equation.getParameter("r");
+//	var radius = this.equation.getParameter("r");
+	var radius = 9;
 	
 	var step = this.computeStep(ranX, ranY);
 	

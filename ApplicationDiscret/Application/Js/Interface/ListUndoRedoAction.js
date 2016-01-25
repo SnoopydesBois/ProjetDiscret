@@ -1,6 +1,9 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -39,7 +42,9 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
+
 
 /* constructor (size : int)
  * addAction (action : UndoRedoAction) : String
@@ -50,28 +55,39 @@
  */
 
 
-	  ///////////////////
-	 /// Constructor ///
-	///////////////////
+/// CODE ///////////////////////////////////////////////////////////////////////
 
+
+
+/**
+ * @classdesc TODO
+ */
 
 
 ListUndoRedoAction.prototype.constructor = ListUndoRedoAction;
 
 
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
+
 /**
  * @constructor
- * @param {Number} size - the maximum number of stored action.
+ * 
+ * @param {Number} size - The maximum number of stored action.
  */
 function ListUndoRedoAction (size) {
-//	console.log ("ListUndoRedoAction.constructor");
-	
+	/// parameter verification
 	if (size === Number.Infinity) {
 		console.error (
-			"ListUndoRedoAction.constructor : size must be a finite number");
+			"ListUndoRedoAction.constructor: size must be a finite number");
 		return null;
 	}
 	
+	/// construction
 	/**
 	 * {Number} Maximun number of undoable action.
 	 */
@@ -100,24 +116,24 @@ function ListUndoRedoAction (size) {
 
 
 
-	  ///////////////
-	 /// Methods ///
-	///////////////
+//##############################################################################
+//	Methods
+//##############################################################################
 
 
 
 /**
  * Add an action.
+ * 
  * @param {UndoRedoAction} action - The added action.
+ * 
  * @return {String} The action added.
  */
 ListUndoRedoAction.prototype.addAction = function (action) {
-//	console.log ("ListUndoRedoAction.addAction");
-	
-	/// check argument
+	/// parameter verification
 	if (action == undefined || action == null || ! action.isValidAction()) {
 		console.error (
-			"ListUndoRedoAction.addAction : the added action is not valid !");
+			"ListUndoRedoAction.addAction: the added action is not valid !");
 		return;
 	}
 	
@@ -134,21 +150,19 @@ ListUndoRedoAction.prototype.addAction = function (action) {
 
 //==============================================================================
 /**
- * @return {boolean} true if there are undoable action, false otherwise.
+ * @return {boolean} True if there are undoable action, false otherwise.
  */
 ListUndoRedoAction.prototype.hasUndoableAction = function () {
-//	console.log ("ListUndoRedoAction.hasUndoableAction");
 	return this.undoableAction != 0;
 };
 
 
 //==============================================================================
 /**
- * @return {UndoRedoAction} the next undoable action if there is one, null 
+ * @return {UndoRedoAction} The next undoable action if there is one, null 
  * otherwise.
  */
 ListUndoRedoAction.prototype.nextUndoableAction = function () {
-//	console.log ("ListUndoRedoAction.nextUndoableAction");
 	var res = null;
 	if (this.undoableAction) {
 		res = this.list[this.currentOffset];
@@ -162,21 +176,19 @@ ListUndoRedoAction.prototype.nextUndoableAction = function () {
 
 //==============================================================================
 /**
- * @return {boolean} true if there are redoable action, false otherwise.
+ * @return {boolean} True if there are redoable action, false otherwise.
  */
 ListUndoRedoAction.prototype.hasRedoableAction = function () {
-//	console.log ("ListUndoRedoAction.hasRedoableAction");
 	return this.redoableAction != 0;
 };
 
 
 //==============================================================================
 /**
- * @return {UndoRedoAction} the next redoable action if there is one, null 
+ * @return {UndoRedoAction} The next redoable action if there is one, null 
  * otherwise.
  */
 ListUndoRedoAction.prototype.nextRedoableAction = function () {
-//	console.log ("ListUndoRedoAction.nextRedoableAction");
 	var res = null;
 	if (this.redoableAction) {
 		this.currentOffset += (this.currentOffset == this.size - 1) ? 

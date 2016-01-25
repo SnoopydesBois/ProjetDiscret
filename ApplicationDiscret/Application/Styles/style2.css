@@ -45,14 +45,13 @@
 }
 
 
-#curvesView canvas {
+#curvesView canvas,#meridianCanvas2,#revolCanvas2 {
 	top : 0;
 	right : 0;
 	width : 80%;
 	height : calc(100% - 42px);
 	background-color : white;	
 }
-
 
 	/*** Meridian ***/
 

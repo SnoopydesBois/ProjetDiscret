@@ -2,6 +2,7 @@
 
 /**
  * @license
+ * TODO
  */
 
 /// CODE ///////////////////////////////////////////////////////////////////////
@@ -16,18 +17,12 @@
  * DOTTED : Dessine la face d'un cube avec un cadre plus foncé en petit trait.
  * PICKING : Dessine la face d'un cube pour le picking. Toute la face est de la
  * couleur transmise.
+ * TODO traduire
  */
-var RenderingModeEnum = {
-	NORMAL : 0,
-	DOTTED : 1,
+var RenderingModeEnum = Object.freeze ({
+	NORMAL  : 0,
+	DOTTED  : 1,
 	PICKING : 2,
-};
-
-
-/**
- * Allows the enumeration to be constant.
- */
-if (Object.freeze)
-	Object.freeze (RenderingModeEnum);
+});
 
 

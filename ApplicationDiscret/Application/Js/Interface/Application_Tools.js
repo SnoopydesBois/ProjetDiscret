@@ -60,6 +60,7 @@
 
 /**
  * Undo an action if it's possible.
+ * 
  * @return {void}
  */
 Application.prototype.undo = function () {
@@ -78,6 +79,7 @@ Application.prototype.undo = function () {
 //==============================================================================
 /**
  * Redo an action if it's possible.
+ * 
  * @return {void}
  */
 Application.prototype.redo = function () {
@@ -86,7 +88,6 @@ Application.prototype.redo = function () {
 		var action = this.listAction.nextRedoableAction ();
 		this.getFunctionality (action.getControllerName()).redo (
 			action.getAction ());
-		
 	}
 	else
 		this.showMessage ("Aucune action à refaire.", 4000);
@@ -99,6 +100,7 @@ Application.prototype.redo = function () {
  * Check if the fields are correctly filled.
  * If they are then we call the exportSVG function in application
  * else it will do nothing.
+ * 
  * @return {void}
  */
 Application.prototype.exportSVGFormValid = function () {
@@ -119,6 +121,7 @@ Application.prototype.exportSVGFormValid = function () {
  * Check if there is a model selected or not.
  * If there is, the dialog box will open
  * else it will not open and alert the user that there is no model selected.
+ * 
  * @return {void}
  */
 Application.prototype.exportSvgFormOpen = function () {
@@ -132,12 +135,10 @@ Application.prototype.exportSvgFormOpen = function () {
 		$(".validateTips").html("Tous les champs sont obligatoires");
 		this.dialogSVG.dialog ("open");
 	}
-	else if (this.selectedModel.length > 1) {
+	else if (this.selectedModel.length > 1)
 		alert ('Veuillez sélectionner un seul modèle.');
-	}
-	else {
+	else
 		alert ('Veuillez sélectionner un modèle.');
-	}
 };
 
 
@@ -146,6 +147,7 @@ Application.prototype.exportSvgFormOpen = function () {
  * Check if the fields are correctly filled.
  * If they are, then we call the fusionModel function in application
  * else it will do nothing.
+ * 
  * @return {void}
  */
 Application.prototype.fusionModelFormValid = function () {
@@ -159,9 +161,8 @@ Application.prototype.fusionModelFormValid = function () {
 	
 	if (valid) {
 		var tab = this.frameList.fusionModel();
-		if (tab != null) {
+		if (tab != null)
 			this.addModel($("#name-fusion-model").val(),tab);
-		}
 		this.dialogFusionModel.dialog ("close");
 	}
 };
@@ -170,12 +171,12 @@ Application.prototype.fusionModelFormValid = function () {
 //==============================================================================
 /**
  * The dialog to merge models.
+ * 
  * @return {void}
  */
 Application.prototype.fusionModelFormOpen = function () {
-	if (this.selectedModel.length < 2) {
+	if (this.selectedModel.length < 2)
 		this.alertMessage ("Pas de modèles à fusionner", 4000);
-	}
 	else {
 		$("#name-fusion-model").val("");
 		$(".validateTips").html ("Remplir le champ nom");

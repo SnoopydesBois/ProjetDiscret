@@ -42,33 +42,40 @@
  * termes.
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
-
-var AxisEnum = {
+// TODO créé un type jsdoc
+var AxisEnum = Object.freeze ({
+	/// values
 	X : {colorOffset :  0.0},
 	Y : {colorOffset : -0.1},
 	Z : {colorOffset :  0.1},
+	
+	/// properties
 	properties : {
 		0 : {name : "X"},
 		1 : {name : "Y"},
 		2 : {name : "Z"}
 	},
+	
+	/// functions
+	/**
+	 * Convert number to AxisEnum.
+	 * 
+	 * @param {Number} axis - A number.
+	 * 
+	 * @return {AxisEnum} The matching axis to the number.
+	 */
 	toAxis : function (axis) {
 		switch (axis) {
 			case 0: return AxisEnum.X; break;
 			case 1: return AxisEnum.Y; break;
 			case 2: return AxisEnum.Z; break;
+			default : return null; break;
 		}
 	}
-};
-
-
-/**
- * Allows the enumeration to be constant.
- */
-if (Object.freeze)
-	Object.freeze (AxisEnum);
+});
 
 

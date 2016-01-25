@@ -42,30 +42,14 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* property () : void
- * addModel (name : String,
- *           tabModel : tabModel,
- *           _modelCreator : String,
- *           _modelDescription : String,
- *           _modelCreationDate : String,
- *           _id : String) : void
- * removeModel (modelName : String) : void
- * getFrameList () : FrameList
- * getFrame3D () : Frame3D
- * getFrame2D () : Frame2D
- * getFrameForm () : FrameForm
- * save () : void
- * load (event : HTMLEvent) : void
- * validation () : void
- * addFunctionality (functionalityController : Controller) : void
- * getRotateTool () : ControllerRotate
- * addAction (action : Action) : void
- * getFunctionality (controllerName : String) : Controller
- * checkRegexp (o : HTMLElement, regexp : regexp, n : String) : bool
- * isNotInModelList (o : HTMLElement, n : String) : bool
+/* addAction (action : UndoRedoAction) : void
+ * changeMeridian (name : String) : void
+ * changeRevol (name : String) : void
+ * TODO
  */
 
 
@@ -73,236 +57,16 @@
 
 
 
-//==============================================================================
-/**
- * Print the number of cube of the active model.
- */
-Application.prototype.property = function () {
-	var model = this.selectedModel[0];
-	if (model != null) {
-		this.showMessage ("Nombre de Cube : " + model.getNbCube(), 10000);
-	}
-	else {
-		this.alertMessage ("Pas de Modèle selectionné", 4000);
-	}
-};
-
-
-//==============================================================================
-/**
- * Add a model to the application.
- * @param {String} [name] - The name of the model to load.
- * @param {tabModel} [tabModel] - The structure of the model.
- * @param {String} [_modelCreator] - The creator of the structure.
- * @param {String} [_modelDescription] - The description of the model.
- * @param {String} [_modelCreationDate] - The date of the creation of the model.
- * @param {String} [_id] - The id of the model.
- */
-Application.prototype.addModel = function (name, tabModel,_modelCreator,
-		_modelDescription,_modelCreationDate,_id) {
-
-	this.select();
-	//this.activeToolButton('toolButton', 'selectButton');
-	if (name == undefined) {
-		name = prompt ('Entrez le nom du modèle', '');
-	}
-	var patt1 = /[A-Za-z_][A-Za-z_$0-9]*/g;
-	if (name == null) {
-		this.alertMessage ("Nom vide");
-		return;
-	}
-	if (name != name.match(patt1)) {
-		appli.alertMessage ("Nom invalide", 4000);
-		return;
-	}
-	
-	var size; 
-	var model;
-	if (tabModel != undefined && tabModel != null) {
-		size = new Vector (
-			tabModel[0][0].length, 
-			tabModel[0].length, 
-			tabModel.length);
-		var num = 0;
-		for (var i in this.listModel) {
-			var nameModel = this.listModel[i].getName();
-			if (nameModel.contains(name)) {
-				var offset = nameModel.substring(name.length, nameModel.length);
-				var pattNum = /[0-9]+/g;
-				if (offset == "") {
-				 	num = num > 1 ? num : 1;
-				}
-				else if (offset.search(pattNum) != -1) {
-					num = parseInt(offset,10) >= num ? parseInt(offset,10) + 1
-						: num;
-				}	
-			}
-		}
-		var suffix = "";
-		if (num != 0) {
-			suffix += num;	
-		}
-		model = new ModelController (size, name + suffix,_modelCreator,
-				_modelDescription,_modelCreationDate);
-				model.setId(_id);
-		var cubeModel = tabModel;
-		for (var x = 0; x < cubeModel[0][0].length; x++) {
-			for (var y = 0; y < cubeModel[0].length; y++) {
-				for (var z = 0; z < cubeModel.length; z++) {
-					if (cubeModel[z][y][x])
-						model.getModel().addCube (x, y, z);
-				} // end for z
-			} // end for y
-		} // end for x
-	}
-	else {
-		size = new Vector (25, 25, 25); // 25 is the default size
-		model = new ModelController (size, name,_modelCreator,
-				_modelDescription,_modelCreationDate);
-	}
-	this.getFrameList().addModel (model);
-};
-
-
-//==============================================================================
-/**
- * Remove a model by its name.
- * @param {String} modelName - the model name.
- */
-Application.prototype.removeModel = function (modelName) {
-	if (modelName == undefined || modelName == null) {
-		var name = prompt ('Entrez le nom du modèle à enlenver', '');
-	}
-	else {
-		var name = modelName;
-	}
-	
-	/*for (var i in this.frames) {
-		if (this.frames[i] instanceof FrameList) {
-			this.frames[i].removeModel (name);
-			break;
-		}
-	}*/
-	this.getFrameList.removeModel (name);
-};
-
-
-//==============================================================================
-/**
- * Save a model.
- * Load the FormFrame to enter the data.
- * @return {void}
- */
-Application.prototype.save = function () {
-	if (this.selectedModel.length == 0) {
-		this.alertMessage ("Veuillez sélectionner un modèle", 4000);
-		return;
-	}
-	else if (this.selectedModel.length > 1) {
-		this.alertMessage ("Vous ne pouvez enregistrer qu'un seul" 
-				+ " modèle à la fois", 4000);
-		return;
-	}
-	if (this.activeScreen == ViewEnum.VIEW2D) {
-		this.bothView();
-	}
-	this.setActiveFrame (this.frameForm, WorkspaceEnum.LEFT);
-	this.frameForm.setSelectedModel (this.selectedModel);
-};
-
-
-
-//==============================================================================
-/**
- * Load a model. Create a model from the file selected event.
- * @param {change} event - the event.
- * @return {void}
- */
-Application.prototype.load = function (event) {
-	var tmppath = URL.createObjectURL (event.target.files[0]);
-	this.frameForm.loadModel (tmppath);
-};
-
-
-//==============================================================================
-/**
- * Verify if a model is valid.
- * @return {void}
- */
-Application.prototype.validation = function () {
-	var model = this.selectedModel[0];
-	if (model != null && model.isValid()) {
-		alert ("Ce modèle est valide");
-	}
-	else {
-		if (model == null) {
-			alert ("Il n'y a pas de modèle à tester");
-		}
-		else if (!model.isConnex()) {
-			alert ("Ce modèle n'est pas connexe");
-		}
-		else if (!model.dimensionVerification()) {
-			alert ("Ce modèle ne fait pas 25 de longueur");
-		}
-		else {
-			alert ("Ce modèle n'est pas valide");
-		}
-	}
-};
-
-
-//==============================================================================
-/**
- * Export slices to SVG format.
- * @param {String} id - model id.
- * @param {float} cubeSize - cube size in millimeter.
- * @return {void}
- */
-Application.prototype.exportSVG = function (id, cubeSize) {
-	this.frameForm.setSelectedModel (this.selectedModel);
-	this.frameForm.exportAsSvg (id, cubeSize);
-};
-
-
-//==============================================================================
-/**
- * Store a functionality in the apllication. Allow to refind it when the user 
- * undo or redo an action.
- * @param {Controller} functionalityController - the functionality.
- * @return {void}
- */
-Application.prototype.addFunctionality = function (functionalityController) {
-	if (!(functionalityController instanceof Controller)) {
-		console.error ("Application.addFuncionalitiy : argument is not a "
-			+ "Controller");
-		return;
-	}
-	this.functionalities[functionalityController.getName()] = 
-		functionalityController;
-	if (functionalityController.getName() == "ControllerRotate")
-		this.rotateFunctionality = functionalityController;
-};
-
-
-
-//==============================================================================
-/**
- * @return {ControllerRotate} the rotate functionality.
- */
-Application.prototype.getRotateTool = function () {
-	return this.rotateFunctionality;
-};
-
-
-//==============================================================================
 /**
  * Store an undoable action in the undo/redo list.
- * @param {Action} action - the undoable action.
+ * 
+ * @param {UndoRedoAction} action - The undoable action.
+ * 
  * @return {void}
  */
 Application.prototype.addAction = function (action) {
-	if (!(action instanceof Action) || !action.isValidAction())
-		console.error ("Application.addAction : argument is not an Action !");
+	if (!(action instanceof UndoRedoAction) || ! action.isValidAction ())
+		console.error ("Application.addAction: argument is not an Action !");
 	else 
 		this.listAction.addAction (action);
 	this.updateUndoRedoMenuItem ();
@@ -311,59 +75,43 @@ Application.prototype.addAction = function (action) {
 
 //==============================================================================
 /**
- * @param {String} controllerName - the functionality controller name.
- * @return {Controller} the controller.
+ * TODO
+ * @see {@link Controller2D.setActive}
+ * 
+ * @param {String} name - The name of the new meridian curve.
+ * 
+ * @return {void}
  */
-Application.prototype.getFunctionality = function (controllerName) {
-	for (var i in this.functionalities) {
-		if (this.functionalities[i].getName() == controllerName)
-			return this.functionalities[i];
+Application.prototype.changeMeridian = function (name) {
+	/// parameter verification
+	if (! checkType (arguments, "string")) {
+		throw "Application.changeMeridian: given parameter is not a string";
 	}
+	
+	/// let's change
+	this.meridianController.setActive (name);
+	this.meridianView.draw ();
 };
 
 
 //==============================================================================
 /**
- * Test if the value of the given field meet the regexp requirements
- * if true we remove the error message (if there is any) else we update the 
- * error messages.
- * @param {HTMLElement} o - field of a form
- * @param {regexp} regexp - regular expretion
- * @param {String} n - error message
- * @return {boolean}	
+ * TODO
+ * @see {@link Controller2D.setActive}
+ * 
+ * @param {String} name - The name of the new revolution curve.
+ * 
+ * @return {void}
  */
-Application.prototype.checkRegexp = function (o, regexp, n) {
-	if (!(regexp.test(o.val()))) {
-		o.addClass("ui-state-error");
-		this.updateTips(n);
-		return false;
+Application.prototype.changeRevol = function (name) {
+	/// parameter verification
+	if (! checkType (arguments, "string")) {
+		throw "Application.changeRevol: given parameter is not a string";
 	}
-	else {
-		o.removeClass("ui-state-error");
-		return true;
-	}
-};
-
-
-//==============================================================================
-/**
- * Test if the value of the given field is not in the model list
- * if true we remove the error message (if there is any) else we update the 
- * error messages.
- * @param {HTMLElement} o - field of a form.
- * @param {String} n - error message.
- * @return {boolean}	
- */
-Application.prototype.isNotInModelList = function (o, n) {
-	for (var i in appli.listModel) {
-		if (appli.listModel[i].getName() == o.val()) {
-			o.addClass("ui-state-error");
-			this.updateTips(n);
-			return false;
-		}	
-	}
-	o.removeClass("ui-state-error");
-	return true;
+	
+	/// let's change
+	this.revolController.setActive (name);
+	this.revolView.draw ();
 };
 
 
