@@ -62,7 +62,9 @@
 Application.prototype.initAppli = function () {
 	/// Application initialization
 	this.initControllers ();
+	
 	this.meridianController.setActive ("Sinusoid");
+	
 	this.revolController.setActive ("Circle");
 	
 	/// Interface initialization

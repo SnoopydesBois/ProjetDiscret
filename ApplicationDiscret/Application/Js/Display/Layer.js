@@ -108,8 +108,10 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 		if (type){
 			functionPlot({
 			  target: '#revolCanvas2',
-			  yAxis : {domain: [obj.getYRange().getMin(), obj.getYRange().getMax()]},
+			  width : $('#revolCanvas2').width(),
+			  height : $('#revolCanvas2').height(),
 			  xAxis : {domain: [obj.getXRange().getMin(), obj.getXRange().getMax()]},
+			  yAxis : {domain: [obj.getYRange().getMin(), obj.getYRange().getMax()]},
 //			  disableZoom : true,
 			  data: [{
 				color : color,
@@ -121,8 +123,10 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 		else{
 			functionPlot({
 			  target: '#meridianCanvas2',
-			  yAxis : {domain: [obj.getYRange().getMin(), obj.getYRange().getMax()]},
+			  width : $('#meridianCanvas2').width(),
+			  height : $('#meridianCanvas2').height(),
 			  xAxis : {domain: [obj.getXRange().getMin(), obj.getXRange().getMax()]},
+			  yAxis : {domain: [obj.getYRange().getMin(), obj.getYRange().getMax()]},
 //			  disableZoom : true,
 			  data: [{
 				x: obj.getEquation().toStringNoParam().replace(/x/g , 't'),
@@ -175,4 +179,12 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 	} // end for each object
 };
 
-
+//==============================================================================
+/**
+ *
+ */
+Layer.prototype.computeYScale = function(width, height, xRange) {
+  var xDiff = xRange.length;
+  var yDiff = height * xDiff / width;
+  return [-yDiff / 2, yDiff / 2]
+}
