@@ -65,7 +65,7 @@ Application.prototype.initAppli = function () {
 	/// Application initialization
 	this.initControllers ();
 	
-	this.meridianController.setActive ("Sinusoid");
+	this.meridianController.setActive ("Line");
 	
 	this.revolController.setActive ("Circle");
 	
@@ -90,7 +90,6 @@ Application.prototype.initControllers = function () {
 	this.revolController.addCurve ("Circle", Circle);
 	this.revolController.addCurve ("Heart", Heart);
 	this.revolController.addCurve ("Lemniscate", Lemniscate);
-	this.revolController.addCurve ("Svastika", Svastika);
 	
 	/// bind generation with active curve
 	this.surfaceController.setGetCurveRevolution (

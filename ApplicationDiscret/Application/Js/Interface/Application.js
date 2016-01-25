@@ -137,7 +137,7 @@ function Application () {
 	/**
 	 * {Controller2D} TODO
 	 */
-	this.revolController = new Controller2D (-1, 1, -1, 1);
+	this.revolController = new Controller2D (-1.1, 1.1, -1.1, 1.1);
 	
 	/**
 	 * {HTMLCanvasElement} TODO

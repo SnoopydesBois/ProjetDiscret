@@ -63,4 +63,13 @@ ExplicitCurve.prototype.computePoints = function (ranX, ranY) {
 		result.push(points.slice(0));
 	}
 	return result;
+
+}
+
+//==============================================================================
+/**
+ *
+ */
+ExplicitCurve.prototype.computeRange = function(){
+	return new Range(-10,10);
 }

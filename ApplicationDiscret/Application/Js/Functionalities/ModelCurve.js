@@ -158,8 +158,13 @@ ModelCurve.prototype.setActive = function (curve, type) {
 			break;
 		case undefined:
 		case null:
-			if (this.listCurve.has (curve))
+			if (this.listCurve.has (curve)){
 				this.activeCurve = new (this.listCurve.get(curve))();
+				if (this.activeCurve instanceof ExplicitCurve){
+					this.image = this.activeCurve.computeRange();
+					this.inverseImage = this.activeCurve.computeRange();
+				}
+			}
 			else {
 				this.consolePrintAvailableCurve ();
 				throw "ModelCurve.setActive: Unknown equation name";
