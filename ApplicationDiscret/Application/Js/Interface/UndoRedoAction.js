@@ -1,6 +1,9 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -39,66 +42,76 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
-/* constructor (controllerName : String, UndoRedoAction : mixed)
+
+/* constructor (controllerName : String, action : *)
  * getControllerName () : String
- * getUndoRedoAction () : mixed
- * isValidUndoRedoAction () : boolean
+ * getAction () : *
+ * isValidAction () : boolean
  * dump () : void
  * toString () : String
  */
+
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
-	  ///////////////////
-	 /// Constructor ///
-	///////////////////
+/**
+ * @classdesc TODO
+ */
 
 
 UndoRedoAction.prototype.constructor = UndoRedoAction;
 
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
+
 /**
- * @constructor Build an UndoRedoAction with the name of the controller which create 
- * this UndoRedoAction and an object which contain the data UndoRedoAction. 
- * @param {String} controllerName - the controller name.
- * @param {mixed} UndoRedoAction - data UndoRedoAction.
+ * @constructor Build an action with the name of the controller which create 
+ * this action and an object which contain the data action. 
+ * 
+ * @param {String} controllerName - The controller name.
+ * @param {*} action - Data action.
  */
-function UndoRedoAction (controllerName, UndoRedoAction) {
-//	console.log ("UndoRedoAction.constructor")
-	
-	if (controllerName === "" || UndoRedoAction === null) {
-		console.error ("UndoRedoAction.constructor : bad parameter in constructor");
+function UndoRedoAction (controllerName, action) {
+	if (controllerName === "" || action === null) {
+		console.error ("UndoRedoAction.constructor: bad type(s) of "
+			+ "parameter(s)");
 		return;
 	}
 	
 	/**
-	 * {String} The controller name which execute this UndoRedoAction.
+	 * {String} The controller name which execute this action.
 	 */
 	this.controllerName = controllerName;
 	
 	/**
-	 * {mixed} The UndoRedoAction. It's an object writen by the controller. Only it can
-	 * read this UndoRedoAction.
+	 * {*} The action. It's an object writen by the controller. Only it can
+	 * read this action.
 	 */
-	this.UndoRedoAction = UndoRedoAction;
-	
+	this.action = action;
 };
 
 
-	  /////////////////
-	 /// Accessors ///
-	/////////////////
+
+//##############################################################################
+//	Accessors
+//##############################################################################
 
 
 
 /**
- * @return {String} the controller name.
+ * @return {String} The controller name.
  */
 UndoRedoAction.prototype.getControllerName = function () {
-//	console.log ("UndoRedoAction.getControllerName");
 	return this.controllerName;
 };
 
@@ -106,26 +119,27 @@ UndoRedoAction.prototype.getControllerName = function () {
 
 //==============================================================================
 /**
- * @return {mixed} the UndoRedoAction.
+ * @return {*} The action.
  */
-UndoRedoAction.prototype.getUndoRedoAction = function () {
-//	console.log ("UndoRedoAction.getUndoRedoAction");
-	return this.UndoRedoAction;
+UndoRedoAction.prototype.getAction = function () {
+	return this.action;
 };
 
 
-	  /////////////////////
-	 /// Other methods ///
-	/////////////////////
+
+//##############################################################################
+//	Other methods
+//##############################################################################
+
 
 
 /**
- * Check if the UndoRedoAction was correctly constructed.
- * @return {boolean} true if valid, false otherwise.
+ * Check if the action was correctly constructed.
+ * 
+ * @return {boolean} True if valid, false otherwise.
  */
-UndoRedoAction.prototype.isValidUndoRedoAction = function () {
-//	console.log ("UndoRedoAction.isValidUndoRedoAction");
-	return (this.controllerName != undefined && this.UndoRedoAction != undefined);
+UndoRedoAction.prototype.isValidAction = function () {
+	return (this.controllerName != undefined && this.action != undefined);
 };
 
 
@@ -133,14 +147,14 @@ UndoRedoAction.prototype.isValidUndoRedoAction = function () {
 //==============================================================================
 /**
  * Dump all members in the console.
+ * 
  * @return {void}
  */
 UndoRedoAction.prototype.dump = function () {
-//	console.log ("UndoRedoAction.dump");
 	console.log ("------- UndoRedoAction.dump -------");
 	console.log ("controller name : " + this.controllerName);
-	console.log ("UndoRedoAction : vvv");
-	console.log (this.UndoRedoAction);
+	console.log ("action : vvv");
+	console.log (this.action);
 	console.log ("---------------------------");
 };
 
@@ -148,11 +162,10 @@ UndoRedoAction.prototype.dump = function () {
 
 //==============================================================================
 /**
- * @return {String} a string representation of the UndoRedoAction.
+ * @return {String} A string representation of the action.
  */
 UndoRedoAction.prototype.toString = function () {
-//	console.log ("UndoRedoAction.toString");
-	return "UndoRedoAction : " + this.controllerName + ", " + this.UndoRedoAction;
+	return "UndoRedoAction : " + this.controllerName + ", " + this.action;
 };
 
 

@@ -46,18 +46,13 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/*
- * 
- * constructor ()
- * pressKey (event : WindowEvent) : void
- * mouseDown (event : WindowEvent) : void
- * mouseUp (event : WindowEvent) : void
- * mouseMouv (event : WindowEvent) : void
- * scroll (event : WindowEvent) : void
+/* constructor ()
+ * TODO
  */
 
 
 /// CODE ///////////////////////////////////////////////////////////////////////
+
 
 
 /**
@@ -96,64 +91,110 @@ function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
 }
 
 
+
+//##############################################################################
+//	Curve methods
+//##############################################################################
+
+
+
+/**
+ * TODO
+ * 
+ * @param {Dimmension} dim - 
+ */
+Controller2DMeridian.prototype.startFreeHand = function (dim) {
+	/// parameter verification
+	if (! (dim instanceof Dimension)) {
+		throw "Controlelr2DMeridian.startFreeHand : bad type of parameter";
+	}
+	
+	/// add point
+	throw "Controller2DMeridian.startFreeHand: this function is not "
+		+ "implemented";
+};
+
+
 //==============================================================================
 /**
  * TODO
+ * 
+ * @param {Dimmension} dim - 
+ * @param {Vector} coord - 
+ * 
+ * @return {}
  */
-Controller2DMeridian.prototype.startFreeHand = function(dim){
-	if(!(dim instanceof Dimension)){
-		throw "Controlelr2DMeridian.startFreeHand : bad type of parameter";
+Controller2DMeridian.prototype.newFreeHand = function (dim, coord) {
+	/// parameter verification
+	if (! checkType (arguments, Dimension, Vector)) {
+		throw "Controller2DMeridian.newFreeHand: bad type(s) of parameter(s)";
 	}
-	throw "Controller2DMeridian.startFreeHand : this function is not implemented";
+	
+	/// set a new curve
+	throw "Controller2DMeridian.newFreeHand: this function is not implemented";
 };
+
 
 //==============================================================================
 /**
-* TODO
-*/
-Controller2DMeridian.prototype.newFreeHand = function(dim, coord){
-	if(!checkType(arguments, Dimension, Vector)){
-		throw "Controller2DMeridian.newFreeHand : bad type of parameter";
+ * Add a point to the current drawn curve.
+ * 
+ * @param {Dimension} dim - 
+ * @param {Vector} coord - The coordinate of the point to add.
+ * 
+ * @return {}
+ */
+Controller2DMeridian.prototype.addPoint = function (dim, coord) {
+	/// parameter verification
+	if (! checkType (arguments, Dimension, Vector)) {
+		throw "Controller2DMeridian.addPoint: bad type(s) of paramter(s)";
 	}
-	throw "Controller2DMeridian.newFreeHand : this function is not implemented";
+	
+	/// add the point
+	this.modelDraw.addPoint (coord, dim);
 };
+
 
 //==============================================================================
 /**
-* Add a point to the current drawn curve
-* @param {Dimension} 
-* @param {Vector} coord - The coordinate of the point to add
-*/
-Controller2DMeridian.prototype.addPoint = function(dim, coord){
-	if(!(checkType(arguments, Dimension, Vector))){
-		throw "Controller2DMeridian.addPoint : bad type of paramter";
-	}
-	this.modelDraw.addPoint(coord, dim);
-};
-
-//==============================================================================
-/**
-*
-*/
-Controller2DMeridian.prototype.parseImplicit = function(eq){
+ * TODO
+ * 
+ * @param {} eq - 
+ * 
+ * @return {}
+ */
+Controller2DMeridian.prototype.parseImplicit = function (eq) {
 	// TODO parsing
-	throw "Controller2DMeridian.parseImplicit : this function is not implemented";
+	throw "Controller2DMeridian.parseImplicit: this function is not implemented";
 };
+
 
 //==============================================================================
 /**
-*
-*/
-Controller2DMeridian.prototype.parseParametric = function(eqX, eqY){
+ * TODO
+ * 
+ * @param {} eqX - 
+ * @param {} eqY - 
+ * 
+ * @return {}
+ */
+Controller2DMeridian.prototype.parseParametric = function (eqX, eqY) {
 	// TODO parsing
-	throw "Controller2DMeridian.parseParametric : this function is not implemented";
+	throw "Controller2DMeridian.parseParametric: this function is not implemented";
 };
+
 
 //==============================================================================
 /**
-*
-*/
-Controller2DMeridian.prototype.parseExplicit = function(eq){
+ * TODO
+ * 
+ * @param {} eq - 
+ * 
+ * @return {}
+ */
+Controller2DMeridian.prototype.parseExplicit = function (eq) {
 	// TODO parsing
-	throw "Controller2DMeridian.parseExplicit : this function is not implemented";
+	throw "Controller2DMeridian.parseExplicit: this function is not implemented";
 };
+
+

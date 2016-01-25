@@ -1,8 +1,36 @@
+// LICENSE /////////////////////////////////////////////////////////////////////
+
+
+/**
+ * @license TODO
+ */
+
+
+// CODE ////////////////////////////////////////////////////////////////////////
+
+
+
+//##############################################################################
+//	Script import
+//##############################################################################
+
+
+
 importScripts("../Libraries/math.js");
 importScripts("../Objects/Equation.js");
 importScripts("../Objects/Vector.js");
 importScripts("../Enum/ConnexityEnum.js");
 
+
+
+//##############################################################################
+//	Global variables
+//##############################################################################
+
+
+
+/* TODO c'est quoi ces variables, pourquoi elles sont globales ?
+ */
 var dimension;
 var implicit_curve;
 var explicit_curve;
@@ -12,12 +40,24 @@ var dimy;
 var dimz;
 var values;
 
-//==============================================================================
+
+
+//##############################################################################
+//	Functions
+//##############################################################################
+
+
+
 /**
  * Return true if the array has positives AND negative values else return false.
+ * 
  * @param {float[]} tab - The array to be tested.
+ * 
+ * @return {boolean} True if one of values is negative and one of other values
+ * is positive, false otherwise. If all values in the array are 0, the function
+ * return true.
  */
-function arrayPosNeg (tab){
+function arrayPosNeg (tab) {
 	var length = tab.length;
 	var neg = false;
 	var pos = false;
@@ -26,7 +66,7 @@ function arrayPosNeg (tab){
 		pos = pos || tab[i] >= 0;
 	}
 	return neg && pos;
-};
+}
 
 
 //==============================================================================
@@ -37,9 +77,12 @@ function arrayPosNeg (tab){
  * @param {int} y - y coordinate of the voxel
  * @param {float[3]} z - z array containing f(z), f(z-0.5), f(z+0.5), f being
  * the equation of the meridian and z the coordinate of the voxel.
+ * 
+ * @return {boolean} True if the voxel is 26 connexe, false otherwise.
  */
 function check26Connex (implicit_curve, x, y, z){
 	values = [];
+	
 	values[0] = implicit_curve.compute([(x+0.5)/z[0], (y+0.5)/z[0]]);
 	values[1] = implicit_curve.compute([(x-0.5)/z[0], (y+0.5)/z[0]]);
 	values[2] = implicit_curve.compute([(x+0.5)/z[0], (y-0.5)/z[0]]);
@@ -60,14 +103,18 @@ function check26Connex (implicit_curve, x, y, z){
 //==============================================================================
 /**
  * Check whether a voxel is part of the 18 connexe revolution surface.
+ * 
  * @param {Equation} implicit_curve - The equation for the revolution curve.
- * @param {int} x - x coordinate of the voxel
- * @param {int} y - y coordinate of the voxel
+ * @param {int} x - x coordinate of the voxel.
+ * @param {int} y - y coordinate of the voxel.
  * @param {float[3]} - z array containing f(z), f(z-0.5), f(z+0.5), f being the
  * equation of the meridian and z the coordinate of the voxel.
+ * 
+ * @return {boolean} True if the voxel is 18 connexe, false otherwise.
  */
-function check18Connex(implicit_curve, x, y, z){
+function check18Connex (implicit_curve, x, y, z){
 	values = [];
+	
 	values[0] = implicit_curve.compute([(x+0.5)/z[0], (y)/z[0]]);
 	values[1] = implicit_curve.compute([(x-0.5)/z[0], (y)/z[0]]);
 	values[2] = implicit_curve.compute([(x)/z[0], (y+0.5)/z[0]]);
@@ -75,21 +122,25 @@ function check18Connex(implicit_curve, x, y, z){
 	values[4] = implicit_curve.compute([(x)/z[1], (y)/z[1]]);
 	values[5] = implicit_curve.compute([(x)/z[2], (y)/z[2]]);
 
-	return arrayPosNeg(values);
+	return arrayPosNeg (values);
 }
 
 
 //==============================================================================
 /**
  * Check whether a voxel is part of the 6 connexe revolution surface.
+ * 
  * @param {Equation} implicit_curve - The equation for the revolution curve.
- * @param {int} x - x coordinate of the voxel
- * @param {int} y - y coordinate of the voxel
+ * @param {int} x - x coordinate of the voxel.
+ * @param {int} y - y coordinate of the voxel.
  * @param {float[2]} - z array containing f(z-0.5), f(z+0.5), f being the
  * equation of the meridian and z the coordinate of the voxel.
+ *
+ * @return {boolean} True if the voxel is 6 connexe, false otherwise.
  */
-function check6Connex(implicit_curve, x, y, z){
+function check6Connex (implicit_curve, x, y, z){
 	values = [];
+	
 	values[0] = implicit_curve.compute([(x+0.5)/z[1], (y+0.5)/z[1]]);
 	values[1] = implicit_curve.compute([(x-0.5)/z[1], (y+0.5)/z[1]]);
 	values[2] = implicit_curve.compute([(x+0.5)/z[1], (y-0.5)/z[1]]);
@@ -98,11 +149,18 @@ function check6Connex(implicit_curve, x, y, z){
 	values[5] = implicit_curve.compute([(x-0.5)/z[0], (y+0.5)/z[0]]);
 	values[6] = implicit_curve.compute([(x+0.5)/z[0], (y-0.5)/z[0]]);
 	values[7] = implicit_curve.compute([(x-0.5)/z[0], (y-0.5)/z[0]]);
-	return arrayPosNeg(values);
+	
+	return arrayPosNeg (values);
 }
 
 
-function checkVoxel(x, y, z){
+//==============================================================================
+/**
+ * TODO
+ * 
+ * @return {(ConnexityEnum | boolean)}
+ */
+function checkVoxel (x, y, z) {
 	var res;
 	if (check26Connex(implicit_curve, x, y, z)){
 		return ConnexityEnum.C26;
@@ -113,7 +171,14 @@ function checkVoxel(x, y, z){
 	} else return false;
 }
 
-function addNeighboursToPile(x,y,z,pile){
+
+//==============================================================================
+/**
+ * TODO
+ * 
+ * @return {void}
+ */
+function addNeighboursToPile (x, y, z, pile) {
 	if(x-1 >= 0 && !checked[x-1][y][z])
 		pile.push([x-1, y, z]);
 	if(x+1 < dimx && !checked[x+1][y][z])
@@ -128,12 +193,15 @@ function addNeighboursToPile(x,y,z,pile){
 		pile.push([x, y, z+1]);
 }
 
+
 //==============================================================================
 /**
  * This function generate the surface using the algorithm for explicit
- * functions
+ * functions.
+ * 
+ * @return {void}
  */
-function algo(){
+function algo () {
 	var maxx = Math.trunc(dimx / 2);
 	var maxy = Math.trunc(dimy / 2);
 	var buffer = [];
@@ -194,13 +262,17 @@ function algo(){
 	postMessage([buffer, bufferSize,"Terminate"]);
 }
 
+
 //==============================================================================
 /**
  * Receive the meridian, revolution curve and dimension, then launch algorithm
  * and ask for termination
- * @param {Event} e - e.data contains the message received
+ * 
+ * @param {Event} e - e.data contains the message received.
+ * 
+ * @return {void}
  */
-onmessage = function(e){
+onmessage = function (e) {
 	explicit_curve = new Equation (e.data[0]);
 	implicit_curve = new Equation (e.data[1]);
 	dimension = new Vector(e.data[2]);
@@ -219,3 +291,5 @@ onmessage = function(e){
 	}
 	algo();
 }
+
+

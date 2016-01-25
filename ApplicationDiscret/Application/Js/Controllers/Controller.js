@@ -62,6 +62,7 @@
 
 /**
  * @classdesc TODO
+ * This class is empty, just for genericity.
  */
 
 
@@ -89,6 +90,7 @@ function Controller () {}
 
 
 /**
+ * @abstract
  * Button of the keyboard has been activated.
  * 
  * @param {WindowEvent} event - event captured by the window.
@@ -96,52 +98,58 @@ function Controller () {}
  * @return {void}
  */
 Controller.prototype.pressKey = function (event) {
-	throw "Controller.presskey, not implemented in abstract class";
+	throw "Controller.presskey: not implemented in abstract class";
 };
 
 
 //==============================================================================
 /**
+ * @abstract
  * Press the mouse button.
- * To redefined in children classes
- * @param {WindowEvent} event - event captured by the window.
+ * 
+ * @param {WindowEvent} event - Event captured by the window.
+ * 
  * @return {void}
  */
 Controller.prototype.mouseDown = function (event) {
-	throw "Controller.presskey, not implemented in abstract class";
+	throw "Controller.presskey: not implemented in abstract class";
 };
 
 
 //==============================================================================
 /**
+ * @abstract
  * Release the mouse button.
- * To redefined in children classes
- * @param {WindowEvent} event - event captured by the window.
+ * 
+ * @param {WindowEvent} event - Event captured by the window.
+ * 
  * @return {void}
  */
 Controller.prototype.mouseUp = function (event) {
-	throw "Controller.presskey, not implemented in abstract class";
+	throw "Controller.presskey: not implemented in abstract class";
 };
 
 
 //==============================================================================
 /**
+ * @abstract
  * Move the mouse.
- * To redefined in children classes
- * @param {WindowEvent} event - event captured by the window.
+ * 
+ * @param {WindowEvent} event - Event captured by the window.
+ * 
  * @return {void}
  */
 Controller.prototype.mouseMouv = function (event) {
-	throw "Controller.presskey, not implemented in abstract class";
+	throw "Controller.presskey: not implemented in abstract class";
 };
 
 
 //==============================================================================
 /**
+ * @abstract
  * Scroll the midel button of the mouse.
- * To redefined in children classes.
  * 
- * @param {WindowEvent} event - event captured by the window.
+ * @param {WindowEvent} event - Event captured by the window.
  * 
  * @return {void}
  */

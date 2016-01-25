@@ -45,9 +45,13 @@
 
 /// INDEX //////////////////////////////////////////////////////////////////////
 
-/* addAction (action : Action) : void
+
+/* addAction (action : UndoRedoAction) : void
+ * changeMeridian (name : String) : void
+ * changeRevol (name : String) : void
  * TODO
  */
+
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
@@ -56,7 +60,7 @@
 /**
  * Store an undoable action in the undo/redo list.
  * 
- * @param {UndoRedoAction} action - the undoable action.
+ * @param {UndoRedoAction} action - The undoable action.
  * 
  * @return {void}
  */
@@ -72,28 +76,42 @@ Application.prototype.addAction = function (action) {
 //==============================================================================
 /**
  * TODO
+ * @see {@link Controller2D.setActive}
  * 
  * @param {String} name - The name of the new meridian curve.
  * 
  * @return {void}
  */
 Application.prototype.changeMeridian = function (name) {
+	/// parameter verification
+	if (! checkType (arguments, "string")) {
+		throw "Application.changeMeridian: given parameter is not a string";
+	}
+	
+	/// let's change
 	this.meridianController.setActive (name);
 	this.meridianView.draw ();
 };
 
+
 //==============================================================================
 /**
  * TODO
+ * @see {@link Controller2D.setActive}
  * 
  * @param {String} name - The name of the new revolution curve.
  * 
  * @return {void}
  */
 Application.prototype.changeRevol = function (name) {
+	/// parameter verification
+	if (! checkType (arguments, "string")) {
+		throw "Application.changeRevol: given parameter is not a string";
+	}
+	
+	/// let's change
 	this.revolController.setActive (name);
 	this.revolView.draw ();
 };
-
 
 

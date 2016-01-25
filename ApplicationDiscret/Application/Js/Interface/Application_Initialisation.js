@@ -45,17 +45,19 @@
 
 /// INDEX //////////////////////////////////////////////////////////////////////
 
+
 /* initAppli () : void
  * initControllers () : void
  * initWindowEvent () : void
  */
+
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
 /**
- * Init all.
+ * Init all the application (controller, event, interface).
  * 
  * @return {void}
  */
@@ -88,13 +90,14 @@ Application.prototype.initControllers = function () {
 	this.revolController.addCurve ("Lemniscate", Lemniscate);
 	this.revolController.addCurve ("Svastika", Svastika);
 	
-	///
+	/// bind generation with active curve
 	this.surfaceController.setGetCurveRevolution (
 		this.revolController.getActiveCurve.bind (this.revolController)
 	);
 	this.surfaceController.setGetMeridian (
 		this.meridianController.getActiveCurve.bind (this.meridianController)
 	);
+	// FIXME faire une frozen reference
 };
 
 
@@ -108,7 +111,5 @@ Application.prototype.initWindowEvent = function () {
 	window.addEventListener ("resize", this.resizeInterface.bind (this));
 	this.showDefaultMessage ();
 };
-
-
 
 

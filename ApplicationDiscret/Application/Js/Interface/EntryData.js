@@ -1,7 +1,9 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
 
-/* Copyright (juin 2015)
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -40,7 +42,9 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
+
 
 /* constructor (nameEntry : String,
  *              description : String,
@@ -75,22 +79,31 @@
  * dump () : void
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
-	  ///////////////////
-	 /// Constructor ///
-	///////////////////
+/**
+ * @classdesc TODO
+ */
 
 
 EntryData.prototype.constructor = EntryData;
 
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
+
 /**
  * @constructor
- * @param {String} nameEntry - the name of the entry.
- * @param {String} description - the description of the entry.
- * @param {String} action - the action the entry will do.
+ * @param {String} nameEntry - The name of the entry.
+ * @param {String} description - The description of the entry.
+ * @param {String} action - The action the entry will do.
  * @param {ToolStateEnum} initState - The state of the entryData.
  */
 function EntryData (nameEntry, description, action, initState) {
@@ -114,7 +127,7 @@ function EntryData (nameEntry, description, action, initState) {
 	this.action = action;
 	
 	/**
-	 * {ToolStateEnum} the current state of this entry.
+	 * {ToolStateEnum} The current state of this entry.
 	 */
 	this.initState = initState || ToolStateEnum.ACCESSIBLE;
 	
@@ -180,16 +193,17 @@ function EntryData (nameEntry, description, action, initState) {
 };
 
 
-	  //////////////////////////////
-	 /// Accessors and mutators ///
-	//////////////////////////////
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
+
 
 
 /**
- * @return {String} the name EntryData.
+ * @return {String} The name EntryData.
  */
 EntryData.prototype.getNameEntry = function () {
-//	console.log ("EntryData.getNameEntry");
 	return this.nameEntry;
 };
 
@@ -197,10 +211,10 @@ EntryData.prototype.getNameEntry = function () {
 //==============================================================================
 /**
  * @param {String} nameEntry - The new name for the entry.
+ * 
  * @return {void}
  */
 EntryData.prototype.setNameEntry = function (nameEntry) {
-//	console.log ("EntryData.setNameEntry");
 	this.nameEntry = nameEntry;
 };
 
@@ -210,92 +224,87 @@ EntryData.prototype.setNameEntry = function (nameEntry) {
  * @return {String} the description.
  */
 EntryData.prototype.getDescription = function () {
-//	console.log ("EntryData.getDescription");
 	return this.description;
 };
 
 
 //==============================================================================
 /**
- * @param {String} description - the new description for the entry.
+ * @param {String} description - The new description for the entry.
+ * 
  * @return {void}
  */
 EntryData.prototype.setDescription = function (description) {
-//	console.log ("EntryData.setDescription");
 	this.description = description;
 };
 
 
 //==============================================================================
 /**
- * @return {String} the action associated with the entry.
+ * @return {String} The action associated with the entry.
  */
 EntryData.prototype.getAction = function () {
-//	console.log ("EntryData.getAction");
 	return this.action;
 };
 
 
 //==============================================================================
 /**
- * @param {String} action - the new action.
+ * @param {String} action - The new action.
+ * 
  * @return {void}
  */
 EntryData.prototype.setAction = function (action) {
-//	console.log ("EntryData.setAction");
 	this.action = action;
 };
 
 
 //==============================================================================
 /**
- * @return {String} the image path.
+ * @return {String} The image path.
  */
 EntryData.prototype.getImgPath = function () {
-//	console.log ("EntryData.getImgPath");
 	return this.imgPath;
 };
 
 
 //==============================================================================
 /**
- * @param {String} imgPath - the path of the new image.
+ * @param {String} imgPath - The path of the new image.
+ * 
  * @return {void}
  */
 EntryData.prototype.setImgPath = function (imgPath) {
-//	console.log ("EntryData.setImgPath");
 	this.imgPath = imgPath;
 };
 
 
 //==============================================================================
 /**
- * @return {String} the message displayed when the entry is selected.
+ * @return {String} The message displayed when the entry is selected.
  */
 EntryData.prototype.getInitMessage = function () {
-//	console.log ("EntryData.getInitMessage");
 	return this.initMessage;
 };
 
 
 //==============================================================================
 /**
- * @param {String} initMessage - he new message displayed when the entry is 
+ * @param {String} initMessage - The new message displayed when the entry is 
  * selected.
+ * 
  * @return {void}
  */
 EntryData.prototype.setInitMessage = function (initMessage) {
-//	console.log ("EntryData.setInitMessage");
 	this.initMessage = initMessage;
 };
 
 
 //==============================================================================
 /**
- * @return {MenuEntryEnum} the menu where to insert this EntryData.
+ * @return {MenuEntryEnum} The menu where to insert this EntryData.
  */
 EntryData.prototype.getMenu = function () {
-//	console.log ("EntryData.getMenu");
 	return this.menu;
 };
 
@@ -303,11 +312,12 @@ EntryData.prototype.getMenu = function () {
 //==============================================================================
 /**
  * Set the menu where to insert this EntryData.
- * @param {MenuEntryEnum} menu - the menu.
+ * 
+ * @param {MenuEntryEnum} menu - The menu.
+ * 
  * @return {void}
  */
 EntryData.prototype.setMenu = function (menu) {
-//	console.log ("EntryData.setMenu");
 	this.menu = menu;
 };
 
@@ -317,7 +327,6 @@ EntryData.prototype.setMenu = function (menu) {
  * @return {int} the index in the menu where to insert this EntryData.
  */
 EntryData.prototype.getIndexMenu = function () {
-//	console.log ("EntryData.getIndexMenu");
 	return this.indexMenu;
 };
 
@@ -326,17 +335,18 @@ EntryData.prototype.getIndexMenu = function () {
 /**
  * Set the index in the menu where insert this EntryData. If it's negative or 
  * greater than the number of menu item, it will be put at the end of the menu.
- * @param {int} indexMenu - the index.
+ * 
+ * @param {int} indexMenu - The index.
+ * 
  * @return {void}
  */
 EntryData.prototype.setIndexMenu = function (indexMenu) {
-//	console.log ("EntryData.setIndexMenu");
 	var index = indexMenu;
 	if (!(typeof(index) == "number")){
-		throw "EntryData.setIndexMenu : index is not a number !"
+		throw "EntryData.setIndexMenu: index is not a number !"
 	}
 	if (isNaN (index)) {
-		console.log ("WARNING : EntryData.setIndexMenu : index is NaN")
+		console.warn ("EntryData.setIndexMenu: index is NaN")
 		index = -1;
 	}
 	this.indexMenu = index;
@@ -345,26 +355,25 @@ EntryData.prototype.setIndexMenu = function (indexMenu) {
 
 //==============================================================================
 /**
- * @return {int} the index of the entry in the toolbar.
+ * @return {int} The index of the entry in the toolbar.
  */
 EntryData.prototype.getIndexTool = function () {
-//	console.log ("EntryData.getIndexTool");
 	return this.indexTool;
 };
 
 
 //==============================================================================
 /**
- * @param {int} indexTool - the index where to set the entry in the toolbar.
+ * @param {int} indexTool - The index where to set the entry in the toolbar.
+ * 
  * @return {void}
  */
 EntryData.prototype.setIndexTool = function (indexTool) {
-//	console.log ("EntryData.setIndexTool");
 	var index = indexTool;
 	if (!(typeof(index) == "number"))
-		throw "EntryData.setIndexTool : index is not a number !"
+		throw "EntryData.setIndexTool: index is not a number !"
 	if (isNaN (index)) {
-		console.log ("WARNING : EntryData.setIndexTool : index is NaN")
+		console.warn ("EntryData.setIndexTool: index is NaN")
 		index = -1;
 	}
 	this.indexTool = index;
@@ -373,21 +382,20 @@ EntryData.prototype.setIndexTool = function (indexTool) {
 
 //==============================================================================
 /**
- * @return {String} the alternate text.
+ * @return {String} The alternate text.
  */
 EntryData.prototype.getImgAlternateText = function () {
-//	console.log ("EntryData.getImgAlternateText");
 	return this.imgAlternateText;
 };
 
 
 //==============================================================================
 /**
- * @param {String} imgAlternateText - the new alternate text.
+ * @param {String} imgAlternateText - The new alternate text.
+ * 
  * @return {void}
  */
 EntryData.prototype.setImgAlternateText = function (imgAlternateText) {
-//	console.log ("EntryData.setImgAlternateText");
 	this.imgAlternateText = imgAlternateText;
 };
 
@@ -397,96 +405,94 @@ EntryData.prototype.setImgAlternateText = function (imgAlternateText) {
  * @return {String} the message associated to a valid action.
  */
 EntryData.prototype.getValidMessage = function () {
-//	console.log ("EntryData.getValidMessage");
 	return this.validMessage;
 };
 
 
 //==============================================================================
 /**
- * @param {String} validMessage - the message associated to a valid action.
+ * @param {String} validMessage - The message associated to a valid action.
+ * 
  * @return {void}
  */
 EntryData.prototype.setValidMessage = function (validMessage) {
-//	console.log ("EntryData.setValidMessage");
 	this.validMessage = validMessage;
 };
 
 
 //==============================================================================
 /**
- * @return {String} the message when the action send a warning.
+ * @return {String} The message when the action send a warning.
  */
 EntryData.prototype.getWarningMessage = function () {
-//	console.log ("EntryData.getWarningMessage");
 	return this.warningMessage;
 };
 
 
 //==============================================================================
 /**
- * @param {String} warningMessage - the warning message.
+ * @param {String} warningMessage - The warning message.
+ * 
  * @return {void}
  */
 EntryData.prototype.setWarningMessage = function (warningMessage) {
-//	console.log ("EntryData.setWarningMessage");
 	this.warningMessage = warningMessage;
 };
 
 
 //==============================================================================
 /**
- * @return {String} the error message.
+ * @return {String} The error message.
  */
 EntryData.prototype.getErrorMessage = function () {
-//	console.log ("EntryData.getErrorMessage");
 	return this.errorMessage;
 };
 
 
 //==============================================================================
 /**
- * @param {String} errorMessage - the error message.
+ * @param {String} errorMessage - The error message.
+ * 
  * @return {void}
  */
 EntryData.prototype.setErrorMessage = function (errorMessage) {
-//	console.log ("EntryData.setErrorMessage");
 	this.errorMessage = errorMessage;
 };
 
 
 //==============================================================================
 /**
- * @return {ToolStateEnum} the state of the entry.
+ * @return {ToolStateEnum} The state of the entry.
  */
 EntryData.prototype.getInitState = function () {
-//	console.log ("EntryData.getInitState");
 	return this.initState;
 };
 
 
 //==============================================================================
 /**
- * @param {ToolStateEnum} initState - the state of the entry.
+ * @param {ToolStateEnum} initState - The state of the entry.
+ * 
  * @return {void}
  */
 EntryData.prototype.setInitState = function (initState) {
-//	console.log ("EntryData.setInitState");
 	this.initState = initState;
 };
 
 
-	  /////////////////////
-	 /// Other methods ///
-	/////////////////////
+
+//##############################################################################
+//	Other methods
+//##############################################################################
+
 
 
 /**
- * Dump some attributes to the console.
+ * Dump some attributes on the console.
+ * 
  * @return {void}
  */
 EntryData.prototype.dump = function () {
-//	console.log ("EntryData.dump");
 	console.log ("name : " + this.nameEntry);
 	console.log ("description : " + this.description);
 	console.log ("action : " + this.action);

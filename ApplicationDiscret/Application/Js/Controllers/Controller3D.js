@@ -59,6 +59,7 @@
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
+
 /**
  * @extends Controller
  * @classdesc TODO
@@ -82,9 +83,10 @@ Controller3D.prototype.constructor = Controller3D;
  * @param {Vector} dimension - Vector to define the dimension of the 3D space.
  */ 
 function Controller3D (dimension) {
+	/// parameter verification
 	if (!(dimension instanceof Vector)) {
-		console.error ("Controller3D.constructor : "
-				+ "bad type of parameter");
+		console.error ("Controller3D.constructor: "
+				+ "given parameter is not a Vector");
 	}
 	
 	Controller.call (this);
@@ -112,47 +114,57 @@ function Controller3D (dimension) {
 /**
  * Function that start the generation of the surface from the meridian and the
  * curbe of revolution.
+ * 
+ * @param {###} mode - 
+ * 
+ * @return {void}
+ * @throws {String} ###
  */
 Controller3D.prototype.generate = function (mode) {
-	if (!(this.getMeridian instanceof Function) 
-		|| !(this.getCurveRevolution instanceof Function)){
-		throw "Controller3D.generate : The meridian or the curve of revolution is not a function."
+	/// verification
+	if (! checkType ([this.getMeridian, this.getCurveRevolution], Function,
+		Function))
+	{
+		throw "Controller3D.generate: The meridian and/or the curve revolution "
+			+ "are not functions."
+		// FIXME trouver une meilleur phrase pour cette exception
 	}
-	else {
-		var meridian = this.getMeridian ();
-		var curveRevolution = this.getCurveRevolution ();
-		this.modelGen.generate (meridian, curveRevolution, mode);
-	}
+	
+	var meridian = this.getMeridian ();
+	var curveRevolution = this.getCurveRevolution ();
+	this.modelGen.generate (meridian, curveRevolution, mode);
 };
 
 
 //==============================================================================
 /**
- * @return {Surface} the surface.
+ * @return {Surface} The surface.
  */
 Controller3D.prototype.getSurface = function () {
-	return this.modelGen.getSurface();
+	return this.modelGen.getSurface ();
 };
 
 
 //==============================================================================
 /**
- * @param {Vector} position - The coordinates of the voxel.
+ * @param {(Number | Vector)} x - The X coordinate (if it is a number) or all
+ * coordinates (if it is a Vector) of the voxel.
+ * @param {Number} [y] - The Y coordinate of the voxel.
+ * @param {Number} [z] - The Z coordinate of the voxel.
  * 
  * @return {Voxel} The voxel at the x, y, z coordinates.
+ * @throws {String} TODO
  */
 Controller3D.prototype.getVoxel = function (x, y, z) {
 	switch (arguments.length) {
 		case 1 :
-			if (!(x instanceof Vector)){
+			if (!(x instanceof Vector)) {
 				throw "Controller3D.getVoxel.ErrorNotAVector";
 			}
 			return this.modelGen.getVoxel (x);
 			break;
 		case 3 :
-			if (typeof x !== "number"
-				|| typeof y !== "number"
-				|| typeof z !== "number"){
+			if (! checkType (arguments, "number", "number", "number")) {
 				throw "Controller3D.getVoxel.ErrorNotANumber";
 			}
 			return this.modelGen.getVoxel (new Vector (x, y, z));
@@ -167,7 +179,10 @@ Controller3D.prototype.getVoxel = function (x, y, z) {
 /**
  * TODO
  * 
- * @param {Vector} position - The coordinates of the voxel.
+ * @param {(Number | Vector)} x - The X coordinate (if it is a number) or all coordinates
+ * (if it is a Vector) of the voxel.
+ * @param {Number} [y] - The Y coordinate of the voxel.
+ * @param {Number} [z] - The Z coordinate of the voxel.
  * 
  * @return {boolean} True if the voxel is a voxel of the surface, false
  * otherwise.
@@ -196,9 +211,9 @@ Controller3D.prototype.hasVoxel = function (x, y, z) {
 
 //==============================================================================
 /**
- * Get the nth selected cube.
+ * Get the selected cube.
  * 
- * @return {Voxel} the selected voxel.
+ * @return {Voxel} The selected voxel.
  */
 Controller3D.prototype.getSelectedVoxel = function () {
 	return this.modelGen.getSelectedVoxel ();
@@ -217,12 +232,21 @@ Controller3D.prototype.getDimension = function () {
 //==============================================================================
 /**
  * Set the dimension of the surface.
+ * @see {@link ModelGen.setDimension}
  * 
- * @param {Vector} dimension - The new dimension of the surface.
+ * @param {(Vector | Array]} dimension - The new dimension of the surface.
  * 
  * @return {void}
  */
 Controller3D.prototype.setDimension = function (dimension) {
+	/// parameter verification
+	if (! checkType (arguments, [Vector, Array])) {
+		showType (dimension)
+		console.trace ()
+		throw "Controller3D.setDimension: given parameter is not a Vector";
+	}
+	
+	/// return dimension
 	return this.modelGen.setDimension (dimension);
 };
 
@@ -236,9 +260,12 @@ Controller3D.prototype.setDimension = function (dimension) {
  * @return {boolean} True if the voxel is selected, false otherwise.
  */
 Controller3D.prototype.isSelectedVoxel = function (position) {
-	if(!(position instanceof Vector)){
-		throw "position is not a Vector"
+	/// parameter verification
+	if (! (position instanceof Vector)){
+		throw "Controller3D.isSelectedVoxel: given parameter is not a Vector"
 	}
+	
+	/// return
 	return this.modelGen.isSelectedVoxel (position);
 };
 
@@ -249,8 +276,15 @@ Controller3D.prototype.isSelectedVoxel = function (position) {
  * obtain a frozen reference to the meridian.
  * 
  * @return {void}
+ * @throws {String} If the given parameter is not a Function.
  */
 Controller3D.prototype.setGetMeridian = function (meridian) {
+	/// parameter verification
+	if (! checkType (arguments, Function)) {
+		throw "Controller3D.setGetMeridian: given parameter is not a Function";
+	}
+	
+	/// set the function
 	this.getMeridian = meridian;
 };
 
@@ -261,20 +295,32 @@ Controller3D.prototype.setGetMeridian = function (meridian) {
  * to obtain a frozen reference to the curve of revolution.
  * 
  * @return {void}
+ * @throws {String} If the given parameter is not a Function.
  */
 Controller3D.prototype.setGetCurveRevolution = function (curveRevolution) {
+	/// parameter verification
+	if (! checkType (arguments, Function)) {
+		throw "Controller3D.setGetCurveRevolution: given parameter is not a "
+			+ "Function";
+	}
+	
+	/// set the function
 	this.getCurveRevolution = curveRevolution;
 };
 
 
 //==============================================================================
 /**
- * Action when a mouse button is pressed.
+ * Action when a mouse button is pressed. TODO This action is ...
  * 
  * @param {WindowEvent} event - Event captured by the window.
  * @param {Vector} position - The coordinates of the click.
  * 
+ * FIXME 'position' ne sert a rien, la position du click est déja dans
+ * event.layerX et event.layerY.
+ * 
  * @return {void}
+ * @throws {String} TODO
  */
 Controller3D.prototype.mouseDown = function (event, position) {
 	if (!(event instanceof WindowEvent)){ // A vérifier
@@ -295,19 +341,36 @@ Controller3D.prototype.mouseDown = function (event, position) {
 //==============================================================================
 /**
  * This function return whether the algorithm finished his computations.
+ * @see {@link ModelGen.isAlgoFinished}
  * 
  * @return {boolean} Whether the algorithm finished his computations.
  */
 Controller3D.prototype.isAlgoFinished = function (){
-	return this.modelGen.isAlgoFinished();
+	return this.modelGen.isAlgoFinished ();
 };
 
 
-Controller3D.prototype.newVoxels = function (){
-	return this.modelGen.newVoxels();
+//==============================================================================
+/**
+ * TODO
+ * @see {@link ModelGen.newVoxels}
+ * 
+ * @return {TODO} 
+ */
+Controller3D.prototype.newVoxels = function () {
+	return this.modelGen.newVoxels ();
 };
 
 
-Controller3D.prototype.voxelsRead = function(){
-	this.modelGen.voxelsRead();
+//==============================================================================
+/**
+ * TODO
+ * @see {@link ModelGen.voxelsRead}
+ * 
+ * @return {TODO} 
+ */
+Controller3D.prototype.voxelsRead = function () {
+	this.modelGen.voxelsRead ();
 };
+
+

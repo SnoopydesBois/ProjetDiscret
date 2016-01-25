@@ -46,7 +46,7 @@
 // INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* constructor ()
+/* Application ()
  */
 
 
@@ -127,7 +127,7 @@ function Application () {
 	/**
 	 * {Controller3D} TODO
 	 */
-	this.surfaceController = new Controller3D (new Vector (25, 25, 25));
+	this.surfaceController = new Controller3D (new Vector (21, 21, 21));
 	
 	/**
 	 * {Controller2D} TODO
@@ -174,10 +174,13 @@ function Application () {
 }
 
 
+// FIXME viré les méthodes suivantes de ce fichier
 //==============================================================================
 /**
  * This function calls itself again every second in a different thread until the
  * computation is finished. Then it redraws the scene.
+ * 
+ * @return {void}
  */
 Application.prototype.computationFinished = function () {
 	if(this.surfaceController.newVoxels()){
@@ -197,6 +200,8 @@ Application.prototype.computationFinished = function () {
 /**
  * This function is called by the generate button. Calls the algorithm and draws
  * the resulting surface.
+ * 
+ * @return {void}
  */
 Application.prototype.generateAndDraw = function (mode) {
 	this.showMessage ("Computing...", 0, "blue");
