@@ -76,7 +76,6 @@ Application.prototype.undo = function () {
 };
 
 
-
 //==============================================================================
 /**
  * Redo an action if it's possible.

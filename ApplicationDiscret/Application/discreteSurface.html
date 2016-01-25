@@ -159,18 +159,28 @@
 					<li title="Centrer la caméra" 
 						onclick="">Centrer la caméra</li>
 					
-					<li title="Afficher les cubes en persective" 
-						onclick="globalParam.perspectiveView = true; appli.surfaceView.show ()">Perspective</li>
-					
-					<li title="Afficher les cubes en vue orthographique" 
-						onclick="globalParam.perspectiveView = false; appli.surfaceView.show ()">Orthographique</li>
-					
+					<li title="Changer le point de vue" 
+						onclick="if (globalParam.perspectiveView) {
+							this.innerHTML = 'Perspective';
+						} else {
+							this.innerHTML = 'Orthographique';
+						}
+						globalParam.perspectiveView = !globalParam.perspectiveView;
+						appli.surfaceView.show ()">Orthographique</li>
 					<li class="split"><hr/></li>
 					
 					<li title="Ajouter un N64 pour le debug" 
 						onclick="appli.surfaceView.contener.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
 					<li title="Retirer le N64" 
 						onclick="appli.surfaceView.contener.removeObjectByName ('n64'); appli.surfaceView.show ()">Supprimer N64</li>
+					<li title="Changer la palette de couleur" 
+						onclick="if (globalParam.cubeColorDebug) {
+							this.innerHTML = 'Couleur RVB';
+						} else {
+							this.innerHTML = 'Couleur blanche';
+						}
+						globalParam.cubeColorDebug = !globalParam.cubeColorDebug;
+						appli.surfaceView.show ()">Couleur RVB</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="toolsMenu" tabindex="3">

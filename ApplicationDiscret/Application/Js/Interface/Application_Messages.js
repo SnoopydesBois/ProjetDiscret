@@ -125,7 +125,7 @@ Application.prototype.alertMessage = function (msg, duration) {
  * @return {void}
  */
 Application.prototype.validMessage = function (msg, duration) {
-	this.showMessage (msg, duration, "green");
+	this.showMessage (msg, duration, "#0c0");
 };
 
 
