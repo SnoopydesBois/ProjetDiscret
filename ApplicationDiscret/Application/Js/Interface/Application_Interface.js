@@ -96,7 +96,7 @@ Application.prototype.resizeInterface = function () {
 /**
  * TODO
  */
-Application.prototype.getMeridianCurveName = fucntion () {
+Application.prototype.getMeridianCurveName = function () {
 	return $("listMeridians");
 };
 
