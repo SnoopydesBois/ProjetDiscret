@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,6 +42,7 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
@@ -73,14 +75,15 @@
  * shearing (which : int, from : int, value : int) : Matrix
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
+
 
 
 /**
  * @classdesc Coefficients are stored by COLUMN, so access is made using 
  * ROW + COLUMN * 4 ...
  */
- 
 Matrix.prototype = new Object;
 Matrix.prototype.constructor = Matrix;
 
@@ -638,11 +641,11 @@ Matrix.prototype.invert = function () {
  * 
  * @param {Matrix} that - The vector containing the translation values.
  * 
- * @return {Matrix} The matrix translated.
+ * @return {Matrix} This matrix translated.
  */
 Matrix.prototype.translate = function (that) {
 	if (!that instanceof Vector) { 
-		throw "Matrix translate: bad parameter";
+		throw "Matrix translate: given parameter is not a Vector";
 	}
 	
 	this.m[12] += that.m[0] * this.m[15];
@@ -659,7 +662,7 @@ Matrix.prototype.translate = function (that) {
  * 
  * @param {Matrix} that - The coefficient of scaling.
  * 
- * @return {Matrix} The new matrix scaled.
+ * @return {Matrix} This matrix scaled.
  */
 Matrix.prototype.scale = function (that) {
 	if (!isFinite (that)) {

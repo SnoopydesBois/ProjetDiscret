@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,7 +42,9 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
+
 
 /* constructor ()
  * 
@@ -73,6 +76,7 @@
  * prepareSelect (gl : glContext) : void
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
@@ -81,8 +85,6 @@
  * @extends GenericContener
  * @classdesc Scene class management.
  */
-
-
 Scene.prototype = new GenericContener;
 Scene.prototype.constructor = Scene;
 
@@ -178,7 +180,6 @@ Scene.prototype.setCamera = function (camera) {
 Scene.prototype.addObject = function (anObject) {
 	if (anObject instanceof GenericStructure) {
 		this.objectList.push (anObject);
-//		console.log ("On push l'object", anObject);
 	}
 	else
 		throw "Scene.addObject: parameter is not a GenericStructure";
@@ -323,7 +324,8 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	}
 	
 	var cam = this.camera;
-	var mvMat = cam.getViewMatrix ();
+	var mvMat = (obj instanceof Repere) ?
+		cam.getRotationMatrix () : cam.getViewMatrix ();
 	var pjMat = cam.getProjectionMatrix ();
 	var objMat = obj.getMatrix ();
 	

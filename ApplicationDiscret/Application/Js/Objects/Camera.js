@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -78,6 +79,9 @@
 
 
 
+/**
+ * @classdesc TODO
+ */
 Camera.prototype.constructor = Camera;
 
 
@@ -183,7 +187,7 @@ Camera.prototype.getProjection = function () {
 
 
 //==============================================================================
-/** 
+/**
  * Set the zoom. TODO compléter la doc
  * 
  * @param {float} [nb] - Zoom.
@@ -237,6 +241,17 @@ Camera.prototype.computeMatrices = function () {
 			this.far
 		);
 	}
+};
+
+
+//==============================================================================
+/**
+ * @return {Matrix} TODO
+ */
+Camera.prototype.getRotationMatrix = function () {
+	return (new Matrix (this.viewMatrix)).translate (
+		(new Vector (this.eyePos)).mul (0.05)
+	);
 };
 
 

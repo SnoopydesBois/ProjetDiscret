@@ -112,21 +112,6 @@ function RepereShader (glContext) {
 
 
 //##############################################################################
-//	Accessors and mutators
-//##############################################################################
-
-
-
-/**
- * @return {RenderingModeEnum} The mode used to render by the shader.
- */
-RepereShader.prototype.getRenderingMode = function () {
-	return this.renderingMode;
-};
-
-
-
-//##############################################################################
 //	Other methods
 //##############################################################################
 
