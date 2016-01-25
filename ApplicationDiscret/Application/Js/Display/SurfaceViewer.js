@@ -1,6 +1,13 @@
+// LICENSE /////////////////////////////////////////////////////////////////////
+
+
 /**
  * @license TODO
  */
+
+
+// CODE ////////////////////////////////////////////////////////////////////////
+
 
 
 /**
@@ -8,7 +15,6 @@
  * @classdesc Class to manage a canvas and object (FIXME traduire) et les objets
  * à dessiner.
  */
-
 
 
 SurfaceViewer.prototype = new GenericViewer;

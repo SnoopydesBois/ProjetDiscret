@@ -154,13 +154,16 @@ ModelGen.prototype.setDimension = function (dimension) {
  */
 ModelGen.prototype.generate = function (meridian, curveRevolution, mode){
 	if (meridian instanceof ExplicitCurve
-			&& curveRevolution instanceof ImplicitCurve) {
+			&& curveRevolution instanceof ImplicitCurve)
+	{
 		this.algoExplicit(meridian, curveRevolution, mode);
-	} else if (meridian instanceof ParametricCurve
+	}
+	else if (meridian instanceof DrawnCurve
 			&& curveRevolution instanceof ImplicitCurve)
 	{
 		this.algoParametric(meridian, curveRevolution);
-	} else {
+	}
+	else {
 		throw "ModelGen.generate.ErrorBadCurveType";
 	}
 	return this.surface;
@@ -194,7 +197,13 @@ ModelGen.prototype.isAlgoFinished = function (){
 	return this.worker.finished;
 }
 
+ModelGen.prototype.newVoxels = function (){
+	return this.worker.newVoxels;
+};
 
+ModelGen.prototype.voxelsRead = function(){
+	this.worker.newVoxels = false;
+};
 
 //==============================================================================
 /**

@@ -68,6 +68,7 @@ Controller2D.prototype.constructor = Controller2D;
 
 /**
  * @constructor
+ * 
  * @param {Number} imageMin - The lower bound of the output range.
  * @param {Number} imageMax - The upper bound of the output range.
  * @param {Number} antecedantMin - The lower bound of the input range.
@@ -79,7 +80,8 @@ function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 		Controller.call (this);
 	}
 	else {
-		if(!checkType (arguments, "number", "number", "number", "number", DrawModeEnum))
+		if (! checkType (arguments, "number", "number", "number", "number",
+			DrawModeEnum))
 		{
 			console.error ("Controller2D.constructor: bad type(s) of "
 				+ "parameter(s)");
@@ -114,10 +116,64 @@ function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 
 
 /**
- * TODO doc
+ * Add a curve to the model.
+ * @see {@link ModelCurve.addCurve}
+ * 
+ * @param {String} name - The name of the curve.
+ * @param {Function} constructor - The constructor of the curve. This class
+ * constructor must inherit from Curve.
+ * 
+ * @return {void}
  */
-Controller2D.prototype.setActive = function (nom) {
-	this.modelController2D.setActive (nom);
+Controller2D.prototype.addCurve = function (name, constructor) {
+	/// parameter verification
+	if (! checkType (arguments, "string", Function)) {
+		showType (name, constructor);
+		throw "Controller2D.addCurve: bad type(s) of parameter(s)";
+	}
+	
+	/// add the curve
+	this.modelCurve.addCurve (name, constructor);
+};
+
+
+//==============================================================================
+/**
+ * TODO doc
+ * 
+ * @return {void}
+ */
+Controller2D.prototype.getActiveCurve = function () {
+	return this.modelCurve.getActiveCurve ();
+};
+
+
+//==============================================================================
+/**
+ * TODO doc
+ * 
+ * @param {###} name - TODO
+ * 
+ * @return {void}
+ */
+Controller2D.prototype.setActive = function (name) {
+	/// parameter verification
+//	if (! checkType (arguments, )) {
+//		showType (name);
+//		throw "Controller2D.setActive: given parameter is not a /*TODO*/";
+//	}
+	
+	/// set the curve
+	this.modelCurve.setActive (name);
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+Controller2D.prototype.isTypeOf = function (type) {
+	return this.modelCurve.getActiveCurve () instanceof type;
 };
 
 
@@ -133,7 +189,16 @@ Controller2D.prototype.getPoints = function () {
 
 //==============================================================================
 /**
- * TODO doc
+ * @return {Equation} The equation of the active curve.
+ */
+Controller2D.prototype.getEquation = function () {
+	return this.modelCurve.getEquation ();
+};
+
+
+//==============================================================================
+/**
+ * @return {Range} TODO
  */
 Controller2D.prototype.getXRange = function () {
 	return this.modelCurve.getImage ();
@@ -142,7 +207,7 @@ Controller2D.prototype.getXRange = function () {
 
 //==============================================================================
 /**
- * TODO doc
+ * @return {Range} TODO
  */
 Controller2D.prototype.getYRange = function () {
 	return this.modelCurve.getInverseImage ();
@@ -151,8 +216,28 @@ Controller2D.prototype.getYRange = function () {
 
 //==============================================================================
 /**
+ * @param {Range} the new xRange to set
+ */
+Controller2D.prototype.setXRange = function (xRange) {
+	return this.modelCurve.setImage (xRange);
+};
+
+
+//==============================================================================
+/**
+ * @param {Range} the new yRange to set
+ */
+Controller2D.prototype.setYRange = function (yRange) {
+	return this.modelCurve.setInverseImage (yRange);
+};
+
+
+//==============================================================================
+/**
  * TODO doc
  * To redefine in child controllers
+ * 
+ * @param {} dim - 
  */
 Controller2D.prototype.startHandFree = function (dim) {
 	throw "Controller2D.startHandFree: this function is not implemented";
@@ -163,6 +248,9 @@ Controller2D.prototype.startHandFree = function (dim) {
 /**
  * TODO doc
  * To redefine in child controllers
+ * 
+ * @param {} dim - 
+ * @param {} coord - 
  */
 Controller2D.prototype.newHandFree = function (dim, coord) {
 	throw "Controller2D.newHandFree: this function is not implemented";
@@ -172,7 +260,8 @@ Controller2D.prototype.newHandFree = function (dim, coord) {
 //==============================================================================
 /**
  * TODO doc
- *
+ * 
+ * @param {} eq - 
  */
 Controller2D.prototype.parseImplicit = function (eq) {
 	// TODO parsing
@@ -183,6 +272,9 @@ Controller2D.prototype.parseImplicit = function (eq) {
 //==============================================================================
 /**
  * TODO doc
+ * 
+ * @param {} eqX - 
+ * @param {} eqY - 
  */
 Controller2D.prototype.parseParametric = function (eqX, eqY) {
 	// TODO parsing
@@ -193,6 +285,8 @@ Controller2D.prototype.parseParametric = function (eqX, eqY) {
 //==============================================================================
 /**
  * TODO doc
+ * 
+ * @param {} eq - 
  */
 Controller2D.prototype.parseExplicit = function (eq) {
 	// TODO parsing

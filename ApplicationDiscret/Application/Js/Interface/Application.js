@@ -1,5 +1,6 @@
 // LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /** 
  * @license
  * Copyright (juin 2015)
@@ -45,7 +46,7 @@
 // INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* constructor ()
+/* Application ()
  */
 
 
@@ -124,6 +125,21 @@ function Application () {
 	
 	
 	/**
+	 * {Controller3D} TODO
+	 */
+	this.surfaceController = new Controller3D (new Vector (21, 21, 21));
+	
+	/**
+	 * {Controller2D} TODO
+	 */
+	this.meridianController = new Controller2D (-1, 1, -1, 1);
+	
+	/**
+	 * {Controller2D} TODO
+	 */
+	this.revolController = new Controller2D (-1, 1, -1, 1);
+	
+	/**
 	 * {HTMLCanvasElement} TODO
 	 */
 	this.surfaceView = new SurfaceViewer (
@@ -136,6 +152,7 @@ function Application () {
 	this.meridianView = new CurveViewer (
 		document.getElementById ("meridianCanvas")
 	);
+	this.meridianView.container.addObject (this.meridianController); // FIXME 
 	
 	/**
 	 * {HTMLCanvasElement} TODO
@@ -143,21 +160,7 @@ function Application () {
 	this.revolView = new CurveViewer (
 		document.getElementById ("revolCanvas")
 	);
-	
-	/**
-	 * {Controller3D} TODO
-	 */
-	this.surfaceController = new Controller3D (new Vector (25, 25, 25));
-	
-	/**
-	 * {Controller2D} TODO
-	 */
-	this.meridianController = new Controller2D ();
-	
-	/**
-	 * {Controller2D} TODO
-	 */
-	this.revolController = new Controller2D ();
+	this.revolView.container.addObject (this.revolController); // FIXME 
 	
 	/**
 	 * {String} The default message in the state bar.
@@ -171,13 +174,19 @@ function Application () {
 }
 
 
+// FIXME viré les méthodes suivantes de ce fichier
 //==============================================================================
 /**
  * This function calls itself again every second in a different thread until the
  * computation is finished. Then it redraws the scene.
+ * 
+ * @return {void}
  */
 Application.prototype.computationFinished = function () {
-	this.surfaceView.show ();
+	if(this.surfaceController.newVoxels()){
+		this.surfaceController.voxelsRead();
+		this.surfaceView.show ();
+	}
 	if (! this.surfaceController.isAlgoFinished ()){
 		setTimeout (this.computationFinished.bind (this), 1000);
 	} 
@@ -191,6 +200,8 @@ Application.prototype.computationFinished = function () {
 /**
  * This function is called by the generate button. Calls the algorithm and draws
  * the resulting surface.
+ * 
+ * @return {void}
  */
 Application.prototype.generateAndDraw = function (mode) {
 	this.showMessage ("Computing...", 0, "blue");
