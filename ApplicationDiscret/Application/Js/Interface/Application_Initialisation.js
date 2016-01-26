@@ -110,6 +110,7 @@ Application.prototype.initControllers = function () {
  */
 Application.prototype.initWindowEvent = function () {
 	window.addEventListener ("resize", this.resizeInterface.bind (this));
+	window.addEventListener ("keypress", came.toConsole.bind (came));
 	this.showDefaultMessage ();
 };
 

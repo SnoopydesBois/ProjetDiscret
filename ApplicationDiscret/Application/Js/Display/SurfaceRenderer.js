@@ -356,15 +356,26 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 		if (voxel.hasFacet (i)) {
 			var color = [0.0, 0.0, 0.0, 1.0];
 			if (globalParam.cubeColorDebug) {
-				switch (DirectionEnum.properties[i].axis) {
-				case AxisEnum.X :
+				switch (i) {
+				case DirectionEnum.RIGHT :
 					color = [0.9, 0, 0, 1];
 					break;	
-				case AxisEnum.Y :
+				case DirectionEnum.FRONT :
 					color = [0, 0.9, 0, 1];
 					break;	
-				case AxisEnum.Z :
+				case DirectionEnum.TOP :
 					color = [0, 0, 0.9, 1];
+					break;
+				
+				case DirectionEnum.LEFT :
+					color = [0.9, 0, 0.9, 1];
+					break;	
+				case DirectionEnum.BACK :
+					color = [0.9, 0.9, 0, 1];
+					break;	
+				case DirectionEnum.BOTTOM :
+
+					color = [0, 0.9, 0.9, 1];
 					break;	
 				}
 			}

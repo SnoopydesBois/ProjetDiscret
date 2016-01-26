@@ -82,8 +82,6 @@
  * @classdesc Class to manage the 3D display of an object (you must inherit from
  * this class).
  */
-
-
 GenericStructure.prototype.constructor = GenericStructure;
 
 

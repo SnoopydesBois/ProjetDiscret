@@ -114,7 +114,7 @@
 		
 		<!-- Export 3D en PNG -->
 		<script src="Export/Export_PNG/jquery.min.js"></script>
-        <script src="Export/Export_PNG/d3.v2.js"></script>
+    <script src="Export/Export_PNG/d3.v2.js"></script>
 		
 
 	</head>
@@ -155,9 +155,9 @@
 					<li class="split"><hr/></li>
 					
 					<li title="Ajouter un N64 pour le debug" 
-						onclick="appli.surfaceView.contener.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
+						onclick="appli.surfaceView.container.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
 					<li title="Retirer le N64" 
-						onclick="appli.surfaceView.contener.removeObjectByName ('n64'); appli.surfaceView.show ()">Supprimer N64</li>
+						onclick="appli.surfaceView.container.removeObjectByName ('n64'); appli.surfaceView.show ()">Supprimer N64</li>
 					<li title="Changer la palette de couleur" 
 						onclick="if (globalParam.cubeColorDebug) {
 							this.innerHTML = 'Couleur RVB';
@@ -361,6 +361,7 @@
 					<button onclick="appli.generateAndDraw (0);">Générer</button>
 					<button onclick="appli.generateAndDraw (1);">Génération non optimisée</button>
 					<hr/>
+					<button onclick="came.toConsole ();">came</button>
 					Liste des paramètres de la Surface
 				</div>
 			
@@ -388,10 +389,10 @@
 			
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 9);
-			var cam = appli.surfaceView;
+			var came = appli.surfaceView.container.camera;
 			
 			appli.initAppli ();
-			
+			came.toConsole ();
 		</script>
 	</body>
 </html>
