@@ -57,6 +57,7 @@
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
+
 /**
  * @extends GenericStructure
  * @classdesc TODO
@@ -74,7 +75,7 @@ Repere.prototype.constructor = Repere;
 
 /**
  * @constructor 
- * Create a Repere given an origin and a size
+ * TODO
  * 
  * @param {WebGLRenderingContext} glContext - The gl context (used by the
  * shader).
@@ -89,7 +90,7 @@ function Repere (glContext) {
 	
 	/**
 	 * @inheritdoc
-	 * An user cannot select the repere
+	 * An user cannot select the repere.
 	 */
 	this.isPickable = false;
 };

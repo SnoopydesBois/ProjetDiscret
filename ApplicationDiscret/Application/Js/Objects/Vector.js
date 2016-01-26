@@ -42,6 +42,7 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////
 
 
@@ -72,11 +73,10 @@
 /// CODE ///////////////////////////////////////////////////////////
 
 
+
 /**
  * @classdesc Simple 3 dimensional Vector class.
  */
-
-
 Vector.prototype.constructor = Vector;
 
 
@@ -143,8 +143,11 @@ function Vector () {
 			case 0: 
 				return this.defaultConstructor ();
 			case 1:
-				if (arguments[0] instanceof Array || arguments[0] instanceof Float32Array)
+				if (arguments[0] instanceof Array 
+					|| arguments[0] instanceof Float32Array)
+				{
 					return this.arrayToVectorConstructor (arguments[0]);
+				}
 				else if (typeof arguments[0] == "number")
 					return this.coordinateConstructor (arguments[0],
 						arguments[0], arguments[0])
@@ -355,7 +358,7 @@ Vector.prototype.dot = function (that) {
 /**
  * Multiplication by a scalar (this *= scalar).
  * 
- * @param {Vector} that - A scalar to multiply with.
+ * @param {Number} that - A scalar to multiply with.
  * 
  * @return {Vector} A vector result of the multiplication with a scalar.
  */

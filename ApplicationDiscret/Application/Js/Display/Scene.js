@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,7 +42,9 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
+
 
 /* constructor ()
  * 
@@ -73,6 +76,7 @@
  * prepareSelect (gl : glContext) : void
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
@@ -81,8 +85,6 @@
  * @extends GenericContener
  * @classdesc Scene class management.
  */
-
-
 Scene.prototype = new GenericContener;
 Scene.prototype.constructor = Scene;
 
@@ -178,7 +180,6 @@ Scene.prototype.setCamera = function (camera) {
 Scene.prototype.addObject = function (anObject) {
 	if (anObject instanceof GenericStructure) {
 		this.objectList.push (anObject);
-//		console.log ("On push l'object", anObject);
 	}
 	else
 		throw "Scene.addObject: parameter is not a GenericStructure";
@@ -325,7 +326,13 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	var cam = this.camera;
 	var mvMat = cam.getViewMatrix ();
 	var pjMat = cam.getProjectionMatrix ();
-	var objMat = obj.getMatrix ();
+	var objMat = new Matrix (obj.getMatrix ());
+	if (obj instanceof Repere/* && typeof t == "undefined"*/) {
+		var t = (new Vector (cam.eyePos)).normalize ();
+		t = (new Vector (cam.eyePos)).sub (t.mul (1));
+		objMat.translate (t);
+	}
+//	objMat.toConsole ();
 	
 	// Get Location of uniform variables
 	var shad = obj.getShader ();
@@ -344,11 +351,8 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	if (locPjMat != null)
 		glContext.uniformMatrix4fv (locPjMat, false, pjMat.getGLVector ());
 	
-	if (locDim != null) {
-		glContext.uniform3fv (locDim, 
-			obj.getDimension ().getGLVector ()
-		);
-	}
+	if (locDim != null)
+		glContext.uniform3fv (locDim, obj.getDimension ().getGLVector ());
 };
 
 
