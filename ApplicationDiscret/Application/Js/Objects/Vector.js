@@ -87,7 +87,8 @@ Vector.prototype.constructor = Vector;
 
 
 
-var VEC_ARRAY_TYPE = (typeof Float32Array == 'undefined')? Array : Float32Array;
+var VEC_ARRAY_TYPE = (typeof Float32Array == 'undefined') ?
+	Array : Float32Array;
 
 
 

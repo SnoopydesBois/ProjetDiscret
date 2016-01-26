@@ -161,17 +161,11 @@
 					
 
 					<li title="Ajouter un N64 pour le debug" key="m24" class="tr"
-						onclick="appli.surfaceView.contener.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
-					<li title="Retirer le N64" key="m25" class="tr"
-						onclick="appli.surfaceView.contener.removeObjectByName ('n64'); appli.surfaceView.show ()">Supprimer N64</li>
-					<li title="Changer la palette de couleur" key="m26" class="tr"
-
-					<li title="Ajouter un N64 pour le debug" 
 						onclick="appli.surfaceView.container.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
-					<li title="Retirer le N64" 
+					<li title="Retirer le N64" key="m25" class="tr"
 						onclick="appli.surfaceView.container.removeObjectByName ('n64'); appli.surfaceView.show ()">Supprimer N64</li>
-					<li title="Changer la palette de couleur" 
 
+					<li title="Changer la palette de couleur" key="m26" class="tr"
 						onclick="if (globalParam.cubeColorDebug) {
 							this.innerHTML = 'Couleur RVB';
 						} else {
@@ -204,43 +198,43 @@
 							<li id="meridianChoice"
 								class="inaccessible tr"
 								title="Choix de la méridienne" 
-								onclick=""> <div key="m331" class="tr"> Méridiennes</div> </li>
+								onclick=""><div key="m331" class="tr">Méridiennes</div> </li>
 								
 							<li id="curveOfRevolutionChoice"
 								class="inaccessible"
 								title="Choix de la courbe de révolution" 
-								onclick=""><div key="m332" class="tr">  Courbes de révolution </div></li>
+								onclick=""><div key="m332" class="tr">Courbes de révolution</div></li>
 								
 							<li class="split"><hr/></li>
 							
 							<li id="meridianFormula"
 								class="inaccessible"
 								title="Rentrer une formule pour la méridienne" 
-								onclick=""><div key="m333" class="tr">  Formule méridienne</div></li>
+								onclick=""><div key="m333" class="tr">Formule méridienne</div></li>
 								
 							<li id="showSimpleParameter"
 								class="inaccessible"
 								title="Rentrer une formule pour la courbe de révolution" 
-								onclick=""><div key="m334" class="tr"> Formule courbe de révolution</div></li>
+								onclick=""><div key="m334" class="tr">Formule courbe de révolution</div></li>
 						
 							<li class="split"><hr/></li>
 							
 							<li id="handFreeDrawing"
 								class="inaccessible"
 								title="Dessiner à main levée" key="m335"
-								onclick=""><div key="m335" class="tr"> Dessiner à main levée </div></li>
+								onclick=""><div key="m335" class="tr">Dessiner à main levée</div></li>
 						
 							<li class="split"><hr/></li>
 							
 							<li id="showSimpleParameter"
 								class="inaccessible"
 								title="Afficher les paramètres simples" key="m336"
-								onclick=""><div key="m336" class="tr"> Paramètres simples</div></li>
+								onclick=""><div key="m336" class="tr">Paramètres simples</div></li>
 							
 							<li id="showAdvancedParameter"
 								class="inaccessible"
 								title="Afficher les paramètres avancés" key="m337"
-								onclick=""><div key="m337" class="tr"> Paramètres avancés</div></li>
+								onclick=""><div key="m337" class="tr">Paramètres avancés</div></li>
 								
 								
 							<li class="split"><hr/></li>
@@ -248,12 +242,12 @@
 							<li id="addMeridian"
 								class="inaccessible"
 								title="Ajout méridienne" 
-								onclick=""><div key="m338" class="tr"> Ajout méridienne</div></li>
+								onclick=""><div key="m338" class="tr">Ajout méridienne</div></li>
 							
 							<li id="addCurve"
 								class="inaccessible"
 								title="Ajout courbe de révolution" 
-								onclick=""><div key="m339" class="tr"> Ajout courbe de révolution</div></li>
+								onclick=""><div key="m339" class="tr">Ajout courbe de révolution</div></li>
 						
 						</ul>
 					</li>	
@@ -319,8 +313,8 @@
 			--><li id="helpMenu" tabindex="6">
 				<h1><div key="m5" class="tr">Aide</div></h1>
 				<ul>
-					<li><div key="m51" class="tr">Afficher l'aide</div></li>
-					<li<div key="m52" class="tr">>À propos</div></li>
+					<li key="m51" class="tr">Afficher l'aide</li>
+					<li key="m52" class="tr">À propos</li>
 				</ul>
 			</li>
 			
@@ -341,10 +335,8 @@
 			<div id="curvesView">
 				<div id="meridianView">
 					<div id="meridianParam" class="paramPanel">
-						<div key="mer1" class="tr">Liste des paramètres Méridienne</div>
-					</div>
-					<div>
-						<button onclick="appli.getAllParameters()"> GetParameters </button>
+						<span key="mer1" class="tr">Liste des paramètres Méridienne</span>
+						<button onclick="appli.getAllParameters()">GetParameters</button>
 					</div>
 					<canvas id="meridianCanvas" style="display:none"></canvas>
 					<div id="meridianCanvas2"></div>
@@ -377,19 +369,14 @@
 				<div id="surfaceParam" class="paramPanel">
 					<button onclick="appli.generateAndDraw (0);" key="surf1" class="tr">Générer</button>
 					<button onclick="appli.generateAndDraw (1);" key="surf2" class="tr">Génération non optimisée</button>
-					
 					<hr/>
-
-					<div key="surf3" class="tr">Liste des paramètres de la Surface</div>
+					<span key="surf3" class="tr">Liste des paramètres de la Surface</span>
 					
-
 					<button onclick="came.toConsole ();">came</button>
-					Liste des paramètres de la Surface
-
 				</div>
 			
 <!--				<canvas id="surfaceCanvas" width="640" height="480"></canvas>-->
-				<canvas id="surfaceCanvas" ></canvas>
+				<canvas id="surfaceCanvas"></canvas>
 					
 <!-- Export Canvas en PNG -->
 
@@ -416,11 +403,11 @@
 			
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 9);
-			var cam = appli.surfaceView.container.camera;
+			var came = appli.surfaceView.container.camera;
 			
 			appli.initAppli ();
 		
-			cam.toConsole ();
+			came.toConsole ();
 		</script>
 		
 		<script type="text/javascript">
