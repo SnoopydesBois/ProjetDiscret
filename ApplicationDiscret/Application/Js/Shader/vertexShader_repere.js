@@ -1,6 +1,6 @@
 /**
-* Vertex shader for the application
-*/
+ * {String} Vertex shader for the repere.
+ */
 var vertRepereSrc =
   "attribute vec3 aPosition;\n"
 + "attribute vec4 aColor;\n"
@@ -13,7 +13,8 @@ var vertRepereSrc =
 + "varying vec3 vPos;\n"
 + "\n"
 + "void main (void) {\n"
-+ "  gl_Position = vec4 (-0.9, -0.9, 0.0, 0.0) + /*uProjectionMatrix * uModelViewMatrix */ vec4 (aPosition * 0.2, 1.0);\n"
++ "  gl_Position = uProjectionMatrix * uModelViewMatrix * vec4 (aPosition * 0.2, 1.0);\n"
+//+ "  gl_Position = uProjectionMatrix * uModelViewMatrix * vec4 (aPosition * 0.2, 1.0) + vec4 (-0.9, -0.9, 0.0, 0.0);\n"
 + "	 vPos = aPosition;\n"
 + "	 vColor = aColor;\n"
 + "}";

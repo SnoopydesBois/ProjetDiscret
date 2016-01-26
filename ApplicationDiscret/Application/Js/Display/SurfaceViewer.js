@@ -15,8 +15,6 @@
  * @classdesc Class to manage a canvas and object (FIXME traduire) et les objets
  * à dessiner.
  */
-
-
 SurfaceViewer.prototype = new GenericViewer;
 SurfaceViewer.prototype.constructor = SurfaceViewer;
 
@@ -39,12 +37,12 @@ function SurfaceViewer (canvas) {
 	/**
 	 * {Scene} The scene to display the surface.
 	 */
-	this.contener = new Scene ();
-	this.contener.addObject (new BoundingBox (
+	this.container = new Scene ();
+	this.container.addObject (new BoundingBox (
 		new Vector (1, 1, 1), 
 		this.glContext
 	));
-	this.contener.addObject (new Repere (this.glContext));
+	this.container.addObject (new Repere (this.glContext));
 	
 	/**
 	 * {int[2]} The position of the mouse on the canvas when the user press a
@@ -86,8 +84,8 @@ SurfaceViewer.prototype.setViewDimension = function () {
 		this.glContext.viewportWidth, 
 		this.glContext.viewportHeight
 	);
-	this.contener.getCamera ().height = this.canvas.height;
-	this.contener.getCamera ().width = this.canvas.width;
+	this.container.getCamera ().height = this.canvas.height;
+	this.container.getCamera ().width = this.canvas.width;
 };
 
 
@@ -101,9 +99,9 @@ SurfaceViewer.prototype.setViewDimension = function () {
  * @return {void}
  */
 SurfaceViewer.prototype.setDimension = function (width, height) {
-	if (this.contener !== null) {
-		this.contener.setWidth (width);
-		this.contener.setHeight (height);
+	if (this.container !== null) {
+		this.container.setWidth (width);
+		this.container.setHeight (height);
 	}
 };
 
@@ -118,8 +116,8 @@ SurfaceViewer.prototype.setDimension = function (width, height) {
  * @return {void}
  */
 SurfaceViewer.prototype.setMouse = function (x, y) {
-	if (this.contener !== null)
-		this.contener.setMouse (x, y);
+	if (this.container !== null)
+		this.container.setMouse (x, y);
 };
 
 
@@ -136,10 +134,10 @@ SurfaceViewer.prototype.setMouse = function (x, y) {
  * @return {void}
  */
 SurfaceViewer.prototype.reload = function () {
-	if (!(this.contener instanceof Scene))
+	if (!(this.container instanceof Scene))
 		console.error ("SurfaceViewer.reload: scene does not exist !");
 	else
-		this.contener.reload ();
+		this.container.reload ();
 };
 
 
@@ -162,8 +160,8 @@ SurfaceViewer.prototype.show = function () {
  * @return {void}
  */
 SurfaceViewer.prototype.prepare = function () {
-	if (this.contener.getNbObject () != 0)
-		this.contener.prepare (this.glContext);
+	if (this.container.getNbObject () != 0)
+		this.container.prepare (this.glContext);
 	else
 		console.log ("No object to prepare");
 };
@@ -179,8 +177,8 @@ SurfaceViewer.prototype.prepare = function () {
  * @return {void}
  */
 SurfaceViewer.prototype.draw = function (backBuffer) {
-	if (this.contener.getNbObject () != 0)
-		this.contener.draw (this.glContext, backBuffer)
+	if (this.container.getNbObject () != 0)
+		this.container.draw (this.glContext, backBuffer)
 	else
 		console.log ("No object to draw");
 };
@@ -203,7 +201,7 @@ SurfaceViewer.prototype.draw = function (backBuffer) {
  */
 SurfaceViewer.prototype.onResize = function (event) {
 	this.setViewDimension ();
-	this.contener.getCamera ().computeMatrices ();
+	this.container.getCamera ().computeMatrices ();
 	this.show ();
 };
 
@@ -220,7 +218,7 @@ SurfaceViewer.prototype.onResize = function (event) {
  */
 SurfaceViewer.prototype.onMouseDown = function (event) {
 	if (event.buttons === 1) { // FIXME right click is pressed
-		this.camPosWhenClick = this.contener.getCamera().getPosition();
+		this.camPosWhenClick = this.container.getCamera().getPosition();
 		this.mousePosOnPress[0] = event.layerX;
 		this.mousePosOnPress[1] = event.layerY;
 //		event.preventDefault ();
@@ -239,7 +237,7 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
  */
 SurfaceViewer.prototype.onMouseUp = function (event) {
 //	if (event.buttons === 1) { // FIXME right click is pressed
-//		this.camPosWhenClick = this.contener.getCamera().getPosition();
+//		this.camPosWhenClick = this.container.getCamera().getPosition();
 //		this.mousePosOnPress[0] = event.layerX;
 //		this.mousePosOnPress[1] = event.layerY;
 //		event.preventDefault ();
@@ -278,17 +276,17 @@ SurfaceViewer.prototype.onMouseMove = function (event) {
 SurfaceViewer.prototype.onWheel = function (event) {
 	if (event.deltaY != 0) {
 		var epsilon = event.deltaY < 0 ? -0.1 : 0.1 ;
-		var cam = this.contener.getCamera ();
+		var cam = this.container.getCamera ();
 		// orthographic zoom
 		cam.setProjection (
 			cam.getProjection () + epsilon
 		);
 		// perspective zoom
 		var normPos = new Vector (cam.getPosition ()).normalize ();
-		this.contener.setCameraAt ([
+		this.container.setCameraAt ([
 			cam.getPosition ().x + normPos.x * epsilon,
 			cam.getPosition ().y + normPos.y * epsilon,
-			cam.getPosition ().z + normPos.z * epsilon,
+			cam.getPosition ().z + normPos.z * epsilon
 		]);
 		cam.computeMatrices ();
 		this.draw ();
@@ -349,7 +347,6 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
 	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this));
 //	this.canvas.addEventListener ("contextmenu", function () {return false;});
-	
 };
 
 
@@ -380,7 +377,7 @@ SurfaceViewer.prototype.moveCameraAt = function (phiOffset, thetaOffset) {
 	var x = dist * Math.cos (phi) * Math.cos (theta);
 	var y = dist * Math.sin (phi) * Math.cos (theta);
 	var z = dist * Math.sin (theta);
-	this.contener.setCameraAt ([x, y, z]);
+	this.container.setCameraAt ([x, y, z]);
 	
 	/// drawing
 	this.draw ();

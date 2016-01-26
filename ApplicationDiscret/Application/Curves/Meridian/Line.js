@@ -8,6 +8,6 @@ Line.prototype.constructor = Line;
 */
 function Line() {
 //	var equation = new Equation("a*x + b");
-	var equation = new Equation("2*x -1");
-	ImplicitCurve.call(this, equation);
+	var equation = new Equation("0.3*x -0");
+	ExplicitCurve.call(this, equation);
 }

@@ -54,7 +54,7 @@ function CurveViewer (canvas) {
 
 
 /**
- * Prepare all objects in the contener.
+ * Prepare all objects in the container.
  * 
  * @return {void}
  */
@@ -65,7 +65,7 @@ CurveViewer.prototype.prepare = function () {
 
 //==============================================================================
 /**
- * Show all objects in the contener (prepare it and draw it).
+ * Show all objects in the container (prepare it and draw it).
  * 
  * @return {void}
  */
@@ -77,7 +77,7 @@ CurveViewer.prototype.show = function () {
 //==============================================================================
 /**
  * @override
- * Draw all objects in the contener.
+ * Draw all objects in the container.
  * 
  * @param {boolean} [backBuffer] - Indicate if we have to draw the scene 
  * normally or if we need to draw for picking.

@@ -53,12 +53,10 @@
 // CODE ///////////////////////////////////////////////////////////////////////
 
 
+
 /**
  * @classdesc This class is the main controller of the application.
  */
-
-
-
 Application.prototype.constructor = Application;
 
 
@@ -137,7 +135,7 @@ function Application () {
 	/**
 	 * {Controller2D} TODO
 	 */
-	this.revolController = new Controller2D (-1, 1, -1, 1);
+	this.revolController = new Controller2D (-1.1, 1.1, -1.1, 1.1);
 	
 	/**
 	 * {HTMLCanvasElement} TODO
@@ -210,7 +208,7 @@ Application.prototype.generateAndDraw = function (mode) {
 		document.getElementById ("dimy").value,
 		document.getElementById ("dimz").value
 	]);
-	this.surfaceView.contener.getObjectByName ("boundingBox").setDimension ([
+	this.surfaceView.container.getObjectByName ("boundingBox").setDimension ([
 		document.getElementById ("dimx").value,
 		document.getElementById ("dimy").value,
 		document.getElementById ("dimz").value
@@ -220,7 +218,7 @@ Application.prototype.generateAndDraw = function (mode) {
 		this.surfaceController,
 		this.surfaceView.getGLContext ()
 	);
-	this.surfaceView.contener.addObject (this.surfaceRenderer);
+	this.surfaceView.container.addObject (this.surfaceRenderer);
 	
 	this.computationFinished ();
 };
