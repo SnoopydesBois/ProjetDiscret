@@ -82,6 +82,7 @@
 		
 		<script type="text/javascript" src="Js/Functionalities/ModelGen.js"></script>
 		<script type="text/javascript" src="Js/Functionalities/ModelCurve.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/ModelParameter.js"></script>
 		
 		<script type="text/javascript" src="Js/Display/SurfaceRenderer.js"></script>
 		<script type="text/javascript" src="Js/Display/GenericContener.js"></script>
@@ -343,6 +344,9 @@
 					<div id="meridianParam" class="paramPanel">
 						Liste des paramètres Méridienne
 					</div>
+					<div>
+						<button onclick="appli.getAllParameters()"> GetParameters </button>
+					</div>
 					<canvas id="meridianCanvas" style="display:none"></canvas>
 					<div id="meridianCanvas2"></div>
 					<div id="meridianOption" class="optionPanel">
@@ -406,6 +410,7 @@
 			var n64 = new N64 (gl, 6, 9);
 			
 			appli.initAppli ();
+			
 		</script>
 	</body>
 </html>

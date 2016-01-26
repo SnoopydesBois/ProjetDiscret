@@ -170,7 +170,7 @@ ModelCurve.prototype.setActive = function (curve, type) {
 			throw "ModelCurve.setActive: Unknown type of equation";
 			break;
 	}
-//	this.activeCurve = curve;
+	return this.activeCurve;
 };
 
 
