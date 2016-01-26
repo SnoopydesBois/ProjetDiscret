@@ -119,20 +119,6 @@
 
 	</head>
 	<body>
-	
-		<script type="text/javascript">
-		/***************************************************************************/
-		
-			function make_base(src, id, imgWidth, imgHeight, context)
-			{
-			  var base_image = new Image();
-			  base_image.src = src;
-			  
-			  base_image.onload = function(){
-				context.drawImage(base_image, document.getElementById(id).style.width, document.getElementById(id).style.height, imgWidth, imgHeight);
-			  };
-			}
-		</script>
 		<!-- Menus -->
 		<ul class="menus header">
 			<li id="fileMenu" tabindex="1">
@@ -378,7 +364,8 @@
 					Liste des paramètres de la Surface
 				</div>
 			
-				<canvas id="surfaceCanvas" width="640" height="480"></canvas>
+<!--				<canvas id="surfaceCanvas" width="640" height="480"></canvas>-->
+				<canvas id="surfaceCanvas"></canvas>
 			
 				<div id="surfaceOption" class="optionPanel">
 					<p>
@@ -397,15 +384,14 @@
 		</div>
 		
 		<script type="text/javascript">
-
-			
-			
 			var appli = new Application ();
 			
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 9);
+			var cam = appli.surfaceView;
 			
 			appli.initAppli ();
+			
 		</script>
 	</body>
 </html>
