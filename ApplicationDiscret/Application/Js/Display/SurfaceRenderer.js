@@ -368,25 +368,27 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 			if (globalParam.cubeColorDebug) {
 				switch (i) {
 				case DirectionEnum.RIGHT :
+				case DirectionEnum.LEFT :
 					color = [0.9, 0, 0, 1];
 					break;	
+				case DirectionEnum.BACK :
 				case DirectionEnum.FRONT :
 					color = [0, 0.9, 0, 1];
 					break;	
 				case DirectionEnum.TOP :
+				case DirectionEnum.BOTTOM :
 					color = [0, 0, 0.9, 1];
 					break;
 				
-				case DirectionEnum.LEFT :
-					color = [0.9, 0, 0.9, 1];
-					break;	
-				case DirectionEnum.BACK :
-					color = [0.9, 0.9, 0, 1];
-					break;	
-				case DirectionEnum.BOTTOM :
-
-					color = [0, 0.9, 0.9, 1];
-					break;	
+//				case DirectionEnum.LEFT :
+//					color = [0.9, 0, 0.9, 1];
+//					break;	
+//				case DirectionEnum.FRONT :
+//					color = [0.9, 0.9, 0, 1];
+//					break;	
+//				case DirectionEnum.BOTTOM :
+//					color = [0, 0.9, 0.9, 1];
+//					break;	
 				}
 			}
 			else {
