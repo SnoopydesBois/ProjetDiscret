@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,6 +42,7 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
@@ -62,12 +64,27 @@
  * printOnly(range : Range, axis : AxisEnum) : void
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
+
+
+/**
+ * @classdesc TODO
+ */
 Surface.prototype.constructor = Surface;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
 
 /**
  * @constructor
+ * 
  * @param {Vector} size - vector to define the size of the model.
  */
 function Surface (size) {
@@ -291,7 +308,7 @@ Surface.prototype.getNbNeighbor = function (position) {
 /**
  * @return {int} the number of voxels of the model.
  */
-Surface.prototype.getNbCube = function () {
+Surface.prototype.getNbVoxel = function () {
 	return this.nbVoxel;
 };
 
@@ -308,10 +325,10 @@ Surface.prototype.getNbCube = function () {
  * - the voxel is out of bounds
  */
 Surface.prototype.setVoxelVisibility = function (position, visibility) {
-	if(!position instanceof Vector){
+	if (! position instanceof Vector){
 		throw "Surface.setVoxelVisibility.ErrorNotAVector";
 	}
-	if(typeof visibility !== "boolean"){
+	if (typeof visibility != "boolean") {
 		throw "Surface.setVoxelVisibility.ErrorNotABoolean";
 	}
 	
