@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,7 +42,9 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
+
 
 /* constructor (name : String, number : int, callback : Function)
  * getName () : String
@@ -61,7 +64,21 @@
  * draw (gl : glContext) : void
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
+
+
+
+/**
+ * @classdesc TODO
+ */
+GenericViewer.prototype.constructor = GenericViewer;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
 
 
 
@@ -83,9 +100,9 @@ function GenericViewer (canvas, glContextType) {
 	}
 	
 	/**
-	 * {GenericContener} The contener of all objects.
+	 * {GenericContener} The container of all objects.
 	 */
-	this.contener;
+	this.container;
 	
 	/**
 	 * {HTMLCanvasElement} The associated canvas where the model is drawn.
@@ -138,7 +155,7 @@ GenericViewer.prototype.getGLContext = function () {
 
 
 /**
- * Show all objects in the contener (prepare it and draw it).
+ * Show all objects in the container (prepare it and draw it).
  * 
  * @return {void}
  */
@@ -147,7 +164,7 @@ GenericViewer.prototype.show = function () {};
 
 //==============================================================================
 /**
- * Prepare all objects in the contener.
+ * Prepare all objects in the container.
  * 
  * @return {void}
  */
@@ -156,7 +173,7 @@ GenericViewer.prototype.prepare = function () {};
 
 //==============================================================================
 /**
- * Draw all objects in the contener.
+ * Draw all objects in the container.
  * 
  * @param {boolean} [backBuffer] - Indicate if we have to draw the scene 
  * normally or if we need to draw for picking.

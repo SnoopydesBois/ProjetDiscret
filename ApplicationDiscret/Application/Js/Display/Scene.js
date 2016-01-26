@@ -327,10 +327,16 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	var mvMat = cam.getViewMatrix ();
 	var pjMat = cam.getProjectionMatrix ();
 	var objMat = new Matrix (obj.getMatrix ());
-	if (obj instanceof Repere/* && typeof t == "undefined"*/) {
-		var t = (new Vector (cam.eyePos)).normalize ();
-		t = (new Vector (cam.eyePos)).sub (t.mul (1));
-		objMat.translate (t);
+	if (obj instanceof Repere /*&& typeof tx == "undefined"*/) {
+		var tx = (new Vector (cam.eyePos)).normalize ();
+		tx = (new Vector (cam.eyePos)).sub (tx.mul (0.2));
+		var ty = (cam.eyePos.cross (cam.up)).normalize ().mul (0.05); // FIXME trouver le bon facteur (voir cam.width)
+		var tz = (cam.eyePos.cross (ty)).normalize ().mul (0.05); // FIXME trouver le bon facteur (voir cam.height)
+		objMat.scale (0.06);
+		objMat.translate (tx);
+		objMat.translate (ty);
+		objMat.translate (tz);
+		// FIXME faire une seule translate
 	}
 //	objMat.toConsole ();
 	

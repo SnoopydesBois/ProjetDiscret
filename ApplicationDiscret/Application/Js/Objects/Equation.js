@@ -53,6 +53,7 @@ function Equation(formula) {
 				}
 			}
 		});
+		this.preparedFormula = this.formulaTree.compile();
 	}
 }
 
@@ -98,6 +99,7 @@ Equation.prototype.setFormula = function(formula) {
 				}
 			}
 		});
+		this.preparedFormula = this.formulaTree.compile();
 	}
 }
 
@@ -130,7 +132,7 @@ Equation.prototype.compute = function (valVariables) {
 	for (var i in this.listParameters) {
 		scope[i] = this.listParameters[i];
 	}
-	return this.formulaTree.compile().eval(scope);
+	return this.preparedFormula.eval(scope);
 }
 
 

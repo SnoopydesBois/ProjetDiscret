@@ -115,25 +115,11 @@
 		
 		<!-- Export 3D en PNG -->
 		<script src="Export/Export_PNG/jquery.min.js"></script>
-        <script src="Export/Export_PNG/d3.v2.js"></script>
+    <script src="Export/Export_PNG/d3.v2.js"></script>
 		
 
 	</head>
 	<body>
-	
-		<script type="text/javascript">
-		/***************************************************************************/
-		
-			function make_base(src, id, imgWidth, imgHeight, context)
-			{
-			  var base_image = new Image();
-			  base_image.src = src;
-			  
-			  base_image.onload = function(){
-				context.drawImage(base_image, document.getElementById(id).style.width, document.getElementById(id).style.height, imgWidth, imgHeight);
-			  };
-			}
-		</script>
 		<!-- Menus -->
 		<ul class="menus header">
 			<li id="fileMenu" tabindex="1">
@@ -170,9 +156,9 @@
 					<li class="split"><hr/></li>
 					
 					<li title="Ajouter un N64 pour le debug" 
-						onclick="appli.surfaceView.contener.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
+						onclick="appli.surfaceView.container.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
 					<li title="Retirer le N64" 
-						onclick="appli.surfaceView.contener.removeObjectByName ('n64'); appli.surfaceView.show ()">Supprimer N64</li>
+						onclick="appli.surfaceView.container.removeObjectByName ('n64'); appli.surfaceView.show ()">Supprimer N64</li>
 					<li title="Changer la palette de couleur" 
 						onclick="if (globalParam.cubeColorDebug) {
 							this.innerHTML = 'Couleur RVB';
@@ -379,10 +365,12 @@
 					<button onclick="appli.generateAndDraw (0);">Générer</button>
 					<button onclick="appli.generateAndDraw (1);">Génération non optimisée</button>
 					<hr/>
+					<button onclick="came.toConsole ();">came</button>
 					Liste des paramètres de la Surface
 				</div>
 			
-				<canvas id="surfaceCanvas" width="640" height="480"></canvas>
+<!--				<canvas id="surfaceCanvas" width="640" height="480"></canvas>-->
+				<canvas id="surfaceCanvas"></canvas>
 			
 				<div id="surfaceOption" class="optionPanel">
 					<p>
@@ -401,16 +389,15 @@
 		</div>
 		
 		<script type="text/javascript">
-
-			
-			
 			var appli = new Application ();
 			
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 9);
+			var cam = appli.surfaceView.container.camera;
 			
 			appli.initAppli ();
-			
+		
+			cam.toConsole ();
 		</script>
 	</body>
 </html>
