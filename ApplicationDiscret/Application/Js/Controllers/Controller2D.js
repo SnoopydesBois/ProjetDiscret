@@ -103,7 +103,7 @@ function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 		 */
 		this.mode = mode;
 		//this.modelParser = new ModelParser();
-		//this.modelParameter = new ModelParameter();
+		this.modelParameter = new ModelParameter();
 	}
 }
 
@@ -157,17 +157,23 @@ Controller2D.prototype.getActiveCurve = function () {
  * @return {void}
  */
 Controller2D.prototype.setActive = function (name) {
-	/// parameter verification
-//	if (! checkType (arguments, )) {
-//		showType (name);
-//		throw "Controller2D.setActive: given parameter is not a /*TODO*/";
-//	}
+	if(!(name instanceof Curve) && !(typeof name === "string")){
+		throw "Controller2D.setActive.ErrorParameterType";
+	}	
 	
 	/// set the curve
-	this.modelCurve.setActive (name);
+	var curve = this.modelCurve.setActive (name);
+	this.modelParameter.setCurve(curve);
 };
 
 
+//==============================================================================
+/**
+ *
+ */
+Controller2D.prototype.getAllParameters = function(){
+	return this.modelParameter.getAllParameters();
+ }
 //==============================================================================
 /**
  * TODO

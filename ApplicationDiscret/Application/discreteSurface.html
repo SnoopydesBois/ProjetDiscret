@@ -82,6 +82,7 @@
 		
 		<script type="text/javascript" src="Js/Functionalities/ModelGen.js"></script>
 		<script type="text/javascript" src="Js/Functionalities/ModelCurve.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/ModelParameter.js"></script>
 		
 		<script type="text/javascript" src="Js/Display/SurfaceRenderer.js"></script>
 		<script type="text/javascript" src="Js/Display/GenericContener.js"></script>
@@ -112,6 +113,11 @@
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/style2.css">
+		
+
+		<!-- Export 3D en PNG -->
+		<script src="Export/Export_PNG/jquery.min.js"></script>
+    <script src="Export/Export_PNG/d3.v2.js"></script>
 		
 
 
@@ -153,11 +159,19 @@
 						
 					<li class="split"><hr/></li>
 					
+
 					<li title="Ajouter un N64 pour le debug" key="m24" class="tr"
 						onclick="appli.surfaceView.contener.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
 					<li title="Retirer le N64" key="m25" class="tr"
 						onclick="appli.surfaceView.contener.removeObjectByName ('n64'); appli.surfaceView.show ()">Supprimer N64</li>
 					<li title="Changer la palette de couleur" key="m26" class="tr"
+
+					<li title="Ajouter un N64 pour le debug" 
+						onclick="appli.surfaceView.container.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
+					<li title="Retirer le N64" 
+						onclick="appli.surfaceView.container.removeObjectByName ('n64'); appli.surfaceView.show ()">Supprimer N64</li>
+					<li title="Changer la palette de couleur" 
+
 						onclick="if (globalParam.cubeColorDebug) {
 							this.innerHTML = 'Couleur RVB';
 						} else {
@@ -329,6 +343,9 @@
 					<div id="meridianParam" class="paramPanel">
 						<div key="mer1" class="tr">Liste des paramètres Méridienne</div>
 					</div>
+					<div>
+						<button onclick="appli.getAllParameters()"> GetParameters </button>
+					</div>
 					<canvas id="meridianCanvas" style="display:none"></canvas>
 					<div id="meridianCanvas2"></div>
 					<div id="meridianOption" class="optionPanel">
@@ -362,8 +379,13 @@
 					<button onclick="appli.generateAndDraw (1);" key="surf2" class="tr">Génération non optimisée</button>
 					
 					<hr/>
+
 					<div key="surf3" class="tr">Liste des paramètres de la Surface</div>
 					
+
+					<button onclick="came.toConsole ();">came</button>
+					Liste des paramètres de la Surface
+
 				</div>
 			
 <!--				<canvas id="surfaceCanvas" width="640" height="480"></canvas>-->
@@ -394,10 +416,11 @@
 			
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 9);
-			var cam = appli.surfaceView;
+			var cam = appli.surfaceView.container.camera;
 			
 			appli.initAppli ();
-			
+		
+			cam.toConsole ();
 		</script>
 		
 		<script type="text/javascript">

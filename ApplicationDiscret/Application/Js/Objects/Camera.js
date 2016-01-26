@@ -105,21 +105,64 @@ Camera.prototype.constructor = Camera;
  * @param {float} far - The farthest point of the camera.
  */
 function Camera (eyePos, centerPos, up, width, height, fov, near, far) {
-	// TODO doc !
+	
+	/**
+	 * {Vector} Position of the camera.
+	 */
 	this.eyePos = eyePos;
+	
+	/**
+	 * {Vector} Point where the camera look at.
+	 */
 	this.centerPos = centerPos;
+	
+	/**
+	 * {Vector} Perpendicular vector (going up) to centerPos vector.
+	 */
 	this.up = up;
+	
+	/**
+	 * {int} Width of the camera. Should be the canvas width.
+	 */
 	this.width = width;
+	
+	/**
+	 * {int} Height of the camera. Should be the canvas height.
+	 */
 	this.height = height;
+	
+	/**
+	 * {float} Field of view of the camera. Angle in degrees.
+	 */
 	this.fov = fov || 45;
+	
+	/**
+	 * {flaot} Nearest point of the camera.
+	 */
 	this.near = near || 0.1;
+	
+	/**
+	 * {float} Farest point of the camera.
+	 */
 	this.far = far || 1000.0;
 	
+	/**
+	 * {Matrix} TODO
+	 */
 	this.viewMatrix = null;
-	this.projectionMatrix = null;
-	this.constProjection = 2.5; // Allow to modify the zoom
 	
-	this.computeMatrices (); // Matrix calcul
+	/**
+	 * {Matrix} TODO
+	 */
+	this.projectionMatrix = null;
+	
+	/**
+	 * {float} Allow to modify the zoom.
+	 */
+	this.constProjection = 2.5;
+	
+	/// Matrix calcul
+	this.computeMatrices ();
 }
 
 
@@ -251,6 +294,21 @@ Camera.prototype.computeMatrices = function () {
 Camera.prototype.getRotationMatrix = function () {
 	return (new Matrix (this.viewMatrix)).translate (
 		(new Vector (this.eyePos)).mul (0.05)
+	);
+};
+
+
+//==============================================================================
+/**
+ * Dump all attributes (except matrices) on the console.
+ * 
+ * @return {void}
+ */
+Camera.prototype.toConsole = function () {
+	console.log ("pos:", this.eyePos.toString (),
+		", look at:", this.centerPos.toString (), ", up:", this.up.toString (),
+		", WxH: " + this.width + "x" + this.height, ", fov:", this.fov,
+		", near:", this.near, ", far: ", this.far
 	);
 };
 

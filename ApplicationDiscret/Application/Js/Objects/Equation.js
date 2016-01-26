@@ -53,9 +53,12 @@ function Equation(formula) {
 				}
 			}
 		});
+		this.preparedFormula = this.formulaTree.compile();
 	}
 }
 
+
+//==============================================================================
 /**
  * @param {String} formula - new formula of the equation
  * @throws {String} the name of the error from math.parse.
@@ -96,9 +99,12 @@ Equation.prototype.setFormula = function(formula) {
 				}
 			}
 		});
+		this.preparedFormula = this.formulaTree.compile();
 	}
 }
 
+
+//==============================================================================
 /**
  * @param {float[]} valVariables - value of the variables. Length must be equal
  * to the number of variables in the formula. The values must be finite numbers
@@ -126,9 +132,11 @@ Equation.prototype.compute = function (valVariables) {
 	for (var i in this.listParameters) {
 		scope[i] = this.listParameters[i];
 	}
-	return this.formulaTree.compile().eval(scope);
+	return this.preparedFormula.eval(scope);
 }
 
+
+//==============================================================================
 /**
  * @param {String} name - name of a parameter existing in the formula
  * @param {Number} value - new value of the parameter
@@ -147,6 +155,8 @@ Equation.prototype.setParameter = function(name, value) {
 	}
 };
 
+
+//==============================================================================
 /**
  * @param {String} name - name of a parameter existing in the formula
  * @throws {String} "Equation.getParameter.ErrorNotExistingParameter" - the
@@ -161,14 +171,18 @@ Equation.prototype.getParameter = function (name) {
 	}
 };
 
+
+//==============================================================================
 /**
  * @return {Object} an array of float (values) indexed by strings (names of
  * parameters).
  */
-Equation.prototype.getAllParameters = function() {
+Equation.prototype.getAllParameters = function() {	
 	return this.listParameters;
 };
 
+
+//==============================================================================
 /**
  * @return {Integer} Nombre of variables
  */
@@ -176,6 +190,8 @@ Equation.prototype.getNbVariable = function() {
 	return this.listVariables.length;
 };
 
+
+//==============================================================================
 /**
  * @return {String[]} an array containing every variable (x or y) present in the
  * formula
@@ -184,6 +200,8 @@ Equation.prototype.getListVariables = function() {
 	return this.listVariables;
 };
 
+
+//==============================================================================
 /**
  * @return {String} The formula describing the equation depending on the
  * current environment
@@ -200,6 +218,8 @@ Equation.prototype.toStringNoParam = function() {
 	return transformed.toString();
 };
 
+
+//==============================================================================
 /**
  * @return {String} The formula describing the equation
  */
@@ -207,6 +227,8 @@ Equation.prototype.toString = function() {
 	return this.formulaTree.toString();
 };
 
+
+//==============================================================================
 Equation.prototype.check = function (){
 	return this.formulaTree != undefined;
 }

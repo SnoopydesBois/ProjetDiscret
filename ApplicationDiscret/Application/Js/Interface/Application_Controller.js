@@ -115,3 +115,8 @@ Application.prototype.changeRevol = function (name) {
 };
 
 
+//==============================================================================
+Application.prototype.getAllParameters = function () {
+	this.meridianController.getAllParameters();
+};
+

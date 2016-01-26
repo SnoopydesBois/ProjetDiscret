@@ -54,3 +54,31 @@ FormulaCurve.prototype.computePoints = function(ranX, ranY){
 FormulaCurve.prototype.computeStep = function (ranX, ranY) {
 	return 0.1;
 }
+
+
+//==============================================================================
+/**
+ * @param {String} parameter - The parameter to modify.
+ * @param {Number} value - The value to set.
+ */
+FormulaCurve.prototype.setParameter = function(parameter, value){
+	this.equation.setParameter(parameter, value);
+}
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+FormulaCurve.prototype.getAllParameters = function(){
+	return this.equation.getAllParameters();
+}
+
+
+//==============================================================================
+/**
+ *
+ */
+FormulaCurve.prototype.getParameter = function(name){
+	throw "Curve.setParameter.ErrorNotImplementedInAbstractClass";
+}

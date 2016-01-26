@@ -48,5 +48,8 @@ function DrawnCurve () {
 //##############################################################################
 
 
-
+//==============================================================================
+DrawnCurve.prototype.setParameter = function(parameter, value){
+	throw "DrawnCurve.setParameter.ErrorCannotModifyParameterOnDrawnCurve";
+}
 
