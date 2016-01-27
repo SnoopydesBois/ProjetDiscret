@@ -10,7 +10,11 @@ aLangKeys['en']['m13']='save';
 /*Menu Affichage Anglais*/
 aLangKeys['en']['m2']='Display';
 aLangKeys['en']['m21']='Generate';
-aLangKeys['en']['m22']='Center the Camera';
+aLangKeys['en']['m22']='Center the camera';
+aLangKeys['en']['m23']='Orthographic';
+aLangKeys['en']['m24']='Add N64';
+aLangKeys['en']['m25']='Delete N64';
+aLangKeys['en']['m26']='RGB Color';
 
 /*Menu Outils Anglais*/
 aLangKeys['en']['m3']='Tools';
@@ -38,8 +42,40 @@ aLangKeys['en']['m343']='Display graduation';
 aLangKeys['en']['m344']='Voxels size';
 aLangKeys['en']['m345']='Multislices';
 
+
+/*Menu export anglais*/
+aLangKeys['en']['m4']='Export';
+aLangKeys['en']['m41']='Download as image';
+aLangKeys['en']['m42']='Export 3D';
+
+/*sous menue export 3D anglais*/
+aLangKeys['en']['m421']='Export X3D';
+aLangKeys['en']['m422']='Export Print X3D';
+
+/*Menu Aide anglais*/
+aLangKeys['en']['m5']='Help';
+aLangKeys['en']['m51']='Display Help';
+aLangKeys['en']['m52']='About';
+
+
 /*Liste des paramétres méridienne anglais*/
-aLangKeys['en']['xx1']='List of the meridian parameters';
+aLangKeys['en']['mer1']='List of Merridian parameters';
+aLangKeys['en']['mer2']='Meridian options';
+aLangKeys['en']['mer3']='line';
+aLangKeys['en']['mer4']='Sinusoid';
+
+
+/*Liste des paramétres revolution anglais*/
+aLangKeys['en']['revol1']='List of revolution parameters';
+aLangKeys['en']['revol2']='Revolution options';
+aLangKeys['en']['revol3']='Circle';
+aLangKeys['en']['revol4']='Heart';
+aLangKeys['en']['revol5']='Lemniscate';
+
+/*Liste des paramétres surface anglais*/
+aLangKeys['en']['surf1']='Generate';
+aLangKeys['en']['surf2']='Generation not optimized';
+aLangKeys['en']['surf3']='List of surface parameters';
 
 /************************************************************/
 /*Menu Fichier français*/
@@ -51,7 +87,11 @@ aLangKeys['fr']['m13']='Enregistrer';
 /*Menu Affichage Français*/
 aLangKeys['fr']['m2']='Affichage';
 aLangKeys['fr']['m21']='Générer';
-aLangKeys['fr']['php']='Centrer la caméra';
+aLangKeys['fr']['m22']='Centrer La caméra';
+aLangKeys['fr']['m23']='Orthographique';
+aLangKeys['fr']['m24']='Ajouter N64';
+aLangKeys['fr']['m25']='Supprimer N64';
+aLangKeys['fr']['m26']='Couleur RVB';
 
 /*Menu Outils Franaçis*/
 aLangKeys['fr']['m3']='Outils';
@@ -78,12 +118,37 @@ aLangKeys['fr']['m343']='Afficher le repére';
 aLangKeys['fr']['m344']='Taille des voxels';
 aLangKeys['fr']['m345']='multicoupes';
 
+/*Menu export Français*/
+aLangKeys['fr']['m4']='Export';
+aLangKeys['fr']['m41']='Télecharger comme image';
+aLangKeys['fr']['m42']='Export 3D';
+
+/*sous menue export 3D Français*/
+aLangKeys['fr']['m421']='Export X3D';
+aLangKeys['fr']['m422']='Export impression X3D';
+
+/*Menu Aide Français*/
+aLangKeys['fr']['m5']='Aide';
+aLangKeys['fr']['m51']='Afficher aide';
+aLangKeys['fr']['m52']='À propos';
 
 /*Liste des paramétres méridienne français*/
-aLangKeys['fr']['xx1']='Liste des paramétres méridienne';
+aLangKeys['fr']['mer1']='List of meridian parameters';
+aLangKeys['fr']['mer2']='Option Méridienne';
+aLangKeys['fr']['mer3']='ligne';
+aLangKeys['fr']['mer4']='Sinusoid';
 
+/*Liste des paramétres revolution français*/
+aLangKeys['fr']['revol1']='Liste des paramètres Révolution';
+aLangKeys['fr']['revol2']='Option Revolution';
+aLangKeys['fr']['revol3']='Cercle';
+aLangKeys['fr']['revol4']='Coeur';
+aLangKeys['fr']['revol5']='Lemniscate';
 
-
+/*Liste des paramétres surface français*/
+aLangKeys['fr']['surf1']='Générer';
+aLangKeys['fr']['surf2']='Génération non optimisée';
+aLangKeys['fr']['surf3']='Liste des paramètres de la Surface';
 
 $(document).ready(function() {
 

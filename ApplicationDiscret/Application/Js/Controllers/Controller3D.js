@@ -64,8 +64,6 @@
  * @extends Controller
  * @classdesc TODO
  */
-
-
 Controller3D.prototype = new Controller;
 Controller3D.prototype.constructor = Controller3D;
 

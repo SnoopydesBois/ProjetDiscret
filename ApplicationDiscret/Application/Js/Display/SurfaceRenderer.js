@@ -119,7 +119,7 @@ function SurfaceRenderer (surfaceController, glContext) {
 	this.modelController = surfaceController;
 	
 	/**
-	 * TODO
+	 * {int} TODO
 	 */
 	this.nbGlBuffer = 0;
 	
@@ -194,8 +194,15 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 		throw"SurfaceRenderer.prepare: argument is not a WebGLRenderingContext";
 	
 	var size = this.modelController.getDimension ();
-//	this.nbGlBuffer = size.m[0] / 5; // FIXME trouver une meilleur façon
-	this.nbGlBuffer = 1
+	
+	/* In the indices buffer, there are at the most 4*6 number. One number is a
+	 * short (2 bytes) so for one voxel there are 4*6*2 = 48 bytes.
+	 * We limit the size at 32,768+16,384 = 49,152 bytes so 1024 voxel per
+	 * buffer.
+	 */
+	this.nbGlBuffer = Math.ceil (
+		this.modelController.getSurface ().getNbVoxel () / 1024
+	);
 
 	var vertexBuffer = [];
 	var indicesBuffer = [];
@@ -226,21 +233,24 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 	}
 	// 2 triangles per faces
 	// No triangles strips because there are a lot of degenerated triangles
+	var cptPreparedVoxel = 0, idx;
 	for (var x = 0; x < size.x; ++x) {
 		for (var y = 0; y < size.y; ++y) {
 			for (var z = 0; z < size.z; ++z) {
 				if (this.modelController.hasVoxel (x, y, z)) {
+					idx = Math.trunc (cptPreparedVoxel / 1024);
 					this.prepareVoxel (
 						this.modelController.getVoxel (x, y, z),
 						0,
-						vertexBuffer[0], 
-						indicesBuffer[0], 
-						colorBuffer[0],
-						normalBuffer[0],
-						backColorBuffer[0],
+						vertexBuffer[idx], 
+						indicesBuffer[idx], 
+						colorBuffer[idx],
+						normalBuffer[idx],
+						backColorBuffer[idx],
 						[0.8, 0.8, 0.8, 1],
 						size
 					);
+					++cptPreparedVoxel;
 				} // end if
 			} // end for z
 		} // end for y
@@ -345,11 +355,11 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 			&& colorVoxel instanceof Array
 			&& universSize instanceof Vector))
 	{
-		console.error ("surfacerenderer.preparevoxel: bad type(s) of" 
+		console.error ("SurfaceRenderer.prepareVoxel: bad type(s) of" 
 				+ " parameter(s)");
-		showtype (voxel, offset, vertexbuffer, indicesbuffer, 
-			colorbuffer, normalbuffer, backcolorbuffer, colorvoxel,
-			universsize);
+		showType (voxel, offset, vertexBuffer, indicesBuffer, 
+			colorBuffer, backColorBuffer, normalBuffer, colorVoxel,
+			universSize);
 		return;
 	}
 	for (var i = 0; i < DirectionEnum.size; ++i) {
@@ -358,25 +368,27 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 			if (globalParam.cubeColorDebug) {
 				switch (i) {
 				case DirectionEnum.RIGHT :
+				case DirectionEnum.LEFT :
 					color = [0.9, 0, 0, 1];
 					break;	
+				case DirectionEnum.BACK :
 				case DirectionEnum.FRONT :
 					color = [0, 0.9, 0, 1];
 					break;	
 				case DirectionEnum.TOP :
+				case DirectionEnum.BOTTOM :
 					color = [0, 0, 0.9, 1];
 					break;
 				
-				case DirectionEnum.LEFT :
-					color = [0.9, 0, 0.9, 1];
-					break;	
-				case DirectionEnum.BACK :
-					color = [0.9, 0.9, 0, 1];
-					break;	
-				case DirectionEnum.BOTTOM :
-
-					color = [0, 0.9, 0.9, 1];
-					break;	
+//				case DirectionEnum.LEFT :
+//					color = [0.9, 0, 0.9, 1];
+//					break;	
+//				case DirectionEnum.FRONT :
+//					color = [0.9, 0.9, 0, 1];
+//					break;	
+//				case DirectionEnum.BOTTOM :
+//					color = [0, 0.9, 0.9, 1];
+//					break;	
 				}
 			}
 			else {

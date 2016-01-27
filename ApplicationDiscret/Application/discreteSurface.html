@@ -105,7 +105,8 @@
 		
 		<script type="text/javascript" src="Js/Objects/N64.js"></script>
 		
-		<script type="text/javascript" src="translatemodule/main.js"></script>
+		<!-- Translation -->
+		<script type="text/javascript" src="Js/Interface/Application_translate.js"></script>
 		
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/temp.css"/>
@@ -114,39 +115,41 @@
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/style2.css">
 		
+
 		<!-- Export 3D en PNG -->
 		<script src="Export/Export_PNG/jquery.min.js"></script>
     <script src="Export/Export_PNG/d3.v2.js"></script>
 		
+
 
 	</head>
 	<body>
 		<!-- Menus -->
 		<ul class="menus header">
 			<li id="fileMenu" tabindex="1">
-				<h1 key="home" class="tr">Fichier</h1>
+				<h1 key="m1" class="tr">Fichier</h1>
 				<ul>
 					<li title="Créer un nouveau modèle"
-						onclick="" key="home" class="tr">Nouveau</li>
+						onclick="" key="m11" class="tr">Nouveau</li>
 
 					<li title="Ouvrir un modèle depuis un fichier sur cet ordinateur"
-						onclick="this.firstElementChild.click()">
-						<input type="file" id="i_file" style="display:none">Ouvrir</input>
+						onclick="this.firstElementChild.click()" key="m12" class="tr">
+						<input type="file" id="i_file" style="display:none" >Ouvrir</input>
 					</li>
 					<li title="Enregistrer le modèle actuel" 
-						onclick="">Enregistrer</li>
+						onclick="" key="m13" class="tr">Enregistrer</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="viewMenu" tabindex="2">
-				<h1>Affichage</h1>
+				<h1 key="m2" class="tr">Affichage</h1>
 				<ul>
-					<li title="Générer la surface dans la vue 3D" 
+					<li title="Générer la surface dans la vue 3D" key="m21" class="tr"
 						onclick="appli.surfaceView.show ()">Générer</li>
 						
-					<li title="Centrer la caméra" 
+					<li title="Centrer la caméra" key="m22" class="tr"
 						onclick="">Centrer la caméra</li>
 					
-					<li title="Changer le point de vue" 
+					<li title="Changer le point de vue" key="m23" class="tr"
 						onclick="if (globalParam.perspectiveView) {
 							this.innerHTML = 'Perspective';
 						} else {
@@ -154,13 +157,16 @@
 						}
 						globalParam.perspectiveView = !globalParam.perspectiveView;
 						appli.surfaceView.show ()">Orthographique</li>
+						
 					<li class="split"><hr/></li>
 					
-					<li title="Ajouter un N64 pour le debug" 
+
+					<li title="Ajouter un N64 pour le debug" key="m24" class="tr"
 						onclick="appli.surfaceView.container.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
-					<li title="Retirer le N64" 
+					<li title="Retirer le N64" key="m25" class="tr"
 						onclick="appli.surfaceView.container.removeObjectByName ('n64'); appli.surfaceView.show ()">Supprimer N64</li>
-					<li title="Changer la palette de couleur" 
+
+					<li title="Changer la palette de couleur" key="m26" class="tr"
 						onclick="if (globalParam.cubeColorDebug) {
 							this.innerHTML = 'Couleur RVB';
 						} else {
@@ -171,16 +177,16 @@
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="toolsMenu" tabindex="3">
-				<h1>Outils</h1>
+				<h1 key="m3" class="tr">Outils</h1>
 				<ul>
 					<li id="toolUndo"
-						class="inaccessible"
-						title="Annuler la dernière action effectuée" 
+						class="inaccessible tr"
+						title="Annuler la dernière action effectuée" key="m31"
 						onclick="">Annuler</li>
 					
 					<li id="toolRedo"
-						class="inaccessible"
-						title="Refaire la dernière action annulée" 
+						class="inaccessible tr "
+						title="Refaire la dernière action annulée" key="m32"
 						onclick="">Refaire</li>
 
 					<li class="split"><hr/></li>
@@ -188,61 +194,61 @@
 					<li id="tool2D"
 						class="submenu"
 						title="Outils 2D">
-						<h1>Outils 2D</h1>
+						<h1 ><div key="m33" class="tr">Outils 2D</div></h1>
 						<ul> 
 							<li id="meridianChoice"
-								class="inaccessible"
-								title="Choix de la méridienne"
-								onclick="">Méridiennes</li>
+								class="inaccessible tr"
+								title="Choix de la méridienne" 
+								onclick=""><div key="m331" class="tr">Méridiennes</div> </li>
 								
 							<li id="curveOfRevolutionChoice"
 								class="inaccessible"
-								title="Choix de la courbe de révolution"
-								onclick="">Courbes de révolution</li>
+								title="Choix de la courbe de révolution" 
+								onclick=""><div key="m332" class="tr">Courbes de révolution</div></li>
 								
 							<li class="split"><hr/></li>
 							
 							<li id="meridianFormula"
 								class="inaccessible"
-								title="Rentrer une formule pour la méridienne"
-								onclick="">Formule méridienne</li>
+								title="Rentrer une formule pour la méridienne" 
+								onclick=""><div key="m333" class="tr">Formule méridienne</div></li>
 								
 							<li id="showSimpleParameter"
 								class="inaccessible"
-								title="Rentrer une formule pour la courbe de révolution"
-								onclick="">Formule courbe de révolution</li>
+								title="Rentrer une formule pour la courbe de révolution" 
+								onclick=""><div key="m334" class="tr">Formule courbe de révolution</div></li>
 						
 							<li class="split"><hr/></li>
 							
 							<li id="handFreeDrawing"
 								class="inaccessible"
-								title="Dessiner à main levée"
-								onclick="">Dessiner à main levée </li>
+								title="Dessiner à main levée" key="m335"
+								onclick=""><div key="m335" class="tr">Dessiner à main levée</div></li>
 						
 							<li class="split"><hr/></li>
 							
 							<li id="showSimpleParameter"
 								class="inaccessible"
-								title="Afficher les paramètres simples"
-								onclick="">Paramètres simples</li>
+								title="Afficher les paramètres simples" key="m336"
+								onclick=""><div key="m336" class="tr">Paramètres simples</div></li>
 							
 							<li id="showAdvancedParameter"
 								class="inaccessible"
-								title="Afficher les paramètres avancés"
-								onclick="">Paramètres avancés</li>
+								title="Afficher les paramètres avancés" key="m337"
+								onclick=""><div key="m337" class="tr">Paramètres avancés</div></li>
 								
 								
 							<li class="split"><hr/></li>
 							
 							<li id="addMeridian"
 								class="inaccessible"
-								title="Ajout méridienne"
-								onclick="">Ajout méridienne</li>
+								title="Ajout méridienne" 
+								onclick=""><div key="m338" class="tr">Ajout méridienne</div></li>
 							
 							<li id="addCurve"
 								class="inaccessible"
-								title="Ajout courbe de révolution"
-								onclick="">Ajout courbe de révolution</li>
+								title="Ajout courbe de révolution" 
+								onclick=""><div key="m339" class="tr">Ajout courbe de révolution</div></li>
 						
 						</ul>
 					</li>	
@@ -251,33 +257,33 @@
 					<li id="tool3D"
 						class="submenu"
 						title="Outils 3D">
-						<h1>Outils 3D</h1>
+						<h1><div key="m34" class="tr">Outils 3D</div></h1>
 						<ul> 
 							
 							<li id="connexity"
 								class="inaccessible"
 								title="Choix de connexité"
-								onclick="">Connexité</li>
+								onclick=""><div key="m341" class="tr"></div></li>
 								
 							<li id="dimension"
 								class="inaccessible"
 								title="Choix des dimensions"
-								onclick="">Dimension</li>
+								onclick=""><div key="m342" class="tr">Dimension</div></li>
 							
 							<li id="repereDisplay"
 								class="inaccessible"
 								title="Affichage du repère"
-								onclick="">Afficher le repère</li>
+								onclick=""><div key="m343" class="tr">Afficher le repère</div></li>
 								
 							<li id="voxelSize"
 								class="inaccessible"
 								title="Taille des voxels"
-								onclick="">Taille des voxels</li>
+								onclick=""><div key="m344" class="tr">Taille des voxels</div></li>
 								
 							<li id="multiSlice"
 								class="inaccessible"
 								title="Multicoupe"
-								onclick="">Multicoupe</li>
+								onclick=""><div key="m345" class="tr">Multicoupe</div></li>
 								
 						</ul>
 					</li>		
@@ -285,19 +291,20 @@
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="exportMenu" tabindex="5">
-				<h1>Export</h1>
+				<h1 key="m4" class="tr">Export</h1>
 				<ul>
-					<li>Export PNG</li>
+					
+					<li><a id="download"><div key="m41" class="tr">Télecharger comme image</div></a></li>
 					
 					<li class="split"><hr/></li>
 					
 					<li id="tool3D"
 						class="submenu"
 						title="Outils 3D">
-						<h1>Export 3D</h1>
+						<h1><div key="m42" class="tr">Export 3D</div></h1>
 						<ul>
-							<li>Export X3D</li>
-							<li>Export impression 3D</li>
+							<li><div key="m421" class="tr">Export X3D</div></li>
+							<li<div key="m422" class="tr">>Export impression 3D</div></li>
 						</ul>
 					</li>
 				</ul>
@@ -305,10 +312,10 @@
 			
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="helpMenu" tabindex="6">
-				<h1>Aide</h1>
+				<h1><div key="m5" class="tr">Aide</div></h1>
 				<ul>
-					<li>Afficher l'aide</li>
-					<li>À propos</li>
+					<li key="m51" class="tr">Afficher l'aide</li>
+					<li key="m52" class="tr">À propos</li>
 				</ul>
 			</li>
 			
@@ -329,57 +336,57 @@
 			<div id="curvesView">
 				<div id="meridianView">
 					<div id="meridianParam" class="paramPanel">
-						Liste des paramètres Méridienne
+						<span key="mer1" class="tr">Liste des paramètres Méridienne</span>
 						<div id="listMeridianParameters">
 						</div>
 					</div>
-					<div>
-						<button onclick="appli.getAllParameters('meridian')"> GetParameters </button>
-					</div>
+					
 					<canvas id="meridianCanvas" style="display:none"></canvas>
 					<div id="meridianCanvas2"></div>
 					<div id="meridianOption" class="optionPanel">
-						<span>Option Méridienne</span>
+						<span key="mer2" class="tr" >Option Méridienne</span>
 						<select id="listMeridians" name="listMeridians" onchange="appli.changeMeridian (this.value)">
-							<option value="Line">Line</option>
-							<option value="Sinusoid">Sinusoid</option>
+							<option value="Line" key="mer3" class="tr">Ligne</option>
+							<option value="Sinusoid" key="mer4" class="tr">Sinusoid</option>
 						</select>
 					</div>
 				</div>
 				<div id="revolView">
 					<div id="revolParam" class="paramPanel">
-						Liste des paramètres Révolution
+						<span key="revol1" class="tr">Liste des paramètres Révolution</span>
 						<div id="listRevolutionParameters">
 						</div>
-					</div>
-					<div>
-						<button onclick="appli.getAllParameters('revolution')"> GetParameters </button>
 					</div>
 					<canvas id="revolCanvas" style="display:none"></canvas>
 					<div id="revolCanvas2"></div>
 					
 					<div id="revolOption" class="optionPanel">
-						<span>Option Revolution</span>
+						<span key="revol2" class="tr" >Option Revolution</span>
 							<select id="listRevolutions" name="listRevolutions" onchange="appli.changeRevol (this.value)">
-							<option value="Circle">Circle</option>
-							<option value="Heart">Heart</option>
-							<option value="Lemniscate">Lemniscate</option>
+							<option value="Circle" key="revol3" class="tr">Cercle</option>
+							<option value="Heart" key="revol4" class="tr">Coeur</option>
+							<option value="Lemniscate" key="revol5" class="tr">Lemniscate</option>
 							</select>
 					</div>
 				</div>
 			</div>
 			<div id="surfaceView">
 				<div id="surfaceParam" class="paramPanel">
-					<button onclick="appli.generateAndDraw (0);">Générer</button>
-					<button onclick="appli.generateAndDraw (1);">Génération non optimisée</button>
+					<button onclick="appli.generateAndDraw (0);" key="surf1" class="tr">Générer</button>
+					<button onclick="appli.generateAndDraw (1);" key="surf2" class="tr">Génération non optimisée</button>
+					<button onclick="came.toConsole ();">came</button>
 					<hr/>
-					<button onclick="came.toConsole ();">cam</button>
-					Liste des paramètres de la Surface
+					<span key="surf3" class="tr">Liste des paramètres de la Surface</span>
+					
 				</div>
 			
 <!--				<canvas id="surfaceCanvas" width="640" height="480"></canvas>-->
 				<canvas id="surfaceCanvas"></canvas>
-			
+					
+<!-- Export Canvas en PNG -->
+
+
+										
 				<div id="surfaceOption" class="optionPanel">
 					<p>
 						Dimension&nbsp;:
@@ -406,6 +413,24 @@
 			appli.initAppli ();
 		
 			came.toConsole ();
+		</script>
+		
+		<script type="text/javascript">
+
+		var surfaceCanvas = document.getElementById('surfaceCanvas'),
+			ctx = surfaceCanvas.getContext('2d');
+
+
+		function downloadsurfaceCanvas(link, surfaceCanvasId, filename) {
+			link.href = document.getElementById(surfaceCanvasId).toDataURL();
+			link.download = filename;
+		}
+
+
+		document.getElementById('download').addEventListener('click', function() {
+			downloadsurfaceCanvas(this, 'surfaceCanvas', 'test.png');
+		}, false);
+
 		</script>
 	</body>
 </html>
