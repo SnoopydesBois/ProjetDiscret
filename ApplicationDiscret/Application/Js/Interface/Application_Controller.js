@@ -91,6 +91,8 @@ Application.prototype.changeMeridian = function (name) {
 	/// let's change
 	this.meridianController.setActive (name);
 	this.meridianView.draw ();
+	
+	this.meridianParameters.displayParameter(this.drawMeridian);
 };
 
 
@@ -112,6 +114,19 @@ Application.prototype.changeRevol = function (name) {
 	/// let's change
 	this.revolController.setActive (name);
 	this.revolView.draw ();
+
+	this.revolutionParameters.displayParameter(this.drawRevolution);
+};
+
+
+//==============================================================================
+Application.prototype.getAllParameters = function (name) {
+	if(name === 'meridian'){
+		this.meridianController.getAllParameters();
+	}
+	else if(name === 'revolution'){
+		this.revolController.getAllParameters();
+	}
 };
 
 

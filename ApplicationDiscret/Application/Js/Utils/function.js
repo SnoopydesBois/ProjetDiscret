@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -41,7 +42,10 @@
  * termes
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
+
+
 
 /* TODO marqueur jsDoc
  * Function usefull in all the program
@@ -58,15 +62,33 @@
 /**
  * Clamp the number between mini and maxi.
  * 
+
  * @param {Number} mini - The minimum limit.
  * @param {Number} maxi - The maximum limit.
  * @param {Number} number - The number to clamp between mini and maxi.
  * 
+
  * @return {Number} 'number' if it is between 'mini' and 'maxi', else 'maxi' or
  * 'mini'.
  */
 function clamp (mini, maxi, number) {
 	return Math.min (maxi, Math.max (mini, number));
+}
+
+
+//==============================================================================
+/**
+ * TODO
+ * 
+ * @param {Number} x - x coordinate.
+ * @param {Number} y - y coordinate.
+ * 
+ * @return {Number} The angle of the vector in radian.
+ */
+function angle (x, y) {
+	var len = Math.sqrt (x * x + y * y),
+		xNorm = x / len;
+	return (y < 0) ? Math.acos (-xNorm) + Math.PI : Math.acos (xNorm);
 }
 
 

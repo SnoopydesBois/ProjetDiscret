@@ -54,7 +54,7 @@ function SurfaceViewer (canvas) {
 	/**
 	 * {Vector} 
 	 */
-	this.camPosWhenClick;
+	this.camPosWhenClick = new Vector (3, 3, 3);
 	
 	
 	/// Initialisation
@@ -368,8 +368,8 @@ SurfaceViewer.prototype.moveCameraAt = function (phiOffset, thetaOffset) {
 	/// compute angle
 	var pos = this.camPosWhenClick;
 	var dist = pos.getLength ();
-	var phi = Math.acos (pos.x / dist) * Math.sign (pos.y / dist)  + phiOffset;
-	var theta = clamp (-Math.PI / 2, Math.PI / 2, 
+	var phi = angle (pos.x, pos.y) + phiOffset;
+	var theta = clamp (-Math.PI / 2, Math.PI / 2,
 		Math.asin (pos.z / dist) + thetaOffset);
 	
 	
