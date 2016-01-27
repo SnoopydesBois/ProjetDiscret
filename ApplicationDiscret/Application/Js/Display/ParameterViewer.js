@@ -52,17 +52,24 @@ ParameterViewer.prototype.setController = function(controller){
 /**
  * @param {Function} draw - The function to redraw the curve.
  */
-ParameterViewer.prototype.displayParameter = function(draw){
+ParameterViewer.prototype.displayParameter = function(draw, getRange){
+	
 	this.container.empty();
+	
 	var listParameter = this.controller.getAllParameters();
+	var id = this.container.attr("id");		
+	var that = this;
+	
+	var range;
 	for(var param in listParameter){
-		this.container.append("<span>" + param + "</span><br/>"); 
-		this.container.append("<input type='range' id='" + param + "' value='" + listParameter[param] + "' min='0' max='100'/>");
-		var that = this;
-		$("#" + param).change(function() {
-			that.controller.setParameter($(this).attr("id") , parseInt($(this).val()));
+	
+		range = getRange(param);
+		this.container.append("<span>" + param + "</span><br/>");
+		this.container.append("<input type='range' name='" + param + "' id='" + id + param + "' class='rangeParam' value='" + listParameter[param] + "' min='" + range.getMin() + "' max='" + range.getMax() + "'/>");
+		$("#" + id + param).change(function() {
+			that.controller.setParameter($(this).attr("name") , parseInt($(this).val()));
 			draw();
 		});			
 		this.container.append("<hr/>");
 	}	
-}
+};

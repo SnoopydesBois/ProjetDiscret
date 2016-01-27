@@ -194,6 +194,20 @@ ModelCurve.prototype.getActiveCurve = function () {
 
 //==============================================================================
 /**
+ * @param {String} name - The name of the parameter
+ * @return {Range} The range of the parameter
+ */
+ModelCurve.prototype.getParametersRange = function (name) {
+	if(typeof name !== "string"){
+		throw "ModelCurve.getParametersRange.ErrorParameterType";
+	}
+	
+	return this.activeCurve.getParametersRange(name);
+};
+
+
+//==============================================================================
+/**
  * @return {Equation} The equation of the active curve
  */
 ModelCurve.prototype.getEquation = function () {

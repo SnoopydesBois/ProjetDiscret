@@ -92,7 +92,7 @@ Application.prototype.changeMeridian = function (name) {
 	this.meridianController.setActive (name);
 	this.meridianView.draw ();
 	
-	this.meridianParameters.displayParameter(this.drawMeridian);
+	this.meridianParameters.displayParameter(this.drawMeridian, this.getRangeMeridian);
 };
 
 
@@ -115,7 +115,7 @@ Application.prototype.changeRevol = function (name) {
 	this.revolController.setActive (name);
 	this.revolView.draw ();
 
-	this.revolutionParameters.displayParameter(this.drawRevolution);
+	this.revolutionParameters.displayParameter(this.drawRevolution, this.getRangeRevolution);
 };
 
 
