@@ -69,6 +69,12 @@ Application.prototype.initAppli = function () {
 	
 	this.revolController.setActive ("Circle");
 	
+	this.meridianParameters.setController(this.meridianController);
+	this.meridianParameters.displayParameter(this.drawMeridian);
+	
+	this.revolutionParameters.setController(this.revolController);
+	this.revolutionParameters.displayParameter(this.drawRevolution);
+	
 	/// Interface initialization
 	this.resizeInterface ();
 	this.initWindowEvent ();
@@ -98,7 +104,12 @@ Application.prototype.initControllers = function () {
 	this.surfaceController.setGetMeridian (
 		this.meridianController.getActiveCurve.bind (this.meridianController)
 	);
+
+	this.drawMeridian = this.meridianView.draw.bind (this.meridianView);
+	this.drawRevolution = this.revolView.draw.bind (this.revolView);
+	
 	// FIXME faire une frozen reference
+	
 };
 
 

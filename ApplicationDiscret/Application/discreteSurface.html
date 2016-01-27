@@ -91,6 +91,7 @@
 		<script type="text/javascript" src="Js/Display/GenericViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/SurfaceViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/CurveViewer.js"></script>
+		<script type="text/javascript" src="Js/Display/ParameterViewer.js"></script>
 				
 		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
 		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>
@@ -329,9 +330,11 @@
 				<div id="meridianView">
 					<div id="meridianParam" class="paramPanel">
 						Liste des paramètres Méridienne
+						<div id="listMeridianParameters">
+						</div>
 					</div>
 					<div>
-						<button onclick="appli.getAllParameters()"> GetParameters </button>
+						<button onclick="appli.getAllParameters('meridian')"> GetParameters </button>
 					</div>
 					<canvas id="meridianCanvas" style="display:none"></canvas>
 					<div id="meridianCanvas2"></div>
@@ -346,6 +349,11 @@
 				<div id="revolView">
 					<div id="revolParam" class="paramPanel">
 						Liste des paramètres Révolution
+						<div id="listRevolutionParameters">
+						</div>
+					</div>
+					<div>
+						<button onclick="appli.getAllParameters('revolution')"> GetParameters </button>
 					</div>
 					<canvas id="revolCanvas" style="display:none"></canvas>
 					<div id="revolCanvas2"></div>
@@ -365,7 +373,7 @@
 					<button onclick="appli.generateAndDraw (0);">Générer</button>
 					<button onclick="appli.generateAndDraw (1);">Génération non optimisée</button>
 					<hr/>
-					<button onclick="came.toConsole ();">came</button>
+					<button onclick="came.toConsole ();">cam</button>
 					Liste des paramètres de la Surface
 				</div>
 			
@@ -393,11 +401,11 @@
 			
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 9);
-			var cam = appli.surfaceView.container.camera;
+			var came = appli.surfaceView.container.camera;
 			
 			appli.initAppli ();
 		
-			cam.toConsole ();
+			came.toConsole ();
 		</script>
 	</body>
 </html>

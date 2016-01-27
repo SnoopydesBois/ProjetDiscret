@@ -161,6 +161,20 @@ function Application () {
 	this.revolView.container.addObject (this.revolController); // FIXME 
 	
 	/**
+	 * TODO
+	 */
+	this.meridianParameters = new ParameterViewer(
+		'#listMeridianParameters', this.meridianController
+	);
+	
+	/**
+	 * TODO
+	 */
+	this.revolutionParameters = new ParameterViewer(
+		'#listRevolutionParameters', this.revolController
+	);
+	
+	/**
 	 * {String} The default message in the state bar.
 	 */
 	this.defaultMessage = "";

@@ -8,9 +8,12 @@ Circle.prototype.constructor = Circle;
 */
 function Circle() {
 //	var equation = new Equation("a*(x - h)^2 + b*(y - k)^2 - r^2");
-	var equation = new Equation("x^2 + y^2 - 1");
+	var equation = new Equation("(x - xCenter)^2 + (y - yCenter)^2 - radius^2");
+	equation.setParameter("xCenter", 0);
+	equation.setParameter("yCenter", 0);
+	equation.setParameter("radius", 1);
 	ImplicitCurve.call(this, equation);
-}
+};
 
 
 //==============================================================================
@@ -22,7 +25,7 @@ function Circle() {
  * @result {Point[][]} An array composed of list of points to represent the curve
  * (for exemple for 1/x we will have two list of points)
  */
-Circle.prototype.computePoints = function (ranX, ranY) {
+/*Circle.prototype.computePoints = function (ranX, ranY) {
 	if (! ranX instanceof Range || ! ranY instanceof Range) {
 		throw "Circle.computePoints.ErrorNotARange";
 	} else if (!this.equation.check) {
@@ -53,14 +56,14 @@ Circle.prototype.computePoints = function (ranX, ranY) {
 		 * If the point on the circle is within the display range,
 		 * we add that point to the current connex part of the curve
 		 */
-		if(ranX.isIn(x) && ranY.isIn(y)){
+		/*if(ranX.isIn(x) && ranY.isIn(y)){
 			points.push(new Point(x,y));
 		}
 		/* 
 		 * Else, we push into the result array the current connex curve computed
 		 * and we start a new connex part.
 		 */
-		else if(points.length > 0){
+		/*else if(points.length > 0){
 			result.push(points.slice(0));
 			points = [];
 		}
@@ -69,7 +72,7 @@ Circle.prototype.computePoints = function (ranX, ranY) {
 	/* 
 	 * Pushing into result the last connex part computed of the curve
 	 */
-	result.push(points.slice(0));
+	/*result.push(points.slice(0));
 	
 	return result;
-}
+}*/
