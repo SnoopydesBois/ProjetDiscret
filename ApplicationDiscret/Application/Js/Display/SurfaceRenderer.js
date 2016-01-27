@@ -185,13 +185,17 @@ SurfaceRenderer.prototype.getModelController = function () {
  * Prepare the model (create the triangles).
  * 
  * @param {WebGLRenderingContext} gl - The gl context.
+ * @param {ConnexityEnum} connexity - Which connexity is displayed.
  * 
  * @return {void}
- * @throws FIXME compléter
+ * @throws {String} FIXME compléter
  */
-SurfaceRenderer.prototype.prepare = function (gl) {
-	if (!(gl instanceof WebGLRenderingContext))
-		throw"SurfaceRenderer.prepare: argument is not a WebGLRenderingContext";
+SurfaceRenderer.prototype.prepare = function (gl, connexity) {
+	if (!(gl instanceof WebGLRenderingContext 
+		&& isValueOfEnum (ConnexityEnum, connexity)))
+	{
+		throw "SurfaceRenderer.prepare: bad type(s) of parameter(s)";
+	}
 	
 	var size = this.modelController.getDimension ();
 	
@@ -237,8 +241,12 @@ SurfaceRenderer.prototype.prepare = function (gl) {
 	for (var x = 0; x < size.x; ++x) {
 		for (var y = 0; y < size.y; ++y) {
 			for (var z = 0; z < size.z; ++z) {
-				if (this.modelController.hasVoxel (x, y, z)) {
-					idx = Math.trunc (cptPreparedVoxel / 1024);
+				if (this.modelController.hasVoxel (x, y, z) && 
+					this.modelController.getVoxel (x, y, z).getConnexity () 
+						<= connexity)
+				{
+					// 1024 -> see above, this.nbGlBuffer computes
+					idx = Math.trunc (cptPreparedVoxel / 1024); 
 					this.prepareVoxel (
 						this.modelController.getVoxel (x, y, z),
 						0,

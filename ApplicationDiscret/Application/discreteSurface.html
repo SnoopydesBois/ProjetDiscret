@@ -293,17 +293,17 @@
 				<h1 key="m4" class="tr">Export</h1>
 				<ul>
 					
-					<li><a id="download"><div key="m41" class="tr">Télecharger comme image</div></a></li>
+					<li><a id="download" key="m41" class="tr">Télecharger comme image</a></li>
 					
 					<li class="split"><hr/></li>
 					
 					<li id="tool3D"
 						class="submenu"
 						title="Outils 3D">
-						<h1><div key="m42" class="tr">Export 3D</div></h1>
+						<h1 key="m42" class="tr">Export 3D</h1>
 						<ul>
-							<li><div key="m421" class="tr">Export X3D</div></li>
-							<li<div key="m422" class="tr">>Export impression 3D</div></li>
+							<li key="m421" class="tr">Export X3D</li>
+							<li key="m422" class="tr">>Export impression 3D</li>
 						</ul>
 					</li>
 				</ul>
@@ -372,7 +372,6 @@
 					<hr/>
 					<span key="surf3" class="tr">Liste des paramètres de la Surface</span>
 					
-					<button onclick="came.toConsole ();">came</button>
 				</div>
 			
 <!--				<canvas id="surfaceCanvas" width="640" height="480"></canvas>-->
@@ -388,6 +387,11 @@
 						<input id="dimx" type="text" value="21"/>
 						<input id="dimy" type="text" value="21"/>
 						<input id="dimz" type="text" value="21"/>
+						<select id="connexityChoice" name="connexityChoice">
+							<option value="0" key="" class="tr">C26</option>
+							<option value="1" key="" class="tr">C18</option>
+							<option value="2" key="" class="tr">C6</option>
+						</select>
 					</p>
 				</div>
 			</div>

@@ -7,12 +7,11 @@
  */
 
 
+
+
 /**
  * @classdesc 
  */
-
-
-
 N64.prototype= new SurfaceRenderer;
 N64.prototype.constructor = N64;
 
@@ -36,10 +35,10 @@ function N64 (gl, width, space) {
 		for (var y = 0; y < epaisseur; ++y) {
 			for (var z = 0; z < dim; ++z) {
 				if (x < epaisseur && y < epaisseur) {
-					s.addVoxel (new Vector (x, y, z));
-					s.addVoxel (new Vector (dim - 1 - x, y, z));
-					s.addVoxel (new Vector (x, dim - 1 - y, z));
-					s.addVoxel (new Vector (dim - 1 - x, dim - 1 - y, z));
+					s.addVoxel (new Vector (x, y, z), ConnexityEnum.C6);
+					s.addVoxel (new Vector (dim - 1 - x, y, z), ConnexityEnum.C6);
+					s.addVoxel (new Vector (x, dim - 1 - y, z), ConnexityEnum.C6);
+					s.addVoxel (new Vector (dim - 1 - x, dim - 1 - y, z), ConnexityEnum.C6);
 				}
 			}
 		}
@@ -48,10 +47,10 @@ function N64 (gl, width, space) {
 	for (var x = epaisseur; x < epaisseur + espacement; ++x) {
 		for (var i = 0; i < epaisseur; ++i) {
 			for (var j = 0; j < epaisseur; ++j) {
-				s.addVoxel (new Vector (x, i, dim - 1 - x + j));
-				s.addVoxel (new Vector (dim - 1 - x, dim - 1 - i, dim - 1 - x + j));
-				s.addVoxel (new Vector (i, x, x + j));
-				s.addVoxel (new Vector (dim - 1 - i, dim - 1 - x, x + j));
+				s.addVoxel (new Vector (x, i, dim - 1 - x + j), ConnexityEnum.C18);
+				s.addVoxel (new Vector (dim - 1 - x, dim - 1 - i, dim - 1 - x + j), ConnexityEnum.C26);
+				s.addVoxel (new Vector (i, x, x + j), ConnexityEnum.C18);
+				s.addVoxel (new Vector (dim - 1 - i, dim - 1 - x, x + j), ConnexityEnum.C26);
 			}
 		}
 	}
