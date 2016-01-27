@@ -183,6 +183,26 @@ function Application () {
 	 * {ListUndoRedoAction} The list of undoable/redoable action.
 	 */
 	this.listAction = new ListUndoRedoAction (25);
+	
+	/**
+	 * {Function} TODO
+	 */
+	this.drawMeridian = null;
+	
+	/**
+	 * {Function} TODO
+	 */
+	this.drawRevolution = null;
+	
+	/**
+	 * {Function} TODO
+	 */
+	this.getRangeMeridian = null;
+	
+	/**
+	 * {Function} TODO
+	 */
+	this.getRangeRevolution = null;
 }
 
 

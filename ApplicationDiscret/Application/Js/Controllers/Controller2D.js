@@ -176,7 +176,16 @@ Controller2D.prototype.getAllParameters = function(){
 	return this.modelParameter.getAllParameters();
  }
  
- //==============================================================================
+ 
+//==============================================================================
+/**
+ *
+*/
+Controller2D.prototype.getParametersRange = function(name){
+	return this.modelCurve.getParametersRange(name);
+} 
+
+//==============================================================================
 /**
  *
  */
