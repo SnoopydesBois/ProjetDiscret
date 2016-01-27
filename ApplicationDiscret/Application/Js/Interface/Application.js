@@ -183,6 +183,26 @@ function Application () {
 	 * {ListUndoRedoAction} The list of undoable/redoable action.
 	 */
 	this.listAction = new ListUndoRedoAction (25);
+	
+	/**
+	 * {Function} TODO
+	 */
+	this.drawMeridian = null;
+	
+	/**
+	 * {Function} TODO
+	 */
+	this.drawRevolution = null;
+	
+	/**
+	 * {Function} TODO
+	 */
+	this.getRangeMeridian = null;
+	
+	/**
+	 * {Function} TODO
+	 */
+	this.getRangeRevolution = null;
 }
 
 
@@ -196,14 +216,15 @@ function Application () {
  */
 Application.prototype.computationFinished = function () {
 	if(this.surfaceController.newVoxels()){
-		this.surfaceController.voxelsRead();
-		this.surfaceView.show ();
+		//this.surfaceController.voxelsRead();
+		//this.surfaceView.show ();
 	}
 	if (! this.surfaceController.isAlgoFinished ()){
 		setTimeout (this.computationFinished.bind (this), 1000);
 	} 
 	else {
 		this.validMessage ("Finished", 0);
+		this.surfaceView.show ();
 	}
 };
 

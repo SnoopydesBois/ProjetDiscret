@@ -38,3 +38,11 @@ Curve.prototype.getAllParameters = function(){
 Curve.prototype.getParameter = function(name){
 	throw "Curve.setParameter.ErrorNotImplementedInAbstractClass";
 }
+
+//==============================================================================
+/**
+ *
+ */
+Curve.prototype.getParametersRange = function(name){
+	throw "Curve.getParametersRange.ErrorNotImplementedInAbstractClass";
+};

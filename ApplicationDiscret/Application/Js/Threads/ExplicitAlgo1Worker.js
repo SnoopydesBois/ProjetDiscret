@@ -37,17 +37,17 @@ ExplicitAlgo1Worker.prototype.constructor = ExplicitAlgo1Worker;
  */
 function ExplicitAlgo1Worker (explicitCurve, implicitCurve, dimension, surface){
 	/**
-	 * {Surface} TODO
+	 * {Surface} The surface to draw.
 	 */
 	this.surface = surface;
 	
 	/**
-	 * {boolean} TODO
+	 * {boolean} whether the algorithm has finished
 	 */
 	this.finished = false;
 	
 	/**
-	 * {int} TODO
+	 * {int} nb of workers that are still active
 	 */
 	this.activeWorkers = 0;
 	
@@ -57,7 +57,7 @@ function ExplicitAlgo1Worker (explicitCurve, implicitCurve, dimension, surface){
 	this.worker = [];
 	
 	/**
-	 * {boolean} TODO
+	 * {boolean} whether there are new voxels for the application to draw
 	 */
 	this.newVoxels = true;
 	

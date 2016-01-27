@@ -56,6 +56,10 @@ function SurfaceViewer (canvas) {
 	 */
 	this.camPosWhenClick = new Vector (3, 3, 3);
 	
+	/**
+	 * {HTMLInputElement} TODO
+	 */
+	this.connexityInput = document.getElementById ("connexityChoice");
 	
 	/// Initialisation
 	this.initCanvasEvent ();
@@ -160,8 +164,9 @@ SurfaceViewer.prototype.show = function () {
  * @return {void}
  */
 SurfaceViewer.prototype.prepare = function () {
-	if (this.container.getNbObject () != 0)
-		this.container.prepare (this.glContext);
+	if (this.container.getNbObject () != 0) {
+		this.container.prepare (this.glContext, this.connexityInput.value);
+	}
 	else
 		console.log ("No object to prepare");
 };
@@ -303,19 +308,23 @@ SurfaceViewer.prototype.onWheel = function (event) {
  * 
  * @return {void}
  */
-SurfaceViewer.prototype.onKeyDown = function (event) {
+SurfaceViewer.prototype.onKeyDown = function (event) { // FIXME
 	switch (event.keyCode) {
 	case 38 : // Up
 		this.moveCameraAt (0.0, 0.01);
+		++this.mousePosOnPress[1];
 		break;
 	case 40 : // Down
 		this.moveCameraAt (0.0, -0.01);
+		--this.mousePosOnPress[1];
 		break;
 	case 37 : // Left
 		this.moveCameraAt (0.01, 0.0);
+		++this.mousePosOnPress[0];
 		break;
 	case 39 : // Right
 		this.moveCameraAt (-0.01, 0.0);
+		--this.mousePosOnPress[0];
 		break;
 	}
 };

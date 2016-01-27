@@ -131,8 +131,8 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 			  target: '#meridianCanvas2',
 			  width : min,
 			  height : min,
-			  xAxis : {domain: [obj.getXRange().getMin(), obj.getXRange().getMax()]},
-			  yAxis : {domain: [obj.getYRange().getMin(), obj.getYRange().getMax()]},
+			  xAxis : {domain: [0, obj.getXRange().getMax()]},
+			  yAxis : {domain: [0, obj.getYRange().getMax()]},
 			  disableZoom : true,
 			  data: [{
 				x: obj.getEquation().toStringNoParam().replace(/x/g , 't'),

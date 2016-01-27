@@ -156,9 +156,13 @@ function check6Connex (implicit_curve, x, y, z){
 
 //==============================================================================
 /**
- * TODO
+ * check every connexity for the voxel
  * 
- * @return {(ConnexityEnum | boolean)}
+ * @param {int} x - The x coordinate of the voxel
+ * @param {int} y - The y coordinate of the voxel
+ * @param {int} z - The z coordinate of the voxel
+ * @return {(ConnexityEnum | boolean)} returns false if the voxel doesnt belong
+ * to the surface, else the corresponding connexity
  */
 function checkVoxel (x, y, z) {
 	var res;
@@ -174,7 +178,11 @@ function checkVoxel (x, y, z) {
 
 //==============================================================================
 /**
- * TODO
+ * Add every neighbours of the voxel (x,y,z) to the pile.
+ * @param {int} x - The x coordinate of the voxel
+ * @param {int} y - The y coordinate of the voxel
+ * @param {int} z - The z coordinate of the voxel
+ * @param {array} pile - The pile coordinate where the new voxels are added.
  * 
  * @return {void}
  */

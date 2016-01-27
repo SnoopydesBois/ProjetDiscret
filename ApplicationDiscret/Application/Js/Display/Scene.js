@@ -258,15 +258,16 @@ Scene.prototype.reload = function () {
  * camera. If not, the default camera is set to the scene.
  * 
  * @param {WebGLRenderingContext} glContext - The gl context.
+ * @param {ConnexityEnum} connexity - WHich connexity is displayed.
  * 
  * @return {void}
  */
-Scene.prototype.prepare = function (glContext) {
+Scene.prototype.prepare = function (glContext, connexity) {
 	var length = this.getNbObject ();
 	
 	for (var i = 0; i < length; ++i) {
 		if (! this.objectList[i].isPrepared ()) {
-			this.objectList[i].prepare (glContext);
+			this.objectList[i].prepare (glContext, connexity);
 			this.objectList[i].getShader ().activate ();
 		}
 	}

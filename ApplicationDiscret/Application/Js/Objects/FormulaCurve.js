@@ -16,6 +16,8 @@ function FormulaCurve(equation){
 	} else {
 		this.equation = undefined;
 	}
+	
+	this.parametersRange = [];
 }
 
 
@@ -25,6 +27,14 @@ function FormulaCurve(equation){
 */
 FormulaCurve.prototype.getEquation = function(){
 	return this.equation;
+};
+
+//==============================================================================
+/**
+ *
+ */
+FormulaCurve.prototype.getParametersRange = function(name){
+	return this.parametersRange[name];
 };
 
 
