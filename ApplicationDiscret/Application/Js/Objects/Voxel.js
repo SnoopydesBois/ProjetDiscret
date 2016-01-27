@@ -1,6 +1,9 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  * 
  * benoist.thomas@hotmail.fr
@@ -39,6 +42,7 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
@@ -55,143 +59,177 @@
  * getNbVisibleFace () : int
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
+/**
+ * @classdesc TODO
+ */
 Voxel.prototype.constructor = Voxel;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
 
 /**
  * @constructor
- * @param {Vector} pos - vector to define the position of the Voxel.
- * @param {EnumConnexity} connexity - the connexity for which the voxel should 
+ * 
+ * @param {Vector} pos - Vector to define the position of the Voxel.
+ * @param {EnumConnexity} connexity - The connexity for which the voxel should 
  * be displayed
  */
 function Voxel (pos, connexity) {
 	if (!pos instanceof Vector) {
-		console.error ("ERROR - Voxel.constructor : bad type of parameter");
+		console.error ("Voxel.constructor: bad type(s) of parameter(s)");
 	}
-	// --------------------------------------
 	
 	/**
 	 * {Vector} The position.
 	 */
 	this.position = pos;
 	
-	/**
-	 * {boolean[]} List of visible faces (all visible by default).
-	 */
-	this.faces = [];
-	for (var i = 0; i < DirectionEnum.size; ++i) {
-		this.faces.push (true);
-	}
+//	/**
+//	 * {ConnexityEnum[]} List of visible faces (all visible by default).
+//	 */
+//	this.faces = [];
+//	for (var i = 0; i < DirectionEnum.size; ++i) {
+//		this.faces.push (true);
+//	}
 	
+	/**
+	 * {ConnexityEnum} TODO
+	 */
 	this.connexity = connexity;
+	
+	/**
+	 * {boolean} TODO
+	 */
+	this.visibility = true;
 }
 
 
-//==============================================================================
-/**
- * Assessor on the faces.
- * @param {DirectionEnum} dir - direction of the face.
- * @throws {string} Voxel.hasFacet.ErrorNotADirection - dir should be a
- * DirectionEnum
- * @return {boolean} true if the face exists, false otherwise.
- */
-Voxel.prototype.hasFacet = function (dir) {
-//	console.log ("Voxel.hasFacet);
-	if (typeof dir != "number" || dir < 0 || dir > DirectionEnum.length) {
-		throw "Voxel.hasFacet.ErrorNotADirection";
-	}
-	// --------------------------------------
-	return this.faces[dir];
-};
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
 
 
-//==============================================================================
+
 /**
- * @return {Vector} the position of the Voxel.
+ * @return {Vector} The position of the Voxel.
  */
 Voxel.prototype.getPosition = function () {
-//	console.log ("Voxel.getPosition");
-	// --------------------------------------
 	return this.position;
 };
 
 
 //==============================================================================
 /**
- * Add a face.
- * @param {DirectionEnum} dir - direction of the face.
- * @throws {string} Voxel.hasFacet.ErrorNotADirection - dir should be a
- * DirectionEnum
- * @return {void}
- */
-Voxel.prototype.addFacet = function (dir) {
-	//console.log ("Voxel.addFacet");
-	if (typeof dir != "number" || dir < 0 || dir > DirectionEnum.length) {
-		throw "Voxel.hasFacet.ErrorNotADirection";
-	}
-	// --------------------------------------
-	this.faces[dir] = true;
-};
-
-
-//==============================================================================
-/**
- * Remove a face.
- * @param {DirectionEnum} dir - direction of the face.
- * @throws {string} Voxel.hasFacet.ErrorNotADirection - dir should be a
- * DirectionEnum
- * @return {void}
- */
-Voxel.prototype.removeFacet = function (dir) {
-//	console.log ("Voxel.removeFacet");
-	if (typeof dir != "number" || dir < 0 || dir > DirectionEnum.length) {
-		throw "Voxel.hasFacet.ErrorNotADirection";
-	}
-	// --------------------------------------
-	this.faces[dir] = false;
-};
-
-
-//==============================================================================
-/**
- * @return {boolean} true if the cube is visible, false otherwise.
- */
-Voxel.prototype.isVisible = function () {
-//	console.log ("Voxel.isVisible");
-	// --------------------------------------
-	for (var i = 0; i < this.faces.length; ++i) {
-		if (this.faces[i]) {
-			return true;
-		}
-	}
-	return false;
-};
-
-
-//==============================================================================
-/**
- * @return {int} how many faces are visible.
- */
-Voxel.prototype.getNbVisibleFace = function () {
-//	console.log ("Voxel.getNbVisibleFace");
-	// --------------------------------------
-	var nb = 0;
-	for (var i = 0; i < this.faces.length; ++i) {
-		if (this.faces[i]) {
-			nb++;
-		}
-	}
-	return nb;
-};
-
-
-//==============================================================================
-/**
- * @return {ConnexityEnum} the connexity for which the voxel should be visible
+ * @return {ConnexityEnum} The connexity for which the voxel should be visible.
  */
 Voxel.prototype.getConnexity = function () {
 	return this.connexity;
 };
+
+
+//==============================================================================
+/**
+ * @return {boolean} True if the voxel is visible, false otherwise.
+ */
+Voxel.prototype.isVisible = function () {
+	return this.visibility;
+};
+
+
+//==============================================================================
+///**
+// * @return {int} How many faces are visible.
+// */
+//Voxel.prototype.getNbVisibleFace = function () {
+//	var nb = 0, len = this.faces.length;
+//	for (var i = 0; i < len; ++i) {
+//		if (this.faces[i])
+//			++nb;
+//	}
+//	return nb;
+//};
+
+
+//==============================================================================
+///**
+// * Assessor on the faces.
+// * 
+// * @param {DirectionEnum} dir - Direction of the face.
+// * @param {ConnexityEnum} connexity - The connexity.
+// * 
+// * @throws {String} Voxel.hasFacet.ErrorNotADirection - 'dir' should be a
+// * DirectionEnum.
+// * @return {boolean} True if the face exists in this connexity, false otherwise.
+// */
+//Voxel.prototype.hasFacet = function (dir, connexity) {
+//	if (typeof dir != "number" || dir < 0 || dir > DirectionEnum.size) {
+//		throw "Voxel.hasFacet.ErrorNotADirection";
+//	}
+//	
+//	return this.faces[dir];
+//};
+
+
+//==============================================================================
+///**
+// * Add a face.
+// * 
+// * @param {DirectionEnum} dir - direction of the face.
+// * 
+// * @throws {string} Voxel.addFacet.ErrorNotADirection - 'dir' should be a
+// * DirectionEnum.
+// * @return {void}
+// */
+//Voxel.prototype.addFacet = function (dir, ) {
+//	if (typeof dir != "number" || dir < 0 || dir > DirectionEnum.length) {
+//		throw "Voxel.addFacet.ErrorNotADirection";
+//	}
+//	
+//	this.faces[dir] = true;
+//};
+
+
+//==============================================================================
+///**
+// * Remove a face.
+// * 
+// * @param {DirectionEnum} dir - Direction of the face.
+// * 
+// * @throws {string} Voxel.removeFacet.ErrorNotADirection - 'dir' should be a
+// * DirectionEnum.
+// * @return {void}
+// */
+//Voxel.prototype.removeFacet = function (dir) {
+//	if (typeof dir != "number" || dir < 0 || dir > DirectionEnum.length) {
+//		throw "Voxel.removeFacet.ErrorNotADirection";
+//	}
+//	
+//	this.faces[dir] = false;
+//};
+
+
+//==============================================================================
+///**
+// * @return {boolean} True if the cube is visible, false otherwise.
+// */
+//Voxel.prototype.isVisible = function () {
+//	for (var i = 0; i < this.faces.length; ++i) {
+//		if (this.faces[i]) {
+//			return true;
+//		}
+//	}
+//	return false;
+//};
+
+

@@ -341,13 +341,13 @@ GenericStructure.prototype.isPrepared = function () {
 
 /**
  * @abstract
- * Warning : In order to use the shader, you need to ask it about the attributes
- * it needs ...
+ * 
  * @param {glContext} gl - The webGl context.
+ * @param {ConnexityEnum} connexity - Which connexity is displayed.
  * 
  * @return {void}
  */
-GenericStructure.prototype.prepare = function (gl) {};
+GenericStructure.prototype.prepare = function (gl, connexity) {};
 
 
 //==============================================================================
