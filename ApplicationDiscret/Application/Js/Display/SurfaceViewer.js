@@ -165,7 +165,8 @@ SurfaceViewer.prototype.show = function () {
  */
 SurfaceViewer.prototype.prepare = function () {
 	if (this.container.getNbObject () != 0) {
-		this.container.prepare (this.glContext, this.connexityInput.value);
+		this.container.prepare (this.glContext, 
+			parseInt (this.connexityInput.value));
 	}
 	else
 		console.log ("No object to prepare");

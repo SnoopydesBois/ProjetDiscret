@@ -235,8 +235,8 @@ Vector.prototype.coordinateConstructor = function (x, y, z) {
 		return this;
 	}
 	else {
-		throw "Vector: bad coordinate constructor call (" + x + ", " + y 
-			+ ", " + z + ")";
+		throw "Vector: bad coordinate constructor call (" + x + "; " + y 
+			+ "; " + z + ")";
 	}
 };
 
