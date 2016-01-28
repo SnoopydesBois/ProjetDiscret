@@ -206,7 +206,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 	 */
 	this.nbGlBuffer = Math.ceil (
 //		1
-		this.modelController.getSurface ().getNbVoxel () / (1024 * 64) 
+		this.modelController.getSurface ().getNbVoxel () / (1024 * 2) 
 		// FIXME 65 536 is the optimal value, WHY ?
 //		this.modelController.getSurface ().getNbVoxel () / 48
 	);
@@ -214,7 +214,6 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 	var vertexBuffer = [];
 	var indicesBuffer = [];
 	var colorBuffer = [];
-	var normalBuffer = [];
 	var backColorBuffer = [];
 	var data = [];
 	var bdata = [];
@@ -225,7 +224,6 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 		vertexBuffer.push ([]);
 		indicesBuffer.push ([]);
 		colorBuffer.push ([]);
-		normalBuffer.push ([]);
 		backColorBuffer.push ([]);
 		data.push ([]);
 		bdata.push ([]);
@@ -241,25 +239,23 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 	for (var x = 0; x < size.x; ++x) {
 		for (var y = 0; y < size.y; ++y) {
 			for (var z = 0; z < size.z; ++z) {
-				if (this.modelController.hasVoxel (x, y, z) && 
-					this.modelController.isVoxelVisible (x, y, z) &&
+				if (surface.getVoxel (x, y, z) != null /*&& 
+					this.modelController.isVoxelVisible (x, y, z)*/ &&
 					surface.getVoxel (x, y, z).getConnexity () 
 						<= connexity)
 				{
 					// 1024 -> see above, this.nbGlBuffer computes
 //					idx = 0;
-					idx = Math.trunc (cptPreparedVoxel / (1024 * 64));
+					idx = Math.trunc (cptPreparedVoxel / (1024 * 2));
 //					idx = Math.trunc (cptPreparedVoxel / 48);
 //					console.log ("appel de getVoxel avec", x, y, z);
 					this.prepareVoxel (
-						surface,
-						surface.getVoxel (x, y, z).getPosition (),
+						surface.getVoxel (x, y, z),
 						connexity,
 						0,
 						vertexBuffer[idx], 
 						indicesBuffer[idx], 
 						colorBuffer[idx],
-						normalBuffer[idx],
 						backColorBuffer[idx],
 						[0.8, 0.8, 0.8, 1],
 						size
@@ -282,7 +278,6 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 					vertexBuffer[tmp][offset + 2]
 				);
 				this.addAColor (data[tmp], colorBuffer[tmp][i]);
-				this.addANormal (data[tmp], normalBuffer[tmp][i]);
 			} // end for j
 		} // en for i
 		gl.bindBuffer (gl.ARRAY_BUFFER, this.glVertexBuffer[tmp]);
@@ -303,7 +298,6 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 //					vertexBuffer[tmp][offset + 2]
 //				);
 //				this.addAColor (bdata[tmp], backColorBuffer[tmp][i]);
-//				this.addANormal (bdata[tmp], normalBuffer[tmp][i]);
 //			} // end for j
 //		} // end for i
 //		gl.bindBuffer (gl.ARRAY_BUFFER, this.glBackBuffer[tmp]);
@@ -323,7 +317,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 	}
 	
 	/// Finish, tell it
-	//this.prepared = true; FIXME
+	this.prepared = true; // FIXME
 };
 
 
@@ -341,40 +335,35 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
  * (the indices) to draw all points.
  * @param {Array} colorBuffer - The color buffer which contains the color of 
  * each point.
- * @param {Array} normalBuffer - The normal buffer which contains the normal of
- * each triangle.
- * @param {Array} backColorBuffer - The normal buffer which contains the normal
- * of each face.
+ * @param {Array} backColorBuffer - TODO
  * @param {float[4]} colorVoxel - The color of the face to draw.
  * @param {Vector} universSize - The size of the univers.
  * 
  * @return {void}
  */
 SurfaceRenderer.prototype.prepareVoxel = function (
-	surface,
-	voxelPosition,
+	voxel,
 	connexity,
 	offset,
 	vertexBuffer, 
 	indicesBuffer,
 	colorBuffer, 
 	backColorBuffer, 
-	normalBuffer,
 	colorVoxel,
 	universSize
 ) {
-	if (! checkType (arguments, Surface, Vector, "number", "number", Array,
-		Array, Array, Array, Array, Array, Vector))
+	if (! checkType (arguments, Voxel, "number", "number", Array,
+		Array, Array, Array, Array, Vector))
 	{
 		console.error ("SurfaceRenderer.prepareVoxel: bad type(s) of" 
 				+ " parameter(s)");
-		showType (surface, voxelPosition, connexity, offset, vertexBuffer,
-			indicesBuffer, colorBuffer, backColorBuffer, normalBuffer,
+		showType (voxel, connexity, offset, vertexBuffer,
+			indicesBuffer, colorBuffer, backColorBuffer,
 			colorVoxel, universSize);
 		return;
 	}
 	for (var i = 0; i < DirectionEnum.size; ++i) {
-		if (surface.voxelHasFacet (voxelPosition, i, connexity)) {
+//		if (voxel.hasFacet (i, connexity)) {
 			var color = [0.0, 0.0, 0.0, 1.0];
 			if (globalParam.cubeColorDebug) {
 				switch (i) {
@@ -408,7 +397,7 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 						+ DirectionEnum.properties[i].axis.colorOffset;
 				if (globalParam.colorConnexity) {
 					epsilon = 0.2
-					switch (surface.getVoxel (voxelPosition).getConnexity ()) {
+					switch (voxel.getConnexity ()) {
 					case ConnexityEnum.C18 :
 						color[1] -= epsilon;
 						color[2] -= epsilon;
@@ -421,18 +410,17 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 				}
 			}
 			this.prepareFace (
-				surface.getVoxel (voxelPosition), 
+				voxel, 
 				i, 
 				offset, 
 				vertexBuffer, 
 				indicesBuffer, 
 				colorBuffer, 
-				normalBuffer, 
 				backColorBuffer, 
 				color,
 				universSize
 			);
-		}
+//		}
 	} // end for each direction
 };
 
@@ -459,8 +447,8 @@ var offsetVertexInCube = [
 
 //==============================================================================
 /**
- * Prepare a face of a cube. Fill all the buffers (vertex, indices, color, 
- * normal and backColor).
+ * Prepare a face of a cube. Fill all the buffers (vertex, indices, color, and
+ * backColor).
  * 
  * @param {Voxel} voxel - The current voxel.
  * @param {DirectionEnum} direction - The direction of the face to prepare.
@@ -471,10 +459,7 @@ var offsetVertexInCube = [
  * (the indices) to draw all points.
  * @param {Array} colorBuffer - The color buffer which contains the color of 
  * each point.
- * @param {Array} normalBuffer - The normal buffer which contains the normal of
- * each triangle.
- * @param {Array} backColorBuffer - The normal buffer which contains the normal
- * of each face.
+ * @param {Array} backColorBuffer - TODO
  * @param {Array[4]} colorFace - The color of the face to draw.
  * @param {Vector} universSize - The size of the univers.
  * 
@@ -487,25 +472,17 @@ SurfaceRenderer.prototype.prepareFace = function (
 	vertexBuffer,
 	indicesBuffer,
 	colorBuffer,
-	normalBuffer,
 	backColorBuffer,
 	colorFace,
 	universSize
 ) {
-	if (!(voxel instanceof Voxel && typeof offset == "number" 
-			&& typeof direction == "number"
-			&& vertexBuffer instanceof Array
-			&& indicesBuffer instanceof Array
-			&& colorBuffer instanceof Array
-			&& backColorBuffer instanceof Array
-			&& normalBuffer instanceof Array
-			&& colorFace instanceof Array
-			&& universSize instanceof Vector
-	)) {
+	if (! checkType (arguments, Voxel, "number", "number", Array, Array, Array,
+		Array, Array, Vector))
+	{
 		console.error (	
 			"SurfaceRenderer.prepareFace: bad type(s) of parameter(s) !");
 		showType (voxel, direction, offset, vertexBuffer, indicesBuffer, 
-			colorBuffer, normalBuffer, backColorBuffer, colorFace, universSize);
+			colorBuffer, backColorBuffer, colorFace, universSize);
 		return;
 	}
 	
@@ -545,23 +522,22 @@ SurfaceRenderer.prototype.prepareFace = function (
 	break;
 	
 	case DirectionEnum.ALL :
-//		for (var i = 0; i < DirectionEnum.size; ++i) {
-//			if (voxel.hasFacet (i)) {
-//				// for each existing facet
-//				this.prepareFace (
-//					voxel,
-//					i,
-//					offset,
-//					vertexBuffer,
-//					indicesBuffer,
-//					colorBuffer,
-//					normalBuffer,
-//					backColorBuffer,
-//					colorFace,
-//					universSize
-//				);
-//			} // end if
-//		} // end for each direction
+		for (var i = 0; i < DirectionEnum.size; ++i) {
+			if (voxel.hasFacet (i)) {
+				// for each existing facet
+				this.prepareFace (
+					voxel,
+					i,
+					offset,
+					vertexBuffer,
+					indicesBuffer,
+					colorBuffer,
+					backColorBuffer,
+					colorFace,
+					universSize
+				);
+			} // end if
+		} // end for each direction
 	break;
 	
 	default :
@@ -572,12 +548,6 @@ SurfaceRenderer.prototype.prepareFace = function (
 	}
 	
 	colorBuffer.push (colorFace);
-	if (normalBuffer != undefined && normalBuffer != null)
-		normalBuffer.push ([
-			DirectionEnum.properties[direction].x,
-			DirectionEnum.properties[direction].y,
-			DirectionEnum.properties[direction].z
-		]);
 	
 	// The color used by the picking according to the facet position
 	if (backColorBuffer != undefined && backColorBuffer != null)

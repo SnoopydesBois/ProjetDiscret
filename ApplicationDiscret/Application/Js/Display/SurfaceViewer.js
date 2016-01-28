@@ -63,6 +63,7 @@ function SurfaceViewer (canvas) {
 	
 	/// Initialisation
 	this.initCanvasEvent ();
+//	this.glContext.disable (this.glContext.CULL_FACE);
 	this.glContext.enable (this.glContext.CULL_FACE);
 	this.glContext.enable (this.glContext.DEPTH_TEST);
 	this.glContext.frontFace (this.glContext.CW);
@@ -189,6 +190,16 @@ SurfaceViewer.prototype.draw = function (backBuffer) {
 		console.log ("No object to draw");
 };
 
+
+//==============================================================================
+/**
+ * Unprepared all object.
+ * 
+ * @return {void}
+ */
+SurfaceViewer.prototype.unprepare = function () {
+	this.container.unprepare ();
+};
 
 
 //##############################################################################

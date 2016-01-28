@@ -332,6 +332,17 @@ GenericStructure.prototype.isPrepared = function () {
 };
 
 
+//==============================================================================
+/**
+ * Set the 'prepared' attribute at false.
+ * 
+ * @return {void}
+ */
+GenericStructure.prototype.unprepare = function () {
+	this.prepared = false;
+};
+
+
 
 //##############################################################################
 //	Draw
