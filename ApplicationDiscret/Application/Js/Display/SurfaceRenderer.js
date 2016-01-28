@@ -239,6 +239,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 		for (var y = 0; y < size.y; ++y) {
 			for (var z = 0; z < size.z; ++z) {
 				if (this.modelController.hasVoxel (x, y, z) && 
+					this.modelController.isVoxelVisible (x, y, z) &&
 					this.modelController.getVoxel (x, y, z).getConnexity () 
 						<= connexity)
 				{

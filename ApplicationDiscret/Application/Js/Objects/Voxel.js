@@ -108,7 +108,7 @@ function Voxel (pos, connexity) {
 	this.connexity = connexity;
 	
 	/**
-	 * {boolean} TODO
+	 * {boolean} True if the voxel is visible. Use for the multi-slice.
 	 */
 	this.visibility = true;
 }

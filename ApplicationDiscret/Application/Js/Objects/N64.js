@@ -54,7 +54,7 @@ function N64 (gl, width, space) {
 			}
 		}
 	}
-	
+	s.printOnly (new Range (2, dim-5), AxisEnum.Z);
 	var forme = new Controller3D (new Vector (dim));
 	forme.modelGen.surface = s;
 	SurfaceRenderer.call (this, forme, gl);

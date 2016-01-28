@@ -85,7 +85,7 @@ Surface.prototype.constructor = Surface;
 /**
  * @constructor
  * 
- * @param {Vector} size - vector to define the size of the model.
+ * @param {Vector} size - Vector to define the size of the model.
  */
 function Surface (size) {
 	if (! size instanceof Vector) {
@@ -118,13 +118,20 @@ function Surface (size) {
 }
 
 
-//==============================================================================
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
+
+
+
 /**
  * TODO
- * @param {Vector} position - the voxel's coordinates
+ * @param {Vector} position - the voxel's coordinates.
+ * 
  * @return {Voxel} voxel at the specified coordinates.
  * @throws {String} "Surface.getVoxel.ErrorNotAVector"
- * - Position should be of type Vector
+ * - Position should be of type Vector.
  */
 Surface.prototype.getVoxel = function (position, y, z) {
 	if (position instanceof Vector) {
@@ -204,7 +211,7 @@ Surface.prototype.voxelHasFacet = function (voxelPosition, direction) {
 		ny = voxelPosition.y + DirectionEnum.properties[direction].y,
 		nz = voxelPosition.z + DirectionEnum.properties[direction].z;
 	var neighbor = (this.isIn (nx, ny, nz)) ? this.getVoxel (nx, ny, nz) : null;
-	return (neighbor == null 
+	return (neighbor == null || !neighbor.visibility
 		|| voxel.getConnexity () < neighbor.getConnexity ());
 };
 
