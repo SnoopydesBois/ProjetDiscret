@@ -15,6 +15,7 @@
  */
 
 
+ExplicitAlgo2Worker.prototype = AlgoWorker;
 ExplicitAlgo2Worker.prototype.constructor = ExplicitAlgo1Worker;
 
 
@@ -36,42 +37,21 @@ ExplicitAlgo2Worker.prototype.constructor = ExplicitAlgo1Worker;
  * @param {Surface} surface - The surface to draw.
  */
 function ExplicitAlgo2Worker (explicitCurve, implicitCurve, dimension, surface){
-	
-	/**
-	 * {Surface} The surface to draw.
-	 */
-	this.surface = surface;
-	
-	/**
-	 * {boolean} whether the algorithm has finished
-	 */
-	this.finished = false;
-	
-	/**
-	 * {Array} TODO FIXME transformer type en "type[]"
-	 */
-	this.worker = [];
-	
-	/**
-	 * {boolean} whether there are new voxels for the application to draw
-	 */
-	this.newVoxels = true;
-	
-	
-	var eq1 = explicitCurve.toStringNoParam();
-	var eq2 = implicitCurve.toStringNoParam();
-	var dim = dimension.m;
-	this.worker = new Worker ("Js/Threads/EA2Worker.js");
+	AlgoWorker.call(this, explicitCurve, implicitCurve, dimension, surface);
+	this.worker[0] = new Worker ("Js/Threads/EA2Worker.js");
+	this.activeWorkers++;
 	var that = this;
-	this.worker.onmessage = function (e) {
+	this.worker[0].onmessage = function (e) {
 		that.readBuffer(e.data[0], e.data[1]);
 		if (e.data.length == 3 && e.data[2] == "Terminate") {
-			that.worker.terminate();
-			that.worker[e.data[1]] = undefined;
+			that.worker[0].terminate();
+			that.worker[0] = undefined;
+			that.activeWorkers--;
 			that.finished = true;
 		}
 	}
-	this.worker.postMessage ([eq1, eq2, dim]);
+	this.worker[0].postMessage (["init", this.meridianCurve,
+		this.revolutionCurve, this.dim]);
 }
 
 
