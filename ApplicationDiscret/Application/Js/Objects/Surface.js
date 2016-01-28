@@ -195,17 +195,22 @@ Surface.prototype.addVoxel = function (position, connexity) {
  * 
  * @param {(Vector | Number[3] | Number)} voxelPosition - TODO
  * @param {DirectionEnum} direction - The direction of the facet.
+ * @param {ConnexityEnum} connexity - TODO
  * 
  * @return {boolean} TODO
  */
-Surface.prototype.voxelHasFacet = function (voxelPosition, direction) {
+Surface.prototype.voxelHasFacet = function (voxelPosition, direction, 
+	connexity)
+{
 	var voxel = this.getVoxel (voxelPosition);
 	var nx = voxelPosition.x + DirectionEnum.properties[direction].x,
 		ny = voxelPosition.y + DirectionEnum.properties[direction].y,
 		nz = voxelPosition.z + DirectionEnum.properties[direction].z;
 	var neighbor = (this.isIn (nx, ny, nz)) ? this.getVoxel (nx, ny, nz) : null;
-	return (neighbor == null 
-		|| voxel.getConnexity () < neighbor.getConnexity ());
+	return (neighbor == null ||
+		(voxel.getConnexity () < neighbor.getConnexity ()
+		&& neighbor.getConnexity () > connexity)
+	);
 };
 
 
@@ -257,6 +262,7 @@ Surface.prototype.voxelHasFacet = function (voxelPosition, direction) {
  * @param {int} x - x-coordinates.
  * @param {int} y - y-coordinates.
  * @param {int} z - z-coordinates.
+ * 
  * @return {boolean} true if the coordinates are in the matrix, false otherwise.
  * @throws {String} "Surface.isIn.ErrorNotANumber"
  * - the coordinates should be numbers
@@ -273,7 +279,7 @@ Surface.prototype.isIn = function (x, y, z) {
 
 //==============================================================================
 /**
- * @return {Vector} the size of the matrix.
+ * @return {Vector} The size of the matrix.
  */
 Surface.prototype.getDimension = function () {
 	return this.dimension;
@@ -283,6 +289,7 @@ Surface.prototype.getDimension = function () {
 //==============================================================================
 /**
  * Empty the matrix.
+ * 
  * @return {void}
  */
 Surface.prototype.clear = function () {

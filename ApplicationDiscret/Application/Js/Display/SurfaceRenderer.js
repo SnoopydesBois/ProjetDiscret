@@ -205,7 +205,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 	 * buffer.
 	 */
 	this.nbGlBuffer = Math.ceil (
-		this.modelController.getSurface ().getNbVoxel () / 1024
+		this.modelController.getSurface ().getNbVoxel () / 1024 * 8
 	);
 
 	var vertexBuffer = [];
@@ -243,11 +243,12 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 						<= connexity)
 				{
 					// 1024 -> see above, this.nbGlBuffer computes
-					idx = Math.trunc (cptPreparedVoxel / 1024);
+					idx = Math.trunc (cptPreparedVoxel / 1024 * 8);
 //					console.log ("appel de getVoxel avec", x, y, z);
 					this.prepareVoxel (
 						surface,
 						surface.getVoxel (x, y, z).getPosition (),
+						connexity,
 						0,
 						vertexBuffer[idx], 
 						indicesBuffer[idx], 
@@ -326,6 +327,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
  * 
  * @param {Surface} surface - The current surface.
  * @param {Vector} voxelPosition - The position of the current voxel.
+ * @param {ConnexityEnum} connexity - The globale connexity TODO.
  * @param {float} offset - An offset to draw the face.
  * @param {Array} vertexBuffer - The vertex buffer which contains 3-tuple
  * coordinates of each point.
@@ -345,6 +347,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 SurfaceRenderer.prototype.prepareVoxel = function (
 	surface,
 	voxelPosition,
+	connexity,
 	offset,
 	vertexBuffer, 
 	indicesBuffer,
@@ -354,18 +357,18 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 	colorVoxel,
 	universSize
 ) {
-	if (! checkType (arguments, Surface, Vector, "number", Array, Array, Array,
-		Array, Array, Array, Vector))
+	if (! checkType (arguments, Surface, Vector, "number", "number", Array,
+		Array, Array, Array, Array, Array, Vector))
 	{
 		console.error ("SurfaceRenderer.prepareVoxel: bad type(s) of" 
 				+ " parameter(s)");
-		showType (surface, voxelPosition, offset, vertexBuffer, indicesBuffer, 
-			colorBuffer, backColorBuffer, normalBuffer, colorVoxel,
-			universSize);
+		showType (surface, voxelPosition, connexity, offset, vertexBuffer,
+			indicesBuffer, colorBuffer, backColorBuffer, normalBuffer,
+			colorVoxel, universSize);
 		return;
 	}
 	for (var i = 0; i < DirectionEnum.size; ++i) {
-		if (surface.voxelHasFacet (voxelPosition, i)) {
+		if (surface.voxelHasFacet (voxelPosition, i, connexity)) {
 			var color = [0.0, 0.0, 0.0, 1.0];
 			if (globalParam.cubeColorDebug) {
 				switch (i) {
@@ -397,6 +400,19 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 				for (var a = 0; a < 3; ++a)
 					color[a] = colorVoxel[a] 
 						+ DirectionEnum.properties[i].axis.colorOffset;
+				if (globalParam.colorConnexity) {
+					epsilon = 0.35
+					switch (surface.getVoxel (voxelPosition).getConnexity ()) {
+					case ConnexityEnum.C18 :
+						color[1] -= epsilon;
+						color[2] -= epsilon;
+						break;
+					case ConnexityEnum.C6 :
+						color[1] -= epsilon * 2;
+						color[2] -= epsilon * 2;
+						break;
+				}
+			}
 			}
 			this.prepareFace (
 				surface.getVoxel (voxelPosition), 

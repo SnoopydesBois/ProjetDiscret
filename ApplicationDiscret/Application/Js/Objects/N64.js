@@ -36,9 +36,9 @@ function N64 (gl, width, space) {
 			for (var z = 0; z < dim; ++z) {
 				if (x < epaisseur && y < epaisseur) {
 					s.addVoxel (new Vector (x, y, z), ConnexityEnum.C6);
-					s.addVoxel (new Vector (dim - 1 - x, y, z), ConnexityEnum.C6);
+					s.addVoxel (new Vector (dim - 1 - x, y, z), ConnexityEnum.C26);
 					s.addVoxel (new Vector (x, dim - 1 - y, z), ConnexityEnum.C6);
-					s.addVoxel (new Vector (dim - 1 - x, dim - 1 - y, z), ConnexityEnum.C6);
+					s.addVoxel (new Vector (dim - 1 - x, dim - 1 - y, z), ConnexityEnum.C18);
 				}
 			}
 		}

@@ -222,19 +222,19 @@
 							
 							<li id="handFreeDrawing"
 								class="inaccessible"
-								title="Dessiner à main levée" key="m335"
+								title="Dessiner à main levée"
 								onclick="" key="m335" class="tr">Dessiner à main levée</li>
 						
 							<li class="split"><hr/></li>
 							
 							<li id="showSimpleParameter"
 								class="inaccessible"
-								title="Afficher les paramètres simples" key="m336"
+								title="Afficher les paramètres simples"
 								onclick="" key="m336" class="tr">Paramètres simples</li>
 							
 							<li id="showAdvancedParameter"
 								class="inaccessible"
-								title="Afficher les paramètres avancés" key="m337"
+								title="Afficher les paramètres avancés"
 								onclick="" key="m337" class="tr">Paramètres avancés</li>
 								
 								
@@ -336,15 +336,14 @@
 			<div id="curvesView">
 				<div id="meridianView">
 					<div id="meridianParam" class="paramPanel">
-						<span key="mer1" class="tr">Liste des paramètres Méridienne</span>
-						<div id="listMeridianParameters">
-						</div>
+<!--						<span key="mer1" class="tr">Liste des paramètres Méridienne</span>-->
+						<div id="listMeridianParameters"></div>
 					</div>
 					
 					<canvas id="meridianCanvas" style="display:none"></canvas>
 					<div id="meridianCanvas2"></div>
 					<div id="meridianOption" class="optionPanel">
-						<span key="mer2" class="tr" >Option Méridienne</span>
+<!--						<span key="mer2" class="tr">Option Méridienne</span>-->
 						<select id="listMeridians" name="listMeridians" onchange="appli.changeMeridian (this.value)">
 							<option value="Line" key="mer3" class="tr">Ligne</option>
 							<option value="Sinusoid" key="mer4" class="tr">Sinusoid</option>
@@ -353,19 +352,18 @@
 				</div>
 				<div id="revolView">
 					<div id="revolParam" class="paramPanel">
-						<span key="revol1" class="tr">Liste des paramètres Révolution</span>
-						<div id="listRevolutionParameters">
-						</div>
+<!--						<span key="revol1" class="tr">Liste des paramètres Révolution</span>-->
+						<div id="listRevolutionParameters"></div>
 					</div>
 					<canvas id="revolCanvas" style="display:none"></canvas>
 					<div id="revolCanvas2"></div>
 					
 					<div id="revolOption" class="optionPanel">
-						<span key="revol2" class="tr">Option Revolution</span>
+<!--						<span key="revol2" class="tr">Option Revolution</span>-->
 							<select id="listRevolutions" name="listRevolutions" onchange="appli.changeRevol (this.value)">
-							<option value="Circle" key="revol3" class="tr">Cercle</option>
-							<option value="Heart" key="revol4" class="tr">Coeur</option>
-							<option value="Lemniscate" key="revol5" class="tr">Lemniscate</option>
+								<option value="Circle" key="revol3" class="tr">Cercle</option>
+								<option value="Heart" key="revol4" class="tr">Coeur</option>
+								<option value="Lemniscate" key="revol5" class="tr">Lemniscate</option>
 							</select>
 					</div>
 				</div>
@@ -417,23 +415,20 @@
 			
 			appli.initAppli ();
 		
-		</script>
-		
-		<script type="text/javascript">
-
-		var surfaceCanvas = document.getElementById('surfaceCanvas'),
-			ctx = surfaceCanvas.getContext('2d');
+			/// PNG test
+			var surfaceCanvas = document.getElementById('surfaceCanvas'),
+				ctx = surfaceCanvas.getContext('2d');
 
 
-		function downloadsurfaceCanvas(link, surfaceCanvasId, filename) {
-			link.href = document.getElementById(surfaceCanvasId).toDataURL();
-			link.download = filename;
-		}
+			function downloadsurfaceCanvas(link, surfaceCanvasId, filename) {
+				link.href = document.getElementById(surfaceCanvasId).toDataURL();
+				link.download = filename;
+			}
 
 
-		document.getElementById('download').addEventListener('click', function() {
-			downloadsurfaceCanvas(this, 'surfaceCanvas', 'test.png');
-		}, false);
+			document.getElementById('download').addEventListener('click', function() {
+				downloadsurfaceCanvas(this, 'surfaceCanvas', 'test.png');
+			}, false);
 
 		</script>
 	</body>
