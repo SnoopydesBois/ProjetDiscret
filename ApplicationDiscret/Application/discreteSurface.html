@@ -56,6 +56,7 @@
 		<script type="text/javascript" src="Js/Objects/BoundingBox.js"></script>
 		<script type="text/javascript" src="Js/Objects/Grid.js"></script>
 
+		<script type="text/javascript" src="Js/Threads/AlgoWorker.js"></script>
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo1Worker.js"></script>
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo2Worker.js"></script>
 		
@@ -451,11 +452,13 @@
 			var appli = new Application ();
 			
 			var gl = appli.surfaceView.glContext;
-			var n64 = new N64 (gl, 6, 9);
-			//appli.surfaceView.container.addObject (n64);
+			var n64 = new N64 (gl, 20, 20);
+			appli.surfaceView.container.addObject (n64);
 			//globalParam.cubeColorDebug = true;
+			globalParam.colorConnexity = true;
 			
 			appli.initAppli ();
+			console.log (n64.nbGlBuffer);
 		
 			/// PNG test
 			var surfaceCanvas = document.getElementById('surfaceCanvas'),
