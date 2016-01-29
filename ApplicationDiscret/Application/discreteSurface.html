@@ -432,10 +432,11 @@
 						<input id="dimx" type="text" value="21"/>
 						<input id="dimy" type="text" value="21"/>
 						<input id="dimz" type="text" value="21"/>
-						<select id="connexityChoice" name="connexityChoice" onchange="appli.surfaceView.show ()">
-							<option value="0" key="" class="tr">C26</option>
-							<option value="1" key="" class="tr">C18</option>
-							<option value="2" key="" class="tr">C6</option>
+						<select id="connexityChoice" name="connexityChoice" 
+							onchange="appli.surfaceView.unprepare ();appli.surfaceView.show ()">
+							<option value="0">C26</option>
+							<option value="1">C18</option>
+							<option value="2">C6</option>
 						</select>
 					</p>
 				</div>
@@ -452,6 +453,7 @@
 			var appli = new Application ();
 			
 			var gl = appli.surfaceView.glContext;
+			
 			//var n64 = new N64 (gl, 20, 20);
 			//appli.surfaceView.container.addObject (n64);		
 			//globalParam.cubeColorDebug = true;

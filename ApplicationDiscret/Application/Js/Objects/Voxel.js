@@ -82,7 +82,7 @@ Voxel.prototype.constructor = Voxel;
  * 
  * @param {Vector} pos - Vector to define the position of the Voxel.
  * @param {EnumConnexity} connexity - The connexity for which the voxel should 
- * be displayed
+ * be displayed.
  */
 function Voxel (pos, connexity) {
 	if (!pos instanceof Vector) {
@@ -94,13 +94,13 @@ function Voxel (pos, connexity) {
 	 */
 	this.position = pos;
 	
-//	/**
-//	 * {ConnexityEnum[]} List of visible faces (all visible by default).
-//	 */
-//	this.faces = [];
-//	for (var i = 0; i < DirectionEnum.size; ++i) {
-//		this.faces.push (true);
-//	}
+	/**
+	 * {ConnexityEnum[]} List of connexity of neightbor.
+	 */
+	this.faces = [];
+	for (var i = 0; i < DirectionEnum.size; ++i) {
+		this.faces.push (ConnexityEnum.NULL);
+	}
 	
 	/**
 	 * {ConnexityEnum} TODO
@@ -148,88 +148,40 @@ Voxel.prototype.isVisible = function () {
 
 
 //==============================================================================
-///**
-// * @return {int} How many faces are visible.
-// */
-//Voxel.prototype.getNbVisibleFace = function () {
-//	var nb = 0, len = this.faces.length;
-//	for (var i = 0; i < len; ++i) {
-//		if (this.faces[i])
-//			++nb;
-//	}
-//	return nb;
-//};
+/**
+ * TODO
+ * 
+ * @param {DirectionEnum} dir - Direction of the face.
+ * @param {ConnexityEnum} connexity - The connexity.
+ * 
+ * @throws {String} Voxel.hasFacet.ErrorNotADirection - 'dir' should be a
+ * DirectionEnum.
+ * @return {boolean} True if the face exists in this connexity, false otherwise.
+ */
+Voxel.prototype.hasFacet = function (dir, connexity) {
+	if (! checkType (arguments, "number", "number")) {
+		throw "Voxel.hasFacet: bad type(s) of parameter(s)";
+	}
+	
+	return this.connexity < this.faces[dir] && this.faces[dir] > connexity;
+};
 
 
 //==============================================================================
-///**
-// * Assessor on the faces.
-// * 
-// * @param {DirectionEnum} dir - Direction of the face.
-// * @param {ConnexityEnum} connexity - The connexity.
-// * 
-// * @throws {String} Voxel.hasFacet.ErrorNotADirection - 'dir' should be a
-// * DirectionEnum.
-// * @return {boolean} True if the face exists in this connexity, false otherwise.
-// */
-//Voxel.prototype.hasFacet = function (dir, connexity) {
-//	if (typeof dir != "number" || dir < 0 || dir > DirectionEnum.size) {
-//		throw "Voxel.hasFacet.ErrorNotADirection";
-//	}
-//	
-//	return this.faces[dir];
-//};
-
-
-//==============================================================================
-///**
-// * Add a face.
-// * 
-// * @param {DirectionEnum} dir - direction of the face.
-// * 
-// * @throws {string} Voxel.addFacet.ErrorNotADirection - 'dir' should be a
-// * DirectionEnum.
-// * @return {void}
-// */
-//Voxel.prototype.addFacet = function (dir, ) {
-//	if (typeof dir != "number" || dir < 0 || dir > DirectionEnum.length) {
-//		throw "Voxel.addFacet.ErrorNotADirection";
-//	}
-//	
-//	this.faces[dir] = true;
-//};
-
-
-//==============================================================================
-///**
-// * Remove a face.
-// * 
-// * @param {DirectionEnum} dir - Direction of the face.
-// * 
-// * @throws {string} Voxel.removeFacet.ErrorNotADirection - 'dir' should be a
-// * DirectionEnum.
-// * @return {void}
-// */
-//Voxel.prototype.removeFacet = function (dir) {
-//	if (typeof dir != "number" || dir < 0 || dir > DirectionEnum.length) {
-//		throw "Voxel.removeFacet.ErrorNotADirection";
-//	}
-//	
-//	this.faces[dir] = false;
-//};
-
-
-//==============================================================================
-///**
-// * @return {boolean} True if the cube is visible, false otherwise.
-// */
-//Voxel.prototype.isVisible = function () {
-//	for (var i = 0; i < this.faces.length; ++i) {
-//		if (this.faces[i]) {
-//			return true;
-//		}
-//	}
-//	return false;
-//};
+/**
+ * TODO
+ * 
+ * @param {DirectionEnum} dir - Direction of the face.
+ * 
+ * @throws {String} TODO
+ * @return {void}
+ */
+Voxel.prototype.setFacetConnexity = function (dir, connexity) {
+	if (! checkType (arguments, "number", "number")) {
+		throw "Voxel.hasFacet: bad type(s) of parameter(s)";
+	}
+	
+	this.faces[dir] = connexity;
+};
 
 
