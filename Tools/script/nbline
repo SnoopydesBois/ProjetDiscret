@@ -1,0 +1,53 @@
+#!/bin/bash
+# 
+# bash script nbline
+# 
+# author : abisutti
+# created : Thu, 28 Jan 2016 18:23:26 +0100
+# modified : Thu, 28 Jan 2016 18:23:26 +0100
+# 
+##########################################
+
+
+
+	#################
+	### variables ###
+	#################
+
+
+description="...NOT ANY DESCRIPTION"
+use="use : `basename $0` ...NOT ANY DESCRIPTION"
+
+
+
+	#################
+	### functions ###
+	#################
+
+
+function help () { # no argument
+	echo -e $description"\n"
+	echo -e "\nUsage :"
+	echo -e "  "$use"\n"
+	echo "Options :"
+	echo "  -h    Display this help and exit."
+}
+
+
+function error () { # $1 : current error description
+	echo `basename $0`" : "$1 
+}
+
+
+
+	##############
+	### script ###
+	##############
+
+
+for f in $(find . -name \*.js); do
+	nbline=$(cat $f | sed -e '/^[\t ]*\*/d; /^[\t ]*\/\*/d; /^[\t ]*\/\//d; /^[\n\r\t ]*$/d' | wc -l)
+	echo -e "$nbline\t$f"
+done
+
+

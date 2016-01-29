@@ -270,29 +270,6 @@ GenericContener.prototype.getObject = function (id) {
 
 
 //==============================================================================
-///**
-// * Get an object given its name.
-// * 
-// * @param {String} aName - Name of the object to return.
-// * 
-// * @return {GenericStructure} The object corresponding to the name in parameter
-// * if it exists, null otherwise.
-// */
-//GenericContener.prototype.getObjectByName = function (aName) {
-//	var length = this.objectList.length;
-//	
-//	for (var i = 0; i < length; ++i) {
-//		if (this.objectList[i].getName() === aName)
-//			return this.objectList[i];
-//	}
-//	
-//	console.error ("GenericContener.getObjectByName : object : \"" + aName
-//			+ "\" not found");
-//	return null;
-//};
-
-
-//==============================================================================
 /**
  * Remove an object by id (if id is out of bound, nothing happen).
  * 
@@ -309,26 +286,6 @@ GenericContener.prototype.removeObject = function (id) {
 	if (id >= 0 && id < this.objectList.length)
 		this.objectList.splice (id, 1); // Remove from the list
 };
-
-
-//==============================================================================
-///**
-// * Remove an object by name.
-// * 
-// * @param {!String} aName - Name of the object to remove.
-// * 
-// * @return {void}
-// */
-//GenericContener.prototype.removeObjectByName = function (aName) {
-//	for (var i = 0; i < this.objectList.length; ++i) {
-//		if (this.objectList[i].getName() === aame) {
-//			this.objectList.splice (i, 1); // Remove from the list
-//			break;
-//		}
-//	}
-//	console.error ("GenericContener.removeObjectByName: object : \"" + aName 
-//			+ "\" not found");
-//};
 
 
 

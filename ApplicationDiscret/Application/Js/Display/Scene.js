@@ -203,7 +203,7 @@ Scene.prototype.getObjectByName = function (aName) {
 			return this.objectList[i];
 	}
 	
-	console.error ("Scene.getObjectByName : object : \"" + aName
+	console.log ("Scene.getObjectByName : object : \"" + aName
 			+ "\" not found");
 	return null;
 };
@@ -213,6 +213,7 @@ Scene.prototype.getObjectByName = function (aName) {
 /**
  * Remove an object by name.
  * 
+
  * @param {!String} aName - Name of the object to remove.
  * 
  * @return {void}
@@ -224,8 +225,23 @@ Scene.prototype.removeObjectByName = function (aName) {
 			return;
 		}
 	}
-	console.error ("Scene.removeObjectByName: object : \"" + aName 
+	console.log ("Scene.removeObjectByName: object : \"" + aName 
 			+ "\" not found");
+};
+
+
+
+//==============================================================================
+/**
+ * Set the 'prepared' attribute of each object at false.
+ * 
+ * @return {void}
+ */
+Scene.prototype.unprepare = function (aName) {
+	var len = this.getNbObject ();
+	for (var i = 0; i < len; ++i) {
+		this.objectList[i].unprepare ();
+	}
 };
 
 

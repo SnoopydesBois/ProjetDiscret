@@ -136,10 +136,27 @@ Controller3D.prototype.generate = function (mode) {
 
 //==============================================================================
 /**
+
  * @return {Surface} The surface.
  */
 Controller3D.prototype.getSurface = function () {
 	return this.modelGen.getSurface ();
+};
+
+
+//==============================================================================
+/**
+ * @param {(Vector | Number[3] | Number)} position - The position of the voxel
+ * (if it is a vector or an array) or the X coordinate of the voxel.
+ * @param {Number} [y] - Y coordinate of the voxel.
+ * @param {Number} [z] - Z coordinate of the voxel.
+ * @see {@link Surface.isVoxelVisible}
+ * 
+ * @return {boolean} True if the voxel at 'position' is visible, false
+ * otherwise.
+ */
+Controller3D.prototype.isVoxelVisible = function (position, y, z) {
+	return this.modelGen.getSurface ().isVoxelVisible (position, y, z);
 };
 
 

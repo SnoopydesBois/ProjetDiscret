@@ -59,7 +59,7 @@
  * clear() : void
  * getNbNeighbor(x : int, y : int, z : int) : int
  * getNbCube() : int
- * setVoxelVisibility(position : Vector, visiblity : bool) : void
+ * setVoxelVisibility(position : Vector, visibility : bool) : void
  * isVoxelVisible(position : Vector) : bool
  * printOnly(range : Range, axis : AxisEnum) : void
  */
@@ -85,9 +85,10 @@ Surface.prototype.constructor = Surface;
 /**
  * @constructor
  * 
- * @param {Vector} size - vector to define the size of the model.
+ * @param {Vector} size - Vector to define the size of the model.
  */
 function Surface (size) {
+	/// parameter verification
 	if (! size instanceof Vector) {
 		console.error ("Surface.constructor: parameter is not a Vector");
 	}
@@ -98,14 +99,14 @@ function Surface (size) {
 	this.dimension = new Vector (size);
 	
 	/**
-	 * {Array} 3 dimensionnal array containing the surface data
+	 * {Array} 3 dimensionnal array containing the surface data.
 	 */
 	this.matVoxel = [];
-	for (var x = 0; x < this.dimension.m[0]; ++x) {
+	for (var x = 0; x < this.dimension.x; ++x) {
 		this.matVoxel[x] = [];
-		for (var y = 0; y < this.dimension.m[1]; ++y) {
+		for (var y = 0; y < this.dimension.y; ++y) {
 			this.matVoxel[x][y] = [];
-			for (var z = 0; z < this.dimension.m[2]; ++z) {
+			for (var z = 0; z < this.dimension.z; ++z) {
 				this.matVoxel[x][y][z] = null;
 			}
 		}
@@ -118,27 +119,42 @@ function Surface (size) {
 }
 
 
-//==============================================================================
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
+
+
+
 /**
  * TODO
- * @param {Vector} position - the voxel's coordinates
+ * @param {Vector} position - the voxel's coordinates.
+ * 
  * @return {Voxel} voxel at the specified coordinates.
  * @throws {String} "Surface.getVoxel.ErrorNotAVector"
- * - Position should be of type Vector
+ * - Position should be of type Vector.
  */
-Surface.prototype.getVoxel = function (position, y, z) {
+Surface.prototype.getVoxel = function (position, yCoord, zCoord) {
+	var x, y, z;
 	if (position instanceof Vector) {
-		return this.matVoxel[position.x][position.y][position.z];
+		x = position.x;
+		y = position.y;
+		z = position.z;
 	}
 	else if (position instanceof Array && position.length >= 3) {
-		return this.matVoxel[position[0]][position[1]][position[2]];
+		x = position[0];
+		y = position[1];
+		z = position[2];
 	}
 	else if (checkType (arguments, "number", "number", "number")) {
-//		console.error (position, y, z);
-		return this.matVoxel[position][y][z];
+		x = position;
+		y = yCoord;
+		z = zCoord;
 	}
 	else
 		throw "Surface.getVoxel: bad type(s) of parameter(s)"
+	
+	return (this.isIn (x, y, z)) ? this.matVoxel[x][y][z] : null;
 };
 
 
@@ -149,41 +165,50 @@ Surface.prototype.getVoxel = function (position, y, z) {
  * @param {EnumConnexity} connexity - The connexity for which the voxel should 
  * be displayed.
  * 
- * @throws {String} "Surface.addVoxel.ErrorNotAVector"
- * - position should be of type Vector
+ * @throws {String} TODO
  * @throws {String} "Surface.addVoxel.OutOfBounds"
  * - the voxel is out of bounds
  */
 Surface.prototype.addVoxel = function (position, connexity) {
-	if (!(position instanceof Vector))
-		throw "Surface.addVoxel.ErrorNotAVector";
+	/// parameters verification
+	if (! checkType (arguments, Vector, "number"))
+		throw "Surface.addVoxel: bad type(s) of parameter(s)";
 	
+	/// add the voxel
 	var x = position.x;
 	var y = position.y;
 	var z = position.z;
 	
 	if (this.isIn (x, y, z)) {
-//		if (this.matVoxel[x][y][z] === null) {
+		if (this.matVoxel[x][y][z] === null) {
+			
 			this.matVoxel[x][y][z] = new Voxel (position, connexity);
-
-//			var size = DirectionEnum.size;
-//			for (var i = 0; i < size; ++i) {
-//				var newX = x + DirectionEnum.properties[i].x;
-//				var newY = y + DirectionEnum.properties[i].y;
-//				var newZ = z + DirectionEnum.properties[i].z;
-//				
-//				if (this.isIn(newX, newY, newZ)) {
-//					if (this.matVoxel[newX][newY][newZ] !== null) {
-//						this.matVoxel[x][y][z].removeFacet(i);
-//						this.matVoxel[newX][newY][newZ]
-//							.removeFacet(DirectionEnum.properties[i].oppose);
-//					}
-//				}
-//			}
 			this.nbVoxel++;
-//		}
-//		return true;
-	}
+		}
+		else {
+			// the voxel already exist, just add connexity
+			this.matVoxel[x][y][z].connexity | connexity;
+		}
+		var size = DirectionEnum.size;
+		for (var i = 0; i < size; ++i) {
+			var newX = x + DirectionEnum.properties[i].x;
+			var newY = y + DirectionEnum.properties[i].y;
+			var newZ = z + DirectionEnum.properties[i].z;
+			
+			if (this.isIn (newX, newY, newZ) 
+				&& this.matVoxel[newX][newY][newZ] !== null)
+			{
+				this.matVoxel[x][y][z].addFacetConnexity (
+					i, 
+					this.matVoxel[newX][newY][newZ].getConnexity ()
+				);
+				this.matVoxel[newX][newY][newZ].addFacetConnexity (
+					DirectionEnum.properties[i].oppose,
+					connexity
+				);
+			}
+		} // end for each neighbor
+	} // end if coordinates are corect
 	else
 		throw "Surface.addVoxel.OutOfBounds";
 };
@@ -207,7 +232,7 @@ Surface.prototype.voxelHasFacet = function (voxelPosition, direction,
 		ny = voxelPosition.y + DirectionEnum.properties[direction].y,
 		nz = voxelPosition.z + DirectionEnum.properties[direction].z;
 	var neighbor = (this.isIn (nx, ny, nz)) ? this.getVoxel (nx, ny, nz) : null;
-	return (neighbor == null ||
+	return (neighbor == null || !neighbor.visibility ||
 		(voxel.getConnexity () < neighbor.getConnexity ()
 		&& neighbor.getConnexity () > connexity)
 	);
@@ -367,37 +392,51 @@ Surface.prototype.setVoxelVisibility = function (position, visibility) {
 //==============================================================================
 /**
  * @param {Vector} position - The coordinates of the voxel to test.
- * 
+ * TODO
  * @return {boolean} True if the voxel is visible, else false
  * @throws {String} "Surface.isVoxelVisible.ErrorNotAVector"
- * - the position should be of type Vector.
+ * - the position should be of type Vector. TODO
  * @throws {String} "Surface.isVoxelVisible.OutOfBounds"
  * - the voxel is out of bounds.
  */
-Surface.prototype.isVoxelVisible = function (position) {
-	if (!position instanceof Vector) {
-		throw "Surface.isVoxelVisible.ErrorNotAVector";
+Surface.prototype.isVoxelVisible = function (position, yCoord, zCoord) {
+	/// coordinates assignition
+	var x, y, z;
+	if (position instanceof Vector) {
+		x = position.x;
+		y = position.y;
+		z = position.z;
 	}
+	else if (position instanceof Array && position.length >= 3) {
+		x = position[0];
+		y = position[1];
+		z = position[2];
+	}
+	else if (checkType (arguments, "number", "number", "number")) {
+		x = position;
+		y = yCoord;
+		z = zCoord;
+	}
+	else
+		throw "Surface.getVoxel: bad type(s) of parameter(s)"
 	
-	var x = position.x;
-	var y = position.y;
-	var z = position.z;
-	
+	/// search visibility
 	if (this.isIn (x, y, z))
 		return this.matVoxel[x][y][z].isVisible ();
-	else
+	else 
 		throw "Surface.isVoxelVisible.OutOfBounds";
 };
 
 
 //==============================================================================
 /**
- * @param {Vector} position - The coordinates of the voxel to set the 
- * visibility.
- * @param {boolean} visibility - The visibility to set to the voxel.
+ * TODO
+ * 
+ * @param {Range} range - TODO
+ * @param {AxisEnum} axis - TODO
  * 
  * @throws {String} "Surface.printOnly.ErrorNotARange" 
- * - The range should be of type Range
+ * - The range should be of type Range.
  */
  // FIXME Nom à revoir
 Surface.prototype.printOnly = function (range, axis) {
@@ -422,8 +461,8 @@ Surface.prototype.printOnly = function (range, axis) {
 						visible = false;
 					break;
 				}
-				if (this.matVoxel[x][y][z] != null)
-					this.matVoxel[x][y][z].visiblity = visible;
+				if (this.matVoxel[x][y][z] !== null)
+					this.matVoxel[x][y][z].visibility = visible;
 			} // end for z
 		} // end for y
 	} // end for x
@@ -446,7 +485,7 @@ Surface.prototype.setConnexity = function (connexity) {
 		for (var y = 0; y < this.dimension.y; ++y) {			
 			for (var z = 0; z < this.dimension.z; ++z) {
 				vox = this.matVoxel[x][y][z];
-				if (vox != null && vox.getConnexity () <= connexity){
+				if (vox != null && vox.connexity | connexity){
 					vox.visibility = true;
 				}
 			} // end for each z
