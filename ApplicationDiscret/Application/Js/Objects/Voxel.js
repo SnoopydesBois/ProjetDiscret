@@ -149,6 +149,7 @@ Voxel.prototype.getConnexity = function () {
 //==============================================================================
 /**
  * TODO
+
  * 
  * @param {ConnexityEnum} [connexity] - The global connexity.
  * 
@@ -161,7 +162,7 @@ Voxel.prototype.isVisible = function (connexity) {
 
 //==============================================================================
 /**
- * TODO
+ * Test if a facet exist.
  * 
  * @param {DirectionEnum} dir - Direction of the face.
  * @param {ConnexityEnum} connexity - The connexity.
@@ -175,8 +176,8 @@ Voxel.prototype.hasFacet = function (dir, connexity) {
 		throw "Voxel.hasFacet: bad type(s) of parameter(s)";
 	}
 	
-//	return !(this.neighborVisibility[dir] || this.faces[dir] & connexity); 
-	return !(this.faces[dir] & connexity); // FIXME
+	return !(this.neighborVisibility[dir] && (this.faces[dir] & connexity));
+//	return !(this.faces[dir] & connexity); // FIXME
 };
 
 

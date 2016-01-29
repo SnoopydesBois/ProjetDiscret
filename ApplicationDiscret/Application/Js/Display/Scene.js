@@ -287,23 +287,22 @@ Scene.prototype.prepare = function (glContext, connexity) {
 		if (! this.objectList[i].isPrepared ()) {
 			if (this.objectList[i] instanceof SurfaceRenderer) { // FIXME sale !
 				var o = this.objectList[i].getModelController ().getSurface ();
-				o.printOnly (new Range (
+				o.printOnly (
+					new Range (
 						parseInt (document.getElementById ("amountMinX").value),
 						parseInt (document.getElementById ("amountMaxX").value)
+							- 1
 					),
-					AxisEnum.X
-				);
-				o.printOnly (new Range (
+					new Range (
 						parseInt (document.getElementById ("amountMinY").value),
 						parseInt (document.getElementById ("amountMaxY").value)
+							- 1
 					),
-					AxisEnum.Y
-				);
-				o.printOnly (new Range (
+					new Range (
 						parseInt (document.getElementById ("amountMinZ").value),
 						parseInt (document.getElementById ("amountMaxZ").value)
-					),
-					AxisEnum.Z
+							- 1
+					)
 				);
 			} // fin du truc sale
 			this.objectList[i].prepare (glContext, connexity);
