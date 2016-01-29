@@ -143,17 +143,29 @@ function checkVoxel (implicit_curve, x, y, z) {
  * 
  * @return {void}
  */
-function addNeighboursToPile (x, y, z, pile) {
-	if(x-1 >= 0 && !checked[x-1][y][z])
+function addNeighboursToPile (x, y, z, pile, checked) {
+	if(x-1 >= 0 && !checked[x-1][y][z]){
+		checked[x-1][y][z] = true;
 		pile.push([x-1, y, z]);
-	if(x+1 < dimx && !checked[x+1][y][z])
+	}
+	if(x+1 < dimx && !checked[x+1][y][z]){
+		checked[x+1][y][z] = true;
 		pile.push([x+1, y, z]);
-	if(y-1 >= 0 && !checked[x][y-1][z])
+	}
+	if(y-1 >= 0 && !checked[x][y-1][z]){
+		checked[x][y-1][z] = true;
 		pile.push([x, y-1, z]);
-	if(y+1 < dimy && !checked[x][y+1][z])
+	}
+	if(y+1 < dimy && !checked[x][y+1][z]){
+		checked[x][y+1][z] = true;
 		pile.push([x, y+1, z]);
-	if(z-1 >= 0 && !checked[x][y][z-1])
+	}
+	if(z-1 >= 0 && !checked[x][y][z-1]){
+		checked[x][y][z-1] = true;
 		pile.push([x, y, z-1]);
-	if(z+1 < dimz && !checked[x][y][z+1])
+	}
+	if(z+1 < dimz && !checked[x][y][z+1]){
+		checked[x][y][z+1] = true;
 		pile.push([x, y, z+1]);
+	}
 }

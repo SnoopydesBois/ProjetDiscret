@@ -76,7 +76,7 @@ function algo () {
 				if(connexity !== false){
 					buffer.push([x, y, z, connexity]);
 					bufferSize++;
-					addNeighboursToPile(x,y,z,pile);
+					addNeighboursToPile(x,y,z,pile, checked);
 				}
 				checked[x][y][z] = true;
 			} // end for x
@@ -107,7 +107,7 @@ function algo () {
 		if(connexity !== false){
 			buffer.push([voxel[0], voxel[1], voxel[2], connexity]);
 			bufferSize++;
-			addNeighboursToPile(voxel[0],voxel[1],voxel[2],pile);
+			addNeighboursToPile(voxel[0],voxel[1],voxel[2],pile, checked);
 		}
 	}
 	//post last buffer
@@ -128,7 +128,7 @@ function init(e) {
 		for (y = 0; y < dimy; ++y) {
 			checked[x][y] = [];
 			for (z = 0; z < dimz; ++z) {
-				checked[x][y][z] = null;
+				checked[x][y][z] = false;
 			}
 		}
 	}
