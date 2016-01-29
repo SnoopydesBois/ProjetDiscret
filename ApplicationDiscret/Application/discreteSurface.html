@@ -452,13 +452,13 @@
 			var appli = new Application ();
 			
 			var gl = appli.surfaceView.glContext;
-			var n64 = new N64 (gl, 20, 20);
-			appli.surfaceView.container.addObject (n64);
+			//var n64 = new N64 (gl, 20, 20);
+			//appli.surfaceView.container.addObject (n64);		
 			//globalParam.cubeColorDebug = true;
 			globalParam.colorConnexity = true;
 			
 			appli.initAppli ();
-			console.log (n64.nbGlBuffer);
+			//console.log (n64.nbGlBuffer);
 		
 			/// PNG test
 			var surfaceCanvas = document.getElementById('surfaceCanvas'),

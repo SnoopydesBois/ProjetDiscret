@@ -117,7 +117,7 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 			  height : $('#revolCanvas2').height(),
 			  xAxis : {domain: [obj.getXRange().getMin(), obj.getXRange().getMax()]},
 			  yAxis : this.computeYScale(width, height, obj.getXRange()),
-			  disableZoom : true,
+			  disableZoom : false,
 			  data: [{
 				color : color,
 				fn: obj.getEquation().toStringNoParam(),
@@ -133,7 +133,7 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 			  height : min,
 			  xAxis : {domain: [0, obj.getXRange().getMax()]},
 			  yAxis : {domain: [0, obj.getYRange().getMax()]},
-			  disableZoom : true,
+			  disableZoom : false,
 			  data: [{
 				x: obj.getEquation().toStringNoParam().replace(/x/g , 't'),
 				y: 't',
