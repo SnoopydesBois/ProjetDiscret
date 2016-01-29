@@ -205,6 +205,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 	}
 	console.log ("Prepare de " + this.structureName);
 	
+	///
 	var size = this.modelController.getDimension ();
 	
 	/* In the indices buffer, there are at the most 4*6 number. One number is a

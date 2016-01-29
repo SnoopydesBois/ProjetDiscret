@@ -103,6 +103,14 @@ function Voxel (pos, connexity) {
 	}
 	
 	/**
+	 * {boolean} List of visible neightbor.
+	 */
+	this.neighborVisibility = [];
+	for (var i = 0; i < DirectionEnum.size; ++i) {
+		this.faces.push (true);
+	}
+	
+	/**
 	 * {ConnexityEnum} TODO
 	 */
 	this.connexity = connexity;
@@ -167,7 +175,8 @@ Voxel.prototype.hasFacet = function (dir, connexity) {
 		throw "Voxel.hasFacet: bad type(s) of parameter(s)";
 	}
 	
-	return !(this.faces[dir] & connexity)
+//	return !(this.neighborVisibility[dir] || this.faces[dir] & connexity); 
+	return !(this.faces[dir] & connexity); // FIXME
 };
 
 
