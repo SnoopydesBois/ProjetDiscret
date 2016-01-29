@@ -65,15 +65,10 @@ function algo () {
 		var bufferSize = 0;
 		for (var y = 0; y < dimy; y++){
 			for (var x = 0; x < dimx; x++){
-				if (check26Connex(implicit_curve, x - maxx, y - maxy, [rz, rz1, rz2])){
-					buffer.push([x, y, z, ConnexityEnum.C26]);
-					bufferSize++;
-				} else if (check18Connex(implicit_curve, x - maxx, y - maxy, [rz, rz1, rz2])) {
-					buffer.push([x, y, z, ConnexityEnum.C18]);
-					bufferSize++;
-				} else if (check6Connex(implicit_curve, x - maxx, y - maxy, [rz1, rz2])){
-					buffer.push([x, y, z, ConnexityEnum.C6]);
-					bufferSize++;
+				connexity = checkVoxel(implicit_curve, x - maxx, y - maxy, [rz, rz1, rz2]);
+				if(connexity != 0){
+					buffer.push([x,y,z,connexity]);
+					bufferSize ++;
 				}
 			} // end for x
 		} // end for y

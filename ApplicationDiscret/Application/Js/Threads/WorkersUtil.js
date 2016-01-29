@@ -122,14 +122,15 @@ function check6Connex (implicit_curve, x, y, z){
  * to the surface, else the corresponding connexity
  */
 function checkVoxel (implicit_curve, x, y, z) {
-	var res;
+	var res = 0;
 	if (check26Connex(implicit_curve, x, y, z)){
-		return ConnexityEnum.C26;
-	} else if (check18Connex(implicit_curve, x, y, z)) {
-		return ConnexityEnum.C18;
-	} else if (check6Connex(implicit_curve,  x, y, [z[1],z[2]])){
-		return ConnexityEnum.C6;
-	} else return false;
+		res |= ConnexityEnum.C26;
+	} if (check18Connex(implicit_curve, x, y, z)) {
+		res |= ConnexityEnum.C18;
+	} if (check6Connex(implicit_curve,  x, y, [z[1],z[2]])){
+		res |= ConnexityEnum.C6;
+	}
+	return res;
 }
 
 
