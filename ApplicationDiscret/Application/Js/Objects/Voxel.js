@@ -140,10 +140,14 @@ Voxel.prototype.getConnexity = function () {
 
 //==============================================================================
 /**
+ * TODO
+ * 
+ * @param {ConnexityEnum} [connexity] - The global connexity.
+ * 
  * @return {boolean} True if the voxel is visible, false otherwise.
  */
-Voxel.prototype.isVisible = function () {
-	return this.visibility;
+Voxel.prototype.isVisible = function (connexity) {
+	return this.visibility && (this.connexity & connexity);
 };
 
 
@@ -163,7 +167,7 @@ Voxel.prototype.hasFacet = function (dir, connexity) {
 		throw "Voxel.hasFacet: bad type(s) of parameter(s)";
 	}
 	
-	return this.connexity < this.faces[dir] && this.faces[dir] > connexity;
+	return !(this.faces[dir] & connexity)
 };
 
 
@@ -172,16 +176,37 @@ Voxel.prototype.hasFacet = function (dir, connexity) {
  * TODO
  * 
  * @param {DirectionEnum} dir - Direction of the face.
+ * @param {ConnexityEnum} connexity - TODO
  * 
  * @throws {String} TODO
  * @return {void}
  */
-Voxel.prototype.setFacetConnexity = function (dir, connexity) {
+Voxel.prototype.addFacetConnexity = function (dir, connexity) {
 	if (! checkType (arguments, "number", "number")) {
-		throw "Voxel.hasFacet: bad type(s) of parameter(s)";
+		throw "Voxel.addFacetConnexity: bad type(s) of parameter(s)";
 	}
 	
-	this.faces[dir] = connexity;
+	this.faces[dir] = this.faces[dir] | connexity;
 };
+
+
+//==============================================================================
+/**
+ * TODO
+ * 
+ * @param {DirectionEnum} dir - Direction of the face.
+ * @param {ConnexityEnum} connexity - TODO
+ * 
+ * @throws {String} TODO
+ * @return {void}
+ */
+Voxel.prototype.removeFacetConnexity = function (dir, connexity) {
+	if (! checkType (arguments, "number", "number")) {
+		throw "Voxel.removeFacetConnexity: bad type(s) of parameter(s)";
+	}
+	
+	this.faces[dir] = this.faces[dir] & !connexity;
+};
+
 
 

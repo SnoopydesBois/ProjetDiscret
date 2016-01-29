@@ -434,9 +434,9 @@
 						<input id="dimz" type="text" value="21"/>
 						<select id="connexityChoice" name="connexityChoice" 
 							onchange="appli.surfaceView.unprepare ();appli.surfaceView.show ()">
-							<option value="0">C26</option>
-							<option value="1">C18</option>
-							<option value="2">C6</option>
+							<option value="1">C26</option>
+							<option value="2">C18</option>
+							<option value="4">C6</option>
 						</select>
 					</p>
 				</div>
@@ -454,9 +454,10 @@
 			
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 9);
+			//var s = n64.modelController.modelGen.surface
 			//appli.surfaceView.container.addObject (n64);
 			//globalParam.cubeColorDebug = true;
-			globalParam.colorConnexity = true;
+			globalParam.colorConnexity = false;
 			
 			appli.initAppli ();
 			//console.log (n64.nbGlBuffer);
