@@ -203,6 +203,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 	if (! checkType (arguments, WebGLRenderingContext, "number")) {
 		throw "SurfaceRenderer.prepare: bad type(s) of parameter(s)";
 	}
+	console.log ("Prepare de " + this.structureName);
 	
 	var size = this.modelController.getDimension ();
 	

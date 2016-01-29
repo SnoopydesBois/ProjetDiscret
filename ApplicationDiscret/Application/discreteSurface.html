@@ -146,7 +146,7 @@
 				<h1 key="m2" class="tr">Affichage</h1>
 				<ul>
 					<li title="Générer la surface dans la vue 3D" key="m21" class="tr"
-						onclick="appli.surfaceView.show ()">Générer</li>
+						onclick="appli.surfaceView.show (true)">Générer</li>
 						
 					<li title="Centrer la caméra" key="m22" class="tr"
 						onclick="">Centrer la caméra</li>
@@ -158,7 +158,7 @@
 							this.innerHTML = 'Orthographique';
 						}
 						globalParam.perspectiveView = !globalParam.perspectiveView;
-						appli.surfaceView.show ()">Orthographique</li>
+						appli.surfaceView.show (true)">Orthographique</li>
 						
 					<li class="split"><hr/></li>
 					
@@ -175,7 +175,7 @@
 							this.innerHTML = 'Couleur blanche';
 						}
 						globalParam.cubeColorDebug = !globalParam.cubeColorDebug;
-						appli.surfaceView.show ()">Couleur RVB</li>
+						appli.surfaceView.show (true)">Couleur RVB</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="toolsMenu" tabindex="3">

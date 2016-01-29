@@ -150,9 +150,13 @@ SurfaceViewer.prototype.reload = function () {
 /**
  * Show the scene (prepare it and draw it).
  * 
+ * @param {boolean} forcePrepare - TODO
+ * 
  * @return {void}
  */
-SurfaceViewer.prototype.show = function () {
+SurfaceViewer.prototype.show = function (forcePrepare) {
+	if (forcePrepare)
+		this.unprepare ();
 	this.prepare ();
 	this.draw ();
 };
@@ -200,6 +204,7 @@ SurfaceViewer.prototype.draw = function (backBuffer) {
 SurfaceViewer.prototype.unprepare = function () {
 	this.container.unprepare ();
 };
+
 
 
 //##############################################################################
@@ -361,8 +366,8 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 	this.canvas.addEventListener ("wheel", this.onWheel.bind (this));
 	
 	// key down for camera mouvement
-	this.canvas.addEventListener ("keydown", this.onKeyDown.bind (this));
-	window.addEventListener ("keydown", this.onKeyDown.bind (this));
+//	this.canvas.addEventListener ("keydown", this.onKeyDown.bind (this));
+//	window.addEventListener ("keydown", this.onKeyDown.bind (this));
 	
 	// mouse move for mouvement
 	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));

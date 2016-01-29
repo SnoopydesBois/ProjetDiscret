@@ -101,6 +101,8 @@ Scene.prototype.constructor = Scene;
  */
 function Scene () {
 	
+	GenericContener.call (this);
+	
 	/**
  	 * {Camera} The camera used in the scene.
  	 */
