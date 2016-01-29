@@ -73,7 +73,7 @@ function algo () {
 		for (y = 0; y < dimy && bufferSize === 0; ++y){
 			for (x = 0; x < dimx && bufferSize === 0; ++x){
 				connexity = checkVoxel(implicit_curve, x - maxx, y - maxy, zValues[z]);
-				if(connexity !== false){
+				if(connexity !== 0){
 					buffer.push([x, y, z, connexity]);
 					bufferSize++;
 					addNeighboursToPile(x,y,z,pile, checked);
@@ -104,7 +104,7 @@ function algo () {
 			if (zValues[voxel[2]][2] == 0) zValues[voxel[2]][2]=0.01;
 		}
 		connexity = checkVoxel(implicit_curve, voxel[0] - maxx, voxel[1] - maxy, zValues[voxel[2]]);
-		if(connexity !== false){
+		if(connexity !== 0){
 			buffer.push([voxel[0], voxel[1], voxel[2], connexity]);
 			bufferSize++;
 			addNeighboursToPile(voxel[0],voxel[1],voxel[2],pile, checked);
