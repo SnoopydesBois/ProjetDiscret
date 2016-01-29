@@ -270,8 +270,10 @@ Application.prototype.generateAndDraw = function (mode) {
 
 //==============================================================================
 /**
- *
+ * TODO
  */
-Application.prototype.show = function(){
-	this.surfaceView.show();
-}
+Application.prototype.show = function (forcePrepare){
+	this.surfaceView.show (forcePrepare);
+};
+
+

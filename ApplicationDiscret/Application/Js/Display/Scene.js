@@ -101,6 +101,8 @@ Scene.prototype.constructor = Scene;
  */
 function Scene () {
 	
+	GenericContener.call (this);
+	
 	/**
  	 * {Camera} The camera used in the scene.
  	 */
@@ -283,6 +285,27 @@ Scene.prototype.prepare = function (glContext, connexity) {
 	
 	for (var i = 0; i < length; ++i) {
 		if (! this.objectList[i].isPrepared ()) {
+			if (this.objectList[i] instanceof SurfaceRenderer) { // FIXME sale !
+				var o = this.objectList[i].getModelController ().getSurface ();
+				o.printOnly (new Range (
+						parseInt (document.getElementById ("amountMinX").value),
+						parseInt (document.getElementById ("amountMaxX").value)
+					),
+					AxisEnum.X
+				);
+				o.printOnly (new Range (
+						parseInt (document.getElementById ("amountMinY").value),
+						parseInt (document.getElementById ("amountMaxY").value)
+					),
+					AxisEnum.Y
+				);
+				o.printOnly (new Range (
+						parseInt (document.getElementById ("amountMinZ").value),
+						parseInt (document.getElementById ("amountMaxZ").value)
+					),
+					AxisEnum.Z
+				);
+			} // fin du truc sale
 			this.objectList[i].prepare (glContext, connexity);
 			this.objectList[i].getShader ().activate ();
 		}

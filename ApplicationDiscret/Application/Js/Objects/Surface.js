@@ -438,15 +438,16 @@ Surface.prototype.isVoxelVisible = function (position, yCoord, zCoord) {
  * @throws {String} "Surface.printOnly.ErrorNotARange" 
  * - The range should be of type Range.
  */
- // FIXME Nom à revoir
+// FIXME Nom à revoir
+// FIXME améliorer complexité
 Surface.prototype.printOnly = function (range, axis) {
 	if (! (range instanceof Range))
 		throw "Surface.printOnly.ErrorNotARange";
 	
-	var visible;
-	for (var x = 0; x < this.dimension.x; ++x) {
-		for (var y = 0; y < this.dimension.y; ++y) {			
-			for (var z = 0; z < this.dimension.z; ++z) {
+	var visible, x, y, z, i, newX, newY, newZ;
+	for (x = 0; x < this.dimension.x; ++x) {
+		for (y = 0; y < this.dimension.y; ++y) {			
+			for (z = 0; z < this.dimension.z; ++z) {
 				switch (axis) {
 					case AxisEnum.X :
 						visible = range.isIn (x);
@@ -461,8 +462,21 @@ Surface.prototype.printOnly = function (range, axis) {
 						visible = false;
 					break;
 				}
-				if (this.matVoxel[x][y][z] !== null)
+				if (this.matVoxel[x][y][z] !== null) {
 					this.matVoxel[x][y][z].visibility = visible;
+					for (i = 0; i < DirectionEnum.size; ++i) {
+						newX = x + DirectionEnum.properties[i].x;
+						newY = y + DirectionEnum.properties[i].y;
+						newZ = z + DirectionEnum.properties[i].z;
+			
+						if (this.isIn (newX, newY, newZ) 
+							&& this.matVoxel[newX][newY][newZ] !== null)
+						{
+							this.matVoxel[newX][newY][newZ]
+								.neighborVisibility[i] = visible;
+						}
+					} // end for each neighbor
+				}
 			} // end for z
 		} // end for y
 	} // end for x
