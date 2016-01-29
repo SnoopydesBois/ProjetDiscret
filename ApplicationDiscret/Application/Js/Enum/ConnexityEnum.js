@@ -14,13 +14,11 @@
  */
 var ConnexityEnum = Object.freeze ({
 	/// values
+	NULL : 0,
 	C26  : 1,
 	C18  : 2,
 	C6   : 4,
-	NULL : 0,
-	
-	/// properties
-	size : 3
+	ALL  : 7
 });
 
 

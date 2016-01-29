@@ -73,14 +73,23 @@ SurfaceRenderer.prototype.constructor = SurfaceRenderer;
 
 
 //##############################################################################
-//	Static variable
+//	Static
 //##############################################################################
 
 
 /**
  * {int} The number of created surface. Increased for each new SurfaceRenderer.
  */
-SurfaceRenderer.prototype.counter = -1;
+SurfaceRenderer.prototype.counter = -2;
+
+
+//==============================================================================
+/**
+ * 
+ */
+SurfaceRenderer.prototype.getLastSurfaceName = function () {
+	return "surface" + (SurfaceRenderer.prototype.counter - 1);
+};
 
 
 
@@ -191,9 +200,7 @@ SurfaceRenderer.prototype.getModelController = function () {
  * @throws {String} FIXME compléter
  */
 SurfaceRenderer.prototype.prepare = function (gl, connexity) {
-	if (!(gl instanceof WebGLRenderingContext 
-		&& isValueOfEnum (ConnexityEnum, connexity)))
-	{
+	if (! checkType (arguments, WebGLRenderingContext, "number")) {
 		throw "SurfaceRenderer.prepare: bad type(s) of parameter(s)";
 	}
 	
@@ -202,13 +209,10 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 	/* In the indices buffer, there are at the most 4*6 number. One number is a
 	 * short (2 bytes) so for one voxel there are 4*6*2 = 48 bytes.
 	 * We limit the size at 32,768+16,384 = 49,152 bytes so 1024 voxel per
-	 * buffer.
+	 * buffer. FIXME 
 	 */
 	this.nbGlBuffer = Math.ceil (
-//		1
-		this.modelController.getSurface ().getNbVoxel () / (1024 * 2) 
-		// FIXME 65 536 is the optimal value, WHY ?
-//		this.modelController.getSurface ().getNbVoxel () / 48
+		this.modelController.getSurface ().getNbVoxel () / 2048
 	);
 
 	var vertexBuffer = [];
@@ -235,22 +239,15 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 	// No triangles strips because there are a lot of degenerated triangles
 	var cptPreparedVoxel = 0, idx;
 	var surface = this.modelController.getSurface ();
-//	console.log (size.toString ());
 	for (var x = 0; x < size.x; ++x) {
 		for (var y = 0; y < size.y; ++y) {
 			for (var z = 0; z < size.z; ++z) {
-				if (surface.getVoxel (x, y, z) != null /*&& 
-					this.modelController.isVoxelVisible (x, y, z)*/ &&
-					surface.getVoxel (x, y, z).getConnexity () 
-						<= connexity)
-				{
+				voxel = surface.getVoxel (x, y, z);
+				if (voxel != null && voxel.isVisible (connexity)) {
 					// 1024 -> see above, this.nbGlBuffer computes
-//					idx = 0;
-					idx = Math.trunc (cptPreparedVoxel / (1024 * 2));
-//					idx = Math.trunc (cptPreparedVoxel / 48);
-//					console.log ("appel de getVoxel avec", x, y, z);
+					idx = Math.trunc (cptPreparedVoxel / 2048);
 					this.prepareVoxel (
-						surface.getVoxel (x, y, z),
+						voxel,
 						connexity,
 						0,
 						vertexBuffer[idx], 
@@ -357,13 +354,12 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 	{
 		console.error ("SurfaceRenderer.prepareVoxel: bad type(s) of" 
 				+ " parameter(s)");
-		showType (voxel, connexity, offset, vertexBuffer,
-			indicesBuffer, colorBuffer, backColorBuffer,
-			colorVoxel, universSize);
+		showType (voxel, connexity, offset, vertexBuffer, indicesBuffer,
+			colorBuffer, backColorBuffer, colorVoxel, universSize);
 		return;
 	}
 	for (var i = 0; i < DirectionEnum.size; ++i) {
-//		if (voxel.hasFacet (i, connexity)) {
+		if (voxel.hasFacet (i, connexity)) {
 			var color = [0.0, 0.0, 0.0, 1.0];
 			if (globalParam.cubeColorDebug) {
 				switch (i) {
@@ -396,8 +392,8 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 					color[a] = colorVoxel[a] 
 						+ DirectionEnum.properties[i].axis.colorOffset;
 				if (globalParam.colorConnexity) {
-					epsilon = 0.2
-					switch (voxel.getConnexity ()) {
+					epsilon = 0.2;
+					switch (connexity) { // FIXME
 					case ConnexityEnum.C18 :
 						color[1] -= epsilon;
 						color[2] -= epsilon;
@@ -420,7 +416,7 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 				color,
 				universSize
 			);
-//		}
+		}
 	} // end for each direction
 };
 
