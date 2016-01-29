@@ -8,8 +8,7 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 		<title>Surface de révolution discrète</title>
-		<!-- TODO Modifier title pour le mutilangue -->
-		
+		<!-- TODO Modifier title pour le mutilangue -->  
 		
 		<!-- javascript imports -->
 		<script type="text/javascript" src="Js/Utils/globalParameters.js"></script>
@@ -32,6 +31,7 @@
 		<script type="text/javascript" src="Js/Libraries/math.js"></script>
 		<script type="text/javascript" src="Js/Libraries/jquery.js"></script>
 		<script type="text/javascript" src="Js/Libraries/jquery-ui.js"></script>
+  
 		<script type="text/javascript" src="Js/Libraries/jszip.js"></script>
 		<script type="text/javascript" src="Js/Libraries/FileSaver.js"></script>
 		<script type="text/javascript" src="Js/Libraries/webgl-debug.js"></script>
@@ -110,6 +110,7 @@
 		<script type="text/javascript" src="Js/Interface/Application_translate.js"></script>
 		
 		<!-- css imports -->
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/temp.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/common.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
@@ -118,8 +119,8 @@
 		
 
 		<!-- Export 3D en PNG -->
-		<script src="Export/Export_PNG/jquery.min.js"></script>
-    <script src="Export/Export_PNG/d3.v2.js"></script>
+		<!-- <script src="Export/Export_PNG/jquery.min.js"></script> -->
+		<script src="Export/Export_PNG/d3.v2.js"></script>
 		
 
 
@@ -375,15 +376,55 @@
 					<button onclick="appli.generateAndDraw (1);" key="surf2" class="tr">Génération non optimisée</button>
 					<hr/>
 					<span key="surf3" class="tr">Liste des paramètres de la Surface</span>
+					<script>
+						$(document).ready(function(){
+							function createSlider(id) {
+								$( id ).slider({
+									range: true,
+									min: 0,
+									max: 300,    
+									values: [ 0,  37 ],							
+									slide: function( event, ui ) {
+										// 20 => pixel size of a selector
+										if ( ( ui.values[ 0 ] ) >= ui.values[ 1 ] ) {
+											return false;
+										}
+										$("#amountMin" + $(id).attr("name")).val( ui.values[ 0 ] ) ;
+										$("#amountMax" + $(id).attr("name")).val( ui.values[ 1 ] ) ;
+									}
+								});
+								$( id ).mouseup(function(){
+									
+								});
+							}
+							createSlider("#slider-rangeX");	
+							createSlider("#slider-rangeY");	
+							createSlider("#slider-rangeZ");
+						});
+					</script>
+					
+					
+					<div class="doubleSliders" name="X" id="slider-rangeX"></div> 
+					<label for="amount">Dimension X</label><br/>
+					<input type="text" id="amountMinX" style="width : 40%" onKeyUp="$('#slider-rangeX').slider('values',0,$('#amountMinX').val())"> - <input type="text" id="amountMaxX" style="width : 40%" onKeyUp="$('#slider-rangeX').slider('values',1,$('#amountMaxX').val())">
+				
+					<div class="doubleSliders" name="Y" id="slider-rangeY"></div> 
+					<label for="amount">Dimension Y</label><br/>
+					<input type="text" id="amountMinY" style="width : 40%"> - <input type="text" id="amountMaxY" style="width : 40%">
+				
+					<div class="doubleSliders" name="Z" id="slider-rangeZ"></div> 
+					<label for="amount">Dimension Z</label><br/>
+					<input type="text" id="amountMinZ" style="width : 40%"> - <input type="text" id="amountMaxZ" style="width : 40%">
+				<!-- appli.surfaceView.show() -->
+					<button onClick="appli.surfaceView.show()"> Modifier </button>
 					
 				</div>
-			
 <!--				<canvas id="surfaceCanvas" width="640" height="480"></canvas>-->
 				<canvas id="surfaceCanvas"></canvas>
 					
 <!-- Export Canvas en PNG -->
 
-
+				
 										
 				<div id="surfaceOption" class="optionPanel">
 					<p>
@@ -391,15 +432,17 @@
 						<input id="dimx" type="text" value="21"/>
 						<input id="dimy" type="text" value="21"/>
 						<input id="dimz" type="text" value="21"/>
-						<select id="connexityChoice" name="connexityChoice" onchange="appli.surfaceView.show ()">
-							<option value="0" key="" class="tr">C26</option>
-							<option value="1" key="" class="tr">C18</option>
-							<option value="2" key="" class="tr">C6</option>
+						<select id="connexityChoice" name="connexityChoice" 
+							onchange="appli.surfaceView.unprepare ();appli.surfaceView.show ()">
+							<option value="0">C26</option>
+							<option value="1">C18</option>
+							<option value="2">C6</option>
 						</select>
 					</p>
 				</div>
 			</div>
 		</div>
+		
 		
 		<!-- State bar -->
 		<div id="stateBar" class="footer">
@@ -410,11 +453,12 @@
 			var appli = new Application ();
 			
 			var gl = appli.surfaceView.glContext;
+
 			var n64 = new N64 (gl, 20, 20);
 			//appli.surfaceView.container.addObject (n64);
 			//globalParam.cubeColorDebug = true;
 			globalParam.colorConnexity = true;
-			
+
 			appli.initAppli ();
 			//console.log (n64.nbGlBuffer);
 		

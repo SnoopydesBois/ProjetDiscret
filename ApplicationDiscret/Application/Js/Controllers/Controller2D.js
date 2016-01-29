@@ -190,9 +190,6 @@ Controller2D.prototype.getParametersRange = function(name){
  *
  */
 Controller2D.prototype.setParameter = function(param, value){
-	//console.log(this.modelParameter.getAllParameters());
-	console.log(param);
-	console.log(value);
 	return this.modelParameter.setParameter(param, value);
  }
  

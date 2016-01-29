@@ -110,6 +110,12 @@
 	background-color : black;
 }
 
+
+#surfaceView .optionPanel input[type=text] {
+	width : 35px;
+}
+
+
 	/*** Parameters ***/
 	
 	
@@ -123,3 +129,13 @@
 	width : 90%;
 }
 
+#workspace .doubleSliders{
+	margin : 5%;
+	position : relative;
+}
+
+#workspace  .ui-slider-handle{
+	width: 0.1em;
+	height: 1.2em;
+	margin-left : 0px;
+}

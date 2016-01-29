@@ -223,3 +223,14 @@ Repere.prototype.drawBackBuffer = function () {
 };
 
 
+//==============================================================================
+/**
+ * @override
+ * 
+ * TODO
+ * 
+ * @return {void}
+ */
+Repere.prototype.unprepare = function () {};
+
+
