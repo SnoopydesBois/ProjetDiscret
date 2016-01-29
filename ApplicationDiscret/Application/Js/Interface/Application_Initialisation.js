@@ -74,6 +74,18 @@ Application.prototype.initAppli = function () {
 	
 	this.revolutionParameters.setController(this.revolController);
 	this.revolutionParameters.displayParameter(this.drawRevolution, this.getRangeRevolution);
+
+	//==============================================================================
+	// Sale
+	var dimX = document.getElementById ("dimx").value;
+	var dimY = document.getElementById ("dimy").value;
+	var dimZ = document.getElementById ("dimz").value;
+	//==============================================================================
+	// Double slider creation
+	this.createSlider("#slider-rangeX", 0, dimX);	
+	this.createSlider("#slider-rangeY", 0, dimY);	
+	this.createSlider("#slider-rangeZ", 0, dimZ);
+	
 	
 	/// Interface initialization
 	this.resizeInterface ();
@@ -128,3 +140,28 @@ Application.prototype.initWindowEvent = function () {
 };
 
 
+//==============================================================================
+/**
+ *
+ */
+Application.prototype.createSlider = function(id, min, max) {
+	// Slider creation
+	$( id ).slider({
+		range: true,
+		min: min,
+		max: max,    
+		values: [ min,  max ],							
+		slide: function( event, ui ) {
+			// 20 => pixel size of a selector
+			if ( ( ui.values[ 0 ] ) >= ui.values[ 1 ] ) {
+				return false;
+			}
+			$("#amountMin" + $(id).attr("name")).val( ui.values[ 0 ] ) ;
+			$("#amountMax" + $(id).attr("name")).val( ui.values[ 1 ] ) ;
+		}
+	});
+	
+	// Text input initialisation
+	$("#amountMin" + $(id).attr("name")).val( $( id ).slider('values', 0)) ;
+	$("#amountMax" + $(id).attr("name")).val( $( id ).slider('values', 1)) ;
+};

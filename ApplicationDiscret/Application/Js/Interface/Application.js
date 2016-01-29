@@ -206,7 +206,7 @@ function Application () {
 }
 
 
-// FIXME viré les méthodes suivantes de ce fichier
+// FIXME virer les méthodes suivantes de ce fichier
 //==============================================================================
 /**
  * This function calls itself again every second in a different thread until the
@@ -238,16 +238,18 @@ Application.prototype.computationFinished = function () {
  */
 Application.prototype.generateAndDraw = function (mode) {
 	this.showMessage ("Computing...", 0, "blue");
+	var dimX = document.getElementById ("dimx").value;
+	var dimY = document.getElementById ("dimy").value;
+	var dimZ = document.getElementById ("dimz").value;
+	
+	
 	this.surfaceController.setDimension ([
-		document.getElementById ("dimx").value,
-		document.getElementById ("dimy").value,
-		document.getElementById ("dimz").value
+		dimX,dimY,dimZ
 	]);
 	this.surfaceView.container.getObjectByName ("boundingBox").setDimension ([
-		document.getElementById ("dimx").value,
-		document.getElementById ("dimy").value,
-		document.getElementById ("dimz").value
+		dimX,dimY,dimZ
 	]);
+
 	this.surfaceController.generate(mode);
 	this.surfaceRenderer = new SurfaceRenderer (
 		this.surfaceController,
@@ -256,6 +258,17 @@ Application.prototype.generateAndDraw = function (mode) {
 	this.surfaceView.container.addObject (this.surfaceRenderer);
 	
 	this.computationFinished ();
+	
+	this.changeValueSlider("#slider-rangeX", 0, parseInt(dimX));
+	this.changeValueSlider("#slider-rangeY", 0, parseInt(dimY));
+	this.changeValueSlider("#slider-rangeZ", 0, parseInt(dimZ));
 };
 
 
+//==============================================================================
+/**
+ *
+ */
+Application.prototype.show = function(){
+	this.surfaceView.show();
+}

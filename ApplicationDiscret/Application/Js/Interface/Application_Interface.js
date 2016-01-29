@@ -289,3 +289,39 @@ Application.prototype.updateTips = function (t) {
 };
 
 
+//==============================================================================
+/**
+ *
+ */
+Application.prototype.changeValueSlider = function (){
+	var slider, arg1, arg2;
+	switch(arguments.length){
+		case 2 :
+			slider = arguments[0];
+			arg1 = arguments[1];
+			
+			if(arg1.search("Min") != -1){
+				$(slider).slider('values',0,$(arg1).val());
+			}
+			else if(arg1.search("Max") != -1){
+				$(slider).slider('values',1,$(arg1).val());								
+			}
+			break;
+		case 3 :
+			slider = arguments[0];
+			arg1 = arguments[1];
+			arg2 = arguments[2];
+			
+			$(slider).slider("option", "max", arg2);
+			$(slider).slider('values',0, arg1);
+			$(slider).slider('values',1, arg2);
+			
+			$("#amountMin" + $(slider).attr("name")).val(arg1) ;
+			$("#amountMax" + $(slider).attr("name")).val(arg2) ;
+			
+			break;
+		default :
+			throw "Application.changeValueSlider.ErrorArgumentsLength";
+			break;
+	}
+};
