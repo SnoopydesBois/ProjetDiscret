@@ -257,7 +257,7 @@ BoundingBox.prototype.draw = function (glContext) {
 	/// Set shader parameters
 	this.shader.setRenderingMode (RenderingModeEnum.DOTTED);
 	// Let's the shader prepare its attributes
-	this.shader.setAttributes (glContext, this.glVertexBuffer);
+	this.shader.setAttributes (glContext, this.glVertexBuffer, globalParam.perspectiveView ? 1 : 0);
 	
 	// Let's render !
 	glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer);

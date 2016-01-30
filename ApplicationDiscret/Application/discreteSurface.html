@@ -158,7 +158,8 @@
 							this.innerHTML = 'Orthographique';
 						}
 						globalParam.perspectiveView = !globalParam.perspectiveView;
-						appli.surfaceView.show (true)">Orthographique</li>
+						appli.surfaceView.computeCamera ();
+						appli.surfaceView.show ()">Orthographique</li>
 						
 					<li class="split"><hr/></li>
 					
@@ -429,8 +430,8 @@
 			var n64 = new N64 (gl, 6, 9);
 			//var s = n64.modelController.modelGen.surface
 			//appli.surfaceView.container.addObject (n64);
-			//globalParam.cubeColorDebug = true;
-			globalParam.colorConnexity = false;
+			globalParam.cubeColorDebug = true;
+			//globalParam.colorConnexity = false;
 			
 			appli.initAppli ();
 			

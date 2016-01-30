@@ -205,7 +205,7 @@ Scene.prototype.getObjectByName = function (aName) {
 			return this.objectList[i];
 	}
 	
-	console.log ("Scene.getObjectByName : object : \"" + aName
+	console.log ("Scene.getObjectByName: object : \"" + aName
 			+ "\" not found");
 	return null;
 };
@@ -365,26 +365,16 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	
 	var cam = this.camera;
 	var mvMat = cam.getViewMatrix ();
-	var pjMat = cam.getProjectionMatrix ();
-	var objMat = new Matrix (obj.getMatrix ());
-	if (obj instanceof Repere /*&& typeof tx == "undefined"*/) {
-		var tx = (new Vector (cam.eyePos)).normalize ();
-		tx = (new Vector (cam.eyePos)).sub (tx.mul (0.2));
-		var ty = (cam.eyePos.cross (cam.up)).normalize ().mul (0.05); // FIXME trouver le bon facteur (voir cam.width)
-		var tz = (cam.eyePos.cross (ty)).normalize ().mul (0.05); // FIXME trouver le bon facteur (voir cam.height)
-		objMat.scale (0.06);
-		objMat.translate (tx);
-		objMat.translate (ty);
-		objMat.translate (tz);
-		// FIXME faire une seule translate
-	}
-//	objMat.toConsole ();
+	var ppMat = cam.getPerspectiveProjectionMatrix ();
+	var opMat = cam.getOrthographicProjectionMatrix ();
+	var objMat = new Matrix (obj.getMatrix (cam));
 	
 	// Get Location of uniform variables
 	var shad = obj.getShader ();
 	shad.activate (glContext); 
 	var locMvMat = shad.getUniformLocation ("uModelViewMatrix");
-	var locPjMat = shad.getUniformLocation ("uProjectionMatrix");
+	var locPpMat = shad.getUniformLocation ("uPerspectiveProjectionMatrix");
+	var locOpMat = shad.getUniformLocation ("uOrthographicProjectionMatrix");
 	var locDim = shad.getUniformLocation ("uDimension");
 	
 	// Compute real ModelView matrix
@@ -394,8 +384,11 @@ Scene.prototype.drawObject = function (glContext, obj) {
 	if (locMvMat != null)
 		glContext.uniformMatrix4fv (locMvMat, false, mv.getGLVector ());
 
-	if (locPjMat != null)
-		glContext.uniformMatrix4fv (locPjMat, false, pjMat.getGLVector ());
+	if (locPpMat != null)
+		glContext.uniformMatrix4fv (locPpMat, false, ppMat.getGLVector ());
+	
+	if (locOpMat != null)
+		glContext.uniformMatrix4fv (locOpMat, false, opMat.getGLVector ());
 	
 	if (locDim != null)
 		glContext.uniform3fv (locDim, obj.getDimension ().getGLVector ());

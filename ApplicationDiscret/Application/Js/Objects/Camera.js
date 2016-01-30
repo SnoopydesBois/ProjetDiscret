@@ -154,7 +154,12 @@ function Camera (eyePos, centerPos, up, width, height, fov, near, far) {
 	/**
 	 * {Matrix} TODO
 	 */
-	this.projectionMatrix = null;
+	this.perspectiveProjectionMatrix = null;
+	
+	/**
+	 * {Matrix} TODO
+	 */
+	this.orthographicProjectionMatrix = null;
 	
 	/**
 	 * {float} Allow to modify the zoom.

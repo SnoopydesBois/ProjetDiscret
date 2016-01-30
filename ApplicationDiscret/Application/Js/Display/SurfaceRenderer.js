@@ -571,14 +571,16 @@ SurfaceRenderer.prototype.draw = function (gl) {
 	this.shader.setRenderingMode (RenderingModeEnum.NORMAL);
 	for (var tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
 		// Let's the shader prepare its attributes
-		this.shader.setAttributes (gl, this.glVertexBuffer[tmp]);
+		this.shader.setAttributes (gl, this.glVertexBuffer[tmp],
+			globalParam.perspectiveView ? 1 : 0);
 		// Let's render !
 		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer[tmp]);
 		gl.drawElements (gl.TRIANGLES, this.glIndiciesBuffer[tmp].numItems,
 			gl.UNSIGNED_SHORT, 0);
 
 		// Let's the shader prepare its attributes
-//		this.shader.setAttributes (gl, this.selectvbo[tmp]);
+//		this.shader.setAttributes (gl, this.selectvbo[tmp],
+//			globalParam.perspectiveView ? 1 : 0);
 		// Let's render !
 //		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.selectibo[tmp]);
 //		gl.drawElements (gl.TRIANGLES, this.selectibo[tmp].numItems,
@@ -692,10 +694,10 @@ SurfaceRenderer.prototype.posToColor = function (voxel, direction) {
 
 
 /**
- * TODO
+ * @return {Vector} The dimension of the surface.
  */
 SurfaceRenderer.prototype.getDimension = function () {
-	return this.getModelController().getDimension();
+	return this.getModelController ().getDimension ();
 };
 
 
