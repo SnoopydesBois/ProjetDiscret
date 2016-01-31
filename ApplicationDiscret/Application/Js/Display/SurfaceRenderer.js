@@ -200,10 +200,12 @@ SurfaceRenderer.prototype.getModelController = function () {
  * @throws {String} FIXME compléter
  */
 SurfaceRenderer.prototype.prepare = function (gl, connexity) {
+	/// parameters verification
 	if (! checkType (arguments, WebGLRenderingContext, "number")) {
 		throw "SurfaceRenderer.prepare: bad type(s) of parameter(s)";
 	}
 	console.log ("Prepare de " + this.structureName);
+	this.cptPreparedVertex = 0;
 	
 	///
 	var size = this.modelController.getDimension ();
@@ -317,6 +319,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 	
 	/// Finish, tell it
 	this.prepared = true; // FIXME
+	console.log (this.structureName, cptPreparedVoxel, this.cptPreparedVertex);
 };
 
 
@@ -645,6 +648,7 @@ SurfaceRenderer.prototype.addVertexBuffer = function (dataVertexBuffer, x, y, z,
 		(y - limit.y / 2) / m,
 		(z - limit.z / 2) / m
 	);
+	this.cptPreparedVertex += 3;
 };
 
 
