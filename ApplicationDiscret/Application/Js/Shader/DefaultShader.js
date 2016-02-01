@@ -158,19 +158,27 @@ DefaultShader.prototype.getRenderingMode = function () {
 /**
  * Set the attributes for the shader.
  * 
- * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
- * webGl context.
- * @param {buffer} vertexBuffer - The buffer data. FIXME bad type
+ * @param {WebGLRenderingContext} glContext - The webGl context.
+ * @param {WebGLBuffer} vertexBuffer - The buffer data.
+ * @param {WebGLBuffer} viewMode - TODO
  * 
  * @return {void}
  */
-DefaultShader.prototype.setAttributes = function (glContext, vertexBuffer) {
+DefaultShader.prototype.setAttributes = function (glContext, vertexBuffer,
+	viewMode) 
+{
+	/// parameters verification
+	if (! checkType (arguments, WebGLRenderingContext, WebGLBuffer, "number")) {
+		console.trace ();
+		throw "DefaultShader.setAttributes: bad type(s) of parameter(s)"
+	}
 	glContext.bindBuffer (glContext.ARRAY_BUFFER, vertexBuffer);
 	
 	// Get attribute
 	var attrPos = this.getAttributeLocation ("aPosition");
 	var attrCol = this.getAttributeLocation ("aColor");
 	var attrMode = this.getUniformLocation ("uMode");
+	var attrVMode = this.getUniformLocation ("uViewMode");
 	
 	// Activate Attribute
 	glContext.enableVertexAttribArray (attrPos);
@@ -181,6 +189,7 @@ DefaultShader.prototype.setAttributes = function (glContext, vertexBuffer) {
 	glContext.vertexAttribPointer (attrCol, 4, glContext.FLOAT, false, 28, 12);
 	
 	this.glContext.uniform1i (attrMode, this.renderingMode);
+	this.glContext.uniform1i (attrVMode, viewMode);
 };
 
 

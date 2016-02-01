@@ -81,7 +81,7 @@ Repere.prototype.constructor = Repere;
  * shader).
  */
 function Repere (glContext) {
-	GenericStructure.call (this, "repere", new RepereShader (glContext));
+	GenericStructure.call (this, "repere", new DefaultShader (glContext));
 		
 	/**
 	 * {Vector} The dimension of the 3D space in voxel.
@@ -93,6 +93,9 @@ function Repere (glContext) {
 	 * An user cannot select the repere.
 	 */
 	this.isPickable = false;
+	
+	
+	this.matrix.scale (0.01);
 };
 
 
@@ -108,6 +111,32 @@ function Repere (glContext) {
  */
 Repere.prototype.getDimension = function () {
 	return this.dimension;
+};
+
+
+//==============================================================================
+/**
+ * @override
+ * 
+ * @param {Camera} camera - TODO.
+ * 
+ * @return {Matrix} The model matrix.
+ */
+Repere.prototype.getMatrix = function (camera) {
+	var coef = 0.083 / Math.min (camera.width, camera.height);
+	var t = (new Vector (camera.eyePos)).normalize ();
+	t = (new Vector (camera.eyePos)).sub (t.mul (0.2));
+	var ty = (camera.eyePos.cross (camera.up)).normalize ();
+	t = t.add (
+		(new Vector (ty)).mul (camera.width * coef)
+		.sub ((new Vector (ty)).mul (0.015))
+	);
+	var tz = (camera.eyePos.cross (ty)).normalize ();
+	t = t.add (
+		(new Vector (tz)).mul (camera.height * coef)
+		.sub ((new Vector (tz)).mul (0.015))
+	);
+	return new Matrix (this.matrix).translate (t);
 };
 
 
@@ -203,7 +232,7 @@ Repere.prototype.draw = function (glContext) {
 	}
 		
 	// Let's the shader prepare its attributes
-	this.shader.setAttributes (glContext, this.glVertexBuffer);
+	this.shader.setAttributes (glContext, this.glVertexBuffer, 1);
 	
 	// Let's render !
 	glContext.drawArrays (glContext.LINE_LOOP, 0, this.glVertexBuffer.numItems);

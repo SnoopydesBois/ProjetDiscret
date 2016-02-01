@@ -473,7 +473,7 @@ Surface.prototype.slice = function (range, axis) {
 							&& this.matVoxel[newX][newY][newZ] !== null)
 						{
 							this.matVoxel[newX][newY][newZ]
-								.neighborVisibility[i] = visible;
+								.neighborVisibility[DirectionEnum.properties[i].oppose] = visible;
 						}
 					} // end for each neighbor
 				}

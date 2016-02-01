@@ -195,17 +195,23 @@ SurfaceRenderer.prototype.getModelController = function () {
  * 
  * @param {WebGLRenderingContext} gl - The gl context.
  * @param {ConnexityEnum} connexity - Which connexity is displayed.
+ * @param {float} radius - The radius of the cube (distance beetween the cube
+ * center end a face center).
  * 
  * @return {void}
  * @throws {String} FIXME compléter
  */
-SurfaceRenderer.prototype.prepare = function (gl, connexity) {
-	if (! checkType (arguments, WebGLRenderingContext, "number")) {
+SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
+	/// parameters verification
+	if (! checkType (arguments, WebGLRenderingContext, "number", "number")) {
 		throw "SurfaceRenderer.prepare: bad type(s) of parameter(s)";
 	}
 	console.log ("Prepare de " + this.structureName);
+	this.cptPreparedVertex = 0;
 	
 	///
+	radius || (radius = 0.5);
+	radius = 0.25
 	var size = this.modelController.getDimension ();
 	
 	/* In the indices buffer, there are at the most 4*6 number. One number is a
@@ -251,7 +257,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 					this.prepareVoxel (
 						voxel,
 						connexity,
-						0,
+						radius,
 						vertexBuffer[idx], 
 						indicesBuffer[idx], 
 						colorBuffer[idx],
@@ -327,7 +333,8 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
  * @param {Surface} surface - The current surface.
  * @param {Vector} voxelPosition - The position of the current voxel.
  * @param {ConnexityEnum} connexity - The globale connexity TODO.
- * @param {float} offset - An offset to draw the face.
+ * @param {float} radius - The radius of the cube (distance beetween the cube
+ * center end a face center).
  * @param {Array} vertexBuffer - The vertex buffer which contains 3-tuple
  * coordinates of each point.
  * @param {Array} indicesBuffer - The indices buffer which contains the order
@@ -343,7 +350,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity) {
 SurfaceRenderer.prototype.prepareVoxel = function (
 	voxel,
 	connexity,
-	offset,
+	radius,
 	vertexBuffer, 
 	indicesBuffer,
 	colorBuffer, 
@@ -356,12 +363,12 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 	{
 		console.error ("SurfaceRenderer.prepareVoxel: bad type(s) of" 
 				+ " parameter(s)");
-		showType (voxel, connexity, offset, vertexBuffer, indicesBuffer,
+		showType (voxel, connexity, radius, vertexBuffer, indicesBuffer,
 			colorBuffer, backColorBuffer, colorVoxel, universSize);
 		return;
 	}
 	for (var i = 0; i < DirectionEnum.size; ++i) {
-		if (voxel.hasFacet (i, connexity)) {
+		if (radius != 0.5 || voxel.hasFacet (i, connexity)) {
 			var color = [0.0, 0.0, 0.0, 1.0];
 			if (globalParam.cubeColorDebug) {
 				switch (i) {
@@ -393,24 +400,11 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 				for (var a = 0; a < 3; ++a)
 					color[a] = colorVoxel[a] 
 						+ DirectionEnum.properties[i].axis.colorOffset;
-				if (globalParam.colorConnexity) {
-					epsilon = 0.2;
-					switch (connexity) { // FIXME
-					case ConnexityEnum.C18 :
-						color[1] -= epsilon;
-						color[2] -= epsilon;
-						break;
-					case ConnexityEnum.C6 :
-						color[1] -= epsilon * 2;
-						color[2] -= epsilon * 2;
-						break;
-					}
-				}
 			}
 			this.prepareFace (
 				voxel, 
 				i, 
-				offset, 
+				radius, 
 				vertexBuffer, 
 				indicesBuffer, 
 				colorBuffer, 
@@ -425,21 +419,21 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 
 //==============================================================================
 /**
- * {float[6][4][3]} TODO écrire une petite explication sur la variable suivante
+ * {Number[6][4][3]} TODO écrire une petite explication sur la variable suivante
  */
 var offsetVertexInCube = [
 	// Top
-	[[0.0, 0.0, 1.0], [1.0, 0.0, 1.0], [0.0, 1.0, 1.0], [1.0, 1.0, 1.0]],
+	[[-1, -1,  1], [ 1, -1,  1], [-1,  1,  1], [ 1,  1,  1]],
 	// Bottom
-	[[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [1.0, 1.0, 0.0]], 
+	[[-1, -1, -1], [ 1, -1, -1], [-1,  1, -1], [ 1,  1, -1]], 
 	// Right
-	[[1.0, 0.0, 0.0], [1.0, 1.0, 0.0], [1.0, 0.0, 1.0], [1.0, 1.0, 1.0]], 
+	[[ 1, -1, -1], [ 1,  1, -1], [ 1, -1,  1], [ 1,  1,  1]], 
 	// Left
-	[[0.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0], [0.0, 1.0, 1.0]], 
+	[[-1, -1, -1], [-1,  1, -1], [-1, -1,  1], [-1,  1,  1]], 
 	// Front
-	[[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [0.0, 0.0, 1.0], [1.0, 0.0, 1.0]], 
+	[[-1, -1, -1], [ 1, -1, -1], [-1, -1,  1], [ 1, -1,  1]], 
 	// Back
-	[[0.0, 1.0, 0.0], [1.0, 1.0, 0.0], [0.0, 1.0 ,1.0], [1.0, 1.0, 1.0]]
+	[[-1,  1, -1], [ 1,  1, -1], [-1,  1 , 1], [ 1,  1,  1]]
 ];
 
 
@@ -450,7 +444,8 @@ var offsetVertexInCube = [
  * 
  * @param {Voxel} voxel - The current voxel.
  * @param {DirectionEnum} direction - The direction of the face to prepare.
- * @param {float} offset - an offset to draw the face.
+ * @param {float} radius - The radius of the cube (distance beetween the cube
+ * center end a face center).
  * @param {Array} vertexBuffer - The vertex buffer which contains 3-tuple
  * coordinates of each point.
  * @param {Array} indicesBuffer - The indices buffer which contains the order
@@ -466,7 +461,7 @@ var offsetVertexInCube = [
 SurfaceRenderer.prototype.prepareFace = function (
 	voxel,
 	direction, 
-	offset,
+	radius,
 	vertexBuffer,
 	indicesBuffer,
 	colorBuffer,
@@ -479,7 +474,7 @@ SurfaceRenderer.prototype.prepareFace = function (
 	{
 		console.error (	
 			"SurfaceRenderer.prepareFace: bad type(s) of parameter(s) !");
-		showType (voxel, direction, offset, vertexBuffer, indicesBuffer, 
+		showType (voxel, direction, radius, vertexBuffer, indicesBuffer, 
 			colorBuffer, backColorBuffer, colorFace, universSize);
 		return;
 	}
@@ -488,14 +483,10 @@ SurfaceRenderer.prototype.prepareFace = function (
 	var vertexBufferize = vertexBuffer.length / 3; // 3 points per vertexBuffer
 	for (var i = 0; i < 4; ++i) { 
 		// for each point of a face
-		var vertex = new Vector (
-			DirectionEnum.properties[direction].x * offset,
-			DirectionEnum.properties[direction].y * offset,
-			DirectionEnum.properties[direction].z * offset
-		);
-		vertex.add (addVector (voxel.getPosition (), 
-			offsetVertexInCube[direction][i]));
-		this.addVertexBuffer2 (vertexBuffer, vertex, universSize);
+		var vertex = new Vector (offsetVertexInCube[direction][i])
+			.mul (radius)
+			.add (voxel.getPosition ());
+		this.addVertexBuffer (vertexBuffer, universSize, vertex);
 	}
 
 	
@@ -526,7 +517,7 @@ SurfaceRenderer.prototype.prepareFace = function (
 				this.prepareFace (
 					voxel,
 					i,
-					offset,
+					radius,
 					vertexBuffer,
 					indicesBuffer,
 					colorBuffer,
@@ -571,14 +562,16 @@ SurfaceRenderer.prototype.draw = function (gl) {
 	this.shader.setRenderingMode (RenderingModeEnum.NORMAL);
 	for (var tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
 		// Let's the shader prepare its attributes
-		this.shader.setAttributes (gl, this.glVertexBuffer[tmp]);
+		this.shader.setAttributes (gl, this.glVertexBuffer[tmp],
+			globalParam.perspectiveView ? 1 : 0);
 		// Let's render !
 		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer[tmp]);
 		gl.drawElements (gl.TRIANGLES, this.glIndiciesBuffer[tmp].numItems,
 			gl.UNSIGNED_SHORT, 0);
 
 		// Let's the shader prepare its attributes
-//		this.shader.setAttributes (gl, this.selectvbo[tmp]);
+//		this.shader.setAttributes (gl, this.selectvbo[tmp],
+//			globalParam.perspectiveView ? 1 : 0);
 		// Let's render !
 //		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.selectibo[tmp]);
 //		gl.drawElements (gl.TRIANGLES, this.selectibo[tmp].numItems,
@@ -616,53 +609,34 @@ SurfaceRenderer.prototype.draw = function (gl) {
 
 //==============================================================================
 /**
- * Add a vertex into a buffer. Transform all coordinates beetween -1.0 and +1.0.
+ * Add a vertex into a buffer. Transform all coordinates to a value into
+ * [-1.0; +1.0].
  * 
- * @param {Array} dataVertexBuffer - The vertex buffer.
- * @param {int} x - The x coordinate of the vertex.
- * @param {int} y - The y coordinate of the vertex.
- * @param {int} z - The z coordinate of the vertex.
+ * @param {Array} vertexBuffer - The vertex buffer.
  * @param {Vector} limit - Maximum quantity of voxel on each dimension. Each 
- * vertex coordinates is in [0, limit[i]].
+ * vertex coordinates is in [0, limit[i] - 1].
+ * @param {Array} vertexPos - The vertex position.
  * 
  * @return {void}
+ * @throws {String} TODO
  */
-SurfaceRenderer.prototype.addVertexBuffer = function (dataVertexBuffer, x, y, z, 
-	limit) 
+SurfaceRenderer.prototype.addVertexBuffer = function (vertexBuffer, limit, 
+	vertexPos) 
 {
 	/// parameters verification
-	if (!checkType (arguments, Array, "number", "number", "number", Vector)) {
-		showType (dataVertexBuffer, x, y, z, limit);
+	if (! checkType (arguments, Array, Vector, Vector)) {
+		showType (vertexBuffer, limit, vertexPos);
 		throw "SurfaceRenderer.addVertexBuffer: bad type(s) of parameter(s)";
 	}
 	
 	/// compute
 	var m = Math.max (limit.x, limit.y, limit.z) / 2;
-	dataVertexBuffer.push (
-		(x - limit.x / 2) / m,
-		(y - limit.y / 2) / m,
-		(z - limit.z / 2) / m
+	vertexBuffer.push (
+		(vertexPos.x + 0.5 - limit.x / 2) / m,
+		(vertexPos.y + 0.5 - limit.y / 2) / m,
+		(vertexPos.z + 0.5 - limit.z / 2) / m
 	);
-};
-
-
-//==============================================================================
-/**
- * FIXME chager de nom
- * Add a vertex into a buffer. Transform all coordinates beetween -1.0 and +1.0.
- * 
- * @param {Array} dataVertexBuffer - The vertex buffer.
- * @param {Vector} vertex - A vertex.
- * @param {Vector} limit - Maximum quantity of voxel on each dimension. Each 
- * vertex coordinates is in [0, limit[i]].
- * 
- * @return {void}
- */
-SurfaceRenderer.prototype.addVertexBuffer2 = function (dataVertexBuffer, vertex, 
-	limit) 
-{
-	this.addVertexBuffer (dataVertexBuffer, vertex.x, vertex.y, vertex.z, 
-		limit);
+	++this.cptPreparedVertex;
 };
 
 
@@ -692,10 +666,10 @@ SurfaceRenderer.prototype.posToColor = function (voxel, direction) {
 
 
 /**
- * TODO
+ * @return {Vector} The dimension of the surface.
  */
 SurfaceRenderer.prototype.getDimension = function () {
-	return this.getModelController().getDimension();
+	return this.getModelController ().getDimension ();
 };
 
 

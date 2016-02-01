@@ -377,7 +377,7 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 
 
 //==============================================================================
-/** 
+/**
  * Move the camera at spheric coordintates.
  * 
  * @param {Number} phiOffset - Lattitude offset.
@@ -407,6 +407,17 @@ SurfaceViewer.prototype.moveCameraAt = function (phiOffset, thetaOffset) {
 	
 	/// drawing
 	this.draw ();
+};
+
+
+//==============================================================================
+/**
+ * Forces the scene's camera to compute its matrices. TODO vérifier anglais.
+ * 
+ * @return {void}
+ */
+SurfaceViewer.prototype.computeCamera = function () {
+	this.container.getCamera ().computeMatrices ();
 };
 
 

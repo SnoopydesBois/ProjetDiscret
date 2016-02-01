@@ -13,10 +13,5 @@ var globalParam = {
 	/**
 	 * TODO
 	 */
-	perspectiveView : true,
-	
-	/**
-	 * TODO
-	 */
-	colorConnexity : true
+	perspectiveView : true
 };

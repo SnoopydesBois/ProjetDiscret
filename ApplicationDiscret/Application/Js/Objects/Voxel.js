@@ -156,7 +156,18 @@ Voxel.prototype.getConnexity = function () {
  * @return {boolean} True if the voxel is visible, false otherwise.
  */
 Voxel.prototype.isVisible = function (connexity) {
-	return this.visibility && (this.connexity & connexity);
+	/* A voxel is visible if:
+	 * - visibility attribute it true
+	 * - the curent connexity contain this voxel
+	 * - one (or more) facet are visible
+	 */
+	var voxelVisible = this.visibility && (this.connexity & connexity),
+		oneFacetVisible = false;
+	for (var i = 0; (!oneFacetVisible) && i < DirectionEnum.size; ++i) {
+		oneFacetVisible = oneFacetVisible ||
+			!(this.neighborVisibility[i] && this.faces[i] & connexity);
+	}
+	return voxelVisible && oneFacetVisible;
 };
 
 
@@ -172,12 +183,13 @@ Voxel.prototype.isVisible = function (connexity) {
  * @return {boolean} True if the face exists in this connexity, false otherwise.
  */
 Voxel.prototype.hasFacet = function (dir, connexity) {
+	/// parameters verification
 	if (! checkType (arguments, "number", "number")) {
 		throw "Voxel.hasFacet: bad type(s) of parameter(s)";
 	}
 	
-	return !(this.neighborVisibility[dir] && (this.faces[dir] & connexity));
-//	return !(this.faces[dir] & connexity); // FIXME
+	/// compute facet visibility
+	return !(this.neighborVisibility[dir] && this.faces[dir] & connexity); 
 };
 
 

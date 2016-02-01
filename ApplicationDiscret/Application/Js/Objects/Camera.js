@@ -154,7 +154,12 @@ function Camera (eyePos, centerPos, up, width, height, fov, near, far) {
 	/**
 	 * {Matrix} TODO
 	 */
-	this.projectionMatrix = null;
+	this.perspectiveProjectionMatrix = null;
+	
+	/**
+	 * {Matrix} TODO
+	 */
+	this.orthographicProjectionMatrix = null;
 	
 	/**
 	 * {float} Allow to modify the zoom.
@@ -193,12 +198,19 @@ Camera.prototype.getViewMatrix = function () {
 
 //==============================================================================
 /**
- * Get projection matrix.
- * 
- * @return {Matrix} The projection matrix.
+ * @return {Matrix} The perspective projection matrix.
  */
-Camera.prototype.getProjectionMatrix = function () {
-	return this.projectionMatrix;
+Camera.prototype.getPerspectiveProjectionMatrix = function () {
+	return this.perspectiveProjectionMatrix;
+};
+
+
+//==============================================================================
+/**
+ * @return {Matrix} The orthographic projection matrix.
+ */
+Camera.prototype.getOrthographicProjectionMatrix = function () {
+	return this.orthographicProjectionMatrix;
 };
 
 
@@ -257,33 +269,31 @@ Camera.prototype.setProjection = function (nb) {
 
 
 /**
- * Compute View and Projection Matrix.
+ * Compute view and projections matrices.
  * 
  * @return {void}
  */
 Camera.prototype.computeMatrices = function () {
+	// View matrix
 	this.viewMatrix = new Matrix (this.eyePos, this.centerPos, this.up);
 	
-	if (globalParam.perspectiveView) {
-		// Perspective Matrix
-		this.projectionMatrix = new Matrix (
-			this.fov * Math.PI / 180,
-			this.width / this.height,
-			this.near,
-			this.far
-		);
-	}
-	else {
-		// Orthogonal Matrix
-		this.projectionMatrix = new Matrix (
-			-this.constProjection,
-			this.constProjection, 
-			-this.constProjection, 
-			this.constProjection, 
-			this.near,
-			this.far
-		);
-	}
+	// Perspective matrix
+	this.perspectiveProjectionMatrix = new Matrix (
+		this.fov * Math.PI / 180,
+		this.width / this.height,
+		this.near,
+		this.far
+	);
+	
+	// Orthographic matrix
+	this.orthographicProjectionMatrix = new Matrix (
+		-this.constProjection,
+		this.constProjection, 
+		-this.constProjection, 
+		this.constProjection, 
+		this.near,
+		this.far
+	);
 };
 
 

@@ -295,7 +295,7 @@ Matrix.prototype.createOrthographic = function (left, right,
 	if (! checkType (arguments, "number", "number", "number", "number", 
 		"number", "number"))
 	{
-		throw "Matrix.createPerspective: one of parameters is not a number";
+		throw "Matrix.createOrthographic: one of parameters is not a number";
 	}
 	
 	/// Fills the matrix
@@ -364,7 +364,7 @@ Matrix.prototype.get = function (i, j) {
  * 
  * @return {void}
  */
-Matrix.prototype.set = function (i,j,v) {
+Matrix.prototype.set = function (i, j, v) {
 	if (i < 0 || i >= 4)
 		throw "Matrix setter: bad line value (" + i + ")";
 	if (j < 0 || j >= 4)
