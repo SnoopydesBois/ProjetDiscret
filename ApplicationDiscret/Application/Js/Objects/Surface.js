@@ -430,19 +430,19 @@ Surface.prototype.isVoxelVisible = function (position, yCoord, zCoord) {
 
 //==============================================================================
 /**
+
  * TODO
  * 
  * @param {Range} range - TODO
  * @param {AxisEnum} axis - TODO
  * 
- * @throws {String} "Surface.printOnly.ErrorNotARange" 
+
+ * @throws {String} "Surface.slice.ErrorNotARange" 
  * - The range should be of type Range.
  */
-// FIXME Nom à revoir
-// FIXME améliorer complexité
-Surface.prototype.printOnly = function (range, axis) {
+Surface.prototype.slice = function (range, axis) {
 	if (! (range instanceof Range))
-		throw "Surface.printOnly.ErrorNotARange";
+		throw "Surface.slice.ErrorNotARange";
 	
 	var visible, x, y, z, i, newX, newY, newZ;
 	for (x = 0; x < this.dimension.x; ++x) {
@@ -477,6 +477,51 @@ Surface.prototype.printOnly = function (range, axis) {
 						}
 					} // end for each neighbor
 				}
+			} // end for z
+		} // end for y
+	} // end for x
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ * 
+ * @param {Range} rangeX - TODO
+ * @param {Range} rangeY - TODO
+ * @param {Range} rangeZ - TODO
+ * 
+ * @throws {String} "Surface.printOnly.ErrorNotARange" 
+ * - All ranges should be of type Range.
+ */
+Surface.prototype.printOnly = function (rangeX, rangeY, rangeZ) {
+	if (! checkType (arguments, Range, Range, Range))
+		throw "Surface.printOnly.ErrorNotARange";
+	
+	var visible, x, y, z, i, newX, newY, newZ;
+	for (x = 0; x < this.dimension.x; ++x) {
+		for (y = 0; y < this.dimension.y; ++y) {			
+			for (z = 0; z < this.dimension.z; ++z) {
+				voxel = this.matVoxel[x][y][z];
+				if (voxel !== null) {
+					visible = rangeX.isIn (x) && rangeY.isIn (y)
+						&& rangeZ.isIn (z);
+					voxel.visibility = visible;
+					for (i = 0; i < DirectionEnum.size; ++i) {
+						newX = x + DirectionEnum.properties[i].x;
+						newY = y + DirectionEnum.properties[i].y;
+						newZ = z + DirectionEnum.properties[i].z;
+			
+						if (this.isIn (newX, newY, newZ) 
+							&& this.matVoxel[newX][newY][newZ] !== null)
+						{
+							this.matVoxel[newX][newY][newZ]
+								.neighborVisibility[
+									DirectionEnum.properties[i].oppose
+								] = visible;
+						}
+					} // end for each neighbor
+				} // end if voxel exist
 			} // end for z
 		} // end for y
 	} // end for x

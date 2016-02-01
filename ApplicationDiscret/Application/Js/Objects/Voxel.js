@@ -149,6 +149,7 @@ Voxel.prototype.getConnexity = function () {
 //==============================================================================
 /**
  * TODO
+
  * 
  * @param {ConnexityEnum} [connexity] - The global connexity.
  * 
@@ -172,7 +173,7 @@ Voxel.prototype.isVisible = function (connexity) {
 
 //==============================================================================
 /**
- * TODO
+ * Test if a facet exist.
  * 
  * @param {DirectionEnum} dir - Direction of the face.
  * @param {ConnexityEnum} connexity - The connexity.
