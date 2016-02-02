@@ -60,26 +60,70 @@
 
 
 %===============================================================================
+%	INTRODUCTION
+%===============================================================================
+
+% --- Contexte -----------------------------------------------------------------
+	\subsection{Contexte}
+	\begin{frame}{\subsecname}
+		\begin{itemize}
+			\item Nouvel algorithme conçu par \'Eric \smallcaps{Andres} et Gaëlle \smallcaps{Largeteau}-\smallcaps{Skapin} pour mod\'eliser des surfaces de r\'evolution discrètes.
+			\item Visualisation des r\'esultats avec Mathematica
+		\end{itemize}
+		\begin{figure}
+			\includegraphics[height=3.8cm]{../Images/revolution2.jpg}
+		\end{figure}
+		\begin{itemize}
+			\item Besoin d'un outil utilisable partout et par tous
+		\end{itemize}
+	\end{frame}
+
+
+%===============================================================================
+%	ORGANISATION
+%===============================================================================
+	
+	% --- Demonstration -----------------------------------------------------------------
+	\subsection{Demonstration}
+	\begin{frame}{\subsecname}
+		Démonstration
+	\end{frame}
+	
+%===============================================================================
+%	COUTS
+%===============================================================================
+
+% A déplacer ?
+\section{Diagramme des coûts}
+
+\begin{frame}{\secname}
+	\begin{figure}
+		\includegraphics[height=3.8cm]{Images/CourbeCout.png}
+	\end{figure}
+\end{frame}
+
+
+%===============================================================================
 %	ORGANISATION
 %===============================================================================
 
-\section{Organisation de l'\'equipe}
+% \section{Organisation de l'\'equipe}
 
 
 % --- Roles --------------------------------------------------------------------
-	 \subsection{Les r\^oles}
-	 \begin{frame}{\subsecname}
-		\begin{itemize}
-			\item Composition de l'\'equipe~:
-				\begin{itemize}
-					\item Thomas \smallcaps{Benoist} - Chef de projet
-					\item Zied \smallcaps{Ben} \smallcaps{Othmane} - Responsable
-						qualit\'e
-					\item Adrien \smallcaps{Bisutti} - Responsable des risques
-					\item Lydie \smallcaps{Richaume} - Responsable des t\^aches
-				\end{itemize}
-		\end{itemize}
-	\end{frame}
+	% \subsection{Les r\^oles}
+	 % \begin{frame}{\subsecname}
+		% \begin{itemize}
+			% \item Composition de l'\'equipe~:
+				% \begin{itemize}
+					% \item Thomas \smallcaps{Benoist} - Chef de projet
+					% \item Zied \smallcaps{Ben} \smallcaps{Othmane} - Responsable
+						% qualit\'e
+					% \item Adrien \smallcaps{Bisutti} - Responsable des risques
+					% \item Lydie \smallcaps{Richaume} - Responsable des t\^aches
+				% \end{itemize}
+		% \end{itemize}
+	% \end{frame} 
 
 
 
@@ -118,23 +162,71 @@
 	\end{frame}
 
 	
+%===========================================================================================
+%===========================================================================================
+%===========================================================================================
+
+% Faire tenir les zoom sur la même diapo pour comparer?
+% Peut-être problème d'accent sur les nom de fichiers
 
 % --- Gantt --------------------------------------------------------------------
-	\subsection{Diagramme de Gantt}
+	\subsection{Diagramme de Gantt Initial}
 	\begin{frame}{Gantt}
+	
+		% \begin{figure}
+			% \includegraphics[width=8cm]{Images/Gantt_ProjetDiscret.gif}
+		% \end{figure}
+		
 		\begin{center}
 			\href{run:Images/Gantt_ProjetDiscret.gif}{Diagramme prévisionnel}
 		\end{center}
 	\end{frame}
 
-% --- Gantt --------------------------------------------------------------------
-	\subsection{Diagramme de Gantt}
+% --- Zoom Gantt Initial --------------------------------------------------------------------
+	\subsection{Diagramme de Gantt Initial}
 	\begin{frame}{Gantt}
+	
+		% \begin{figure}
+			% \includegraphics[width=8cm]{Images/GantInitialClasses.gif}
+		% \end{figure}
+		
+		\begin{center}
+			\href{run:Images/GantInitialClasses.gif}{Zoom Diagramme prévisionnel}
+		\end{center}
+	\end{frame}
+	
+	
+% --- Gantt --------------------------------------------------------------------
+	\subsection{Diagramme de Gantt R\'evis\'e}
+	\begin{frame}{Gantt}
+	
+		% \begin{figure}
+			% \includegraphics[width=8cm]{Images/Gantt_ProjetDiscretRéférence.gif}
+		% \end{figure}
+		
 		\begin{center}
 			\href{run:Images/Gantt_ProjetDiscretRéférence.gif}{Diagramme prévisionnel révisé}
 		\end{center}
 	\end{frame}
 
+
+% --- Zoom Gantt Révisé --------------------------------------------------------------------
+	\subsection{Diagramme de Gantt R\'evis\'e}
+	\begin{frame}{Gantt}
+	
+		% \begin{figure}
+			% \includegraphics[width=8cm]{Images/GantReferenceClasses.gif}
+		% \end{figure}
+		
+		\begin{center}
+			\href{run:Images/GantReferenceClasses.gif}{Zoom Diagramme prévisionnel révisé}
+		\end{center}
+	\end{frame}
+	
+%===========================================================================================
+%===========================================================================================
+%===========================================================================================
+	
 % --- Gantt --------------------------------------------------------------------
 	\subsection{Diagramme de Gantt}
 	\begin{frame}{Gantt}
@@ -204,7 +296,7 @@
 
 	\begin{frame}{\secname}
 		\begin{itemize}
-			\item Non ad\'equation d'un outil prévu, matériel ou logiciel (à réviser)
+			\item Non ad\'equation d'un outil prévu, matériel ou logiciel
 		\end{itemize}
 		\begin{figure}
 			\includegraphics[width=8cm]{risque_outil.png}
@@ -229,7 +321,7 @@
 
 	\begin{frame}{\secname}
 		\begin{itemize}
-			\item Nouveau(x) client(s) (à réviser)
+			\item Nouveau(x) client(s)
 		\end{itemize}
 		\begin{figure}
 			\includegraphics[width=8cm]{risque_nouveau_client.png}
@@ -250,7 +342,56 @@
 			\end{tabular}
 		\end{center}
 	\end{frame}
-
+	
+	
+	\begin{frame}{\secname}
+		\begin{itemize}
+			\item Risque de performances
+		\end{itemize}
+		\begin{figure}
+			\includegraphics[width=8cm]{risque_performance.png}
+		\end{figure}
+		\begin{center}
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				Niveau & Gravit\'e & Probabilit\'e & Criticit\'e \\
+				\hline
+				0 & Aucune & < 1\% & \multirow{2}*{Non critique}\\
+				\cline{1-3}
+				1 & Faible (marges) & de 1\% à 5\% & \\
+				\hline
+				2 & Significative & de 5\% à 20 \% & \multirow{2}*{Critique}\\
+				\cline{1-3}
+				3 & Danger & > 20\% & \\
+				\hline
+			\end{tabular}
+		\end{center}
+	\end{frame}	
+	
+	
+	\begin{frame}{\secname}
+		\begin{itemize}
+			\item Risque de rendu
+		\end{itemize}
+		\begin{figure}
+			\includegraphics[width=8cm]{risque_rendu.png}
+		\end{figure}
+		\begin{center}
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				Niveau & Gravit\'e & Probabilit\'e & Criticit\'e \\
+				\hline
+				0 & Aucune & < 1\% & \multirow{2}*{Non critique}\\
+				\cline{1-3}
+				1 & Faible (marges) & de 1\% à 5\% & \\
+				\hline
+				2 & Significative & de 5\% à 20 \% & \multirow{2}*{Critique}\\
+				\cline{1-3}
+				3 & Danger & > 20\% & \\
+				\hline
+			\end{tabular}
+		\end{center}
+	\end{frame}
 
 
 %===============================================================================
@@ -312,17 +453,6 @@
 			\includegraphics[width=8cm]{Images/EvaluationCriteres.png}
 		\end{figure}
 	\end{frame}
-%===============================================================================
-%	COUTS
-%===============================================================================
-
-\section{Diagramme des coûts}
-
-\begin{frame}{\secname}
-	\begin{figure}
-		 A présenter?
-	\end{figure}
-\end{frame}
 
 
 %===============================================================================
@@ -348,11 +478,20 @@
 	
 	\begin{tabbing}
 	\hspace{1cm}\=\hspace{2cm}\=\kill
-		Prochaines étapes\\
-			\> - Dessin à main levée\\
-			\> - Rentrer équations\\
-			\> - Gestion de données\\
+		Retard pris toujours pr\'esent % Encore un hspace après?
+		Prochaines \'etapes\\
+			\> - Dessin à main lev\'ee\\
+			\> - Rentrer \'equations\\
+			\> - Gestion de donn\'ees\\
+		
+		Prochaines r\'eunions 
+		 \> - Audit de livraison (2 ou 3 mars)
+		 \> - Soutenance finale (21 mars)
+		 
+		
 	\end{tabbing}
+	
+	
 \end{frame}
 
 
