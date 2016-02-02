@@ -50,6 +50,15 @@
 
 
 %===============================================================================
+% Nouvelle boîte pour le titre
+%\definecolor{titlecolor}{RGB}{51, 51, 179}
+\newenvironment<>{titleblock}[1]{%
+	\setbeamercolor{block body}{fg=white, bg=fondtitre}%
+	\begin{block}#2{#1}}{\end{block}}
+
+
+
+%===============================================================================
 % Accès à des variables dans le document. 
 %\makeatletter
 %\let\titleName\@title
