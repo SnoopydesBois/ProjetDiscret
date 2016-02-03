@@ -17,6 +17,7 @@
 \usepackage{textcomp}
 \usepackage{xstring}
 \usepackage{hyperref}
+\usepackage{pifont}
 
 \input{macro.tex}
 
@@ -135,13 +136,13 @@
 \section{Planification}
 
 % --- Taches -------------------------------------------------------------------
-	\subsection{T\^aches} % FIXME Checked or not
+	\subsection{T\^aches} % FIXME Checked or not with \ding{52} and \ding{56} of pifont
 	\begin{frame}{\subsecname}
 		\begin{center}
 		{\renewcommand{\arraystretch}{1.3}
 		\begin{tabular}{|m{5cm}<{\centering}|m{5cm}<{\centering}|}
 			\hline
-			\multicolumn{2}{|c|}{1 - Documentation, test et aide utilisateur}\\
+			\multicolumn{2}{|c|}{1 - Documentation, test et aide utilisateur \ding{52}}\\
 			\hline
 			\multicolumn{2}{|c|}{2 - Conception}\\
 			\hline
@@ -178,28 +179,22 @@
 		\end{center}
 	\end{frame}
 
+	
 % --- Zoom Gantt Initial --------------------------------------------------------------------
 	\begin{frame}{Gantt (zoom)}
-	
-		% FIXME image directe si possible
 		\begin{center}
 			\href{run:Images/GantInitialClasses.gif}{Zoom diagramme pr\'evisionnel}\\
 			\bigskip
 			\href{run:Images/GantReferenceClasses.gif}{Zoom diagramme prévisionnel révisé}
-			% FIXME 
-			% 3.3 à 100%
-			% clip espace superflue
 		\end{center}
 	\end{frame}
-	
-% FIXME fusioné les deux frame
+
 	
 % --- Gantt --------------------------------------------------------------------
 	\subsection{Gantt de suivi}
 	\begin{frame}{\subsecname}
 		\begin{center}
-			% TODO coupé au dessus du 6 (gardé le dessous)
-			\href{run:Images/Gantt_ProjetDiscretSuivi.gif}{Diagramme de suivi}
+			\href{run:Images/Gantt_ProjetDiscretSuivi2.gif}{Diagramme de suivi}
 		\end{center}
 	\end{frame}
 
@@ -208,7 +203,7 @@
 	\subsection{Avancement}
 	\begin{frame}{\subsecname}
 		\begin{figure}
-			% TODO img directe jalons
+			\includegraphics[height=7cm]{Images/Avancement.png}
 		\end{figure}
 	\end{frame}
 
@@ -216,7 +211,7 @@
 % --- Avancement ---------------------------------------------------------------
 	\begin{frame}{\subsecname}
 		\begin{figure}
-			% TODO img directe 3 courbes
+			\includegraphics[height=7cm]{Images/Avancement2.png}
 		\end{figure}
 	\end{frame}
 
@@ -226,7 +221,7 @@
 	\begin{frame}{\subsecname}
 		\begin{center}
 		\small
-		\begin{tabular}{|c|>{\raggedright}m{3cm}|c|c|c|} % FIXME relié les livrables au tâches
+		\begin{tabular}{|c|>{\raggedright}m{3cm}|c|c|c|}
 			\hline
 			\textbf{\No} & \textbf{Livrable} & \textbf{T\^aches}
 			& \textbf{Date pr\'evue} & \textbf{Date effective}\\
@@ -300,7 +295,6 @@
 			\item Non ad\'equation d'un outil pr\'evu, mat\'eriel ou logiciel
 		\end{itemize}
 		\begin{figure}
-		% FIXME proba à 0 et enlevé gris
 			\includegraphics[width=8cm]{risque_outil.png}
 		\end{figure}
 		\begin{center}
@@ -315,7 +309,7 @@
 			\item Nouveau(x) client(s)
 		\end{itemize}
 		\begin{figure}
-			\includegraphics[width=8cm]{risque_nouveau_client.png} % FIXME flèche
+			\includegraphics[width=8cm]{risque_nouveau_client.png}
 		\end{figure}
 		\begin{center}
 			\legendeRisque
@@ -343,7 +337,6 @@
 			\item Risque de rendu
 		\end{itemize}
 		\begin{figure}
-		% FIXME proba à 0
 			\includegraphics[width=8cm]{risque_rendu.png}
 		\end{figure}
 		\begin{center}
@@ -390,7 +383,7 @@
 			\item \'Evaluation du logiciel 
 		\end{itemize}
 		\begin{figure}
-			\includegraphics[width=8cm]{Images/QualiteInterneExterne.png} % FIXME nouvelle image
+			\includegraphics[width=8cm]{Images/QualiteInterneExterne.png}
 		\end{figure}
 	\end{frame}
 
@@ -401,7 +394,7 @@
 			\item \'Evaluation du logiciel 
 		\end{itemize}
 		\begin{figure}
-			\includegraphics[width=8cm]{Images/QualiteLogicielle.png} % FIXME nouvelle image
+			\includegraphics[width=8cm]{Images/QualiteLogicielle.png}
 		\end{figure}
 	\end{frame}
 
@@ -412,7 +405,7 @@
 			\item Crit\`eres d'\'evaluation
 		\end{itemize}
 		\begin{figure}
-			\includegraphics[width=8cm]{Images/EvaluationCriteres.png} % FIXME nouvelle image
+			\includegraphics[width=8cm]{Images/EvaluationCriteres.png}
 		\end{figure}
 	\end{frame}
 
@@ -427,7 +420,7 @@
 
 \begin{frame}{Diagramme des co\^uts}
 	\begin{figure}
-		\includegraphics[height=3.8cm]{Images/CourbeCout.png} % FIXME à refaire
+		\includegraphics[height=7cm]{Images/CourbeCout.png}
 	\end{figure}
 \end{frame}
 
