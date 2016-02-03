@@ -17,7 +17,7 @@
 \usepackage{textcomp}
 \usepackage{xstring}
 \usepackage{hyperref}
-\usepackage{pifont}
+%\usepackage{pifont}
 
 \input{macro.tex}
 
@@ -142,7 +142,7 @@
 		{\renewcommand{\arraystretch}{1.3}
 		\begin{tabular}{|m{5cm}<{\centering}|m{5cm}<{\centering}|}
 			\hline
-			\multicolumn{2}{|c|}{1 - Documentation, test et aide utilisateur \ding{52}}\\
+			\multicolumn{2}{|c|}{1 - Documentation, test et aide utilisateur}\\
 			\hline
 			\multicolumn{2}{|c|}{2 - Conception}\\
 			\hline
@@ -211,8 +211,13 @@
 % --- Avancement ---------------------------------------------------------------
 	\begin{frame}{\subsecname}
 		\begin{figure}
-			\includegraphics[height=7cm]{Images/Avancement2.png}
+			\includegraphics[height=6cm]{Images/Avancement2.png}
 		\end{figure}
+		% FIXME table 3 colones
+		\begin{tabular}{ll}
+		Avancement moyen pr\'evisionnel\,\,\,\,: & 3,18 \%/jour (3,74 sur la p\'eriode)\\
+		Avancement moyen observ\'e\,\,\,: & 3,13 \%/jour
+		\end{tabular}
 	\end{frame}
 
 
@@ -391,10 +396,10 @@
 % --- Évaluation ---------------------------------------------------------------
 	\begin{frame}{\secname}
 		\begin{itemize}
-			\item \'Evaluation du logiciel 
+			\item Crit\`eres d'\'evaluation
 		\end{itemize}
 		\begin{figure}
-			\includegraphics[width=8cm]{Images/QualiteLogicielle.png}
+			\includegraphics[width=8cm]{Images/EvaluationCriteres.png}
 		\end{figure}
 	\end{frame}
 
@@ -402,10 +407,10 @@
 % --- Évaluation ---------------------------------------------------------------
 	\begin{frame}{\secname}
 		\begin{itemize}
-			\item Crit\`eres d'\'evaluation
+			\item \'Evaluation du global logiciel 
 		\end{itemize}
 		\begin{figure}
-			\includegraphics[width=8cm]{Images/EvaluationCriteres.png}
+			\includegraphics[width=8cm]{Images/QualiteLogicielle.png}
 		\end{figure}
 	\end{frame}
 
