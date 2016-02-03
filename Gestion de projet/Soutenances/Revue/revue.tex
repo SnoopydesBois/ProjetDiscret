@@ -17,7 +17,7 @@
 \usepackage{textcomp}
 \usepackage{xstring}
 \usepackage{hyperref}
-%\usepackage{pifont}
+\usepackage{pifont}
 
 \input{macro.tex}
 
@@ -137,27 +137,29 @@
 
 % --- Taches -------------------------------------------------------------------
 	\subsection{T\^aches} % FIXME Checked or not with \ding{52} and \ding{56} of pifont
+	\newcommand{\Valid}{{\color{ForestGreen}\ding{52}}}
+	\newcommand{\notCheck}{{\color{BrickRed}\ding{56}}}
 	\begin{frame}{\subsecname}
 		\begin{center}
 		{\renewcommand{\arraystretch}{1.3}
-		\begin{tabular}{|m{5cm}<{\centering}|m{5cm}<{\centering}|}
+		\begin{tabular}{|m{4.5cm}<{\centering}c|m{4.5cm}<{\centering}c|}
 			\hline
-			\multicolumn{2}{|c|}{1 - Documentation, test et aide utilisateur}\\
+			\multicolumn{3}{|c}{1 - Documentation, test et aide utilisateur} & \notCheck\\
 			\hline
-			\multicolumn{2}{|c|}{2 - Conception}\\
+			\multicolumn{3}{|c}{2 - Conception} & \Valid\\
 			\hline
 			\centering
-			3 - Noyau fonctionnel & 4 - Interface minimale\\
+			3 - Noyau fonctionnel & \Valid & 4 - Interface minimale & \Valid\\
 			\hline
-			6 - Ajout de fonctionnalités & 5 - Am\'elioration IHM \linebreak Choix des courbes\\
+			6 - Ajout de fonctionnalités & \Valid & 5 - Am\'elioration IHM \linebreak Choix des courbes & \Valid\\
 			\hline
-			8 - Dessin \`a main levée m\'eridienne & 7 - Am\'elioration IHM Param\`etres\\
+			8 - Dessin \`a main levée m\'eridienne & \notCheck & 7 - Am\'elioration IHM Param\`etres & \Valid\\
 			\hline
-			9 - Gestion des donn\'ees & 10 - Am\'elioration IHM \linebreak Rentrer des formules\\
+			9 - Gestion des donn\'ees & \notCheck & 10 - Am\'elioration IHM \linebreak Rentrer des formules & \notCheck\\
 			\hline
-			\multicolumn{2}{|c|}{11 - Ajout courbes utilisateur}\\
+			\multicolumn{3}{|c}{11 - Ajout courbes utilisateur} & \notCheck\\
 			\hline
-			\multicolumn{2}{|c|}{12 - R\'edaction rapport technique}\\
+			\multicolumn{3}{|c}{12 - R\'edaction rapport technique} & \notCheck\\
 			\hline
 		\end{tabular}}
 		\end{center}
