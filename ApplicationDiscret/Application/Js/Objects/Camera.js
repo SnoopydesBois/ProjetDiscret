@@ -286,11 +286,12 @@ Camera.prototype.computeMatrices = function () {
 	);
 	
 	// Orthographic matrix
+	var factor = Math.min (this.height, this.width);
 	this.orthographicProjectionMatrix = new Matrix (
-		-this.constProjection,
-		this.constProjection, 
-		-this.constProjection, 
-		this.constProjection, 
+		-this.constProjection * this.width / factor,
+		this.constProjection * this.width / factor, 
+		-this.constProjection * this.height / factor,
+		this.constProjection * this.height / factor, 
 		this.near,
 		this.far
 	);
