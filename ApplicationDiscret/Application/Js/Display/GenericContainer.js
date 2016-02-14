@@ -1,10 +1,51 @@
+/// LICENCE ////////////////////////////////////////////////////////////////////
+
+
 /**
- * @classdesc
+ * @license
  */
 
 
+/// INDEX //////////////////////////////////////////////////////////////////////
 
-GenericContener.prototype.constructor = GenericContener;
+
+/* objectList : Object
+ * scale : float
+ * width : int
+ * height : int
+ * translateX : float
+ * translateY : float
+ *
+ * constructor ()
+ *
+ * getNbObject () : int
+ * setScale (scale : float) : void
+ * getScale () : float
+ * multScale (scale : float) : void
+ * getWidth () : int
+ * setWidth (width : int) : void
+ * getHeight () : int
+ * setHeight (height : int) : void
+ * addTranslateX (x : float) : void
+ * addTranslateY (y : float) : void
+ * setTranslate (x : float, y : float) : void
+ *
+ * addObject (anObject : Object) : void
+ * getObject (index : int) : Object
+ * removeObject (index : int) : void
+ * prepare (glContext : mixed) : void
+ * draw (glContext : mixed, backBuffer : boolean) : void
+ */
+
+
+/// CODE ///////////////////////////////////////////////////////////////////////
+
+
+
+/**
+ * @classdesc
+ */
+GenericContainer.prototype.constructor = GenericContainer;
 
 
 
@@ -18,10 +59,10 @@ GenericContener.prototype.constructor = GenericContener;
  * @constructor
  *
  */
-function GenericContener () {
+function GenericContainer () {
 
 	/**
-	 * {NamedStructure[]} List of objects. TODO documenté le type
+	 * {GenericStructure[]} List of objects. FIXME créer type jsdoc
 	 */
 	this.objectList = [];
 
@@ -31,12 +72,12 @@ function GenericContener () {
 	this.scale = 1.0;
 
 	/**
-	 * {int} TODO compléter
+	 * {int} The width (in pixel) of the container.
 	 */
 	this.width = 0;
 
 	/**
-	 * {int} TODO compléter
+	 * {int} The height (in pixel) of the container.
 	 */
 	this.height = 0;
 
@@ -49,7 +90,6 @@ function GenericContener () {
 	 * {float} The translation along the Y axis.
 	 */
 	this.translateY = 0.0;
-
 };
 
 
@@ -63,11 +103,11 @@ function GenericContener () {
  * @return {int} The number of objects in this scene (the length of the list of
  * objects).
  */
-GenericContener.prototype.getNbObject = function () {
+GenericContainer.prototype.getNbObject = function () {
 	return this.objectList.length;
 };
-GenericContener.prototype.getLength = function () {
-	console.error ("Cette methode à été renommé, il faut utiliser GenericContener.getNbObject");
+GenericContainer.prototype.getLength = function () {
+	console.error ("Cette methode à été renommé, il faut utiliser GenericContainer.getNbObject");
 	return this.getNbObject ();
 };
 
@@ -81,12 +121,12 @@ GenericContener.prototype.getLength = function () {
  * @return {void}
  * @throws {String} If the provided parameter is not a number.
  */
-GenericContener.prototype.setScale = function (scale) {
+GenericContainer.prototype.setScale = function (scale) {
 	if (typeof scale == "number") {
 		this.scale = scale;
 	}
 	else
-		throw "GenericContener.setScale: parameter is not a number";
+		throw "GenericContainer.setScale: parameter is not a number";
 };
 
 
@@ -94,7 +134,7 @@ GenericContener.prototype.setScale = function (scale) {
 /**
  * @return {float} The scale of the scene.
  */
-GenericContener.prototype.getScale = function () {
+GenericContainer.prototype.getScale = function () {
 	return this.scale;
 };
 
@@ -108,11 +148,11 @@ GenericContener.prototype.getScale = function () {
  * @return {void}
  * @throws {String} If the provided parameter is not a number.
  */
-GenericContener.prototype.multScale = function (scale) {
+GenericContainer.prototype.multScale = function (scale) {
 	if (typeof scale == "number")
 		this.scale *= scale;
 	else
-		throw "GenericContener.multScale: parameter is not a number";
+		throw "GenericContainer.multScale: parameter is not a number";
 };
 
 
@@ -122,7 +162,7 @@ GenericContener.prototype.multScale = function (scale) {
  *
  * @return {int} the width of the scene.
  */
-GenericContener.prototype.getWidth = function () {
+GenericContainer.prototype.getWidth = function () {
 	return this.width;
 };
 
@@ -136,11 +176,11 @@ GenericContener.prototype.getWidth = function () {
  * @return {void}
  * @throws {String} If the provided parameter is not a number.
  */
-GenericContener.prototype.setWidth = function (width) {
+GenericContainer.prototype.setWidth = function (width) {
 	if (typeof width == "number")
 		this.width = width;
 	else
-		throw "GenericContener.setWidth: parameter is not a number";
+		throw "GenericContainer.setWidth: parameter is not a number";
 };
 
 
@@ -150,7 +190,7 @@ GenericContener.prototype.setWidth = function (width) {
  *
  * @return {int} the height of the scene.
  */
-GenericContener.prototype.getHeight = function () {
+GenericContainer.prototype.getHeight = function () {
 	return this.height;
 };
 
@@ -164,11 +204,11 @@ GenericContener.prototype.getHeight = function () {
  * @return {void}
  * @throws {String} If the provided parameter is not a number.
  */
-GenericContener.prototype.setHeight = function (height) {
+GenericContainer.prototype.setHeight = function (height) {
 	if (typeof height == "number")
 		this.height = height;
 	else
-		throw "GenericContener.setHeight: parameter is not a number";
+		throw "GenericContainer.setHeight: parameter is not a number";
 };
 
 
@@ -181,11 +221,11 @@ GenericContener.prototype.setHeight = function (height) {
  * @return {void}
  * @throws {String} If the provided parameter is not a number.
  */
-GenericContener.prototype.addTranslateX = function (x) {
+GenericContainer.prototype.addTranslateX = function (x) {
 	if (typeof x == "number")
 		this.translateX += x;
 	else
-		throw "GenericContener.addTranslateX: parameter is not a number";
+		throw "GenericContainer.addTranslateX: parameter is not a number";
 };
 
 
@@ -198,11 +238,11 @@ GenericContener.prototype.addTranslateX = function (x) {
  * @return {void}
  * @throws {String} If the provided parameter is not a number.
  */
-GenericContener.prototype.addTranslateY = function (y) {
+GenericContainer.prototype.addTranslateY = function (y) {
 	if (typeof y == "number")
 		this.translateY += y;
 	else
-		throw "GenericContener.addTranslateY: parameter is not a number";
+		throw "GenericContainer.addTranslateY: parameter is not a number";
 };
 
 
@@ -216,13 +256,13 @@ GenericContener.prototype.addTranslateY = function (y) {
  * @return {void}
  * @throws {String} If one of the provided parameters is not a number.
  */
-GenericContener.prototype.setTranslate = function (x, y) {
+GenericContainer.prototype.setTranslate = function (x, y) {
 	if (typeof x == "number" && typeof y == "number") {
 		this.translateX = x;
 		this.translateY = y;
 	}
 	else
-		throw "GenericContener.setTranslate: one parameter is not a number";
+		throw "GenericContainer.setTranslate: one parameter is not a number";
 };
 
 
@@ -240,7 +280,7 @@ GenericContener.prototype.setTranslate = function (x, y) {
  *
  * @return {void}
  */
-GenericContener.prototype.addObject = function (anObject) {
+GenericContainer.prototype.addObject = function (anObject) {
 	this.objectList.push (anObject);
 };
 
@@ -249,21 +289,21 @@ GenericContener.prototype.addObject = function (anObject) {
 /**
  * Get an object given its index.
  *
- * @param {int} id - Index of the object to return.
+ * @param {int} index - Index of the object to return.
  *
- * @return {!GenericStructure} The object corresponding to the index in
+ * @return {!Object} The object corresponding to the index in
  * parameter if it exists, null otherwise.
  */
-GenericContener.prototype.getObject = function (id) {
+GenericContainer.prototype.getObject = function (index) {
 	/// parameter verification
 	if (! checkType (arguments, "number"))
-		throw "GenericContener.getObject: given id is not a number"
+		throw "GenericContainer.getObject: given index is not a number"
 
 	/// find the object !
-	if (id >= 0 && id < this.objectList.length)
-		return this.objectList[id];
+	if (index >= 0 && index < this.objectList.length)
+		return this.objectList[index];
 	else {
-		console.error ("GenericContener.getObjectByName: index out of bounds");
+		console.error ("GenericContainer.getObjectByName: index out of bounds");
 		return null;
 	}
 };
@@ -271,20 +311,20 @@ GenericContener.prototype.getObject = function (id) {
 
 //==============================================================================
 /**
- * Remove an object by id (if id is out of bound, nothing happen).
+ * Remove an object by index (if index is out of bound, nothing happen).
  *
- * @param {int} id - The id in the object list.
+ * @param {int} index - The index in the object list.
  *
  * @return {void}
  */
-GenericContener.prototype.removeObject = function (id) {
+GenericContainer.prototype.removeObject = function (index) {
 	/// parameter verification
 	if (! checkType (arguments, "number"))
-		throw "GenericContener.removeObject: given id is not a number"
+		throw "GenericContainer.removeObject: given index is not a number"
 
 	/// remove the object !
-	if (id >= 0 && id < this.objectList.length)
-		this.objectList.splice (id, 1); // Remove from the list
+	if (index >= 0 && index < this.objectList.length)
+		this.objectList.splice (index, 1); // Remove from the list
 };
 
 
@@ -296,27 +336,27 @@ GenericContener.prototype.removeObject = function (id) {
 
 
 /**
- * TODO refaire doc
- * Prepare the scene before rendering. Prepare all objects and check if there is
- * a camera. If not, the default camera is set to the scene.
+ * @abstract
+ * Prepare all object in the container.
  *
  * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
  * gl context.
  *
  * @return {void}
  */
-GenericContener.prototype.prepare = function (glContext) {};
+GenericContainer.prototype.prepare = function (glContext) {};
 
 
 //==============================================================================
 /**
- * Draw a scene. TODO refaire doc
+ * @abstract
+ * Draw all object in the container.
  *
  * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
  * gl context.
- * @param {boolean} [backBuffer] - Indicate if we have to draw the scene
+ * @param {boolean} [backBuffer] - Indicate if we have to draw the object
  * normally or if we need to draw for picking.
  *
  * @return {void}
  */
-GenericContener.prototype.draw = function (glContext, backBuffer) {};
+GenericContainer.prototype.draw = function (glContext, backBuffer) {};

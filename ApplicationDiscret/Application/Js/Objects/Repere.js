@@ -60,7 +60,9 @@
 
 /**
  * @extends GenericStructure
- * @classdesc TODO
+ * @classdesc A 3D object represent each axis an their direction at each render
+ * frame. It is always display at the bottom-left corner of the camera.
+ * @see Repere.getMatrix
  */
 Repere.prototype = new GenericStructure;
 Repere.prototype.constructor = Repere;
@@ -268,7 +270,7 @@ Repere.prototype.drawBackBuffer = function () {
 /**
  * @override
  *
- * TODO
+ * Nothing to do. The repere never change, so it is always prepared.
  *
  * @return {void}
  */

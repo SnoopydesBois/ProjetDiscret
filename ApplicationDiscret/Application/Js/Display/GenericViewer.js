@@ -100,7 +100,7 @@ function GenericViewer (canvas, glContextType) {
 	}
 	
 	/**
-	 * {GenericContener} The container of all objects.
+	 * {GenericContainer} The container of all objects.
 	 */
 	this.container;
 	

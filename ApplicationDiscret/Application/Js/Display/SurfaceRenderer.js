@@ -128,22 +128,26 @@ function SurfaceRenderer (surfaceController, glContext) {
 	this.modelController = surfaceController;
 
 	/**
-	 * {int} TODO
+	 * {int} Number of needed gl buffer to draw the object. Set by 'prepare'
+	 * method, use by 'prepare' an 'draw' methods.
 	 */
 	this.nbGlBuffer = 0;
 
 	/**
-	 * TODO
+	 * {TODO} Array of gl vertex buffer. Fill by 'prepare' method. The length of
+	 * this array is 'this.nbGlBuffer'.
 	 */
 	this.glVertexBuffer = [];
 
 	/**
-	 * TODO
+	 * {TODO} Array of gl vertex color buffer for picking. Fill by 'prepare'
+	 * method. The length of this array is 'this.nbGlBuffer'.
 	 */
 	this.glBackBuffer = [];
 
 	/**
-	 * TODO
+	 * {TODO} Array of gl indices buffer. Fill by 'prepare' method. The length of
+	 * this array is 'this.nbGlBuffer'.
 	 */
 	this.glIndiciesBuffer = [];
 
@@ -331,7 +335,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
  *
  * @param {Surface} surface - The current surface.
  * @param {Vector} voxelPosition - The position of the current voxel.
- * @param {ConnexityEnum} connexity - The globale connexity TODO.
+ * @param {ConnexityEnum} connexity - The displayed connexity.
  * @param {float} radius - The radius of the cube (distance beetween the cube
  * center end a face center).
  * @param {Array} vertexBuffer - The vertex buffer which contains 3-tuple
@@ -418,7 +422,7 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 
 //==============================================================================
 /**
- * {Number[6][4][3]} TODO écrire une petite explication sur la variable suivante
+ * {Number[6][4][3]} The coordinates of four vertex per direction of a cube. TODO vérifier anglais
  */
 var offsetVertexInCube = [
 	// Top
@@ -617,7 +621,7 @@ SurfaceRenderer.prototype.draw = function (gl) {
  * @param {Array} vertexPos - The vertex position.
  *
  * @return {void}
- * @throws {String} TODO
+ * @throws {String} If given parameter are not the expected type.
  */
 SurfaceRenderer.prototype.addVertexBuffer = function (vertexBuffer, limit,
 	vertexPos)

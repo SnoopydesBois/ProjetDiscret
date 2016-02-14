@@ -22,12 +22,12 @@ CurveViewer.prototype.constructor = CurveViewer;
 
 /**
  * @constructor
- * 
+ *
  * @param {HTMLCanvasElement} canvas - The associated canvas.
  */
 function CurveViewer (canvas) {
 	GenericViewer.call (this, canvas, "2d");
-	
+
 	/**
 	 * {Scene} The scene to display the surface.
 	 */
@@ -55,18 +55,18 @@ function CurveViewer (canvas) {
 
 /**
  * Prepare all objects in the container.
- * 
+ *
  * @return {void}
  */
 CurveViewer.prototype.prepare = function () {
-	
+
 };
 
 
 //==============================================================================
 /**
  * Show all objects in the container (prepare it and draw it).
- * 
+ *
  * @return {void}
  */
 CurveViewer.prototype.show = function () {
@@ -78,10 +78,10 @@ CurveViewer.prototype.show = function () {
 /**
  * @override
  * Draw all objects in the container.
- * 
- * @param {boolean} [backBuffer] - Indicate if we have to draw the scene 
+ *
+ * @param {boolean} [backBuffer] - Indicate if we have to draw the scene
  * normally or if we need to draw for picking.
- * 
+ *
  * @return {void}
  */
 CurveViewer.prototype.draw = function (backBuffer) {
@@ -91,7 +91,7 @@ CurveViewer.prototype.draw = function (backBuffer) {
 /*
 Frame2D.prototype.gridCanvasInit = function () {
 	for (var axis = 0; axis < this.numberOfAxis; axis++) {
-		for (var g = 0; g < this.numberOfGrids; g++) { 
+		for (var g = 0; g < this.numberOfGrids; g++) {
 			var content= document.createElement("div");
 			content= document.createElement("div");
 			//id = gridContent 1 Axis 0
@@ -101,10 +101,10 @@ Frame2D.prototype.gridCanvasInit = function () {
 				//code
 				this.container.getElementById('gridX').appendChild(content);
 			}
-			else if (axis === 1) {	
+			else if (axis === 1) {
 				//code
 				this.container.getElementById('gridY').appendChild(content);
-			} 
+			}
 			else if (axis === 2) {
 				//code
 				this.container.getElementById('gridZ').appendChild(content);
@@ -127,7 +127,7 @@ Frame2D.prototype.gridCanvasInit = function () {
 			}
 
 			$('<h1 grid="'+g+'" axis="'+axis+'">'+stringAxis+"  "
-					+(g+1)+'</div>').prependTo(div);	
+					+(g+1)+'</div>').prependTo(div);
 			headerContent.appendChild(div);
 
 			div = document.createElement("div");
@@ -137,7 +137,7 @@ Frame2D.prototype.gridCanvasInit = function () {
 			div.setAttribute("grid",g);
 			div.addEventListener("mousedown",this.selectSlice.bind(this));
 			headerContent.appendChild(div);
-			
+
 			div = document.createElement("div");
 			div.setAttribute("id","m"+g+"Axis"+axis);
 			div.setAttribute("class","minimizing");
@@ -157,18 +157,18 @@ Frame2D.prototype.gridCanvasInit = function () {
 			canvas.setAttribute("grid",g);
 			canvas.setAttribute("class","grid");
 
-			canvas.addEventListener('mousedown', 
+			canvas.addEventListener('mousedown',
 					this.onMouseClick.bind(this), false);
-			canvas.addEventListener('mouseup', 
+			canvas.addEventListener('mouseup',
 					this.onMouseReleased.bind(this), false);
-			canvas.addEventListener('mousemove', 
+			canvas.addEventListener('mousemove',
 					this.onMouseMove.bind(this), false);
-					
+
 			var frame = this;
 			this.frameDocument.onkeypress = function (event) {
 				frame.onKeyPressed(event);
 			}
-			
+
 			this.container.getElementById('gridContent'+g
 					+"Axis"+axis).appendChild(canvas);
 
@@ -185,10 +185,10 @@ Frame2D.prototype.gridCanvasInit = function () {
 
 /**
  * @override
- * TODO
- * 
+ * Redraw the curve.
+ *
  * @param {WindowEvent} event - The window event.
- * 
+ *
  * @return {void}
  */
 CurveViewer.prototype.onResize = function (event) {
@@ -197,5 +197,3 @@ CurveViewer.prototype.onResize = function (event) {
 
 
 //==============================================================================
-
-

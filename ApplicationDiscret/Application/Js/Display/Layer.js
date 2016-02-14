@@ -8,13 +8,13 @@
 
 
 /**
- * @extends GenericContener
+ * @extends GenericContainer
  * @classdesc 
  */
 
 
 
-Layer.prototype = new GenericContener;
+Layer.prototype = new GenericContainer;
 Layer.prototype.constructor = Layer;
 
 
@@ -30,7 +30,7 @@ Layer.prototype.constructor = Layer;
  */
 function Layer () {
 	
-	GenericContener.call (this);
+	GenericContainer.call (this);
 	/**
 	 * {Drawable2DObject} List of object to draw on the associated canvas. TODO documenté le type
 	 */
