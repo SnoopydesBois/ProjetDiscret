@@ -336,8 +336,8 @@ Scene.prototype.draw = function (glContext, backBuffer) {
 		this.prepareShaderMatrix (glContext, obj);
 
 		// Render Object
-		if (backBuffer)
-			obj.backBufferDraw (glContext, this);
+		if (backBuffer || obj.getName() == "n64")
+			obj.drawBackBuffer (glContext, this);
 		else
 			obj.draw (glContext, this);
 	} // end for each displayable object

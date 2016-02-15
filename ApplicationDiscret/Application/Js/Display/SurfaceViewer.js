@@ -61,7 +61,7 @@ function SurfaceViewer (canvas) {
 	 * {HTMLInputElement} The connexity user choice.
 	 */
 	this.connexityInput = document.getElementById ("connexityChoice");
-	
+
 	/**
 	 * {HTMLInputElement} The connexity user choice.
 	 */
@@ -248,12 +248,16 @@ SurfaceViewer.prototype.onResize = function (event) {
  * @return {void}
  */
 SurfaceViewer.prototype.onMouseDown = function (event) {
-	if (event.buttons === 1) { // FIXME right click is pressed
+	if (event.buttons === 1) {
 		this.camPosWhenClick = this.container.getCamera().getPosition();
 		this.mousePosOnPress[0] = event.layerX;
 		this.mousePosOnPress[1] = event.layerY;
 //		event.preventDefault ();
 	}
+	var color = new Uint8Array (4);
+	this.glContext.readPixels (event.layerX, event.layerY, 1, 1,
+		this.glContext.RGBA, this.glContext.UNSIGNED_BYTE, color);
+	// console.log ("picked color :", color[0], color[1], color[2], color[3]);
 };
 
 
@@ -267,7 +271,7 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
  * @return {void}
  */
 SurfaceViewer.prototype.onMouseUp = function (event) {
-//	if (event.buttons === 1) { // FIXME right click is pressed
+//	if (event.buttons === 1) {
 //		this.camPosWhenClick = this.container.getCamera().getPosition();
 //		this.mousePosOnPress[0] = event.layerX;
 //		this.mousePosOnPress[1] = event.layerY;
@@ -286,7 +290,7 @@ SurfaceViewer.prototype.onMouseUp = function (event) {
  * @return {void}
  */
 SurfaceViewer.prototype.onMouseMove = function (event) {
-	if (event.buttons === 1) { // FIXME right click is pressed when move
+	if (event.buttons === 1) {
 		this.moveCameraAt (
 			(this.mousePosOnPress[0] - event.layerX) * 0.01,
 			(event.layerY - this.mousePosOnPress[1]) * 0.01
@@ -440,31 +444,31 @@ SurfaceViewer.prototype.getImgData = function (width, height) {
 	this.glContext.bindFramebuffer(this.glContext.FRAMEBUFFER, this.framebuffer);
 
 	// Drawing the colored scene
-	this.draw();
-	
+	this.draw ();
+
 	// Pixel on which we click
-	var pixel = new Uint8Array(width * height * 4); 
-	
+	var pixel = new Uint8Array (width * height * 4);
+
 	// Read the pixel at x and y coordinates
 	this.glContext.readPixels(0, 0,
-			 width, height, this.glContext.RGBA, 
+			 width, height, this.glContext.RGBA,
 			this.glContext.UNSIGNED_BYTE, pixel);
 	// Unbind the buffers used
-	this.glContext.bindRenderbuffer(this.glContext.RENDERBUFFER, null);
-	this.glContext.bindFramebuffer(this.glContext.FRAMEBUFFER, null);
+	this.glContext.bindRenderbuffer (this.glContext.RENDERBUFFER, null);
+	this.glContext.bindFramebuffer (this.glContext.FRAMEBUFFER, null);
 
-	return this.reverseTab(pixel, width, height);
+	return this.reverseTab (pixel, width, height);
 };
 
 
 //==============================================================================
 SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
-	
+
 	var pixel = [];
-	for (var i = height-1; i >= 0; i--) {
-		for (var j = 0; j < width*4; j++) {
-			pixel.push(tab[i*width*4 + j]);
-		}		
+	for (var i = height - 1; i >= 0; --i) {
+		for (var j = 0; j < width * 4; ++j) {
+			pixel.push (tab[i * width * 4 + j]);
+		}
 	}
 	return pixel;
 };

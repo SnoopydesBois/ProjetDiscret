@@ -147,7 +147,7 @@ function SurfaceRenderer (surfaceController, glContext) {
 	this.glBackBuffer = [];
 
 	/**
-	 * {TODO} Array of gl indices buffer. Fill by 'prepare' method. The length 
+	 * {TODO} Array of gl indices buffer. Fill by 'prepare' method. The length
 	 * of this array is 'this.nbGlBuffer'.
 	 */
 	this.glIndiciesBuffer = [];
@@ -237,7 +237,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 	var tmp;
 
 	for (tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
-		vertexBuffer.push ([]);
+		vertexBuffer.push ([]); // float[][]
 		indicesBuffer.push ([]);
 		colorBuffer.push ([]);
 		backColorBuffer.push ([]);
@@ -255,7 +255,9 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 		for (var y = 0; y < size.y; ++y) {
 			for (var z = 0; z < size.z; ++z) {
 				voxel = surface.getVoxel (x, y, z);
-				if (voxel != null && voxel.isVisible (connexity) && (radius != 0.5 || !voxel.isHidden (connexity))) {
+				if (voxel != null && voxel.isVisible (connexity)
+					&& (radius != 0.5 || !voxel.isHidden (connexity)))
+				{
 					// 1024 -> see above, this.nbGlBuffer computes
 					idx = Math.trunc (cptPreparedVoxel / 2048);
 					this.prepareVoxel (
@@ -276,50 +278,47 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 	} // end for x
 	// Create vertex buffer
 	for (tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
-		this.glVertexBuffer[tmp] = gl.createBuffer();
-		this.glVertexBuffer[tmp].numItems = vertexBuffer[tmp].length / 3.0;
+		// create
+		this.glVertexBuffer[tmp] = gl.createBuffer ();
+		this.glBackBuffer[tmp]   = gl.createBuffer ();
+		nbItem = vertexBuffer[tmp].length / 3.0;
+		this.glVertexBuffer[tmp].numItems = nbItem;
+		this.glBackBuffer[tmp].numItems  = nbItem;
+		// fill
 		for (var i = 0; i < colorBuffer[tmp].length; ++i) {
 			for (var j = 0; j < 4; ++j) {
 				var offset = i * 12 + j * 3;
+				// vertex buffer
 				this.addAPoint (data[tmp],
 					vertexBuffer[tmp][offset],
 					vertexBuffer[tmp][offset + 1],
 					vertexBuffer[tmp][offset + 2]
 				);
 				this.addAColor (data[tmp], colorBuffer[tmp][i]);
+				// back buffer
+				this.addAPoint (bdata[tmp],
+					vertexBuffer[tmp][offset],
+					vertexBuffer[tmp][offset + 1],
+					vertexBuffer[tmp][offset + 2]
+				);
+				this.addAColor (bdata[tmp], backColorBuffer[tmp][i]);
 			} // end for j
 		} // en for i
 		gl.bindBuffer (gl.ARRAY_BUFFER, this.glVertexBuffer[tmp]);
 		gl.bufferData (gl.ARRAY_BUFFER, new Float32Array (data[tmp]),
 			gl.STATIC_DRAW);
+		gl.bindBuffer (gl.ARRAY_BUFFER, this.glBackBuffer[tmp]);
+		gl.bufferData (gl.ARRAY_BUFFER, new Float32Array (bdata[tmp]),
+			gl.STATIC_DRAW);
 	}
-
-	// Create the "backbuffer" used for the picking
-//	for (tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
-//		this.glBackBuffer[tmp] = gl.createBuffer ();
-//		this.glBackBuffer[tmp].numItems = vertexBuffer[tmp].length / 3.0;
-//		for (var i = 0; i < colorBuffer[tmp].length; ++i) {
-//			for (var j = 0; j < 4; ++j) {
-//				var offset = i * 12 + j * 3;
-//				this.addAPoint (bdata[tmp],
-//					vertexBuffer[tmp][offset],
-//					vertexBuffer[tmp][offset + 1],
-//					vertexBuffer[tmp][offset + 2]
-//				);
-//				this.addAColor (bdata[tmp], backColorBuffer[tmp][i]);
-//			} // end for j
-//		} // end for i
-//		gl.bindBuffer (gl.ARRAY_BUFFER, this.glBackBuffer[tmp]);
-//		gl.bufferData (gl.ARRAY_BUFFER, new Float32Array (bdata[tmp]),
-//				gl.STATIC_DRAW);
-//	}
 
 	// Create index buffer
 	for (tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
 		this.glIndiciesBuffer[tmp] = gl.createBuffer ();
 		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer[tmp]);
-		gl.bufferData (gl.ELEMENT_ARRAY_BUFFER, new Uint16Array (
-			indicesBuffer[tmp]),
+		gl.bufferData (
+			gl.ELEMENT_ARRAY_BUFFER,
+			new Uint16Array (indicesBuffer[tmp]),
 			gl.STATIC_DRAW
 		);
 		this.glIndiciesBuffer[tmp].numItems = indicesBuffer[tmp].length;
@@ -332,20 +331,20 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 
 //==============================================================================
 /**
- * Prepare each face of the voxel for rendering.
+ * Prepare each face (compute its color) of the voxel for rendering.
  *
  * @param {Surface} surface - The current surface.
  * @param {Vector} voxelPosition - The position of the current voxel.
  * @param {ConnexityEnum} connexity - The displayed connexity.
  * @param {float} radius - The radius of the cube (distance beetween the cube
  * center end a face center).
- * @param {Array} vertexBuffer - The vertex buffer which contains 3-tuple
+ * @param {float[]} vertexBuffer - The vertex buffer which contains 3-tuple
  * coordinates of each point.
- * @param {Array} indicesBuffer - The indices buffer which contains the order
+ * @param {int[]} indicesBuffer - The indices buffer which contains the order
  * (the indices) to draw all points.
- * @param {Array} colorBuffer - The color buffer which contains the color of
+ * @param {float[][4]} colorBuffer - The color buffer which contains the color of
  * each point.
- * @param {Array} backColorBuffer - TODO
+ * @param {float[][4]} backColorBuffer - TODO
  * @param {float[4]} colorVoxel - The color of the face to draw.
  * @param {Vector} universSize - The size of the univers.
  *
@@ -450,14 +449,14 @@ var offsetVertexInCube = [
  * @param {DirectionEnum} direction - The direction of the face to prepare.
  * @param {float} radius - The radius of the cube (distance beetween the cube
  * center end a face center).
- * @param {Array} vertexBuffer - The vertex buffer which contains 3-tuple
+ * @param {float[]} vertexBuffer - The vertex buffer which contains 3-tuple
  * coordinates of each point.
- * @param {Array} indicesBuffer - The indices buffer which contains the order
+ * @param {int[]} indicesBuffer - The indices buffer which contains the order
  * (the indices) to draw all points.
- * @param {Array} colorBuffer - The color buffer which contains the color of
+ * @param {float[][4]} colorBuffer - The color buffer which contains the color of
  * each point.
- * @param {Array} backColorBuffer - TODO
- * @param {Array[4]} colorFace - The color of the face to draw.
+ * @param {float[][4]} backColorBuffer - TODO
+ * @param {float[4]} colorFace - The color of the face to draw.
  * @param {Vector} universSize - The size of the univers.
  *
  * @return {void}
@@ -484,7 +483,7 @@ SurfaceRenderer.prototype.prepareFace = function (
 	}
 
 	// Creation of the 4 points of the face
-	var vertexBufferize = vertexBuffer.length / 3; // 3 points per vertexBuffer
+	var nbVertex = vertexBuffer.length / 3; // 3 points per vertexBuffer
 	for (var i = 0; i < 4; ++i) {
 		// for each point of a face
 		var vertex = new Vector (offsetVertexInCube[direction][i])
@@ -493,25 +492,20 @@ SurfaceRenderer.prototype.prepareFace = function (
 		this.addVertexBuffer (vertexBuffer, universSize, vertex);
 	}
 
-
 	switch (direction) {
 
 	case DirectionEnum.TOP :
 	case DirectionEnum.RIGHT :
 	case DirectionEnum.FRONT :
-		indicesBuffer.push (vertexBufferize, vertexBufferize + 3,
-			vertexBufferize + 1);
-		indicesBuffer.push (vertexBufferize, vertexBufferize + 2,
-			vertexBufferize + 3);
+		indicesBuffer.push (nbVertex, nbVertex + 3, nbVertex + 1);
+		indicesBuffer.push (nbVertex, nbVertex + 2, nbVertex + 3);
 	break;
 
 	case DirectionEnum.BOTTOM :
 	case DirectionEnum.LEFT :
 	case DirectionEnum.BACK :
-		indicesBuffer.push (vertexBufferize, vertexBufferize + 1,
-			vertexBufferize + 3);
-		indicesBuffer.push (vertexBufferize, vertexBufferize + 3,
-			vertexBufferize + 2);
+		indicesBuffer.push (nbVertex, nbVertex + 1, nbVertex + 3);
+		indicesBuffer.push (nbVertex, nbVertex + 3, nbVertex + 2);
 	break;
 
 	case DirectionEnum.ALL :
@@ -585,30 +579,31 @@ SurfaceRenderer.prototype.draw = function (gl) {
 
 
 //==============================================================================
-///**
-// * Draw the model for picking.
-// *
-// * @param {WebGLRenderingContext} gl - The gl context.
-// *
-// * @return {void}
-// */
-//SurfaceRenderer.prototype.drawBackBuffer = function (gl) {
-//	if (! gl instanceof WebGLRenderingContext) {
-//		console.error ("SurfaceRenderer.drawBackBuffer: parameter is not a "
-//			+ "WebGLRenderingContext");
-//		return;
-//	}
-//
-//	this.shader.setMode (RenderingModeEnum.PICKING);
-//	for (var tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
-//		// Let's the shader prepare its attributes
-//		this.shader.setAttributes (gl, this.glBackBuffer[tmp]);
-//		// Let's render !
-//		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer[tmp]);
-//		gl.drawElements (gl.TRIANGLES, this.glIndiciesBuffer[tmp].numItems,
-//			gl.UNSIGNED_SHORT, 0);
-//	}
-//};
+/**
+ * Draw the model for picking.
+ *
+ * @param {WebGLRenderingContext} gl - The gl context.
+ *
+ * @return {void}
+ */
+SurfaceRenderer.prototype.drawBackBuffer = function (gl) {
+	if (! gl instanceof WebGLRenderingContext) {
+		console.error ("SurfaceRenderer.drawBackBuffer: parameter is not a "
+			+ "WebGLRenderingContext");
+		return;
+	}
+
+	this.shader.setRenderingMode (RenderingModeEnum.PICKING);
+	for (var tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
+		// Let's the shader prepare its attributes
+		this.shader.setAttributes (gl, this.glBackBuffer[tmp],
+			globalParam.perspectiveView ? 1 : 0);
+		// Let's render !
+		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer[tmp]);
+		gl.drawElements (gl.TRIANGLES, this.glIndiciesBuffer[tmp].numItems,
+			gl.UNSIGNED_SHORT, 0);
+	}
+};
 
 
 //==============================================================================
@@ -651,13 +646,13 @@ SurfaceRenderer.prototype.addVertexBuffer = function (vertexBuffer, limit,
  * @param {Voxel} voxel - The voxel's face.
  * @param {DirectionEnum} direction - The direction of the face in the voxel.
  *
- * @return {Array[4]} The RGBA color corresponding to the position of the face.
+ * @return {float[4]} The RGBA color corresponding to the position of the face.
  */
 SurfaceRenderer.prototype.posToColor = function (voxel, direction) {
 	return [
-		((voxel.getPosition().x + 1) * 10 + direction) / 255, // red
-		((voxel.getPosition().y + 1) * 10) / 255, // green
-		((voxel.getPosition().z + 1) * 10) / 255, // blue
+		((voxel.getPosition().x + 1) * 10 + direction) / 256, // red
+		((voxel.getPosition().y + 1) * 10) / 256, // green
+		((voxel.getPosition().z + 1) * 10) / 256, // blue
 		1.0 // alpha
 	];
 };
@@ -675,6 +670,3 @@ SurfaceRenderer.prototype.posToColor = function (voxel, direction) {
 SurfaceRenderer.prototype.getDimension = function () {
 	return this.getModelController ().getDimension ();
 };
-
-
-
