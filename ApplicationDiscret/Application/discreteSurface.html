@@ -115,7 +115,7 @@
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/common.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
-		<link rel="stylesheet" type="text/css" media="all" href="Styles/style2.css">
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/style.css">
 
 
 		<!-- Export 3D en PNG -->
@@ -379,16 +379,16 @@
 					<span key="surf3" class="tr">Liste des paramètres de la Surface</span>
 
 					<div class="doubleSliders" name="X" id="slider-rangeX"></div>
-					<label for="amount">Dimension X</label><br/>
-					<input type="text" id="amountMinX" style="width : 40%" onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMinX')"> - <input type="text" id="amountMaxX" style="width : 40%" onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
+					<label>Dimension X</label><br/>
+					<input type="text" id="amountMinX" onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMinX')"> - <input type="text" id="amountMaxX" onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
 
 					<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
-					<label for="amount">Dimension Y</label><br/>
-					<input type="text" id="amountMinY" style="width : 40%" onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMinY')"> - <input type="text" id="amountMaxY" style="width : 40%" onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
+					<label>Dimension Y</label><br/>
+					<input type="text" id="amountMinY" onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMinY')"> - <input type="text" id="amountMaxY" onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
 
 					<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
-					<label for="amount">Dimension Z</label><br/>
-					<input type="text" id="amountMinZ" style="width : 40%" onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMinZ')"> - <input type="text" id="amountMaxZ" style="width : 40%" onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
+					<label>Dimension Z</label><br/>
+					<input type="text" id="amountMinZ" onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMinZ')"> - <input type="text" id="amountMaxZ" onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 				<!-- appli.surfaceView.show() -->
 					<button onClick="appli.show (true)"> Modifier </button>
 
@@ -403,15 +403,17 @@
 				<div id="surfaceOption" class="optionPanel">
 					<p>
 						Dimension&nbsp;:
-						<input id="dimx" type="text" value="21"/>
-						<input id="dimy" type="text" value="21"/>
-						<input id="dimz" type="text" value="21"/>
+						<input id="dimx" type="number" value="21" min="1"/>
+						<input id="dimy" type="number" value="21" min="1"/>
+						<input id="dimz" type="number" value="21" min="1"/>
 						<select id="connexityChoice" name="connexityChoice"
 							onchange="appli.surfaceView.unprepare ();appli.surfaceView.show ()">
 							<option value="1">C26</option>
 							<option value="2">C18</option>
 							<option value="4">C6</option>
 						</select>
+						<input id="voxelRadius" type="number" name="voxelRadius" 
+							value="0.5" min="0.0" max="0.5" step="0.01"/>
 					</p>
 				</div>
 			</div>
@@ -434,7 +436,6 @@
 
 			appli.initAppli ();
 
-			//console.log (n64.nbGlBuffer);
 
 			/// PNG test
 			var surfaceCanvas = document.getElementById('surfaceCanvas'),

@@ -1,128 +1,159 @@
-/* I - la div englobante en haut à gauche */
-#meridianView{
-box-sizing : border-box;
+#workspace,
+#workspace div,
+#workspace canvas {
+	box-sizing : border-box;
 	-moz-box-sizing : border-box;
 	-webkit-box-sizing : border-box;
-position: absolute; 
-width: 25%; 
-height: 50%; 
-left: 0; 
-top: 4%; 
-background-color: #000000; 
-}
-/*la div du I : à gauche*/
-#meridianParam {
-	border:1px solid #808080; 
 	position: absolute; 
-	width: 20%; 
-	height: 80%; 
-	left: 0; 
-	top: 0 ;
 }
-/*la div du I : en bas*/
-#meridianOption {
-	border:1px solid #808080; 
-	position: absolute; 
-	width: 100%; 
-	height: 20%; 
-	left: 0; 
-	top: 80%; /*bottom*/
+
+
+#workspace {
+	top : 25px;
+	left : 0;
+	width : 100%;
+	height : calc(100% - 25px - 25px);
+}
+
+
+#curvesView {
+	top : 0;
+	left : 0;
+	width : 35%;
+	height : 100%;
+	border-right : 1px solid gray;
+}
+
+
+.paramPanel {
+	top : 0;
+	left : 0;
+	width : 30%;
+	height : calc(100% - 42px);
+	background-color : #DDD;
+	border-right : 1px solid gray;
+}
+
+
+.optionPanel {
+	bottom : 0;
+	left : 0;
+	width : 100%;
+	height : 42px;
+	background-color : #DDD;
+	border-top : 1px solid gray;
+}
+
+
+#curvesView canvas,#meridianCanvas2,#revolCanvas2 {
+	top : 0;
+	right : 0;
+	width : 70%;
+	height : calc(100% - 42px);
+	background-color : white;	
+}
+
+
+	/*** Meridian ***/
+
+
+#meridianView {
+	top : 0; 
+	left : 0; 
+	width : 100%; 
+	height : 50%;
+	border-bottom : 1px solid gray;
+}
+
+
+	/*** Revolution ***/
+
+
+#revolView {
+	bottom : 0;
+	left : 0; 
+	width : 100%; 
+	height : 50%; 
+}
+
+
+	/*** Surface ***/
+
+
+#surfaceView {
+	top : 0;
+	right : 0;
+	width : 65%;
+	height : 100%; 
+}
+
+
+#surfaceView .paramPanel {
+	right : 0;
+	left : auto;
+	width : 20%;
+	height : calc(100% - 42px);
+	border-right : none;
+	border-left : 1px solid gray;
+}
+
+
+#surfaceView .optionPanel {
+	width : 100%;
+	height : 42px;
+}
+
+
+#surfaceCanvas {
+	top : 0;
+	left : 0;
+	width : 80%;
+	height : calc(100% - 42px);
+	background-color : black;
+}
+
+
+#surfaceView .optionPanel input[type=text],
+#surfaceView .optionPanel input[type=number] {
+	width : 3em;
+}
+
+
+#surfaceView .optionPanel select {
+	width : 4em;
+}
+
+
+#surfaceParam input {
+	width : calc((100% - 2em) / 2);
+}
+
+
+	/*** Parameters ***/
 	
+	
+#revolParam #meridianParam{
+	position : relative;
 }
 
-/*la div du I : à droite*/
-#meridianCanvas {
-	border:1px solid #808080; 
-	position: absolute; 
-	width: 80%; 
-	height: 80%; 
-	left: 20%; 
-	top: 0;
+
+.rangeParam {
+	margin : 5%;
+	padding : 0px;
+	width : 90%;
 }
 
-/*La deuxiémme couche englobante en bas à gauche II*/
 
-#revolutionView{
-box-sizing : border-box;
-	-moz-box-sizing : border-box;
-	-webkit-box-sizing : border-box;
-position: absolute; 
-width: 25%; 
-height: 50%; 
-left: 0; 
-top: 50%; 
-background-color: #000000; 
-}
-/*la div du II : à gauche*/
-#revolutionParam{
-border:1px solid #808080; 
-position: absolute; 
-width: 20%; 
-height: 80%; 
-left: 0; 
-top: 0;
-}
-/*la div du II : en bas*/
-#revolutionOption{
-border:1px solid #808080; 
-position: absolute; 
-width: 100%; 
-height: 20%; 
-left: 0; 
-top: 80%;
-}
-/*la div du II : à droite*/
-#revolutionCanvas{
-border:1px solid #808080; 
-position: absolute; 
-width: 80%; 
-height: 80%; 
-left: 20%; 
-top: 0;
+#workspace .doubleSliders {
+	margin : 5%;
+	position : relative;
 }
 
-/*La troisiémme couche englobante à droite III*/
 
-#revolutionCurve{
-box-sizing : border-box;
-	-moz-box-sizing : border-box;
-	-webkit-box-sizing : border-box;
-position: absolute; 
-width: 75%; 
-height: 96%; 
-left: 25%; 
-top: 4%; 
-background-color:#000000;
+#workspace .ui-slider-handle{
+	width : 0.1em;
+	height : 1.2em;
+	margin-left : 0px;
 }
-
-/*la div du III : EN BAS*/
-#surfaceOption{
-border:1px solid #808080; 
-position: absolute; 
-width: 100%;
- height: 10%; 
- left: 0px; 
- top: 90%;
-}
-
-/*la div du III : à droite*/
-#surfaceParam{
-border:1px solid #808080; 
-position: absolute;
- width: 20%;
- height: 90%;
- left: 80%;
- top: 0px;
-}
-/*la div du III : à gauche*/
-#surfaceView{
-border:1px solid #808080; 
-position: absolute;
- width: 80%;
- height: 90%; 
- left: 0px; 
- top: 0px;
-}
-
 
 

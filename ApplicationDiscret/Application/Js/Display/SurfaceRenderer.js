@@ -102,7 +102,8 @@ SurfaceRenderer.prototype.getLastSurfaceName = function () {
 /**
  * @constructor
  *
- * @param {Controller3D} surfaceController - The controller of the surface to display
+ * @param {Controller3D} surfaceController - The controller of the surface to
+ * display.
  * @param {WebGLRenderingContext} glContext - The gl context.
  */
 function SurfaceRenderer (surfaceController, glContext) {
@@ -146,8 +147,8 @@ function SurfaceRenderer (surfaceController, glContext) {
 	this.glBackBuffer = [];
 
 	/**
-	 * {TODO} Array of gl indices buffer. Fill by 'prepare' method. The length of
-	 * this array is 'this.nbGlBuffer'.
+	 * {TODO} Array of gl indices buffer. Fill by 'prepare' method. The length 
+	 * of this array is 'this.nbGlBuffer'.
 	 */
 	this.glIndiciesBuffer = [];
 
@@ -203,7 +204,7 @@ SurfaceRenderer.prototype.getModelController = function () {
  * center end a face center).
  *
  * @return {void}
- * @throws {String} FIXME compléter
+ * @throws {String} If a parameter doesn't have the excepted type.
  */
 SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 	/// parameters verification
@@ -213,7 +214,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 	console.log ("Prepare de " + this.structureName);
 	this.cptPreparedVertex = 0;
 
-	///
+	/// prepare
 	radius || (radius = 0.5);
 	var size = this.modelController.getDimension ();
 
@@ -674,3 +675,6 @@ SurfaceRenderer.prototype.posToColor = function (voxel, direction) {
 SurfaceRenderer.prototype.getDimension = function () {
 	return this.getModelController ().getDimension ();
 };
+
+
+
