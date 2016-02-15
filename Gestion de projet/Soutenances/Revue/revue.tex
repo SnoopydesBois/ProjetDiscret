@@ -6,7 +6,7 @@
 
 
 
-\documentclass{beamer}
+\documentclass[xcolor=dvipsnames]{beamer}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -17,6 +17,7 @@
 \usepackage{textcomp}
 \usepackage{xstring}
 \usepackage{hyperref}
+\usepackage{pifont}
 
 \input{macro.tex}
 
@@ -26,13 +27,19 @@
 \author[]{Zied \smallcaps{Ben} \smallcaps{Othmane} \\ Thomas \smallcaps{Benoist}
 	\\ Adrien \smallcaps{Bisutti} \\ Lydie \smallcaps{Richaume}}
 \institute{Universit\'e de Poitiers}
-\date{4 Février 2016}
+\date{3 Février 2016}
+
 
 \usetheme{Madrid}
 \usecolortheme{sidebartab}
 \usefonttheme{professionalfonts}
 
-
+\definecolor{fondtitre}{rgb}{0.0,0.35,0.7}
+\setbeamercolor{palette primary}{bg=fondtitre}
+\setbeamercolor{palette secondary}{bg=fondtitre!75!black}
+\setbeamercolor{palette tertiary}{bg=fondtitre!55!black}
+\setbeamercolor{palette quaternary}{bg=fondtitre!35!black}
+\setbeamercolor{item}{fg=fondtitre}
 
 %%% MACRO %%%
 
@@ -40,9 +47,27 @@
 % Vide la barre de navigation
 \setbeamertemplate{navigation symbols}{}
 
+
+% Affichage du plan à chaque début de section
+\AtBeginSection[]{
+	\begin{frame}{Plan}
+		\begin{columns}
+			\begin{column}{5cm}
+			  	\tableofcontents[sections={1-3}, currentsection, hideothersubsections]
+			\end{column}
+			\begin{column}{5cm}
+			  	\tableofcontents[sections={4-7}, currentsection, hideothersubsections]
+			\end{column}
+		\end{columns}
+	\end{frame}
+}
+
+
+
 %%% DOCUMENT %%%
 
 \begin{document}
+
 
 
 %===============================================================================
@@ -63,11 +88,31 @@
 %	INTRODUCTION
 %===============================================================================
 
+\begin{frame}{Plan}
+	\begin{columns}
+		\begin{column}{5cm}
+		  	\tableofcontents[sections={1-3}, hideallsubsections]
+		\end{column}
+		\begin{column}{5cm}
+		  	\tableofcontents[sections={4-7}, hideallsubsections]
+		\end{column}
+	\end{columns}
+\end{frame}
+
+
+%===============================================================================
+%	INTRODUCTION
+%===============================================================================
+
+\section{Introduction}
+
 % --- Contexte -----------------------------------------------------------------
 	\subsection{Contexte}
 	\begin{frame}{\subsecname}
 		\begin{itemize}
-			\item Nouvel algorithme conçu par \'Eric \smallcaps{Andres} et Gaëlle \smallcaps{Largeteau}-\smallcaps{Skapin} pour mod\'eliser des surfaces de r\'evolution discrètes.
+			\item Nouvel algorithme conçu par \'Eric \smallcaps{Andres} et
+				Ga\"elle \smallcaps{Largeteau}-\smallcaps{Skapin} pour mod\'eliser
+				des surfaces de r\'evolution discr\`etes.
 			\item Visualisation des r\'esultats avec Mathematica
 		\end{itemize}
 		\begin{figure}
@@ -79,51 +124,24 @@
 	\end{frame}
 
 
-%===============================================================================
-%	ORGANISATION
-%===============================================================================
-	
-	% --- Demonstration -----------------------------------------------------------------
-	\subsection{Demonstration}
+% --- Contexte -----------------------------------------------------------------
+	\subsection{Objectifs}
 	\begin{frame}{\subsecname}
-		Démonstration
+		\begin{itemize}
+			\item Objectifs métiers
+			\begin{itemize}
+				\item Illustrer les r\'esultats de l'algorithme
+				\item Mettre \`a disposition un outil de mod\'elisation
+			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
+			\item Objectifs techniques
+			\begin{itemize}
+				\item Application web $\to$ WebGL
+				\item Utilisable par tous
+			\end{itemize}
+		\end{itemize}
 	\end{frame}
-	
-%===============================================================================
-%	COUTS
-%===============================================================================
-
-% A déplacer ?
-\section{Diagramme des coûts}
-
-\begin{frame}{\secname}
-	\begin{figure}
-		\includegraphics[height=3.8cm]{Images/CourbeCout.png}
-	\end{figure}
-\end{frame}
-
-
-%===============================================================================
-%	ORGANISATION
-%===============================================================================
-
-% \section{Organisation de l'\'equipe}
-
-
-% --- Roles --------------------------------------------------------------------
-	% \subsection{Les r\^oles}
-	 % \begin{frame}{\subsecname}
-		% \begin{itemize}
-			% \item Composition de l'\'equipe~:
-				% \begin{itemize}
-					% \item Thomas \smallcaps{Benoist} - Chef de projet
-					% \item Zied \smallcaps{Ben} \smallcaps{Othmane} - Responsable
-						% qualit\'e
-					% \item Adrien \smallcaps{Bisutti} - Responsable des risques
-					% \item Lydie \smallcaps{Richaume} - Responsable des t\^aches
-				% \end{itemize}
-		% \end{itemize}
-	% \end{frame} 
 
 
 
@@ -133,114 +151,91 @@
 
 \section{Planification}
 
-
 % --- Taches -------------------------------------------------------------------
-	\subsection{T\^aches}
+	\subsection{T\^aches} % FIXME Checked or not with \ding{52} and \ding{56} of pifont
+	\newcommand{\Valid}{{\color{ForestGreen}\ding{52}}}
+	\newcommand{\notCheck}{{\color{BrickRed}\ding{56}}}
 	\begin{frame}{\subsecname}
 		\begin{center}
 		{\renewcommand{\arraystretch}{1.3}
-		\begin{tabularx}{11cm}{|>{\hfill}X<{\hspace*{\fill}}|X<{\centering}|} % --FIX ME--
+		\begin{tabular}{|m{4.5cm}<{\centering}c|m{4.5cm}<{\centering}c|}
 			\hline
-			\multicolumn{2}{|c|}{1 - Documentation, test et aide utilisateur}\\
+			\multicolumn{3}{|c}{1 - Documentation, test et aide utilisateur} & \notCheck\\
 			\hline
-			\multicolumn{2}{|c|}{2 - Conception}\\
+			\multicolumn{3}{|c}{2 - Conception} & \Valid\\
 			\hline
-			3 - Noyau fonctionnel & 4 - Interface minimale\\
+			\centering
+			3 - Noyau fonctionnel & \Valid & 4 - Interface minimale & \Valid\\
 			\hline
-			6 - Ajout de fonctionnalités & 5 - Am\'elioration IHM Choix des courbes\\
+			6 - Ajout de fonctionnalités & \Valid & 5 - Am\'elioration IHM \linebreak Choix des courbes & \Valid\\
 			\hline
-			8 - Dessin \`a main levée m\'eridienne & 7 - Am\'elioration IHM Param\`etres\\
+			8 - Dessin \`a main levée m\'eridienne & \notCheck & 7 - Am\'elioration IHM Param\`etres & \Valid\\
 			\hline
-			9 - Gestion des donn\'ees & 10 - Am\'elioration IHM Rentrer des formules\\
+			9 - Gestion des donn\'ees & \notCheck & 10 - Am\'elioration IHM \linebreak Rentrer des formules & \notCheck\\
 			\hline
-			\multicolumn{2}{|c|}{11 - Ajout courbes utilisateur}\\
+			\multicolumn{3}{|c}{11 - Ajout courbes utilisateur} & \notCheck\\
 			\hline
-			\multicolumn{2}{|c|}{12 - R\'edaction rapport technique}\\
+			\multicolumn{3}{|c}{12 - R\'edaction rapport technique} & \notCheck\\
 			\hline
-		\end{tabularx}}
+		\end{tabular}}
 		\end{center}
 	\end{frame}
 
 	
 %===========================================================================================
-%===========================================================================================
+%	Organisation
 %===========================================================================================
 
-% Faire tenir les zoom sur la même diapo pour comparer?
-% Peut-être problème d'accent sur les nom de fichiers
 
 % --- Gantt --------------------------------------------------------------------
-	\subsection{Diagramme de Gantt Initial}
-	\begin{frame}{Gantt}
-	
-		% \begin{figure}
-			% \includegraphics[width=8cm]{Images/Gantt_ProjetDiscret.gif}
-		% \end{figure}
-		
+	\subsection{Gantt}
+	\begin{frame}{\subsecname}
 		\begin{center}
-			\href{run:Images/Gantt_ProjetDiscret.gif}{Diagramme prévisionnel}
+			\href{run:./Images/Gantt_ProjetDiscret.gif}{Diagramme pr\'evisionnel}\\
+			\bigskip
+			\href{run:Images/Gantt_ProjetDiscretReference.gif}{Diagramme pr\'evisionnel r\'evis\'e}
 		\end{center}
 	\end{frame}
 
+	
 % --- Zoom Gantt Initial --------------------------------------------------------------------
-	\subsection{Diagramme de Gantt Initial}
-	\begin{frame}{Gantt}
-	
-		% \begin{figure}
-			% \includegraphics[width=8cm]{Images/GantInitialClasses.gif}
-		% \end{figure}
-		
+	\begin{frame}{Gantt (zoom)}
 		\begin{center}
-			\href{run:Images/GantInitialClasses.gif}{Zoom Diagramme prévisionnel}
-		\end{center}
-	\end{frame}
-	
-	
-% --- Gantt --------------------------------------------------------------------
-	\subsection{Diagramme de Gantt R\'evis\'e}
-	\begin{frame}{Gantt}
-	
-		% \begin{figure}
-			% \includegraphics[width=8cm]{Images/Gantt_ProjetDiscretRéférence.gif}
-		% \end{figure}
-		
-		\begin{center}
-			\href{run:Images/Gantt_ProjetDiscretRéférence.gif}{Diagramme prévisionnel révisé}
+			\href{run:Images/GantInitialClasses.gif}{Zoom diagramme pr\'evisionnel}\\
+			\bigskip
+			\href{run:Images/GantReferenceClasses.gif}{Zoom diagramme prévisionnel révisé}
 		\end{center}
 	\end{frame}
 
-
-% --- Zoom Gantt Révisé --------------------------------------------------------------------
-	\subsection{Diagramme de Gantt R\'evis\'e}
-	\begin{frame}{Gantt}
-	
-		% \begin{figure}
-			% \includegraphics[width=8cm]{Images/GantReferenceClasses.gif}
-		% \end{figure}
-		
-		\begin{center}
-			\href{run:Images/GantReferenceClasses.gif}{Zoom Diagramme prévisionnel révisé}
-		\end{center}
-	\end{frame}
-	
-%===========================================================================================
-%===========================================================================================
-%===========================================================================================
 	
 % --- Gantt --------------------------------------------------------------------
-	\subsection{Diagramme de Gantt}
-	\begin{frame}{Gantt}
+	\subsection{Gantt de suivi}
+	\begin{frame}{\subsecname}
 		\begin{center}
-			\href{run:Images/Gantt_ProjetDiscretSuivi.gif}{Diagramme de suivi révisé}
+			\href{run:Images/Gantt_ProjetDiscretSuivi2.gif}{Diagramme de suivi}
 		\end{center}
 	\end{frame}
+
 
 % --- Avancement ---------------------------------------------------------------
-	\subsection{Avancement réalisé}
+	\subsection{Avancement}
 	\begin{frame}{\subsecname}
 		\begin{figure}
-			\href{run:Images/CourbeAvancement.png}{Nouvel avancement}
+			\includegraphics[height=7cm]{Images/Avancement.png}
 		\end{figure}
+	\end{frame}
+
+
+% --- Avancement ---------------------------------------------------------------
+	\begin{frame}{\subsecname}
+		\begin{figure}
+			\includegraphics[height=6cm]{Images/Avancement2.png}
+		\end{figure}
+		% FIXME table 3 colones
+		\begin{tabular}{ll}
+		Avancement moyen pr\'evisionnel& : \,\,\,\,3,18 \%/jour (3,74 sur la p\'eriode)\\
+		Avancement moyen observ\'e & : \,\,\,\,3,13 \%/jour
+		\end{tabular}
 	\end{frame}
 
 
@@ -248,8 +243,8 @@
 	\subsection{Livrables}
 	\begin{frame}{\subsecname}
 		\begin{center}
-%		{\renewcommand{\arraystretch}{1.2}
-		\begin{tabular}{|c|m{3cm}|c|c|c|} % FIXME relié les livrables au tâches
+		\small
+		\begin{tabular}{|c|>{\raggedright}m{3cm}|c|c|c|}
 			\hline
 			\textbf{\No} & \textbf{Livrable} & \textbf{T\^aches}
 			& \textbf{Date pr\'evue} & \textbf{Date effective}\\
@@ -257,35 +252,37 @@
 			1 & R\'esultat de l'algorithme et interface & 2, 3, 4 & 23/12 
 			& 18/01\\
 			\hline
-			2 & Application\break minimale & 5, 6 & 21/01 & 25/01\\
+			2 & Application minimale & 5, 6 & 21/01 & 25/01\\
 			\hline
-			3 & Courbes avec param\`etres modifiables et trac\'e \`a main\break
+			2\textsuperscript{bis} & Multicoupe et param\`etres & 7 & --- & 29/01\\
+			\hline
+			3 & Courbes avec param\`etres modifiables et trac\'e \`a main
 			lev\'ee& 7, 8 & 29/01 & ---\\
 			\hline
-			4 & \'Equations et\break export & 9, 10 & 19/02 & ---\\
+			4 & \'Equations et export & 9, 10 & 19/02 & ---\\
 			\hline
 			5 & Application finale et documentation & 11 & 02/03 & ---\\
 			\hline
-		\end{tabular}%}
+		\end{tabular}
 		\end{center}
-%		Types de livrables~:
-%		\begin{itemize}
-%			\item Version logicielle~: tous
-%			\item Documentation utilisateur~: tous
-%			\item Documentation technique~: 1 et 5
-%		\end{itemize}
 	\end{frame}
 
 
-%	\begin{frame}{Prochain livrable}
-%		\begin{itemize}
-%			\item R\'esultat de l'algorithme et interface
-%				\begin{itemize}
-%					\item 
-%					\item 
-%				\end{itemize}
-%		\end{itemize}
-%	\end{frame}
+
+%===============================================================================
+%	DEMO
+%===============================================================================
+
+\section{D\'emonstration}
+
+\begin{frame}{\secname}
+	\begin{figure}
+		\href
+		{run:../../../ApplicationDiscret/Application/discreteSurface.html}
+		{D\'emonstration}
+	\end{figure}
+\end{frame}
+
 
 
 %===============================================================================
@@ -294,31 +291,42 @@
 
 \section{\'Evolution des risques}
 
+
+% --- Tableau risque -----------------------------------------------------------
+	\newcommand{\legendeRisque}{
+		\small
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			Niveau & Gravit\'e & Probabilit\'e & Criticit\'e \\
+			\hline
+			\hline
+			0 & Aucune & < 1\% & \multirow{2}*{Non critique}\\
+			\cline{1-3}
+			1 & Faible (marges) & de 1\% à 5\% & \\
+			\hline
+			2 & Significative & de 5\% à 20 \% & \multirow{2}*{Critique}\\
+			\cline{1-3}
+			3 & Danger & > 20\% & \\
+			\hline
+		\end{tabular}
+	}
+
+
+% --- Risque -------------------------------------------------------------------
 	\begin{frame}{\secname}
 		\begin{itemize}
-			\item Non ad\'equation d'un outil prévu, matériel ou logiciel
+			\item Non ad\'equation d'un outil pr\'evu, mat\'eriel ou logiciel
 		\end{itemize}
 		\begin{figure}
 			\includegraphics[width=8cm]{risque_outil.png}
 		\end{figure}
 		\begin{center}
-			\begin{tabular}{|c|c|c|c|}
-				\hline
-				Niveau & Gravit\'e & Probabilit\'e & Criticit\'e \\
-				\hline
-				0 & Aucune & < 1\% & \multirow{2}*{Non critique}\\
-				\cline{1-3}
-				1 & Faible (marges) & de 1\% à 5\% & \\
-				\hline
-				2 & Significative & de 5\% à 20 \% & \multirow{2}*{Critique}\\
-				\cline{1-3}
-				3 & Danger & > 20\% & \\
-				\hline
-			\end{tabular}
+			\legendeRisque
 		\end{center}
 	\end{frame}
 
 
+% --- Risque -------------------------------------------------------------------
 	\begin{frame}{\secname}
 		\begin{itemize}
 			\item Nouveau(x) client(s)
@@ -327,23 +335,12 @@
 			\includegraphics[width=8cm]{risque_nouveau_client.png}
 		\end{figure}
 		\begin{center}
-			\begin{tabular}{|c|c|c|c|}
-				\hline
-				Niveau & Gravit\'e & Probabilit\'e & Criticit\'e \\
-				\hline
-				0 & Aucune & < 1\% & \multirow{2}*{Non critique}\\
-				\cline{1-3}
-				1 & Faible (marges) & de 1\% à 5\% & \\
-				\hline
-				2 & Significative & de 5\% à 20 \% & \multirow{2}*{Critique}\\
-				\cline{1-3}
-				3 & Danger & > 20\% & \\
-				\hline
-			\end{tabular}
+			\legendeRisque
 		\end{center}
 	\end{frame}
 	
 	
+% --- Risque -------------------------------------------------------------------
 	\begin{frame}{\secname}
 		\begin{itemize}
 			\item Risque de performances
@@ -352,23 +349,12 @@
 			\includegraphics[width=8cm]{risque_performance.png}
 		\end{figure}
 		\begin{center}
-			\begin{tabular}{|c|c|c|c|}
-				\hline
-				Niveau & Gravit\'e & Probabilit\'e & Criticit\'e \\
-				\hline
-				0 & Aucune & < 1\% & \multirow{2}*{Non critique}\\
-				\cline{1-3}
-				1 & Faible (marges) & de 1\% à 5\% & \\
-				\hline
-				2 & Significative & de 5\% à 20 \% & \multirow{2}*{Critique}\\
-				\cline{1-3}
-				3 & Danger & > 20\% & \\
-				\hline
-			\end{tabular}
+			\legendeRisque
 		\end{center}
 	\end{frame}	
 	
 	
+% --- Risque -------------------------------------------------------------------
 	\begin{frame}{\secname}
 		\begin{itemize}
 			\item Risque de rendu
@@ -377,19 +363,7 @@
 			\includegraphics[width=8cm]{risque_rendu.png}
 		\end{figure}
 		\begin{center}
-			\begin{tabular}{|c|c|c|c|}
-				\hline
-				Niveau & Gravit\'e & Probabilit\'e & Criticit\'e \\
-				\hline
-				0 & Aucune & < 1\% & \multirow{2}*{Non critique}\\
-				\cline{1-3}
-				1 & Faible (marges) & de 1\% à 5\% & \\
-				\hline
-				2 & Significative & de 5\% à 20 \% & \multirow{2}*{Critique}\\
-				\cline{1-3}
-				3 & Danger & > 20\% & \\
-				\hline
-			\end{tabular}
+			\legendeRisque
 		\end{center}
 	\end{frame}
 
@@ -399,34 +373,34 @@
 %===============================================================================
 
 \section{Plan qualit\'e logiciel}
-	\begin{frame} {\secname}
-		\title{Evaluation du livrable n°1}
-\begin{center}	
-		\includegraphics[width=7cm]{iso9126}
-		Échelle de mesures
-		
-		\begin{tabular}{|c|c|c|c|c|}
-		
-			\hline
-			Fonct.(1) & Fiab.(0.1) & Maint.(1) & Effic.(0.5) & Erg.(1)\\
-			\hline
-			1 & 1 & 0.5 & 1 & 1\\
-			\hline
-			1 & 1 & 0.5 & 0 & - \\
-			\hline
-			0.5 & - & 1 & - & -\\
-			\hline
-			0 & - & 1 & - & - \\
-			\hline
-			- & - & 0.5 & - & - \\
-			\hline
-		\end{tabular}	
-		
-		
-\end{center}
-
+	\begin{frame}{\secname}
+		\title{\'Evaluation du livrable n°1}
+		\begin{center}	
+			\includegraphics[width=7cm]{iso9126}
+			\\\'Echelle de mesures (coefficients)\\
+			\smallskip
+			\footnotesize
+			\begin{tabular}{|c|c|c|c|c|}
+				\hline
+				Fonct.(1) & Fiab.(0,1) & Maint.(1) & Effic.(0,5) & Erg.(1)\\
+				\hline
+				\hline
+				1 & 1 & 0,5 & 1 & 1\\
+				\hline
+				1 & 1 & 0,5 & 0 & - \\
+				\hline
+				0,5 & - & 1 & - & -\\
+				\hline
+				0 & - & 1 & - & - \\
+				\hline
+				- & - & 0,5 & - & - \\
+				\hline
+			\end{tabular}	
+		\end{center}
 	\end{frame}
 
+
+% --- Évaluation ---------------------------------------------------------------
 	\begin{frame}{\secname}
 		\begin{itemize}
 			\item \'Evaluation du logiciel 
@@ -436,18 +410,11 @@
 		\end{figure}
 	\end{frame}
 
-	\begin{frame}{\secname}
-		\begin{itemize}
-			\item \'Evaluation du logiciel 
-		\end{itemize}
-		\begin{figure}
-			\includegraphics[width=8cm]{Images/QualiteLogicielle.png}
-		\end{figure}
-	\end{frame}
 
+% --- Évaluation ---------------------------------------------------------------
 	\begin{frame}{\secname}
 		\begin{itemize}
-			\item Crit\`eres d\`evaluation
+			\item Crit\`eres d'\'evaluation
 		\end{itemize}
 		\begin{figure}
 			\includegraphics[width=8cm]{Images/EvaluationCriteres.png}
@@ -455,45 +422,112 @@
 	\end{frame}
 
 
+% --- Évaluation ---------------------------------------------------------------
+	\begin{frame}{\secname}
+		\begin{itemize}
+			\item \'Evaluation du global logiciel 
+		\end{itemize}
+		\begin{figure}
+			\includegraphics[width=8cm]{Images/QualiteLogicielle.png}
+		\end{figure}
+	\end{frame}
+
+
+
 %===============================================================================
-%	DEMO
+%	COUTS
 %===============================================================================
 
-\section{Démonstration}
+\section{Co\^uts}
+%\section{Diagramme des co\^uts}
 
-\begin{frame}{\secname}
+\begin{frame}{Diagramme des co\^uts}
 	\begin{figure}
-		Screenshots, Vidéo, Démo live?
+		\includegraphics[height=7cm]{Images/CourbeCout.png}
 	\end{figure}
 \end{frame}
+
 
 
 %===============================================================================
 %	CONCLUSION
 %===============================================================================
 
-\section{À venir}
+\section{Conclusion}
 
-\begin{frame}{\secname}
-	
-	\begin{tabbing}
-	\hspace{1cm}\=\hspace{2cm}\=\kill
-		Retard pris toujours pr\'esent % Encore un hspace après?
-		Prochaines \'etapes\\
-			\> - Dessin à main lev\'ee\\
-			\> - Rentrer \'equations\\
-			\> - Gestion de donn\'ees\\
-		
-		Prochaines r\'eunions 
-		 \> - Audit de livraison (2 ou 3 mars)
-		 \> - Soutenance finale (21 mars)
-		 
-		
-	\end{tabbing}
-	
-	
+% --- Bilan --------------------------------------------------------------------
+	\subsection{Bilan de la p\'eriode}
+	\begin{frame}{\subsecname}
+		\begin{itemize}
+			\item Pr\'eoccupations
+			\begin{itemize}
+				\item Retard toujours pr\'esent
+				\item Annulation probable de la t\^ache optionnelle
+			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
+			\item Points forts
+			\begin{itemize}
+				\item Acc\'el\'eration de la g\'en\'eration et du rendu
+				\item PAQL enti\`erement mis en place
+				\item Retard d\^u \`a la conception en partie rattrap\'e
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+
+% --- Conclusion ---------------------------------------------------------------
+	\subsection{\`A venir}
+	\begin{frame}{\secname}
+		\begin{itemize}
+			\item Prochaines \'etapes
+			\begin{itemize}
+				\item Dessin à main lev\'ee
+				\item Rentrer \'equations
+				\item Gestion de donn\'ees
+			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
+			\item Prochaines r\'eunions
+			\begin{itemize}
+				\item Audit de livraison (2 ou 3 mars)
+				\item Soutenance finale (21 mars)
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+
+
+%===============================================================================
+%	Remerciment
+%===============================================================================
+
+\begin{frame}{}
+	\bigskip
+	\bigskip
+	\begin{titleblock}{}
+		\begin{center}
+			\smallskip
+			\Large Surfaces de r\'evolution discr\`etes\\
+			\medskip
+			\small Revue de projet
+			\smallskip
+		\end{center}
+	\end{titleblock}
+
+	\bigskip
+	\begin{center}
+		Merci de votre attention.\\
+		\medskip
+		Avez-vous des questions\,?			
+	\end{center}
+
+	\bigskip
+	\bigskip
+	\includegraphics[width=2cm]{../Images/logo-Xlim.png}
+	\hfill
+	\includegraphics[width=2cm]{../Images/logo_univ_poitiers.png}
 \end{frame}
-
 
 
 \end{document}

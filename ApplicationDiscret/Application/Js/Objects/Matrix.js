@@ -323,8 +323,8 @@ Matrix.prototype.createOrthographic = function (left, right,
 	this.m[11] = 0.0;
 	
 	// Last line
-	this.m[12] = (left + right) * lr;
-	this.m[13] = (top + bottom) * bt;
+	this.m[12] = (left + right) * Math.min (lr, bt);
+	this.m[13] = (top + bottom) * Math.min (lr, bt);
 	this.m[14] = (far + near) * nf;
 	this.m[15] = 1.0;
 	

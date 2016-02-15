@@ -5,38 +5,38 @@
  * @license
  * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
- * 
+ *
  * benoist.thomas@hotmail.fr
  * biscui_86@hotmail.fr
  * tanguy.desplebain@gmail.com
  * lauret.karl@hotmail.fr
- * 
+ *
  * Ce logiciel est un programme informatique servant à modéliser des
  * structures 3D voxellisées.
- * 
+ *
  * Ce logiciel est régi par la licence CeCILL soumise au droit français et
  * respectant les principes de diffusion des logiciels libres. Vous pouvez
  * utiliser, modifier et/ou redistribuer ce programme sous les conditions
  * de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
  * sur le site "http://www.cecill.info".
- * 
+ *
  * En contrepartie de l'accessibilité au code source et des droits de copie,
  * de modification et de redistribution accordés par cette licence, il n'est
  * offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
  * seule une responsabilité restreinte pèse sur l'auteur du programme,  le
  * titulaire des droits patrimoniaux et les concédants successifs.
- * 
+ *
  * A cet égard  l'attention de l'utilisateur est attirée sur les risques
  * associés au chargement,  à l'utilisation,  à la modification et/ou au
  * développement et à la reproduction du logiciel par l'utilisateur étant
- * donné sa spécificité de logiciel libre, qui peut le rendre complexe à 
+ * donné sa spécificité de logiciel libre, qui peut le rendre complexe à
  * manipuler et qui le réserve donc à des développeurs et des professionnels
  * avertis possédant  des  connaissances  informatiques approfondies.  Les
  * utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
  * logiciel à leurs besoins dans des conditions permettant d'assurer la
  * sécurité de leurs systèmes et ou de leurs données et, plus généralement,
  * à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
- * 
+ *
  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
@@ -47,7 +47,7 @@
 
 
 /* constructor ()
- * 
+ *
  * getNbObject () : int
  * getObjectByName (aName : String) : Object
  * setLightPosition (pos : Vector) : void
@@ -70,7 +70,7 @@
  * addShader (aShader : Shader) : void
  * removeShaderByName (aName : String) : void
  * prepare (gl : glContext) : void
- * drawObject(gl : glContext, obj : GenericObject) : void
+ * prepareShaderMatrix(gl : glContext, obj : GenericObject) : void
  * reload () : void
  * draw (gl : glContext, backBuffer : boolean) : void
  * prepareSelect (gl : glContext) : void
@@ -82,10 +82,10 @@
 
 
 /**
- * @extends GenericContener
+ * @extends GenericContainer
  * @classdesc Scene class management.
  */
-Scene.prototype = new GenericContener;
+Scene.prototype = new GenericContainer;
 Scene.prototype.constructor = Scene;
 
 
@@ -97,12 +97,12 @@ Scene.prototype.constructor = Scene;
 
 
 /**
- * @constructor 
+ * @constructor
  */
 function Scene () {
-	
-	GenericContener.call (this);
-	
+
+	GenericContainer.call (this);
+
 	/**
  	 * {Camera} The camera used in the scene.
  	 */
@@ -116,12 +116,12 @@ function Scene () {
 		0.0001,
 		30.0
 	);
-		
+
 	/**
 	 * {int} The X mouse coordinate.
 	 */
 	this.mouseX = 512;
-	
+
 	/**
 	 * {int} The Y mouse coordinate.
 	 */
@@ -138,7 +138,7 @@ function Scene () {
 
 /**
  * Get the camera.
- * 
+ *
  * @return {Camera} The camera corresponding to the id if it exists, null
  * otherwise.
  */
@@ -150,9 +150,9 @@ Scene.prototype.getCamera = function () {
 //==============================================================================
 /**
  * Set a camera.
- * 
+ *
  * @param {Camera} camera - The new camera of the scene
- * 
+ *
  * @throws {String} If the provided parameter is not a Camera.
  */
 Scene.prototype.setCamera = function (camera) {
@@ -172,9 +172,9 @@ Scene.prototype.setCamera = function (camera) {
 /**
  * @override
  * Add an object (only if is a GenericStructure subclass).
- * 
+ *
  * @param {!GenericStructure} anObject - Object to add to the scene.
- * 
+ *
  * @return {void}
  * @throws {String} If the provided parameter is not a GenericStructure or
  * a GenericStructure subclass.
@@ -191,20 +191,20 @@ Scene.prototype.addObject = function (anObject) {
 //==============================================================================
 /**
  * Get an object given its name.
- * 
+ *
  * @param {String} aName - Name of the object to return.
- * 
+ *
  * @return {GenericStructure} The object corresponding to the name in parameter
  * if it exists, null otherwise.
  */
 Scene.prototype.getObjectByName = function (aName) {
 	var length = this.objectList.length;
-	
+
 	for (var i = 0; i < length; ++i) {
 		if (this.objectList[i].getName() === aName)
 			return this.objectList[i];
 	}
-	
+
 	console.log ("Scene.getObjectByName: object : \"" + aName
 			+ "\" not found");
 	return null;
@@ -214,10 +214,10 @@ Scene.prototype.getObjectByName = function (aName) {
 //==============================================================================
 /**
  * Remove an object by name.
- * 
+ *
 
  * @param {!String} aName - Name of the object to remove.
- * 
+ *
  * @return {void}
  */
 Scene.prototype.removeObjectByName = function (aName) {
@@ -227,7 +227,7 @@ Scene.prototype.removeObjectByName = function (aName) {
 			return;
 		}
 	}
-	console.log ("Scene.removeObjectByName: object : \"" + aName 
+	console.log ("Scene.removeObjectByName: object : \"" + aName
 			+ "\" not found");
 };
 
@@ -236,7 +236,7 @@ Scene.prototype.removeObjectByName = function (aName) {
 //==============================================================================
 /**
  * Set the 'prepared' attribute of each object at false.
- * 
+ *
  * @return {void}
  */
 Scene.prototype.unprepare = function (aName) {
@@ -256,33 +256,32 @@ Scene.prototype.unprepare = function (aName) {
 
 /**
  * Reload the scene. Reload shader for each displayable object.
- * 
+ *
  * @return {void}
  */
 Scene.prototype.reload = function () {
 	var obj, length = this.getNbObject ();
-	
+
 	for (var i = 0; i < length; ++i) {
 		obj = this.objectList[i];
 		if (obj.displayMe ())
-			obj.getShader ().reload (); 
+			obj.getShader ().reload ();
 	}
 };
 
 
 //==============================================================================
 /**
- * Prepare the scene before rendering. Prepare all objects and check if there is a
- * camera. If not, the default camera is set to the scene.
- * 
+ * Prepare the scene before rendering. Call the 'prepare' method of all object.
+ *
  * @param {WebGLRenderingContext} glContext - The gl context.
  * @param {ConnexityEnum} connexity - WHich connexity is displayed.
- * 
+ *
  * @return {void}
  */
 Scene.prototype.prepare = function (glContext, connexity) {
 	var length = this.getNbObject ();
-	
+
 	for (var i = 0; i < length; ++i) {
 		if (! this.objectList[i].isPrepared ()) {
 			if (this.objectList[i] instanceof SurfaceRenderer) { // FIXME sale !
@@ -315,11 +314,11 @@ Scene.prototype.prepare = function (glContext, connexity) {
 //==============================================================================
 /**
  * Draw a scene.
- * 
+ *
  * @param {WebGLRenderingContext} glContext - The gl context.
- * @param {boolean} [backBuffer] - Indicate if we have to draw the scene 
+ * @param {boolean} [backBuffer] - Indicate if we have to draw the scene
  * normally or if we need to draw for picking.
- * 
+ *
  * @return {void}
  */
 Scene.prototype.draw = function (glContext, backBuffer) {
@@ -328,14 +327,14 @@ Scene.prototype.draw = function (glContext, backBuffer) {
 //	this.camera.computeMatrices ();
 	var length = this.getNbObject ();
 	for (var i = 0; i < length; ++i) {
-		// Get Object Properties 
+		// Get Object Properties
 		var obj = this.objectList[i];
 		if (!obj.displayMe ())
 			continue;
-		
-		this.drawObject (glContext, obj);
-		
-		// Render Object 
+
+		this.prepareShaderMatrix (glContext, obj);
+
+		// Render Object
 		if (backBuffer)
 			obj.backBufferDraw (glContext, this);
 		else
@@ -346,49 +345,50 @@ Scene.prototype.draw = function (glContext, backBuffer) {
 
 //==============================================================================
 /**
- * Draw an object. Compute the data to draw. TODO reformuler
- * 
+ * Compute matrices (model, view, projection) of an object and send it to the
+ * shader.
+ *
  * @param {WebGLRenderingContext} glContext - The gl context.
- * @param {GenericStructure} obj - The object to draw.
- * 
+ * @param {GenericStructure} obj - An object.
+ *
  * @return {void}
  */
-Scene.prototype.drawObject = function (glContext, obj) {
+Scene.prototype.prepareShaderMatrix = function (glContext, obj) {
 	/// Parameter verification
-	if (! (glContext instanceof WebGLRenderingContext 
-		&& obj instanceof GenericStructure)) 
+	if (! (glContext instanceof WebGLRenderingContext
+		&& obj instanceof GenericStructure))
 	{
 		showType (glContext, obj);
-		throw "Scene.drawObject: bad type(s) of parameter(s)"
+		throw "Scene.prepareShaderMatrix: bad type(s) of parameter(s)"
 	}
-	
+
 	var cam = this.camera;
 	var mvMat = cam.getViewMatrix ();
 	var ppMat = cam.getPerspectiveProjectionMatrix ();
 	var opMat = cam.getOrthographicProjectionMatrix ();
 	var objMat = new Matrix (obj.getMatrix (cam));
-	
+
 	// Get Location of uniform variables
 	var shad = obj.getShader ();
-	shad.activate (glContext); 
+	shad.activate (glContext);
 	var locMvMat = shad.getUniformLocation ("uModelViewMatrix");
 	var locPpMat = shad.getUniformLocation ("uPerspectiveProjectionMatrix");
 	var locOpMat = shad.getUniformLocation ("uOrthographicProjectionMatrix");
 	var locDim = shad.getUniformLocation ("uDimension");
-	
+
 	// Compute real ModelView matrix
 	var mv = new Matrix (mvMat).mul (objMat);
-	
+
 	// Set Uniform Matrices
 	if (locMvMat != null)
 		glContext.uniformMatrix4fv (locMvMat, false, mv.getGLVector ());
 
 	if (locPpMat != null)
 		glContext.uniformMatrix4fv (locPpMat, false, ppMat.getGLVector ());
-	
+
 	if (locOpMat != null)
 		glContext.uniformMatrix4fv (locOpMat, false, opMat.getGLVector ());
-	
+
 	if (locDim != null)
 		glContext.uniform3fv (locDim, obj.getDimension ().getGLVector ());
 };
@@ -401,13 +401,11 @@ Scene.prototype.drawObject = function (glContext, obj) {
 
 
 /**
- * TODO
- * 
+ * Set the position of the camera. Recompute the matrix camera.
+ *
  * @param {(Vector | Number[3])} position - The new position of the camera.
  */
 Scene.prototype.setCameraAt = function (position) {
 	this.camera.eyePos = new Vector (position);
 	this.camera.computeMatrices ();
 };
-
-

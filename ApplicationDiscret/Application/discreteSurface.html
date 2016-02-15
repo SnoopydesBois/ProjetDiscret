@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <!--
 	author : abisutti
 	created : Fri, 18 Dec 2015 14:11:34 +0100
@@ -7,15 +7,15 @@
 <html lang="fr">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-		<title>Surface de révolution discrète</title>
-		<!-- TODO Modifier title pour le mutilangue -->  
-		
+		<title key="" class="tr">Surface de révolution discrète</title>
+		<!-- TODO Modifier title pour le mutilangue -->
+
 		<!-- javascript imports -->
 		<script type="text/javascript" src="Js/Utils/globalParameters.js"></script>
 		<script type="text/javascript" src="Js/Utils/function.js"></script>
 		<script type="text/javascript" src="Js/Utils/webglFunction.js"></script>
 		<script type="text/javascript" src="Js/Utils/Util.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Enum/AxisEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/AttributeEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/EquationTypeEnum.js"></script>
@@ -25,17 +25,17 @@
 		<script type="text/javascript" src="Js/Enum/DirectionEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/DrawModeEnum.js"></script>
 		<script type="text/javascript" src="Js/Enum/ConnexityEnum.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Libraries/d3.js"></script>
 		<script type="text/javascript" src="Js/Libraries/functionPlot.js"></script>
 		<script type="text/javascript" src="Js/Libraries/math.js"></script>
 		<script type="text/javascript" src="Js/Libraries/jquery.js"></script>
 		<script type="text/javascript" src="Js/Libraries/jquery-ui.js"></script>
-  
+
 		<script type="text/javascript" src="Js/Libraries/jszip.js"></script>
 		<script type="text/javascript" src="Js/Libraries/FileSaver.js"></script>
 		<script type="text/javascript" src="Js/Libraries/webgl-debug.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Objects/Range.js"></script>
 		<script type="text/javascript" src="Js/Objects/Dimension.js"></script>
 		<script type="text/javascript" src="Js/Objects/Equation.js"></script>
@@ -59,14 +59,14 @@
 		<script type="text/javascript" src="Js/Threads/AlgoWorker.js"></script>
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo1Worker.js"></script>
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo2Worker.js"></script>
-		
+
 		<!-- Default objects -->
 		<script type="text/javascript" src="Curves/Meridian/Line.js"></script>
 		<script type="text/javascript" src="Curves/Meridian/Sinusoid.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Lemniscate.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Circle.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Heart.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Shader/vertexShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/fragmentShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/vertexShader_repere.js"></script>
@@ -74,26 +74,26 @@
 		<script type="text/javascript" src="Js/Shader/Shader.js"></script>
 		<script type="text/javascript" src="Js/Shader/DefaultShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/RepereShader.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Controllers/Controller.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller2D.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller2DMeridian.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller3D.js"></script>
 		<script type="text/javascript" src="Js/Controllers/ControllerCamera.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Functionalities/ModelGen.js"></script>
 		<script type="text/javascript" src="Js/Functionalities/ModelCurve.js"></script>
 		<script type="text/javascript" src="Js/Functionalities/ModelParameter.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Display/SurfaceRenderer.js"></script>
-		<script type="text/javascript" src="Js/Display/GenericContener.js"></script>
+		<script type="text/javascript" src="Js/Display/GenericContainer.js"></script>
 		<script type="text/javascript" src="Js/Display/Scene.js"></script>
 		<script type="text/javascript" src="Js/Display/Layer.js"></script>
 		<script type="text/javascript" src="Js/Display/GenericViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/SurfaceViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/CurveViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/ParameterViewer.js"></script>
-				
+
 		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
 		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>
 		<script type="text/javascript" src="Js/Interface/ListUndoRedoAction.js"></script>
@@ -103,12 +103,12 @@
 		<script type="text/javascript" src="Js/Interface/Application_Messages.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
-		
+
 		<script type="text/javascript" src="Js/Objects/N64.js"></script>
-		
+
 		<!-- Translation -->
 		<script type="text/javascript" src="Js/Interface/Application_translate.js"></script>
-		
+
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/temp.css"/>
@@ -116,12 +116,12 @@
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/style2.css">
-		
+
 
 		<!-- Export 3D en PNG -->
 		<!-- <script src="Export/Export_PNG/jquery.min.js"></script> -->
 		<script src="Export/Export_PNG/d3.v2.js"></script>
-		
+
 
 
 	</head>
@@ -138,7 +138,7 @@
 						onclick="this.firstElementChild.click()" key="m12" class="tr">
 						<input type="file" id="i_file" style="display:none" >Ouvrir</input>
 					</li>
-					<li title="Enregistrer le modèle actuel" 
+					<li title="Enregistrer le modèle actuel"
 						onclick="" key="m13" class="tr">Enregistrer</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
@@ -147,10 +147,10 @@
 				<ul>
 					<li title="Générer la surface dans la vue 3D" key="m21" class="tr"
 						onclick="appli.surfaceView.show (true)">Générer</li>
-						
+
 					<li title="Centrer la caméra" key="m22" class="tr"
 						onclick="">Centrer la caméra</li>
-					
+
 					<li title="Changer le point de vue" key="m23" class="tr"
 						onclick="if (globalParam.perspectiveView) {
 							this.innerHTML = 'Perspective';
@@ -160,9 +160,9 @@
 						globalParam.perspectiveView = !globalParam.perspectiveView;
 						appli.surfaceView.computeCamera ();
 						appli.surfaceView.show ()">Orthographique</li>
-						
+
 					<li class="split"><hr/></li>
-					
+
 
 					<li title="Ajouter un N64 pour le debug" key="m24" class="tr"
 						onclick="appli.surfaceView.container.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
@@ -186,121 +186,121 @@
 						class="inaccessible tr"
 						title="Annuler la dernière action effectuée" key="m31"
 						onclick="">Annuler</li>
-					
+
 					<li id="toolRedo"
 						class="inaccessible tr "
 						title="Refaire la dernière action annulée" key="m32"
 						onclick="">Refaire</li>
 
 					<li class="split"><hr/></li>
-					
+
 					<li id="tool2D"
 						class="submenu"
 						title="Outils 2D">
 						<h1 key="m33" class="tr">Outils 2D</h1>
-						<ul> 
+						<ul>
 							<li id="meridianChoice"
 								class="inaccessible tr"
-								title="Choix de la méridienne" 
+								title="Choix de la méridienne"
 								onclick="" key="m331" class="tr">Méridiennes</li>
-								
+
 							<li id="curveOfRevolutionChoice"
 								class="inaccessible"
-								title="Choix de la courbe de révolution" 
+								title="Choix de la courbe de révolution"
 								onclick="" key="m332" class="tr">Courbes de révolution</li>
-								
+
 							<li class="split"><hr/></li>
-							
+
 							<li id="meridianFormula"
 								class="inaccessible"
-								title="Rentrer une formule pour la méridienne" 
+								title="Rentrer une formule pour la méridienne"
 								onclick="" key="m333" class="tr">Formule méridienne</li>
-								
+
 							<li id="showSimpleParameter"
 								class="inaccessible"
-								title="Rentrer une formule pour la courbe de révolution" 
+								title="Rentrer une formule pour la courbe de révolution"
 								onclick="" key="m334" class="tr">Formule courbe de révolution</li>
-						
+
 							<li class="split"><hr/></li>
-							
+
 							<li id="handFreeDrawing"
 								class="inaccessible"
 								title="Dessiner à main levée"
 								onclick="" key="m335" class="tr">Dessiner à main levée</li>
-						
+
 							<li class="split"><hr/></li>
-							
+
 							<li id="showSimpleParameter"
 								class="inaccessible"
 								title="Afficher les paramètres simples"
 								onclick="" key="m336" class="tr">Paramètres simples</li>
-							
+
 							<li id="showAdvancedParameter"
 								class="inaccessible"
 								title="Afficher les paramètres avancés"
 								onclick="" key="m337" class="tr">Paramètres avancés</li>
-								
-								
+
+
 							<li class="split"><hr/></li>
-							
+
 							<li id="addMeridian"
 								class="inaccessible"
-								title="Ajout méridienne" 
+								title="Ajout méridienne"
 								onclick="" key="m338" class="tr">Ajout méridienne</li>
-							
+
 							<li id="addCurve"
 								class="inaccessible"
-								title="Ajout courbe de révolution" 
+								title="Ajout courbe de révolution"
 								onclick="" key="m339" class="tr">Ajout courbe de révolution</li>
-						
+
 						</ul>
-					</li>	
-					
+					</li>
+
 					<li class="split"><hr/></li>
 					<li id="tool3D"
 						class="submenu"
 						title="Outils 3D">
 						<h1 key="m34" class="tr">Outils 3D</h1>
-						<ul> 
-							
+						<ul>
+
 							<li id="connexity"
 								class="inaccessible"
 								title="Choix de connexité"
 								onclick="" key="m341" class="tr"></li>
-								
+
 							<li id="dimension"
 								class="inaccessible"
 								title="Choix des dimensions"
 								onclick="" key="m342" class="tr">Dimension</li>
-							
+
 							<li id="repereDisplay"
 								class="inaccessible"
 								title="Affichage du repère"
 								onclick="" key="m343" class="tr">Afficher le repère</li>
-								
+
 							<li id="voxelSize"
 								class="inaccessible"
 								title="Taille des voxels"
 								onclick="" key="m344" class="tr">Taille des voxels</li>
-								
+
 							<li id="multiSlice"
 								class="inaccessible"
 								title="Multicoupe"
 								onclick="" key="m345" class="tr">Multicoupe</li>
-								
+
 						</ul>
-					</li>		
-					
+					</li>
+
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="exportMenu" tabindex="5">
 				<h1 key="m4" class="tr">Export</h1>
 				<ul>
-					
+
 					<li><a id="download" key="m41" class="tr">Télecharger comme image</a></li>
-					
+
 					<li class="split"><hr/></li>
-					
+
 					<li id="tool3D"
 						class="submenu"
 						title="Outils 3D">
@@ -312,7 +312,7 @@
 					</li>
 				</ul>
 			</li>
-			
+
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="helpMenu" tabindex="6">
 				<h1 key="m5" class="tr">Aide</h1>
@@ -321,7 +321,7 @@
 					<li key="m52" class="tr">À propos</li>
 				</ul>
 			</li>
-			
+
 			<li id="translatemenu" tabindex="7">
 			<h1>Traduction</h1>
 				<ul>
@@ -332,7 +332,7 @@
 				</ul>
 			</li>
 		</ul><!-- end menus -->
-		
+
 
 		<!-- Workspace -->
 		<div id="workspace">
@@ -342,7 +342,7 @@
 <!--						<span key="mer1" class="tr">Liste des paramètres Méridienne</span>-->
 						<div id="listMeridianParameters"></div>
 					</div>
-					
+
 					<canvas id="meridianCanvas" style="display:none"></canvas>
 					<div id="meridianCanvas2"></div>
 					<div id="meridianOption" class="optionPanel">
@@ -360,7 +360,7 @@
 					</div>
 					<canvas id="revolCanvas" style="display:none"></canvas>
 					<div id="revolCanvas2"></div>
-					
+
 					<div id="revolOption" class="optionPanel">
 <!--						<span key="revol2" class="tr">Option Revolution</span>-->
 							<select id="listRevolutions" name="listRevolutions" onchange="appli.changeRevol (this.value)">
@@ -377,36 +377,36 @@
 					<button onclick="appli.generateAndDraw (1);" key="surf2" class="tr">Génération non optimisée</button>
 					<hr/>
 					<span key="surf3" class="tr">Liste des paramètres de la Surface</span>
-					
-					<div class="doubleSliders" name="X" id="slider-rangeX"></div> 
+
+					<div class="doubleSliders" name="X" id="slider-rangeX"></div>
 					<label for="amount">Dimension X</label><br/>
 					<input type="text" id="amountMinX" style="width : 40%" onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMinX')"> - <input type="text" id="amountMaxX" style="width : 40%" onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
-				
-					<div class="doubleSliders" name="Y" id="slider-rangeY"></div> 
+
+					<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
 					<label for="amount">Dimension Y</label><br/>
 					<input type="text" id="amountMinY" style="width : 40%" onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMinY')"> - <input type="text" id="amountMaxY" style="width : 40%" onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
-				
-					<div class="doubleSliders" name="Z" id="slider-rangeZ"></div> 
+
+					<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
 					<label for="amount">Dimension Z</label><br/>
 					<input type="text" id="amountMinZ" style="width : 40%" onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMinZ')"> - <input type="text" id="amountMaxZ" style="width : 40%" onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 				<!-- appli.surfaceView.show() -->
 					<button onClick="appli.show (true)"> Modifier </button>
-					
+
 				</div>
 <!--				<canvas id="surfaceCanvas" width="640" height="480"></canvas>-->
 				<canvas id="surfaceCanvas"></canvas>
-					
+
 <!-- Export Canvas en PNG -->
 
-				
-										
+
+
 				<div id="surfaceOption" class="optionPanel">
 					<p>
 						Dimension&nbsp;:
 						<input id="dimx" type="text" value="21"/>
 						<input id="dimy" type="text" value="21"/>
 						<input id="dimz" type="text" value="21"/>
-						<select id="connexityChoice" name="connexityChoice" 
+						<select id="connexityChoice" name="connexityChoice"
 							onchange="appli.surfaceView.unprepare ();appli.surfaceView.show ()">
 							<option value="1">C26</option>
 							<option value="2">C18</option>
@@ -416,26 +416,26 @@
 				</div>
 			</div>
 		</div>
-		
-		
+
+
 		<!-- State bar -->
 		<div id="stateBar" class="footer">
 			<p>Message...</p>
 		</div>
-		
+
 		<script type="text/javascript">
 			var appli = new Application ();
-			
+
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 9);
 			//var s = n64.modelController.modelGen.surface
 			//appli.surfaceView.container.addObject (n64);
 			//globalParam.cubeColorDebug = true;
-			
+
 			appli.initAppli ();
-			
+
 			//console.log (n64.nbGlBuffer);
-		
+
 			/// PNG test
 			var surfaceCanvas = document.getElementById('surfaceCanvas'),
 				ctx = surfaceCanvas.getContext('2d');
@@ -454,5 +454,3 @@
 		</script>
 	</body>
 </html>
-
-

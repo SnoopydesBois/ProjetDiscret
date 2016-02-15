@@ -77,7 +77,7 @@ BoundingBox.prototype.constructor = BoundingBox;
 
 /**
  * @constructor 
- * Create a bounding box TODO
+ * Create a bounding box.
  * 
  * @param {Vector} dimension - The dimensions of the 3D space.
  * @param {WebGLRenderingContext} glContext - The gl context (used by the

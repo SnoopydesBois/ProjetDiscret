@@ -1,0 +1,75 @@
+% bilan.tex
+% 
+% author : biscui
+% created : Thu, 04 Feb 2016 09:10:44 +0100
+% modified : Thu, 04 Feb 2016 09:10:44 +0100
+
+% faire une évolution des risques au cours du temps
+% dosier bilan : toutes les soutenances, tout les doc, pas de doc temporaire
+% doc papier cahier des charges signé, fiche de recette papier (+ version electronique)
+% "Est ce que quelqu'un pourrait prendre la succession de notre projet"
+% tester ave cle clients avant la réu de bilan le 2 mars
+% téléchargé toutes les bibliothèques (pas de lien vers l'original car possible évolution)
+% un CD avec tout le 10 mars
+% suite possible du projet ? compétence aquise ? -> à mettre dans la conclusion
+
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+
+\title{bilan}
+\author{BISUTTI Adrien}
+%\institute{}
+%\date{}
+
+\usetheme{Madrid}
+\usecolortheme{sidebartab}
+\usefonttheme{professionalfonts}
+%\useinnertheme{nom du theme interne}
+%\useoutertheme{nom du theme externe}
+
+
+
+%%% MACRO %%%
+
+% Affichage du plan à chaque début de section
+\AtBeginSection[]{
+	\begin{frame}{Plan}
+	  	\tableofcontents[currentsection, hideothersubsections]
+	\end{frame}
+}
+
+
+
+%%% DOCUMENT %%%
+
+\begin{document}
+
+
+%===============================================================================
+%	TITRE
+%===============================================================================
+\begin{frame}
+	\titlepage
+\end{frame}
+
+
+%===============================================================================
+%	PLAN
+%===============================================================================
+\begin{frame}{Plan}
+	\tableofcontents[hidesubsection]
+\end{frame}
+
+
+%===============================================================================
+%	XXX
+%===============================================================================
+\begin{frame}{}
+	
+\end{frame}
+
+
+
+\end{document}
