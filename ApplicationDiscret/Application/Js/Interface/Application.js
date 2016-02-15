@@ -271,8 +271,13 @@ Application.prototype.generateAndDraw = function (mode) {
 //==============================================================================
 /**
  * TODO
+ * 
+ * @param {boolean} forcePrepare - TODO
+ * @see {@link SurfaceViewer.show}
+ * 
+ * @return {void}
  */
-Application.prototype.show = function (forcePrepare){
+Application.prototype.show = function (forcePrepare) {
 	this.surfaceView.show (forcePrepare);
 };
 

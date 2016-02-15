@@ -275,11 +275,12 @@ Scene.prototype.reload = function () {
  * Prepare the scene before rendering. Call the 'prepare' method of all object.
  *
  * @param {WebGLRenderingContext} glContext - The gl context.
- * @param {ConnexityEnum} connexity - WHich connexity is displayed.
+ * @param {ConnexityEnum} connexity - Which connexity is displayed.
+ * @param {float} voxelRadius - The voxel radius.
  *
  * @return {void}
  */
-Scene.prototype.prepare = function (glContext, connexity) {
+Scene.prototype.prepare = function (glContext, connexity, voxelRadius) {
 	var length = this.getNbObject ();
 
 	for (var i = 0; i < length; ++i) {
@@ -304,7 +305,7 @@ Scene.prototype.prepare = function (glContext, connexity) {
 					)
 				);
 			} // fin du truc sale
-			this.objectList[i].prepare (glContext, connexity);
+			this.objectList[i].prepare (glContext, connexity, voxelRadius);
 			this.objectList[i].getShader ().activate ();
 		}
 	}

@@ -61,10 +61,14 @@ function SurfaceViewer (canvas) {
 	 * {HTMLInputElement} The connexity user choice.
 	 */
 	this.connexityInput = document.getElementById ("connexityChoice");
+	
+	/**
+	 * {HTMLInputElement} The connexity user choice.
+	 */
+	this.voxelRadiusInput = document.getElementById ("voxelRadius");
 
 	/// Initialisation
 	this.initCanvasEvent ();
-//	this.glContext.disable (this.glContext.CULL_FACE);
 	this.glContext.enable (this.glContext.CULL_FACE);
 	this.glContext.enable (this.glContext.DEPTH_TEST);
 	this.glContext.frontFace (this.glContext.CW);
@@ -172,8 +176,11 @@ SurfaceViewer.prototype.show = function (forcePrepare) {
  */
 SurfaceViewer.prototype.prepare = function () {
 	if (this.container.getNbObject () != 0) {
-		this.container.prepare (this.glContext,
-			parseInt (this.connexityInput.value));
+		this.container.prepare (
+			this.glContext,
+			parseInt (this.connexityInput.value),
+			parseFloat (this.voxelRadiusInput.value) / 2.0
+		);
 	}
 	else
 		console.log ("No object to prepare");

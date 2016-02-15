@@ -255,7 +255,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 		for (var y = 0; y < size.y; ++y) {
 			for (var z = 0; z < size.z; ++z) {
 				voxel = surface.getVoxel (x, y, z);
-				if (voxel != null && voxel.isVisible (connexity)) {
+				if (voxel != null && voxel.isVisible (connexity) && (radius != 0.5 || !voxel.isHidden (connexity))) {
 					// 1024 -> see above, this.nbGlBuffer computes
 					idx = Math.trunc (cptPreparedVoxel / 2048);
 					this.prepareVoxel (
