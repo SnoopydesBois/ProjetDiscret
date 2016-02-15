@@ -325,3 +325,29 @@ Application.prototype.changeValueSlider = function (){
 			break;
 	}
 };
+
+//==============================================================================
+/**
+ *
+ */
+Application.prototype.exportPng = function(){
+
+	var width = $("#surfaceView").width(), height = $("#surfaceView").height();
+	
+	var pixels = [];
+	pixels = this.surfaceView.getImgData(width, height);
+		
+	var canvas = document.createElement('canvas');
+	canvas.width = width;
+	canvas.height = height;
+	var context = canvas.getContext("2d");
+	
+	var imageData = context.createImageData(width, height);
+	imageData.data.set(pixels);
+	context.putImageData(imageData, 0, 0);
+	
+	// var img = new Image();
+	// img.src = canvas.toDataURL();
+	
+	return canvas.toDataURL();
+}

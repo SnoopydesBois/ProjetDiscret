@@ -108,6 +108,16 @@ Application.prototype.initControllers = function () {
 	this.revolController.addCurve ("Circle", Circle);
 	this.revolController.addCurve ("Heart", Heart);
 	this.revolController.addCurve ("Lemniscate", Lemniscate);
+	this.revolController.addCurve ("Curve1", Curve1);
+	this.revolController.addCurve ("Curve2", Curve2);
+	this.revolController.addCurve ("Curve3", Curve3);
+	this.revolController.addCurve ("Curve4", Curve4);
+	this.revolController.addCurve ("Curve5", Curve5);
+	this.revolController.addCurve ("Curve6", Curve6);
+	this.revolController.addCurve ("Curve7", Curve7);
+	this.revolController.addCurve ("Curve8", Curve8);
+	this.revolController.addCurve ("Curve9", Curve9);
+	this.revolController.addCurve ("Curve10", Curve10);
 	
 	/// bind generation with active curve
 	this.surfaceController.setGetCurveRevolution (

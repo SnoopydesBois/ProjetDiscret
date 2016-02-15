@@ -63,10 +63,21 @@
 		<!-- Default objects -->
 		<script type="text/javascript" src="Curves/Meridian/Line.js"></script>
 		<script type="text/javascript" src="Curves/Meridian/Sinusoid.js"></script>
+		
 		<script type="text/javascript" src="Curves/Revolution/Lemniscate.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Circle.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Heart.js"></script>
-
+		<script type="text/javascript" src="Curves/Revolution/Curve1.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Curve2.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Curve3.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Curve4.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Curve5.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Curve6.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Curve7.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Curve8.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Curve9.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Curve10.js"></script>
+		
 		<script type="text/javascript" src="Js/Shader/vertexShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/fragmentShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/vertexShader_repere.js"></script>
@@ -297,7 +308,7 @@
 				<h1 key="m4" class="tr">Export</h1>
 				<ul>
 
-					<li><a id="download" key="m41" class="tr">Télecharger comme image</a></li>
+					<li><a id="download" key="m41" class="tr" >Télecharger comme image</a></li>
 
 					<li class="split"><hr/></li>
 
@@ -367,6 +378,16 @@
 								<option value="Circle" key="revol3" class="tr">Cercle</option>
 								<option value="Heart" key="revol4" class="tr">Coeur</option>
 								<option value="Lemniscate" key="revol5" class="tr">Lemniscate</option>
+								<option value="Curve1" key="revol6" class="tr">Curve1</option>
+								<option value="Curve2" key="revol7" class="tr">Curve2</option>
+								<option value="Curve3" key="revol8" class="tr">Curve3</option>
+								<option value="Curve4" key="revol9" class="tr">Curve4</option>
+								<option value="Curve5" key="revol10" class="tr">Curve5</option>
+								<option value="Curve6" key="revol11" class="tr">Curve6</option>
+								<option value="Curve7" key="revol12" class="tr">Curve7</option>
+								<option value="Curve8" key="revol13" class="tr">Curve8</option>
+								<option value="Curve9" key="revol14" class="tr">Curve9</option>
+								<option value="Curve10" key="revol15" class="tr">Curve10</option>
 							</select>
 					</div>
 				</div>
@@ -442,13 +463,13 @@
 
 
 			function downloadsurfaceCanvas(link, surfaceCanvasId, filename) {
-				link.href = document.getElementById(surfaceCanvasId).toDataURL();
+				link.href = appli.exportPng();
 				link.download = filename;
 			}
 
 
 			document.getElementById('download').addEventListener('click', function() {
-				downloadsurfaceCanvas(this, 'surfaceCanvas', 'test.png');
+				downloadsurfaceCanvas(this, 'surfaceCanvas', 'curve.png');
 			}, false);
 
 		</script>

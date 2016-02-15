@@ -421,3 +421,43 @@ SurfaceViewer.prototype.moveCameraAt = function (phiOffset, thetaOffset) {
 SurfaceViewer.prototype.computeCamera = function () {
 	this.container.getCamera ().computeMatrices ();
 };
+
+
+//==============================================================================
+/**
+ * @return {float[]} the image data
+ */
+SurfaceViewer.prototype.getImgData = function (width, height) {
+	// Bind the frame framebuffer and the depth buffer for the color rendering
+	this.glContext.bindRenderbuffer(this.glContext.RENDERBUFFER, this.depthBuffer);
+	this.glContext.bindFramebuffer(this.glContext.FRAMEBUFFER, this.framebuffer);
+
+	// Drawing the colored scene
+	this.draw();
+	
+	// Pixel on which we click
+	var pixel = new Uint8Array(width * height * 4); 
+	
+	// Read the pixel at x and y coordinates
+	this.glContext.readPixels(0, 0,
+			 width, height, this.glContext.RGBA, 
+			this.glContext.UNSIGNED_BYTE, pixel);
+	// Unbind the buffers used
+	this.glContext.bindRenderbuffer(this.glContext.RENDERBUFFER, null);
+	this.glContext.bindFramebuffer(this.glContext.FRAMEBUFFER, null);
+
+	return this.reverseTab(pixel, width, height);
+};
+
+
+//==============================================================================
+SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
+	
+	var pixel = [];
+	for (var i = height-1; i >= 0; i--) {
+		for (var j = 0; j < width*4; j++) {
+			pixel.push(tab[i*width*4 + j]);
+		}		
+	}
+	return pixel;
+};
