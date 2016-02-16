@@ -94,6 +94,53 @@ function angle (x, y) {
 
 
 //##############################################################################
+//	Convertion
+//##############################################################################
+
+
+
+/**
+ * Transform a face position into a color.
+ *
+ * @param {Voxel} voxel - The voxel.
+ * @param {DirectionEnum} direction - The direction of the face in the voxel.
+ * @param {Vector} universSize - Size of the 3D model.
+ * 
+ * @return {float[4]} The RGBA color corresponding to the position of the face.
+ */
+function posToColor (voxel, direction, universSize) {
+	return [
+		voxel.getPosition().x / universSize.x, // red
+		voxel.getPosition().y / universSize.y, // green
+		voxel.getPosition().z / universSize.z, // blue
+		1.0 - direction / 100 // alpha
+	];
+};
+
+
+//==============================================================================
+/** 
+ * Transform a face position into a color.
+ *
+ * @param {float[4]} color - A color.
+ * @param {Vector} universSize - Size of the 3D model.
+ * 
+ * @return {Facet} The corresponding facet.
+ */
+function colorToPos (color, universSize) {
+	return new Facet (
+		new Vector (
+			Math.round (color[0] * universSize.x / 256), // red   -> x
+			Math.round (color[1] * universSize.y / 256), // green -> y
+			Math.round (color[2] * universSize.z / 256)  // blue  -> z
+		),
+		Math.round ((1.0 - color[3] / 256) * 100) // alpha -> direction
+	);
+};
+
+
+
+//##############################################################################
 //	HTML Event
 //##############################################################################
 

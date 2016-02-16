@@ -538,7 +538,7 @@ SurfaceRenderer.prototype.prepareFace = function (
 
 	// The color used by the picking according to the facet position
 	if (backColorBuffer != undefined && backColorBuffer != null)
-		backColorBuffer.push (this.posToColor (voxel, direction));
+		backColorBuffer.push (posToColor (voxel, direction, universSize));
 };
 
 
@@ -639,25 +639,6 @@ SurfaceRenderer.prototype.addVertexBuffer = function (vertexBuffer, limit,
 };
 
 
-//==============================================================================
-/**
- * Transform a face position into a color.
- *
- * @param {Voxel} voxel - The voxel's face.
- * @param {DirectionEnum} direction - The direction of the face in the voxel.
- *
- * @return {float[4]} The RGBA color corresponding to the position of the face.
- */
-SurfaceRenderer.prototype.posToColor = function (voxel, direction) {
-	return [
-		((voxel.getPosition().x + 1) * 10 + direction) / 256, // red
-		((voxel.getPosition().y + 1) * 10) / 256, // green
-		((voxel.getPosition().z + 1) * 10) / 256, // blue
-		1.0 // alpha
-	];
-};
-
-
 
 //##############################################################################
 //	Other method
@@ -670,3 +651,5 @@ SurfaceRenderer.prototype.posToColor = function (voxel, direction) {
 SurfaceRenderer.prototype.getDimension = function () {
 	return this.getModelController ().getDimension ();
 };
+
+
