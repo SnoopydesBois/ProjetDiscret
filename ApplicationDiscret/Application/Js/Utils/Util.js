@@ -97,7 +97,7 @@ var requestAnimFrame = (function () {
 })();
 
 
-DrawnCurve.prototype.interpol = function(t, ){
+function interpol (t, g){
 /*Ca c'est la méthode d'interpolation linéaire.
 Quand t<1, on prend la 1ère valeur de la liste.
 Quand t est trop grand, on prend la dernière valeur de la liste.

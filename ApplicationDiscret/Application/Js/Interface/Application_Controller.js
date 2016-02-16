@@ -138,3 +138,18 @@ Application.prototype.getAllParameters = function (name) {
 };
 
 
+
+//==============================================================================
+/**
+ * TODO
+ * 
+ * @param {String} mode - The selected mode.
+ */
+Application.prototype.changeMeridianMode = function (mode) {
+	$("#meridianCanvas2").hide (); // hide the div
+	$("#meridianCanvas").show (); // display the canvas
+	
+};
+
+
+

@@ -348,39 +348,55 @@
 		<!-- Workspace -->
 		<div id="workspace">
 			<div id="curvesView">
+
+
+<!--#########################################################################-->
+<!-- Meridian view -->
+<!--#########################################################################-->
+
+
 				<div id="meridianView">
 					<div id="meridianParam" class="paramPanel">
-<!--						<span key="mer1" class="tr">Liste des paramètres Méridienne</span>-->
 						<div id="listMeridianParameters"></div>
 					</div>
 
 					<canvas id="meridianCanvas" style="display:none"></canvas>
 					<div id="meridianCanvas2"></div>
+					
 					<div id="meridianOption" class="optionPanel">
-<!--						<span key="mer2" class="tr">Option Méridienne</span>-->
-						<select id="listMeridians" name="listMeridians" onchange="appli.changeMeridian (this.value)">
-							<option value="Line" key="mer3" class="tr">Ligne</option>
-							<option value="Sinusoid" key="mer4" class="tr">Sinusoid</option>
-						</select>
-						
 						<label for="meridianType">Mode&nbsp;:</label>
-						<select id="meridianType" name="meridianType">
+						<select id="meridianType" name="meridianType"
+							onchange="appli.changeMeridianMode (this.value)">
 							<option key="" class="tr" value="primitive">Prédéfinie</option>
 							<option key="" class="tr" value="handFree">Dessin</option>
 						</select>
+						
+						<span id="meridianModeOption">
+							<select id="listMeridians" name="listMeridians"
+								onchange="appli.changeMeridian (this.value)">
+								<option value="Line" key="mer3" class="tr">Ligne</option>
+								<option value="Sinusoid" key="mer4" class="tr">Sinusoid</option>
+							</select>
+						</span>
 					</div>
 				</div>
+
+
+<!--#########################################################################-->
+<!-- Revolution view -->
+<!--#########################################################################-->
+
+
 				<div id="revolView">
 					<div id="revolParam" class="paramPanel">
-<!--						<span key="revol1" class="tr">Liste des paramètres Révolution</span>-->
 						<div id="listRevolutionParameters"></div>
 					</div>
 					<canvas id="revolCanvas" style="display:none"></canvas>
 					<div id="revolCanvas2"></div>
 
 					<div id="revolOption" class="optionPanel">
-<!--						<span key="revol2" class="tr">Option Revolution</span>-->
-							<select id="listRevolutions" name="listRevolutions" onchange="appli.changeRevol (this.value)">
+							<select id="listRevolutions" name="listRevolutions"
+								onchange="appli.changeRevol (this.value)">
 								<option value="Circle" key="revol3" class="tr">Cercle</option>
 								<option value="Heart" key="revol4" class="tr">Coeur</option>
 								<option value="Lemniscate" key="revol5" class="tr">Lemniscate</option>
@@ -398,35 +414,49 @@
 					</div>
 				</div>
 			</div>
+
+
+<!--#########################################################################-->
+<!-- Surface view -->
+<!--#########################################################################-->
+
+
 			<div id="surfaceView">
 				<div id="surfaceParam" class="paramPanel">
-					<button onclick="appli.generateAndDraw (0);" key="surf1" class="tr">Générer</button>
-					<button onclick="appli.generateAndDraw (1);" key="surf2" class="tr">Génération non optimisée</button>
+					<button onclick="appli.generateAndDraw (0)" key="surf1" class="tr">Générer</button>
+					<button onclick="appli.generateAndDraw (1)" key="surf2" class="tr">Génération non optimisée</button>
 					<hr/>
 					<span key="surf3" class="tr">Liste des paramètres de la Surface</span>
 
-					<div class="doubleSliders" name="X" id="slider-rangeX"></div>
 					<label>Dimension X</label><br/>
-					<input type="text" id="amountMinX" onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMinX')"> - <input type="text" id="amountMaxX" onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
+					<div class="doubleSliders" name="X" id="slider-rangeX"></div>
+					<input type="text" id="amountMinX" 
+						onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMinX')">
+					-
+					<input type="text" id="amountMaxX"
+						onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
 
-					<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
 					<label>Dimension Y</label><br/>
-					<input type="text" id="amountMinY" onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMinY')"> - <input type="text" id="amountMaxY" onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
+					<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
+					<input type="text" id="amountMinY"
+						onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMinY')">
+					-
+					<input type="text" id="amountMaxY"
+						onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
 
-					<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
 					<label>Dimension Z</label><br/>
-					<input type="text" id="amountMinZ" onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMinZ')"> - <input type="text" id="amountMaxZ" onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
-				<!-- appli.surfaceView.show() -->
+					<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
+					<input type="text" id="amountMinZ"
+						onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMinZ')">
+					-
+					<input type="text" id="amountMaxZ"
+						onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
+					
 					<button onClick="appli.show (true)">Modifier</button>
-
 				</div>
-<!--				<canvas id="surfaceCanvas" width="640" height="480"></canvas>-->
+				
 				<canvas id="surfaceCanvas"></canvas>
-
-<!-- Export Canvas en PNG -->
-
-
-
+				
 				<div id="surfaceOption" class="optionPanel">
 					<p>
 						Dimension&nbsp;:
@@ -452,6 +482,13 @@
 						<button key="" class="tr" onclick="appli.show (true)">Visualiser</button>
 					</p>
 				</div>
+
+
+<!--#########################################################################-->
+<!-- End view -->
+<!--#########################################################################-->
+
+
 			</div>
 		</div>
 

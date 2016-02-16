@@ -87,7 +87,15 @@ function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
 	Controller2D.call (this, imageMin, imageMax, antecedantMin, antecedantMax,
 		mode);
 	
+	/**
+	 * {ModelDraw} TODO
+	 */
 	this.modelDraw = new ModelDraw ();
+	
+	// initialisation
+	document.getElementById ("meridianCanvas").addEventListener (
+		"click", function () {appli.showMessage ("click canvas meridian", 500)}
+	);
 }
 
 

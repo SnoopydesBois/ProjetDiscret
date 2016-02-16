@@ -128,9 +128,9 @@ function Application () {
 	this.surfaceController = new Controller3D (new Vector (21, 21, 21));
 	
 	/**
-	 * {Controller2D} TODO
+	 * {Controller2DMeridian} TODO
 	 */
-	this.meridianController = new Controller2D (-1, 1, -1, 1);
+	this.meridianController = new Controller2DMeridian (-1, 1, -1, 1);
 	
 	/**
 	 * {Controller2D} TODO
@@ -138,14 +138,14 @@ function Application () {
 	this.revolController = new Controller2D (-1.1, 1.1, -1.1, 1.1);
 
 	/**
-	 * {HTMLCanvasElement} TODO
+	 * {SurfaceViewer} TODO
 	 */
 	this.surfaceView = new SurfaceViewer (
 		document.getElementById ("surfaceCanvas")
 	);
 	
 	/**
-	 * {HTMLCanvasElement} TODO
+	 * {CurveViewer} TODO
 	 */
 	this.meridianView = new CurveViewer (
 		document.getElementById ("meridianCanvas")
@@ -153,7 +153,7 @@ function Application () {
 	this.meridianView.container.addObject (this.meridianController); // FIXME 
 	
 	/**
-	 * {HTMLCanvasElement} TODO
+	 * {CurveViewer} TODO
 	 */
 	this.revolView = new CurveViewer (
 		document.getElementById ("revolCanvas")
@@ -161,16 +161,16 @@ function Application () {
 	this.revolView.container.addObject (this.revolController); // FIXME 
 	
 	/**
-	 * TODO
+	 * {ParameterViewer} TODO
 	 */
-	this.meridianParameters = new ParameterViewer(
+	this.meridianParameters = new ParameterViewer (
 		'#listMeridianParameters', this.meridianController
 	);
 	
 	/**
-	 * TODO
+	 * {ParameterViewer} TODO
 	 */
-	this.revolutionParameters = new ParameterViewer(
+	this.revolutionParameters = new ParameterViewer (
 		'#listRevolutionParameters', this.revolController
 	);
 	
@@ -250,7 +250,7 @@ Application.prototype.generateAndDraw = function (mode) {
 		dimX,dimY,dimZ
 	]);
 
-	this.surfaceController.generate(mode);
+	this.surfaceController.generate (mode);
 	this.surfaceRenderer = new SurfaceRenderer (
 		this.surfaceController,
 		this.surfaceView.getGLContext ()
@@ -262,9 +262,9 @@ Application.prototype.generateAndDraw = function (mode) {
 	
 	this.computationFinished ();
 	
-	this.changeValueSlider("#slider-rangeX", 0, parseInt(dimX));
-	this.changeValueSlider("#slider-rangeY", 0, parseInt(dimY));
-	this.changeValueSlider("#slider-rangeZ", 0, parseInt(dimZ));
+	this.changeValueSlider ("#slider-rangeX", 0, parseInt (dimX));
+	this.changeValueSlider ("#slider-rangeY", 0, parseInt (dimY));
+	this.changeValueSlider ("#slider-rangeZ", 0, parseInt (dimZ));
 };
 
 

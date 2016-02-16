@@ -69,25 +69,24 @@ Application.prototype.initAppli = function () {
 	
 	this.revolController.setActive ("Circle");
 	
-	this.meridianParameters.setController(this.meridianController);
-	this.meridianParameters.displayParameter(this.drawMeridian, this.getRangeMeridian);
+	this.meridianParameters.setController (this.meridianController);
+	this.meridianParameters.displayParameter (this.drawMeridian, this.getRangeMeridian);
 	
-	this.revolutionParameters.setController(this.revolController);
-	this.revolutionParameters.displayParameter(this.drawRevolution, this.getRangeRevolution);
+	this.revolutionParameters.setController (this.revolController);
+	this.revolutionParameters.displayParameter (this.drawRevolution, this.getRangeRevolution);
 
-	//==============================================================================
 	// Sale
 	var dimX = document.getElementById ("dimx").value;
 	var dimY = document.getElementById ("dimy").value;
 	var dimZ = document.getElementById ("dimz").value;
-	//==============================================================================
 	// Double slider creation
-	this.createSlider("#slider-rangeX", 0, dimX);	
-	this.createSlider("#slider-rangeY", 0, dimY);	
-	this.createSlider("#slider-rangeZ", 0, dimZ);
+	this.createSlider ("#slider-rangeX", 0, dimX);	
+	this.createSlider ("#slider-rangeY", 0, dimY);	
+	this.createSlider ("#slider-rangeZ", 0, dimZ);
 	
 	
 	/// Interface initialization
+	this.initCanvasEvent ();
 	this.resizeInterface ();
 	this.initWindowEvent ();
 };
@@ -130,8 +129,10 @@ Application.prototype.initControllers = function () {
 	this.drawMeridian = this.meridianView.draw.bind (this.meridianView);
 	this.drawRevolution = this.revolView.draw.bind (this.revolView);
 
-	this.getRangeMeridian = this.meridianController.getParametersRange.bind (this.meridianController);
-	this.getRangeRevolution = this.revolController.getParametersRange.bind (this.revolController);
+	this.getRangeMeridian = this.meridianController.getParametersRange
+		.bind (this.meridianController);
+	this.getRangeRevolution = this.revolController.getParametersRange
+		.bind (this.revolController);
 	
 	// FIXME faire une frozen reference
 	
@@ -152,26 +153,30 @@ Application.prototype.initWindowEvent = function () {
 
 //==============================================================================
 /**
- *
+ * TODO
  */
-Application.prototype.createSlider = function(id, min, max) {
+Application.prototype.createSlider = function (id, min, max) {
 	// Slider creation
-	$( id ).slider({
-		range: true,
-		min: min,
-		max: max,    
-		values: [ min,  max ],							
-		slide: function( event, ui ) {
+	$(id).slider ({
+		range : true,
+		min : min,
+		max : max,    
+		values: [min, max],							
+		slide: function (event, ui) {
 			// 20 => pixel size of a selector
-			if ( ( ui.values[ 0 ] ) >= ui.values[ 1 ] ) {
+			if ((ui.values[0]) >= ui.values[1]) {
 				return false;
 			}
-			$("#amountMin" + $(id).attr("name")).val( ui.values[ 0 ] ) ;
-			$("#amountMax" + $(id).attr("name")).val( ui.values[ 1 ] ) ;
+			$("#amountMin" + $(id).attr ("name")).val (ui.values[0]);
+			$("#amountMax" + $(id).attr ("name")).val (ui.values[1]);
 		}
 	});
 	
 	// Text input initialisation
-	$("#amountMin" + $(id).attr("name")).val( $( id ).slider('values', 0)) ;
-	$("#amountMax" + $(id).attr("name")).val( $( id ).slider('values', 1)) ;
+	$("#amountMin" + $(id).attr ("name")).val ($(id).slider ('values', 0));
+	$("#amountMax" + $(id).attr ("name")).val ($(id).slider ('values', 1));
 };
+
+
+
+
