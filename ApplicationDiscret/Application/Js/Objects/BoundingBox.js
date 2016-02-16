@@ -166,7 +166,7 @@ BoundingBox.prototype.prepare = function (glContext) {
 
 	var vertexBufferLength = vertexBuffer.length; // 8
 	// Color of each vertices, lines are white
-	var color = [0.9, 0.9, 0.9, 1.0];
+	var color = [0.7, 0.7, 0.7, 1.0];
 
 
 	/// Vertex Buffer
@@ -176,23 +176,6 @@ BoundingBox.prototype.prepare = function (glContext) {
 	var data = [];
 	for (var vertice = 0; vertice < vertexBufferLength; ++vertice) {
 		this.addAPoint (data, vertexBuffer[vertice]);
-//		switch (vertice) {
-//		case 0 :
-//			this.addAColor (data, [0.9, 0.9, 0.0, 1.0]);
-//			break;
-//		case 1 :
-//			this.addAColor (data, [0.0, 0.9, 0.0, 1.0]);
-//			break;
-//		case 2 :
-//			this.addAColor (data, [0.9, 0.0, 0.0, 1.0]);
-//			break;
-//		case 4 :
-//			this.addAColor (data, [0.0, 0.0, 0.9, 1.0]);
-//			break;
-//		default :
-//			this.addAColor (data, color);
-//			break;
-//		}
 		this.addAColor (data, color);
 	}
 	glContext.bindBuffer (glContext.ARRAY_BUFFER, this.glVertexBuffer); 
@@ -255,9 +238,10 @@ BoundingBox.prototype.draw = function (glContext) {
 	}
 		
 	/// Set shader parameters
-	this.shader.setRenderingMode (RenderingModeEnum.DOTTED);
+	this.shader.setRenderingMode (RenderingModeEnum.PICKING);
 	// Let's the shader prepare its attributes
-	this.shader.setAttributes (glContext, this.glVertexBuffer, globalParam.perspectiveView ? 1 : 0);
+	this.shader.setAttributes (glContext, this.glVertexBuffer,
+		globalParam.perspectiveView ? 1 : 0);
 	
 	// Let's render !
 	glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer);

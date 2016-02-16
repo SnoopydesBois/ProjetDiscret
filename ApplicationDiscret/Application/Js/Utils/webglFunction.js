@@ -32,10 +32,10 @@
 function get3DGlContext (canvas) {
 	var gl = null;
 	try {
-		gl = canvas.getContext ("webgl") 
-			|| canvas.getContext ("experimental-webgl");
-		gl.viewportWidth = canvas.width;
-		gl.viewportHeight = canvas.height;
+		gl = canvas.getContext ("webgl", {preserveDrawingBuffer: true})
+			|| canvas.getContext ("experimental-webgl", {preserveDrawingBuffer: true});
+		gl.drawingBufferWidth = canvas.width;
+		gl.drawingBufferHeight = canvas.height;
 	} 
 	catch (e) {
 		console.error ("HTMLCanvasElement.getContext() FAILED !");
@@ -49,8 +49,8 @@ function get3DGlContext (canvas) {
  * Create a shader with its source code and compile it.
  * 
  * @param {!WebGLRenderingContext} glContext - The gl context.
- * @param {!Number} type - The type of the shader. This value is the parameter to 
- * WebGLRenderingContext.createShader(). 
+ * @param {!Number} type - The type of the shader. This value is the parameter
+ * to  WebGLRenderingContext.createShader(). 
  * @param {!String} source - The source code of the shader.
  * TODO vérifier le type 2.
  * 

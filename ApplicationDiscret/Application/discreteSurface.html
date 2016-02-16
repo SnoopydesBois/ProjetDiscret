@@ -308,7 +308,7 @@
 				<h1 key="m4" class="tr">Export</h1>
 				<ul>
 
-					<li><a id="download" key="m41" class="tr" >Télecharger comme image</a></li>
+					<li><a id="download" key="m41" class="tr">Télecharger comme image</a></li>
 
 					<li class="split"><hr/></li>
 
@@ -424,9 +424,9 @@
 				<div id="surfaceOption" class="optionPanel">
 					<p>
 						Dimension&nbsp;:
-						<input id="dimx" type="number" value="21" min="1"/>
-						<input id="dimy" type="number" value="21" min="1"/>
-						<input id="dimz" type="number" value="21" min="1"/>
+						<input id="dimx" type="number" value="31" min="1"/>
+						<input id="dimy" type="number" value="31" min="1"/>
+						<input id="dimz" type="number" value="31" min="1"/>
 
 						<!-- TODO traduire -->
 						<label key="" class="tr" for="connexityChoice">Connexité</label>
@@ -459,9 +459,9 @@
 			var appli = new Application ();
 
 			var gl = appli.surfaceView.glContext;
-			var n64 = new N64 (gl, 6, 9);
+			var n64 = new N64 (gl, 10, 11);
 			//var s = n64.modelController.modelGen.surface
-			//appli.surfaceView.container.addObject (n64);
+			appli.surfaceView.container.addObject (n64);
 			//globalParam.cubeColorDebug = true;
 
 			appli.initAppli ();
