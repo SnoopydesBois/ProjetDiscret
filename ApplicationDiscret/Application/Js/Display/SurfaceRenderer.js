@@ -80,17 +80,19 @@ SurfaceRenderer.prototype.constructor = SurfaceRenderer;
 /**
  * {int} The number of created surface. Increased for each new SurfaceRenderer.
  */
-SurfaceRenderer.prototype.counter = -2;
+SurfaceRenderer.counter = -2;
 
 
 //==============================================================================
 /**
  *
  */
-SurfaceRenderer.prototype.getLastSurfaceName = function () {
-	return "surface" + (SurfaceRenderer.prototype.counter - 1);
+SurfaceRenderer.getLastSurfaceName = function () {
+	return "surface" + (SurfaceRenderer.counter - 1);
 };
-
+SurfaceRenderer.prototype.getLastSurfaceName = function () {
+	console.error ("method renommer ! utilisez \"SurfaceRenderer.getLastSurfaceName() (-> static)\"");
+}
 
 
 //##############################################################################
@@ -116,9 +118,9 @@ function SurfaceRenderer (surfaceController, glContext) {
 //	}
 
 
-	++SurfaceRenderer.prototype.counter;
+	++SurfaceRenderer.counter;
 	GenericStructure.call (this,
-		"surface" + SurfaceRenderer.prototype.counter,
+		"surface" + SurfaceRenderer.counter,
 		new DefaultShader (glContext)
 	);
 
@@ -342,8 +344,8 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
  * coordinates of each point.
  * @param {int[]} indicesBuffer - The indices buffer which contains the order
  * (the indices) to draw all points.
- * @param {float[][4]} colorBuffer - The color buffer which contains the color of
- * each point.
+ * @param {float[][4]} colorBuffer - The color buffer which contains the color
+ * of each point.
  * @param {float[][4]} backColorBuffer - TODO
  * @param {float[4]} colorVoxel - The color of the face to draw.
  * @param {Vector} universSize - The size of the univers.
@@ -453,8 +455,8 @@ var offsetVertexInCube = [
  * coordinates of each point.
  * @param {int[]} indicesBuffer - The indices buffer which contains the order
  * (the indices) to draw all points.
- * @param {float[][4]} colorBuffer - The color buffer which contains the color of
- * each point.
+ * @param {float[][4]} colorBuffer - The color buffer which contains the color
+ * of each point.
  * @param {float[][4]} backColorBuffer - TODO
  * @param {float[4]} colorFace - The color of the face to draw.
  * @param {Vector} universSize - The size of the univers.

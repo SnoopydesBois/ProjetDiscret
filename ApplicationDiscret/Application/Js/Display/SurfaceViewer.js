@@ -481,7 +481,21 @@ SurfaceViewer.prototype.computeCamera = function () {
 
 //==============================================================================
 /**
- * @return {float[]} the image data
+ * @return {SurfaceRenderer} The SurfaceRenderer which containt the actual
+ * generated surface (i.e. not the repere, not the bounding box but the third
+ * object).
+ */
+SurfaceViewer.prototype.getSurface = function () {
+	return this.container.getObjectByName (
+		SurfaceRenderer.getLastSurfaceName ()
+	);
+};
+
+
+
+//==============================================================================
+/**
+ * @return {float[]} The image data.
  */
 SurfaceViewer.prototype.getImgData = function (width, height) {
 	// Bind the frame framebuffer and the depth buffer for the color rendering
