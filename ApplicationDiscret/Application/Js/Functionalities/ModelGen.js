@@ -214,8 +214,15 @@ ModelGen.prototype.voxelsRead = function(){
  * @return {Surface} the surface modeled using the meridian and the curve
  * of revolution
  */
-ModelGen.prototype.algoParametric = function (meridian, curveRevolution){
-	throw "ModelGen.algoParametric.NotImplementedYet";
+ModelGen.prototype.algoParametric = function (meridian, curveRevolution){	
+	var dim = this.getDimension ();
+	this.surface = new Surface (dim);
+	var fMeridian = meridian();
+	var fRevol = curveRevolution.getEquation ();
+	if(mode === 0)
+		this.worker = new ParametricAlgo2Worker(fMeridian, fRevol, dim, this.surface);
+	else
+		this.worker = new ParametricAlgo1Worker(fMeridian, fRevol, dim, this.surface);
 //	return this.surface;
 };
 
