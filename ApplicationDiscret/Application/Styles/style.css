@@ -1,10 +1,21 @@
+/* LICENSE ********************************************************************/
+
+
+/*
+ * TODO
+ */
+
+
+/* CODE ***********************************************************************/
+
+
 #workspace,
 #workspace div,
 #workspace canvas {
 	box-sizing : border-box;
 	-moz-box-sizing : border-box;
 	-webkit-box-sizing : border-box;
-	position: absolute; 
+	position: absolute;
 }
 
 
@@ -44,13 +55,17 @@
 	border-top : 1px solid gray;
 }
 
+.paramPanel div.wrapper,
+.optionPanel div.wrapper {
+	position: static !important;
+}
 
-#curvesView canvas,#meridianCanvas2,#revolCanvas2 {
+#curvesView canvas, #meridianCanvas2, #revolCanvas2 {
 	top : 0;
 	right : 0;
 	width : 70%;
 	height : calc(100% - 42px);
-	background-color : white;	
+	background-color : white;
 }
 
 
@@ -58,9 +73,9 @@
 
 
 #meridianView {
-	top : 0; 
-	left : 0; 
-	width : 100%; 
+	top : 0;
+	left : 0;
+	width : 100%;
 	height : 50%;
 	border-bottom : 1px solid gray;
 }
@@ -71,9 +86,9 @@
 
 #revolView {
 	bottom : 0;
-	left : 0; 
-	width : 100%; 
-	height : 50%; 
+	left : 0;
+	width : 100%;
+	height : 50%;
 }
 
 
@@ -84,7 +99,7 @@
 	top : 0;
 	right : 0;
 	width : 65%;
-	height : 100%; 
+	height : 100%;
 }
 
 
@@ -113,47 +128,22 @@
 }
 
 
-#surfaceView .optionPanel input[type=text],
-#surfaceView .optionPanel input[type=number] {
-	width : 3em;
-}
-
-
-#surfaceView .optionPanel select {
-	width : 4em;
-}
-
-
-#surfaceParam input {
-	width : calc((100% - 2em) / 2);
-}
-
-
 	/*** Parameters ***/
-	
-	
-#revolParam #meridianParam{
+
+
+#revolParam #meridianParam {
 	position : relative;
 }
 
 
-.rangeParam {
-	margin : 5%;
-	padding : 0px;
-	width : 90%;
-}
-
-
-#workspace .doubleSliders {
-	margin : 5%;
+#surfaceView .doubleSliders {
+	margin : -0.5em 5% 0.5em 5%;
 	position : relative;
 }
 
 
-#workspace .ui-slider-handle{
+.doubleSliders .ui-slider-handle {
 	width : 0.1em;
 	height : 1.2em;
 	margin-left : 0px;
 }
-
-

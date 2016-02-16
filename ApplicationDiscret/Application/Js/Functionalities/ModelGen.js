@@ -69,11 +69,12 @@ ModelGen.prototype.constructor = ModelGen;
 function ModelGen (dimension) {
 
 	/**
-	 *
+	 * {Vector} The dimension of the 3D space.
 	 */
 	this.dimension = dimension;
+	
 	/**
-	 * {Surface} The surface of the 3D space, there is no surface by default
+	 * {Surface} The surface of the 3D space, there is no surface by default.
 	 */
 	this.surface = undefined;
 }
@@ -85,7 +86,7 @@ function ModelGen (dimension) {
  * @return {Voxel} the voxel at the x, y, z coordinates or null if it doesnt
  * exist
  */
-ModelGen.prototype.getVoxel = function(position) {
+ModelGen.prototype.getVoxel = function (position) {
 	return this.surface.getVoxel (position);
 }
 
@@ -94,7 +95,7 @@ ModelGen.prototype.getVoxel = function(position) {
 /**
  * @return {Voxel} the voxel selected
  */
-ModelGen.prototype.getSelectedVoxel = function(){
+ModelGen.prototype.getSelectedVoxel = function () {
 	if(this.surface === undefined){
 		throw "the surface is not generated";
 	}
@@ -107,7 +108,7 @@ ModelGen.prototype.getSelectedVoxel = function(){
 /**
  * @return {Surface} The surface to model.
  */
-ModelGen.prototype.getSurface = function(){
+ModelGen.prototype.getSurface = function () {
 	return this.surface;
 };
 
@@ -124,19 +125,19 @@ ModelGen.prototype.getDimension = function () {
 //==============================================================================
 /**
  * Set the dimension of the generate surface.
- * 
+ *
  * @param {(Vector | Number[3] | Number} dimension - The dimensions of the 3D
  * space (@see {@link Vector}).
- * 
+ *
  * @return {void}
  * @throws {String} TODO
  */
 ModelGen.prototype.setDimension = function (dimension) {
-	/// parameter verification 
+	/// parameter verification
 	if (! checkType (arguments, [Vector, Array, "number"])) {
 		throw "ModelGen.setDimension: bad type of parameter";
 	}
-	
+
 	/// set value
 	this.dimension = new Vector (dimension);
 };
@@ -144,24 +145,26 @@ ModelGen.prototype.setDimension = function (dimension) {
 
 //==============================================================================
 /**
- * This function generate the surface
- * @param {Curve} meridian - the meridian to use to model.
- * @param {Curve} curveRevolution - the curve of revolution to use to model.
+ * This function generate the surface.
+ *
+ * @param {Curve} meridian - The meridian to use to model.
+ * @param {Curve} curveRevolution - The curve of revolution to use to model.
+ *
+ * @return {Surface} The surface modeled using the meridian and the curve
+ * of revolution.
  * @throws {String} "ModelGen.generate.ErrorBadCurveType" - The meridian must
  * be explicit or parametric and the revolution curve must be implicit.
- * @return {Surface} the surface modeled using the meridian and the curve
- * of revolution
  */
-ModelGen.prototype.generate = function (meridian, curveRevolution, mode){
+ModelGen.prototype.generate = function (meridian, curveRevolution, mode) {
 	if (meridian instanceof ExplicitCurve
 			&& curveRevolution instanceof ImplicitCurve)
 	{
-		this.algoExplicit(meridian, curveRevolution, mode);
+		this.algoExplicit (meridian, curveRevolution, mode);
 	}
 	else if (meridian instanceof DrawnCurve
 			&& curveRevolution instanceof ImplicitCurve)
 	{
-		this.algoParametric(meridian, curveRevolution);
+		this.algoParametric (meridian, curveRevolution);
 	}
 	else {
 		throw "ModelGen.generate.ErrorBadCurveType";
@@ -182,39 +185,59 @@ ModelGen.prototype.algoExplicit = function (meridian, curveRevolution, mode){
 	this.surface = new Surface (dim);
 	var fMeridian = meridian.getEquation ();
 	var fRevol = curveRevolution.getEquation ();
-	if(mode === 0)
-		this.worker = new ExplicitAlgo2Worker(fMeridian, fRevol, dim, this.surface);
-	else
-		this.worker = new ExplicitAlgo1Worker(fMeridian, fRevol, dim, this.surface);
+	if(mode === 0) {
+		this.worker = new ExplicitAlgo2Worker (fMeridian, fRevol, dim,
+			this.surface);
+	}
+	else {
+		this.worker = new ExplicitAlgo1Worker (fMeridian, fRevol, dim,
+			this.surface);
+	}
 };
+
 
 //==============================================================================
 /**
- * This function return whether the algorithm finished his computations
- * @return {boolean} whether the algorithm finished his computations
+ * This function return whether the algorithm finished his computations.
+ *
+ * @return {boolean} Whether the algorithm finished his computations.
  */
-ModelGen.prototype.isAlgoFinished = function (){
+ModelGen.prototype.isAlgoFinished = function () {
 	return this.worker.finished;
-}
+};
 
-ModelGen.prototype.newVoxels = function (){
+
+//==============================================================================
+/**
+ * @return {} TODO
+ */
+ModelGen.prototype.newVoxels = function () {
 	return this.worker.newVoxels;
 };
 
-ModelGen.prototype.voxelsRead = function(){
+
+//==============================================================================
+/**
+ * TODO
+ *
+ * @return {void}
+ */
+ModelGen.prototype.voxelsRead = function () {
 	this.worker.newVoxels = false;
 };
 
 //==============================================================================
 /**
  * This function generate the surface using the algorithm for parametric
- * functions
- * @param {Curve} meridian - the meridian to use to model
- * @param {Curve} curveRevolution - the curve of revolution to use to model
- * @return {Surface} the surface modeled using the meridian and the curve
- * of revolution
+ * functions.
+ *
+ * @param {Curve} meridian - The meridian to use to model.
+ * @param {Curve} curveRevolution - The curve of revolution to use to model.
+ *
+ * @return {Surface} The surface modeled using the meridian and the curve
+ * of revolution.
  */
-ModelGen.prototype.algoParametric = function (meridian, curveRevolution){
+ModelGen.prototype.algoParametric = function (meridian, curveRevolution) {
 	throw "ModelGen.algoParametric.NotImplementedYet";
 //	return this.surface;
 };
@@ -222,19 +245,25 @@ ModelGen.prototype.algoParametric = function (meridian, curveRevolution){
 
 //==============================================================================
 /**
+ * TODO description
+ *
  * @param {Vector} position - The position of the voxel to select.
+ *
  * @return {void}
+ * @throws {String}
  */
 ModelGen.prototype.selectVoxel = function (position) {
 	if (!(position instanceof Vector)){
-		throw "position is not a Vector";
-	} else if(this.surface === undefined){
-		throw "the surface is not generated";
+		throw "ModelGen.selectVoxel: position is not a Vector";
+	}
+	else if (this.surface === undefined){
+		throw "ModelGen.selectVoxel: the surface is not generated";
 	}
 
 	if (this.surface.isVoxel (position)){
 		this.surface.select (position); // Select
-	} else {
+	}
+	else {
 		this.surface.select (null); // Unselect
 	}
 };
@@ -242,17 +271,20 @@ ModelGen.prototype.selectVoxel = function (position) {
 
 //==============================================================================
 /**
+ * TODO description
+ *
  * @param {Vector} position - The position of the voxel to select.
- * @return {boolean} true if the voxel is selected, else false
+ *
+ * @return {boolean} True if the voxel is selected, false otherwise.
+ * @throws {String} TODO
  */
 ModelGen.prototype.isSelectedVoxel = function (position) {
 	if (!(position instanceof Vector)) {
-		throw "position is not a Vector";
-	} else if (this.surface === undefined) {
-		throw "the surface is not generated";
+		throw "ModelGen.isSelectedVoxel: position is not a Vector";
+	}
+	else if (this.surface === undefined) {
+		throw "ModelGen.isSelectedVoxel: the surface is not generated";
 	}
 
 	return this.surface.getSelectedVoxel().getCoordinates().equals (position);
 };
-
-

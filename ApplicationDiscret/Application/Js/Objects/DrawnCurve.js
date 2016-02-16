@@ -10,7 +10,7 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* 
+/*
  * TODO
  */
 
@@ -34,15 +34,15 @@ DrawnCurve.prototype.constructor = DrawnCurve;
 
 /**
  * @constructor
- * 
+ * TODO
  */
 function DrawnCurve () {
-	
+
 	/**
 	 * {Number[]} X coordinate point list.
 	 */
 	this.xList = [];
-	
+
 	/**
 	 * {Number[]} Y coordinate point list.
 	 */
@@ -70,19 +70,19 @@ DrawnCurve.prototype.getMaxT = function () {
 /**
  * Get "x" value at "t". If "t" is a float, return the linear interpolation
  * between "floor(t)" and "ceil(t)".
- * 
+ *
  * @param {Number} t - A value.
- * 
+ *
  * @return {Number} The "x" coordinate at "t".
  */
 DrawnCurve.prototype.getX = function (t) {
 	/// parameter verification
-	if (typeof t == "number" && Number.isFinite (t) 
+	if (typeof t == "number" && Number.isFinite (t)
 		&& 0 <= t && t < this.getMaxT ())
 	{
 		throw "DrawnCurve.getX: bad value of given parameter"
 	}
-	
+
 	/// get value
 	if (Number.isInteger (t))
 		return this.xList[t];
@@ -95,19 +95,19 @@ DrawnCurve.prototype.getX = function (t) {
 /**
  * Get "y" value at "t". If "t" is a float, return the linear interpolation
  * between "floor(t)" and "ceil(t)".
- * 
+ *
  * @param {Number} t - A value.
- * 
+ *
  * @return {Number} The "y" coordinate at "t".
  */
 DrawnCurve.prototype.getY = function (t) {
 	/// parameter verification
-	if (typeof t == "number" && Number.isFinite (t) 
+	if (typeof t == "number" && Number.isFinite (t)
 		&& 0 <= t && t < this.getMaxT ())
 	{
 		throw "DrawnCurve.getX: bad value of given parameter"
 	}
-	
+
 	/// get value
 	if (Number.isInteger (t))
 		return this.yList[t];
@@ -127,7 +127,7 @@ DrawnCurve.prototype.getY = function (t) {
  * Add a point to the curve. If the distance between the last point and the new
  * point is too big (chebichev distance), add interpoled point before the new
  * point.
- * 
+ *
  * @param {Number} x - X coordinate of the new point.
  * @param {Number} y - Y coordinate of the new point.
  */
@@ -164,11 +164,12 @@ DrawnCurve.prototype.addPoint = function (x, y) {
 
 
 /**
- * TODO
+ * @override
+ *
+ * Always throw an exception. A drawn curve doesn't have any parameter.
+ *
+ * @throws {String}
  */
-DrawnCurve.prototype.setParameter = function (parameter, value){
+DrawnCurve.prototype.setParameter = function () {
 	throw "DrawnCurve.setParameter.ErrorCannotModifyParameterOnDrawnCurve";
 };
-
-
-

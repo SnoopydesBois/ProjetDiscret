@@ -1,10 +1,9 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-
 /**
  * @license
- * Copyright (juin 2015)
- * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
+ * Copyright BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy,
+ * LAURET Karl, (juin 2015)
  *
  * benoist.thomas@hotmail.fr
  * biscui_86@hotmail.fr
@@ -39,26 +38,93 @@
  *
  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
- * termes.
+ * termes
+ */
+
+
+/// INDEX //////////////////////////////////////////////////////////////////////
+
+
+/* constructor ()
+ *
  */
 
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
+/**
+ * @classdesc TODO
+ */
+ModelDraw.prototype.constructor = ModelDraw;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
 
 /**
- * @enum
- * Enumeration of attributes that can be given to a Controller2D.
+ * @constructor
+ * TODO
  */
-var DrawModeEnum = Object.freeze ({
-	/// values
-	EQUATION : 0,
-	HAND_FREE : 1,
+function ModelDraw () {
 
-	/// properties
-	properties : {
-		0 : {name : "EQUATION"},
-		1 : {name : "HAND_FREE"}
-	}
-});
+	/**
+	 * {DrawnCurve} the curve on which the model act
+	 */
+	this.curve = new DrawnCurve ();
+};
+
+
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
+
+
+
+/**
+ * @return {DrawnCurve} The current curve.
+ */
+ModelDraw.prototype.getCurve = function () {
+	return this.curve;
+};
+
+
+//##############################################################################
+//	Other methods
+//##############################################################################
+
+
+
+/**
+ * Create a new curve.
+ *
+ * @return {void}
+ */
+ModelDraw.prototype.newCurve = function () {
+	this.curve = new DrawnCurve ();
+};
+
+
+//==============================================================================
+/**
+ * Add a point to the curve. Transform x/y coordinates on the canvas to y/z
+ * coordinates in the 3D space.
+ *
+ * @param {int} x - X coordinate of the new point (in pixel).
+ * @param {int} y - Y coordinate of the new point (in pixel).
+ * @param {Vector} canvasSize - Size of the cavas (in pixel).
+ * @param {Vector} universSize - Size of the 3D space (in voxel).
+ *
+ * @return {void}
+ */
+ModelDraw.prototype.addPoint = function (x, y, canvasSize, universSize) {
+	this.curve.addPoint (
+		x * universSize.x / canvasSize.x,
+		y * universSize.y / canvasSize.y
+	);
+};
