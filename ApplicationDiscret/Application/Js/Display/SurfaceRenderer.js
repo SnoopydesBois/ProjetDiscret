@@ -331,6 +331,50 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 
 //==============================================================================
 /**
+ *
+ */
+SurfaceRenderer.prototype.prepareX3D = function (gl, connexity, indiceBuffer, vertexBuffer) {
+	/// parameters verification
+	if (! checkType (arguments, WebGLRenderingContext, "number", "number")) {
+		throw "SurfaceRenderer.prepare: bad type(s) of parameter(s)";
+	}
+	this.cptPreparedVertex = 0;
+
+	var size = this.modelController.getDimension ();
+
+	var colorBuffer = [];
+	var backColorBuffer = [];
+
+	var tmp;
+
+	// 2 triangles per faces
+	// No triangles strips because there are a lot of degenerated triangles
+	var surface = this.modelController.getSurface ();
+	for (var x = 0; x < size.x; ++x) {
+		for (var y = 0; y < size.y; ++y) {
+			for (var z = 0; z < size.z; ++z) {
+				voxel = surface.getVoxel (x, y, z);
+				if (voxel != null && voxel.isVisible (connexity))
+				{
+					this.prepareVoxel (
+						voxel,
+						connexity,
+						0.5,
+						vertexBuffer,
+						indicesBuffer,
+						colorBuffer,
+						backColorBuffer,
+						[0.8, 0.8, 0.8, 1],
+						size
+					);
+				} // end if
+			} // end for z
+		} // end for y
+	} // end for x
+};
+
+//==============================================================================
+/**
  * Prepare each face (compute its color) of the voxel for rendering.
  *
  * @param {Surface} surface - The current surface.

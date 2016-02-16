@@ -99,7 +99,8 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 		obj, pointList, nbLines, nbPoints,
 		type, curve,
 		width, height,
-		min;
+		min,
+		target;
 	
 	for (var id = 0; id < len; ++id) {
 		obj = this.getObject (id);
@@ -108,13 +109,14 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 		}
 		type = obj.isTypeOf(ImplicitCurve);
 		if (type){
-			width = $('#revolCanvas2').width();
-			height = $('#revolCanvas2').height();
-			min = Math.min($('#revolCanvas2').width(),$('#revolCanvas2').height());
+			target = '#revolCanvas2';
+			width = $(target).width();
+			height = $(target).height();
+			min = Math.min($(target).width(),$(target).height());
 			functionPlot({
-			  target: '#revolCanvas2',
-			  width : $('#revolCanvas2').width(),
-			  height : $('#revolCanvas2').height(),
+			  target: target,
+			  width : $(target).width(),
+			  height : $(target).height(),
 			  xAxis : {domain: [obj.getXRange().getMin(), obj.getXRange().getMax()]},
 			  yAxis : this.computeYScale(width, height, obj.getXRange()),
 			  disableZoom : true,
@@ -126,9 +128,10 @@ Layer.prototype.draw = function (glContext, backBuffer) {
 			});
 		}
 		else{
-			min = Math.min($('#meridianCanvas2').width(),$('#meridianCanvas2').height());
+			target = '#meridianCanvas2';
+			min = Math.min($(target).width(),$(target).height());
 			functionPlot({
-			  target: '#meridianCanvas2',
+			  target: target,
 			  width : min,
 			  height : min,
 			  xAxis : {domain: [0, obj.getXRange().getMax()]},

@@ -436,6 +436,8 @@ SurfaceViewer.prototype.computeCamera = function () {
 
 //==============================================================================
 /**
+ * @param {int} width - The width of the canvas from which we get the data
+ * @param {int} height - The height of the canvas from which we get the data
  * @return {float[]} the image data
  */
 SurfaceViewer.prototype.getImgData = function (width, height) {
@@ -462,6 +464,9 @@ SurfaceViewer.prototype.getImgData = function (width, height) {
 
 
 //==============================================================================
+/**
+ * Reverse the data in the array
+ */
 SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
 
 	var pixel = [];
