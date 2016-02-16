@@ -66,12 +66,49 @@ function SurfaceViewer (canvas) {
 	 * {HTMLInputElement} The connexity user choice.
 	 */
 	this.voxelRadiusInput = document.getElementById ("voxelRadius");
-
+	
+	/**
+	 * {WebGLFrameBuffer} TODO
+	 */
+	this.frameBuffer = this.glContext.createFramebuffer ();
+	
+	/**
+	 * {WebGLFrameBuffer} TODO
+	 */
+	this.screenBuffer = this.glContext.createRenderbuffer ();
+	
+	/**
+	 * {WebGLFrameBuffer} TODO
+	 */
+	this.backBuffer = this.glContext.createRenderbuffer ();
+	
+	
 	/// Initialisation
+	var gl = this.glContext;
+	
 	this.initCanvasEvent ();
-	this.glContext.enable (this.glContext.CULL_FACE);
-	this.glContext.enable (this.glContext.DEPTH_TEST);
-	this.glContext.frontFace (this.glContext.CW);
+	gl.enable (gl.CULL_FACE);
+	gl.enable (gl.DEPTH_TEST);
+	gl.frontFace (gl.CW);
+	
+	gl.bindFramebuffer (gl.FRAMEBUFFER, this.frameBuffer);
+	
+	// screen buffer
+	gl.bindRenderbuffer (gl.RENDERBUFFER, this.screenBuffer);
+	gl.renderbufferStorage (gl.RENDERBUFFER, gl.RGBA4,
+		gl.drawingBufferWidth, gl.drawingBufferHeight);  
+	gl.framebufferRenderbuffer (gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
+		gl.RENDERBUFFER, this.screenBuffer);
+	
+	// back buffer
+	gl.bindRenderbuffer (gl.RENDERBUFFER, this.backBuffer);
+	gl.renderbufferStorage (gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, 
+		gl.drawingBufferWidth, gl.drawingBufferHeight);
+	gl.framebufferRenderbuffer (gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT,
+		gl.RENDERBUFFER, this.backBuffer);
+	
+	gl.bindRenderbuffer (gl.RENDERBUFFER, null);
+	gl.bindFramebuffer (gl.FRAMEBUFFER, null);
 };
 
 
@@ -86,13 +123,11 @@ function SurfaceViewer (canvas) {
  * Set the dimension of the viewport. TODO renommer
  */
 SurfaceViewer.prototype.setViewDimension = function () {
-	this.glContext.viewportHeight = this.canvas.height;
-	this.glContext.viewportWidth = this.canvas.width;
 	this.glContext.viewport (
 		0,
 		0,
-		this.glContext.viewportWidth,
-		this.glContext.viewportHeight
+		this.glContext.drawingBufferWidth,
+		this.glContext.drawingBufferHeight
 	);
 	this.container.getCamera ().height = this.canvas.height;
 	this.container.getCamera ().width = this.canvas.width;
@@ -197,8 +232,10 @@ SurfaceViewer.prototype.prepare = function () {
  * @return {void}
  */
 SurfaceViewer.prototype.draw = function (backBuffer) {
-	if (this.container.getNbObject () != 0)
-		this.container.draw (this.glContext, backBuffer)
+	if (this.container.getNbObject () != 0) {
+//		this.container.draw (this.glContext, true, this.backColorBuffer);
+		this.container.draw (this.glContext, backBuffer, this.screenBuffer);
+	}
 	else
 		console.log ("No object to draw");
 };
@@ -240,7 +277,7 @@ SurfaceViewer.prototype.onResize = function (event) {
 //==============================================================================
 /**
  * @override
- * Save the camera coordinates and the mouse coordintates.
+ * Save the camera coordinates and the mouse coordintates. TODO compléter
  * @see {@link camPosWhenClick, mousePosOnPress}
  *
  * @param {MouseEvent} event - The event.
@@ -252,12 +289,20 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
 		this.camPosWhenClick = this.container.getCamera().getPosition();
 		this.mousePosOnPress[0] = event.layerX;
 		this.mousePosOnPress[1] = event.layerY;
-//		event.preventDefault ();
 	}
+	
+	// draw the scene for picking
+	this.container.draw (this.glContext, true, this.backBuffer);
 	var color = new Uint8Array (4);
-	this.glContext.readPixels (event.layerX, event.layerY, 1, 1,
-		this.glContext.RGBA, this.glContext.UNSIGNED_BYTE, color);
-	// console.log ("picked color :", color[0], color[1], color[2], color[3]);
+	this.glContext.readPixels (
+		event.layerX, this.glContext.drawingBufferHeight - event.layerY,
+		1, 1,
+		this.glContext.RGBA, this.glContext.UNSIGNED_BYTE, color
+	);
+//	console.log (colorToPos (color, new Vector (31 ,31, 31)).toString ());
+	
+	// redraw correctly the scene
+	this.container.draw (this.glContext, false, this.screenBuffer);
 };
 
 
@@ -436,14 +481,29 @@ SurfaceViewer.prototype.computeCamera = function () {
 
 //==============================================================================
 /**
+ * @return {SurfaceRenderer} The SurfaceRenderer which containt the actual
+ * generated surface (i.e. not the repere, not the bounding box but the third
+ * object).
+ */
+SurfaceViewer.prototype.getSurface = function () {
+	return this.container.getObjectByName (
+		SurfaceRenderer.getLastSurfaceName ()
+	);
+};
+
+
+//==============================================================================
+/**
  * @param {int} width - The width of the canvas from which we get the data
  * @param {int} height - The height of the canvas from which we get the data
  * @return {float[]} the image data
  */
 SurfaceViewer.prototype.getImgData = function (width, height) {
 	// Bind the frame framebuffer and the depth buffer for the color rendering
-	this.glContext.bindRenderbuffer(this.glContext.RENDERBUFFER, this.depthBuffer);
-	this.glContext.bindFramebuffer(this.glContext.FRAMEBUFFER, this.framebuffer);
+	this.glContext.bindRenderbuffer (this.glContext.RENDERBUFFER,
+		this.screenBuffer);
+	this.glContext.bindFramebuffer (this.glContext.FRAMEBUFFER,
+		this.framebuffer);
 
 	// Drawing the colored scene
 	this.draw ();
@@ -452,9 +512,11 @@ SurfaceViewer.prototype.getImgData = function (width, height) {
 	var pixel = new Uint8Array (width * height * 4);
 
 	// Read the pixel at x and y coordinates
-	this.glContext.readPixels(0, 0,
-			 width, height, this.glContext.RGBA,
-			this.glContext.UNSIGNED_BYTE, pixel);
+	this.glContext.readPixels (0, 0,
+		width, height,
+		this.glContext.RGBA, this.glContext.UNSIGNED_BYTE,
+		pixel
+	);
 	// Unbind the buffers used
 	this.glContext.bindRenderbuffer (this.glContext.RENDERBUFFER, null);
 	this.glContext.bindFramebuffer (this.glContext.FRAMEBUFFER, null);

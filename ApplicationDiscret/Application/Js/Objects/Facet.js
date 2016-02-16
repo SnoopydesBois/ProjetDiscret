@@ -1,6 +1,9 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
-/* Copyright (juin 2015)
+
+/**
+ * @license
+ * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  *
  * benoist.thomas@hotmail.fr
@@ -39,6 +42,7 @@
  * termes.
  */
 
+
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
@@ -52,6 +56,7 @@
  * egale (face : Facet) : boolean
  */
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
@@ -63,21 +68,26 @@
  * not used by the Voxel class.
  * @see DirectionEnum, Voxel.
  */
-
-
-
 Facet.prototype.constructor = Facet;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
 
 /**
  * @constructor
- * @param {Vector} cubeCoor - vector to define the position of the Voxel.
- * @param {DirectionEnum} dir - the face of the cube.
+ * 
+ * @param {Vector} cubeCoor - Vector to define the position of the cube.
+ * @param {DirectionEnum} dir - The face of the cube.
  */
 function Facet (cubeCoor, dir) {
-	if (typeof cubeCoor != "object" || typeof dir != "number") {
-		console.error ("ERROR - Facet.constructor : bad type of parameter");
+	if (! checkType (arguments, Vector, "number")) {
+		console.error ("Facet.constructor: bad type(s) of parameter(s)");
 	}
-	// --------------------------------------
 
 	/**
 	 * {Vector} The coordonates in the univers.
@@ -85,15 +95,21 @@ function Facet (cubeCoor, dir) {
 	this.cubeCoor = cubeCoor;
 
 	/**
-	 * {DirectionEnum} The direction of the face (ALL or NONE for a cube).
+	 * {DirectionEnum} The direction of the face (ALL for a cube).
 	 */
 	this.direction = dir;
 }
 
 
-//==============================================================================
+
+//##############################################################################
+//	Accessors and Mutators
+//##############################################################################
+
+
+
 /**
- * @return {Vector} the coordinates.
+ * @return {Vector} The position.
  */
 Facet.prototype.getCube = function () {
 	return this.cubeCoor;
@@ -102,25 +118,46 @@ Facet.prototype.getCube = function () {
 
 //==============================================================================
 /**
- * @return {DirecionEnum} the direction of the face.
+ * @return {DirecionEnum} The direction of the face.
  */
 Facet.prototype.getDirection = function () {
 	return this.direction;
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Other methods
+//##############################################################################
+
+
 /**
  * Test the equality between to Facet (i.e. same coordonates and same
  * direction).
+ * 
+ * @param {Facet} face - An other facet.
+ * 
+ * @return {boolean} True if 'this' and 'face' are the same, false otherwise.
  */
 Facet.prototype.egale = function (face) {
-	if (face != null) {
+	if (face) {
 		return (this.cubeCoor.m[0] == face.cubeCoor.m[0]
-				&& this.cubeCoor.m[1] == face.cubeCoor.m[1]
-				&& this.cubeCoor.m[2] == face.cubeCoor.m[2]
-				&& this.direction == face.direction);
+			&& this.cubeCoor.m[1] == face.cubeCoor.m[1]
+			&& this.cubeCoor.m[2] == face.cubeCoor.m[2]
+			&& this.direction == face.direction);
 	}
 	else
 		return false;
 };
+
+
+//==============================================================================
+/**
+ * @return {String} A string representing the facet.
+ */
+Facet.prototype.toString = function () {
+	return "position: " + this.cubeCoor.toString() + ", direction: "
+		+ DirectionEnum.toString (this.direction);
+};
+
+

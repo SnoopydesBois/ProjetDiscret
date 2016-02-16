@@ -322,9 +322,10 @@ Scene.prototype.prepare = function (glContext, connexity, voxelRadius) {
  *
  * @return {void}
  */
-Scene.prototype.draw = function (glContext, backBuffer) {
+Scene.prototype.draw = function (glContext, backBuffer, renderBuffer) {
 	var size = Math.min (this.height, this.width) * 2;
 	glContext.clear (glContext.COLOR_BUFFER_BIT | glContext.DEPTH_BUFFER_BIT);
+	glContext.bindRenderbuffer (glContext.RENDERBUFFER, renderBuffer);
 //	this.camera.computeMatrices ();
 	var length = this.getNbObject ();
 	for (var i = 0; i < length; ++i) {
@@ -336,10 +337,16 @@ Scene.prototype.draw = function (glContext, backBuffer) {
 		this.prepareShaderMatrix (glContext, obj);
 
 		// Render Object
-		if (backBuffer || obj.getName() == "n64")
-			obj.drawBackBuffer (glContext, this);
+		if (backBuffer) {
+			try {
+				obj.drawBackBuffer (glContext);
+			}
+			catch (e) {
+//				console.warn (obj.getName() + ": object is not pickable !");
+			}
+		}
 		else
-			obj.draw (glContext, this);
+			obj.draw (glContext);
 	} // end for each displayable object
 };
 

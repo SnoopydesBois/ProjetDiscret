@@ -256,7 +256,7 @@ Application.prototype.generateAndDraw = function (mode) {
 		this.surfaceView.getGLContext ()
 	);
 	this.surfaceView.container.removeObjectByName (
-		SurfaceRenderer.prototype.getLastSurfaceName ()
+		SurfaceRenderer.getLastSurfaceName ()
 	);
 	this.surfaceView.container.addObject (this.surfaceRenderer);
 	

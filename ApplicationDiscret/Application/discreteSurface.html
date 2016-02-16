@@ -366,6 +366,12 @@
 							<option value="Line" key="mer3" class="tr">Ligne</option>
 							<option value="Sinusoid" key="mer4" class="tr">Sinusoid</option>
 						</select>
+						
+						<label for="meridianType">Mode&nbsp;:</label>
+						<select id="meridianType" name="meridianType">
+							<option key="" class="tr" value="primitive">Prédéfinie</option>
+							<option key="" class="tr" value="handFree">Dessin</option>
+						</select>
 					</div>
 				</div>
 				<div id="revolView">
@@ -428,9 +434,9 @@
 				<div id="surfaceOption" class="optionPanel">
 					<p>
 						Dimension&nbsp;:
-						<input id="dimx" type="number" value="21" min="1"/>
-						<input id="dimy" type="number" value="21" min="1"/>
-						<input id="dimz" type="number" value="21" min="1"/>
+						<input id="dimx" type="number" value="31" min="1"/>
+						<input id="dimy" type="number" value="31" min="1"/>
+						<input id="dimz" type="number" value="31" min="1"/>
 
 						<!-- TODO traduire -->
 						<label key="" class="tr" for="connexityChoice">Connexité</label>
@@ -447,7 +453,7 @@
 							value="1" min="0" max="1" step="0.05"/>
 
 						<!-- TODO traduire -->
-						<button key="" class="tr" onclick="appli.show (true)">Visualisé</button>
+						<button key="" class="tr" onclick="appli.show (true)">Visualiser</button>
 					</p>
 				</div>
 			</div>
@@ -463,18 +469,13 @@
 			var appli = new Application ();
 
 			var gl = appli.surfaceView.glContext;
-			var n64 = new N64 (gl, 6, 9);
+			var n64 = new N64 (gl, 10, 11);
 			//var s = n64.modelController.modelGen.surface
 			//appli.surfaceView.container.addObject (n64);
 			//globalParam.cubeColorDebug = true;
 
 			appli.initAppli ();
 
-
-			/// PNG test
-			var surfaceCanvas = document.getElementById('surfaceCanvas'),
-				ctx = surfaceCanvas.getContext('2d');
-			
 			
 		</script>
 	</body>

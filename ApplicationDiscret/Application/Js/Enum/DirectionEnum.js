@@ -66,14 +66,20 @@ var DirectionEnum = Object.freeze ({
 	
 	/// properties
 	properties : {
-		0 : {x :  0, y :  0, z :  1, oppose : 1, axis : AxisEnum.Z},
-		1 : {x :  0, y :  0, z : -1, oppose : 0, axis : AxisEnum.Z},
-		2 : {x :  1, y :  0, z :  0, oppose : 3, axis : AxisEnum.X},
-		3 : {x : -1, y :  0, z :  0, oppose : 2, axis : AxisEnum.X},
-		4 : {x :  0, y : -1, z :  0, oppose : 5, axis : AxisEnum.Y},
-		5 : {x :  0, y :  1, z :  0, oppose : 4, axis : AxisEnum.Y},
-		6 : {x :  0, y :  0, z :  0, oppose : 7, axis : null},
-		7 : {x :  0, y :  0, z :  0, oppose : 6, axis : null}
+		0 : {x :  0, y :  0, z :  1, oppose : 1, axis : AxisEnum.Z, name : "TOP"},
+		1 : {x :  0, y :  0, z : -1, oppose : 0, axis : AxisEnum.Z, name : "BOTTOM"},
+		2 : {x :  1, y :  0, z :  0, oppose : 3, axis : AxisEnum.X, name : "RIGHT"},
+		3 : {x : -1, y :  0, z :  0, oppose : 2, axis : AxisEnum.X, name : "LEFT"},
+		4 : {x :  0, y : -1, z :  0, oppose : 5, axis : AxisEnum.Y, name : "FRONT"},
+		5 : {x :  0, y :  1, z :  0, oppose : 4, axis : AxisEnum.Y, name : "BACK"},
+		6 : {x :  0, y :  0, z :  0, oppose : 7, axis : null, name : "ALL"},
+		7 : {x :  0, y :  0, z :  0, oppose : 6, axis : null, name : "NONE"}
+	},
+	toString : function (direction) {
+		if (0 <= direction && direction <= 7)
+			return DirectionEnum.properties[direction].name;
+		else
+			return undefined;
 	},
 	size : 6
 });
