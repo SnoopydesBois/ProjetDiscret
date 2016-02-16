@@ -37,8 +37,21 @@ function DrawnCurve () {
 //	Accessors and Mutators
 //##############################################################################
 
+DrawnCurve.prototype.getMaxT = function(){
+};
 
+DrawnCurve.prototype.getX = function(t){
+	if (t = Math.floor(t)){
+		return this.tabX[t];
+	}
+	else{
+		return interpol(t, this.tabX);
+	}
+};
 
+DrawnCurve.prototype.getY = function(t){
+	//cf getX
+};
 
 
 
@@ -51,5 +64,5 @@ function DrawnCurve () {
 //==============================================================================
 DrawnCurve.prototype.setParameter = function(parameter, value){
 	throw "DrawnCurve.setParameter.ErrorCannotModifyParameterOnDrawnCurve";
-}
+};
 
