@@ -287,9 +287,13 @@ CurveViewer.prototype.initCanvasEvent = function () {
  */
 CurveViewer.prototype.drawLastSegment = function (x, y) {
 	/// add point 
-	this.controller.addPoint (x, y, new Vector (
+	this.controller.addPoint (
+		x,
+		this.glContext.canvas.height - 1 - y, 
+		new Vector (
 			this.glContext.canvas.width, this.glContext.canvas.height, 0
-		), new Vector (
+		), 
+		new Vector (
 			parseInt ($("#dimy").val ()), parseInt ($("#dimz").val ()), 0
 		)
 	);

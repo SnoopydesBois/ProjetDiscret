@@ -89,7 +89,7 @@ ModelDraw.prototype.newCurve = function () {
  */
 ModelDraw.prototype.addPoint = function (x, y, canvasSize, universSize) {
 	this.curve.addPoint (
-		x * universSize.x / canvasSize.x,
+		x * (universSize.x / 2 - 1) / canvasSize.x + 1,
 		y * universSize.y / canvasSize.y
 	);
 };
