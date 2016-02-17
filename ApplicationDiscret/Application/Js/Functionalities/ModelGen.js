@@ -159,8 +159,7 @@ ModelGen.prototype.generate = function (meridian, curveRevolution, mode) {
 	if (meridian instanceof ExplicitCurve
 			&& curveRevolution instanceof ImplicitCurve)
 	{
-		// !!! test !!!
-		this.algoParametric(meridian, curveRevolution, mode);
+		this.algoExplicit(meridian, curveRevolution, mode);
 	}
 	else if (meridian instanceof DrawnCurve
 			&& curveRevolution instanceof ImplicitCurve)

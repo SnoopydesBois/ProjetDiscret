@@ -105,7 +105,7 @@ function check6Connex (implicit_curve, x, y, z){
 	values[5] = implicit_curve.compute([(x-0.5)/z[0], (y+0.5)/z[0]]);
 	values[6] = implicit_curve.compute([(x+0.5)/z[0], (y-0.5)/z[0]]);
 	values[7] = implicit_curve.compute([(x-0.5)/z[0], (y-0.5)/z[0]]);
-	
+
 	return arrayPosNeg (values);
 }
 
