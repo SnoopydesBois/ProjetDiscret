@@ -60,6 +60,8 @@
 		<script type="text/javascript" src="Js/Threads/AlgoWorker.js"></script>
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo1Worker.js"></script>
 		<script type="text/javascript" src="Js/Threads/ExplicitAlgo2Worker.js"></script>
+		<script type="text/javascript" src="Js/Threads/ParametricAlgo1Worker.js"></script>
+		<script type="text/javascript" src="Js/Threads/ParametricAlgo2Worker.js"></script>
 
 		<!-- Default objects -->
 		<script type="text/javascript" src="Curves/Meridian/Line.js"></script>
@@ -102,7 +104,6 @@
 		<script type="text/javascript" src="Js/Display/SurfaceRenderer.js"></script>
 		<script type="text/javascript" src="Js/Display/GenericContainer.js"></script>
 		<script type="text/javascript" src="Js/Display/Scene.js"></script>
-		<script type="text/javascript" src="Js/Display/Layer.js"></script>
 		<script type="text/javascript" src="Js/Display/GenericViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/SurfaceViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/CurveViewer.js"></script>
@@ -492,6 +493,7 @@
 							<option value="1">C26</option>
 							<option value="2">C18</option>
 							<option value="4">C6</option>
+							<option value="31">+/-</option>
 						</select>
 					</div>
 
@@ -534,7 +536,7 @@
 		var appli = new Application ();
 
 			var gl = appli.surfaceView.glContext;
-			var n64 = new N64 (gl, 10, 5);
+			var n64 = new N64 (gl, 3, 3);
 			//var s = n64.modelController.modelGen.surface
 			//appli.surfaceView.container.addObject (n64);
 			//globalParam.cubeColorDebug = true;
@@ -547,7 +549,6 @@
 			 * http://www.mathcurve.com/courbes2d/dentelee/dentelee.shtml
 			 *
 			 * idéé révolution :
-			 * - http://www.mathcurve.com/courbes2d/developpantedecercle/developpantedecercle.shtml
 			 * - http://www.mathcurve.com/courbes2d/astroid/astroid.shtml
 			 * - http://www.mathcurve.com/courbes2d/besace/besace.shtml
 			 * - http://www.mathcurve.com/courbes2d/bouche/bouche.shtml
@@ -564,13 +565,7 @@
 			 * - http://www.mathcurve.com/courbes2d/poisson/poisson.shtml
 			 *
 			 * idée méridienne :
-			 * - http://www.mathcurve.com/courbes2d/serpentinedroite/serpentinedroite2.shtml
-			 * - http://www.mathcurve.com/courbes2d/delaunay/delaunay.shtml
-			 * - http://www.mathcurve.com/courbes2d/cubiccirculaire/cubiccirculaire.shtml
-			 * - http://www.mathcurve.com/courbes2d/cissoid/cissoid.shtml
 			 * - http://www.mathcurve.com/courbes2d/gauss/gauss.shtml
-			 * - http://www.mathcurve.com/courbes2d/cubicdechasles/cubicdechasles.shtml
-			 * - http://www.mathcurve.com/courbes2d/cubicsluze/cubicsluze.shtml
 			 * - http://www.mathcurve.com/courbes2d/abdank/abdank.shtml
 			 * - http://www.mathcurve.com/courbes2d/parabolesemicubic/parabolesemicubic.shtml
 			 * -

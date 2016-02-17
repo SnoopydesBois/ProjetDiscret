@@ -257,9 +257,22 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 		for (var y = 0; y < size.y; ++y) {
 			for (var z = 0; z < size.z; ++z) {
 				voxel = surface.getVoxel (x, y, z);
-				if (voxel != null && voxel.isVisible (connexity)
-					&& (radius != 0.5 || !voxel.isHidden (connexity)))
+				if (voxel != null)
+				// if (voxel != null && voxel.isVisible (connexity)
+					// && (radius != 0.5 || !voxel.isHidden (connexity)))
 				{
+					/// XXX temporaire
+					var color;
+					if (((voxel.getConnexity() & connexity) == 0) && (voxel.getConnexity() & ConnexityEnum.PLUS)) {
+						color = [0, 0.8, 0, 1];
+					}
+					else if (((voxel.getConnexity() & connexity) == 0) && (voxel.getConnexity() & ConnexityEnum.MINUS)) {
+						color = [0.8, 0, 0, 1];
+					}
+					else
+						color = [0.8, 0.8, 0.8, 1];
+					/// XXX end temporaire
+
 					// 1024 -> see above, this.nbGlBuffer computes
 					idx = Math.trunc (cptPreparedVoxel / 2048);
 					this.prepareVoxel (
@@ -270,7 +283,8 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 						indicesBuffer[idx],
 						colorBuffer[idx],
 						backColorBuffer[idx],
-						[0.8, 0.8, 0.8, 1],
+						color,
+//						[0.8, 0.8, 0.8, 1],
 						size
 					);
 					++cptPreparedVoxel;
@@ -374,7 +388,7 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 	}
 	for (var i = 0; i < DirectionEnum.size; ++i) {
 		if (radius != 0.5 || voxel.hasFacet (i, connexity)) {
-			var color = [0.0, 0.0, 0.0, 1.0];
+			var color = [0, 0, 0, 1];
 			if (globalParam.cubeColorDebug) {
 				switch (i) {
 				case DirectionEnum.RIGHT :

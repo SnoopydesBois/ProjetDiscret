@@ -92,7 +92,10 @@ Application.prototype.changeMeridian = function (name) {
 	this.meridianController.setActive (name);
 	this.meridianView.draw ();
 
-	this.meridianParameters.displayParameter(this.drawMeridian, this.getRangeMeridian);
+	this.meridianParameters.displayParameter (
+		this.drawMeridian,
+		this.getRangeMeridian
+	);
 };
 
 
@@ -146,10 +149,13 @@ Application.prototype.getAllParameters = function (name) {
  * @param {String} mode - The selected mode.
  */
 Application.prototype.changeMeridianMode = function (mode) {
-	if (mode === "") {
-		$("#meridianCanvas2").hide (); // hide the div
-		$("#meridianCanvas").show (); // display the canvas
-
+	if (mode === "primitive") {
+		$("#meridianCanvas").hide (); // hide the div
+		$("#meridianCanvas2").show (); // display the canvas
+	}
+	else {
+		$("#meridianCanvas2").hide ();
+		$("#meridianCanvas").show ();
 	}
 
 };

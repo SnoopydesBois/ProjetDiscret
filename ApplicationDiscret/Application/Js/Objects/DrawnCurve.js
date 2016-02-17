@@ -68,6 +68,24 @@ DrawnCurve.prototype.getMaxT = function () {
 
 //==============================================================================
 /**
+ * @return {Number[]} X coordinate for each point.
+ */
+DrawnCurve.prototype.getXList = function () {
+	return this.xList;
+};
+
+
+//==============================================================================
+/**
+ * @return {Number[]} Y coordinate for each point.
+ */
+DrawnCurve.prototype.getYList = function () {
+	return this.yList;
+};
+
+
+//==============================================================================
+/**
  * Get "x" value at "t". If "t" is a float, return the linear interpolation
  * between "floor(t)" and "ceil(t)".
  *
@@ -77,10 +95,8 @@ DrawnCurve.prototype.getMaxT = function () {
  */
 DrawnCurve.prototype.getX = function (t) {
 	/// parameter verification
-	if (typeof t == "number" && Number.isFinite (t)
-		&& 0 <= t && t < this.getMaxT ())
-	{
-		throw "DrawnCurve.getX: bad value of given parameter"
+	if (typeof t != "number" && Number.isFinite (t)) {
+		throw "DrawnCurve.getX: bad value of given parameter";
 	}
 
 	/// get value
@@ -102,10 +118,8 @@ DrawnCurve.prototype.getX = function (t) {
  */
 DrawnCurve.prototype.getY = function (t) {
 	/// parameter verification
-	if (typeof t == "number" && Number.isFinite (t)
-		&& 0 <= t && t < this.getMaxT ())
-	{
-		throw "DrawnCurve.getX: bad value of given parameter"
+	if (typeof t != "number" && Number.isFinite (t)) {
+		throw "DrawnCurve.getY: bad value of given parameter";
 	}
 
 	/// get value
@@ -136,6 +150,7 @@ DrawnCurve.prototype.addPoint = function (x, y) {
 	if (len == 0) { // if it's the first point
 		this.xList.push (x);
 		this.yList.push (y);
+		// console.log ("new point :", this.xList[this.xList.length - 1], this.yList[this.yList.length - 1]);
 	}
 	else {
 		var lastX = this.xList[len - 1],
@@ -146,12 +161,14 @@ DrawnCurve.prototype.addPoint = function (x, y) {
 		if (dist > 1) {
 			// dist is too big -> interpolation
 			for (var i = 1; i <= Math.floor (dist); ++i) {
-				this.xList.push (lastX + (i / dist) * diffX);
-				this.yList.push (lastY + (i / dist) * diffY);
+				this.xList.push (lastX + (i / dist) * -(lastX - x));
+				this.yList.push (lastY + (i / dist) * -(lastY - y));
+				// console.log ("interpol point :", this.xList[this.xList.length - 1], this.yList[this.yList.length - 1]);
 			}
 		} // end if dist too big
 		this.xList.push (x);
 		this.yList.push (y);
+		// console.log ("end point :", this.xList[this.xList.length - 1], this.yList[this.yList.length - 1]);
 	} // end if not the first point
 };
 
@@ -173,3 +190,18 @@ DrawnCurve.prototype.addPoint = function (x, y) {
 DrawnCurve.prototype.setParameter = function () {
 	throw "DrawnCurve.setParameter.ErrorCannotModifyParameterOnDrawnCurve";
 };
+
+
+function interpol(t, tab){
+	if (t <= 0){
+		return tab[0]
+	} else if (t >= tab.length -1){
+		return tab[tab.length-1]
+	} else{
+		var v1 = tab[Math.floor(t)];
+		var v2 = tab[Math.floor(t) + 1];
+		tPerc = t - Math.floor(t);
+		return (1-tPerc) * v1 + tPerc * v2;
+	}
+};
+

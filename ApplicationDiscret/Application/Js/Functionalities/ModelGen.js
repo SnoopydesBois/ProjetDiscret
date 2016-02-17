@@ -159,7 +159,7 @@ ModelGen.prototype.generate = function (meridian, curveRevolution, mode) {
 	if (meridian instanceof ExplicitCurve
 			&& curveRevolution instanceof ImplicitCurve)
 	{
-		this.algoExplicit (meridian, curveRevolution, mode);
+		this.algoExplicit(meridian, curveRevolution, mode);
 	}
 	else if (meridian instanceof DrawnCurve
 			&& curveRevolution instanceof ImplicitCurve)
@@ -237,8 +237,15 @@ ModelGen.prototype.voxelsRead = function () {
  * @return {Surface} The surface modeled using the meridian and the curve
  * of revolution.
  */
-ModelGen.prototype.algoParametric = function (meridian, curveRevolution) {
-	throw "ModelGen.algoParametric.NotImplementedYet";
+ModelGen.prototype.algoParametric = function (meridian, curveRevolution, mode){	
+	var dim = this.getDimension ();
+	this.surface = new Surface (dim);
+	// !!! test !!!
+	var fRevol = curveRevolution.getEquation ();
+	if(mode === 0)
+		this.worker = new ParametricAlgo2Worker(meridian, fRevol, dim, this.surface);
+	else
+		this.worker = new ParametricAlgo1Worker(meridian, fRevol, dim, this.surface);
 //	return this.surface;
 };
 
