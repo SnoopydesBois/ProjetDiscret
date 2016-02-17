@@ -15,7 +15,7 @@
  */
 
 
-ParametricAlgo1Worker.prototype = AlgoWorker;
+ParametricAlgo1Worker.prototype = new AlgoWorker;
 ParametricAlgo1Worker.prototype.constructor = ParametricAlgo1Worker;
 
 

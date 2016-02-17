@@ -150,7 +150,7 @@ DrawnCurve.prototype.addPoint = function (x, y) {
 	if (len == 0) { // if it's the first point
 		this.xList.push (x);
 		this.yList.push (y);
-		console.log ("new point :", this.xList[this.xList.length - 1], this.yList[this.yList.length - 1]);
+		// console.log ("new point :", this.xList[this.xList.length - 1], this.yList[this.yList.length - 1]);
 	}
 	else {
 		var lastX = this.xList[len - 1],
@@ -163,12 +163,12 @@ DrawnCurve.prototype.addPoint = function (x, y) {
 			for (var i = 1; i <= Math.floor (dist); ++i) {
 				this.xList.push (lastX + (i / dist) * -(lastX - x));
 				this.yList.push (lastY + (i / dist) * -(lastY - y));
-				console.log ("interpol point :", this.xList[this.xList.length - 1], this.yList[this.yList.length - 1]);
+				// console.log ("interpol point :", this.xList[this.xList.length - 1], this.yList[this.yList.length - 1]);
 			}
 		} // end if dist too big
 		this.xList.push (x);
 		this.yList.push (y);
-		console.log ("end point :", this.xList[this.xList.length - 1], this.yList[this.yList.length - 1]);
+		// console.log ("end point :", this.xList[this.xList.length - 1], this.yList[this.yList.length - 1]);
 	} // end if not the first point
 };
 
