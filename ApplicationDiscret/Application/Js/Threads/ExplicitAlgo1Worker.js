@@ -15,7 +15,7 @@
  */
 
 
-ExplicitAlgo1Worker.prototype = AlgoWorker;
+ExplicitAlgo1Worker.prototype = new AlgoWorker;
 ExplicitAlgo1Worker.prototype.constructor = ExplicitAlgo1Worker;
 
 

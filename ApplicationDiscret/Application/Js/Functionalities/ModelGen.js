@@ -247,7 +247,7 @@ ModelGen.prototype.algoParametric = function (meridian, curveRevolution, mode){
 	fMeridian.addPoint(10,1);
 	var fRevol = curveRevolution.getEquation ();
 	if(mode === 0)
-		this.worker = new ParametricAlgo1Worker(fMeridian, fRevol, dim, this.surface);
+		this.worker = new ParametricAlgo2Worker(fMeridian, fRevol, dim, this.surface);
 	else
 		this.worker = new ParametricAlgo1Worker(fMeridian, fRevol, dim, this.surface);
 //	return this.surface;

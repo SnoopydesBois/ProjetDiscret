@@ -42,8 +42,8 @@ function AlgoWorker (meridianCurve, revolutionCurve, dimension, surface){
 		this.meridianCurve = [meridianCurve.xList, meridianCurve.yList];
 	}
 	
-	this.revolutionCurve = revolutionCurve.toStringNoParam();
-	this.dim = dimension.m;
+	this.revolutionCurve = (revolutionCurve ? revolutionCurve.toStringNoParam() : "");
+	this.dim = (dimension ? dimension.m : null);
 }
 
 //##############################################################################

@@ -15,8 +15,8 @@
  */
 
 
-ExplicitAlgo2Worker.prototype = new AlgoWorker;
-ExplicitAlgo2Worker.prototype.constructor = ExplicitAlgo2Worker;
+ParametricAlgo2Worker.prototype = AlgoWorker;
+ParametricAlgo2Worker.prototype.constructor = ParametricAlgo1Worker;
 
 
 
@@ -28,17 +28,17 @@ ExplicitAlgo2Worker.prototype.constructor = ExplicitAlgo2Worker;
 
 /**
  * @constructor 
- * A ExplicitAlgo2Worker contains a nomber of workers that will
- * compute the surface with the Explicit algo with no optimization.
+ * A ParametricAlgo2Worker contains a nomber of workers that will
+ * compute the surface with the Parametric algo with no optimization.
  * 
- * @param {Equation} explicitCurve - The equation for the meridian.
+ * @param {DrawnCurve} parametricCurve - The equation for the meridian.
  * @param {Equation} implicitCurve - The equation for the revolution curve.
  * @param {Vector} dimension - The space dimensions.
  * @param {Surface} surface - The surface to draw.
  */
-function ExplicitAlgo2Worker (explicitCurve, implicitCurve, dimension, surface){
-	AlgoWorker.call(this, explicitCurve, implicitCurve, dimension, surface);
-	this.worker[0] = new Worker ("Js/Threads/EA2Worker.js");
+function ParametricAlgo2Worker (parametricCurve, implicitCurve, dimension, surface){
+	AlgoWorker.call(this, parametricCurve, implicitCurve, dimension, surface);
+	this.worker[0] = new Worker ("Js/Threads/PA2Worker.js");
 	this.activeWorkers++;
 	var that = this;
 	this.worker[0].onmessage = function (e) {
@@ -53,6 +53,4 @@ function ExplicitAlgo2Worker (explicitCurve, implicitCurve, dimension, surface){
 	this.worker[0].postMessage (["init", this.meridianCurve,
 		this.revolutionCurve, this.dim]);
 }
-
-
 
