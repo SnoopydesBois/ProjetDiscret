@@ -67,6 +67,7 @@
 
 		<script type="text/javascript" src="Curves/Revolution/Lemniscate.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Circle.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Triangle.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Heart.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve1.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve2.js"></script>
@@ -401,6 +402,7 @@
 						<select id="listRevolutions" name="listRevolutions"
 							onchange="appli.changeRevol (this.value)">
 							<option value="Circle" key="revol3" class="tr">Cercle</option>
+							<option value="Triangle" key="revol134" class="tr">Croix</option>
 							<option value="Heart" key="revol4" class="tr">Coeur</option>
 							<option value="Lemniscate" key="revol5" class="tr">Lemniscate</option>
 							<option value="Curve1" key="revol6" class="tr">Curve1</option>
@@ -415,9 +417,10 @@
 							<option value="Curve10" key="revol15" class="tr">Curve10</option>
 						</select>
 					</div>
+	
 				</div>
+		
 			</div>
-
 
 <!--#########################################################################-->
 <!-- Surface view -->
@@ -438,6 +441,9 @@
 						<input type="text" id="amountMaxX"
 							onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
 					</div>
+					
+	
+
 					<div class="wrapper">
 						<label>Dimension Y</label><br/>
 						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
@@ -457,6 +463,16 @@
 							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 					</div>
 					<button onClick="appli.show (true)">Modifier</button>
+					
+		<div>												       
+		<center> <form >
+            <p>Entrez Equation de courbe</p>
+            <input type="text" name="recup_equation" /><br /><br />
+            <input type="submit" onclick="recuperer();"  value="OK" />						
+        </form>
+		</center>
+</div>
+					
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>
@@ -504,8 +520,18 @@
 			<p>Message...</p>
 		</div>
 
+		
 		<script type="text/javascript">
-			var appli = new Application ();
+			function recuperer()
+        {
+			var rec = document.getElementById("recup_equation").value;
+            alert(rec);
+		}	
+		</script>
+		
+		<script type="text/javascript">
+		
+		var appli = new Application ();
 
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 10, 5);
@@ -572,6 +598,8 @@
 				downloadsurfaceCanvas(this, 'surfaceCanvas', 'curve.png');
 			}, false);
 
+		
+			
 		</script>
 	</body>
 </html>

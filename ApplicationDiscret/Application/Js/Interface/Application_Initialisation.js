@@ -105,6 +105,7 @@ Application.prototype.initControllers = function () {
 	/// add curve for revolution
 	this.revolController.addCurve ("Circle", Circle);
 	this.revolController.addCurve ("Heart", Heart);
+	this.revolController.addCurve ("Triangle", Triangle);
 	this.revolController.addCurve ("Lemniscate", Lemniscate);
 	this.revolController.addCurve ("Curve1", Curve1);
 	this.revolController.addCurve ("Curve2", Curve2);
