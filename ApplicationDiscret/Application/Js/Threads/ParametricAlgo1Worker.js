@@ -39,7 +39,7 @@ ParametricAlgo1Worker.prototype.constructor = ParametricAlgo1Worker;
 function ParametricAlgo1Worker (parametricCurve, implicitCurve, dimension, surface){
 	AlgoWorker.call(this, parametricCurve, implicitCurve, dimension, surface);
 	for (var i = 0; i < 8; ++i){
-		this.worker[i] = new Worker ("Js/Threads/EA1Worker.js");
+		this.worker[i] = new Worker ("Js/Threads/PA1Worker.js");
 		this.activeWorkers++;
 		var that = this
 		this.worker[i].onmessage = function(e){

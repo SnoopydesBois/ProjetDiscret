@@ -39,7 +39,7 @@ function AlgoWorker (meridianCurve, revolutionCurve, dimension, surface){
 	if (meridianCurve instanceof Equation){
 		this.meridianCurve = meridianCurve.toStringNoParam();
 	} else if (meridianCurve instanceof DrawnCurve){
-		this.meridianCurve = [meridianCurve.getListX(), meridianCurve.getListY()];
+		this.meridianCurve = [meridianCurve.xList, meridianCurve.yList];
 	}
 	
 	this.revolutionCurve = revolutionCurve.toStringNoParam();

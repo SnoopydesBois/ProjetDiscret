@@ -55,7 +55,7 @@ function algo () {
 	var maxx = Math.trunc(dimx / 2);
 	var maxy = Math.trunc(dimy / 2);
 	tMax = Math.min(tMax, dimt);
-	for (var t = 1; t < tMax; ++t) {
+	for (var t = 0; t < tMax; ++t) {
 		var z =  Math.floor(parametric_curve.getY(t) + 0.5);
 		var rz = parametric_curve.getX(t);
 		if (rz == 0) rz+=0.01;
@@ -92,8 +92,8 @@ function algo () {
 onmessage = function (e) {
 	id = e.data[0];
 	parametric_curve = new DrawnCurve (e.data[1]);
-	parametric_curve.tabX = e.data[1][0];
-	parametric_curve.tabY = e.data[1][1];
+	parametric_curve.xList = e.data[1][0];
+	parametric_curve.yList = e.data[1][1];
 	implicit_curve = new Equation (e.data[2]);
 	dimension = new Vector(e.data[3]);
 	tMin = e.data[4];

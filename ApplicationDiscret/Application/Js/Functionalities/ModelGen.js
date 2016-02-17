@@ -156,7 +156,8 @@ ModelGen.prototype.generate = function (meridian, curveRevolution, mode){
 	if (meridian instanceof ExplicitCurve
 			&& curveRevolution instanceof ImplicitCurve)
 	{
-		this.algoExplicit(meridian, curveRevolution, mode);
+		// !!! test !!!
+		this.algoParametric(meridian, curveRevolution, mode);
 	}
 	else if (meridian instanceof DrawnCurve
 			&& curveRevolution instanceof ImplicitCurve)
@@ -214,13 +215,17 @@ ModelGen.prototype.voxelsRead = function(){
  * @return {Surface} the surface modeled using the meridian and the curve
  * of revolution
  */
-ModelGen.prototype.algoParametric = function (meridian, curveRevolution){	
+ModelGen.prototype.algoParametric = function (meridian, curveRevolution, mode){	
 	var dim = this.getDimension ();
 	this.surface = new Surface (dim);
-	var fMeridian = meridian();
+	// !!! test !!!
+	var fMeridian = new DrawnCurve();
+	fMeridian.addPoint(1,1);
+	fMeridian.addPoint(5,1);
+	fMeridian.addPoint(10,1);
 	var fRevol = curveRevolution.getEquation ();
 	if(mode === 0)
-		this.worker = new ParametricAlgo2Worker(fMeridian, fRevol, dim, this.surface);
+		this.worker = new ParametricAlgo1Worker(fMeridian, fRevol, dim, this.surface);
 	else
 		this.worker = new ParametricAlgo1Worker(fMeridian, fRevol, dim, this.surface);
 //	return this.surface;
