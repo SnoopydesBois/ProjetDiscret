@@ -81,7 +81,7 @@ function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 	}
 	else {
 		if (! checkType (arguments, "number", "number", "number", "number",
-			DrawModeEnum))
+			"number"))
 		{
 			console.error ("Controller2D.constructor: bad type(s) of "
 				+ "parameter(s)");

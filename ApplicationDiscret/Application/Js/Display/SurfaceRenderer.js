@@ -80,17 +80,19 @@ SurfaceRenderer.prototype.constructor = SurfaceRenderer;
 /**
  * {int} The number of created surface. Increased for each new SurfaceRenderer.
  */
-SurfaceRenderer.prototype.counter = -2;
+SurfaceRenderer.counter = -2;
 
 
 //==============================================================================
 /**
  *
  */
-SurfaceRenderer.prototype.getLastSurfaceName = function () {
-	return "surface" + (SurfaceRenderer.prototype.counter - 1);
+SurfaceRenderer.getLastSurfaceName = function () {
+	return "surface" + (SurfaceRenderer.counter - 1);
 };
-
+SurfaceRenderer.prototype.getLastSurfaceName = function () {
+	console.error ("method renommer ! utilisez \"SurfaceRenderer.getLastSurfaceName() (-> static)\"");
+}
 
 
 //##############################################################################
@@ -116,9 +118,9 @@ function SurfaceRenderer (surfaceController, glContext) {
 //	}
 
 
-	++SurfaceRenderer.prototype.counter;
+	++SurfaceRenderer.counter;
 	GenericStructure.call (this,
-		"surface" + SurfaceRenderer.prototype.counter,
+		"surface" + SurfaceRenderer.counter,
 		new DefaultShader (glContext)
 	);
 
@@ -258,6 +260,18 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 				if (voxel != null && voxel.isVisible (connexity)
 					&& (radius != 0.5 || !voxel.isHidden (connexity)))
 				{
+					/// XXX temporaire
+					var color;
+					if (voxel.getConnexity() & ConnexityEnum.PLUS) {
+						color = [0, 0.8, 0, 1];
+					}
+					else if (voxel.getConnexity() & ConnexityEnum.MINUS) {
+						color = [0.8, 0, 0, 1];
+					}
+					else
+						color = [0.8, 0.8, 0.8, 1];
+					/// XXX end temporaire
+
 					// 1024 -> see above, this.nbGlBuffer computes
 					idx = Math.trunc (cptPreparedVoxel / 2048);
 					this.prepareVoxel (
@@ -268,7 +282,8 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 						indicesBuffer[idx],
 						colorBuffer[idx],
 						backColorBuffer[idx],
-						[0.8, 0.8, 0.8, 1],
+						color,
+//						[0.8, 0.8, 0.8, 1],
 						size
 					);
 					++cptPreparedVoxel;
@@ -342,8 +357,8 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
  * coordinates of each point.
  * @param {int[]} indicesBuffer - The indices buffer which contains the order
  * (the indices) to draw all points.
- * @param {float[][4]} colorBuffer - The color buffer which contains the color of
- * each point.
+ * @param {float[][4]} colorBuffer - The color buffer which contains the color
+ * of each point.
  * @param {float[][4]} backColorBuffer - TODO
  * @param {float[4]} colorVoxel - The color of the face to draw.
  * @param {Vector} universSize - The size of the univers.
@@ -372,7 +387,7 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 	}
 	for (var i = 0; i < DirectionEnum.size; ++i) {
 		if (radius != 0.5 || voxel.hasFacet (i, connexity)) {
-			var color = [0.0, 0.0, 0.0, 1.0];
+			var color = [0, 0, 0, 1];
 			if (globalParam.cubeColorDebug) {
 				switch (i) {
 				case DirectionEnum.RIGHT :
@@ -453,8 +468,8 @@ var offsetVertexInCube = [
  * coordinates of each point.
  * @param {int[]} indicesBuffer - The indices buffer which contains the order
  * (the indices) to draw all points.
- * @param {float[][4]} colorBuffer - The color buffer which contains the color of
- * each point.
+ * @param {float[][4]} colorBuffer - The color buffer which contains the color
+ * of each point.
  * @param {float[][4]} backColorBuffer - TODO
  * @param {float[4]} colorFace - The color of the face to draw.
  * @param {Vector} universSize - The size of the univers.

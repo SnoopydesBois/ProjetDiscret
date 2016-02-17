@@ -1,43 +1,43 @@
 // LICENCE ////////////////////////////////////////////////////////////////////
 
 
-/** 
+/**
  * @license
  * Copyright (juin 2015)
  * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
- * 
+ *
  * benoist.thomas@hotmail.fr
  * biscui_86@hotmail.fr
  * tanguy.desplebain@gmail.com
  * lauret.karl@hotmail.fr
- * 
+ *
  * Ce logiciel est un programme informatique servant à modéliser des
  * structures 3D voxellisées.
- * 
+ *
  * Ce logiciel est régi par la licence CeCILL soumise au droit français et
  * respectant les principes de diffusion des logiciels libres. Vous pouvez
  * utiliser, modifier et/ou redistribuer ce programme sous les conditions
  * de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
  * sur le site "http://www.cecill.info".
- * 
+ *
  * En contrepartie de l'accessibilité au code source et des droits de copie,
  * de modification et de redistribution accordés par cette licence, il n'est
  * offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
  * seule une responsabilité restreinte pèse sur l'auteur du programme,  le
  * titulaire des droits patrimoniaux et les concédants successifs.
- * 
+ *
  * A cet égard  l'attention de l'utilisateur est attirée sur les risques
  * associés au chargement,  à l'utilisation,  à la modification et/ou au
- * développement et à la reproduction du logiciel par l'utilisateur étant 
- * donné sa spécificité de logiciel libre, qui peut le rendre complexe à 
+ * développement et à la reproduction du logiciel par l'utilisateur étant
+ * donné sa spécificité de logiciel libre, qui peut le rendre complexe à
  * manipuler et qui le réserve donc à des développeurs et des professionnels
  * avertis possédant  des  connaissances  informatiques approfondies.  Les
  * utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
  * logiciel à leurs besoins dans des conditions permettant d'assurer la
  * sécurité de leurs systèmes et ou de leurs données et, plus généralement,
- * à l'utiliser et l'exploiter dans les mêmes conditions de sécurité. 
- * 
- * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez 
+ * à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+ *
+ * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
@@ -71,9 +71,9 @@ Application.prototype.constructor = Application;
  * @constructor
  */
 function Application () {
-	
+
 		// Licence
-	
+
 	/*
 	console.log ('%c©2015 : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl\n'
 	+'%c\n'
@@ -117,88 +117,89 @@ function Application () {
 	'color: #FF0000; text-decoration: underline', 'color: #FF0000',
 	'color: #FF0000; text-decoration: underline', 'color: #FF0000');
 	*/
-	
-	
+
+
 		// Attributes //
-	
-	
+
+
 	/**
 	 * {Controller3D} TODO
 	 */
 	this.surfaceController = new Controller3D (new Vector (21, 21, 21));
-	
-	/**
-	 * {Controller2D} TODO
-	 */
-	this.meridianController = new Controller2D (-1, 1, -1, 1);
-	
-	/**
-	 * {Controller2D} TODO
-	 */
-	this.revolController = new Controller2D (-1.1, 1.1, -1.1, 1.1);
 
 	/**
-	 * {HTMLCanvasElement} TODO
+	 * {Controller2DMeridian} TODO
+	 */
+	this.meridianController = new Controller2DMeridian (-1, 1, -1, 1);
+
+	/**
+	 * {Controller2D} TODO
+	 */
+	this.revolController = new Controller2D (-1.1, 1.1, -1.1, 1.1,
+		DrawModeEnum.EQUATION);
+
+	/**
+	 * {SurfaceViewer} TODO
 	 */
 	this.surfaceView = new SurfaceViewer (
 		document.getElementById ("surfaceCanvas")
 	);
-	
+
 	/**
-	 * {HTMLCanvasElement} TODO
+	 * {CurveViewer} TODO
 	 */
 	this.meridianView = new CurveViewer (
 		document.getElementById ("meridianCanvas")
 	);
-	this.meridianView.container.addObject (this.meridianController); // FIXME 
-	
+	this.meridianView.container.addObject (this.meridianController); // FIXME
+
 	/**
-	 * {HTMLCanvasElement} TODO
+	 * {CurveViewer} TODO
 	 */
 	this.revolView = new CurveViewer (
 		document.getElementById ("revolCanvas")
 	);
-	this.revolView.container.addObject (this.revolController); // FIXME 
-	
+	this.revolView.container.addObject (this.revolController); // FIXME
+
 	/**
-	 * TODO
+	 * {ParameterViewer} TODO
 	 */
-	this.meridianParameters = new ParameterViewer(
+	this.meridianParameters = new ParameterViewer (
 		'#listMeridianParameters', this.meridianController
 	);
-	
+
 	/**
-	 * TODO
+	 * {ParameterViewer} TODO
 	 */
-	this.revolutionParameters = new ParameterViewer(
+	this.revolutionParameters = new ParameterViewer (
 		'#listRevolutionParameters', this.revolController
 	);
-	
+
 	/**
 	 * {String} The default message in the state bar.
 	 */
 	this.defaultMessage = "";
-	
+
 	/**
 	 * {ListUndoRedoAction} The list of undoable/redoable action.
 	 */
 	this.listAction = new ListUndoRedoAction (25);
-	
+
 	/**
 	 * {Function} TODO
 	 */
 	this.drawMeridian = null;
-	
+
 	/**
 	 * {Function} TODO
 	 */
 	this.drawRevolution = null;
-	
+
 	/**
 	 * {Function} TODO
 	 */
 	this.getRangeMeridian = null;
-	
+
 	/**
 	 * {Function} TODO
 	 */
@@ -211,7 +212,7 @@ function Application () {
 /**
  * This function calls itself again every second in a different thread until the
  * computation is finished. Then it redraws the scene.
- * 
+ *
  * @return {void}
  */
 Application.prototype.computationFinished = function () {
@@ -221,7 +222,7 @@ Application.prototype.computationFinished = function () {
 	}
 	if (! this.surfaceController.isAlgoFinished ()){
 		setTimeout (this.computationFinished.bind (this), 1000);
-	} 
+	}
 	else {
 		this.validMessage ("Finished", 0);
 		this.surfaceView.show ();
@@ -233,7 +234,7 @@ Application.prototype.computationFinished = function () {
 /**
  * This function is called by the generate button. Calls the algorithm and draws
  * the resulting surface.
- * 
+ *
  * @return {void}
  */
 Application.prototype.generateAndDraw = function (mode) {
@@ -241,8 +242,8 @@ Application.prototype.generateAndDraw = function (mode) {
 	var dimX = document.getElementById ("dimx").value;
 	var dimY = document.getElementById ("dimy").value;
 	var dimZ = document.getElementById ("dimz").value;
-	
-	
+
+
 	this.surfaceController.setDimension ([
 		dimX,dimY,dimZ
 	]);
@@ -250,35 +251,33 @@ Application.prototype.generateAndDraw = function (mode) {
 		dimX,dimY,dimZ
 	]);
 
-	this.surfaceController.generate(mode);
+	this.surfaceController.generate (mode);
 	this.surfaceRenderer = new SurfaceRenderer (
 		this.surfaceController,
 		this.surfaceView.getGLContext ()
 	);
 	this.surfaceView.container.removeObjectByName (
-		SurfaceRenderer.prototype.getLastSurfaceName ()
+		SurfaceRenderer.getLastSurfaceName ()
 	);
 	this.surfaceView.container.addObject (this.surfaceRenderer);
-	
+
 	this.computationFinished ();
-	
-	this.changeValueSlider("#slider-rangeX", 0, parseInt(dimX));
-	this.changeValueSlider("#slider-rangeY", 0, parseInt(dimY));
-	this.changeValueSlider("#slider-rangeZ", 0, parseInt(dimZ));
+
+	this.changeValueSlider ("#slider-rangeX", 0, parseInt (dimX));
+	this.changeValueSlider ("#slider-rangeY", 0, parseInt (dimY));
+	this.changeValueSlider ("#slider-rangeZ", 0, parseInt (dimZ));
 };
 
 
 //==============================================================================
 /**
  * TODO
- * 
+ *
  * @param {boolean} forcePrepare - TODO
  * @see {@link SurfaceViewer.show}
- * 
+ *
  * @return {void}
  */
 Application.prototype.show = function (forcePrepare) {
 	this.surfaceView.show (forcePrepare);
 };
-
-

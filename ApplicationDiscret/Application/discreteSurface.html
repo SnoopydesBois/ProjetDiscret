@@ -7,7 +7,8 @@
 <html lang="fr">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-		<title key="" class="tr">Surface de révolution discrète</title>
+		<title id="title" class="tr">Surface de révolution discrète</title>
+		<link rel="icon" type="image/png" href="Styles/favicon.png"/>
 		<!-- TODO Modifier title pour le mutilangue -->
 
 		<!-- javascript imports -->
@@ -96,6 +97,7 @@
 		<script type="text/javascript" src="Js/Functionalities/ModelGen.js"></script>
 		<script type="text/javascript" src="Js/Functionalities/ModelCurve.js"></script>
 		<script type="text/javascript" src="Js/Functionalities/ModelParameter.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/ModelDraw.js"></script>
 
 		<script type="text/javascript" src="Js/Display/SurfaceRenderer.js"></script>
 		<script type="text/javascript" src="Js/Display/GenericContainer.js"></script>
@@ -128,6 +130,7 @@
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/style.css">
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/surfaceView.css">
 
 
 		<!-- Export 3D en PNG -->
@@ -349,104 +352,151 @@
 		<!-- Workspace -->
 		<div id="workspace">
 			<div id="curvesView">
+
+
+<!--#########################################################################-->
+<!-- Meridian view -->
+<!--#########################################################################-->
+
+
 				<div id="meridianView">
 					<div id="meridianParam" class="paramPanel">
-<!--						<span key="mer1" class="tr">Liste des paramètres Méridienne</span>-->
 						<div id="listMeridianParameters"></div>
 					</div>
 
 					<canvas id="meridianCanvas" style="display:none"></canvas>
 					<div id="meridianCanvas2"></div>
+
 					<div id="meridianOption" class="optionPanel">
-<!--						<span key="mer2" class="tr">Option Méridienne</span>-->
-						<select id="listMeridians" name="listMeridians" onchange="appli.changeMeridian (this.value)">
-							<option value="Line" key="mer3" class="tr">Ligne</option>
-							<option value="Sinusoid" key="mer4" class="tr">Sinusoid</option>
+						<label for="meridianType">Mode&nbsp;:</label>
+						<select id="meridianType" name="meridianType"
+							onchange="appli.changeMeridianMode (this.value)">
+							<option key="" class="tr" value="primitive">Prédéfinie</option>
+							<option key="" class="tr" value="handFree">Dessin</option>
 						</select>
+
+						<span id="meridianModeOption">
+							<select id="listMeridians" name="listMeridians"
+								onchange="appli.changeMeridian (this.value)">
+								<option value="Line" key="mer3" class="tr">Ligne</option>
+								<option value="Sinusoid" key="mer4" class="tr">Sinusoid</option>
+							</select>
+						</span>
 					</div>
 				</div>
+
+
+<!--#########################################################################-->
+<!-- Revolution view -->
+<!--#########################################################################-->
+
+
 				<div id="revolView">
 					<div id="revolParam" class="paramPanel">
-<!--						<span key="revol1" class="tr">Liste des paramètres Révolution</span>-->
 						<div id="listRevolutionParameters"></div>
 					</div>
 					<canvas id="revolCanvas" style="display:none"></canvas>
 					<div id="revolCanvas2"></div>
 
 					<div id="revolOption" class="optionPanel">
-<!--						<span key="revol2" class="tr">Option Revolution</span>-->
-							<select id="listRevolutions" name="listRevolutions" onchange="appli.changeRevol (this.value)">
-								<option value="Circle" key="revol3" class="tr">Cercle</option>
-								<option value="Heart" key="revol4" class="tr">Coeur</option>
-								<option value="Lemniscate" key="revol5" class="tr">Lemniscate</option>
-								<option value="Curve1" key="revol6" class="tr">Curve1</option>
-								<option value="Curve2" key="revol7" class="tr">Curve2</option>
-								<option value="Curve3" key="revol8" class="tr">Curve3</option>
-								<option value="Curve4" key="revol9" class="tr">Curve4</option>
-								<option value="Curve5" key="revol10" class="tr">Curve5</option>
-								<option value="Curve6" key="revol11" class="tr">Curve6</option>
-								<option value="Curve7" key="revol12" class="tr">Curve7</option>
-								<option value="Curve8" key="revol13" class="tr">Curve8</option>
-								<option value="Curve9" key="revol14" class="tr">Curve9</option>
-								<option value="Curve10" key="revol15" class="tr">Curve10</option>
-							</select>
+						<select id="listRevolutions" name="listRevolutions"
+							onchange="appli.changeRevol (this.value)">
+							<option value="Circle" key="revol3" class="tr">Cercle</option>
+							<option value="Heart" key="revol4" class="tr">Coeur</option>
+							<option value="Lemniscate" key="revol5" class="tr">Lemniscate</option>
+							<option value="Curve1" key="revol6" class="tr">Curve1</option>
+							<option value="Curve2" key="revol7" class="tr">Curve2</option>
+							<option value="Curve3" key="revol8" class="tr">Curve3</option>
+							<option value="Curve4" key="revol9" class="tr">Curve4</option>
+							<option value="Curve5" key="revol10" class="tr">Curve5</option>
+							<option value="Curve6" key="revol11" class="tr">Curve6</option>
+							<option value="Curve7" key="revol12" class="tr">Curve7</option>
+							<option value="Curve8" key="revol13" class="tr">Curve8</option>
+							<option value="Curve9" key="revol14" class="tr">Curve9</option>
+							<option value="Curve10" key="revol15" class="tr">Curve10</option>
+						</select>
 					</div>
 				</div>
 			</div>
+
+
+<!--#########################################################################-->
+<!-- Surface view -->
+<!--#########################################################################-->
+
+
 			<div id="surfaceView">
 				<div id="surfaceParam" class="paramPanel">
-					<button onclick="appli.generateAndDraw (0);" key="surf1" class="tr">Générer</button>
-					<button onclick="appli.generateAndDraw (1);" key="surf2" class="tr">Génération non optimisée</button>
+					<button onclick="appli.generateAndDraw (0)" key="surf1" class="tr">Générer</button>
+					<button onclick="appli.generateAndDraw (1)" key="surf2" class="tr">Génération non optimisée</button>
 					<hr/>
-					<span key="surf3" class="tr">Liste des paramètres de la Surface</span>
-
-					<div class="doubleSliders" name="X" id="slider-rangeX"></div>
-					<label>Dimension X</label><br/>
-					<input type="text" id="amountMinX" onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMinX')"> - <input type="text" id="amountMaxX" onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
-
-					<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
-					<label>Dimension Y</label><br/>
-					<input type="text" id="amountMinY" onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMinY')"> - <input type="text" id="amountMaxY" onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
-
-					<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
-					<label>Dimension Z</label><br/>
-					<input type="text" id="amountMinZ" onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMinZ')"> - <input type="text" id="amountMaxZ" onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
-				<!-- appli.surfaceView.show() -->
+					<div class="wrapper">
+						<label>Dimension X</label><br/>
+						<div class="doubleSliders" name="X" id="slider-rangeX"></div>
+						<input type="text" id="amountMinX"
+							onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMinX')">
+						-
+						<input type="text" id="amountMaxX"
+							onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
+					</div>
+					<div class="wrapper">
+						<label>Dimension Y</label><br/>
+						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
+						<input type="text" id="amountMinY"
+							onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMinY')">
+						-
+						<input type="text" id="amountMaxY"
+							onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
+					</div>
+					<div class="wrapper">
+						<label>Dimension Z</label><br/>
+						<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
+						<input type="text" id="amountMinZ"
+							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMinZ')">
+						-
+						<input type="text" id="amountMaxZ"
+							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
+					</div>
 					<button onClick="appli.show (true)">Modifier</button>
-
 				</div>
-<!--				<canvas id="surfaceCanvas" width="640" height="480"></canvas>-->
+
 				<canvas id="surfaceCanvas"></canvas>
 
-<!-- Export Canvas en PNG -->
-
-
-
 				<div id="surfaceOption" class="optionPanel">
-					<p>
-						Dimension&nbsp;:
+					<div class="wrapper">
+						<p class="multiLabel">Dimension&nbsp;:</p>
 						<input id="dimx" type="number" value="31" min="1"/>
 						<input id="dimy" type="number" value="31" min="1"/>
 						<input id="dimz" type="number" value="31" min="1"/>
-
-						<!-- TODO traduire -->
-						<label key="" class="tr" for="connexityChoice">Connexité</label>
+					</div>
+					<!-- TODO traduire -->
+					<div class="wrapper">
+						<label key="" class="tr" for="connexityChoice">Connexité&nbsp;:</label>
 						<select id="connexityChoice" name="connexityChoice"
-							onchange="appli.surfaceView.unprepare ();appli.surfaceView.show ()">
+							onchange="appli.surfaceView.unprepare (); appli.surfaceView.show ()">
 							<option value="1">C26</option>
 							<option value="2">C18</option>
 							<option value="4">C6</option>
+							<option value="31">+/-</option>
 						</select>
+					</div>
 
-						<!-- TODO traduire -->
-						<label key="" class="tr" for="voxelRadius">Taille des voxels</label>
+					<!-- TODO traduire -->
+					<div class="wrapper">
+						<label key="" class="tr" for="voxelRadius">Taille des voxels&nbsp;:</label>
 						<input id="voxelRadius" type="number" name="voxelRadius"
 							value="1" min="0" max="1" step="0.05"/>
-
-						<!-- TODO traduire -->
-						<button key="" class="tr" onclick="appli.show (true)">Visualiser</button>
-					</p>
+					</div>
+					<!-- TODO traduire -->
+					<button key="" class="tr" onclick="appli.show (true)">Visualiser</button>
 				</div>
+
+
+<!--#########################################################################-->
+<!-- End view -->
+<!--#########################################################################-->
+
+
 			</div>
 		</div>
 
@@ -460,14 +510,55 @@
 			var appli = new Application ();
 
 			var gl = appli.surfaceView.glContext;
-			var n64 = new N64 (gl, 10, 11);
+			var n64 = new N64 (gl, 3, 3);
 			//var s = n64.modelController.modelGen.surface
 			//appli.surfaceView.container.addObject (n64);
 			//globalParam.cubeColorDebug = true;
 
 			appli.initAppli ();
 
-
+			/**
+			 * idée de courbe :
+			 * liste complète : http://www.mathcurve.com/courbes2d/courbes2d.shtml
+			 * http://www.mathcurve.com/courbes2d/dentelee/dentelee.shtml
+			 *
+			 * idéé révolution :
+			 * - http://www.mathcurve.com/courbes2d/developpantedecercle/developpantedecercle.shtml
+			 * - http://www.mathcurve.com/courbes2d/astroid/astroid.shtml
+			 * - http://www.mathcurve.com/courbes2d/besace/besace.shtml
+			 * - http://www.mathcurve.com/courbes2d/bouche/bouche.shtml
+			 * - http://www.mathcurve.com/courbes2d/clairaut/clairaut.shtml
+			 * - http://www.mathcurve.com/courbes2d/ornementales/ornementales.shtml
+			 * - http://www.mathcurve.com/courbes2d/cornoid/cornoid.shtml
+			 * - http://www.mathcurve.com/courbes2d/croixdemalte/croixdemalte.shtml
+			 * - http://www.mathcurve.com/courbes2d/deltoid/deltoid.shtml
+			 * - http://www.mathcurve.com/courbes2d/foliumdedurer/foliumdedurer.shtml
+			 * - http://www.mathcurve.com/courbes2d/piriforme/piriforme.shtml
+			 * - http://www.mathcurve.com/courbes2d/kieroide/kieroide.shtml
+			 * - http://www.mathcurve.com/courbes2d/multicardioide/multicardioide.shtml
+			 * - http://www.mathcurve.com/courbes2d/oeuf/oeufgranville.shtml
+			 * - http://www.mathcurve.com/courbes2d/poisson/poisson.shtml
+			 *
+			 * idée méridienne :
+			 * - http://www.mathcurve.com/courbes2d/serpentinedroite/serpentinedroite2.shtml
+			 * - http://www.mathcurve.com/courbes2d/delaunay/delaunay.shtml
+			 * - http://www.mathcurve.com/courbes2d/cubiccirculaire/cubiccirculaire.shtml
+			 * - http://www.mathcurve.com/courbes2d/cissoid/cissoid.shtml
+			 * - http://www.mathcurve.com/courbes2d/gauss/gauss.shtml
+			 * - http://www.mathcurve.com/courbes2d/cubicdechasles/cubicdechasles.shtml
+			 * - http://www.mathcurve.com/courbes2d/cubicsluze/cubicsluze.shtml
+			 * - http://www.mathcurve.com/courbes2d/abdank/abdank.shtml
+			 * - http://www.mathcurve.com/courbes2d/parabolesemicubic/parabolesemicubic.shtml
+			 * -
+			 */
+			/*
+			 * courbe 2 : voir http://www.mathcurve.com/courbes2d/trefle/trefle.shtml
+			 * courbe 3, 8 : voir http://www.mathcurve.com/courbes2d/lissajous/lissajous.shtml
+			 * courbe 4 : voir http://www.mathcurve.com/courbes2d/trisectricedeceva/trisectricedeceva.shtml
+			 * 	ou http://www.mathcurve.com/courbes2d/scarabee/scarabee.shtml
+			 * courbe 5 = hyperbole
+			 * courbe 7 : voir http://www.mathcurve.com/courbes2d/salmon/salmon.shtml
+			 */
 			/// PNG test
 			var surfaceCanvas = document.getElementById('surfaceCanvas'),
 				ctx = surfaceCanvas.getContext('2d');
