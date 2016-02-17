@@ -68,6 +68,24 @@ DrawnCurve.prototype.getMaxT = function () {
 
 //==============================================================================
 /**
+ * @return {Number[]} X coordinate for each point.
+ */
+DrawnCurve.prototype.getXList = function () {
+	return this.xList;
+};
+
+
+//==============================================================================
+/**
+ * @return {Number[]} Y coordinate for each point.
+ */
+DrawnCurve.prototype.getYList = function () {
+	return this.yList;
+};
+
+
+//==============================================================================
+/**
  * Get "x" value at "t". If "t" is a float, return the linear interpolation
  * between "floor(t)" and "ceil(t)".
  *
