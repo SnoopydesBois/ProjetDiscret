@@ -1,15 +1,28 @@
+/// LICENCE ////////////////////////////////////////////////////////////////////
+
+
 /**
  * @license TODO
  */
+
+
+/// INDEX //////////////////////////////////////////////////////////////////////
+
+
+/*
+ * constructor ()
+ */
+
+
+/// CODE ///////////////////////////////////////////////////////////////////////
+
 
 
 /**
  * @extends GenericViewer
  * @classdesc TODO
  */
-
-
-
+CurveViewer.prototype = new GenericViewer;
 CurveViewer.prototype.constructor = CurveViewer;
 
 
@@ -25,14 +38,22 @@ CurveViewer.prototype.constructor = CurveViewer;
  *
  * @param {HTMLCanvasElement} canvas - The associated canvas.
  */
-function CurveViewer (canvas) {
+function CurveViewer (canvas, curveController) {
 	GenericViewer.call (this, canvas, "2d");
 
 	/**
-	 * {Scene} The scene to display the surface.
+	 * {Controller2D} TODO
 	 */
-	this.container = new Layer ();
-	this.container.addObject (new Grid ());
+	this.controller = curveController;
+	
+	/**
+	 * {int[2]} Last mouse position where a point was added.
+	 */
+	this.lastMousePos = [-1, -1];
+	
+	
+	// initialisation$
+	this.initCanvasEvent ();
 };
 
 
@@ -43,7 +64,12 @@ function CurveViewer (canvas) {
 
 
 
-
+/**
+ * @return {Controller2D} The 2D controller.
+ */
+CurveViewer.prototype.getController = function () {
+	return this.controller;
+};
 
 
 
@@ -52,130 +78,130 @@ function CurveViewer (canvas) {
 //##############################################################################
 
 
-
-/**
- * Prepare all objects in the container.
- *
- * @return {void}
- */
-CurveViewer.prototype.prepare = function () {
-
-};
-
-
-//==============================================================================
-/**
- * Show all objects in the container (prepare it and draw it).
- *
- * @return {void}
- */
-CurveViewer.prototype.show = function () {
-	this.container.show (this.glContext);
-};
+////==============================================================================
+///**
+// * Show all objects in the container (prepare it and draw it).
+// *
+// * @return {void}
+// */
+//CurveViewer.prototype.show = function () {
+//	this.container.show (this.glContext);
+//};
 
 
 //==============================================================================
 /**
- * @override
- * Draw all objects in the container.
- *
- * @param {boolean} [backBuffer] - Indicate if we have to draw the scene
- * normally or if we need to draw for picking.
+ * TODO
  *
  * @return {void}
  */
-CurveViewer.prototype.draw = function (backBuffer) {
-	this.container.draw (this.glContext);
-};
-
-/*
-Frame2D.prototype.gridCanvasInit = function () {
-	for (var axis = 0; axis < this.numberOfAxis; axis++) {
-		for (var g = 0; g < this.numberOfGrids; g++) {
-			var content= document.createElement("div");
-			content= document.createElement("div");
-			//id = gridContent 1 Axis 0
-			content.setAttribute("id","gridContent"+g+"Axis"+axis);
-			content.setAttribute("class","gridContent");
-			if (axis === 0) {
-				//code
-				this.container.getElementById('gridX').appendChild(content);
-			}
-			else if (axis === 1) {
-				//code
-				this.container.getElementById('gridY').appendChild(content);
-			}
-			else if (axis === 2) {
-				//code
-				this.container.getElementById('gridZ').appendChild(content);
-			}
-
-			var headerContent = document.createElement("div");
-			div = document.createElement("div");
-			div.setAttribute("id","title"+g+"Axis"+axis);
-			div.setAttribute("class","gridTitle");
-
-			var stringAxis = "";
-			if (axis == 0) {
-				stringAxis = "YZ"
-			}
-			else if (axis == 1) {
-				stringAxis = "XZ"
-			}
-			else {
-				stringAxis = "XY"
-			}
-
-			$('<h1 grid="'+g+'" axis="'+axis+'">'+stringAxis+"  "
-					+(g+1)+'</div>').prependTo(div);
-			headerContent.appendChild(div);
-
-			div = document.createElement("div");
-			div.setAttribute("id","s"+g+"Axis"+axis);
-			div.setAttribute("class","selectionSlice");
-			div.setAttribute("axis",axis);
-			div.setAttribute("grid",g);
-			div.addEventListener("mousedown",this.selectSlice.bind(this));
-			headerContent.appendChild(div);
-
-			div = document.createElement("div");
-			div.setAttribute("id","m"+g+"Axis"+axis);
-			div.setAttribute("class","minimizing");
-			div.setAttribute("axis",axis);
-			div.setAttribute("grid",g);
-			//Axis 0 g 1
-			div.addEventListener("mousedown",this.minimize.bind(this));
-			headerContent.appendChild(div);
-
-			this.container.getElementById('gridContent'+g
-					+"Axis"+axis).appendChild(headerContent);
-
-
-			var canvas= document.createElement("canvas");
-			canvas.setAttribute("id","Axis"+axis+"g"+g); //Axis0 g1
-			canvas.setAttribute("axis",axis);
-			canvas.setAttribute("grid",g);
-			canvas.setAttribute("class","grid");
-
-			canvas.addEventListener('mousedown',
-					this.onMouseClick.bind(this), false);
-			canvas.addEventListener('mouseup',
-					this.onMouseReleased.bind(this), false);
-			canvas.addEventListener('mousemove',
-					this.onMouseMove.bind(this), false);
-
-			var frame = this;
-			this.frameDocument.onkeypress = function (event) {
-				frame.onKeyPressed(event);
-			}
-
-			this.container.getElementById('gridContent'+g
-					+"Axis"+axis).appendChild(canvas);
-
-		}
+CurveViewer.prototype.draw = function () {
+	var curve = this.controller.getActiveCurve ();
+	var xRange = this.controller.getXRange ();
+	if (curve instanceof ImplicitCurve) {
+		CurveViewer.drawImplicit (curve, xRange);
 	}
+	else if (curve instanceof ExplicitCurve) {
+		CurveViewer.drawExplicit (curve, xRange);
+	}
+	else {
+		console.error ("Bad type of curve , find: " + type (curve));
+	}
+};
 
-};*/
+
+//==============================================================================
+/**
+ * @static
+ * Draw a curve implicit curve.
+ * 
+ * @param {ImplicitCurve} obj - The curve to draw.
+ * @param {Range} xRange - The inverse image range.
+ * 
+ * @return {void}
+ */
+CurveViewer.drawImplicit = function (obj, xRange) {
+	/// Let's render
+	var color = "black",
+		width, height, min;
+		
+	width = $('#revolCanvas2').width();
+	height = $('#revolCanvas2').height();
+	min = Math.min (
+		$('#revolCanvas2').width(),
+		$('#revolCanvas2').height ()
+	);
+	
+	functionPlot ({
+		target: '#revolCanvas2',
+		width : $('#revolCanvas2').width(),
+		height : $('#revolCanvas2').height(),
+		xAxis : {domain: [
+			xRange.getMin(),
+			xRange.getMax()
+		]},
+		yAxis : CurveViewer.computeYScale (width, height, xRange),
+		disableZoom : true,
+		data: [{
+			color : color,
+			fn : obj.getEquation().toStringNoParam (),
+			fnType : 'implicit',
+		}]
+	}); // end functionPlot
+};
+
+
+
+//==============================================================================
+/**
+ * @static
+ * Draw a curve parametric curve.
+ * 
+ * @param {ImplicitCurve} obj - The curve to draw.
+ * @param {Range} xRange - The inverse image range.
+ * 
+ * @return {void}
+ */
+CurveViewer.drawExplicit = function (obj, xRange) {
+	/// Let's render
+	var color = "black",
+		width, height, min;
+
+	min = Math.min (
+		$('#meridianCanvas2').width (),
+		$('#meridianCanvas2').height ()
+	);
+	functionPlot ({
+		target: '#meridianCanvas2',
+		width : min,
+		height : min,
+		xAxis : {domain: [0, xRange.getMax()]},
+		yAxis : {domain: [0, xRange.getMax()]},
+		disableZoom : true,
+		data: [{
+			x: obj.getEquation().toStringNoParam().replace(/x/g , 't'),
+			y: 't',
+			color : color,
+			range: [-10 * Math.PI, 10 * Math.PI],
+			fnType: 'parametric',
+			graphType: 'polyline'
+		}]
+	}); // end functionPlot
+};
+
+
+//==============================================================================
+/**
+ * @static
+ * TODO
+ */
+CurveViewer.computeYScale = function (width, height, xRange) {
+	var xDiff = xRange.length;
+	var yDiff = height * xDiff / width;
+	return [-yDiff / 2, yDiff / 2];
+};
+
+
 
 //##############################################################################
 //	Event methods
@@ -197,3 +223,88 @@ CurveViewer.prototype.onResize = function (event) {
 
 
 //==============================================================================
+/**
+ * @override
+ * Add a point to the curve and draw it on the screen.
+ * 
+ * @param {MouseEvent} event - The mouse event.
+ */
+CurveViewer.prototype.onMouseDown = function (event) {
+	this.drawLastSegment (event.layerX, event.layerY);
+};
+
+
+//==============================================================================
+/**
+ * @override
+ * Add a point to the curve and draw it on the screen.
+ * 
+ * @param {MouseEvent} event - The mouse event.
+ */
+CurveViewer.prototype.onMouseMove = function (event) {
+	if (event.buttons & 1) {
+		this.drawLastSegment (event.layerX, event.layerY);
+	}
+};
+
+
+//==============================================================================
+/**
+ * @override
+ * TODO
+ * 
+ * @param {MouseEvent} event - The mouse event.
+ */
+CurveViewer.prototype.onMouseUp = function (event) {
+};
+
+
+
+//##############################################################################
+//	Other methods
+//##############################################################################
+
+
+
+/**
+ * TODO
+ * 
+ * @return {void}
+ */
+CurveViewer.prototype.initCanvasEvent = function () {
+	// initialisation
+	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this));
+	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
+	this.canvas.addEventListener ("mouseup", this.onMouseUp.bind (this));
+};
+
+
+
+
+//==============================================================================
+/**
+ * 
+ */
+CurveViewer.prototype.drawLastSegment = function (x, y) {
+	/// add point 
+	this.controller.addPoint (x, y, new Vector (
+			this.glContext.canvas.width, this.glContext.canvas.height, 0
+		), new Vector (
+			parseInt ($("#dimy").val ()), parseInt ($("#dimz").val ()), 0
+		)
+	);
+	
+	if (this.lastMousePos[0] != -1) { // there is an other point
+		/// draw it
+		var ctx = this.glContext;
+		ctx.beginPath ();
+		ctx.moveTo (this.lastMousePos[0], this.lastMousePos[1]);
+		ctx.lineTo (x, y);
+		ctx.stroke ();
+	}
+	/// remember
+	this.lastMousePos[0] = x;
+	this.lastMousePos[1] = y;
+};
+
+
