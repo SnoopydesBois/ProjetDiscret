@@ -272,7 +272,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 				if (voxel != null && voxel.isVisible (connexity)
 					&& (radius != 0.5 || !voxel.isHidden (connexity)))
 				{
-					// 1024 -> see above, this.nbGlBuffer computes
+					// 1024 -> see above, this.nbGlBuffer computes FIXME
 					idx = Math.trunc (cptPreparedVoxel / 2048);
 					this.prepareVoxel (
 						voxel,
@@ -430,7 +430,7 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 	}
 	for (var i = 0; i < DirectionEnum.size; ++i) {
 		if (radius != 0.5 || voxel.hasFacet (i, connexity)) {
-			var color = [0.0, 0.0, 0.0, 1.0];
+			var color = [0, 0, 0, 1];
 			if (globalParam.cubeColorDebug) {
 				switch (i) {
 				case DirectionEnum.RIGHT :

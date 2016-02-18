@@ -18,6 +18,8 @@ var ConnexityEnum = Object.freeze ({
 	C26  : 1,
 	C18  : 2,
 	C6   : 4,
+	PLUS : 8,
+	MINUS : 16,
 	ALL  : 7
 });
 

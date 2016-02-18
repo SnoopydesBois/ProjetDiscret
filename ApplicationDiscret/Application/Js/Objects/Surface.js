@@ -187,7 +187,7 @@ Surface.prototype.addVoxel = function (position, connexity) {
 		}
 		else {
 			// the voxel already exist, just add connexity
-			this.matVoxel[x][y][z].connexity | connexity;
+			this.matVoxel[x][y][z].connexity |= connexity;
 		}
 		var size = DirectionEnum.size;
 		for (var i = 0; i < size; ++i) {
@@ -209,8 +209,10 @@ Surface.prototype.addVoxel = function (position, connexity) {
 			}
 		} // end for each neighbor
 	} // end if coordinates are corect
-	else
+	else {
+		console.error ("out fo bound:", x, y, z);
 		throw "Surface.addVoxel.OutOfBounds";
+	}
 };
 
 

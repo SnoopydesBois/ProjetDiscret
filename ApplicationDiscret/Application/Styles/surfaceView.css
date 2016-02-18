@@ -1,0 +1,50 @@
+/* LICENSE ********************************************************************/
+
+
+/*
+ * TODO
+ */
+
+
+/* CODE ***********************************************************************/
+
+
+#surfaceView .paramPanel button {
+    width: 90%;
+    margin: 0.2em 5%;
+}
+
+
+#surfaceView .paramPanel label {
+	display: block;
+	text-align: center;
+	margin-top: 0.7em;
+}
+
+#surfaceView .optionPanel input[type=text],
+#surfaceView .optionPanel input[type=number] {
+	width : 3em;
+}
+
+
+#surfaceView .optionPanel select {
+	width : 4em;
+}
+
+
+#surfaceParam input {
+	width : calc((100% - 2em) / 2);
+}
+
+
+#surfaceOption p.multiLabel {
+    display: inline;
+    margin: 0.2em;
+    padding: 0;
+}
+
+
+#surfaceOption div.wrapper {
+    display: inline-block;
+    margin: 0 0.2em;
+}

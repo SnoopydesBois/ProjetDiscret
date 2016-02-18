@@ -66,47 +66,47 @@ function SurfaceViewer (canvas) {
 	 * {HTMLInputElement} The connexity user choice.
 	 */
 	this.voxelRadiusInput = document.getElementById ("voxelRadius");
-	
+
 	/**
 	 * {WebGLFrameBuffer} TODO
 	 */
 	this.frameBuffer = this.glContext.createFramebuffer ();
-	
+
 	/**
 	 * {WebGLFrameBuffer} TODO
 	 */
 	this.screenBuffer = this.glContext.createRenderbuffer ();
-	
+
 	/**
 	 * {WebGLFrameBuffer} TODO
 	 */
 	this.backBuffer = this.glContext.createRenderbuffer ();
-	
-	
+
+
 	/// Initialisation
 	var gl = this.glContext;
-	
+
 	this.initCanvasEvent ();
 	gl.enable (gl.CULL_FACE);
 	gl.enable (gl.DEPTH_TEST);
 	gl.frontFace (gl.CW);
-	
+
 	gl.bindFramebuffer (gl.FRAMEBUFFER, this.frameBuffer);
-	
+
 	// screen buffer
 	gl.bindRenderbuffer (gl.RENDERBUFFER, this.screenBuffer);
 	gl.renderbufferStorage (gl.RENDERBUFFER, gl.RGBA4,
-		gl.drawingBufferWidth, gl.drawingBufferHeight);  
+		gl.drawingBufferWidth, gl.drawingBufferHeight);
 	gl.framebufferRenderbuffer (gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
 		gl.RENDERBUFFER, this.screenBuffer);
-	
+
 	// back buffer
 	gl.bindRenderbuffer (gl.RENDERBUFFER, this.backBuffer);
-	gl.renderbufferStorage (gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, 
+	gl.renderbufferStorage (gl.RENDERBUFFER, gl.DEPTH_COMPONENT16,
 		gl.drawingBufferWidth, gl.drawingBufferHeight);
 	gl.framebufferRenderbuffer (gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT,
 		gl.RENDERBUFFER, this.backBuffer);
-	
+
 	gl.bindRenderbuffer (gl.RENDERBUFFER, null);
 	gl.bindFramebuffer (gl.FRAMEBUFFER, null);
 };
@@ -290,7 +290,7 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
 		this.mousePosOnPress[0] = event.layerX;
 		this.mousePosOnPress[1] = event.layerY;
 	}
-	
+
 	// draw the scene for picking
 	this.container.draw (this.glContext, true, this.backBuffer);
 	var color = new Uint8Array (4);
@@ -300,7 +300,7 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
 		this.glContext.RGBA, this.glContext.UNSIGNED_BYTE, color
 	);
 //	console.log (colorToPos (color, new Vector (31 ,31, 31)).toString ());
-	
+
 	// redraw correctly the scene
 	this.container.draw (this.glContext, false, this.screenBuffer);
 };

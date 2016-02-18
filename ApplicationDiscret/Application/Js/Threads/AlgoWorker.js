@@ -5,7 +5,7 @@ AlgoWorker.prototype.constructor = AlgoWorker;
  * A ExplicitAlgo1Worker contains a nomber of workers that will
  * compute the surface with the Explicit algo with no optimization.
  * 
- * @param {Equation} meridianCurve - The equation for the meridian.
+ * @param {Equation | DrawnCurve} meridianCurve - The equation for the meridian.
  * @param {Equation} revolutionCurve - The equation for the revolution curve.
  * @param {Vector} dimension - The space dimensions.
  * @param {Surface} surface - The surface to draw.
@@ -36,10 +36,14 @@ function AlgoWorker (meridianCurve, revolutionCurve, dimension, surface){
 	 */
 	this.newVoxels = true;
 	
+	if (meridianCurve instanceof Equation){
+		this.meridianCurve = meridianCurve.toStringNoParam();
+	} else if (meridianCurve instanceof DrawnCurve){
+		this.meridianCurve = [meridianCurve.xList, meridianCurve.yList];
+	}
 	
-	this.meridianCurve = meridianCurve.toStringNoParam();
-	this.revolutionCurve = revolutionCurve.toStringNoParam();
-	this.dim = dimension.m;
+	this.revolutionCurve = (revolutionCurve ? revolutionCurve.toStringNoParam() : "");
+	this.dim = (dimension ? dimension.m : null);
 }
 
 //##############################################################################
@@ -67,11 +71,3 @@ AlgoWorker.prototype.readBuffer = function (buffer, size) {
 };
 
 
-/**
- * This method tells whether the algorithm finished computing.
- * 
- * @return {boolean} true if the algorithm finished.
- */
-AlgoWorker.prototype.readBuffer = function (buffer, size) {
-	return this.finished;
-};
