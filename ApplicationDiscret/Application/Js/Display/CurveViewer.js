@@ -45,14 +45,14 @@ function CurveViewer (canvas, curveController) {
 	 * {Controller2D} TODO
 	 */
 	this.controller = curveController;
-	
+
 	/**
 	 * {float[2]} Last mouse position where a point was added (in % of
 	 * width/height). If -1, there are not last point. TODO vérifier anglais
 	 */
 	this.lastMousePos = [-1, -1];
-	
-	
+
+
 	// initialisation
 	this.initCanvasEvent ();
 };
@@ -118,22 +118,22 @@ CurveViewer.prototype.draw = function () {
 /**
  * @static
  * Draw a curve implicit curve.
- * 
+ *
  * @param {ImplicitCurve} obj - The curve to draw.
  * @param {Range} xRange - The inverse image range.
- * 
+ *
  * @return {void}
  */
 CurveViewer.drawImplicit = function (obj, xRange) {
 	/// Let's render
 	var color = "black",
-		width = $('#revolCanvas2').width (), 
-		height = $('#revolCanvas2').height (), 
+		width = $('#revolCanvas2').width (),
+		height = $('#revolCanvas2').height (),
 		min = Math.min (
 			$('#revolCanvas2').width (),
 			$('#revolCanvas2').height ()
 		);
-		
+
 	functionPlot ({
 		target: '#revolCanvas2',
 		width : $('#revolCanvas2').width (),
@@ -159,10 +159,10 @@ CurveViewer.drawImplicit = function (obj, xRange) {
 
  * @static
  * Draw a curve explicit curve.
- * 
+ *
  * @param {ImplicitCurve} obj - The curve to draw.
  * @param {Range} xRange - The inverse image range.
- * 
+ *
  * @return {void}
  */
 CurveViewer.drawExplicit = function (obj, xRange) {
@@ -196,12 +196,12 @@ CurveViewer.drawExplicit = function (obj, xRange) {
 /**
  * @static
  * Draw a free hand curve.
- * 
+ *
  * @param {DrawnCurve} obj - The curve to draw.
  * @param {Range} xRange - The inverse image range.
  * @param {Range} yRange - The image range.
  * @param {Range} glContext - The gl context.
- * 
+ *
  * @return {void}
  */
 CurveViewer.drawFreeHand = function (curve, xRange, yRange, glContext) {
@@ -209,20 +209,32 @@ CurveViewer.drawFreeHand = function (curve, xRange, yRange, glContext) {
 	var x = curve.getXList (),
 		y = curve.getYList ();
 	var len = x.length;
-	
+
 	if (len > 0) {
 		glContext.beginPath ();
+		glContext.strokeStyle = "black";
 		glContext.moveTo (
-			x[0] * glContext.canvas.width / xRange, 
-			y[0] * glContext.canvas.height / yRange
+			x[0] * glContext.canvas.width / xRange.length(),
+			y[0] * glContext.canvas.height / yRange.length()
 		);
 		for (var i = 1; i < len ; ++i) {
 			glContext.lineTo (
-				x[i] * glContext.canvas.width / xRange,
-				y[i] * glContext.canvas.height / yRange
+				x[i] * glContext.canvas.width / xRange.length(),
+				glContext.canvas.height - 1 - y[i] * glContext.canvas.height / yRange.length()
 			);
 		}
 		glContext.stroke ();
+		for (var i = 1; i < len ; ++i) {
+			glContext.strokeStyle = "red";
+			glContext.strokeRect (
+				x[i] * glContext.canvas.width / xRange.length(),
+				glContext.canvas.height - 1 - y[i] * glContext.canvas.height / yRange.length(),
+				1, 1
+			);
+			// console.log ("draw point at",
+			// 	x[i] * glContext.canvas.width / xRange.length(),
+			// 	glContext.canvas.height - 1 - y[i] * glContext.canvas.height / yRange.length());
+		}
 	}
 };
 
@@ -264,7 +276,7 @@ CurveViewer.prototype.onResize = function (event) {
 /**
  * @override
  * Add a point to the curve and draw it on the screen.
- * 
+ *
  * @param {MouseEvent} event - The mouse event.
  */
 CurveViewer.prototype.onMouseDown = function (event) {
@@ -276,15 +288,20 @@ CurveViewer.prototype.onMouseDown = function (event) {
 /**
  * @override
  * Add a point to the curve and draw it on the screen.
- * 
+ *
  * @param {MouseEvent} event - The mouse event.
  */
 CurveViewer.prototype.onMouseMove = function (event) {
-	if (event.buttons & 1) { // if left button is pressed
+	if ((event.buttons & 1) && (distance ([
+			event.layerX / event.currentTarget.width,
+			event.layerY / event.currentTarget.height
+		],
+		this.lastMousePos) > 0.02))
+	{ // if left button is pressed
 		this.drawLastSegment (
-			event.layerX, 
-			event.layerY, 
-			event.currentTarget.width, 
+			event.layerX,
+			event.layerY,
+			event.currentTarget.width,
 			event.currentTarget.height
 		);
 	}
@@ -295,7 +312,7 @@ CurveViewer.prototype.onMouseMove = function (event) {
 /**
  * @override
  * TODO
- * 
+ *
  * @param {MouseEvent} event - The mouse event.
  */
 CurveViewer.prototype.onMouseUp = function (event) {
@@ -311,7 +328,7 @@ CurveViewer.prototype.onMouseUp = function (event) {
 
 /**
  * TODO
- * 
+ *
  * @return {void}
  */
 CurveViewer.prototype.initCanvasEvent = function () {
@@ -327,24 +344,24 @@ CurveViewer.prototype.initCanvasEvent = function () {
  * TODO
  */
 CurveViewer.prototype.drawLastSegment = function (x, y) {
-	/// add point 
+	/// add point
 	this.controller.addPoint (
 		x,
-		this.glContext.canvas.height - 1 - y, 
+		this.glContext.canvas.height - 1 - y,
 		new Vector (
 			this.glContext.canvas.width, this.glContext.canvas.height, 0
-		), 
+		),
 		new Vector (
 			parseInt ($("#dimy").val ()), parseInt ($("#dimz").val ()), 0
 		)
 	);
-	
+
 	if (this.lastMousePos[0] != -1) { // there is an other point
 		/// draw it
 		var ctx = this.glContext;
 		ctx.beginPath ();
 		ctx.moveTo (
-			this.lastMousePos[0] * this.glContext.canvas.width, 
+			this.lastMousePos[0] * this.glContext.canvas.width,
 			this.lastMousePos[1] * this.glContext.canvas.height
 		);
 		ctx.lineTo (x, y);
@@ -354,6 +371,3 @@ CurveViewer.prototype.drawLastSegment = function (x, y) {
 	this.lastMousePos[0] = x / this.glContext.canvas.width;
 	this.lastMousePos[1] = y / this.glContext.canvas.height;
 };
-
-
-
