@@ -228,11 +228,11 @@ function Application () {
  * @return {void}
  */
 Application.prototype.computationFinished = function () {
-	if(this.surfaceController.newVoxels()){
+	if (this.surfaceController.newVoxels()){
 		//this.surfaceController.voxelsRead();
 		//this.surfaceView.show ();
 	}
-	if (! this.surfaceController.isAlgoFinished ()){
+	if (! this.surfaceController.isAlgoFinished ()) {
 		setTimeout (this.computationFinished.bind (this), 1000);
 	}
 	else {
@@ -250,7 +250,7 @@ Application.prototype.computationFinished = function () {
  * @return {void}
  */
 Application.prototype.generateAndDraw = function (mode) {
-	this.showMessage ("Computing...", 0, "blue");
+	this.showMessage ("Computing...", 0, "#04E");
 	var dimX = document.getElementById ("dimx").value;
 	var dimY = document.getElementById ("dimy").value;
 	var dimZ = document.getElementById ("dimz").value;

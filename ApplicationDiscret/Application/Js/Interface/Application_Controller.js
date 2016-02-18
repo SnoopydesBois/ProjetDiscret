@@ -149,13 +149,31 @@ Application.prototype.getAllParameters = function (name) {
  * @param {String} mode - The selected mode.
  */
 Application.prototype.changeMeridianMode = function (mode) {
+	$("#primitive").hide ();
+	$("#handFree").hide ();
+	$("#formula").hide ();
+	
 	if (mode === "primitive") {
 		$("#meridianCanvas").hide (); // hide the div
 		$("#meridianCanvas2").show (); // display the canvas
+		
+		$("#" + mode).show ();
 	}
-	else {
+	else if (mode === "handFree") {
 		$("#meridianCanvas2").hide ();
 		$("#meridianCanvas").show ();
+		
+		$("#" + mode).show ();
+	}
+	else if (mode === "formula") {
+		$("#meridianCanvas2").hide ();
+		$("#meridianCanvas").show ();
+		
+		$("#" + mode).show ();
+	}
+	else {
+		console.error ("Application.changeMeridianMode: unkown given mode:",
+			mode);
 	}
 
 };
