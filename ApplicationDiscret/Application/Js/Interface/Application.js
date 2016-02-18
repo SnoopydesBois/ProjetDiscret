@@ -138,6 +138,11 @@ function Application () {
 	this.revolController = new Controller2D (-1.1, 1.1, -1.1, 1.1);
 
 	/**
+	 * {Controller3D} TODO
+	 */
+	this.exportController = new ControllerExport("surfaceCanvas", "meridianCanvas2", "revolCanvas2");
+	
+	/**
 	 * {HTMLCanvasElement} TODO
 	 */
 	this.surfaceView = new SurfaceViewer (

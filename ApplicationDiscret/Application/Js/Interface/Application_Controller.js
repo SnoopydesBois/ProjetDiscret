@@ -138,3 +138,52 @@ Application.prototype.getAllParameters = function (name) {
 };
 
 
+//==============================================================================
+/**
+ *
+ */
+Application.prototype.export3DPng = function(){
+	this.exportController.export3DPng(this.surfaceView);
+}
+
+
+//==============================================================================
+/**
+ *
+ */
+Application.prototype.exportMeridianPng = function(){
+	this.exportController.exportMeridianPng();
+}
+
+
+//==============================================================================
+/**
+ *
+ */
+Application.prototype.exportRevolutionPng = function(){
+	this.exportController.exportRevolutionPng();
+}
+
+
+//==============================================================================
+/**
+ *
+ */
+Application.prototype.exportX3D = function(){
+	// console.log(this.surfaceView);
+	if(this.surfaceView.getSurfaceRenderer().getSurface() == null){
+		return;
+	}
+	this.exportController.exportX3D(this.surfaceView.getSurfaceRenderer().getSurface());
+}
+
+//==============================================================================
+/**
+ *
+ */
+Application.prototype.exportSTL = function(){
+	if(this.surfaceView.getSurfaceRenderer() == null){
+		return;
+	}
+	this.exportController.exportSTL(this.surfaceView.getSurfaceRenderer());
+};

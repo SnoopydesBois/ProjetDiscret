@@ -87,6 +87,10 @@ SurfaceRenderer.counter = -2;
 /**
  *
  */
+SurfaceRenderer.getCurrentSurfaceName = function () {
+	return "surface" + SurfaceRenderer.counter;
+};
+
 SurfaceRenderer.getLastSurfaceName = function () {
 	return "surface" + (SurfaceRenderer.counter - 1);
 };
@@ -189,6 +193,14 @@ SurfaceRenderer.prototype.getModelController = function () {
 	return this.modelController;
 };
 
+
+//==============================================================================
+/**
+ * @return {Surface} The surface used by the renderer. 
+ */
+SurfaceRenderer.prototype.getSurface = function(){
+	return this.modelController.getSurface();
+};
 
 
 //##############################################################################
@@ -335,10 +347,10 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 /**
  *
  */
-SurfaceRenderer.prototype.prepareX3D = function (gl, connexity, indiceBuffer, vertexBuffer) {
+SurfaceRenderer.prototype.prepareSTL = function (connexity, indicesBuffer, vertexBuffer) {
 	/// parameters verification
-	if (! checkType (arguments, WebGLRenderingContext, "number", "number")) {
-		throw "SurfaceRenderer.prepare: bad type(s) of parameter(s)";
+	if (! checkType (arguments, "number", Array, Array)) {
+		throw "SurfaceRenderer.prepareSTL: bad type(s) of parameter(s)";
 	}
 	this.cptPreparedVertex = 0;
 

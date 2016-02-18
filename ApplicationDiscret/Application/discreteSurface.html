@@ -92,9 +92,11 @@
 		<script type="text/javascript" src="Js/Controllers/Controller2DMeridian.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller3D.js"></script>
 		<script type="text/javascript" src="Js/Controllers/ControllerCamera.js"></script>
+		<script type="text/javascript" src="Js/Controllers/ControllerExport.js"></script>
 
 		<script type="text/javascript" src="Js/Functionalities/ModelGen.js"></script>
 		<script type="text/javascript" src="Js/Functionalities/ModelCurve.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/ModelExport.js"></script>
 		<script type="text/javascript" src="Js/Functionalities/ModelParameter.js"></script>
 
 		<script type="text/javascript" src="Js/Display/SurfaceRenderer.js"></script>
@@ -312,7 +314,6 @@
 					<li><a id="download" key="m41" class="tr" onclick="appli.export3DPng()">Exporter surface 3D</a></li>
 					<li><a id="downloadMeridian" key="m41" class="tr" onclick="appli.exportMeridianPng()">Exporter méridienne</a></li>
 					<li><a id="downloadRevolution" key="m41" class="tr" onclick="appli.exportRevolutionPng()">Exporter courbe de révolution</a></li>
-					<li><a id="downloadX3D" key="m41" class="tr" onclick="appli.exportX3D()">Exporter au format x3D</a></li>
 
 					<li class="split"><hr/></li>
 
@@ -321,8 +322,8 @@
 						title="Outils 3D">
 						<h1 key="m42" class="tr">Export 3D</h1>
 						<ul>
-							<li key="m421" class="tr">Export X3D</li>
-							<li key="m422" class="tr">Export impression 3D</li>
+							<li key="m421" class="tr" onclick="appli.exportX3D()">Export X3D</li>
+							<li key="m422" class="tr" onclick="appli.exportSTL()">Export impression 3D</li>
 						</ul>
 					</li>
 				</ul>
@@ -469,13 +470,13 @@
 			var appli = new Application ();
 
 			var gl = appli.surfaceView.glContext;
-			var n64 = new N64 (gl, 10, 11);
+			var n64 = new N64 (gl, 1, 1);
 			//var s = n64.modelController.modelGen.surface
 			//appli.surfaceView.container.addObject (n64);
 			//globalParam.cubeColorDebug = true;
 
 			appli.initAppli ();
-
+			
 			
 		</script>
 	</body>

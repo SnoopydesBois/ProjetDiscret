@@ -21,4 +21,3 @@ var ConnexityEnum = Object.freeze ({
 	ALL  : 7
 });
 
-

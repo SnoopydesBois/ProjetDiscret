@@ -485,9 +485,9 @@ SurfaceViewer.prototype.computeCamera = function () {
  * generated surface (i.e. not the repere, not the bounding box but the third
  * object).
  */
-SurfaceViewer.prototype.getSurface = function () {
+SurfaceViewer.prototype.getSurfaceRenderer = function () {
 	return this.container.getObjectByName (
-		SurfaceRenderer.getLastSurfaceName ()
+		SurfaceRenderer.getCurrentSurfaceName ()
 	);
 };
 

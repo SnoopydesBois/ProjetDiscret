@@ -97,11 +97,11 @@ var requestAnimFrame = (function () {
 })();
 
 
-DrawnCurve.prototype.interpol = function(t, ){
+// DrawnCurve.prototype.interpol = function(t, ){
 /*Ca c'est la méthode d'interpolation linéaire.
 Quand t<1, on prend la 1ère valeur de la liste.
 Quand t est trop grand, on prend la dernière valeur de la liste.
 Sinon, dans tous les autres cas (ligne True), on prend la valeur de la liste de la case Floor[t], y1 de la case Floor[t+1]
 et on interpole la valeur que l'on voudrait avoir pour t : (1 - t2)*y0 + t2*y1
 avec t2 = t-floor[t], qui a la partie fractionnaire de t. */
-}
+// }
