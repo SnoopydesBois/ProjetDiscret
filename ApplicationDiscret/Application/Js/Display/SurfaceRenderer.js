@@ -87,6 +87,10 @@ SurfaceRenderer.counter = -2;
 /**
  *
  */
+SurfaceRenderer.getCurrentSurfaceName = function () {
+	return "surface" + SurfaceRenderer.counter;
+};
+
 SurfaceRenderer.getLastSurfaceName = function () {
 	return "surface" + (SurfaceRenderer.counter - 1);
 };
@@ -189,6 +193,14 @@ SurfaceRenderer.prototype.getModelController = function () {
 	return this.modelController;
 };
 
+
+//==============================================================================
+/**
+ * @return {Surface} The surface used by the renderer. 
+ */
+SurfaceRenderer.prototype.getSurface = function(){
+	return this.modelController.getSurface();
+};
 
 
 //##############################################################################
@@ -330,6 +342,50 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 	this.prepared = true; // FIXME
 };
 
+
+//==============================================================================
+/**
+ *
+ */
+SurfaceRenderer.prototype.prepareSTL = function (connexity, indicesBuffer, vertexBuffer) {
+	/// parameters verification
+	if (! checkType (arguments, "number", Array, Array)) {
+		throw "SurfaceRenderer.prepareSTL: bad type(s) of parameter(s)";
+	}
+	this.cptPreparedVertex = 0;
+
+	var size = this.modelController.getDimension ();
+
+	var colorBuffer = [];
+	var backColorBuffer = [];
+
+	var tmp;
+
+	// 2 triangles per faces
+	// No triangles strips because there are a lot of degenerated triangles
+	var surface = this.modelController.getSurface ();
+	for (var x = 0; x < size.x; ++x) {
+		for (var y = 0; y < size.y; ++y) {
+			for (var z = 0; z < size.z; ++z) {
+				voxel = surface.getVoxel (x, y, z);
+				if (voxel != null && voxel.isVisible (connexity))
+				{
+					this.prepareVoxel (
+						voxel,
+						connexity,
+						0.5,
+						vertexBuffer,
+						indicesBuffer,
+						colorBuffer,
+						backColorBuffer,
+						[0.8, 0.8, 0.8, 1],
+						size
+					);
+				} // end if
+			} // end for z
+		} // end for y
+	} // end for x
+};
 
 //==============================================================================
 /**

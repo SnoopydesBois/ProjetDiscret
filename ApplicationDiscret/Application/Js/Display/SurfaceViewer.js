@@ -485,17 +485,18 @@ SurfaceViewer.prototype.computeCamera = function () {
  * generated surface (i.e. not the repere, not the bounding box but the third
  * object).
  */
-SurfaceViewer.prototype.getSurface = function () {
+SurfaceViewer.prototype.getSurfaceRenderer = function () {
 	return this.container.getObjectByName (
-		SurfaceRenderer.getLastSurfaceName ()
+		SurfaceRenderer.getCurrentSurfaceName ()
 	);
 };
 
 
-
 //==============================================================================
 /**
- * @return {float[]} The image data.
+ * @param {int} width - The width of the canvas from which we get the data
+ * @param {int} height - The height of the canvas from which we get the data
+ * @return {float[]} the image data
  */
 SurfaceViewer.prototype.getImgData = function (width, height) {
 	// Bind the frame framebuffer and the depth buffer for the color rendering
@@ -525,6 +526,9 @@ SurfaceViewer.prototype.getImgData = function (width, height) {
 
 
 //==============================================================================
+/**
+ * Reverse the data in the array
+ */
 SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
 
 	var pixel = [];

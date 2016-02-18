@@ -34,6 +34,7 @@
 		<script type="text/javascript" src="Js/Libraries/jquery-ui.js"></script>
 
 		<script type="text/javascript" src="Js/Libraries/jszip.js"></script>
+		<script type="text/javascript" src="Js/Libraries/saveSvgAsPng.js"></script>
 		<script type="text/javascript" src="Js/Libraries/FileSaver.js"></script>
 		<script type="text/javascript" src="Js/Libraries/webgl-debug.js"></script>
 
@@ -95,9 +96,11 @@
 		<script type="text/javascript" src="Js/Controllers/Controller2DMeridian.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller3D.js"></script>
 		<script type="text/javascript" src="Js/Controllers/ControllerCamera.js"></script>
+		<script type="text/javascript" src="Js/Controllers/ControllerExport.js"></script>
 
 		<script type="text/javascript" src="Js/Functionalities/ModelGen.js"></script>
 		<script type="text/javascript" src="Js/Functionalities/ModelCurve.js"></script>
+		<script type="text/javascript" src="Js/Functionalities/ModelExport.js"></script>
 		<script type="text/javascript" src="Js/Functionalities/ModelParameter.js"></script>
 		<script type="text/javascript" src="Js/Functionalities/ModelDraw.js"></script>
 
@@ -313,7 +316,9 @@
 				<h1 key="m4" class="tr">Export</h1>
 				<ul>
 
-					<li><a id="download" key="m41" class="tr">Télecharger comme image</a></li>
+					<li><a id="download" key="m41" class="tr" onclick="appli.export3DPng()">Exporter surface 3D</a></li>
+					<li><a id="downloadMeridian" key="m41" class="tr" onclick="appli.exportMeridianPng()">Exporter méridienne</a></li>
+					<li><a id="downloadRevolution" key="m41" class="tr" onclick="appli.exportRevolutionPng()">Exporter courbe de révolution</a></li>
 
 					<li class="split"><hr/></li>
 
@@ -322,8 +327,8 @@
 						title="Outils 3D">
 						<h1 key="m42" class="tr">Export 3D</h1>
 						<ul>
-							<li key="m421" class="tr">Export X3D</li>
-							<li key="m422" class="tr">Export impression 3D</li>
+							<li key="m421" class="tr" onclick="appli.exportX3D()">Export X3D</li>
+							<li key="m422" class="tr" onclick="appli.exportSTL()">Export impression 3D</li>
 						</ul>
 					</li>
 				</ul>
@@ -537,6 +542,7 @@
 		var appli = new Application ();
 
 			var gl = appli.surfaceView.glContext;
+
 			var n64 = new N64 (gl, 3, 3);
 			//var s = n64.modelController.modelGen.surface
 			//appli.surfaceView.container.addObject (n64);
@@ -579,22 +585,7 @@
 			 * courbe 5 = hyperbole
 			 * courbe 7 : voir http://www.mathcurve.com/courbes2d/salmon/salmon.shtml
 			 */
-			/// PNG test
-			var surfaceCanvas = document.getElementById('surfaceCanvas'),
-				ctx = surfaceCanvas.getContext('2d');
 
-
-			function downloadsurfaceCanvas(link, surfaceCanvasId, filename) {
-				link.href = appli.exportPng();
-				link.download = filename;
-			}
-
-
-			document.getElementById('download').addEventListener('click', function() {
-				downloadsurfaceCanvas(this, 'surfaceCanvas', 'curve.png');
-			}, false);
-
-		
 			
 		</script>
 	</body>

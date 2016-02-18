@@ -142,7 +142,8 @@ function Application () {
 	 * {Controller2DMeridian} TODO
 	 */
 	this.meridianController = new Controller2DMeridian (-1, 1, -1, 1);
-
+	
+	
 	/**
 	 * {CurveViewer} TODO
 	 */
@@ -205,6 +206,12 @@ function Application () {
 	
 	
 		/// Other ///
+	
+	
+	/**
+	 * {ControllerExport} TODO
+	 */
+	this.exportController = new ControllerExport("surfaceCanvas", "meridianCanvas2", "revolCanvas2");
 	
 	
 	/**
