@@ -381,15 +381,25 @@
 							onchange="appli.changeMeridianMode (this.value)">
 							<option key="" class="tr" value="primitive">Prédéfinie</option>
 							<option key="" class="tr" value="handFree">Dessin</option>
+							<option key="" class="tr" value="formula">Formule</option>
 						</select>
 
-						<span id="meridianModeOption">
-							<select id="listMeridians" name="listMeridians"
-								onchange="appli.changeMeridian (this.value)">
-								<option value="Line" key="mer3" class="tr">Ligne</option>
-								<option value="Sinusoid" key="mer4" class="tr">Sinusoid</option>
-							</select>
-						</span>
+						<ul id="meridianModeOption">
+							<li id="primitive">
+								<select id="listMeridians" name="listMeridians"
+									onchange="appli.changeMeridian (this.value)">
+									<option value="Line" key="mer3" class="tr">Ligne</option>
+									<option value="Sinusoid" key="mer4" class="tr">Sinusoid</option>
+								</select>
+							</li>
+							
+							<li id="handFree" style="display : none; background-color : red">
+								<button id="" class="tr" onclick="appli.clearDraw ()">Éffacer</button>
+							</li>
+							
+							<li id="formula" style="display : none; background-color : green">
+							</li>
+						</ul>
 					</div>
 				</div>
 
@@ -472,15 +482,16 @@
 					</div>
 					<button onClick="appli.show (true)">Modifier</button>
 					
-		<div>												       
-		<center> <form >
-            <p>Entrez Equation de courbe</p>
-            <input type="text" name="recup_equation" /><br /><br />
-            <input type="submit" onclick="recuperer();"  value="OK" />						
-        </form>
-		</center>
-</div>
-					
+					<div>												       
+						<center>
+								<form>
+									<p>Entrez Equation de courbe</p>
+									<input type="text" name="recup_equation"/><br/><br/>
+									<input type="submit" onclick="recuperer();" value="OK"/>						
+								</form>
+						</center>
+					</div>
+	
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>
@@ -500,7 +511,6 @@
 							<option value="1">C26</option>
 							<option value="2">C18</option>
 							<option value="4">C6</option>
-							<option value="31">+/-</option>
 						</select>
 					</div>
 
@@ -531,15 +541,6 @@
 
 		
 		<script type="text/javascript">
-			function recuperer()
-        {
-			var rec = document.getElementById("recup_equation").value;
-            alert(rec);
-		}	
-		</script>
-		
-		<script type="text/javascript">
-		
 		var appli = new Application ();
 
 			var gl = appli.surfaceView.glContext;

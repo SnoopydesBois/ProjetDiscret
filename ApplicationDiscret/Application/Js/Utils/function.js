@@ -92,6 +92,17 @@ function angle (x, y) {
 }
 
 
+//==============================================================================
+/**
+ * TODO
+ */
+function distance (pa, pb) {
+	var len = pa.length, sum = 0;
+	for (var i = 0; i < len; i++) {
+		sum += (pb[i] - pa[i]) * (pb[i] - pa[i]);
+	}
+	return Math.sqrt (sum);
+}
 
 //##############################################################################
 //	Convertion

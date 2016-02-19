@@ -36,6 +36,11 @@
 }
 
 
+#curvesView .optionPanel > * {
+	display : inline-block;
+}
+
+
 .paramPanel {
 	top : 0;
 	left : 0;
@@ -55,10 +60,13 @@
 	border-top : 1px solid gray;
 }
 
+
+
 .paramPanel div.wrapper,
 .optionPanel div.wrapper {
 	position: static !important;
 }
+
 
 #curvesView canvas, #meridianCanvas2, #revolCanvas2 {
 	top : 0;
