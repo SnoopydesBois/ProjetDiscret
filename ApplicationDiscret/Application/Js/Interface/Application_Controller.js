@@ -201,10 +201,12 @@ Application.prototype.changeMeridianMode = function (mode) {
 	if (mode === "primitive") {
 		$("#meridianCanvas").hide (); // hide the div
 		$("#meridianCanvas2").show (); // display the canvas
+		this.exportController.setIdMeridian("meridianCanvas2");
 	}
 	else {
 		$("#meridianCanvas2").hide ();
 		$("#meridianCanvas").show ();
+		this.exportController.setIdMeridian("meridianCanvas");
 	}
 
 };

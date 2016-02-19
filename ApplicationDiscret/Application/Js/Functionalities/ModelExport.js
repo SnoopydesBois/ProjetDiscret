@@ -170,7 +170,7 @@ ModelExport.prototype.exportX3D = function(surface){
 		
 	var blob = new Blob([x3D], {type: "text/xml"});
 
-	saveAs(blob, "surfaceX3d");
+	saveAs(blob, "surfaceX3d.x3d");
 	
 }
 
@@ -199,8 +199,24 @@ ModelExport.prototype.exportRevolutionPng = function(){
  * @param {String} id - The name of the div containing the svg to save
  */
 ModelExport.prototype.getImg2DData = function(id, name){
-	// To modify to use canvas if handfree mode is in use
-	saveSvgAsPng(document.querySelector("#" + id + '>svg'), name);	
+	// If there is no svg, document.querySelector return false. It happens when we are working on the canvas (hand free drawing)
+	var svgElement = document.querySelector("#" + id + '>svg');
+	if(svgElement == null){
+		var canvas = document.querySelector("#" + id);
+		var width = canvas.width;
+		var height = canvas.height
+		var context = canvas.getContext("2d");
+		
+		var imageData = context.getImageData(0,0, width, height);
+				
+		canvas.toBlob(function(blob) {
+			saveAs(blob, "meridian.png");
+		});
+	}
+	else{
+		// To modify to use canvas if handfree mode is in use
+		saveSvgAsPng(svgElement, name);
+	}
 }
 
 
@@ -255,11 +271,12 @@ ModelExport.prototype.exportSTL = function(renderer){
 
 	// Retrieving the coordinates
 	var vertexBuffer = [];
+	
 	var indicesBuffer = [];
 
-	renderer.prepareSTL(this.connexity, vertexBuffer, indicesBuffer);
+	renderer.prepareSTL(this.connexity, indicesBuffer, vertexBuffer);
 	
-	var nbTriangles = vertexBuffer.length/3;
+	var nbTriangles = indicesBuffer.length/3;
 	// Creation of the buffer containing the data for the stl
 	
 	/* UINT8[80] – Header
@@ -272,7 +289,7 @@ ModelExport.prototype.exportSTL = function(renderer){
 		REAL32[3] – Vertex 3
 		UINT16 – Attribute byte count
 	*/
-	var sizeTriangles = 50 * indicesBuffer.length;
+	var sizeTriangles = 50 * nbTriangles;
 	
 	var buffer = new ArrayBuffer(headerOffset + sizeTriangles);
 
@@ -282,35 +299,32 @@ ModelExport.prototype.exportSTL = function(renderer){
 	var offset = 80; // For the STL header 
 		
 		
-    dataview.setUint32(offset, indicesBuffer.length, isLittleEndian);
+    dataview.setUint32(offset, nbTriangles, isLittleEndian);
 	offset += 4;
 	
-	for(var i = 0; i < indicesBuffer.length; i++){
-		// Write data of normal (unused)
+	for(var i = 0; i < indicesBuffer.length; i+=3){
 		dataview.setFloat32(offset, 0.0, isLittleEndian);
 		offset += 4; // size of float in bytes
 		dataview.setFloat32(offset, 0.0, isLittleEndian);
 		offset += 4;
 		dataview.setFloat32(offset, 0.0, isLittleEndian);
 		offset += 4;
-
-		// Write each vertex data
-		dataview.setFloat32(offset, vertexBuffer[indicesBuffer[i]], isLittleEndian);
-		offset += 4;
-		dataview.setFloat32(offset, vertexBuffer[indicesBuffer[i]+1]+1, isLittleEndian);
-		offset += 4;
-		dataview.setFloat32(offset, vertexBuffer[indicesBuffer[i]+2]+2, isLittleEndian);
-		offset += 4;
-		
+		// console.log("======================");
+		for(var p =  0; p < 3; p++){
+			for(var c = 0; c < 3; c++){
+				// console.log(indicesBuffer[i+p]*3 +c);
+				dataview.setFloat32(offset, vertexBuffer[indicesBuffer[i+p]*3+c], isLittleEndian);
+				// console.log ("triangle n°", i/3, "point", p, "coord", c);
+				// console.log("Coord", vertexBuffer[indicesBuffer[i+p]*3+c]);
+				offset += 4;
+			}
+		}
 		
 		offset += 2; // ignore byte count attribute
 	}
 	
 	var blob = new Blob([dataview], {type: 'application/octet-binary'});
     
-	// console.log(vertexBuffer.length);
-	// console.log(nbTriangles);
-	// console.log(indicesBuffer.length);
     // FileSaver.js defines `saveAs` for saving files out of the browser
     saveAs(blob, "surfaceSTL.stl");
 }

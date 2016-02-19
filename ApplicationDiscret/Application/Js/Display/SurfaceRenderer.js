@@ -352,14 +352,8 @@ SurfaceRenderer.prototype.prepareSTL = function (connexity, indicesBuffer, verte
 	if (! checkType (arguments, "number", Array, Array)) {
 		throw "SurfaceRenderer.prepareSTL: bad type(s) of parameter(s)";
 	}
-	this.cptPreparedVertex = 0;
 
 	var size = this.modelController.getDimension ();
-
-	var colorBuffer = [];
-	var backColorBuffer = [];
-
-	var tmp;
 
 	// 2 triangles per faces
 	// No triangles strips because there are a lot of degenerated triangles
@@ -368,17 +362,16 @@ SurfaceRenderer.prototype.prepareSTL = function (connexity, indicesBuffer, verte
 		for (var y = 0; y < size.y; ++y) {
 			for (var z = 0; z < size.z; ++z) {
 				voxel = surface.getVoxel (x, y, z);
-				if (voxel != null && voxel.isVisible (connexity))
-				{
+				if (voxel != null && voxel.isVisible (connexity)) {
 					this.prepareVoxel (
 						voxel,
 						connexity,
 						0.5,
 						vertexBuffer,
 						indicesBuffer,
-						colorBuffer,
-						backColorBuffer,
-						[0.8, 0.8, 0.8, 1],
+						[],
+						[],
+						[0, 0, 0, 0],
 						size
 					);
 				} // end if
