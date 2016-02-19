@@ -143,7 +143,7 @@ Application.prototype.getAllParameters = function (name) {
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 Application.prototype.export3DPng = function(){
 	this.exportController.export3DPng(this.surfaceView);
@@ -152,7 +152,7 @@ Application.prototype.export3DPng = function(){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 Application.prototype.exportMeridianPng = function(){
 	this.exportController.exportMeridianPng();
@@ -161,7 +161,7 @@ Application.prototype.exportMeridianPng = function(){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 Application.prototype.exportRevolutionPng = function(){
 	this.exportController.exportRevolutionPng();
@@ -170,7 +170,7 @@ Application.prototype.exportRevolutionPng = function(){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 Application.prototype.exportX3D = function(){
 	// console.log(this.surfaceView);
@@ -182,7 +182,7 @@ Application.prototype.exportX3D = function(){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 Application.prototype.exportSTL = function(){
 	if(this.surfaceView.getSurfaceRenderer() == null){
@@ -199,7 +199,7 @@ Application.prototype.exportSTL = function(){
  */
 Application.prototype.changeMeridianMode = function (mode) {
 	$("#primitive").hide ();
-	$("#handFree").hide ();
+	$("#freeHand").hide ();
 	$("#formula").hide ();
 	
 	if (mode === "primitive") {
@@ -208,7 +208,7 @@ Application.prototype.changeMeridianMode = function (mode) {
 		
 		$("#" + mode).show ();
 	}
-	else if (mode === "handFree") {
+	else if (mode === "freeHand") {
 		$("#meridianCanvas2").hide ();
 		$("#meridianCanvas").show ();
 		
@@ -224,5 +224,6 @@ Application.prototype.changeMeridianMode = function (mode) {
 		console.error ("Application.changeMeridianMode: unkown given mode:",
 			mode);
 	}
-
 };
+
+

@@ -61,13 +61,11 @@
 
 /**
  * Clamp the number between mini and maxi.
- *
-
+ * 
  * @param {Number} mini - The minimum limit.
  * @param {Number} maxi - The maximum limit.
  * @param {Number} number - The number to clamp between mini and maxi.
- *
-
+ * 
  * @return {Number} 'number' if it is between 'mini' and 'maxi', else 'maxi' or
  * 'mini'.
  */
@@ -104,6 +102,8 @@ function distance (pa, pb) {
 	return Math.sqrt (sum);
 }
 
+
+
 //##############################################################################
 //	Convertion
 //##############################################################################
@@ -126,7 +126,7 @@ function posToColor (voxel, direction, universSize) {
 		voxel.getPosition().z / universSize.z, // blue
 		1.0 - direction / 100 // alpha
 	];
-};
+}
 
 
 //==============================================================================
@@ -147,7 +147,7 @@ function colorToPos (color, universSize) {
 		),
 		Math.round ((1.0 - color[3] / 256) * 100) // alpha -> direction
 	);
-};
+}
 
 
 
@@ -241,7 +241,6 @@ function isA (variable, expectedType) {
 }
 
 
-
 //==============================================================================
 /**
  * TODO
@@ -316,3 +315,5 @@ function switchImage (imgTag) {
 	}
 	imgTag.src = newSrc;
 }
+
+

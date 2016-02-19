@@ -75,7 +75,7 @@ Controller2DMeridian.prototype.getActiveCurve = function () {
 	if (mode === "primitive") {
 		return this.modelCurve.getActiveCurve ();
 	}
-	else if (mode === "handFree") {
+	else if (mode === "freeHand") {
 		return this.modelDraw.getActiveCurve ();
 	}
 	else {
@@ -121,31 +121,6 @@ Controller2DMeridian.prototype.newFreeHand = function (dim, coord) {
 
 	/// set a new curve
 	throw "Controller2DMeridian.newFreeHand: this function is not implemented";
-};
-
-
-//==============================================================================
-/**
- * Add a point to the current drawn curve. Transform x/y coordinates on the
- * canvas to y/z coordinates in the 3D space.
- *
- * @param {int} x - X coordinate of the new point (in pixel).
- * @param {int} y - Y coordinate of the new point (in pixel).
- * @param {Vector} canvasSize - Size of the cavas (in pixel).
- * @param {Vector} universSize - Size of the 3D space (in voxel).
- *
- * @return {void}
- */
-Controller2DMeridian.prototype.addPoint = function (x, y, canvasSize,
-	universSize) 
-{
-	/// parameter verification
-	if (! checkType (arguments, "number", "number", Vector, Vector)) {
-		throw "Controller2DMeridian.addPoint: bad type(s) of paramter(s)";
-	}
-
-	/// add the point
-	this.modelDraw.addPoint (x, y, canvasSize, universSize);
 };
 
 
