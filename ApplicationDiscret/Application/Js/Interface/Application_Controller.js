@@ -205,20 +205,23 @@ Application.prototype.changeMeridianMode = function (mode) {
 	if (mode === "primitive") {
 		$("#meridianCanvas").hide (); // hide the div
 		$("#meridianCanvas2").show (); // display the canvas
-		
 		$("#" + mode).show ();
+		
+		this.exportController.setIdMeridian("meridianCanvas2");
 	}
 	else if (mode === "handFree") {
 		$("#meridianCanvas2").hide ();
 		$("#meridianCanvas").show ();
 		
+		this.exportController.setIdMeridian("meridianCanvas");
 		$("#" + mode).show ();
 	}
 	else if (mode === "formula") {
 		$("#meridianCanvas2").hide ();
 		$("#meridianCanvas").show ();
-		
 		$("#" + mode).show ();
+		
+		this.exportController.setIdMeridian("meridianCanvas");
 	}
 	else {
 		console.error ("Application.changeMeridianMode: unkown given mode:",
