@@ -1,4 +1,4 @@
-// LICENCE ////////////////////////////////////////////////////////////////////
+// LICENCE /////////////////////////////////////////////////////////////////////
 
 
 /**
@@ -43,14 +43,14 @@
  */
 
 
-// INDEX //////////////////////////////////////////////////////////////////////
+// INDEX ///////////////////////////////////////////////////////////////////////
 
 
 /* Application ()
  */
 
 
-// CODE ///////////////////////////////////////////////////////////////////////
+// CODE ////////////////////////////////////////////////////////////////////////
 
 
 
@@ -121,14 +121,14 @@ function Application () {
 
 
 		/// Surface ///
-	
+
 	/**
 	 * {SurfaceViewer} TODO
 	 */
 	this.surfaceView = new SurfaceViewer (
 		document.getElementById ("surfaceCanvas")
 	);
-	
+
 	/**
 	 * {Controller3D} TODO
 	 */
@@ -136,14 +136,14 @@ function Application () {
 
 
 		/// Meridian ///
-	
-	
+
+
 	/**
 	 * {Controller2DMeridian} TODO
 	 */
 	this.meridianController = new Controller2DMeridian (-1, 1, -1, 1);
-	
-	
+
+
 	/**
 	 * {CurveViewer} TODO
 	 */
@@ -151,12 +151,12 @@ function Application () {
 		document.getElementById ("meridianCanvas"),
 		this.meridianController
 	);
-	
+
 	/**
 	 * {ParameterViewer} TODO
 	 */
 	this.meridianParameters = new ParameterViewer (
-		'#listMeridianParameters', this.meridianController
+		'#meridianParam', this.meridianController
 	);
 
 	/**
@@ -191,7 +191,7 @@ function Application () {
 	 * {ParameterViewer} TODO
 	 */
 	this.revolutionParameters = new ParameterViewer (
-		'#listRevolutionParameters', this.revolController
+		'#revolParam', this.revolController
 	);
 
 	/**
@@ -203,17 +203,17 @@ function Application () {
 	 * {Function} TODO
 	 */
 	this.getRangeRevolution = null;
-	
-	
+
+
 		/// Other ///
-	
-	
+
+
 	/**
 	 * {ControllerExport} TODO
 	 */
 	this.exportController = new ControllerExport("surfaceCanvas", "meridianCanvas2", "revolCanvas2");
-	
-	
+
+
 	/**
 	 * {String} The default message in the state bar.
 	 */
@@ -300,5 +300,3 @@ Application.prototype.generateAndDraw = function (mode) {
 Application.prototype.show = function (forcePrepare) {
 	this.surfaceView.show (forcePrepare);
 };
-
-

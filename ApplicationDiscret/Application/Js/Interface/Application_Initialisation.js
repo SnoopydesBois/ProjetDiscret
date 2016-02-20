@@ -111,7 +111,7 @@ Application.prototype.initControllers = function () {
 	this.revolController.addCurve ("Curve2", Curve2);
 	this.revolController.addCurve ("Curve3", Curve3);
 	this.revolController.addCurve ("Curve4", Curve4);
-	this.revolController.addCurve ("Curve5", Curve5);
+	this.revolController.addCurve ("Hyperbol", Hyperbol);
 	this.revolController.addCurve ("Curve6", Curve6);
 	this.revolController.addCurve ("Curve7", Curve7);
 	this.revolController.addCurve ("Curve8", Curve8);

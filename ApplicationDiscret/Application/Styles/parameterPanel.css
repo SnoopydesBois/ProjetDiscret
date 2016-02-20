@@ -1,0 +1,62 @@
+/* LICENSE ********************************************************************/
+
+
+/*
+ * TODO
+ */
+
+
+/* CODE ***********************************************************************/
+
+
+#workspace .paramPanel div {
+    position: static;
+}
+
+.paramPanel li {
+    border-bottom: solid 1px black;
+    padding: 0.1em;
+}
+
+.paramPanel input {
+    max-width: 90%;
+    padding: 0;
+    margin: 0.1em 5%;
+    outline: none;
+}
+
+
+.paramPanel .titleParam {
+    margin: 0;
+}
+
+
+.doubleSliders .ui-slider-handle {
+	width : 4px;
+	height : 1.2em;
+	margin-left : -2px;
+    outline: none;
+}
+
+
+.doubleSliders .ui-slider-range {
+    background-color: #49E;
+}
+
+
+.doubleSliders .ui-slider-handle {
+    background-color: #ABC;
+    border-color: #89A;
+}
+
+
+.doubleSliders .ui-slider-handle.ui-state-focus {
+    background-color: #BCD;
+    border-color: #9AB;
+}
+
+
+.doubleSliders .ui-slider-handle.ui-state-hover {
+    background-color: #CDE;
+    border-color: #ABC;
+}

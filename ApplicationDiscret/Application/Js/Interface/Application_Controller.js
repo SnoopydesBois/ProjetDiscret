@@ -201,26 +201,26 @@ Application.prototype.changeMeridianMode = function (mode) {
 	$("#primitive").hide ();
 	$("#freeHand").hide ();
 	$("#formula").hide ();
-	
+
 	if (mode === "primitive") {
 		$("#meridianCanvas").hide (); // hide the div
 		$("#meridianCanvas2").show (); // display the canvas
 		$("#" + mode).show ();
-		
+
 		this.exportController.setIdMeridian("meridianCanvas2");
 	}
 	else if (mode === "freeHand") {
 		$("#meridianCanvas2").hide ();
 		$("#meridianCanvas").show ();
-		
+
 		this.exportController.setIdMeridian("meridianCanvas");
 		$("#" + mode).show ();
 	}
 	else if (mode === "formula") {
-		$("#meridianCanvas2").hide ();
-		$("#meridianCanvas").show ();
+		$("#meridianCanvas").hide ();
+		$("#meridianCanvas2").show ();
 		$("#" + mode).show ();
-		
+
 		this.exportController.setIdMeridian("meridianCanvas");
 	}
 	else {
@@ -228,5 +228,3 @@ Application.prototype.changeMeridianMode = function (mode) {
 			mode);
 	}
 };
-
-

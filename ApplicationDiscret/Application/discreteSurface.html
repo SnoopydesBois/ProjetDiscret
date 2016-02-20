@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-	author : abisutti
-	created : Fri, 18 Dec 2015 14:11:34 +0100
-	modified : Fri, 18 Dec 2015 14:11:34 +0100
--->
 <html lang="fr">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
@@ -77,7 +72,7 @@
 		<script type="text/javascript" src="Curves/Revolution/Curve2.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve3.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve4.js"></script>
-		<script type="text/javascript" src="Curves/Revolution/Curve5.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Hyperbol.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve6.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve7.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve8.js"></script>
@@ -122,28 +117,18 @@
 		<script type="text/javascript" src="Js/Interface/Application_Messages.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_translate.js"></script>
 
 		<script type="text/javascript" src="Js/Objects/N64.js"></script>
 		<!-- <script type="text/javascript" src="Js/Objects/Cube.js"></script> -->
 
-		<!-- Translation -->
-		<script type="text/javascript" src="Js/Interface/Application_translate.js"></script>
-
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
-		<link rel="stylesheet" type="text/css" media="all" href="Styles/temp.css"/>
-		<link rel="stylesheet" type="text/css" media="all" href="Styles/common.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/style.css">
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/parameterPanel.css">
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/surfaceView.css">
-
-
-		<!-- Export 3D en PNG -->
-		<!-- <script src="Export/Export_PNG/jquery.min.js"></script> -->
-		<script src="Export/Export_PNG/d3.v2.js"></script>
-
-
 
 	</head>
 	<body>
@@ -157,7 +142,7 @@
 
 					<li title="Ouvrir un modèle depuis un fichier sur cet ordinateur"
 						onclick="this.firstElementChild.click()" key="m12" class="tr">
-						<input type="file" id="i_file" style="display:none" >Ouvrir</input>
+						<input type="file" id="i_file" style="display:none">Ouvrir</input>
 					</li>
 					<li title="Enregistrer le modèle actuel"
 						onclick="" key="m13" class="tr">Enregistrer</li>
@@ -348,10 +333,8 @@
 			<li id="translatemenu" tabindex="7">
 			<h1>Traduction</h1>
 				<ul>
-					<!-- <div class="lang_switcher">-->
 					<li id="en" class="lang">English</li>
 					<li id="fr" class="lang">Français</li>
-					<!-- </div> -->
 				</ul>
 			</li>
 		</ul><!-- end menus -->
@@ -368,9 +351,9 @@
 
 
 				<div id="meridianView">
-					<div id="meridianParam" class="paramPanel">
-						<div id="listMeridianParameters"></div>
-					</div>
+					<ul id="meridianParam" class="paramPanel">
+						<!-- <div id="listMeridianParameters"></div> -->
+					</ul>
 
 					<canvas id="meridianCanvas" style="display:none"></canvas>
 					<div id="meridianCanvas2"></div>
@@ -392,11 +375,11 @@
 									<option value="Sinusoid" key="mer4" class="tr">Sinusoid</option>
 								</select>
 							</li>
-							
-							<li id="handFree" style="display : none; background-color : red">
+
+							<li id="freeHand" style="display : none; background-color : red">
 								<button id="" class="tr" onclick="appli.clearDraw ()">Effacer</button>
 							</li>
-							
+
 							<li id="formula" style="display : none; background-color : green">
 							</li>
 						</ul>
@@ -410,9 +393,9 @@
 
 
 				<div id="revolView">
-					<div id="revolParam" class="paramPanel">
-						<div id="listRevolutionParameters"></div>
-					</div>
+					<ul id="revolParam" class="paramPanel">
+						<!-- <div id="listRevolutionParameters"></div> -->
+					</ul>
 					<canvas id="revolCanvas" style="display:none"></canvas>
 					<div id="revolCanvas2"></div>
 
@@ -427,7 +410,7 @@
 							<option value="Curve2" key="revol7" class="tr">Curve2</option>
 							<option value="Curve3" key="revol8" class="tr">Curve3</option>
 							<option value="Curve4" key="revol9" class="tr">Curve4</option>
-							<option value="Curve5" key="revol10" class="tr">Curve5</option>
+							<option value="Hyperbol" key="revol10" class="tr">Hyperbol</option>
 							<option value="Curve6" key="revol11" class="tr">Curve6</option>
 							<option value="Curve7" key="revol12" class="tr">Curve7</option>
 							<option value="Curve8" key="revol13" class="tr">Curve8</option>
@@ -435,9 +418,9 @@
 							<option value="Curve10" key="revol15" class="tr">Curve10</option>
 						</select>
 					</div>
-	
+
 				</div>
-		
+
 			</div>
 
 <!--#########################################################################-->
@@ -459,9 +442,6 @@
 						<input type="text" id="amountMaxX"
 							onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
 					</div>
-					
-	
-
 					<div class="wrapper">
 						<label>Dimension Y</label><br/>
 						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
@@ -481,17 +461,17 @@
 							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 					</div>
 					<button onClick="appli.show (true)">Modifier</button>
-					
-					<div>												       
+
+					<div>
 						<center>
-								<form>
-									<p>Entrez Equation de courbe</p>
-									<input type="text" name="recup_equation"/><br/><br/>
-									<input type="submit" onclick="recuperer();" value="OK"/>						
-								</form>
+							<form>
+								<p>Entrez Equation de courbe</p>
+								<input type="text" name="recup_equation"/><br/><br/>
+								<input type="submit" onclick="recuperer();" value="OK"/>
+							</form>
 						</center>
 					</div>
-	
+
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>
@@ -539,7 +519,7 @@
 			<p>Message...</p>
 		</div>
 
-		
+
 		<script type="text/javascript">
 		var appli = new Application ();
 
@@ -584,11 +564,10 @@
 			 * courbe 3, 8 : voir http://www.mathcurve.com/courbes2d/lissajous/lissajous.shtml
 			 * courbe 4 : voir http://www.mathcurve.com/courbes2d/trisectricedeceva/trisectricedeceva.shtml
 			 * 	ou http://www.mathcurve.com/courbes2d/scarabee/scarabee.shtml
-			 * courbe 5 = hyperbole
 			 * courbe 7 : voir http://www.mathcurve.com/courbes2d/salmon/salmon.shtml
 			 */
 
-			
+
 		</script>
 	</body>
 </html>
