@@ -61,11 +61,11 @@
 
 /**
  * Clamp the number between mini and maxi.
- * 
+ *
  * @param {Number} mini - The minimum limit.
  * @param {Number} maxi - The maximum limit.
  * @param {Number} number - The number to clamp between mini and maxi.
- * 
+ *
  * @return {Number} 'number' if it is between 'mini' and 'maxi', else 'maxi' or
  * 'mini'.
  */
@@ -87,19 +87,6 @@ function angle (x, y) {
 	var len = Math.sqrt (x * x + y * y),
 		xNorm = x / len;
 	return (y < 0) ? Math.acos (-xNorm) + Math.PI : Math.acos (xNorm);
-}
-
-
-//==============================================================================
-/**
- * TODO
- */
-function distance (pa, pb) {
-	var len = pa.length, sum = 0;
-	for (var i = 0; i < len; i++) {
-		sum += (pb[i] - pa[i]) * (pb[i] - pa[i]);
-	}
-	return Math.sqrt (sum);
 }
 
 
@@ -288,32 +275,6 @@ function isValueOfEnum (enumeration, value) {
 }
 
 
-
 //##############################################################################
 //	Others
 //##############################################################################
-
-
-
-/**
- * Switch images.
- *
- * @param {String} imgTag - The path to the image.
- */
-function switchImage (imgTag) {
-	var preffix = imgTag.src.slice (0, imgTag.src.lastIndexOf ("/") + 1);
-	var extention = imgTag.src.slice (imgTag.src.lastIndexOf ("."), imgTag.src.length);
-	var name = imgTag.src.slice (preffix.length, imgTag.src.lastIndexOf ("."));
-	var newSrc;
-	if (name.lastIndexOf ("_") == -1) {
-		// select
-		newSrc = "Img/" + name + "_Select" + extention;
-	}
-	else {
-		// unselect
-		newSrc = "Img/" + name.slice (0, name.indexOf ("_Select")) + extention;
-	}
-	imgTag.src = newSrc;
-}
-
-

@@ -144,7 +144,6 @@ Repere.prototype.getMatrix = function (camera) {
 		.sub (new Vector (ty).mul (0.015))
 	);
 	var tz = camera.eyePos.cross (ty).normalize ();
-	console.log ("new tz " + tz.toString ());
 	t = t.add (new Vector (tz)
 		.mul (camera.height * coef)
 		.sub (new Vector (tz).mul (0.015))

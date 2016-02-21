@@ -170,6 +170,12 @@
 
 					<li class="split"><hr/></li>
 
+					<li title="Affichez ou cachez le repère 3D" key="m24" class="tr trTitle"
+						onclick="appli.toggleRepere ()">Afficher/Cacher repère</li>
+					<li title="Affichez ou cachez les limites de l'espace 3D" key="m24" class="tr trTitle"
+						onclick="appli.toggleBox ()">Afficher/Cacher limite 3D</li>
+
+					<li class="split"><hr/></li>
 
 					<li title="Ajouter un N64 pour le debug" key="m24" class="tr"
 						onclick="appli.surfaceView.container.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
@@ -362,7 +368,11 @@
 							onchange="appli.changeMeridianMode ()"
 							onsubmit="return false">
 							<label for="meridianPrimitive">&nbsp;</label>
-							<input type="radio" name="meridianTypeValue" id="meridianPrimitive" checked="checked"/>
+							<input type="radio"
+								id="meridianPrimitive"
+								name="meridianTypeValue"
+								value="meridianPrimitive"
+								checked="checked"/>
 							<div class="optionGroup">
 								<select id="listMeridians" name="listMeridians"
 									onchange="appli.changeMeridian (this.value)">
@@ -371,12 +381,18 @@
 								</select>
 							</div>
 							<label for="meridianFreeHand">&nbsp;</label>
-							<input type="radio" name="meridianTypeValue" id="meridianFreeHand"/>
+							<input type="radio"
+								id="meridianFreeHand"
+								name="meridianTypeValue"
+								value="meridianFreeHand"/>
 							<div class="optionGroup">
 								<button id="" class="tr" onclick="appli.clearDraw ()">Effacer</button>
 							</div>
 							<label for="meridianFormula">&nbsp;</label>
-							<input type="radio" name="meridianTypeValue" id="meridianFormula"/>
+							<input type="radio"
+								id="meridianFormula"
+								name="meridianTypeValue"
+								value="meridianFormula"/>
 							<div class="optionGroup">
 								<p class="formulaInput">f(x,y) = <input type="text"/> = 0</p>
 							</div>
@@ -402,7 +418,11 @@
 							onchange="appli.changeRevolMode ()"
 							onsubmit="return false">
 							<label for="revolPrimitive">&nbsp;</label>
-							<input type="radio" name="revolTypeValue" id="revolPrimitive" checked="checked"/>
+							<input type="radio"
+								id="revolPrimitive"
+								name="revolTypeValue"
+								value="revolPrimitive"
+								checked="checked"/>
 							<div class="optionGroup">
 								<select id="listRevolutions" name="listRevolutions"
 									onchange="appli.changeRevol (this.value)">
@@ -423,7 +443,10 @@
 								</select>
 							</div>
 							<label for="revolFormula">&nbsp;</label>
-							<input type="radio" name="revolTypeValue" id="revolFormula"/>
+							<input type="radio"
+								id="revolFormula"
+								name="revolTypeValue"
+								value="revolFormula"/>
 							<div class="optionGroup">
 								<p class="formulaInput">f(x,y) = <input type="text"/> = 0</p>
 							</div>
@@ -526,6 +549,10 @@
 
 		<!-- State bar -->
 		<div id="stateBar" class="footer">
+			<img id="loadingImg" src="Styles/loading.gif"
+			alt="loading" title="Loading..."
+			width="20" height="20"
+			style="display: none"/>
 			<p>Message...</p>
 		</div>
 
@@ -534,12 +561,15 @@
 		var appli = new Application ();
 
 			var gl = appli.surfaceView.glContext;
-
-			var n64 = new N64 (gl, 3, 3);
+			var n64 = new N64 (gl, 6, 5);
 			//var s = n64.modelController.modelGen.surface
-			//appli.surfaceView.container.addObject (n64);
-			//globalParam.cubeColorDebug = true;
+			// appli.surfaceView.container.addObject (n64);
+			// globalParam.perspectiveView = false;
 			appli.initAppli ();
+			// appli.toggleBox ();
+			// appli.toggleRepere ();
+			// var cam = appli.surfaceView.container.camera
+			// var eye = cam.eyePos;
 
 			/**
 			 * idée de courbe :

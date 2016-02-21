@@ -65,12 +65,12 @@ function CurveViewer (canvas, curveController) {
 	/**
 	 * {float} Minimal distance between two added point.
 	 */
-	this.MIN_DIST_BETWEEN_POINT = 0.15;
+	this.MIN_DIST_BETWEEN_POINT = 0.5;
 
 	/**
 	 * TODO
 	 */
-	this.modeSelect = document.getElementById ("meridianType");
+	this.formModeSelected = document.forms["meridianType"];
 
 
 	// initialisation
@@ -324,7 +324,6 @@ CurveViewer.prototype.clearDraw = function () {
  * @return {void}
  */
 CurveViewer.prototype.onResize = function (event) {
-	console.log ("CurveViewer.onResize");
 	this.draw ();
 };
 
@@ -337,7 +336,9 @@ CurveViewer.prototype.onResize = function (event) {
  * @param {MouseEvent} event - The mouse event.
  */
 CurveViewer.prototype.onMouseDown = function (event) {
-	if ((event.buttons & 1) && this.modeSelect.value == "freeHand") {
+	if ((event.buttons & 1) && this.formModeSelected["meridianTypeValue"].value
+		== "meridianFreeHand")
+	{
 		// if left button is pressed and the mode is "drawing mode"
 		var p = this.pixelToPoint (event.layerX, event.layerY);
 		this.addPoint (p);
@@ -353,7 +354,9 @@ CurveViewer.prototype.onMouseDown = function (event) {
  * @param {MouseEvent} event - The mouse event.
  */
 CurveViewer.prototype.onMouseMove = function (event) {
-	if ((event.buttons & 1) && this.modeSelect.value == "freeHand") {
+	if ((event.buttons & 1) && this.formModeSelected["meridianTypeValue"].value
+		== "meridianFreeHand")
+	{
 		// if left button is pressed and the mode is "drawing mode"
 		var p = this.pixelToPoint (event.layerX, event.layerY);
 		this.addPoint (p);

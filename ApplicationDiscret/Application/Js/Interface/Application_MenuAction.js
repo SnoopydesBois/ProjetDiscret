@@ -69,3 +69,29 @@ Application.prototype.inputRevolFormula = function () {
 Application.prototype.drawFreeHandMeridian = function () {
     $("#meridianFreeHand").prop ("checked", true).button ("refresh");
 };
+
+
+//==============================================================================
+/**
+ * Toggle the display attribute of the repere.
+ *
+ * @return {void}
+ */
+Application.prototype.toggleBox = function () {
+    var box = this.surfaceView.getContainer ().getObjectByName ("boundingBox");
+    box.setDisplay (! box.displayMe ());
+    this.show ();
+};
+
+
+//==============================================================================
+/**
+ * Toggle the display attribute of the bounding box.
+ *
+ * @return {void}
+ */
+Application.prototype.toggleRepere = function () {
+    var repere = this.surfaceView.getContainer ().getObjectByName ("repere");
+    repere.setDisplay (! repere.displayMe ());
+    this.show ();
+};

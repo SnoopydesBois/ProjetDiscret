@@ -244,7 +244,8 @@ Application.prototype.computationFinished = function () {
 	}
 	else {
 		this.validMessage ("Finished", 0);
-		this.surfaceView.show ();
+		this.stopLoading ();
+		this.surfaceView.show (true);
 	}
 };
 
@@ -281,7 +282,8 @@ Application.prototype.generateAndDraw = function (mode) {
 	this.surfaceView.container.addObject (this.surfaceRenderer);
 
 	this.computationFinished ();
-
+	this.surfaceView.show ();
+	this.loading ();
 	this.changeValueSlider ("#slider-rangeX", 0, parseInt (dimX));
 	this.changeValueSlider ("#slider-rangeY", 0, parseInt (dimY));
 	this.changeValueSlider ("#slider-rangeZ", 0, parseInt (dimZ));

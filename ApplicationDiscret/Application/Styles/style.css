@@ -219,7 +219,7 @@ label[for=meridianFormula], label[for=revolFormula] {
 	left : 0;
 	width : 80%;
 	height : calc(100% - 42px);
-	background-color : black;
+	background-color : #121214;
 }
 
 

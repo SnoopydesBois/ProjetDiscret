@@ -331,3 +331,25 @@ Application.prototype.changeValueSlider = function () {
 Application.prototype.clearDraw = function () {
 	this.meridianView.clearDraw ();
 };
+
+
+//==============================================================================
+/**
+ * Show the loading image in the state bar.
+ *
+ * @return {void}
+ */
+Application.prototype.loading = function () {
+	document.getElementById ("loadingImg").style = "";
+};
+
+
+//==============================================================================
+/**
+ * Hide the loading image in the state bar.
+ *
+ * @return {void}
+ */
+Application.prototype.stopLoading = function () {
+	document.getElementById ("loadingImg").style = "display: none";
+};

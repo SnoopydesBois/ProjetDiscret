@@ -71,17 +71,16 @@ function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
  * @return {Curve} The current curve.
  */
 Controller2DMeridian.prototype.getActiveCurve = function () {
-	// var mode = this.mode.value;
-	var mode = "primitive";
-	if (mode === "primitive") {
+	var mode = document.forms["meridianType"]["meridianTypeValue"].value
+	if (mode === "meridianPrimitive") {
 		return this.modelCurve.getActiveCurve ();
 	}
-	else if (mode === "freeHand") {
+	else if (mode === "meridianFreeHand") {
 		return this.modelDraw.getActiveCurve ();
 	}
 	else {
 		console.error ("Controller2DMeridian.getActiveCurve: unknown drawing "
-			+ "mode");
+			+ "mode: " + mode);
 		return null;
 	}
 };

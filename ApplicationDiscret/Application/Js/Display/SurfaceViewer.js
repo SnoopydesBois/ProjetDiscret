@@ -354,20 +354,10 @@ SurfaceViewer.prototype.onMouseMove = function (event) {
  */
 SurfaceViewer.prototype.onWheel = function (event) {
 	if (event.deltaY != 0) {
-		var epsilon = event.deltaY < 0 ? -0.1 : 0.1 ;
-		var cam = this.container.getCamera ();
-		// orthographic zoom
-		cam.setProjection (
-			cam.getProjection () + epsilon
-		);
-		// perspective zoom
-		var normPos = new Vector (cam.getPosition ()).normalize ();
-		this.container.setCameraAt ([
-			cam.getPosition ().x + normPos.x * epsilon,
-			cam.getPosition ().y + normPos.y * epsilon,
-			cam.getPosition ().z + normPos.z * epsilon
-		]);
-		cam.computeMatrices ();
+		if (event.deltaY < 0)
+			this.container.getCamera ().zoomIn ();
+		else
+			this.container.getCamera ().zoomOut ();
 		this.draw ();
 	}
 };

@@ -89,9 +89,11 @@ body {
 
 
 
-.footer p {
+.footer * {
 	margin : 0;
 	padding : 2px 5px; /* haut/bas puis droite/gauche */
+	display: inline-block;
+	vertical-align: top;
 }
 
 

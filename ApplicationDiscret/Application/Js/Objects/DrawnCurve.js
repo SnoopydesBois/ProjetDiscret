@@ -144,6 +144,8 @@ DrawnCurve.prototype.getY = function (t) {
  *
  * @param {Number} x - X coordinate of the new point.
  * @param {Number} y - Y coordinate of the new point.
+ *
+ * @return {void}
  */
 DrawnCurve.prototype.addPoint = function (x, y) {
 	var len = this.xList.length;
@@ -182,6 +184,7 @@ DrawnCurve.prototype.addPoint = function (x, y) {
  *
  * Always throw an exception. A drawn curve doesn't have any parameter.
  *
+ * @return {void}
  * @throws {String}
  */
 DrawnCurve.prototype.setParameter = function () {
@@ -189,16 +192,26 @@ DrawnCurve.prototype.setParameter = function () {
 };
 
 
-function interpol(t, tab){
-	if (t <= 0){
-		return tab[0]
-	} else if (t >= tab.length -1){
-		return tab[tab.length-1]
-	} else{
-		var v1 = tab[Math.floor(t)];
-		var v2 = tab[Math.floor(t) + 1];
-		tPerc = t - Math.floor(t);
-		return (1-tPerc) * v1 + tPerc * v2;
-	}
-};
 
+//##############################################################################
+//	Function
+//##############################################################################
+
+
+/**
+ * TODO
+ */
+function interpol (t, tab) {
+	if (t <= 0) {
+		return tab[0]
+	}
+	else if (t >= tab.length -1) {
+		return tab[tab.length - 1]
+	}
+	else {
+		var v1 = tab[Math.floor (t)];
+		var v2 = tab[Math.floor (t) + 1];
+		tPerc = t - Math.floor (t);
+		return (1 - tPerc) * v1 + tPerc * v2;
+	}
+}
