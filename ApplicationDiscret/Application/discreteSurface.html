@@ -117,6 +117,7 @@
 		<script type="text/javascript" src="Js/Interface/Application_Messages.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_MenuAction.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_translate.js"></script>
 
 		<script type="text/javascript" src="Js/Objects/N64.js"></script>
@@ -152,7 +153,7 @@
 				<h1 key="m2" class="tr">Affichage</h1>
 				<ul>
 					<li title="Générer la surface dans la vue 3D" key="m21" class="tr"
-						onclick="appli.surfaceView.show (true)">Générer</li>
+						onclick="appli.generateAndDraw (0)">Générer</li>
 
 					<li title="Centrer la caméra" key="m22" class="tr"
 						onclick="">Centrer la caméra</li>
@@ -206,33 +207,33 @@
 						<h1 key="m33" class="tr">Outils 2D</h1>
 						<ul>
 							<li id="meridianChoice"
-								class="inaccessible tr"
+								class="tr trTitle"
 								title="Choix de la méridienne"
-								onclick="" key="m331" class="tr">Méridiennes</li>
+								onclick="appli.selectMeridian ()" key="m331">Méridiennes</li>
 
 							<li id="curveOfRevolutionChoice"
-								class="inaccessible"
+								class="tr trTitle"
 								title="Choix de la courbe de révolution"
-								onclick="" key="m332" class="tr">Courbes de révolution</li>
+								onclick="appli.selectRevol ()" key="m332">Courbes de révolution</li>
 
 							<li class="split"><hr/></li>
 
-							<li id="meridianFormula"
-								class="inaccessible"
+							<li id="meridianFormulaInput"
+								class="tr trTitle"
 								title="Rentrer une formule pour la méridienne"
-								onclick="" key="m333" class="tr">Formule méridienne</li>
+								onclick="appli.inputMeridianFormula ()" key="m333">Formule méridienne</li>
 
-							<li id="showSimpleParameter"
-								class="inaccessible"
+							<li id="revolFormulaInput"
+								class="tr trTitle"
 								title="Rentrer une formule pour la courbe de révolution"
-								onclick="" key="m334" class="tr">Formule courbe de révolution</li>
+								onclick="appli.inputRevolFormula ()" key="m334">Formule courbe de révolution</li>
 
 							<li class="split"><hr/></li>
 
 							<li id="handFreeDrawing"
-								class="inaccessible"
+								class="tr trTitle"
 								title="Dessiner à main levée"
-								onclick="" key="m335" class="tr">Dessiner à main levée</li>
+								onclick="appli.drawFreeHandMeridian ()" key="m335">Dessiner à main levée</li>
 
 							<li class="split"><hr/></li>
 
@@ -358,10 +359,10 @@
 
 					<div id="meridianOption" class="optionPanel">
 						<form class="buttonGroup" id="meridianType" name="meridianType"
-							onchange="appli.changeMeridianMode ($('#meridianType :radio:checked').attr('id'))"
+							onchange="appli.changeMeridianMode ()"
 							onsubmit="return false">
-							<label for="primitive">&nbsp;</label>
-							<input type="radio" name="meridianTypeValue" id="primitive" checked="checked"/>
+							<label for="meridianPrimitive">&nbsp;</label>
+							<input type="radio" name="meridianTypeValue" id="meridianPrimitive" checked="checked"/>
 							<div class="optionGroup">
 								<select id="listMeridians" name="listMeridians"
 									onchange="appli.changeMeridian (this.value)">
@@ -369,15 +370,15 @@
 									<option value="Sinusoid" key="mer4" class="tr">Sinusoid</option>
 								</select>
 							</div>
-							<label for="freeHand">&nbsp;</label>
-							<input type="radio" name="meridianTypeValue" id="freeHand"/>
+							<label for="meridianFreeHand">&nbsp;</label>
+							<input type="radio" name="meridianTypeValue" id="meridianFreeHand"/>
 							<div class="optionGroup">
 								<button id="" class="tr" onclick="appli.clearDraw ()">Effacer</button>
 							</div>
-							<label for="formula">&nbsp;</label>
-							<input type="radio" name="meridianTypeValue" id="formula"/>
+							<label for="meridianFormula">&nbsp;</label>
+							<input type="radio" name="meridianTypeValue" id="meridianFormula"/>
 							<div class="optionGroup">
-								<p id="formulaInput">f(x,y) = <input type="text"/> = 0</p>
+								<p class="formulaInput">f(x,y) = <input type="text"/> = 0</p>
 							</div>
 						</form>
 					</div><!-- end #meridianOption -->
@@ -397,23 +398,36 @@
 					<div id="revolCanvas2"></div>
 
 					<div id="revolOption" class="optionPanel">
-						<select id="listRevolutions" name="listRevolutions"
-							onchange="appli.changeRevol (this.value)">
-							<option value="Circle" key="revol3" class="tr">Cercle</option>
-							<option value="Triangle" key="revol134" class="tr">Croix</option>
-							<option value="Heart" key="revol4" class="tr">Coeur</option>
-							<option value="Lemniscate" key="revol5" class="tr">Lemniscate</option>
-							<option value="Curve1" key="revol6" class="tr">Curve1</option>
-							<option value="Curve2" key="revol7" class="tr">Curve2</option>
-							<option value="Curve3" key="revol8" class="tr">Curve3</option>
-							<option value="Curve4" key="revol9" class="tr">Curve4</option>
-							<option value="Hyperbol" key="revol10" class="tr">Hyperbol</option>
-							<option value="Curve6" key="revol11" class="tr">Curve6</option>
-							<option value="Curve7" key="revol12" class="tr">Curve7</option>
-							<option value="Curve8" key="revol13" class="tr">Curve8</option>
-							<option value="Curve9" key="revol14" class="tr">Curve9</option>
-							<option value="Curve10" key="revol15" class="tr">Curve10</option>
-						</select>
+						<form class="buttonGroup" id="revolType" name="revolType"
+							onchange="appli.changeRevolMode ()"
+							onsubmit="return false">
+							<label for="revolPrimitive">&nbsp;</label>
+							<input type="radio" name="revolTypeValue" id="revolPrimitive" checked="checked"/>
+							<div class="optionGroup">
+								<select id="listRevolutions" name="listRevolutions"
+									onchange="appli.changeRevol (this.value)">
+									<option value="Circle" key="revol3" class="tr">Cercle</option>
+									<option value="Triangle" key="revol134" class="tr">Croix</option>
+									<option value="Heart" key="revol4" class="tr">Coeur</option>
+									<option value="Lemniscate" key="revol5" class="tr">Lemniscate</option>
+									<option value="Curve1" key="revol6" class="tr">Curve1</option>
+									<option value="Curve2" key="revol7" class="tr">Curve2</option>
+									<option value="Curve3" key="revol8" class="tr">Curve3</option>
+									<option value="Curve4" key="revol9" class="tr">Curve4</option>
+									<option value="Hyperbol" key="revol10" class="tr">Hyperbol</option>
+									<option value="Curve6" key="revol11" class="tr">Curve6</option>
+									<option value="Curve7" key="revol12" class="tr">Curve7</option>
+									<option value="Curve8" key="revol13" class="tr">Curve8</option>
+									<option value="Curve9" key="revol14" class="tr">Curve9</option>
+									<option value="Curve10" key="revol15" class="tr">Curve10</option>
+								</select>
+							</div>
+							<label for="revolFormula">&nbsp;</label>
+							<input type="radio" name="revolTypeValue" id="revolFormula"/>
+							<div class="optionGroup">
+								<p class="formulaInput">f(x,y) = <input type="text"/> = 0</p>
+							</div>
+						</form>
 					</div>
 
 				</div>
@@ -459,7 +473,7 @@
 					</div>
 					<button onClick="appli.show (true)">Modifier</button>
 
-					<div>
+					<!-- <div>
 						<center>
 							<form>
 								<p>Entrez Equation de courbe</p>
@@ -467,7 +481,7 @@
 								<input type="submit" onclick="recuperer();" value="OK"/>
 							</form>
 						</center>
-					</div>
+					</div> -->
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>

@@ -54,7 +54,6 @@
  * switchActive (element : HTMLElement) : void
  * setActiveClass (element : HTMLElement, active : bool) : void
  * updateUndoRedoMenuItem () : void
- * updateTips (t : String) : void
  */
 
 
@@ -70,12 +69,9 @@
 Application.prototype.resizeInterface = function () {
 	/// resize interface
 	var canvasWidth = $("#meridianCanvas").height (); // 70% of curvesView width
-	// $("#curvesView canvas").each (function (id, elem) {
-	// 	elem.style.width = $(elem).height () + "px";
-	// }); // FIXME
 	$("#curvesView").width (canvasWidth * 10 / 7);
 	$("#surfaceView").width (
-		$("#workspace").width () - $("#curvesView").width ()
+		$("#workspace").width () - $("#curvesView").width () - 1
 	);
 
 	/// set attributes
@@ -299,11 +295,11 @@ Application.prototype.changeValueSlider = function () {
 			slider = arguments[0];
 			arg1 = arguments[1];
 
-			if(arg1.search("Min") != -1){
-				$(slider).slider('values',0,$(arg1).val ());
+			if (arg1.search ("Min") != -1) {
+				$(slider).slider ('values', 0, $(arg1).val ());
 			}
-			else if(arg1.search("Max") != -1){
-				$(slider).slider('values',1,$(arg1).val ());
+			else if (arg1.search ("Max") != -1) {
+				$(slider).slider ('values', 1, $(arg1).val ());
 			}
 			break;
 		case 3 :
@@ -328,7 +324,7 @@ Application.prototype.changeValueSlider = function () {
 
 //==============================================================================
 /**
- * Clear the drawing on the meridian canvas.
+ * Clear the drawn curve on the meridian canvas.
  *
  * @return {void}
  */

@@ -196,23 +196,22 @@ Application.prototype.exportSTL = function () {
 //==============================================================================
 /**
  * TODO
- *
- * @param {String} mode - The selected mode.
  */
-Application.prototype.changeMeridianMode = function (mode) {
-	if (mode === "primitive") {
+Application.prototype.changeMeridianMode = function () {
+	var mode = $('#meridianType :radio:checked').attr ('id');
+	if (mode === "meridianPrimitive") {
 		$("#meridianCanvas").hide (); // hide the div
 		$("#meridianCanvas2").show (); // display the canvas
 
 		this.exportController.setIdMeridian ("meridianCanvas2");
 	}
-	else if (mode === "freeHand") {
+	else if (mode === "meridianFreeHand") {
 		$("#meridianCanvas2").hide ();
 		$("#meridianCanvas").show ();
 
 		this.exportController.setIdMeridian ("meridianCanvas");
 	}
-	else if (mode === "formula") {
+	else if (mode === "meridianFormula") {
 		$("#meridianCanvas").hide ();
 		$("#meridianCanvas2").show ();
 
@@ -228,4 +227,30 @@ Application.prototype.changeMeridianMode = function (mode) {
 	// $("#" + mode).show ();
 
 	this.meridianView.draw ();
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+Application.prototype.changeRevolMode = function () {
+	var mode = $('#revolType :radio:checked').attr ('id');
+	if (mode === "revolPrimitive") {
+		// $("#meridianCanvas").hide (); // hide the div
+		// $("#meridianCanvas2").show (); // display the canvas
+		//
+		// this.exportController.setIdMeridian ("meridianCanvas2");
+	}
+	else if (mode === "revolFormula") {
+		// $("#meridianCanvas").hide ();
+		// $("#meridianCanvas2").show ();
+		//
+		// this.exportController.setIdMeridian ("meridianCanvas");
+	}
+	else {
+		throw "Application.changeRevolMode: unkown given mode: " + mode;
+	}
+
+	this.revolView.draw ();
 };

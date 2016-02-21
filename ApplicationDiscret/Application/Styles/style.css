@@ -124,8 +124,11 @@ input[type=range]::-moz-focus-outer {
 	position: relative !important;
 	left: 2px;
 	display: none;
-	width: calc(100% - 3 * 42px);
 }
+
+
+#meridianType .optionGroup {width: calc(100% - 3 * 42px - 1px);}
+#revolType .optionGroup {width: calc(100% - 2 * 42px - 2px);}
 
 
 .buttonGroup input[type=radio]:checked + div {
@@ -145,25 +148,31 @@ input[type=range]::-moz-focus-outer {
 	margin: 0;
 }
 
-.optionGroup button.ui-button {
-	margin: 0;
+
+.formulaInput input {
+	width: calc(100% - 7em); /* FIXME */
 }
 
 
-#formulaInput input {
-	width: 60%;
-}
-
-
-label[for=primitive], label[for=freeHand], label[for=formula] {
+.buttonGroup label[for] {
 	background-position: center;
 	background-repeat: no-repeat;
+}
+
+
+label[for=meridianPrimitive], label[for=revolPrimitive] {
 	background-image: url("wave.png");
 }
 
 
-label[for=freeHand] {background-image: url("pencil.png");}
-label[for=formula] {background-image: url("formula.png");}
+label[for=meridianFreeHand] {
+	background-image: url("pencil.png");
+}
+
+
+label[for=meridianFormula], label[for=revolFormula] {
+	background-image: url("formula.png");
+}
 
 
 

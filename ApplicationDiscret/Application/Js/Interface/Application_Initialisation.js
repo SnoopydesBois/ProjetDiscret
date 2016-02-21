@@ -66,14 +66,15 @@ Application.prototype.initAppli = function () {
 	this.initControllers ();
 
 	this.meridianController.setActive ("Line");
-
 	this.revolController.setActive ("Circle");
 
 	this.meridianParameters.setController (this.meridianController);
-	this.meridianParameters.displayParameter (this.drawMeridian, this.getRangeMeridian);
+	this.meridianParameters.displayParameter (this.drawMeridian,
+		this.getRangeMeridian);
 
 	this.revolutionParameters.setController (this.revolController);
-	this.revolutionParameters.displayParameter (this.drawRevolution, this.getRangeRevolution);
+	this.revolutionParameters.displayParameter (this.drawRevolution,
+		this.getRangeRevolution);
 
 	// Sale
 	var dimX = document.getElementById ("dimx").value;
@@ -88,12 +89,14 @@ Application.prototype.initAppli = function () {
 	/// Interface initialization
 	$(".buttonGroup").buttonset ();
 	$(".buttonGroup button")
-		.removeClass ("ui-button ui-widget ui-state-default ui-button-text-only")
-		.removeAttr("role")
+		.removeClass("ui-button ui-widget ui-state-default ui-button-text-only")
+		.removeAttr ("role")
 		.unbind ();
 
 	this.resizeInterface ();
 	this.initWindowEvent ();
+	this.showDefaultMessage ();
+	this.changeMeridianMode ();
 };
 
 
@@ -139,9 +142,6 @@ Application.prototype.initControllers = function () {
 		.bind (this.meridianController);
 	this.getRangeRevolution = this.revolController.getParametersRange
 		.bind (this.revolController);
-
-	// FIXME faire une frozen reference
-
 };
 
 
@@ -153,7 +153,6 @@ Application.prototype.initControllers = function () {
  */
 Application.prototype.initWindowEvent = function () {
 	window.addEventListener ("resize", this.resizeInterface.bind (this));
-	this.showDefaultMessage ();
 };
 
 
