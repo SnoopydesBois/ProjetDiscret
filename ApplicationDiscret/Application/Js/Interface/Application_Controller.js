@@ -133,10 +133,10 @@ Application.prototype.changeRevol = function (name) {
  */
 Application.prototype.getAllParameters = function (name) {
 	if (name === 'meridian') {
-		this.meridianController.getAllParameters();
+		this.meridianController.getAllParameters ();
 	}
 	else if (name === 'revolution') {
-		this.revolController.getAllParameters();
+		this.revolController.getAllParameters ();
 	}
 };
 
@@ -145,8 +145,8 @@ Application.prototype.getAllParameters = function (name) {
 /**
  * TODO
  */
-Application.prototype.export3DPng = function(){
-	this.exportController.export3DPng(this.surfaceView);
+Application.prototype.export3DPng = function () {
+	this.exportController.export3DPng (this.surfaceView);
 }
 
 
@@ -154,8 +154,8 @@ Application.prototype.export3DPng = function(){
 /**
  * TODO
  */
-Application.prototype.exportMeridianPng = function(){
-	this.exportController.exportMeridianPng();
+Application.prototype.exportMeridianPng = function () {
+	this.exportController.exportMeridianPng ();
 }
 
 
@@ -163,8 +163,8 @@ Application.prototype.exportMeridianPng = function(){
 /**
  * TODO
  */
-Application.prototype.exportRevolutionPng = function(){
-	this.exportController.exportRevolutionPng();
+Application.prototype.exportRevolutionPng = function () {
+	this.exportController.exportRevolutionPng ();
 }
 
 
@@ -172,24 +172,26 @@ Application.prototype.exportRevolutionPng = function(){
 /**
  * TODO
  */
-Application.prototype.exportX3D = function(){
-	// console.log(this.surfaceView);
-	if(this.surfaceView.getSurfaceRenderer().getSurface() == null){
+Application.prototype.exportX3D = function () {
+	if (this.surfaceView.getSurfaceRenderer ().getSurface () == null) {
 		return;
 	}
-	this.exportController.exportX3D(this.surfaceView.getSurfaceRenderer().getSurface());
-}
-
-//==============================================================================
-/**
- * TODO
- */
-Application.prototype.exportSTL = function(){
-	if(this.surfaceView.getSurfaceRenderer() == null){
-		return;
-	}
-	this.exportController.exportSTL(this.surfaceView.getSurfaceRenderer());
+	this.exportController.exportX3D (
+		this.surfaceView.getSurfaceRenderer ().getSurface ());
 };
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+Application.prototype.exportSTL = function () {
+	if (this.surfaceView.getSurfaceRenderer () == null) {
+		return;
+	}
+	this.exportController.exportSTL (this.surfaceView.getSurfaceRenderer ());
+};
+
 
 //==============================================================================
 /**
@@ -198,33 +200,32 @@ Application.prototype.exportSTL = function(){
  * @param {String} mode - The selected mode.
  */
 Application.prototype.changeMeridianMode = function (mode) {
-	$("#primitive").hide ();
-	$("#freeHand").hide ();
-	$("#formula").hide ();
-
 	if (mode === "primitive") {
 		$("#meridianCanvas").hide (); // hide the div
 		$("#meridianCanvas2").show (); // display the canvas
-		$("#" + mode).show ();
 
-		this.exportController.setIdMeridian("meridianCanvas2");
+		this.exportController.setIdMeridian ("meridianCanvas2");
 	}
 	else if (mode === "freeHand") {
 		$("#meridianCanvas2").hide ();
 		$("#meridianCanvas").show ();
 
-		this.exportController.setIdMeridian("meridianCanvas");
-		$("#" + mode).show ();
+		this.exportController.setIdMeridian ("meridianCanvas");
 	}
 	else if (mode === "formula") {
 		$("#meridianCanvas").hide ();
 		$("#meridianCanvas2").show ();
-		$("#" + mode).show ();
 
-		this.exportController.setIdMeridian("meridianCanvas");
+		this.exportController.setIdMeridian ("meridianCanvas");
 	}
 	else {
-		console.error ("Application.changeMeridianMode: unkown given mode:",
-			mode);
+		throw "Application.changeMeridianMode: unkown given mode: " + mode;
 	}
+
+	// $("#primitive").hide ();
+	// $("#freeHand").hide ();
+	// $("#formula").hide ();
+	// $("#" + mode).show ();
+
+	this.meridianView.draw ();
 };

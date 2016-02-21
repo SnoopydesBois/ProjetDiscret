@@ -60,3 +60,20 @@
     background-color: #CDE;
     border-color: #ABC;
 }
+
+
+.ui-state-default {
+    background-color: #EEE;
+}
+
+
+.ui-state-focus, .ui-state-active {
+    background-color: #BBB;
+    border-color: #AAA;
+}
+
+
+.ui-state-hover {
+    background-color: #DDD;
+    border-color: #BBB;
+}

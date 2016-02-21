@@ -20,7 +20,7 @@
 }
 
 
-#surfaceView .paramPanel label {
+#surfaceView .paramPanel label.title {
 	display: block;
 	text-align: center;
 	margin-top: 0.7em;

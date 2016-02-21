@@ -69,12 +69,11 @@
  */
 Application.prototype.resizeInterface = function () {
 	/// resize interface
-	$("#curvesView canvas").each (function (id, elem) {
-		elem.style.width = $(elem).height () + "px";
-	}); // FIXME
-	$("#curvesView").width (
-		$("#meridianParam").width () + $("#meridianCanvas").width ()
-	);
+	var canvasWidth = $("#meridianCanvas").height (); // 70% of curvesView width
+	// $("#curvesView canvas").each (function (id, elem) {
+	// 	elem.style.width = $(elem).height () + "px";
+	// }); // FIXME
+	$("#curvesView").width (canvasWidth * 10 / 7);
 	$("#surfaceView").width (
 		$("#workspace").width () - $("#curvesView").width ()
 	);
@@ -107,32 +106,32 @@ Application.prototype.getMeridianCurveName = function () {
  *
  * @return {void}
  */
-Application.prototype.addMenuEntry = function (entry) {
-	var listMenu = $("#" + MenuEntryEnum.properties[entry.getMenu()].htmlClass
-		+ " > ul > li").not (".split");
-	var nbMenuEntry = listMenu.length;
-	var element = "<li title=\"" + entry.getDescription() + "\" onclick=\""
-		+ entry.getAction() + "; appli.showMessage('"
-		+ entry.getInitMessage() + "');\">" + entry.getNameEntry()
-		+ "</li>";
-	var effectiveIndex = entry.getIndexMenu();
-	// negative index -> Start from the end
-	if (entry.getIndexMenu() < 0)
-		effectiveIndex = nbMenuEntry + 1 + entry.getIndexMenu();
-	if (effectiveIndex < 0)
-		effectiveIndex = nbMenuEntry;
-
-	/// insertion
-	//	console.log ("Ajout de " + entry.getNameEntry () + " à l'index "
-	// 			+ effectiveIndex + " pour une liste de taille " + nbMenuEntry)
-	if (nbMenuEntry == 0)
-		$("#" + MenuEntryEnum.properties[entry.getMenu()].htmlClass
-		+ " > ul").append (element);
-	else if (effectiveIndex < nbMenuEntry)
-		listMenu.eq (effectiveIndex).before (element);
-	else
-		listMenu.eq (nbMenuEntry - 1).after (element);
-};
+// Application.prototype.addMenuEntry = function (entry) {
+// 	var listMenu = $("#" + MenuEntryEnum.properties[entry.getMenu()].htmlClass
+// 		+ " > ul > li").not (".split");
+// 	var nbMenuEntry = listMenu.length;
+// 	var element = "<li title=\"" + entry.getDescription() + "\" onclick=\""
+// 		+ entry.getAction() + "; appli.showMessage('"
+// 		+ entry.getInitMessage() + "');\">" + entry.getNameEntry()
+// 		+ "</li>";
+// 	var effectiveIndex = entry.getIndexMenu();
+// 	// negative index -> Start from the end
+// 	if (entry.getIndexMenu() < 0)
+// 		effectiveIndex = nbMenuEntry + 1 + entry.getIndexMenu();
+// 	if (effectiveIndex < 0)
+// 		effectiveIndex = nbMenuEntry;
+//
+// 	/// insertion
+// 	//	console.log ("Ajout de " + entry.getNameEntry () + " à l'index "
+// 	// 			+ effectiveIndex + " pour une liste de taille " + nbMenuEntry)
+// 	if (nbMenuEntry == 0)
+// 		$("#" + MenuEntryEnum.properties[entry.getMenu()].htmlClass
+// 		+ " > ul").append (element);
+// 	else if (effectiveIndex < nbMenuEntry)
+// 		listMenu.eq (effectiveIndex).before (element);
+// 	else
+// 		listMenu.eq (nbMenuEntry - 1).after (element);
+// };
 
 
 //==============================================================================
@@ -145,29 +144,29 @@ Application.prototype.addMenuEntry = function (entry) {
  *
  * @return {void}
  */
-Application.prototype.addMenuSplit = function (menu, index) {
-	/// get list
-	var listMenu = $("#" + MenuEntryEnum.properties[menu].htmlClass
-		+ " > ul > li").not (".split");
-	var nbMenuEntry = listMenu.length;
-
-	/// new element
-	var element = "<li class='split'><hr/></li>";
-	var effectiveIndex = (typeof index == "number") ? index : -1;
-	// Negative index -> Start from the end
-	if (index < 0)
-		effectiveIndex = nbMenuEntry + 1 + index;
-	if (effectiveIndex < 0)
-		effectiveIndex = nbMenuEntry;
-
-	/// insertion
-	if (nbMenuEntry == 0)
-		listMenu.append (element);
-	else if (effectiveIndex < nbMenuEntry)
-		listMenu.eq (effectiveIndex).before (element);
-	else
-		listMenu.eq (nbMenuEntry - 1).after (element);
-};
+// Application.prototype.addMenuSplit = function (menu, index) {
+// 	/// get list
+// 	var listMenu = $("#" + MenuEntryEnum.properties[menu].htmlClass
+// 		+ " > ul > li").not (".split");
+// 	var nbMenuEntry = listMenu.length;
+//
+// 	/// new element
+// 	var element = "<li class='split'><hr/></li>";
+// 	var effectiveIndex = (typeof index == "number") ? index : -1;
+// 	// Negative index -> Start from the end
+// 	if (index < 0)
+// 		effectiveIndex = nbMenuEntry + 1 + index;
+// 	if (effectiveIndex < 0)
+// 		effectiveIndex = nbMenuEntry;
+//
+// 	/// insertion
+// 	if (nbMenuEntry == 0)
+// 		listMenu.append (element);
+// 	else if (effectiveIndex < nbMenuEntry)
+// 		listMenu.eq (effectiveIndex).before (element);
+// 	else
+// 		listMenu.eq (nbMenuEntry - 1).after (element);
+// };
 
 
 //==============================================================================
@@ -176,23 +175,23 @@ Application.prototype.addMenuSplit = function (menu, index) {
  *
  * @return {void}
  */
-Application.prototype.addToolsEntry = function (entry) {
-	var toolsButton = $("#toolsButton li");
-	var nbMenuEntry = toolsButton.length;
-	var element = "<li><button class=\"tool "
-		+ ToolStateEnum.properties[entry.getInitState()]
-		+ "\" title=\"" + entry.getDescription()
-		+ "\" onclick=\"appli.showMessage('" + (entry.getInitMessage() || "")
-		+ "'); " + entry.getAction()
-		+ "\"><img src=\"" + entry.getImgPath()
-		+ "\" alt=\"" + entry.getImgAlternateText()
-		+ "\" width=\"24px\"" + " height=\"24px\"></button></li>";
-
-	if (entry.getIndexTool() < 0 || entry.getIndexTool() >= nbMenuEntry)
-		toolsButton.eq (nbMenuEntry - 1).after (element);
-	else
-		toolsButton.eq (entry.getIndexTool()).before (element);
-};
+// Application.prototype.addToolsEntry = function (entry) {
+// 	var toolsButton = $("#toolsButton li");
+// 	var nbMenuEntry = toolsButton.length;
+// 	var element = "<li><button class=\"tool "
+// 		+ ToolStateEnum.properties[entry.getInitState()]
+// 		+ "\" title=\"" + entry.getDescription()
+// 		+ "\" onclick=\"appli.showMessage('" + (entry.getInitMessage() || "")
+// 		+ "'); " + entry.getAction()
+// 		+ "\"><img src=\"" + entry.getImgPath()
+// 		+ "\" alt=\"" + entry.getImgAlternateText()
+// 		+ "\" width=\"24px\"" + " height=\"24px\"></button></li>";
+//
+// 	if (entry.getIndexTool() < 0 || entry.getIndexTool() >= nbMenuEntry)
+// 		toolsButton.eq (nbMenuEntry - 1).after (element);
+// 	else
+// 		toolsButton.eq (entry.getIndexTool()).before (element);
+// };
 
 
 //==============================================================================
@@ -204,10 +203,10 @@ Application.prototype.addToolsEntry = function (entry) {
  *
  * @return {void}
  */
-Application.prototype.activeToolButton = function (className, id) {
-	$("." + className + ".active").removeClass ("active");
-	$("#" + id).addClass ("active");
-};
+// Application.prototype.activeToolButton = function (className, id) {
+// 	$("." + className + ".active").removeClass ("active");
+// 	$("#" + id).addClass ("active");
+// };
 
 
 //==============================================================================
@@ -279,32 +278,32 @@ Application.prototype.updateUndoRedoMenuItem = function () {
  *
  * @return {void}
  */
-Application.prototype.updateTips = function (t) {
-	$(".validateTips")
-		.text (t)
-		.addClass ("ui-state-highlight");
-	setTimeout (function () {
-		$(".validateTips").removeClass ("ui-state-highlight", 1500);
-	}, 500);
-};
+// Application.prototype.updateTips = function (t) {
+// 	$(".validateTips")
+// 		.text (t)
+// 		.addClass ("ui-state-highlight");
+// 	setTimeout (function () {
+// 		$(".validateTips").removeClass ("ui-state-highlight", 1500);
+// 	}, 500);
+// };
 
 
 //==============================================================================
 /**
- *
+ * TODO
  */
-Application.prototype.changeValueSlider = function (){
+Application.prototype.changeValueSlider = function () {
 	var slider, arg1, arg2;
-	switch(arguments.length){
+	switch (arguments.length) {
 		case 2 :
 			slider = arguments[0];
 			arg1 = arguments[1];
 
 			if(arg1.search("Min") != -1){
-				$(slider).slider('values',0,$(arg1).val());
+				$(slider).slider('values',0,$(arg1).val ());
 			}
 			else if(arg1.search("Max") != -1){
-				$(slider).slider('values',1,$(arg1).val());
+				$(slider).slider('values',1,$(arg1).val ());
 			}
 			break;
 		case 3 :
@@ -312,16 +311,27 @@ Application.prototype.changeValueSlider = function (){
 			arg1 = arguments[1];
 			arg2 = arguments[2];
 
-			$(slider).slider("option", "max", arg2);
-			$(slider).slider('values',0, arg1);
-			$(slider).slider('values',1, arg2);
+			$(slider).slider ("option", "max", arg2);
+			$(slider).slider ('values', 0, arg1);
+			$(slider).slider ('values', 1, arg2);
 
-			$("#amountMin" + $(slider).attr("name")).val(arg1) ;
-			$("#amountMax" + $(slider).attr("name")).val(arg2) ;
+			$("#amountMin" + $(slider).attr ("name")).val (arg1) ;
+			$("#amountMax" + $(slider).attr ("name")).val (arg2) ;
 
 			break;
 		default :
 			throw "Application.changeValueSlider.ErrorArgumentsLength";
 			break;
 	}
+};
+
+
+//==============================================================================
+/**
+ * Clear the drawing on the meridian canvas.
+ *
+ * @return {void}
+ */
+Application.prototype.clearDraw = function () {
+	this.meridianView.clearDraw ();
 };

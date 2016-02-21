@@ -52,7 +52,7 @@ function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
 	 * {ModelDraw} TODO
 	 */
 	this.modelDraw = new ModelDraw ();
-	
+
 	/**
 	 * {HTMLSelectElement} The current curve mode.
 	 */
@@ -71,7 +71,8 @@ function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
  * @return {Curve} The current curve.
  */
 Controller2DMeridian.prototype.getActiveCurve = function () {
-	var mode = this.mode.value;
+	// var mode = this.mode.value;
+	var mode = "primitive";
 	if (mode === "primitive") {
 		return this.modelCurve.getActiveCurve ();
 	}
@@ -89,18 +90,9 @@ Controller2DMeridian.prototype.getActiveCurve = function () {
 //==============================================================================
 /**
  * TODO
- *
- * @param {Dimmension} dim -
  */
-Controller2DMeridian.prototype.startFreeHand = function (dim) {
-	/// parameter verification
-	if (! (dim instanceof Dimension)) {
-		throw "Controlelr2DMeridian.startFreeHand : bad type of parameter";
-	}
-
-	/// add point
-	throw "Controller2DMeridian.startFreeHand: this function is not "
-		+ "implemented";
+Controller2DMeridian.prototype.newCurve = function () {
+	this.modelDraw.newCurve ();
 };
 
 

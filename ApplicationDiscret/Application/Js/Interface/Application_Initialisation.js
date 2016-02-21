@@ -86,6 +86,12 @@ Application.prototype.initAppli = function () {
 
 
 	/// Interface initialization
+	$(".buttonGroup").buttonset ();
+	$(".buttonGroup button")
+		.removeClass ("ui-button ui-widget ui-state-default ui-button-text-only")
+		.removeAttr("role")
+		.unbind ();
+
 	this.resizeInterface ();
 	this.initWindowEvent ();
 };

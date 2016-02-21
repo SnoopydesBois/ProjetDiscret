@@ -46,10 +46,11 @@ function SurfaceViewer (canvas) {
 
 	/**
 	 * {int[2]} The position of the mouse on the canvas when the user press a
-	 * button (used for the camera mouvement).
+	 * button (used for the camera mouvement). -1 is the default value (use to
+	 * resolved conflict).
 	 * @see {@link onMouseDown, onMouseMove}
 	 */
-	this.mousePosOnPress = [0, 0];
+	this.mousePosOnPress = [-1, -1];
 
 	/**
 	 * {Vector} Camera position in space when the user press left mouse button.
@@ -316,12 +317,7 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
  * @return {void}
  */
 SurfaceViewer.prototype.onMouseUp = function (event) {
-//	if (event.buttons === 1) {
-//		this.camPosWhenClick = this.container.getCamera().getPosition();
-//		this.mousePosOnPress[0] = event.layerX;
-//		this.mousePosOnPress[1] = event.layerY;
-//		event.preventDefault ();
-//	}
+	this.mousePosOnPress[0] = -1;
 };
 
 
@@ -335,7 +331,10 @@ SurfaceViewer.prototype.onMouseUp = function (event) {
  * @return {void}
  */
 SurfaceViewer.prototype.onMouseMove = function (event) {
-	if (event.buttons === 1) {
+	if (event.buttons === 1 && this.mousePosOnPress[0] != -1) {
+		/* left button is pressed and the user generate mousedown event on the
+		 * surface canvas.
+		 */
 		this.moveCameraAt (
 			(this.mousePosOnPress[0] - event.layerX) * 0.01,
 			(event.layerY - this.mousePosOnPress[1]) * 0.01
@@ -428,8 +427,9 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 //	window.addEventListener ("keydown", this.onKeyDown.bind (this));
 
 	// mouse move for mouvement
-	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
 	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this));
+	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
+	this.canvas.addEventListener ("mouseup", this.onMouseUp.bind (this));
 //	this.canvas.addEventListener ("contextmenu", function () {return false;});
 };
 

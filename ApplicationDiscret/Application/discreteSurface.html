@@ -108,7 +108,7 @@
 		<script type="text/javascript" src="Js/Display/CurveViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/ParameterViewer.js"></script>
 
-		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
+		<!-- <script type="text/javascript" src="Js/Interface/EntryData.js"></script> -->
 		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>
 		<script type="text/javascript" src="Js/Interface/ListUndoRedoAction.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application.js"></script>
@@ -351,40 +351,37 @@
 
 
 				<div id="meridianView">
-					<ul id="meridianParam" class="paramPanel">
-						<!-- <div id="listMeridianParameters"></div> -->
-					</ul>
+					<ul id="meridianParam" class="paramPanel"></ul>
 
 					<canvas id="meridianCanvas" style="display:none"></canvas>
 					<div id="meridianCanvas2"></div>
 
 					<div id="meridianOption" class="optionPanel">
-						<label for="meridianType">Mode&nbsp;:</label>
-						<select id="meridianType" name="meridianType"
-							onchange="appli.changeMeridianMode (this.value)">
-							<option key="" class="tr" value="primitive">Prédéfinie</option>
-							<option key="" class="tr" value="freeHand">Dessin</option>
-							<option key="" class="tr" value="formula">Formule</option>
-						</select>
-
-						<ul id="meridianModeOption">
-							<li id="primitive">
+						<form class="buttonGroup" id="meridianType" name="meridianType"
+							onchange="appli.changeMeridianMode ($('#meridianType :radio:checked').attr('id'))"
+							onsubmit="return false">
+							<label for="primitive">&nbsp;</label>
+							<input type="radio" name="meridianTypeValue" id="primitive" checked="checked"/>
+							<div class="optionGroup">
 								<select id="listMeridians" name="listMeridians"
 									onchange="appli.changeMeridian (this.value)">
 									<option value="Line" key="mer3" class="tr">Ligne</option>
 									<option value="Sinusoid" key="mer4" class="tr">Sinusoid</option>
 								</select>
-							</li>
-
-							<li id="freeHand" style="display : none; background-color : red">
+							</div>
+							<label for="freeHand">&nbsp;</label>
+							<input type="radio" name="meridianTypeValue" id="freeHand"/>
+							<div class="optionGroup">
 								<button id="" class="tr" onclick="appli.clearDraw ()">Effacer</button>
-							</li>
-
-							<li id="formula" style="display : none; background-color : green">
-							</li>
-						</ul>
-					</div>
-				</div>
+							</div>
+							<label for="formula">&nbsp;</label>
+							<input type="radio" name="meridianTypeValue" id="formula"/>
+							<div class="optionGroup">
+								<p id="formulaInput">f(x,y) = <input type="text"/> = 0</p>
+							</div>
+						</form>
+					</div><!-- end #meridianOption -->
+				</div><!-- end #curvesView -->
 
 
 <!--#########################################################################-->
@@ -434,7 +431,7 @@
 					<button onclick="appli.generateAndDraw (1)" key="surf2" class="tr">Génération non optimisée</button>
 					<hr/>
 					<div class="wrapper">
-						<label>Dimension X</label><br/>
+						<label class="title">Dimension X</label><br/>
 						<div class="doubleSliders" name="X" id="slider-rangeX"></div>
 						<input type="text" id="amountMinX"
 							onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMinX')">
@@ -443,7 +440,7 @@
 							onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
 					</div>
 					<div class="wrapper">
-						<label>Dimension Y</label><br/>
+						<label class="title">Dimension Y</label><br/>
 						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
 						<input type="text" id="amountMinY"
 							onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMinY')">
@@ -452,7 +449,7 @@
 							onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
 					</div>
 					<div class="wrapper">
-						<label>Dimension Z</label><br/>
+						<label class="title">Dimension Z</label><br/>
 						<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
 						<input type="text" id="amountMinZ"
 							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMinZ')">
@@ -471,7 +468,6 @@
 							</form>
 						</center>
 					</div>
-
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>
@@ -529,7 +525,6 @@
 			//var s = n64.modelController.modelGen.surface
 			//appli.surfaceView.container.addObject (n64);
 			//globalParam.cubeColorDebug = true;
-
 			appli.initAppli ();
 
 			/**

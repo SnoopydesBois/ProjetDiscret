@@ -51,7 +51,7 @@ ul, li {
 
 
 .paramPanel {
-	top : -3px;
+	top : 0;
 	left : 0;
 	width : 30%;
 	height : calc(100% - 42px);
@@ -105,6 +105,66 @@ input[type=range]::-moz-focus-outer {
 	height : 50%;
 	border-bottom : 1px solid gray;
 }
+
+
+.buttonGroup {
+	width: 100%;
+	height: 100%;
+}
+
+
+.buttonGroup label {
+	height: 100%;
+	width: 42px;
+	box-sizing: border-box;
+}
+
+
+.buttonGroup input[type=radio] + div {
+	position: relative !important;
+	left: 2px;
+	display: none;
+	width: calc(100% - 3 * 42px);
+}
+
+
+.buttonGroup input[type=radio]:checked + div {
+	display: inline-block;
+}
+
+
+.buttonGroup .ui-corner-left,
+.buttonGroup .ui-corner-right {
+	border-radius: 0;
+}
+
+
+.optionGroup p {
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}
+
+.optionGroup button.ui-button {
+	margin: 0;
+}
+
+
+#formulaInput input {
+	width: 60%;
+}
+
+
+label[for=primitive], label[for=freeHand], label[for=formula] {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-image: url("wave.png");
+}
+
+
+label[for=freeHand] {background-image: url("pencil.png");}
+label[for=formula] {background-image: url("formula.png");}
+
 
 
 	/*** Revolution ***/
