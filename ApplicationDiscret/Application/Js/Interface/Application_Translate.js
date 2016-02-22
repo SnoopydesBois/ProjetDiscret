@@ -157,20 +157,9 @@ aLangKeys['fr']['m339'] = 'Ajout courbe de révolution';
 /* Sous menu 3D français */
 aLangKeys['fr']['m341'] = 'Connexité';
 aLangKeys['fr']['m342'] = 'Dimension';
-<<<<<<< HEAD
-
-aLangKeys['fr']['m343'] = 'Afficher le repére';
-aLangKeys['fr']['m344'] = 'Taille des voxels';
-aLangKeys['fr']['m345'] = 'multicoupes';
 aLangKeys['fr']['m343'] = 'Afficher le repère';
 aLangKeys['fr']['m344'] = 'Taille des voxels';
 aLangKeys['fr']['m345'] = 'Multicoupes';
-
-=======
-aLangKeys['fr']['m343'] = 'Afficher le repère';
-aLangKeys['fr']['m344'] = 'Taille des voxels';
-aLangKeys['fr']['m345'] = 'Multicoupes';
->>>>>>> origin/master
 
 /* Menu export français */
 aLangKeys['fr']['m4'] = 'Export';
@@ -187,34 +176,14 @@ aLangKeys['fr']['m51'] = 'Afficher aide';
 aLangKeys['fr']['m52'] = 'À propos';
 
 /* Liste des paramétres méridienne français */
-<<<<<<< HEAD
-
-aLangKeys['fr']['mer1'] = 'List of meridian parameters';
-
 aLangKeys['fr']['mer1'] = 'Liste des paramètres de la méridienne';
-
-=======
-aLangKeys['fr']['mer1'] = 'Liste des paramètres de la méridienne';
->>>>>>> origin/master
 aLangKeys['fr']['mer2'] = 'Option Méridienne';
 aLangKeys['fr']['mer3'] = 'ligne';
 aLangKeys['fr']['mer4'] = 'Sinusoid';
 
-<<<<<<< HEAD
-
-/* Liste des paramétres revolution français */
-aLangKeys['fr']['revol1'] = 'Liste des paramètres Révolution';
-aLangKeys['fr']['revol2'] = 'Option Revolution';
-
 /* Liste des paramètres revolution français */
 aLangKeys['fr']['revol1'] = 'Liste des paramètres Révolution';
 aLangKeys['fr']['revol2'] = 'Options Revolution';
-
-=======
-/* Liste des paramètres revolution français */
-aLangKeys['fr']['revol1'] = 'Liste des paramètres Révolution';
-aLangKeys['fr']['revol2'] = 'Options Revolution';
->>>>>>> origin/master
 aLangKeys['fr']['revol3'] = 'Cercle';
 aLangKeys['fr']['revol4'] = 'Coeur';
 aLangKeys['fr']['revol5'] = 'Lemniscate';

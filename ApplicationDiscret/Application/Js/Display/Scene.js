@@ -295,18 +295,18 @@ Scene.prototype.prepare = function (glContext, connexity, voxelRadius) {
 				var o = this.objectList[i].getModelController ().getSurface ();
 				o.printOnly (
 					new Range (
-						parseInt (document.getElementById ("amountMinX").value),
-						parseInt (document.getElementById ("amountMaxX").value)
+						parseInt ($("#slider-rangeX").slider ('values', 0)),
+						parseInt ($("#slider-rangeX").slider ('values', 1))
 							- 1
 					),
 					new Range (
-						parseInt (document.getElementById ("amountMinY").value),
-						parseInt (document.getElementById ("amountMaxY").value)
+						parseInt ($("#slider-rangeY").slider ('values', 0)),
+						parseInt ($("#slider-rangeY").slider ('values', 1))
 							- 1
 					),
 					new Range (
-						parseInt (document.getElementById ("amountMinZ").value),
-						parseInt (document.getElementById ("amountMaxZ").value)
+						parseInt ($("#slider-rangeZ").slider ('values', 0)),
+						parseInt ($("#slider-rangeZ").slider ('values', 1))
 							- 1
 					)
 				);
