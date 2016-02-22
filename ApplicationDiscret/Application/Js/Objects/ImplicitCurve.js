@@ -4,8 +4,8 @@ ImplicitCurve.prototype.constructor = ImplicitCurve;
 
 //==============================================================================
 /**
-* @constructor {Equation} the equation of the curve
-*/
+ * @constructor {Equation} the equation of the curve
+ */
 function ImplicitCurve(equation) {
 	FormulaCurve.call(this, equation);
 }

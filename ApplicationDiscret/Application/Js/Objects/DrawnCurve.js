@@ -20,6 +20,7 @@
 
 
 /**
+ * @extends Curve
  * @classdesc TODO
  */
 DrawnCurve.prototype = new Curve;
