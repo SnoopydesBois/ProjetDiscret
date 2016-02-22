@@ -272,3 +272,50 @@ Application.prototype.changeRevolMode = function () {
 
 	this.revolView.draw ();
 };
+
+
+Application.prototype.MeridianeEquation = function () {
+		var input = document.getElementById("meridianFormulaInput");
+		console.log(input.value);	
+		
+		var equation = new Equation(input);
+		var x = new ExplicitCurve(equation);
+	
+	ExplicitCurve.call(this, x);
+	
+	if (! checkType (arguments, "string")) {
+		throw "Application.changeRevol: given parameter is not a string";
+	}
+	meridianController.setActive (x);
+	meridianView.draw ();
+
+	meridianParameters.displayParameter (
+		drawMeridian,
+		getRangeMeridian
+	);
+	
+	
+}
+
+Application.prototype.RevolutionEquation = function () {
+		var input = document.getElementById("revolutionFormulaInput");
+		console.log(input.value);	
+		
+		var equation = new Equation(input);
+		var x = new ImplicitCurve(equation);
+	
+	ImplicitCurve.call(this, x);
+	
+	if (! checkType (arguments, "string")) {
+		throw "Application.changeRevol: given parameter is not a string";
+	}
+	
+	revolController.setActive (x);
+	revolView.draw ();
+
+	revolutionParameters.displayParameter (
+		drawRevolution,
+		getRangeRevolution
+	);
+
+}
