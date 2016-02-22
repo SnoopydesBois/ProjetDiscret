@@ -118,7 +118,7 @@
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_MenuAction.js"></script>
-		<script type="text/javascript" src="Js/Interface/Application_translate.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Translate.js"></script>
 
 		<script type="text/javascript" src="Js/Objects/N64.js"></script>
 		<!-- <script type="text/javascript" src="Js/Objects/Cube.js"></script> -->
@@ -481,11 +481,10 @@
 					<button onClick="appli.show (true)">Modifier</button>
 				</div>
 
-				<canvas id="surfaceCanvas">
-				</canvas>
-					<img id="loadingImg" src="Styles/loading.gif"
-						alt="loading" title="Loading..."
-						style="display: none"/>
+				<canvas id="surfaceCanvas"></canvas>
+				<div id="loadingImg" style="display: none">
+					<p class="tr">Génération...</p>
+				</div>
 
 				<div id="surfaceOption" class="optionPanel">
 					<div class="wrapper">
