@@ -243,7 +243,9 @@ Application.prototype.computationFinished = function () {
 		setTimeout (this.computationFinished.bind (this), 1000);
 	}
 	else {
-		this.validMessage ("Finished", 0);
+		if(this.surfaceController.isAlgoFinished () != "error"){
+			this.validMessage ("Finished", 0);
+		}
 		this.stopLoading ();
 		this.surfaceView.show (true);
 	}
@@ -271,7 +273,12 @@ Application.prototype.generateAndDraw = function (mode) {
 		dimX,dimY,dimZ
 	]);
 
-	this.surfaceController.generate (mode);
+	try{
+		this.surfaceController.generate (mode);
+	}
+	catch(e){
+		this.errorMessage ("Aborted", 0);
+	}
 	this.surfaceRenderer = new SurfaceRenderer (
 		this.surfaceController,
 		this.surfaceView.getGLContext ()
@@ -282,7 +289,6 @@ Application.prototype.generateAndDraw = function (mode) {
 	this.surfaceView.container.addObject (this.surfaceRenderer);
 
 	this.computationFinished ();
-	this.surfaceView.show ();
 	this.loading ();
 	this.changeValueSlider ("#slider-rangeX", 0, parseInt (dimX));
 	this.changeValueSlider ("#slider-rangeY", 0, parseInt (dimY));

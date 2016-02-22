@@ -176,6 +176,9 @@ Application.prototype.createSlider = function (id, min, max) {
 			}
 			$("#amountMin" + $(id).attr ("name")).val (ui.values[0]);
 			$("#amountMax" + $(id).attr ("name")).val (ui.values[1]);
+		},
+		stop : function(event, ui){
+			appli.show (true)
 		}
 	});
 
