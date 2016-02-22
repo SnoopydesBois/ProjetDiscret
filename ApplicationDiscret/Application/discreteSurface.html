@@ -167,10 +167,10 @@
 				<h1 key="m2" class="tr">Affichage</h1>
 				<ul>
 					<li title="Générer la surface dans la vue 3D" key="m21" class="tr"
-						onclick="appli.surfaceView.show (true)">Générer</li>
+						onclick="appli.generateAndDraw (0)">Générer</li>
 
 					<li title="Centrer la caméra" key="m22" class="tr"
-						onclick="">Centrer la caméra</li>
+						onclick="appli.resetCamera()">Centrer la caméra</li>
 
 					<li title="Changer le point de vue" key="m23" class="tr"
 						onclick="if (globalParam.perspectiveView) {
@@ -203,18 +203,6 @@
 			--><li id="toolsMenu" tabindex="3">
 				<h1 key="m3" class="tr">Outils</h1>
 				<ul>
-					<li id="toolUndo"
-						class="inaccessible tr"
-						title="Annuler la dernière action effectuée" key="m31"
-						onclick="">Annuler</li>
-
-					<li id="toolRedo"
-						class="inaccessible tr "
-						title="Refaire la dernière action annulée" key="m32"
-						onclick="">Refaire</li>
-
-					<li class="split"><hr/></li>
-
 					<li id="tool2D"
 						class="submenu"
 						title="Outils 2D">
@@ -505,7 +493,7 @@
 					</div>
 					<!-- TODO traduire -->
 					<div class="wrapper">
-						<label key="" class="tr" for="connexityChoice">Connexité&nbsp;:</label>
+						<label key="m341" class="tr" for="connexityChoice">Connexité&nbsp;:</label>
 						<select id="connexityChoice" name="connexityChoice"
 							onchange="appli.surfaceView.unprepare (); appli.surfaceView.show ()">
 							<option value="1">C26</option>
@@ -516,7 +504,7 @@
 
 					<!-- TODO traduire -->
 					<div class="wrapper">
-						<label key="" class="tr" for="voxelRadius">Taille des voxels&nbsp;:</label>
+						<label key="m344" class="tr" for="voxelRadius">Taille des voxels&nbsp;:</label>
 						<input id="voxelRadius" type="number" name="voxelRadius"
 							value="1" min="0" max="1" step="0.05"/>
 					</div>

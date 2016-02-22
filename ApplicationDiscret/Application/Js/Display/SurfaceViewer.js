@@ -539,3 +539,17 @@ SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
 	}
 	return pixel;
 };
+
+
+
+//==============================================================================
+/**
+ * Put the camera back to its initial position.
+ * @return {void}
+ */
+SurfaceViewer.prototype.resetCamera = function () {
+	
+	console.log("resetCamera (surfaceViewer)");
+	this.container.resetCamera();
+	this.draw ();
+};

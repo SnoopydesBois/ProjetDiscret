@@ -229,3 +229,14 @@ Application.prototype.changeMeridianMode = function (mode) {
 	}
 
 };
+
+
+//==============================================================================
+/**
+ * Put the camera back to its initial position.
+ * @return {void}
+ */
+Application.prototype.resetCamera = function(){
+	console.log("resetCamera (appli)");
+	this.surfaceView.resetCamera();
+};
