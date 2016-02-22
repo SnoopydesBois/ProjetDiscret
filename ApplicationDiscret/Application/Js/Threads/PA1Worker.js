@@ -95,6 +95,12 @@ onmessage = function (e) {
 	dimension = new Vector(e.data[3]);
 	tMin = e.data[4];
 	tMax = e.data[5];
+	try{
+		algo();
+	}
+	catch(e){
+		postMessage(["Abort"]);
+	}
 	algo();
 	postMessage(["Terminate", id]);
 }

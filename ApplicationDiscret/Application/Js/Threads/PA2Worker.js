@@ -132,7 +132,14 @@ function init(e) {
 			}
 		}
 	}
-	algo();
+	try{
+		algo();
+	}
+	catch(e){
+		console.log(e);
+		postMessage([[], 0,"Abort"]);
+		postMessage([[], 0,"Terminate"]);
+	}
 }
 
 //==============================================================================

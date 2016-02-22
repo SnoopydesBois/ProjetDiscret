@@ -43,11 +43,15 @@ function ParametricAlgo1Worker (parametricCurve, implicitCurve, dimension, surfa
 		this.activeWorkers++;
 		var that = this
 		this.worker[i].onmessage = function(e){
-			if (e.data[0] === "Terminate") {
+			if (e.data[0] === "Abort") {
+				appli.alertMessage("Aborted");
+				that.finished = "error";
+			}
+			else if (e.data[0] === "Terminate") {
 				that.worker[e.data[1]].terminate();
 				that.worker[e.data[1]] = undefined;
 				--that.activeWorkers;
-				if (that.activeWorkers == 0){
+				if (that.activeWorkers == 0 && that.finished != "error"){
 					that.finished = true;
 				}
 			} else {

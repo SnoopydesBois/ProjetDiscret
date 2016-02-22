@@ -43,11 +43,15 @@ function ExplicitAlgo1Worker (explicitCurve, implicitCurve, dimension, surface){
 		this.activeWorkers++;
 		var that = this
 		this.worker[i].onmessage = function(e){
-			if (e.data[0] === "Terminate") {
+			if (e.data[0] === "Abort") {
+				that.finished = "error"
+				appli.alertMessage("Aborted");
+			}
+			else if (e.data[0] === "Terminate") {
 				that.worker[e.data[1]].terminate();
 				that.worker[e.data[1]] = undefined;
 				--that.activeWorkers;
-				if (that.activeWorkers == 0){
+				if (that.activeWorkers == 0 && that.finished != "error"){
 					that.finished = true;
 				}
 			} else {
