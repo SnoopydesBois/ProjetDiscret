@@ -196,7 +196,7 @@ SurfaceRenderer.prototype.getModelController = function () {
 
 //==============================================================================
 /**
- * @return {Surface} The surface used by the renderer. 
+ * @return {Surface} The surface used by the renderer.
  */
 SurfaceRenderer.prototype.getSurface = function(){
 	return this.modelController.getSurface();
@@ -229,7 +229,8 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 	this.cptPreparedVertex = 0;
 
 	/// prepare
-	radius || (radius = 0.5);
+	if (typeof radius == "undefined" || radius > 0.5 || radius < 0.0)
+		radius = 0.5;
 	var size = this.modelController.getDimension ();
 
 	/* In the indices buffer, there are at the most 4*6 number. One number is a
@@ -702,5 +703,3 @@ SurfaceRenderer.prototype.addVertexBuffer = function (vertexBuffer, limit,
 SurfaceRenderer.prototype.getDimension = function () {
 	return this.getModelController ().getDimension ();
 };
-
-

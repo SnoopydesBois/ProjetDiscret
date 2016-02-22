@@ -122,7 +122,7 @@
 
 		<!-- Entrer equation -->
 		<script type="text/javascript" src="Curves/Revolution/eq.js"></script>
-		
+
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
@@ -172,7 +172,7 @@
 
 					<li title="Affichez ou cachez le repère 3D" key="m27" class="tr trTitle"
 						onclick="appli.toggleRepere ()">Afficher/Cacher repère</li>
-						
+
 					<li title="Affichez ou cachez les limites de l'espace 3D" key="m28" class="tr trTitle"
 						onclick="appli.toggleBox ()">Afficher/Cacher limite 3D</li>
 
@@ -265,7 +265,7 @@
 						<h1 key="m34" class="tr">Outils 3D</h1>
 						<ul>
 
-							
+
 							<li id="dimension"
 								class="inaccessible"
 								title="Choix des dimensions"
@@ -532,8 +532,7 @@
 
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 5);
-			//var s = n64.modelController.modelGen.surface
-			// appli.surfaceView.container.addObject (n64);
+			appli.surfaceView.container.addObject (n64);
 			// globalParam.perspectiveView = false;
 			appli.initAppli ();
 			// appli.toggleBox ();
