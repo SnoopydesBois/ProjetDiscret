@@ -481,3 +481,20 @@ CurveViewer.computeYScale = function (width, height, xRange) {
 };
 
 
+
+//==============================================================================
+/**
+ * Closes the current drawn curve.
+ * 
+ * @return {void}
+ */
+CurveViewer.prototype.closeCurve = function () {
+	var addedPoint = this.controller.closeCurve ();
+	console.log (addedPoint)
+	if (addedPoint) {
+		console.log (addedPoint.x, addedPoint.y);
+		this.drawSegment (this.lastPoint, addedPoint);
+		this.lastPoint = addedPoint;
+	}
+};
+

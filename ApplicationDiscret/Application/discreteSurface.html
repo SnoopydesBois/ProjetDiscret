@@ -375,6 +375,7 @@
 								value="meridianFreeHand"/>
 							<div class="optionGroup">
 								<button id="" class="tr" onclick="appli.clearDraw ()">Effacer</button>
+								<button id="" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
 							</div>
 							<label for="meridianFormula">&nbsp;</label>
 							<input type="radio"
@@ -489,9 +490,9 @@
 				<div id="surfaceOption" class="optionPanel">
 					<div class="wrapper">
 						<p class="multiLabel">Dimension&nbsp;:</p>
-						<input id="dimx" type="number" value="31" min="1"/>
-						<input id="dimy" type="number" value="31" min="1"/>
-						<input id="dimz" type="number" value="31" min="1"/>
+						<input id="dimx" type="number" value="31" min="1" max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimy" type="number" value="31" min="1" max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimz" type="number" value="31" min="1" max="256" onchange="appli.changeDimension ()"/>
 					</div>
 					<!-- TODO traduire -->
 					<div class="wrapper">

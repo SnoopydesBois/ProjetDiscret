@@ -102,3 +102,31 @@ ModelDraw.prototype.getYCoordinates = function () {
 };
 
 
+//==============================================================================
+/**
+ * Closes the curve. If it is already closed, does nothing.
+ * 
+ * @return {Point} The added point (null if not exist or already added).
+ */
+ModelDraw.prototype.closeCurve = function () {
+	var lastIndex = this.getNbPoint () - 1;
+	
+	if (lastIndex == -1)
+		// there isn't any point
+		return null;
+		
+	var lastX = this.getXCoordinates ()[lastIndex],
+		lastY = this.getYCoordinates ()[lastIndex],
+		firstX = this.getXCoordinates ()[0],
+		firstY = this.getYCoordinates ()[0];
+	
+	if (lastX != firstX && lastY != firstY) {
+		this.getActiveCurve ().addPoint (firstX, firstY);
+		return new Point (firstX, firstY);
+	}
+	else 
+		return null;
+};
+
+
+

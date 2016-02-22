@@ -210,10 +210,18 @@ Application.prototype.saveCurves = function(){
  */
 Application.prototype.changeMeridianMode = function () {
 	var mode = $('#meridianType :radio:checked').attr ('id');
+	
+	/// empty the parameter list 
+	$("#meridianParam").empty ();
+	
 	if (mode === "meridianPrimitive") {
 		$("#meridianCanvas").hide (); // hide the div
 		$("#meridianCanvas2").show (); // display the canvas
-
+		/// fill teh parameter list
+		this.meridianParameters.displayParameter (
+			this.drawMeridian,
+			this.getRangeMeridian
+		);
 		this.exportController.setIdMeridian ("meridianCanvas2");
 	}
 	else if (mode === "meridianFreeHand") {
@@ -245,12 +253,16 @@ Application.prototype.changeMeridianMode = function () {
  * Put the camera back to its initial position.
  * @return {void}
  */
-Application.prototype.resetCamera = function(){
-	console.log("resetCamera (appli)");
+Application.prototype.resetCamera = function () {
 	this.surfaceView.resetCamera();
 };
+
+
+//==============================================================================
 /**
  * TODO
+ * 
+ * @return {void}
  */
 Application.prototype.changeRevolMode = function () {
 	var mode = $('#revolType :radio:checked').attr ('id');
@@ -272,3 +284,37 @@ Application.prototype.changeRevolMode = function () {
 
 	this.revolView.draw ();
 };
+
+
+//==============================================================================
+/**
+ * TODO
+ * 
+ * @return {void}
+ */
+Application.prototype.changeDimension = function () {
+	var dim = [0, 0, 0];
+	dim[0] = Math.min (256, Math.max (
+		parseInt (document.getElementById ("dimx").value), 1));
+	dim[1] = Math.min (256, Math.max (
+		parseInt (document.getElementById ("dimy").value), 1));
+	dim[2] = Math.min (256, Math.max (
+		parseInt (document.getElementById ("dimz").value), 1));
+	
+	var box = this.surfaceView.getContainer ().getObjectByName ("boundingBox");
+	box.setDimension (dim);
+};
+
+
+//==============================================================================
+/**
+ * Closes the current drawn curve.
+ * 
+ * @return {void}
+ */
+Application.prototype.closeCurve = function () {
+	if ($('#meridianType :radio:checked').attr ('id') === "meridianFreeHand")
+		this.meridianView.closeCurve ();
+};
+
+
