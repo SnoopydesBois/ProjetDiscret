@@ -118,11 +118,14 @@
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_MenuAction.js"></script>
-		<script type="text/javascript" src="Js/Interface/Application_translate.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Translate.js"></script>
 
 		<script type="text/javascript" src="Js/Objects/N64.js"></script>
 		<!-- <script type="text/javascript" src="Js/Objects/Cube.js"></script> -->
 
+		<!-- Entrer equation -->
+		<script type="text/javascript" src="Curves/Revolution/eq.js"></script>
+		
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
@@ -479,13 +482,27 @@
 							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 					</div>
 					<button onClick="appli.show (true)">Modifier</button>
+<<<<<<< HEAD
+					
+					<div>												       
+						<center>
+								<form>
+									<p >Entrez Equation de courbe</p>
+									<input type="text" id="rec" name="rec"/><br/><br/>
+									<button   class="eq">OK</button>
+											
+								</form>
+						</center>
+					</div>
+	
+=======
+>>>>>>> origin/master
 				</div>
 
-				<canvas id="surfaceCanvas">
-				</canvas>
-					<img id="loadingImg" src="Styles/loading.gif"
-						alt="loading" title="Loading..."
-						style="display: none"/>
+				<canvas id="surfaceCanvas"></canvas>
+				<div id="loadingImg" style="display: none">
+					<p class="tr">Génération...</p>
+				</div>
 
 				<div id="surfaceOption" class="optionPanel">
 					<div class="wrapper">
