@@ -119,16 +119,23 @@ Controller2D.prototype.getActiveCurve = function () {
  * TODO doc
  *
  * @param {(Curve | String)} name - TODO ???
+ * @param {(EquationTypeEnum)} type - TODO ???
  *
  * @return {void}
  */
-Controller2D.prototype.setActive = function (name) {
+Controller2D.prototype.setActive = function (name, type) {
 	if(!(name instanceof Curve) && !(typeof name == "string")){
 		throw "Controller2D.setActive.ErrorParameterType";
 	}
 
 	/// set the curve
-	var curve = this.modelCurve.setActive (name);
+	var curve;
+	if(type == undefined){
+		curve =  this.modelCurve.setActive (name);
+	}
+	else{
+		curve = this.modelCurve.setActive (name, type);
+	}
 	this.modelParameter.setCurve(curve);
 };
 

@@ -138,12 +138,13 @@
 			<li id="fileMenu" tabindex="1">
 				<h1 key="m1" class="tr">Fichier</h1>
 				<ul>
-					<li title="Créer un nouveau modèle"
-						onclick="" key="m11" class="tr">Nouveau</li>
-
-					<li title="Ouvrir un modèle depuis un fichier sur cet ordinateur"
+					<li title="Ouvrir une meridienne depuis un fichier sur cet ordinateur"
 						onclick="this.firstElementChild.click()" key="m12" class="tr">
-						<input type="file" id="i_file" style="display:none">Ouvrir</input>
+						<input type="file" id="i_file" onchange="appli.loadMeridian(event)" style="display:none">Charger méridienne</input>
+					</li>
+					<li title="Ouvrir une courbe de revolution depuis un fichier sur cet ordinateur"
+						onclick="this.firstElementChild.click()" key="m12" class="tr">
+						<input type="file" id="i_file" onchange="appli.loadRevolution(event)" style="display:none">Charger courbe de révolution</input>
 					</li>
 					<li title="Enregistrer le modèle actuel"
 						key="m13" class="tr" onclick="appli.saveCurves()">Enregistrer</li>

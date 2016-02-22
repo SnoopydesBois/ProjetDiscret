@@ -90,7 +90,7 @@ ParameterViewer.prototype.displayParameter = function (draw, getRange) {
 		 * &#8227; triangle
 		 * &bull; dot
 		 */
-		li.append ("<p class='titleParam'>&#9187; " + param + "</p>");
+		li.append ("<p class='titleParam'>&nbsp; " + param + "</p>");
 		var input = $("<input type='range' name='" + param + "' id='" + id + param
 			+ "' class='rangeParam' value='" + listParameter[param] + "' min='"
 			+ range.getMin() + "' max='" + range.getMax() + "'/>");
