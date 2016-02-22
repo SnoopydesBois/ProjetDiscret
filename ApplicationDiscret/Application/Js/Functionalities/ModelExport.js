@@ -328,3 +328,124 @@ ModelExport.prototype.exportSTL = function(renderer){
     // FileSaver.js defines `saveAs` for saving files out of the browser
     saveAs(blob, "surfaceSTL.stl");
 }
+
+
+
+//==============================================================================
+/**
+ * Save the current meridian and the current curve of revolution to a zip archive
+ */
+ModelExport.prototype.saveCurves = function(meridian, revolution){
+	// Date of save
+	var date = new Date();
+	
+	var txtDate = date.getDate() + "_" + date.getMonth() + 1 + "_" + date.getFullYear() + "@" + date.getHours(); 
+	
+	// Zip creation
+	var zip = new JSZip();
+	
+	// Folder containing 3 files
+	var modelFolder = zip.folder("Curves " + txtDate);
+	
+	
+	if(meridian instanceof FormulaCurve){
+		modelFolder.file("Meridian.xml", 
+				this.writeExplicit(meridian)
+			);
+
+	}
+	else if(meridian instanceof DrawnCurve){
+		modelFolder.file("Meridian.xml", 
+				this.writeDrawn(meridian)
+			);
+	}	
+			
+	modelFolder.file("Revolution.xml",
+			this.writeImplicit(revolution)
+		);
+	
+	var content = zip.generate({type:"blob"});
+	
+	window.saveAs(content, "Curves.zip");
+};
+
+
+//==============================================================================
+/**
+ *
+ */
+ModelExport.prototype.writeExplicit = function(curve){
+	return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + 
+			'<!DOCTYPE Curve  [\n' +
+					'\t\t<!ELEMENT Curve (CurveType, Equation)>\n' +
+					'\t\t<!ELEMENT CurveType (Class)>\n' +
+					'\t\t<!ELEMENT Class (#PCDATA)>\n' +
+					'\t\t<!ELEMENT Equation (#PCDATA)>\n' +
+				']>\n' +
+			'<Curve>\n' +
+				'\t<CurveType>\n' +
+					'\t\t<Class> Explicit </Class>\n' +
+				'\t</CurveType>\n' +
+				'\t<Equation>' +  curve.getEquation()  + '</Equation>\n' +
+			'</Curve>';
+};
+
+
+//==============================================================================
+/**
+ *
+ */
+ModelExport.prototype.writeImplicit = function(curve){
+	return '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n' + 
+			'<!DOCTYPE Curve  [\n' +
+					'\t\t<!ELEMENT Curve (CurveType, Equation)>\n' +
+					'\t\t<!ELEMENT CurveType (Class)>\n' +
+					'\t\t<!ELEMENT Class (#PCDATA)>\n' +
+					'\t\t<!ELEMENT Equation (#PCDATA)>\n' +
+				']>\n' +
+			'<Curve>\n' +
+				'\t<CurveType>\n' +
+					'\t\t<Class> Implicit </Class>\n' +
+				'\t</CurveType>\n' +
+				'\t<Equation>' +  curve.getEquation()  + '</Equation>\n' +
+			'</Curve>';
+};
+
+
+//==============================================================================
+/**
+ *
+ */
+ModelExport.prototype.writeDrawn = function(curve){
+	var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n' + 
+				'<!DOCTYPE Curve [\n' +
+						'\t\t<!ELEMENT Curve (CurveType, Equation)>\n' +
+						'\t\t<!ELEMENT CurveType (Class)>\n' +
+						'\t\t<!ELEMENT Class (#PCDATA)>\n' +
+						'\t\t<!ELEMENT xCoords (#PCDATA)>\n' +
+						'\t\t<!ELEMENT yCoords (#PCDATA)>\n' +
+				']>\n'+
+				'<Curve>\n' +
+					'\t<CurveType>\n' +
+						'\t\t<Class> Explicit </Class>\n' +
+					'\t</CurveType>\n' +
+					'\t<xCoords> ';
+				
+	var list = curve.getXList();
+	for(var i = 0; i < list.length; i++){
+		xml += list[i] + " ";
+	}
+	
+	xml += '\t</xCoords>\n' +
+			'\t<yCoords> ';
+	
+	list = curve.getYList();
+	for(var i = 0; i < list.length; i++){
+		xml += list[i] + " ";
+	}
+	
+	xml += '\t</yCoords>\n' +
+			'</Curve>';
+	return xml;
+	
+};

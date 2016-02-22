@@ -191,6 +191,17 @@ Application.prototype.exportSTL = function(){
 	this.exportController.exportSTL(this.surfaceView.getSurfaceRenderer());
 };
 
+
+//==============================================================================
+/**
+ *
+ */
+Application.prototype.saveCurves = function(){
+	// console.log("Application:SaveCurves");
+	this.exportController.saveCurves(this.meridianController.getActiveCurve(), this.revolController.getActiveCurve());
+};
+
+
 //==============================================================================
 /**
  * TODO
