@@ -13,10 +13,12 @@
     position: static;
 }
 
+
 .paramPanel li {
     border-bottom: solid 1px black;
     padding: 0.1em;
 }
+
 
 .paramPanel input {
     max-width: 90%;
@@ -77,3 +79,4 @@
     background-color: #DDD;
     border-color: #BBB;
 }
+

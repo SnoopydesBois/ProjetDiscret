@@ -1,4 +1,4 @@
-FormulaCurve.prototype = new Curve();
+FormulaCurve.prototype = new Curve;
 FormulaCurve.prototype.constructor = FormulaCurve;
 
 //==============================================================================

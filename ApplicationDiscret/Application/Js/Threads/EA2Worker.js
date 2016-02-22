@@ -16,10 +16,6 @@
 
 
 
-importScripts("../Libraries/math.js");
-importScripts("../Objects/Equation.js");
-importScripts("../Objects/Vector.js");
-importScripts("../Enum/ConnexityEnum.js");
 importScripts("WorkersUtil.js");
 
 

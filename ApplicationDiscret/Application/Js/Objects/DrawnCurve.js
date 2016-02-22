@@ -22,6 +22,7 @@
 /**
  * @classdesc TODO
  */
+DrawnCurve.prototype = new Curve;
 DrawnCurve.prototype.constructor = DrawnCurve;
 
 
@@ -37,7 +38,9 @@ DrawnCurve.prototype.constructor = DrawnCurve;
  * TODO
  */
 function DrawnCurve () {
-
+	
+	Curve.call (this);
+	
 	/**
 	 * {Number[]} X coordinate point list.
 	 */
@@ -47,7 +50,7 @@ function DrawnCurve () {
 	 * {Number[]} Y coordinate point list.
 	 */
 	this.yList = [];
-};
+}
 
 
 

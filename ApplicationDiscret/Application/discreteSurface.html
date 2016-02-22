@@ -35,7 +35,7 @@
 		<script type="text/javascript" src="Js/Libraries/webgl-debug.js"></script>
 
 		<script type="text/javascript" src="Js/Objects/Range.js"></script>
-		<script type="text/javascript" src="Js/Objects/Dimension.js"></script>
+<!--		<script type="text/javascript" src="Js/Objects/Dimension.js"></script>-->
 		<script type="text/javascript" src="Js/Objects/Equation.js"></script>
 		<script type="text/javascript" src="Js/Objects/Camera.js"></script>
 		<script type="text/javascript" src="Js/Objects/Vector.js"></script>
@@ -357,7 +357,7 @@
 <!--#########################################################################-->
 
 
-				<div id="meridianView">
+				<div id="meridianView" class="viewer">
 					<ul id="meridianParam" class="paramPanel"></ul>
 
 					<canvas id="meridianCanvas" style="display:none"></canvas>
@@ -406,10 +406,8 @@
 <!--#########################################################################-->
 
 
-				<div id="revolView">
-					<ul id="revolParam" class="paramPanel">
-						<!-- <div id="listRevolutionParameters"></div> -->
-					</ul>
+				<div id="revolView" class="viewer">
+					<ul id="revolParam" class="paramPanel"></ul>
 					<canvas id="revolCanvas" style="display:none"></canvas>
 					<div id="revolCanvas2"></div>
 
@@ -452,17 +450,15 @@
 							</div>
 						</form>
 					</div>
-
-				</div>
-
-			</div>
+				</div><!-- end #revolView -->
+			</div><!-- end #curvesView -->
 
 <!--#########################################################################-->
 <!-- Surface view -->
 <!--#########################################################################-->
 
 
-			<div id="surfaceView">
+			<div id="surfaceView" class="viewer">
 				<div id="surfaceParam" class="paramPanel">
 					<button onclick="appli.generateAndDraw (0)" key="surf1" class="tr">Générer</button>
 					<button onclick="appli.generateAndDraw (1)" key="surf2" class="tr">Génération non optimisée</button>
@@ -495,16 +491,6 @@
 							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 					</div>
 					<button onClick="appli.show (true)">Modifier</button>
-
-					<!-- <div>
-						<center>
-							<form>
-								<p>Entrez Equation de courbe</p>
-								<input type="text" name="recup_equation"/><br/><br/>
-								<input type="submit" onclick="recuperer();" value="OK"/>
-							</form>
-						</center>
-					</div> -->
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>
@@ -536,6 +522,7 @@
 					<!-- TODO traduire -->
 					<button key="" class="tr" onclick="appli.show (true)">Visualiser</button>
 				</div>
+			</div><!-- end #surfaceView -->
 
 
 <!--#########################################################################-->
@@ -543,8 +530,7 @@
 <!--#########################################################################-->
 
 
-			</div>
-		</div>
+		</div><!-- #workspace -->
 
 
 		<!-- State bar -->

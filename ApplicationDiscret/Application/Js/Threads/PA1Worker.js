@@ -16,12 +16,9 @@
 
 
 
-importScripts("../Libraries/math.js");
-importScripts("../Objects/Equation.js");
-importScripts("../Objects/DrawnCurve.js");
-importScripts("../Objects/Vector.js");
-importScripts("../Enum/ConnexityEnum.js");
 importScripts("WorkersUtil.js");
+importScripts("../Objects/Curve.js");
+importScripts("../Objects/DrawnCurve.js");
 
 
 

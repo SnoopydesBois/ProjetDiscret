@@ -173,7 +173,6 @@ CurveViewer.drawImplicit = function (obj, xRange) {
 };
 
 
-
 //==============================================================================
 /**
  * @static
@@ -289,10 +288,8 @@ CurveViewer.prototype.drawSegment = function (pointA, pointB) {
 	ctx.lineTo (p2.x, p2.y);
 	ctx.stroke ();
 
-var color = ctx.strokeStyle;
-ctx.strokeStyle = "red";
-ctx.strokeRect (p2.x, p2.y, 1, 1);
-ctx.strokeStyle = color;
+ctx.fillStyle = "red";
+ctx.fillRect (p2.x, p2.y, 1, 1);
 };
 
 
@@ -324,6 +321,7 @@ CurveViewer.prototype.clearDraw = function () {
  * @return {void}
  */
 CurveViewer.prototype.onResize = function (event) {
+	this.lastPoint = new Point (-1, -1);
 	this.draw ();
 };
 
@@ -364,17 +362,6 @@ CurveViewer.prototype.onMouseMove = function (event) {
 };
 
 
-//==============================================================================
-/**
- * @override
- * TODO
- *
- * @param {MouseEvent} event - The mouse event.
- */
-CurveViewer.prototype.onMouseUp = function (event) {
-};
-
-
 
 //##############################################################################
 //	Other methods
@@ -391,7 +378,6 @@ CurveViewer.prototype.initCanvasEvent = function () {
 	// initialisation
 	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this));
 	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
-	this.canvas.addEventListener ("mouseup", this.onMouseUp.bind (this));
 
 };
 
@@ -420,8 +406,6 @@ CurveViewer.prototype.pixelToPoint = function (x, y) {
 		y * this.yMaxInput.value / this.glContext.canvas.height
 	);
 	point.y = this.yMaxInput.value - point.y;
-//	point.x = Math.trunc (point.x * 10) / 10; // round value with to decimal
-//	point.y = Math.trunc (point.y * 10) / 10; // round value with to decimal
 	return point;
 };
 
@@ -495,3 +479,5 @@ CurveViewer.computeYScale = function (width, height, xRange) {
 	var yDiff = height * xDiff / width;
 	return [-yDiff / 2, yDiff / 2];
 };
+
+

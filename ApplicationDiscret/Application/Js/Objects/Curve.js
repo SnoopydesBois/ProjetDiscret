@@ -32,7 +32,7 @@ Curve.prototype.constructor = Curve;
 
 
 
-function Curve () {}
+function Curve () {this.plop; }
 
 
 
