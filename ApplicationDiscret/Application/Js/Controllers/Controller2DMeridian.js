@@ -52,7 +52,7 @@ function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
 	 * {ModelDraw} TODO
 	 */
 	this.modelDraw = new ModelDraw ();
-	
+
 	/**
 	 * {HTMLSelectElement} The current curve mode.
 	 */
@@ -71,16 +71,16 @@ function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
  * @return {Curve} The current curve.
  */
 Controller2DMeridian.prototype.getActiveCurve = function () {
-	var mode = this.mode.value;
-	if (mode === "primitive") {
+	var mode = document.forms["meridianType"]["meridianTypeValue"].value
+	if (mode === "meridianPrimitive") {
 		return this.modelCurve.getActiveCurve ();
 	}
-	else if (mode === "handFree") {
+	else if (mode === "meridianFreeHand") {
 		return this.modelDraw.getActiveCurve ();
 	}
 	else {
 		console.error ("Controller2DMeridian.getActiveCurve: unknown drawing "
-			+ "mode");
+			+ "mode: " + mode);
 		return null;
 	}
 };
@@ -89,18 +89,9 @@ Controller2DMeridian.prototype.getActiveCurve = function () {
 //==============================================================================
 /**
  * TODO
- *
- * @param {Dimmension} dim -
  */
-Controller2DMeridian.prototype.startFreeHand = function (dim) {
-	/// parameter verification
-	if (! (dim instanceof Dimension)) {
-		throw "Controlelr2DMeridian.startFreeHand : bad type of parameter";
-	}
-
-	/// add point
-	throw "Controller2DMeridian.startFreeHand: this function is not "
-		+ "implemented";
+Controller2DMeridian.prototype.newCurve = function () {
+	this.modelDraw.newCurve ();
 };
 
 
@@ -121,31 +112,6 @@ Controller2DMeridian.prototype.newFreeHand = function (dim, coord) {
 
 	/// set a new curve
 	throw "Controller2DMeridian.newFreeHand: this function is not implemented";
-};
-
-
-//==============================================================================
-/**
- * Add a point to the current drawn curve. Transform x/y coordinates on the
- * canvas to y/z coordinates in the 3D space.
- *
- * @param {int} x - X coordinate of the new point (in pixel).
- * @param {int} y - Y coordinate of the new point (in pixel).
- * @param {Vector} canvasSize - Size of the cavas (in pixel).
- * @param {Vector} universSize - Size of the 3D space (in voxel).
- *
- * @return {void}
- */
-Controller2DMeridian.prototype.addPoint = function (x, y, canvasSize,
-	universSize) 
-{
-	/// parameter verification
-	if (! checkType (arguments, "number", "number", Vector, Vector)) {
-		throw "Controller2DMeridian.addPoint: bad type(s) of paramter(s)";
-	}
-
-	/// add the point
-	this.modelDraw.addPoint (x, y, canvasSize, universSize);
 };
 
 

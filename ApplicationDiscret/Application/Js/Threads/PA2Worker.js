@@ -16,11 +16,9 @@
 
 
 
-importScripts("../Libraries/math.js");
-importScripts("../Objects/Equation.js");
-importScripts("../Objects/Vector.js");
-importScripts("../Enum/ConnexityEnum.js");
 importScripts("WorkersUtil.js");
+importScripts("../Objects/Curve.js");
+importScripts("../Objects/DrawnCurve.js");
 
 
 
@@ -34,7 +32,7 @@ importScripts("WorkersUtil.js");
  */
 var dimension;
 var implicit_curve;
-var explicit_curve;
+var parametric_curve;
 var checked = [];
 var dimx;
 var dimy;
@@ -64,26 +62,25 @@ function algo () {
 	//find first voxel
 	for (t = 0; t < dimt && bufferSize === 0; ++z) {
 		tValues[t] = [];
-		tValues[t][0] = explicit_curve.getX(t);
+		tValues[t][0] = parametric_curve.getX(t);
 		if (tValues[t][0] === 0) tValues[t][0]=0.001;
-		tValues[t][1] = explicit_curve.getX(t - 0.5);
+		tValues[t][1] = parametric_curve.getX(t - 0.5);
 		if (tValues[t][1] === 0) tValues[t][1]=0.001;
-		tValues[t][2] = explicit_curve.getX(t + 0.5);
+		tValues[t][2] = parametric_curve.getX(t + 0.5);
 		if (tValues[t][2] === 0) tValues[t][2]=0.001;
 		z = Math.floor(parametric_curve.getY(t) + 0.5);
 		for (y = 0; y < dimy && bufferSize === 0; ++y){
 			for (x = 0; x < dimx && bufferSize === 0; ++x){
-				connexity = checkVoxel(implicit_curve, x - maxx, y - maxy,ttValues[t]);
+				connexity = checkVoxel(implicit_curve, x - maxx, y - maxy, tValues[t]);
 				if(connexity !== 0){
 					buffer.push([x, y, z, connexity]);
 					bufferSize++;
-					addNeighboursToPile(x,y,t,pile, checked);
+					addNeighboursToPile(x,y,t,pile, checked, dimx, dimy, dimt);
 				}
 				checked[x][y][t] = true;
 			} // end for x
 		} // end for y
 	} // end for z
-
 	//Incrementation
 	var voxel;
 	while(pile.length > 0){
@@ -97,18 +94,18 @@ function algo () {
 		//postMessage(["checkedVoxels"], checked);
 		if(tValues[voxel[2]] == undefined){
 			tValues[voxel[2]] = [];
-			tValues[voxel[2]][0] = explicit_curve.compute([voxel[2]]);
+			tValues[voxel[2]][0] = parametric_curve.getX([voxel[2]]);
 			if (tValues[voxel[2]][0] == 0) tValues[voxel[2]][0]=0.01;
-			tValues[voxel[2]][1] = explicit_curve.compute([voxel[2] - 0.5]);
+			tValues[voxel[2]][1] = parametric_curve.getX([voxel[2] - 0.5]);
 			if (tValues[voxel[2]][1] == 0) tValues[voxel[2]][1]=0.01;
-			tValues[voxel[2]][2] = explicit_curve.compute([voxel[2] + 0.5]);
+			tValues[voxel[2]][2] = parametric_curve.getX([voxel[2] + 0.5]);
 			if (tValues[voxel[2]][2] == 0) tValues[voxel[2]][2]=0.01;
 		}
 		connexity = checkVoxel(implicit_curve, voxel[0] - maxx, voxel[1] - maxy, tValues[voxel[2]]);
 		if(connexity !== 0){
-			buffer.push([voxel[0], voxel[1], Math.floor(parametric_curve.getY(t) + 0.5), connexity]);
+			buffer.push([voxel[0], voxel[1], Math.floor(parametric_curve.getY(voxel[2]) + 0.5), connexity]);
 			bufferSize++;
-			addNeighboursToPile(voxel[0],voxel[1],voxel[2],pile, checked);
+			addNeighboursToPile(voxel[0],voxel[1],voxel[2],pile, checked, dimx, dimy, dimt);
 		}
 	}
 	//post last buffer
@@ -117,18 +114,20 @@ function algo () {
 
 
 function init(e) {
-	explicit_curve = new Equation (e.data[0]);
+	parametric_curve = new DrawnCurve ();
+	parametric_curve.xList = e.data[0][0];
+	parametric_curve.yList = e.data[0][1];
 	implicit_curve = new Equation (e.data[1]);
 	dimension = new Vector(e.data[2]);
 	dimx = dimension.x;
 	dimy = dimension.y;
-	dimt = explicit_curve.getMaxT();
+	dimt = parametric_curve.getMaxT();
 	var x, y, t;
 	for (x = 0; x < dimx; ++x) {
 		checked[x] = [];
 		for (y = 0; y < dimy; ++y) {
 			checked[x][y] = [];
-			for (t = 0; t < dimz; ++t) {
+			for (t = 0; t < dimt; ++t) {
 				checked[x][y][t] = false;
 			}
 		}

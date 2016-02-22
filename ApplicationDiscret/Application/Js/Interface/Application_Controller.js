@@ -133,96 +133,142 @@ Application.prototype.changeRevol = function (name) {
  */
 Application.prototype.getAllParameters = function (name) {
 	if (name === 'meridian') {
-		this.meridianController.getAllParameters();
+		this.meridianController.getAllParameters ();
 	}
 	else if (name === 'revolution') {
-		this.revolController.getAllParameters();
+		this.revolController.getAllParameters ();
 	}
 };
 
-
-//==============================================================================
-/**
- *
- */
-Application.prototype.export3DPng = function(){
-	this.exportController.export3DPng(this.surfaceView);
-}
-
-
-//==============================================================================
-/**
- *
- */
-Application.prototype.exportMeridianPng = function(){
-	this.exportController.exportMeridianPng();
-}
-
-
-//==============================================================================
-/**
- *
- */
-Application.prototype.exportRevolutionPng = function(){
-	this.exportController.exportRevolutionPng();
-}
-
-
-//==============================================================================
-/**
- *
- */
-Application.prototype.exportX3D = function(){
-	// console.log(this.surfaceView);
-	if(this.surfaceView.getSurfaceRenderer().getSurface() == null){
-		return;
-	}
-	this.exportController.exportX3D(this.surfaceView.getSurfaceRenderer().getSurface());
-}
-
-//==============================================================================
-/**
- *
- */
-Application.prototype.exportSTL = function(){
-	if(this.surfaceView.getSurfaceRenderer() == null){
-		return;
-	}
-	this.exportController.exportSTL(this.surfaceView.getSurfaceRenderer());
-};
 
 //==============================================================================
 /**
  * TODO
- *
- * @param {String} mode - The selected mode.
  */
-Application.prototype.changeMeridianMode = function (mode) {
-	$("#primitive").hide ();
-	$("#handFree").hide ();
-	$("#formula").hide ();
-	
-	if (mode === "primitive") {
+Application.prototype.export3DPng = function () {
+	this.exportController.export3DPng (this.surfaceView);
+}
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+Application.prototype.exportMeridianPng = function () {
+	this.exportController.exportMeridianPng ();
+}
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+Application.prototype.exportRevolutionPng = function () {
+	this.exportController.exportRevolutionPng ();
+}
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+Application.prototype.exportX3D = function () {
+	if (this.surfaceView.getSurfaceRenderer ().getSurface () == null) {
+		return;
+	}
+	this.exportController.exportX3D (
+		this.surfaceView.getSurfaceRenderer ().getSurface ());
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+Application.prototype.exportSTL = function () {
+	if (this.surfaceView.getSurfaceRenderer () == null) {
+		return;
+	}
+	this.exportController.exportSTL (this.surfaceView.getSurfaceRenderer ());
+};
+
+
+
+//==============================================================================
+/**
+ *
+ */
+Application.prototype.saveCurves = function(){
+	// console.log("Application:SaveCurves");
+	this.exportController.saveCurves(this.meridianController.getActiveCurve(), this.revolController.getActiveCurve());
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+Application.prototype.changeMeridianMode = function () {
+	var mode = $('#meridianType :radio:checked').attr ('id');
+	if (mode === "meridianPrimitive") {
 		$("#meridianCanvas").hide (); // hide the div
 		$("#meridianCanvas2").show (); // display the canvas
-		
-		$("#" + mode).show ();
+
+		this.exportController.setIdMeridian ("meridianCanvas2");
 	}
-	else if (mode === "handFree") {
+	else if (mode === "meridianFreeHand") {
 		$("#meridianCanvas2").hide ();
 		$("#meridianCanvas").show ();
-		
-		$("#" + mode).show ();
+
+		this.exportController.setIdMeridian ("meridianCanvas");
 	}
-	else if (mode === "formula") {
-		$("#meridianCanvas2").hide ();
-		$("#meridianCanvas").show ();
-		
-		$("#" + mode).show ();
+	else if (mode === "meridianFormula") {
+		$("#meridianCanvas").hide ();
+		$("#meridianCanvas2").show ();
+
+		this.exportController.setIdMeridian ("meridianCanvas");
 	}
 	else {
-		console.error ("Application.changeMeridianMode: unkown given mode:",
-			mode);
+		throw "Application.changeMeridianMode: unkown given mode: " + mode;
+	}
+	// $("#primitive").hide ();
+	// $("#freeHand").hide ();
+	// $("#formula").hide ();
+	// $("#" + mode).show ();
+
+	this.meridianView.draw ();
+};
+
+
+//==============================================================================
+/**
+ * Put the camera back to its initial position.
+ * @return {void}
+ */
+Application.prototype.resetCamera = function(){
+	console.log("resetCamera (appli)");
+	this.surfaceView.resetCamera();
+};
+/**
+ * TODO
+ */
+Application.prototype.changeRevolMode = function () {
+	var mode = $('#revolType :radio:checked').attr ('id');
+	if (mode === "revolPrimitive") {
+		// $("#meridianCanvas").hide (); // hide the div
+		// $("#meridianCanvas2").show (); // display the canvas
+		//
+		// this.exportController.setIdMeridian ("meridianCanvas2");
+	}
+	else if (mode === "revolFormula") {
+		// $("#meridianCanvas").hide ();
+		// $("#meridianCanvas2").show ();
+		//
+		// this.exportController.setIdMeridian ("meridianCanvas");
+	}
+	else {
+		throw "Application.changeRevolMode: unkown given mode: " + mode;
 	}
 
+	this.revolView.draw ();
 };

@@ -12,54 +12,63 @@
 #workspace,
 #workspace div,
 #workspace canvas {
-	box-sizing : border-box;
-	-moz-box-sizing : border-box;
-	-webkit-box-sizing : border-box;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 	position: absolute;
+	margin: 0;
+	padding: 0;
+}
+
+
+ul, li {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
 }
 
 
 #workspace {
-	top : 25px;
-	left : 0;
-	width : 100%;
-	height : calc(100% - 25px - 25px);
+	top: 25px;
+	left: 0;
+	width: 100%;
+	height: calc(100% - 25px - 25px);
 }
 
 
 #curvesView {
-	top : 0;
-	left : 0;
-	width : 35%;
-	height : 100%;
-	border-right : 1px solid gray;
+	top: 0;
+	left: 0;
+	width: 35%;
+	height: 100%;
+	border-right: 1px solid gray;
 }
 
 
 #curvesView .optionPanel > * {
-	display : inline-block;
+	display: inline-block;
 }
 
 
 .paramPanel {
-	top : 0;
-	left : 0;
-	width : 30%;
-	height : calc(100% - 42px);
-	background-color : #DDD;
-	border-right : 1px solid gray;
+	top: 0;
+	left: 0;
+	width: 30%;
+	height: calc(100% - 42px);
+	background-color: #DDD;
+	border-right: 1px solid gray;
+	box-sizing: content-box;
 }
 
 
 .optionPanel {
-	bottom : 0;
-	left : 0;
-	width : 100%;
-	height : 42px;
-	background-color : #DDD;
-	border-top : 1px solid gray;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 42px;
+	background-color: #DDD;
+	border-top: 1px solid gray;
 }
-
 
 
 .paramPanel div.wrapper,
@@ -69,34 +78,123 @@
 
 
 #curvesView canvas, #meridianCanvas2, #revolCanvas2 {
-	top : 0;
-	right : 0;
-	width : 70%;
-	height : calc(100% - 42px);
-	background-color : white;
+	top: 0;
+	right: 0;
+	width: calc(70% - 1px);
+	height: calc(100% - 42px);
+	background-color: white;
+	border: solid #5f8 1px;
 }
+
+
+.viewer {
+	background-color: #BBB;
+}
+
+
+/* Fix firefox bug for "outline: none"
+ * (see: http://stackoverflow.com/questions/18794026/remove-dotted-outline-from-range-input-element-in-firefox)
+ */
+input[type=range]::-moz-focus-outer {
+    border: 0;
+}
+
 
 
 	/*** Meridian ***/
 
 
 #meridianView {
-	top : 0;
-	left : 0;
-	width : 100%;
-	height : 50%;
-	border-bottom : 1px solid gray;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 50%;
+	border-bottom: 1px solid gray;
 }
+
+
+.buttonGroup {
+	width: 100%;
+	height: 100%;
+}
+
+
+.buttonGroup label {
+	height: 100%;
+	width: 42px;
+	box-sizing: border-box;
+}
+
+
+.buttonGroup input[type=radio] + div {
+	position: relative !important;
+	left: 2px;
+	display: none;
+}
+
+
+#meridianType .optionGroup {width: calc(100% - 3 * 42px - 1px);}
+#revolType .optionGroup {width: calc(100% - 2 * 42px - 2px);}
+
+
+.buttonGroup input[type=radio]:checked + div {
+	display: inline-block;
+}
+
+
+.buttonGroup .ui-corner-left,
+.buttonGroup .ui-corner-right {
+	border-radius: 0;
+}
+
+
+.optionGroup p {
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}
+
+
+#meridianOption .formulaInput input {
+	width: calc(100% - 4em);
+}
+
+
+#revolOption .formulaInput input {
+	width: calc(100% - 7em);
+}
+
+
+.buttonGroup label[for] {
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+
+label[for=meridianPrimitive], label[for=revolPrimitive] {
+	background-image: url("wave.png");
+}
+
+
+label[for=meridianFreeHand] {
+	background-image: url("pencil.png");
+}
+
+
+label[for=meridianFormula], label[for=revolFormula] {
+	background-image: url("formula.png");
+}
+
 
 
 	/*** Revolution ***/
 
 
 #revolView {
-	bottom : 0;
-	left : 0;
-	width : 100%;
-	height : 50%;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 50%;
 }
 
 
@@ -104,54 +202,36 @@
 
 
 #surfaceView {
-	top : 0;
-	right : 0;
-	width : 65%;
-	height : 100%;
+	top: 0;
+	right: 0;
+	width: 65%;
+	height: 100%;
 }
 
 
 #surfaceView .paramPanel {
-	right : 0;
-	left : auto;
-	width : 20%;
-	height : calc(100% - 42px);
-	border-right : none;
-	border-left : 1px solid gray;
+	right: 0;
+	left: auto;
+	width: 20%;
+	height: calc(100% - 42px);
+	border-right: none;
+	border-left: 1px solid gray;
 }
 
 
 #surfaceView .optionPanel {
-	width : 100%;
-	height : 42px;
+	width: 100%;
+	height: 42px;
 }
 
 
-#surfaceCanvas {
-	top : 0;
-	left : 0;
-	width : 80%;
-	height : calc(100% - 42px);
-	background-color : black;
+#surfaceCanvas, #loadingImg {
+	top: 0;
+	left: 0;
+	width: 80%;
+	height: calc(100% - 42px);
+	background-color: #121214;
 }
 
 
 	/*** Parameters ***/
-
-
-#revolParam #meridianParam {
-	position : relative;
-}
-
-
-#surfaceView .doubleSliders {
-	margin : -0.5em 5% 0.5em 5%;
-	position : relative;
-}
-
-
-.doubleSliders .ui-slider-handle {
-	width : 0.1em;
-	height : 1.2em;
-	margin-left : 0px;
-}
