@@ -47,13 +47,11 @@ aLangKeys['en']['m23'] = 'Orthographic';
 aLangKeys['en']['m24'] = 'Add N64';
 aLangKeys['en']['m25'] = 'Delete N64';
 aLangKeys['en']['m26'] = 'RGB Color';
-aLangKeys['fr']['m25'] = 'Show/hide graduation';
-aLangKeys['fr']['m26'] = 'Show/hide space limits';
+aLangKeys['en']['m27'] = 'Show/hide graduation';
+aLangKeys['en']['m28'] = 'Show/hide 3D space limits';
 
 /* Menu Outils anglais */
 aLangKeys['en']['m3'] = 'Tools';
-aLangKeys['en']['m31'] = 'Cancel';
-aLangKeys['en']['m32'] = 'Again';
 aLangKeys['en']['m33'] = '2D Tools';
 aLangKeys['en']['m34'] = '3D Tools';
 
@@ -70,21 +68,26 @@ aLangKeys['en']['m338'] = 'Add merridian';
 aLangKeys['en']['m339'] = 'Add revolution curve';
 
 /* Sous menu 3D anglais */
-aLangKeys['en']['m341'] = 'Connexity';
-aLangKeys['en']['m342'] = 'Dimension';
-aLangKeys['en']['m343'] = 'Display graduation';
-aLangKeys['en']['m344'] = 'Voxels size';
-aLangKeys['en']['m345'] = 'Multislices';
+aLangKeys['en']['m341'] = 'Dimension';
+aLangKeys['en']['m342'] = 'Display graduation';
+aLangKeys['en']['m343'] = 'Voxels size';
+aLangKeys['en']['m344'] = 'Multislices';
 
 
 /* Menu export anglais */
 aLangKeys['en']['m4'] = 'Export';
-aLangKeys['en']['m41'] = 'Download as image';
-aLangKeys['en']['m42'] = 'Export 3D';
+aLangKeys['en']['m41'] = 'Export 3D Area';
+aLangKeys['en']['m42'] = 'Export Merridian';
+aLangKeys['en']['m43'] = 'Export Revolution Curve';
+aLangKeys['en']['m44'] = 'Export 3D';
 
 /*sous menue export 3D anglais*/
-aLangKeys['en']['m421'] = 'Export X3D';
-aLangKeys['en']['m422'] = 'Export Print X3D';
+aLangKeys['en']['m441'] = 'Export X3D';
+aLangKeys['en']['m442'] = 'Export Print X3D';
+
+
+
+
 
 /*Menu Aide anglais*/
 aLangKeys['en']['m5'] = 'Help';
@@ -111,7 +114,13 @@ aLangKeys['en']['surf1'] = 'Generate';
 aLangKeys['en']['surf2'] = 'Generation not optimized';
 aLangKeys['en']['surf3'] = 'List of surface parameters';
 
-
+/*Autres champs en Anglais*/
+aLangKeys['en']['a1'] = 'angle';
+aLangKeys['en']['a2'] = 'Shift';
+aLangKeys['en']['a3'] = 'Delete';
+aLangKeys['en']['a4'] = 'crushing';
+aLangKeys['en']['a5'] = 'display';
+aLangKeys['en']['a6'] = 'modify';
 
 //##############################################################################
 //	French
@@ -133,13 +142,11 @@ aLangKeys['fr']['m23'] = 'Orthographique';
 aLangKeys['fr']['m24'] = 'Ajouter N64';
 aLangKeys['fr']['m25'] = 'Supprimer N64';
 aLangKeys['fr']['m26'] = 'Couleur RVB';
-aLangKeys['fr']['m25'] = 'Afficher/Cacher repère';
-aLangKeys['fr']['m26'] = 'Afficher/Cacher limite 3D';
+aLangKeys['fr']['m27'] = 'Afficher/Cacher repère';
+aLangKeys['fr']['m28'] = 'Afficher/Cacher limite 3D';
 
 /* Menu Outils Franaçis */
 aLangKeys['fr']['m3'] = 'Outils';
-aLangKeys['fr']['m31'] = 'Annuler';
-aLangKeys['fr']['m32'] = 'Refaire';
 aLangKeys['fr']['m33'] = 'Outils 2D';
 aLangKeys['fr']['m34'] = 'Outils 3D';
 
@@ -155,31 +162,21 @@ aLangKeys['fr']['m338'] = 'Ajout méridienne';
 aLangKeys['fr']['m339'] = 'Ajout courbe de révolution';
 
 /* Sous menu 3D français */
-aLangKeys['fr']['m341'] = 'Connexité';
-aLangKeys['fr']['m342'] = 'Dimension';
-<<<<<<< HEAD
-
-aLangKeys['fr']['m343'] = 'Afficher le repére';
-aLangKeys['fr']['m344'] = 'Taille des voxels';
-aLangKeys['fr']['m345'] = 'multicoupes';
-aLangKeys['fr']['m343'] = 'Afficher le repère';
-aLangKeys['fr']['m344'] = 'Taille des voxels';
-aLangKeys['fr']['m345'] = 'Multicoupes';
-
-=======
-aLangKeys['fr']['m343'] = 'Afficher le repère';
-aLangKeys['fr']['m344'] = 'Taille des voxels';
-aLangKeys['fr']['m345'] = 'Multicoupes';
->>>>>>> origin/master
+aLangKeys['fr']['m341'] = 'Dimension';
+aLangKeys['fr']['m342'] = 'Afficher le repère';
+aLangKeys['fr']['m343'] = 'Taille des voxels';
+aLangKeys['fr']['m344'] = 'Multicoupe';
 
 /* Menu export français */
 aLangKeys['fr']['m4'] = 'Export';
-aLangKeys['fr']['m41'] = 'Télecharger comme image';
-aLangKeys['fr']['m42'] = 'Export 3D';
+aLangKeys['fr']['m41'] = 'Exporter surface 3D';
+aLangKeys['fr']['m42'] = 'Exporter méridienne';
+aLangKeys['fr']['m43'] = 'Exporter courbe de révolution';
+aLangKeys['fr']['m44'] = 'Export 3D';
 
 /* Sous menu export 3D français */
-aLangKeys['fr']['m421'] = 'Export X3D';
-aLangKeys['fr']['m422'] = 'Export impression X3D';
+aLangKeys['fr']['m441'] = 'Export X3D';
+aLangKeys['fr']['m442'] = 'Export impression X3D';
 
 /* Menu Aide français*/
 aLangKeys['fr']['m5'] = 'Aide';
@@ -187,20 +184,15 @@ aLangKeys['fr']['m51'] = 'Afficher aide';
 aLangKeys['fr']['m52'] = 'À propos';
 
 /* Liste des paramétres méridienne français */
-<<<<<<< HEAD
 
 aLangKeys['fr']['mer1'] = 'List of meridian parameters';
-
 aLangKeys['fr']['mer1'] = 'Liste des paramètres de la méridienne';
-
-=======
 aLangKeys['fr']['mer1'] = 'Liste des paramètres de la méridienne';
->>>>>>> origin/master
 aLangKeys['fr']['mer2'] = 'Option Méridienne';
 aLangKeys['fr']['mer3'] = 'ligne';
 aLangKeys['fr']['mer4'] = 'Sinusoid';
 
-<<<<<<< HEAD
+
 
 /* Liste des paramétres revolution français */
 aLangKeys['fr']['revol1'] = 'Liste des paramètres Révolution';
@@ -210,11 +202,11 @@ aLangKeys['fr']['revol2'] = 'Option Revolution';
 aLangKeys['fr']['revol1'] = 'Liste des paramètres Révolution';
 aLangKeys['fr']['revol2'] = 'Options Revolution';
 
-=======
+
 /* Liste des paramètres revolution français */
 aLangKeys['fr']['revol1'] = 'Liste des paramètres Révolution';
 aLangKeys['fr']['revol2'] = 'Options Revolution';
->>>>>>> origin/master
+
 aLangKeys['fr']['revol3'] = 'Cercle';
 aLangKeys['fr']['revol4'] = 'Coeur';
 aLangKeys['fr']['revol5'] = 'Lemniscate';
@@ -225,6 +217,13 @@ aLangKeys['fr']['surf2'] = 'Génération non optimisée';
 aLangKeys['fr']['surf3'] = 'Liste des paramètres de la Surface';
 
 
+/*Autres champs en Français*/
+aLangKeys['fr']['a1'] = 'angle';
+aLangKeys['fr']['a2'] = 'décalage';
+aLangKeys['fr']['a3'] = 'Effacer';
+aLangKeys['fr']['a4'] = 'ecrasement';
+aLangKeys['fr']['a5'] = 'Visualiser';
+aLangKeys['fr']['a6'] = 'modifier';
 
 //##############################################################################
 //	Main function
