@@ -169,7 +169,7 @@ function checkVoxel (implicit_curve, x, y, z) {
  * 
  * @return {void}
  */
-function addNeighboursToPile (x, y, z, pile, checked) {
+function addNeighboursToPile (x, y, z, pile, checked, dimx, dimy, dimz) {
 	if(x-1 >= 0 && !checked[x-1][y][z]){
 		checked[x-1][y][z] = true;
 		pile.push([x-1, y, z]);
