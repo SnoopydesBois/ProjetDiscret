@@ -119,14 +119,13 @@ CurveViewer.prototype.draw = function () {
 	var curve = this.controller.getActiveCurve ();
 	var xRange = this.controller.getXRange ();
 	if (curve instanceof ImplicitCurve) {
-		CurveViewer.drawImplicit (curve, xRange);
+		this.drawImplicit (curve);
 	}
 	else if (curve instanceof ExplicitCurve) {
-		CurveViewer.drawExplicit (curve, xRange);
+		this.drawExplicit (curve);
 	}
 	else if (curve instanceof DrawnCurve) {
-		CurveViewer.drawFreeHand (curve, xRange, this.controller.getYRange (),
-			this.glContext);
+		this.drawFreeHand (curve);
 	}
 	else {
 		console.error ("Bad type of curve, find: " + type (curve));
@@ -136,7 +135,6 @@ CurveViewer.prototype.draw = function () {
 
 //==============================================================================
 /**
- * @static
  * Draw a curve implicit curve.
  *
  * @param {ImplicitCurve} obj - The curve to draw.
@@ -144,8 +142,9 @@ CurveViewer.prototype.draw = function () {
  *
  * @return {void}
  */
-CurveViewer.drawImplicit = function (obj, xRange) {
+CurveViewer.prototype.drawImplicit = function (obj) {
 	/// Let's render
+	var xRange = this.controller.getXRange ();
 	var color = "black",
 		width = $('#revolCanvas2').width (),
 		height = $('#revolCanvas2').height (),
@@ -175,7 +174,6 @@ CurveViewer.drawImplicit = function (obj, xRange) {
 
 //==============================================================================
 /**
- * @static
  * Draw a curve explicit curve.
  *
  * @param {ImplicitCurve} obj - The curve to draw.
@@ -183,8 +181,9 @@ CurveViewer.drawImplicit = function (obj, xRange) {
  *
  * @return {void}
  */
-CurveViewer.drawExplicit = function (obj, xRange) {
+CurveViewer.prototype.drawExplicit = function (obj) {
 	/// Let's render
+	var xRange = this.controller.getXRange ();
 	var color = "black",
 		min = Math.min (
 			$('#meridianCanvas2').width (),
@@ -212,51 +211,29 @@ CurveViewer.drawExplicit = function (obj, xRange) {
 
 //==============================================================================
 /**
- * @static
  * Draw a free hand curve.
  *
  * @param {DrawnCurve} obj - The curve to draw.
  * @param {Range} xRange - The inverse image range.
  * @param {Range} yRange - The image range.
- * @param {Range} glContext - The gl context.
  *
  * @return {void}
  */
-CurveViewer.drawFreeHand = function (curve, xRange, yRange, glContext) {
+CurveViewer.prototype.drawFreeHand = function (curve) {
 	/// Let's render
 	var x = curve.getXList (),
 		y = curve.getYList ();
-	var len = x.length;
+	var len = x.length, point;
 
 	if (len > 0) {
-		glContext.beginPath ();
-		glContext.strokeStyle = "black";
-		glContext.moveTo (
-			x[0] * glContext.canvas.width / xRange.length(),
-			y[0] * glContext.canvas.height / yRange.length()
-		);
+		this.lastPoint = new Point (x[0], y[0]);
 		for (var i = 1; i < len ; ++i) {
-			glContext.lineTo (
-				x[i] * glContext.canvas.width / xRange.length(),
-				glContext.canvas.height - 1 - y[i] * glContext.canvas.height
-					/ yRange.length()
-			);
-		}
-		glContext.stroke ();
-		for (var i = 1; i < len ; ++i) {
-			glContext.strokeStyle = "red";
-			glContext.strokeRect (
-				x[i] * glContext.canvas.width / xRange.length(),
-				glContext.canvas.height - 1 - y[i] * glContext.canvas.height
-					/ yRange.length(),
-				1, 1
-			);
-			// console.log ("draw point at",
-			// 	x[i] * glContext.canvas.width / xRange.length(),
-			// 	glContext.canvas.height - 1 - y[i] * glContext.canvas.height
-			// 		/ yRange.length());
-		}
-	}
+			point = new Point (x[i], y[i]);
+			this.drawSegment (this.lastPoint, point);
+			delete this.lastPoint;
+			this.lastPoint = point;
+		} // end for each next point
+	} // end if there are point
 };
 
 
@@ -287,15 +264,12 @@ CurveViewer.prototype.drawSegment = function (pointA, pointB) {
 	ctx.moveTo (p1.x, p1.y);
 	ctx.lineTo (p2.x, p2.y);
 	ctx.stroke ();
-
-ctx.fillStyle = "red";
-ctx.fillRect (p2.x, p2.y, 1, 1);
 };
 
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 CurveViewer.prototype.clearDraw = function () {
 	this.glContext.clearRect (0, 0, this.glContext.canvas.width,
@@ -480,4 +454,19 @@ CurveViewer.computeYScale = function (width, height, xRange) {
 	return [-yDiff / 2, yDiff / 2];
 };
 
+
+
+//==============================================================================
+/**
+ * Closes the current drawn curve.
+ * 
+ * @return {void}
+ */
+CurveViewer.prototype.closeCurve = function () {
+	var addedPoint = this.controller.closeCurve ();
+	if (addedPoint) {
+		this.drawSegment (this.lastPoint, addedPoint);
+		this.lastPoint = addedPoint;
+	}
+};
 

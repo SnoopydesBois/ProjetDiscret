@@ -97,21 +97,12 @@ Controller2DMeridian.prototype.newCurve = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Closes the active drawn curve.
  *
- * @param {Dimmension} dim -
- * @param {Vector} coord -
- *
- * @return {}
+ * @return {Point} The added point (null if not exist or already added).
  */
-Controller2DMeridian.prototype.newFreeHand = function (dim, coord) {
-	/// parameter verification
-	if (! checkType (arguments, Dimension, Vector)) {
-		throw "Controller2DMeridian.newFreeHand: bad type(s) of parameter(s)";
-	}
-
-	/// set a new curve
-	throw "Controller2DMeridian.newFreeHand: this function is not implemented";
+Controller2DMeridian.prototype.closeCurve = function () {
+	return this.modelDraw.closeCurve ();
 };
 
 

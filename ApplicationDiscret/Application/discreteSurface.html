@@ -374,7 +374,12 @@
 								name="meridianTypeValue"
 								value="meridianFreeHand"/>
 							<div class="optionGroup">
+<<<<<<< HEAD
 								<button id="" key="a3" class="tr" onclick="appli.clearDraw ()">Effacer</button>
+=======
+								<button id="" class="tr" onclick="appli.clearDraw ()">Effacer</button>
+								<button id="" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
+>>>>>>> origin/master
 							</div>
 							<label for="meridianFormula">&nbsp;</label>
 							<input type="radio"
@@ -448,8 +453,8 @@
 
 			<div id="surfaceView" class="viewer">
 				<div id="surfaceParam" class="paramPanel">
-					<button onclick="appli.generateAndDraw (0)" key="surf1" class="tr">Générer</button>
-					<button onclick="appli.generateAndDraw (1)" key="surf2" class="tr">Génération non optimisée</button>
+					<button id="generate1" onclick="appli.generateAndDraw (0)" key="surf1" class="tr">Générer</button>
+					<button id="generate2" onclick="appli.generateAndDraw (1)" key="surf2" class="tr">Génération non optimisée</button>
 					<hr/>
 					<div class="wrapper">
 						<label class="title">Dimension X</label><br/>
@@ -478,10 +483,13 @@
 						<input type="text" id="amountMaxZ"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 					</div>
+<<<<<<< HEAD
 
 					<button onClick="appli.show (true)" key = "a6" class ="tr" >Modifier</button>
 
 
+=======
+>>>>>>> origin/master
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>
@@ -492,9 +500,9 @@
 				<div id="surfaceOption" class="optionPanel">
 					<div class="wrapper">
 						<p class="multiLabel">Dimension&nbsp;:</p>
-						<input id="dimx" type="number" value="31" min="1"/>
-						<input id="dimy" type="number" value="31" min="1"/>
-						<input id="dimz" type="number" value="31" min="1"/>
+						<input id="dimx" type="number" value="31" min="1" max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimy" type="number" value="31" min="1" max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimz" type="number" value="31" min="1" max="256" onchange="appli.changeDimension ()"/>
 					</div>
 					<!-- TODO traduire -->
 					<div class="wrapper">

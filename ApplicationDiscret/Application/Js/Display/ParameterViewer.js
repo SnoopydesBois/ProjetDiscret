@@ -35,14 +35,21 @@ ParameterViewer.prototype.constructor = ParameterViewer;
  * @constructor
  */
 function ParameterViewer (idContainer) {
-	// console.log("ParameterViewer.constructor : " + idContainer);
+	
+	/**
+	 * TODO
+	 */
 	this.container = null;
 	if (idContainer.charAt(0) !== '#'){
 		this.container = $('#' + idContainer);
 	}
-	else{
+	else {
 		this.container = $(idContainer);
 	}
+	
+	/**
+	 * TODO
+	 */
 	this.controller = null;
 };
 
@@ -107,3 +114,5 @@ ParameterViewer.prototype.displayParameter = function (draw, getRange) {
 		this.container.append (li);
 	}
 };
+
+
