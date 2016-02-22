@@ -222,7 +222,7 @@ function Application () {
 	/**
 	 * {ListUndoRedoAction} The list of undoable/redoable action.
 	 */
-	this.listAction = new ListUndoRedoAction (25);
+//	this.listAction = new ListUndoRedoAction (25);
 }
 
 
@@ -235,7 +235,7 @@ function Application () {
  * @return {void}
  */
 Application.prototype.computationFinished = function () {
-	if (this.surfaceController.newVoxels()){
+	if (this.surfaceController.newVoxels ()) {
 		//this.surfaceController.voxelsRead();
 		//this.surfaceView.show ();
 	}
@@ -243,11 +243,11 @@ Application.prototype.computationFinished = function () {
 		setTimeout (this.computationFinished.bind (this), 1000);
 	}
 	else {
-		if(this.surfaceController.isAlgoFinished () != "error"){
+		if(this.surfaceController.isAlgoFinished () != "error") {
 			this.validMessage ("Finished", 0);
 		}
-		document.getElementById("generate1").disabled = false;
-		document.getElementById("generate2").disabled = false;
+		document.getElementById ("generate1").disabled = false;
+		document.getElementById ("generate2").disabled = false;
 		this.stopLoading ();
 		this.surfaceView.show (true);
 	}

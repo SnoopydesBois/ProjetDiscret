@@ -295,6 +295,8 @@ Application.prototype.changeDimension = function () {
 	
 	var box = this.surfaceView.getContainer ().getObjectByName ("boundingBox");
 	box.setDimension (dim);
+//	this.meridianView.changeDrawingDimension (dim[1], dim[0]);
+	this.meridianView.draw ();
 };
 
 
@@ -315,13 +317,13 @@ Application.prototype.closeCurve = function () {
  * TODO
  */
 Application.prototype.MeridianeEquation = function () {
-	var input = document.getElementById("meridianFormulaInput");
-	console.log(input.value);	
+	var input = document.getElementById ("meridianFormulaInput");
+	console.log (input.value);	
 
-	var equation = new Equation(input);
-	var x = new ExplicitCurve(equation);
+	var equation = new Equation (input);
+	var x = new ExplicitCurve (equation);
 
-	ExplicitCurve.call(this, x);
+//	ExplicitCurve.call (this, x);
 
 	meridianController.setActive (x);
 	meridianView.draw ();
@@ -338,13 +340,13 @@ Application.prototype.MeridianeEquation = function () {
  * TODO
  */
 Application.prototype.RevolutionEquation = function () {
-	var input = document.getElementById("revolutionFormulaInput");
-	console.log(input.value);	
+	var input = document.getElementById ("revolutionFormulaInput");
+	console.log (input.value);	
 
-	var equation = new Equation(input);
-	var x = new ImplicitCurve(equation);
+	var equation = new Equation (input);
+	var x = new ImplicitCurve (equation);
 
-	ImplicitCurve.call(this, x);
+//	ImplicitCurve.call(this, x);
 
 
 	revolController.setActive (x);

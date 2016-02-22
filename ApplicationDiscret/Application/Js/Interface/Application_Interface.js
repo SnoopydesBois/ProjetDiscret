@@ -68,7 +68,7 @@
  */
 Application.prototype.resizeInterface = function () {
 	/// resize interface
-	var canvasWidth = $("#meridianCanvas").height (); // 70% of curvesView width
+	var canvasWidth = $("#revolCanvas2").height (); // 70% of curvesView width
 	$("#curvesView").width (canvasWidth * 10 / 7);
 	$("#surfaceView").width (
 		$("#workspace").width () - $("#curvesView").width () - 1
