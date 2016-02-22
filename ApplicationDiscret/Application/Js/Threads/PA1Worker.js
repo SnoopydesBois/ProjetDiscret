@@ -88,7 +88,7 @@ function algo () {
  */
 onmessage = function (e) {
 	id = e.data[0];
-	parametric_curve = new DrawnCurve (e.data[1]);
+	parametric_curve = new DrawnCurve ();
 	parametric_curve.xList = e.data[1][0];
 	parametric_curve.yList = e.data[1][1];
 	implicit_curve = new Equation (e.data[2]);
