@@ -481,7 +481,11 @@
 					<button onClick="appli.show (true)">Modifier</button>
 				</div>
 
-				<canvas id="surfaceCanvas"></canvas>
+				<canvas id="surfaceCanvas">
+				</canvas>
+					<img id="loadingImg" src="Styles/loading.gif"
+						alt="loading" title="Loading..."
+						style="display: none"/>
 
 				<div id="surfaceOption" class="optionPanel">
 					<div class="wrapper">
@@ -523,10 +527,6 @@
 
 		<!-- State bar -->
 		<div id="stateBar" class="footer">
-			<img id="loadingImg" src="Styles/loading.gif"
-			alt="loading" title="Loading..."
-			width="20" height="20"
-			style="display: none"/>
 			<p>Message...</p>
 		</div>
 
