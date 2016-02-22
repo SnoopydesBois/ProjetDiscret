@@ -127,6 +127,9 @@
 		<!-- Translation -->
 		<script type="text/javascript" src="Js/Interface/Application_translate.js"></script>
 
+		<!-- Entrer equation -->
+		<script type="text/javascript" src="Curves/Revolution/eq.js"></script>
+		
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/temp.css"/>
@@ -483,9 +486,10 @@
 					<div>												       
 						<center>
 								<form>
-									<p>Entrez Equation de courbe</p>
-									<input type="text" name="recup_equation"/><br/><br/>
-									<input type="submit" onclick="recuperer();" value="OK"/>						
+									<p >Entrez Equation de courbe</p>
+									<input type="text" id="rec" name="rec"/><br/><br/>
+									<button   class="eq">OK</button>
+											
 								</form>
 						</center>
 					</div>
