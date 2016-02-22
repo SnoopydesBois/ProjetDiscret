@@ -87,6 +87,11 @@ ul, li {
 }
 
 
+.viewer {
+	background-color: #BBB;
+}
+
+
 /* Fix firefox bug for "outline: none"
  * (see: http://stackoverflow.com/questions/18794026/remove-dotted-outline-from-range-input-element-in-firefox)
  */
@@ -150,8 +155,13 @@ input[type=range]::-moz-focus-outer {
 }
 
 
-.formulaInput input {
-	width: calc(100% - 7em); /* FIXME */
+#meridianOption .formulaInput input {
+	width: calc(100% - 4em);
+}
+
+
+#revolOption .formulaInput input {
+	width: calc(100% - 7em);
 }
 
 
