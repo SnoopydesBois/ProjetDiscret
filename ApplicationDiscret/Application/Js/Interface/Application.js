@@ -246,6 +246,8 @@ Application.prototype.computationFinished = function () {
 		if(this.surfaceController.isAlgoFinished () != "error"){
 			this.validMessage ("Finished", 0);
 		}
+		document.getElementById("generate1").disabled = false;
+		document.getElementById("generate2").disabled = false;
 		this.stopLoading ();
 		this.surfaceView.show (true);
 	}
@@ -260,6 +262,8 @@ Application.prototype.computationFinished = function () {
  * @return {void}
  */
 Application.prototype.generateAndDraw = function (mode) {
+	document.getElementById("generate1").disabled = true;
+	document.getElementById("generate2").disabled = true;
 	this.showMessage ("Computing...", 0, "#04E");
 	var dimX = document.getElementById ("dimx").value;
 	var dimY = document.getElementById ("dimy").value;
