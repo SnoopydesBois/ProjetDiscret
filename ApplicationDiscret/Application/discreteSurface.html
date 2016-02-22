@@ -215,7 +215,7 @@
 
 							<li class="split"><hr/></li>
 
-							<li id="meridianFormulaInput"
+							<li id="meridianFormulaInputMenu"
 								class="tr trTitle"
 								title="Rentrer une formule pour la méridienne"
 								onclick="appli.inputMeridianFormula ()" key="m333">Formule méridienne</li>
@@ -385,7 +385,7 @@
 								name="meridianTypeValue"
 								value="meridianFormula"/>
 							<div class="optionGroup">
-								<p class="formulaInput">f(x) = <input type="text"/></p>
+								<p class="formulaInput">f(x) = <input id ="meridianFormulaInput" onblur="appli.MeridianeEquation()" onchange="appli.MeridianeEquation()" type="text"/></p>
 							</div>
 						</form>
 					</div><!-- end #meridianOption -->
@@ -437,7 +437,7 @@
 								name="revolTypeValue"
 								value="revolFormula"/>
 							<div class="optionGroup">
-								<p class="formulaInput">f(x,y) = <input type="text"/> = 0</p>
+								<p class="formulaInput">f(x,y) = <input id ="revolutionFormulaInput" onblur="appli.RevolutionEquation()" onchange="appli.RevolutionEquation()" type="text"/> = 0</p>
 							</div>
 						</form>
 					</div><!-- end #revolOption -->
@@ -482,21 +482,7 @@
 							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 					</div>
 					<button onClick="appli.show (true)">Modifier</button>
-<<<<<<< HEAD
-					
-					<div>												       
-						<center>
-								<form>
-									<p >Entrez Equation de courbe</p>
-									<input type="text" id="rec" name="rec"/><br/><br/>
-									<button   class="eq">OK</button>
-											
-								</form>
-						</center>
-					</div>
-	
-=======
->>>>>>> origin/master
+
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>
