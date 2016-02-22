@@ -267,16 +267,8 @@ Application.prototype.resetCamera = function () {
 Application.prototype.changeRevolMode = function () {
 	var mode = $('#revolType :radio:checked').attr ('id');
 	if (mode === "revolPrimitive") {
-		// $("#meridianCanvas").hide (); // hide the div
-		// $("#meridianCanvas2").show (); // display the canvas
-		//
-		// this.exportController.setIdMeridian ("meridianCanvas2");
 	}
 	else if (mode === "revolFormula") {
-		// $("#meridianCanvas").hide ();
-		// $("#meridianCanvas2").show ();
-		//
-		// this.exportController.setIdMeridian ("meridianCanvas");
 	}
 	else {
 		throw "Application.changeRevolMode: unkown given mode: " + mode;
@@ -316,5 +308,53 @@ Application.prototype.closeCurve = function () {
 	if ($('#meridianType :radio:checked').attr ('id') === "meridianFreeHand")
 		this.meridianView.closeCurve ();
 };
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+Application.prototype.MeridianeEquation = function () {
+	var input = document.getElementById("meridianFormulaInput");
+	console.log(input.value);	
+
+	var equation = new Equation(input);
+	var x = new ExplicitCurve(equation);
+
+	ExplicitCurve.call(this, x);
+
+	meridianController.setActive (x);
+	meridianView.draw ();
+
+	meridianParameters.displayParameter (
+		drawMeridian,
+		getRangeMeridian
+	);
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+Application.prototype.RevolutionEquation = function () {
+	var input = document.getElementById("revolutionFormulaInput");
+	console.log(input.value);	
+
+	var equation = new Equation(input);
+	var x = new ImplicitCurve(equation);
+
+	ImplicitCurve.call(this, x);
+
+
+	revolController.setActive (x);
+	revolView.draw ();
+
+	revolutionParameters.displayParameter (
+		drawRevolution,
+		getRangeRevolution
+	);
+};
+
 
 

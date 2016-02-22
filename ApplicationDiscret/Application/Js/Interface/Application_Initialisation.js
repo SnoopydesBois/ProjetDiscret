@@ -128,6 +128,8 @@ Application.prototype.initControllers = function () {
 	this.revolController.addCurve ("Curve9", Curve9);
 	this.revolController.addCurve ("Curve10", Curve10);
 
+//	this.revolController.addCurve ("eq", eq);
+	
 	/// bind generation with active curve
 	this.surfaceController.setGetCurveRevolution (
 		this.revolController.getActiveCurve.bind (this.revolController)
@@ -177,6 +179,9 @@ Application.prototype.createSlider = function (id, min, max) {
 			}
 			$("#amountMin" + $(id).attr ("name")).val (ui.values[0]);
 			$("#amountMax" + $(id).attr ("name")).val (ui.values[1]);
+		},
+		stop : function(event, ui){
+			appli.show (true)
 		}
 	});
 

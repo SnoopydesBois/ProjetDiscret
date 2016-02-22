@@ -123,6 +123,9 @@
 		<script type="text/javascript" src="Js/Objects/N64.js"></script>
 		<!-- <script type="text/javascript" src="Js/Objects/Cube.js"></script> -->
 
+		<!-- Entrer equation -->
+		<script type="text/javascript" src="Curves/Revolution/eq.js"></script>
+		
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
@@ -170,9 +173,9 @@
 
 					<li class="split"><hr/></li>
 
-					<li title="Affichez ou cachez le repère 3D" key="m24" class="tr trTitle"
+					<li title="Affichez ou cachez le repère 3D" key="27" class="tr trTitle"
 						onclick="appli.toggleRepere ()">Afficher/Cacher repère</li>
-					<li title="Affichez ou cachez les limites de l'espace 3D" key="m24" class="tr trTitle"
+					<li title="Affichez ou cachez les limites de l'espace 3D" key="28" class="tr trTitle"
 						onclick="appli.toggleBox ()">Afficher/Cacher limite 3D</li>
 
 					<li class="split"><hr/></li>
@@ -212,7 +215,7 @@
 
 							<li class="split"><hr/></li>
 
-							<li id="meridianFormulaInput"
+							<li id="meridianFormulaInputMenu"
 								class="tr trTitle"
 								title="Rentrer une formule pour la méridienne"
 								onclick="appli.inputMeridianFormula ()" key="m333">Formule méridienne</li>
@@ -383,7 +386,7 @@
 								name="meridianTypeValue"
 								value="meridianFormula"/>
 							<div class="optionGroup">
-								<p class="formulaInput">f(x) = <input type="text"/></p>
+								<p class="formulaInput">f(x) = <input id ="meridianFormulaInput" onblur="appli.MeridianeEquation()" onchange="appli.MeridianeEquation()" type="text"/></p>
 							</div>
 						</form>
 					</div><!-- end #meridianOption -->
@@ -435,7 +438,7 @@
 								name="revolTypeValue"
 								value="revolFormula"/>
 							<div class="optionGroup">
-								<p class="formulaInput">f(x,y) = <input type="text"/> = 0</p>
+								<p class="formulaInput">f(x,y) = <input id ="revolutionFormulaInput" onblur="appli.RevolutionEquation()" onchange="appli.RevolutionEquation()" type="text"/> = 0</p>
 							</div>
 						</form>
 					</div><!-- end #revolOption -->
@@ -449,37 +452,36 @@
 
 			<div id="surfaceView" class="viewer">
 				<div id="surfaceParam" class="paramPanel">
-					<button onclick="appli.generateAndDraw (0)" key="surf1" class="tr">Générer</button>
-					<button onclick="appli.generateAndDraw (1)" key="surf2" class="tr">Génération non optimisée</button>
+					<button id="generate1" onclick="appli.generateAndDraw (0)" key="surf1" class="tr">Générer</button>
+					<button id="generate2" onclick="appli.generateAndDraw (1)" key="surf2" class="tr">Génération non optimisée</button>
 					<hr/>
 					<div class="wrapper">
 						<label class="title">Dimension X</label><br/>
 						<div class="doubleSliders" name="X" id="slider-rangeX"></div>
 						<input type="text" id="amountMinX"
-							onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMinX')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeX','#amountMinX')">
 						-
 						<input type="text" id="amountMaxX"
-							onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
 					</div>
 					<div class="wrapper">
 						<label class="title">Dimension Y</label><br/>
 						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
 						<input type="text" id="amountMinY"
-							onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMinY')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeY','#amountMinY')">
 						-
 						<input type="text" id="amountMaxY"
-							onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
 					</div>
 					<div class="wrapper">
 						<label class="title">Dimension Z</label><br/>
 						<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
 						<input type="text" id="amountMinZ"
-							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMinZ')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeZ','#amountMinZ')">
 						-
 						<input type="text" id="amountMaxZ"
-							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 					</div>
-					<button onClick="appli.show (true)">Modifier</button>
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>

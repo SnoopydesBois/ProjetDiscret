@@ -243,7 +243,11 @@ Application.prototype.computationFinished = function () {
 		setTimeout (this.computationFinished.bind (this), 1000);
 	}
 	else {
-		this.validMessage ("Finished", 0);
+		if(this.surfaceController.isAlgoFinished () != "error"){
+			this.validMessage ("Finished", 0);
+		}
+		document.getElementById("generate1").disabled = false;
+		document.getElementById("generate2").disabled = false;
 		this.stopLoading ();
 		this.surfaceView.show (true);
 	}
@@ -258,6 +262,8 @@ Application.prototype.computationFinished = function () {
  * @return {void}
  */
 Application.prototype.generateAndDraw = function (mode) {
+	document.getElementById("generate1").disabled = true;
+	document.getElementById("generate2").disabled = true;
 	this.showMessage ("Computing...", 0, "#04E");
 	var dimX = document.getElementById ("dimx").value;
 	var dimY = document.getElementById ("dimy").value;
@@ -271,7 +277,12 @@ Application.prototype.generateAndDraw = function (mode) {
 		dimX,dimY,dimZ
 	]);
 
-	this.surfaceController.generate (mode);
+	try{
+		this.surfaceController.generate (mode);
+	}
+	catch(e){
+		this.errorMessage ("Aborted", 0);
+	}
 	this.surfaceRenderer = new SurfaceRenderer (
 		this.surfaceController,
 		this.surfaceView.getGLContext ()
@@ -282,7 +293,6 @@ Application.prototype.generateAndDraw = function (mode) {
 	this.surfaceView.container.addObject (this.surfaceRenderer);
 
 	this.computationFinished ();
-	this.surfaceView.show ();
 	this.loading ();
 	this.changeValueSlider ("#slider-rangeX", 0, parseInt (dimX));
 	this.changeValueSlider ("#slider-rangeY", 0, parseInt (dimY));
