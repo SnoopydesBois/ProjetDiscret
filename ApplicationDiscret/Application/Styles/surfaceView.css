@@ -15,11 +15,17 @@
 }
 
 
-#surfaceView .paramPanel label {
+#surfaceView .paramPanel input {
+    margin: 0;
+}
+
+
+#surfaceView .paramPanel label.title {
 	display: block;
 	text-align: center;
 	margin-top: 0.7em;
 }
+
 
 #surfaceView .optionPanel input[type=text],
 #surfaceView .optionPanel input[type=number] {
@@ -47,4 +53,20 @@
 #surfaceOption div.wrapper {
     display: inline-block;
     margin: 0 0.2em;
+}
+
+
+#surfaceView .paramPanel .ui-slider-range {
+    position: absolute;
+}
+
+
+#surfaceView .paramPanel .doubleSliders {
+    position: relative;
+}
+
+
+#surfaceView .doubleSliders {
+	margin : -0.5em 5% 0.5em 5%;
+	position : relative;
 }

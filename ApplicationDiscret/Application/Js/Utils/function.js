@@ -62,12 +62,10 @@
 /**
  * Clamp the number between mini and maxi.
  *
-
  * @param {Number} mini - The minimum limit.
  * @param {Number} maxi - The maximum limit.
  * @param {Number} number - The number to clamp between mini and maxi.
  *
-
  * @return {Number} 'number' if it is between 'mini' and 'maxi', else 'maxi' or
  * 'mini'.
  */
@@ -92,17 +90,6 @@ function angle (x, y) {
 }
 
 
-//==============================================================================
-/**
- * TODO
- */
-function distance (pa, pb) {
-	var len = pa.length, sum = 0;
-	for (var i = 0; i < len; i++) {
-		sum += (pb[i] - pa[i]) * (pb[i] - pa[i]);
-	}
-	return Math.sqrt (sum);
-}
 
 //##############################################################################
 //	Convertion
@@ -126,7 +113,7 @@ function posToColor (voxel, direction, universSize) {
 		voxel.getPosition().z / universSize.z, // blue
 		1.0 - direction / 100 // alpha
 	];
-};
+}
 
 
 //==============================================================================
@@ -147,7 +134,7 @@ function colorToPos (color, universSize) {
 		),
 		Math.round ((1.0 - color[3] / 256) * 100) // alpha -> direction
 	);
-};
+}
 
 
 
@@ -241,7 +228,6 @@ function isA (variable, expectedType) {
 }
 
 
-
 //==============================================================================
 /**
  * TODO
@@ -289,30 +275,6 @@ function isValueOfEnum (enumeration, value) {
 }
 
 
-
 //##############################################################################
 //	Others
 //##############################################################################
-
-
-
-/**
- * Switch images.
- *
- * @param {String} imgTag - The path to the image.
- */
-function switchImage (imgTag) {
-	var preffix = imgTag.src.slice (0, imgTag.src.lastIndexOf ("/") + 1);
-	var extention = imgTag.src.slice (imgTag.src.lastIndexOf ("."), imgTag.src.length);
-	var name = imgTag.src.slice (preffix.length, imgTag.src.lastIndexOf ("."));
-	var newSrc;
-	if (name.lastIndexOf ("_") == -1) {
-		// select
-		newSrc = "Img/" + name + "_Select" + extention;
-	}
-	else {
-		// unselect
-		newSrc = "Img/" + name.slice (0, name.indexOf ("_Select")) + extention;
-	}
-	imgTag.src = newSrc;
-}

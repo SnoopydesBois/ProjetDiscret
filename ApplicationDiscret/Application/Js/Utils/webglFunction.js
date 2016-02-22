@@ -131,3 +131,25 @@ function createProgram (glContext) {
 }
 
 
+//==============================================================================
+/**
+ * Erase all in a canvas. Fill it with a color ("white" by default).
+ * 
+ * @param {CanvasRenderingContext2D} ctx - The gl context.
+ * @param {String} [color] - A CSS color.
+ * 
+ * @return {void}
+ */
+function clear2DCanvas (ctx, color) {
+	if (! ctx instanceof CanvasRenderingContext2D) {
+		throw "clear2DCanvas: bad given context";
+	}
+	
+	color || (color = "white");
+	var currentColor = ctx.strokeStyle;
+	ctx.strokeStyle = color;
+	ctx.strokeRect (0, 0, ctx.canvas.width, ctx.canvas.height);
+	ctx.strokeStyle = currentColor;
+}
+
+

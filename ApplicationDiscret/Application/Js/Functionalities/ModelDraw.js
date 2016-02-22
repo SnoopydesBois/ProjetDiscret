@@ -77,26 +77,6 @@ ModelDraw.prototype.newCurve = function () {
 
 //==============================================================================
 /**
- * Add a point to the curve. Transform x/y coordinates on the canvas to y/z
- * coordinates in the 3D space.
- *
- * @param {int} x - X coordinate of the new point (in pixel).
- * @param {int} y - Y coordinate of the new point (in pixel).
- * @param {Vector} canvasSize - Size of the cavas (in pixel).
- * @param {Vector} universSize - Size of the 3D space (in voxel).
- *
- * @return {void}
- */
-ModelDraw.prototype.addPoint = function (x, y, canvasSize, universSize) {
-	this.curve.addPoint (
-		x * (universSize.x / 2 - 1) / canvasSize.x + 1,
-		y * universSize.y / canvasSize.y
-	);
-};
-
-
-//==============================================================================
-/**
  * @return {int} The number of current curve point.
  */
 ModelDraw.prototype.getNbPoint = function () {
