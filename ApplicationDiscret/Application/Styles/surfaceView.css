@@ -29,17 +29,17 @@
 
 #surfaceView .optionPanel input[type=text],
 #surfaceView .optionPanel input[type=number] {
-	width : 3em;
+	width: 3em;
 }
 
 
 #surfaceView .optionPanel select {
-	width : 4em;
+	width: 4em;
 }
 
 
 #surfaceParam input {
-	width : calc((100% - 2em) / 2);
+	width: calc((100% - 2em) / 2);
 }
 
 
@@ -67,6 +67,23 @@
 
 
 #surfaceView .doubleSliders {
-	margin : -0.5em 5% 0.5em 5%;
-	position : relative;
+	margin: -0.5em 5% 0.5em 5%;
+	position: relative;
 }
+
+
+#loadingImg {
+	background: rgba(192, 192, 192, 0.5) url("loading.gif") no-repeat center center;
+}
+
+
+#loadingImg p {
+	color: white;
+	text-shadow: 0px 0px 5px black;
+	margin-top: 65%;
+	font-family: "Liberation Sans", "Arial", sans-serif;
+	font-size: 3.5em;
+	text-align: center;
+}
+
+

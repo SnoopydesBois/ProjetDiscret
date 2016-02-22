@@ -16,12 +16,9 @@
 
 
 
-importScripts("../Libraries/math.js");
-importScripts("../Objects/Equation.js");
-importScripts("../Objects/DrawnCurve.js");
-importScripts("../Objects/Vector.js");
-importScripts("../Enum/ConnexityEnum.js");
 importScripts("WorkersUtil.js");
+importScripts("../Objects/Curve.js");
+importScripts("../Objects/DrawnCurve.js");
 
 
 
@@ -91,13 +88,19 @@ function algo () {
  */
 onmessage = function (e) {
 	id = e.data[0];
-	parametric_curve = new DrawnCurve (e.data[1]);
+	parametric_curve = new DrawnCurve ();
 	parametric_curve.xList = e.data[1][0];
 	parametric_curve.yList = e.data[1][1];
 	implicit_curve = new Equation (e.data[2]);
 	dimension = new Vector(e.data[3]);
 	tMin = e.data[4];
 	tMax = e.data[5];
+	try{
+		algo();
+	}
+	catch(e){
+		postMessage(["Abort"]);
+	}
 	algo();
 	postMessage(["Terminate", id]);
 }

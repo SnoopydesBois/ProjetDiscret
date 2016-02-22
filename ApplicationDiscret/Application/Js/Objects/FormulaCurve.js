@@ -1,19 +1,22 @@
-FormulaCurve.prototype = new Curve();
+FormulaCurve.prototype = new Curve;
 FormulaCurve.prototype.constructor = FormulaCurve;
 
 //==============================================================================
 /**
-* @constructor
-* @param {Equation | String} equation - Either a string of an equation or an equation
-*/
-function FormulaCurve(equation){
-	if(arguments.length === 0) {
+ * @constructor
+ * @param {Equation | String} equation - Either a string of an equation or an equation
+ */
+function FormulaCurve (equation) {
+	if (arguments.length === 0) {
 		this.equation = undefined;
-	} else if(typeof equation == "string") {
-		this.equation = new Equation(equation);
-	} else if(equation instanceof Equation) {
+	}
+	else if (typeof equation == "string") {
+		this.equation = new Equation (equation);
+	}
+	else if (equation instanceof Equation) {
 		this.equation = equation;
-	} else {
+	}
+	else {
 		this.equation = undefined;
 	}
 	
@@ -29,11 +32,12 @@ FormulaCurve.prototype.getEquation = function(){
 	return this.equation;
 };
 
+
 //==============================================================================
 /**
- *
+ * TODO
  */
-FormulaCurve.prototype.getParametersRange = function(name){
+FormulaCurve.prototype.getParametersRange = function (name) {
 	return this.parametersRange[name];
 };
 
@@ -44,51 +48,43 @@ FormulaCurve.prototype.getParametersRange = function(name){
 * if the parameter is a String, a new equation is created, else the parameter 
 * is set as the equation of the curve
 */
-FormulaCurve.prototype.setEquation = function(equation){
-	if(typeof equation == "string"){
-		this.equation = new Equation(equation)
-	} else if(equation instanceof Equation){
+FormulaCurve.prototype.setEquation = function (equation) {
+	if (typeof equation == "string") {
+		this.equation = new Equation (equation)
+	}
+	else if (equation instanceof Equation) {
 		this.equation = equation
-	} else{
+	}
+	else {
 		throw "FormulaCurve.setEquation.ErrorNotAnEquation";
 	}
 };
-
-//==============================================================================
-FormulaCurve.prototype.computePoints = function(ranX, ranY){
-	throw "FormulaCurve.computePoints.NotImplementedInThisClass";
-};
-
-
-//==============================================================================
-FormulaCurve.prototype.computeStep = function (ranX, ranY) {
-	return 0.1;
-}
-
-
-//==============================================================================
-/**
- * @param {String} parameter - The parameter to modify.
- * @param {Number} value - The value to set.
- */
-FormulaCurve.prototype.setParameter = function(parameter, value){
-	this.equation.setParameter(parameter, value);
-}
 
 
 //==============================================================================
 /**
  * TODO
  */
-FormulaCurve.prototype.getAllParameters = function(){
-	return this.equation.getAllParameters();
-}
+FormulaCurve.prototype.computeStep = function (ranX, ranY) {
+	return 0.1;
+};
 
 
 //==============================================================================
 /**
- *
+ * @inheritdoc
  */
-FormulaCurve.prototype.getParameter = function(name){
-	throw "Curve.setParameter.ErrorNotImplementedInAbstractClass";
-}
+FormulaCurve.prototype.setParameter = function (parameter, value) {
+	this.equation.setParameter (parameter, value);
+};
+
+
+//==============================================================================
+/**
+ * @inheritdoc
+ */
+FormulaCurve.prototype.getAllParameters = function () {
+	return this.equation.getAllParameters ();
+};
+
+

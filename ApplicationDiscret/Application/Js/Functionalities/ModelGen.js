@@ -164,7 +164,7 @@ ModelGen.prototype.generate = function (meridian, curveRevolution, mode) {
 	else if (meridian instanceof DrawnCurve
 			&& curveRevolution instanceof ImplicitCurve)
 	{
-		this.algoParametric (meridian, curveRevolution);
+		this.algoParametric (meridian, curveRevolution, mode);
 	}
 	else {
 		throw "ModelGen.generate.ErrorBadCurveType";
@@ -240,12 +240,14 @@ ModelGen.prototype.voxelsRead = function () {
 ModelGen.prototype.algoParametric = function (meridian, curveRevolution, mode){	
 	var dim = this.getDimension ();
 	this.surface = new Surface (dim);
-	// !!! test !!!
 	var fRevol = curveRevolution.getEquation ();
-	if(mode === 0)
+	if(mode === 0){
+		console.log("génération2");
 		this.worker = new ParametricAlgo2Worker(meridian, fRevol, dim, this.surface);
-	else
+	}else{
+		console.log("génération1");
 		this.worker = new ParametricAlgo1Worker(meridian, fRevol, dim, this.surface);
+	}
 //	return this.surface;
 };
 

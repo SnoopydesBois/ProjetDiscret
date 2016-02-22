@@ -51,52 +51,63 @@ function ParameterViewer (idContainer) {
 //##############################################################################
 //	Accessors and Mutators
 //##############################################################################
-//
-//
+
+
+
 /**
  * @param {Controller2D} controller - The controller the parameterView is going
  * to use.
  */
 ParameterViewer.prototype.setController = function (controller) {
 	this.controller = controller;
-}
+};
 
 
-//==============================================================================
+
+//##############################################################################
+//	Other methods
+//##############################################################################
+
+
+
 /**
  * @param {Function} draw - The function to redraw the curve.
+ * @param {Function} getRange - TODO
+ * 
+ * @return {void}
  */
 ParameterViewer.prototype.displayParameter = function (draw, getRange) {
 
 	this.container.empty ();
 
-	var listParameter = this.controller.getAllParameters();
+	var listParameter = this.controller.getAllParameters ();
 	var id = this.container.attr ("id");
 	var that = this;
 
 	var range;
 	for (var param in listParameter) {
 		range = getRange (param);
-		// this.container.append ("<span class='titleParam'>" + param + "</span><br/>");
-		// this.container.append ("<input type='range' name='" + param + "' id='" + id + param + "' class='rangeParam' value='" + listParameter[param] + "' min='" + range.getMin() + "' max='" + range.getMax() + "'/>");
-		// $("#" + id + param).change (function() {
-		// 	that.controller.setParameter ($(this).attr("name") , parseInt($(this).val()));
-		// 	draw ();
-		// });
-		// this.container.append ("<hr/>");
+
 		var li = $("<li></li>");
+		
 		/* &#9108; hexagon
 		 * &#9187; hexagon with circle inside
 		 * &#8227; triangle
 		 * &bull; dot
 		 */
 		li.append ("<p class='titleParam'>&nbsp; " + param + "</p>");
-		var input = $("<input type='range' name='" + param + "' id='" + id + param
-			+ "' class='rangeParam' value='" + listParameter[param] + "' min='"
-			+ range.getMin() + "' max='" + range.getMax() + "'/>");
+		var input = $("<input type='range' name='" + param
+			+ "' id='" + id + param
+			+ "' class='rangeParam' value='" + listParameter[param]
+			+ "' min='" + range.getMin ()
+			+ "' max='" + range.getMax ()
+			+ "'/>"
+		);
+		
 		input.change (function() {
 			that.controller.setParameter ($(this).attr ("name"),
-				parseInt($(this).val()));
+				parseInt ($(this).val ())
+			);
 			draw ();
 		});
 		li.append (input);

@@ -75,19 +75,27 @@ function ModelParameter () {
 
 //==============================================================================
 /**
+ * TODO
+ * 
  * @param {Curve} curve - The curve the parameters are modifying.
+ * 
+ * @return {void}
  */
-ModelParameter.prototype.setCurve = function(curve){
+ModelParameter.prototype.setCurve = function (curve) {
 	this.curve = curve;
 };
 
 
 //==============================================================================
 /**
+ * TODO
+ * 
  * @param {String} parameter - The name of the parameter to modify.
  * @param {Number} value - The value of the parameter to set.
+ * 
+ * @return {void}
  */
-ModelParameter.prototype.setParameter = function(parameter, value){
+ModelParameter.prototype.setParameter = function (parameter, value) {
 	this.curve.setParameter(parameter, value);
 };
 
@@ -95,7 +103,9 @@ ModelParameter.prototype.setParameter = function(parameter, value){
 //==============================================================================
 /**
  * Return all the parameters of a curve.
- * @return {Map<String, Number>} A map composed of the name of a parameter (the key) and its value (the value).
+ * 
+ * @return {Map<String, Number>} A map composed of the name of a parameter (the
+ * key) and its value (the value).
  */
 ModelParameter.prototype.getAllParameters = function(){
 	// var listParameter = this.curve.getAllParameters();
@@ -109,7 +119,7 @@ ModelParameter.prototype.getAllParameters = function(){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 ModelParameter.prototype.getParameter = function(name){
 	return this.curve.getParameter(name);

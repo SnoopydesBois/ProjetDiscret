@@ -1,11 +1,11 @@
-ImplicitCurve.prototype = new FormulaCurve();
+ImplicitCurve.prototype = new FormulaCurve;
 ImplicitCurve.prototype.constructor = ImplicitCurve;
 
 
 //==============================================================================
 /**
-* @constructor {Equation} the equation of the curve
-*/
+ * @constructor {Equation} the equation of the curve
+ */
 function ImplicitCurve(equation) {
 	FormulaCurve.call(this, equation);
 }
@@ -17,13 +17,14 @@ function ImplicitCurve(equation) {
  * @param {Range} ranX - The x-axis range on which to compute the points
  * @param {Range} ranX - The y-axis range on which to compute the points
  * @param {float} step - Define how much points are computed
- * @result {Point[][]} An array composed of list of points to represent the curve
+ * @return {Point[][]} An array composed of list of points to represent the curve
  * (for exemple for 1/x we will have two list of points)
  */
 ImplicitCurve.prototype.computePoints = function (ranX, ranY) {
 	if (! ranX instanceof Range || ! ranY instanceof Range) {
 		throw "ImplicitCurve.computePoints.ErrorNotARange";
-	} else if (!this.equation.check) {
+	}
+	else if (!this.equation.check) {
 		throw "ImplicitCurve.computePoints.ErrorEquationNotDefined";
 	}
 	

@@ -103,17 +103,17 @@ Application.prototype.redo = function () {
  * 
  * @return {void}
  */
-Application.prototype.exportSVGFormValid = function () {
-	var valid = this.checkRegexp($("#id"),/^[0-9]+$/,
-		"L'identification doit être de la forme : 0-9");
-	valid = valid && this.checkRegexp($("#size"),/^[0-9]+(\.[0-9])?[0-9]*$/,
-		"Taille du cube doit être de la forme  : 0-9 ou 0-9.0-9");
-	
-	if (valid) {
-		this.exportSVG($("#id").val(),$("#size").val());
-		this.dialogSVG.dialog ("close");
-	}
-};
+//Application.prototype.exportSVGFormValid = function () {
+//	var valid = this.checkRegexp($("#id"),/^[0-9]+$/,
+//		"L'identification doit être de la forme : 0-9");
+//	valid = valid && this.checkRegexp($("#size"),/^[0-9]+(\.[0-9])?[0-9]*$/,
+//		"Taille du cube doit être de la forme  : 0-9 ou 0-9.0-9");
+//	
+//	if (valid) {
+//		this.exportSVG($("#id").val(),$("#size").val());
+//		this.dialogSVG.dialog ("close");
+//	}
+//};
 
 
 //==============================================================================
@@ -124,22 +124,22 @@ Application.prototype.exportSVGFormValid = function () {
  * 
  * @return {void}
  */
-Application.prototype.exportSvgFormOpen = function () {
-	if (this.selectedModel.length == 1) { 
-		if (this.selectedModel[0].getId().length > 0) {
-			$("#id").val(this.selectedModel[0].getId());
-		}
-		else {
-			$("#id").val("");
-		}
-		$(".validateTips").html("Tous les champs sont obligatoires");
-		this.dialogSVG.dialog ("open");
-	}
-	else if (this.selectedModel.length > 1)
-		alert ('Veuillez sélectionner un seul modèle.');
-	else
-		alert ('Veuillez sélectionner un modèle.');
-};
+//Application.prototype.exportSvgFormOpen = function () {
+//	if (this.selectedModel.length == 1) { 
+//		if (this.selectedModel[0].getId().length > 0) {
+//			$("#id").val(this.selectedModel[0].getId());
+//		}
+//		else {
+//			$("#id").val("");
+//		}
+//		$(".validateTips").html("Tous les champs sont obligatoires");
+//		this.dialogSVG.dialog ("open");
+//	}
+//	else if (this.selectedModel.length > 1)
+//		alert ('Veuillez sélectionner un seul modèle.');
+//	else
+//		alert ('Veuillez sélectionner un modèle.');
+//};
 
 
 //==============================================================================
@@ -150,22 +150,22 @@ Application.prototype.exportSvgFormOpen = function () {
  * 
  * @return {void}
  */
-Application.prototype.fusionModelFormValid = function () {
-	var valid = this.isNotInModelList($("#name-fusion-model"),
-			"Un modèle avec le même nom existe déjà.")
-			&& this.checkRegexp($("#name-fusion-model"),
-			/^[A-Za-z_][A-Za-z_0-9]*$/,
-			"Le nom du modèle doit commencer par une lettre ou"
-			+ " un '_' et ne doit contenir que des lettres,"
-			+ " chiffes ou '_' .");
-	
-	if (valid) {
-		var tab = this.frameList.fusionModel();
-		if (tab != null)
-			this.addModel($("#name-fusion-model").val(),tab);
-		this.dialogFusionModel.dialog ("close");
-	}
-};
+//Application.prototype.fusionModelFormValid = function () {
+//	var valid = this.isNotInModelList($("#name-fusion-model"),
+//			"Un modèle avec le même nom existe déjà.")
+//			&& this.checkRegexp($("#name-fusion-model"),
+//			/^[A-Za-z_][A-Za-z_0-9]*$/,
+//			"Le nom du modèle doit commencer par une lettre ou"
+//			+ " un '_' et ne doit contenir que des lettres,"
+//			+ " chiffes ou '_' .");
+//	
+//	if (valid) {
+//		var tab = this.frameList.fusionModel();
+//		if (tab != null)
+//			this.addModel($("#name-fusion-model").val(),tab);
+//		this.dialogFusionModel.dialog ("close");
+//	}
+//};
 
 
 //==============================================================================
@@ -174,14 +174,14 @@ Application.prototype.fusionModelFormValid = function () {
  * 
  * @return {void}
  */
-Application.prototype.fusionModelFormOpen = function () {
-	if (this.selectedModel.length < 2)
-		this.alertMessage ("Pas de modèles à fusionner", 4000);
-	else {
-		$("#name-fusion-model").val("");
-		$(".validateTips").html ("Remplir le champ nom");
-		this.dialogFusionModel.dialog ("open");
-	}
-};
+//Application.prototype.fusionModelFormOpen = function () {
+//	if (this.selectedModel.length < 2)
+//		this.alertMessage ("Pas de modèles à fusionner", 4000);
+//	else {
+//		$("#name-fusion-model").val("");
+//		$(".validateTips").html ("Remplir le champ nom");
+//		this.dialogFusionModel.dialog ("open");
+//	}
+//};
 
 

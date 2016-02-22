@@ -35,7 +35,7 @@
 		<script type="text/javascript" src="Js/Libraries/webgl-debug.js"></script>
 
 		<script type="text/javascript" src="Js/Objects/Range.js"></script>
-		<script type="text/javascript" src="Js/Objects/Dimension.js"></script>
+<!--		<script type="text/javascript" src="Js/Objects/Dimension.js"></script>-->
 		<script type="text/javascript" src="Js/Objects/Equation.js"></script>
 		<script type="text/javascript" src="Js/Objects/Camera.js"></script>
 		<script type="text/javascript" src="Js/Objects/Vector.js"></script>
@@ -118,11 +118,14 @@
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_MenuAction.js"></script>
-		<script type="text/javascript" src="Js/Interface/Application_translate.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_Translate.js"></script>
 
 		<script type="text/javascript" src="Js/Objects/N64.js"></script>
 		<!-- <script type="text/javascript" src="Js/Objects/Cube.js"></script> -->
 
+		<!-- Entrer equation -->
+		<script type="text/javascript" src="Curves/Revolution/eq.js"></script>
+		
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
@@ -157,7 +160,7 @@
 						onclick="appli.generateAndDraw (0)">Générer</li>
 
 					<li title="Centrer la caméra" key="m22" class="tr"
-						onclick="">Centrer la caméra</li>
+						onclick="appli.resetCamera()">Centrer la caméra</li>
 
 					<li title="Changer le point de vue" key="m23" class="tr"
 						onclick="if (globalParam.perspectiveView) {
@@ -171,9 +174,9 @@
 
 					<li class="split"><hr/></li>
 
-					<li title="Affichez ou cachez le repère 3D" key="m24" class="tr trTitle"
+					<li title="Affichez ou cachez le repère 3D" key="27" class="tr trTitle"
 						onclick="appli.toggleRepere ()">Afficher/Cacher repère</li>
-					<li title="Affichez ou cachez les limites de l'espace 3D" key="m24" class="tr trTitle"
+					<li title="Affichez ou cachez les limites de l'espace 3D" key="28" class="tr trTitle"
 						onclick="appli.toggleBox ()">Afficher/Cacher limite 3D</li>
 
 					<li class="split"><hr/></li>
@@ -196,18 +199,6 @@
 			--><li id="toolsMenu" tabindex="3">
 				<h1 key="m3" class="tr">Outils</h1>
 				<ul>
-					<li id="toolUndo"
-						class="inaccessible tr"
-						title="Annuler la dernière action effectuée" key="m31"
-						onclick="">Annuler</li>
-
-					<li id="toolRedo"
-						class="inaccessible tr "
-						title="Refaire la dernière action annulée" key="m32"
-						onclick="">Refaire</li>
-
-					<li class="split"><hr/></li>
-
 					<li id="tool2D"
 						class="submenu"
 						title="Outils 2D">
@@ -225,7 +216,7 @@
 
 							<li class="split"><hr/></li>
 
-							<li id="meridianFormulaInput"
+							<li id="meridianFormulaInputMenu"
 								class="tr trTitle"
 								title="Rentrer une formule pour la méridienne"
 								onclick="appli.inputMeridianFormula ()" key="m333">Formule méridienne</li>
@@ -358,7 +349,7 @@
 <!--#########################################################################-->
 
 
-				<div id="meridianView">
+				<div id="meridianView" class="viewer">
 					<ul id="meridianParam" class="paramPanel"></ul>
 
 					<canvas id="meridianCanvas" style="display:none"></canvas>
@@ -395,11 +386,11 @@
 								name="meridianTypeValue"
 								value="meridianFormula"/>
 							<div class="optionGroup">
-								<p class="formulaInput">f(x,y) = <input type="text"/> = 0</p>
+								<p class="formulaInput">f(x) = <input id ="meridianFormulaInput" onblur="appli.MeridianeEquation()" onchange="appli.MeridianeEquation()" type="text"/></p>
 							</div>
 						</form>
 					</div><!-- end #meridianOption -->
-				</div><!-- end #curvesView -->
+				</div><!-- end #meridianView -->
 
 
 <!--#########################################################################-->
@@ -407,10 +398,8 @@
 <!--#########################################################################-->
 
 
-				<div id="revolView">
-					<ul id="revolParam" class="paramPanel">
-						<!-- <div id="listRevolutionParameters"></div> -->
-					</ul>
+				<div id="revolView" class="viewer">
+					<ul id="revolParam" class="paramPanel"></ul>
 					<canvas id="revolCanvas" style="display:none"></canvas>
 					<div id="revolCanvas2"></div>
 
@@ -449,66 +438,61 @@
 								name="revolTypeValue"
 								value="revolFormula"/>
 							<div class="optionGroup">
-								<p class="formulaInput">f(x,y) = <input type="text"/> = 0</p>
+								<p class="formulaInput">f(x,y) = <input id ="revolutionFormulaInput" onblur="appli.RevolutionEquation()" onchange="appli.RevolutionEquation()" type="text"/> = 0</p>
 							</div>
 						</form>
-					</div>
-
-				</div>
-
-			</div>
+					</div><!-- end #revolOption -->
+				</div><!-- end #revolView -->
+			</div><!-- end #curvesView -->
 
 <!--#########################################################################-->
 <!-- Surface view -->
 <!--#########################################################################-->
 
 
-			<div id="surfaceView">
+			<div id="surfaceView" class="viewer">
 				<div id="surfaceParam" class="paramPanel">
-					<button onclick="appli.generateAndDraw (0)" key="surf1" class="tr">Générer</button>
-					<button onclick="appli.generateAndDraw (1)" key="surf2" class="tr">Génération non optimisée</button>
+					<button id="generate1" onclick="appli.generateAndDraw (0)" key="surf1" class="tr">Générer</button>
+					<button id="generate2" onclick="appli.generateAndDraw (1)" key="surf2" class="tr">Génération non optimisée</button>
 					<hr/>
 					<div class="wrapper">
 						<label class="title">Dimension X</label><br/>
 						<div class="doubleSliders" name="X" id="slider-rangeX"></div>
 						<input type="text" id="amountMinX"
-							onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMinX')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeX','#amountMinX')">
 						-
 						<input type="text" id="amountMaxX"
-							onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
 					</div>
 					<div class="wrapper">
 						<label class="title">Dimension Y</label><br/>
 						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
 						<input type="text" id="amountMinY"
-							onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMinY')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeY','#amountMinY')">
 						-
 						<input type="text" id="amountMaxY"
-							onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
 					</div>
 					<div class="wrapper">
 						<label class="title">Dimension Z</label><br/>
 						<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
 						<input type="text" id="amountMinZ"
-							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMinZ')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeZ','#amountMinZ')">
 						-
 						<input type="text" id="amountMaxZ"
-							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 					</div>
+<<<<<<< HEAD
 					<button onClick="appli.show (true)">Modifier</button>
 
-					<!-- <div>
-						<center>
-							<form>
-								<p>Entrez Equation de courbe</p>
-								<input type="text" name="recup_equation"/><br/><br/>
-								<input type="submit" onclick="recuperer();" value="OK"/>
-							</form>
-						</center>
-					</div> -->
+=======
+>>>>>>> origin/master
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>
+				<div id="loadingImg" style="display: none">
+					<p class="tr">Génération...</p>
+				</div>
 
 				<div id="surfaceOption" class="optionPanel">
 					<div class="wrapper">
@@ -519,7 +503,7 @@
 					</div>
 					<!-- TODO traduire -->
 					<div class="wrapper">
-						<label key="" class="tr" for="connexityChoice">Connexité&nbsp;:</label>
+						<label key="m341" class="tr" for="connexityChoice">Connexité&nbsp;:</label>
 						<select id="connexityChoice" name="connexityChoice"
 							onchange="appli.surfaceView.unprepare (); appli.surfaceView.show ()">
 							<option value="1">C26</option>
@@ -530,13 +514,14 @@
 
 					<!-- TODO traduire -->
 					<div class="wrapper">
-						<label key="" class="tr" for="voxelRadius">Taille des voxels&nbsp;:</label>
+						<label key="m344" class="tr" for="voxelRadius">Taille des voxels&nbsp;:</label>
 						<input id="voxelRadius" type="number" name="voxelRadius"
 							value="1" min="0" max="1" step="0.05"/>
 					</div>
 					<!-- TODO traduire -->
 					<button key="" class="tr" onclick="appli.show (true)">Visualiser</button>
 				</div>
+			</div><!-- end #surfaceView -->
 
 
 <!--#########################################################################-->
@@ -544,16 +529,11 @@
 <!--#########################################################################-->
 
 
-			</div>
-		</div>
+		</div><!-- #workspace -->
 
 
 		<!-- State bar -->
 		<div id="stateBar" class="footer">
-			<img id="loadingImg" src="Styles/loading.gif"
-			alt="loading" title="Loading..."
-			width="20" height="20"
-			style="display: none"/>
 			<p>Message...</p>
 		</div>
 

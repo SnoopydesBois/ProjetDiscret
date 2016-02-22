@@ -16,10 +16,6 @@
 
 
 
-importScripts("../Libraries/math.js");
-importScripts("../Objects/Equation.js");
-importScripts("../Objects/Vector.js");
-importScripts("../Enum/ConnexityEnum.js");
 importScripts("WorkersUtil.js");
 
 
@@ -94,7 +90,12 @@ onmessage = function (e) {
 	dimension = new Vector(e.data[3]);
 	zMin = e.data[4];
 	zMax = e.data[5];
-	algo();
+	try{
+		algo();
+	}
+	catch(e){
+		postMessage(["Abort"]);
+	}
 	postMessage(["Terminate", id]);
 }
 

@@ -13,10 +13,12 @@
     position: static;
 }
 
+
 .paramPanel li {
     border-bottom: solid 1px black;
     padding: 0.1em;
 }
+
 
 .paramPanel input {
     max-width: 90%;
@@ -32,9 +34,9 @@
 
 
 .doubleSliders .ui-slider-handle {
-	width : 4px;
-	height : 1.2em;
-	margin-left : -2px;
+	width: 4px;
+	height: 1.2em;
+	margin-left: -2px;
     outline: none;
 }
 
@@ -77,3 +79,4 @@
     background-color: #DDD;
     border-color: #BBB;
 }
+

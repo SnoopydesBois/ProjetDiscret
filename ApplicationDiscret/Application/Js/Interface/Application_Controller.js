@@ -168,7 +168,6 @@ Application.prototype.changeMeridianMode = function () {
 	else {
 		throw "Application.changeMeridianMode: unkown given mode: " + mode;
 	}
-
 	// $("#primitive").hide ();
 	// $("#freeHand").hide ();
 	// $("#formula").hide ();
@@ -179,6 +178,14 @@ Application.prototype.changeMeridianMode = function () {
 
 
 //==============================================================================
+/**
+ * Put the camera back to its initial position.
+ * @return {void}
+ */
+Application.prototype.resetCamera = function(){
+	console.log("resetCamera (appli)");
+	this.surfaceView.resetCamera();
+};
 /**
  * TODO
  */
@@ -202,3 +209,50 @@ Application.prototype.changeRevolMode = function () {
 
 	this.revolView.draw ();
 };
+
+
+Application.prototype.MeridianeEquation = function () {
+		var input = document.getElementById("meridianFormulaInput");
+		console.log(input.value);	
+		
+		var equation = new Equation(input);
+		var x = new ExplicitCurve(equation);
+	
+	ExplicitCurve.call(this, x);
+	
+	if (! checkType (arguments, "string")) {
+		throw "Application.changeRevol: given parameter is not a string";
+	}
+	meridianController.setActive (x);
+	meridianView.draw ();
+
+	meridianParameters.displayParameter (
+		drawMeridian,
+		getRangeMeridian
+	);
+	
+	
+}
+
+Application.prototype.RevolutionEquation = function () {
+		var input = document.getElementById("revolutionFormulaInput");
+		console.log(input.value);	
+		
+		var equation = new Equation(input);
+		var x = new ImplicitCurve(equation);
+	
+	ImplicitCurve.call(this, x);
+	
+	if (! checkType (arguments, "string")) {
+		throw "Application.changeRevol: given parameter is not a string";
+	}
+	
+	revolController.setActive (x);
+	revolView.draw ();
+
+	revolutionParameters.displayParameter (
+		drawRevolution,
+		getRangeRevolution
+	);
+
+}

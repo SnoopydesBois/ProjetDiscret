@@ -1,6 +1,6 @@
 /**
  *	Copyright (juin 2015)
- *	Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
+ *	Auteur: BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
  *
  *	benoist.thomas@hotmail.fr
  *	biscui_86@hotmail.fr
@@ -51,49 +51,47 @@
 
 
 body {
-	background-color : #ddd;
-	font-family : arial, sans-serif;
-	font-size : 100%;
-	margin : 0;
-	padding : 0;
-	outline : none;
+	background-color: #ddd;
+	font-family: arial, sans-serif;
+	font-size: 100%;
+	margin: 0;
+	padding: 0;
+	outline: none;
 }
 
 
 
 .header, .footer {
-	position : absolute;
-	width : 100%;
-	background-color : white;
-	box-sizing : border-box;
-	-moz-box-sizing : border-box;
-	-webkit-box-sizing : border-box;
+	position: absolute;
+	width: 100%;
+	background-color: white;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
 
 
 
 .header {
-	height : 25px;
-	top : 0%;
-	z-index : 100; /* grand => proche, petit => loin */
-	border-bottom : 1px solid #B2B2B2;
+	height: 25px;
+	top: 0%;
+	z-index: 100; /* grand => proche, petit => loin */
+	border-bottom: 1px solid #B2B2B2;
 }
 
 
 
 .footer {
-	height : 25px;
-	bottom : 0%;
-	border-top : 1px solid #B2B2B2;
+	height: 25px;
+	bottom: 0%;
+	border-top: 1px solid #B2B2B2;
 }
 
 
 
-.footer * {
-	margin : 0;
-	padding : 2px 5px; /* haut/bas puis droite/gauche */
-	display: inline-block;
-	vertical-align: top;
+.footer p {
+	margin: 0;
+	padding: 2px 5px; /* haut/bas puis droite/gauche */
 }
 
 
@@ -105,8 +103,8 @@ body {
 
 
 #stateBar {
-	box-sizing : border-box;
-	-moz-box-sizing : border-box;
-	-webkit-box-sizing : border-box;
-	z-index : 90;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	z-index: 90;
 }

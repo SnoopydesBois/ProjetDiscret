@@ -9,6 +9,7 @@ var fragSrc =
 + "\n"
 + "uniform vec3 uDimension;\n"
 + "uniform int uMode;\n"
++ "uniform int radius;\n"
 + "\n"
 + "\n"
 + "void main (void) {\n"
