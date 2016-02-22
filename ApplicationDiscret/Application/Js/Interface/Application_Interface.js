@@ -295,10 +295,10 @@ Application.prototype.changeValueSlider = function () {
 			slider = arguments[0];
 			arg1 = arguments[1];
 
-			if (arg1.search ("Min") != -1) {
+			if (arg1.search ("Min") != -1 &&  (parseInt($(arg1).val ())<parseInt($(arg1.replace("Min", "Max")).val()))){
 				$(slider).slider ('values', 0, $(arg1).val ());
 			}
-			else if (arg1.search ("Max") != -1) {
+			else if (arg1.search ("Max") != -1 &&  (parseInt($(arg1).val ())>parseInt($(arg1.replace("Max", "Min")).val()))) {
 				$(slider).slider ('values', 1, $(arg1).val ());
 			}
 			break;
@@ -319,6 +319,7 @@ Application.prototype.changeValueSlider = function () {
 			throw "Application.changeValueSlider.ErrorArgumentsLength";
 			break;
 	}
+	this.show(true);
 };
 
 

@@ -458,45 +458,29 @@
 						<label class="title">Dimension X</label><br/>
 						<div class="doubleSliders" name="X" id="slider-rangeX"></div>
 						<input type="text" id="amountMinX"
-							onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMinX')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeX','#amountMinX')">
 						-
 						<input type="text" id="amountMaxX"
-							onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
 					</div>
 					<div class="wrapper">
 						<label class="title">Dimension Y</label><br/>
 						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
 						<input type="text" id="amountMinY"
-							onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMinY')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeY','#amountMinY')">
 						-
 						<input type="text" id="amountMaxY"
-							onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
 					</div>
 					<div class="wrapper">
 						<label class="title">Dimension Z</label><br/>
 						<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
 						<input type="text" id="amountMinZ"
-							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMinZ')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeZ','#amountMinZ')">
 						-
 						<input type="text" id="amountMaxZ"
-							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 					</div>
-					<button onClick="appli.show (true)">Modifier</button>
-<<<<<<< HEAD
-					
-					<div>												       
-						<center>
-								<form>
-									<p >Entrez Equation de courbe</p>
-									<input type="text" id="rec" name="rec"/><br/><br/>
-									<button   class="eq">OK</button>
-											
-								</form>
-						</center>
-					</div>
-	
-=======
->>>>>>> origin/master
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>
