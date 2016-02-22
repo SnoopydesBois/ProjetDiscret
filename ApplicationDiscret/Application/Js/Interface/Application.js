@@ -273,7 +273,9 @@ Application.prototype.generateAndDraw = function (mode) {
 		dimX,dimY,dimZ
 	]);
 
-	this.surfaceController.generate (mode);
+	try{
+		this.surfaceController.generate (mode);
+	}
 	catch(e){
 		this.errorMessage ("Aborted", 0);
 	}

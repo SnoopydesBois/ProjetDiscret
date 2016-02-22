@@ -47,6 +47,8 @@ aLangKeys['en']['m23'] = 'Orthographic';
 aLangKeys['en']['m24'] = 'Add N64';
 aLangKeys['en']['m25'] = 'Delete N64';
 aLangKeys['en']['m26'] = 'RGB Color';
+aLangKeys['fr']['m25'] = 'Show/hide graduation';
+aLangKeys['fr']['m26'] = 'Show/hide space limits';
 
 /* Menu Outils anglais */
 aLangKeys['en']['m3'] = 'Tools';
@@ -131,6 +133,8 @@ aLangKeys['fr']['m23'] = 'Orthographique';
 aLangKeys['fr']['m24'] = 'Ajouter N64';
 aLangKeys['fr']['m25'] = 'Supprimer N64';
 aLangKeys['fr']['m26'] = 'Couleur RVB';
+aLangKeys['fr']['m25'] = 'Afficher/Cacher repère';
+aLangKeys['fr']['m26'] = 'Afficher/Cacher limite 3D';
 
 /* Menu Outils Franaçis */
 aLangKeys['fr']['m3'] = 'Outils';
@@ -153,15 +157,9 @@ aLangKeys['fr']['m339'] = 'Ajout courbe de révolution';
 /* Sous menu 3D français */
 aLangKeys['fr']['m341'] = 'Connexité';
 aLangKeys['fr']['m342'] = 'Dimension';
-<<<<<<< HEAD
-aLangKeys['fr']['m343'] = 'Afficher le repére';
-aLangKeys['fr']['m344'] = 'Taille des voxels';
-aLangKeys['fr']['m345'] = 'multicoupes';
-=======
 aLangKeys['fr']['m343'] = 'Afficher le repère';
 aLangKeys['fr']['m344'] = 'Taille des voxels';
 aLangKeys['fr']['m345'] = 'Multicoupes';
->>>>>>> origin/master
 
 /* Menu export français */
 aLangKeys['fr']['m4'] = 'Export';
