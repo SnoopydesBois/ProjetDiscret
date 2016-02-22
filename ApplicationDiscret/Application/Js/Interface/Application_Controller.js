@@ -193,6 +193,17 @@ Application.prototype.exportSTL = function () {
 };
 
 
+
+//==============================================================================
+/**
+ *
+ */
+Application.prototype.saveCurves = function(){
+	// console.log("Application:SaveCurves");
+	this.exportController.saveCurves(this.meridianController.getActiveCurve(), this.revolController.getActiveCurve());
+};
+
+
 //==============================================================================
 /**
  * TODO
@@ -220,7 +231,6 @@ Application.prototype.changeMeridianMode = function () {
 	else {
 		throw "Application.changeMeridianMode: unkown given mode: " + mode;
 	}
-
 	// $("#primitive").hide ();
 	// $("#freeHand").hide ();
 	// $("#formula").hide ();
@@ -231,6 +241,14 @@ Application.prototype.changeMeridianMode = function () {
 
 
 //==============================================================================
+/**
+ * Put the camera back to its initial position.
+ * @return {void}
+ */
+Application.prototype.resetCamera = function(){
+	console.log("resetCamera (appli)");
+	this.surfaceView.resetCamera();
+};
 /**
  * TODO
  */

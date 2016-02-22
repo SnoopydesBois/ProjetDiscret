@@ -157,4 +157,13 @@ ControllerExport.prototype.exportRevolutionPng = function(){
  */
 ControllerExport.prototype.exportSTL = function(renderer){
 	this.model.exportSTL(renderer);
-}
+};
+
+
+//==============================================================================
+/**
+ *
+ */
+ControllerExport.prototype.saveCurves = function(meridian, revolution){
+	this.model.saveCurves(meridian, revolution);
+};
