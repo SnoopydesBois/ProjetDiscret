@@ -170,9 +170,10 @@
 
 					<li class="split"><hr/></li>
 
-					<li title="Affichez ou cachez le repère 3D" key="27" class="tr trTitle"
+					<li title="Affichez ou cachez le repère 3D" key="m27" class="tr trTitle"
 						onclick="appli.toggleRepere ()">Afficher/Cacher repère</li>
-					<li title="Affichez ou cachez les limites de l'espace 3D" key="28" class="tr trTitle"
+						
+					<li title="Affichez ou cachez les limites de l'espace 3D" key="m28" class="tr trTitle"
 						onclick="appli.toggleBox ()">Afficher/Cacher limite 3D</li>
 
 					<li class="split"><hr/></li>
@@ -264,30 +265,26 @@
 						<h1 key="m34" class="tr">Outils 3D</h1>
 						<ul>
 
-							<li id="connexity"
-								class="inaccessible"
-								title="Choix de connexité"
-								onclick="" key="m341" class="tr"></li>
-
+							
 							<li id="dimension"
 								class="inaccessible"
 								title="Choix des dimensions"
-								onclick="" key="m342" class="tr">Dimension</li>
+								onclick="" key="m341" class="tr">Dimension</li>
 
 							<li id="repereDisplay"
 								class="inaccessible"
 								title="Affichage du repère"
-								onclick="" key="m343" class="tr">Afficher le repère</li>
+								onclick="" key="m342" class="tr">Afficher le repère</li>
 
 							<li id="voxelSize"
 								class="inaccessible"
 								title="Taille des voxels"
-								onclick="" key="m344" class="tr">Taille des voxels</li>
+								onclick="" key="m343" class="tr">Taille des voxels</li>
 
 							<li id="multiSlice"
 								class="inaccessible"
 								title="Multicoupe"
-								onclick="" key="m345" class="tr">Multicoupe</li>
+								onclick="" key="m344" class="tr">Multicoupe</li>
 
 						</ul>
 					</li>
@@ -299,18 +296,18 @@
 				<ul>
 
 					<li><a id="download" key="m41" class="tr" onclick="appli.export3DPng()">Exporter surface 3D</a></li>
-					<li><a id="downloadMeridian" key="m41" class="tr" onclick="appli.exportMeridianPng()">Exporter méridienne</a></li>
-					<li><a id="downloadRevolution" key="m41" class="tr" onclick="appli.exportRevolutionPng()">Exporter courbe de révolution</a></li>
+					<li><a id="downloadMeridian" key="m42" class="tr" onclick="appli.exportMeridianPng()">Exporter méridienne</a></li>
+					<li><a id="downloadRevolution" key="m43" class="tr" onclick="appli.exportRevolutionPng()">Exporter courbe de révolution</a></li>
 
 					<li class="split"><hr/></li>
 
 					<li id="tool3D"
 						class="submenu"
 						title="Outils 3D">
-						<h1 key="m42" class="tr">Export 3D</h1>
+						<h1 key="m44" class="tr">Export 3D</h1>
 						<ul>
-							<li key="m421" class="tr" onclick="appli.exportX3D()">Export X3D</li>
-							<li key="m422" class="tr" onclick="appli.exportSTL()">Export impression 3D</li>
+							<li key="m441" class="tr" onclick="appli.exportX3D()">Export X3D</li>
+							<li key="m442" class="tr" onclick="appli.exportSTL()">Export impression 3D</li>
 						</ul>
 					</li>
 				</ul>
@@ -374,8 +371,12 @@
 								name="meridianTypeValue"
 								value="meridianFreeHand"/>
 							<div class="optionGroup">
+<<<<<<< HEAD
+								<button id="" key="a3" class="tr" onclick="appli.clearDraw ()">Effacer</button>
+=======
 								<button id="" class="tr" onclick="appli.clearDraw ()">Effacer</button>
 								<button id="" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
+>>>>>>> origin/master
 							</div>
 							<label for="meridianFormula">&nbsp;</label>
 							<input type="radio"
@@ -479,6 +480,13 @@
 						<input type="text" id="amountMaxZ"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 					</div>
+<<<<<<< HEAD
+
+					<button onClick="appli.show (true)" key = "a6" class ="tr" >Modifier</button>
+
+
+=======
+>>>>>>> origin/master
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>
@@ -511,7 +519,7 @@
 							value="1" min="0" max="1" step="0.05"/>
 					</div>
 					<!-- TODO traduire -->
-					<button key="" class="tr" onclick="appli.show (true)">Visualiser</button>
+					<button key="a5" class="tr" onclick="appli.show (true)">Visualiser</button>
 				</div>
 			</div><!-- end #surfaceView -->
 
