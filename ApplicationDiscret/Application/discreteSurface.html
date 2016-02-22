@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-	author : abisutti
-	created : Fri, 18 Dec 2015 14:11:34 +0100
-	modified : Fri, 18 Dec 2015 14:11:34 +0100
--->
 <html lang="fr">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
@@ -77,7 +72,7 @@
 		<script type="text/javascript" src="Curves/Revolution/Curve2.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve3.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve4.js"></script>
-		<script type="text/javascript" src="Curves/Revolution/Curve5.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Hyperbol.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve6.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve7.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve8.js"></script>
@@ -113,7 +108,7 @@
 		<script type="text/javascript" src="Js/Display/CurveViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/ParameterViewer.js"></script>
 
-		<script type="text/javascript" src="Js/Interface/EntryData.js"></script>
+		<!-- <script type="text/javascript" src="Js/Interface/EntryData.js"></script> -->
 		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>
 		<script type="text/javascript" src="Js/Interface/ListUndoRedoAction.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application.js"></script>
@@ -122,28 +117,19 @@
 		<script type="text/javascript" src="Js/Interface/Application_Messages.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_MenuAction.js"></script>
+		<script type="text/javascript" src="Js/Interface/Application_translate.js"></script>
 
 		<script type="text/javascript" src="Js/Objects/N64.js"></script>
 		<!-- <script type="text/javascript" src="Js/Objects/Cube.js"></script> -->
 
-		<!-- Translation -->
-		<script type="text/javascript" src="Js/Interface/Application_translate.js"></script>
-
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
-		<link rel="stylesheet" type="text/css" media="all" href="Styles/temp.css"/>
-		<link rel="stylesheet" type="text/css" media="all" href="Styles/common.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/style.css">
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/parameterPanel.css">
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/surfaceView.css">
-
-
-		<!-- Export 3D en PNG -->
-		<!-- <script src="Export/Export_PNG/jquery.min.js"></script> -->
-		<script src="Export/Export_PNG/d3.v2.js"></script>
-
-
 
 	</head>
 	<body>
@@ -157,7 +143,7 @@
 
 					<li title="Ouvrir un modèle depuis un fichier sur cet ordinateur"
 						onclick="this.firstElementChild.click()" key="m12" class="tr">
-						<input type="file" id="i_file" style="display:none" >Ouvrir</input>
+						<input type="file" id="i_file" style="display:none">Ouvrir</input>
 					</li>
 					<li title="Enregistrer le modèle actuel"
 						key="m13" class="tr" onclick="appli.saveCurves()">Enregistrer</li>
@@ -167,7 +153,7 @@
 				<h1 key="m2" class="tr">Affichage</h1>
 				<ul>
 					<li title="Générer la surface dans la vue 3D" key="m21" class="tr"
-						onclick="appli.surfaceView.show (true)">Générer</li>
+						onclick="appli.generateAndDraw (0)">Générer</li>
 
 					<li title="Centrer la caméra" key="m22" class="tr"
 						onclick="">Centrer la caméra</li>
@@ -184,6 +170,12 @@
 
 					<li class="split"><hr/></li>
 
+					<li title="Affichez ou cachez le repère 3D" key="m24" class="tr trTitle"
+						onclick="appli.toggleRepere ()">Afficher/Cacher repère</li>
+					<li title="Affichez ou cachez les limites de l'espace 3D" key="m24" class="tr trTitle"
+						onclick="appli.toggleBox ()">Afficher/Cacher limite 3D</li>
+
+					<li class="split"><hr/></li>
 
 					<li title="Ajouter un N64 pour le debug" key="m24" class="tr"
 						onclick="appli.surfaceView.container.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
@@ -221,33 +213,33 @@
 						<h1 key="m33" class="tr">Outils 2D</h1>
 						<ul>
 							<li id="meridianChoice"
-								class="inaccessible tr"
+								class="tr trTitle"
 								title="Choix de la méridienne"
-								onclick="" key="m331" class="tr">Méridiennes</li>
+								onclick="appli.selectMeridian ()" key="m331">Méridiennes</li>
 
 							<li id="curveOfRevolutionChoice"
-								class="inaccessible"
+								class="tr trTitle"
 								title="Choix de la courbe de révolution"
-								onclick="" key="m332" class="tr">Courbes de révolution</li>
+								onclick="appli.selectRevol ()" key="m332">Courbes de révolution</li>
 
 							<li class="split"><hr/></li>
 
-							<li id="meridianFormula"
-								class="inaccessible"
+							<li id="meridianFormulaInput"
+								class="tr trTitle"
 								title="Rentrer une formule pour la méridienne"
-								onclick="" key="m333" class="tr">Formule méridienne</li>
+								onclick="appli.inputMeridianFormula ()" key="m333">Formule méridienne</li>
 
-							<li id="showSimpleParameter"
-								class="inaccessible"
+							<li id="revolFormulaInput"
+								class="tr trTitle"
 								title="Rentrer une formule pour la courbe de révolution"
-								onclick="" key="m334" class="tr">Formule courbe de révolution</li>
+								onclick="appli.inputRevolFormula ()" key="m334">Formule courbe de révolution</li>
 
 							<li class="split"><hr/></li>
 
 							<li id="handFreeDrawing"
-								class="inaccessible"
+								class="tr trTitle"
 								title="Dessiner à main levée"
-								onclick="" key="m335" class="tr">Dessiner à main levée</li>
+								onclick="appli.drawFreeHandMeridian ()" key="m335">Dessiner à main levée</li>
 
 							<li class="split"><hr/></li>
 
@@ -348,10 +340,8 @@
 			<li id="translatemenu" tabindex="7">
 			<h1>Traduction</h1>
 				<ul>
-					<!-- <div class="lang_switcher">-->
 					<li id="en" class="lang">English</li>
 					<li id="fr" class="lang">Français</li>
-					<!-- </div> -->
 				</ul>
 			</li>
 		</ul><!-- end menus -->
@@ -368,40 +358,47 @@
 
 
 				<div id="meridianView">
-					<div id="meridianParam" class="paramPanel">
-						<div id="listMeridianParameters"></div>
-					</div>
+					<ul id="meridianParam" class="paramPanel"></ul>
 
 					<canvas id="meridianCanvas" style="display:none"></canvas>
 					<div id="meridianCanvas2"></div>
 
 					<div id="meridianOption" class="optionPanel">
-						<label for="meridianType">Mode&nbsp;:</label>
-						<select id="meridianType" name="meridianType"
-							onchange="appli.changeMeridianMode (this.value)">
-							<option key="" class="tr" value="primitive">Prédéfinie</option>
-							<option key="" class="tr" value="handFree">Dessin</option>
-							<option key="" class="tr" value="formula">Formule</option>
-						</select>
-
-						<ul id="meridianModeOption">
-							<li id="primitive">
+						<form class="buttonGroup" id="meridianType" name="meridianType"
+							onchange="appli.changeMeridianMode ()"
+							onsubmit="return false">
+							<label for="meridianPrimitive">&nbsp;</label>
+							<input type="radio"
+								id="meridianPrimitive"
+								name="meridianTypeValue"
+								value="meridianPrimitive"
+								checked="checked"/>
+							<div class="optionGroup">
 								<select id="listMeridians" name="listMeridians"
 									onchange="appli.changeMeridian (this.value)">
 									<option value="Line" key="mer3" class="tr">Ligne</option>
 									<option value="Sinusoid" key="mer4" class="tr">Sinusoid</option>
 								</select>
-							</li>
-							
-							<li id="handFree" style="display : none; background-color : red">
+							</div>
+							<label for="meridianFreeHand">&nbsp;</label>
+							<input type="radio"
+								id="meridianFreeHand"
+								name="meridianTypeValue"
+								value="meridianFreeHand"/>
+							<div class="optionGroup">
 								<button id="" class="tr" onclick="appli.clearDraw ()">Effacer</button>
-							</li>
-							
-							<li id="formula" style="display : none; background-color : green">
-							</li>
-						</ul>
-					</div>
-				</div>
+							</div>
+							<label for="meridianFormula">&nbsp;</label>
+							<input type="radio"
+								id="meridianFormula"
+								name="meridianTypeValue"
+								value="meridianFormula"/>
+							<div class="optionGroup">
+								<p class="formulaInput">f(x,y) = <input type="text"/> = 0</p>
+							</div>
+						</form>
+					</div><!-- end #meridianOption -->
+				</div><!-- end #curvesView -->
 
 
 <!--#########################################################################-->
@@ -410,34 +407,54 @@
 
 
 				<div id="revolView">
-					<div id="revolParam" class="paramPanel">
-						<div id="listRevolutionParameters"></div>
-					</div>
+					<ul id="revolParam" class="paramPanel">
+						<!-- <div id="listRevolutionParameters"></div> -->
+					</ul>
 					<canvas id="revolCanvas" style="display:none"></canvas>
 					<div id="revolCanvas2"></div>
 
 					<div id="revolOption" class="optionPanel">
-						<select id="listRevolutions" name="listRevolutions"
-							onchange="appli.changeRevol (this.value)">
-							<option value="Circle" key="revol3" class="tr">Cercle</option>
-							<option value="Triangle" key="revol134" class="tr">Croix</option>
-							<option value="Heart" key="revol4" class="tr">Coeur</option>
-							<option value="Lemniscate" key="revol5" class="tr">Lemniscate</option>
-							<option value="Curve1" key="revol6" class="tr">Curve1</option>
-							<option value="Curve2" key="revol7" class="tr">Curve2</option>
-							<option value="Curve3" key="revol8" class="tr">Curve3</option>
-							<option value="Curve4" key="revol9" class="tr">Curve4</option>
-							<option value="Curve5" key="revol10" class="tr">Curve5</option>
-							<option value="Curve6" key="revol11" class="tr">Curve6</option>
-							<option value="Curve7" key="revol12" class="tr">Curve7</option>
-							<option value="Curve8" key="revol13" class="tr">Curve8</option>
-							<option value="Curve9" key="revol14" class="tr">Curve9</option>
-							<option value="Curve10" key="revol15" class="tr">Curve10</option>
-						</select>
+						<form class="buttonGroup" id="revolType" name="revolType"
+							onchange="appli.changeRevolMode ()"
+							onsubmit="return false">
+							<label for="revolPrimitive">&nbsp;</label>
+							<input type="radio"
+								id="revolPrimitive"
+								name="revolTypeValue"
+								value="revolPrimitive"
+								checked="checked"/>
+							<div class="optionGroup">
+								<select id="listRevolutions" name="listRevolutions"
+									onchange="appli.changeRevol (this.value)">
+									<option value="Circle" key="revol3" class="tr">Cercle</option>
+									<option value="Triangle" key="revol134" class="tr">Croix</option>
+									<option value="Heart" key="revol4" class="tr">Coeur</option>
+									<option value="Lemniscate" key="revol5" class="tr">Lemniscate</option>
+									<option value="Curve1" key="revol6" class="tr">Curve1</option>
+									<option value="Curve2" key="revol7" class="tr">Curve2</option>
+									<option value="Curve3" key="revol8" class="tr">Curve3</option>
+									<option value="Curve4" key="revol9" class="tr">Curve4</option>
+									<option value="Hyperbol" key="revol10" class="tr">Hyperbol</option>
+									<option value="Curve6" key="revol11" class="tr">Curve6</option>
+									<option value="Curve7" key="revol12" class="tr">Curve7</option>
+									<option value="Curve8" key="revol13" class="tr">Curve8</option>
+									<option value="Curve9" key="revol14" class="tr">Curve9</option>
+									<option value="Curve10" key="revol15" class="tr">Curve10</option>
+								</select>
+							</div>
+							<label for="revolFormula">&nbsp;</label>
+							<input type="radio"
+								id="revolFormula"
+								name="revolTypeValue"
+								value="revolFormula"/>
+							<div class="optionGroup">
+								<p class="formulaInput">f(x,y) = <input type="text"/> = 0</p>
+							</div>
+						</form>
 					</div>
-	
+
 				</div>
-		
+
 			</div>
 
 <!--#########################################################################-->
@@ -451,7 +468,7 @@
 					<button onclick="appli.generateAndDraw (1)" key="surf2" class="tr">Génération non optimisée</button>
 					<hr/>
 					<div class="wrapper">
-						<label>Dimension X</label><br/>
+						<label class="title">Dimension X</label><br/>
 						<div class="doubleSliders" name="X" id="slider-rangeX"></div>
 						<input type="text" id="amountMinX"
 							onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMinX')">
@@ -459,11 +476,8 @@
 						<input type="text" id="amountMaxX"
 							onKeyUp="appli.changeValueSlider('#slider-rangeX','#amountMaxX')">
 					</div>
-					
-	
-
 					<div class="wrapper">
-						<label>Dimension Y</label><br/>
+						<label class="title">Dimension Y</label><br/>
 						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
 						<input type="text" id="amountMinY"
 							onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMinY')">
@@ -472,7 +486,7 @@
 							onKeyUp="appli.changeValueSlider('#slider-rangeY','#amountMaxY')">
 					</div>
 					<div class="wrapper">
-						<label>Dimension Z</label><br/>
+						<label class="title">Dimension Z</label><br/>
 						<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
 						<input type="text" id="amountMinZ"
 							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMinZ')">
@@ -481,17 +495,16 @@
 							onKeyUp="appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 					</div>
 					<button onClick="appli.show (true)">Modifier</button>
-					
-					<div>												       
+
+					<!-- <div>
 						<center>
-								<form>
-									<p>Entrez Equation de courbe</p>
-									<input type="text" name="recup_equation"/><br/><br/>
-									<input type="submit" onclick="recuperer();" value="OK"/>						
-								</form>
+							<form>
+								<p>Entrez Equation de courbe</p>
+								<input type="text" name="recup_equation"/><br/><br/>
+								<input type="submit" onclick="recuperer();" value="OK"/>
+							</form>
 						</center>
-					</div>
-	
+					</div> -->
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>
@@ -536,21 +549,27 @@
 
 		<!-- State bar -->
 		<div id="stateBar" class="footer">
+			<img id="loadingImg" src="Styles/loading.gif"
+			alt="loading" title="Loading..."
+			width="20" height="20"
+			style="display: none"/>
 			<p>Message...</p>
 		</div>
 
-		
+
 		<script type="text/javascript">
 		var appli = new Application ();
 
 			var gl = appli.surfaceView.glContext;
-
-			var n64 = new N64 (gl, 3, 3);
+			var n64 = new N64 (gl, 6, 5);
 			//var s = n64.modelController.modelGen.surface
-			//appli.surfaceView.container.addObject (n64);
-			//globalParam.cubeColorDebug = true;
-
+			// appli.surfaceView.container.addObject (n64);
+			// globalParam.perspectiveView = false;
 			appli.initAppli ();
+			// appli.toggleBox ();
+			// appli.toggleRepere ();
+			// var cam = appli.surfaceView.container.camera
+			// var eye = cam.eyePos;
 
 			/**
 			 * idée de courbe :
@@ -584,11 +603,10 @@
 			 * courbe 3, 8 : voir http://www.mathcurve.com/courbes2d/lissajous/lissajous.shtml
 			 * courbe 4 : voir http://www.mathcurve.com/courbes2d/trisectricedeceva/trisectricedeceva.shtml
 			 * 	ou http://www.mathcurve.com/courbes2d/scarabee/scarabee.shtml
-			 * courbe 5 = hyperbole
 			 * courbe 7 : voir http://www.mathcurve.com/courbes2d/salmon/salmon.shtml
 			 */
 
-			
+
 		</script>
 	</body>
 </html>

@@ -133,22 +133,22 @@ Repere.prototype.getMatrix = function (camera) {
 		throw "Repere.getMatrix: Given parameter is not a Camera";
 
 	/// compute and return the matrix
-	var coef = 0.083 / Math.min (camera.width, camera.height);
-	var t = (new Vector (camera.eyePos)).normalize ();
-	t = (new Vector (camera.eyePos)).sub (t.mul (0.2));
-	var ty = (camera.eyePos.cross (camera.up)).normalize ();
+	var coef = 0.083 / camera.height;
 
-	t = t.add ((new Vector (ty))
+	var t = new Vector (camera.eyePos).normalize ();
+	t = new Vector (camera.eyePos).sub (t.mul (0.2));
+
+	var ty = camera.eyePos.cross (camera.up).normalize ();
+	t = t.add (new Vector (ty)
 		.mul (camera.width * coef)
-		.sub ((new Vector (ty))
-		.mul (0.015))
+		.sub (new Vector (ty).mul (0.015))
 	);
-	var tz = (camera.eyePos.cross (ty)).normalize ();
-	t = t.add ((new Vector (tz))
+	var tz = camera.eyePos.cross (ty).normalize ();
+	t = t.add (new Vector (tz)
 		.mul (camera.height * coef)
-		.sub ((new Vector (tz))
-		.mul (0.015))
+		.sub (new Vector (tz).mul (0.015))
 	);
+
 	return new Matrix (this.matrix).translate (t);
 };
 
