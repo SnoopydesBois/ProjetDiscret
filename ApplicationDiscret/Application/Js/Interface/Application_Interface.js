@@ -98,129 +98,20 @@ Application.prototype.getMeridianCurveName = function () {
 
 //==============================================================================
 /**
- * @param {Entry} entry - A new entry for the menu.
- *
- * @return {void}
- */
-// Application.prototype.addMenuEntry = function (entry) {
-// 	var listMenu = $("#" + MenuEntryEnum.properties[entry.getMenu()].htmlClass
-// 		+ " > ul > li").not (".split");
-// 	var nbMenuEntry = listMenu.length;
-// 	var element = "<li title=\"" + entry.getDescription() + "\" onclick=\""
-// 		+ entry.getAction() + "; appli.showMessage('"
-// 		+ entry.getInitMessage() + "');\">" + entry.getNameEntry()
-// 		+ "</li>";
-// 	var effectiveIndex = entry.getIndexMenu();
-// 	// negative index -> Start from the end
-// 	if (entry.getIndexMenu() < 0)
-// 		effectiveIndex = nbMenuEntry + 1 + entry.getIndexMenu();
-// 	if (effectiveIndex < 0)
-// 		effectiveIndex = nbMenuEntry;
-//
-// 	/// insertion
-// 	//	console.log ("Ajout de " + entry.getNameEntry () + " à l'index "
-// 	// 			+ effectiveIndex + " pour une liste de taille " + nbMenuEntry)
-// 	if (nbMenuEntry == 0)
-// 		$("#" + MenuEntryEnum.properties[entry.getMenu()].htmlClass
-// 		+ " > ul").append (element);
-// 	else if (effectiveIndex < nbMenuEntry)
-// 		listMenu.eq (effectiveIndex).before (element);
-// 	else
-// 		listMenu.eq (nbMenuEntry - 1).after (element);
-// };
-
-
-//==============================================================================
-/**
- * Add a split bar in a menu.
- *
- * @param {MenuEntryEnum} menu - The menu.
- * @param {Number} index - The index in the menu. 0 for the first place, -1 for
- * the last. Invalid number is equals to -1.
- *
- * @return {void}
- */
-// Application.prototype.addMenuSplit = function (menu, index) {
-// 	/// get list
-// 	var listMenu = $("#" + MenuEntryEnum.properties[menu].htmlClass
-// 		+ " > ul > li").not (".split");
-// 	var nbMenuEntry = listMenu.length;
-//
-// 	/// new element
-// 	var element = "<li class='split'><hr/></li>";
-// 	var effectiveIndex = (typeof index == "number") ? index : -1;
-// 	// Negative index -> Start from the end
-// 	if (index < 0)
-// 		effectiveIndex = nbMenuEntry + 1 + index;
-// 	if (effectiveIndex < 0)
-// 		effectiveIndex = nbMenuEntry;
-//
-// 	/// insertion
-// 	if (nbMenuEntry == 0)
-// 		listMenu.append (element);
-// 	else if (effectiveIndex < nbMenuEntry)
-// 		listMenu.eq (effectiveIndex).before (element);
-// 	else
-// 		listMenu.eq (nbMenuEntry - 1).after (element);
-// };
-
-
-//==============================================================================
-/**
- * @param {Entry} entry - A new entry for the toolbar.
- *
- * @return {void}
- */
-// Application.prototype.addToolsEntry = function (entry) {
-// 	var toolsButton = $("#toolsButton li");
-// 	var nbMenuEntry = toolsButton.length;
-// 	var element = "<li><button class=\"tool "
-// 		+ ToolStateEnum.properties[entry.getInitState()]
-// 		+ "\" title=\"" + entry.getDescription()
-// 		+ "\" onclick=\"appli.showMessage('" + (entry.getInitMessage() || "")
-// 		+ "'); " + entry.getAction()
-// 		+ "\"><img src=\"" + entry.getImgPath()
-// 		+ "\" alt=\"" + entry.getImgAlternateText()
-// 		+ "\" width=\"24px\"" + " height=\"24px\"></button></li>";
-//
-// 	if (entry.getIndexTool() < 0 || entry.getIndexTool() >= nbMenuEntry)
-// 		toolsButton.eq (nbMenuEntry - 1).after (element);
-// 	else
-// 		toolsButton.eq (entry.getIndexTool()).before (element);
-// };
-
-
-//==============================================================================
-/**
- * Enable a button in a specific class element and disable the activeted button.
- *
- * @param {String} className - The class name of the element.
- * @param {String} id - The id of the element to enable.
- *
- * @return {void}
- */
-// Application.prototype.activeToolButton = function (className, id) {
-// 	$("." + className + ".active").removeClass ("active");
-// 	$("#" + id).addClass ("active");
-// };
-
-
-//==============================================================================
-/**
  * Enable or disable an element. Add or remove the class attribute "active".
  *
  * @param {HTMLElement} element - The element.
  *
  * @return {void}
  */
-Application.prototype.switchActive = function (element) {
-	var elem = $(element);
-	if (elem.hasClass ("active"))
-		elem.removeClass ("active");
-	else
-		elem.addClass ("active");
-};
-
+// Application.prototype.switchActive = function (element) {
+// 	var elem = $(element);
+// 	if (elem.hasClass ("active"))
+// 		elem.removeClass ("active");
+// 	else
+// 		elem.addClass ("active");
+// };
+//
 
 //==============================================================================
 /**
@@ -231,56 +122,12 @@ Application.prototype.switchActive = function (element) {
  *
  * @return {void}
  */
-Application.prototype.setActiveClass = function (element, active) {
-	var elem = $(element);
-	if (active)
-		elem.addClass ("active");
-	else
-		elem.removeClass ("active");
-};
-
-
-//==============================================================================
-/**
- * Update class of the Undo/Redo menu item.
- *
- * @return {void}
- */
-Application.prototype.updateUndoRedoMenuItem = function () {
-	if (typeof (undoItemMenu) == "undefined")
-		undoItemMenu = $('#toolUndo');
-	if (typeof (redoItemMenu) == "undefined")
-		redoItemMenu = $('#toolRedo');
-
-	// undo
-	if (this.listAction.hasUndoableAction())
-		undoItemMenu.removeClass ("inaccessible");
-	else
-		undoItemMenu.addClass ("inaccessible");
-
-	// redo
-	if (this.listAction.hasRedoableAction())
-		redoItemMenu.removeClass ("inaccessible");
-	else
-		redoItemMenu.addClass ("inaccessible");
-};
-
-
-//==============================================================================
-/**
- * Update the tips field in the dialogs windows.
- *
- * @param {String} t - Error message.
- *
- * @return {void}
- */
-// Application.prototype.updateTips = function (t) {
-// 	$(".validateTips")
-// 		.text (t)
-// 		.addClass ("ui-state-highlight");
-// 	setTimeout (function () {
-// 		$(".validateTips").removeClass ("ui-state-highlight", 1500);
-// 	}, 500);
+// Application.prototype.setActiveClass = function (element, active) {
+// 	var elem = $(element);
+// 	if (active)
+// 		elem.addClass ("active");
+// 	else
+// 		elem.removeClass ("active");
 // };
 
 
@@ -288,30 +135,30 @@ Application.prototype.updateUndoRedoMenuItem = function () {
 /**
  * TODO
  */
-Application.prototype.changeValueSlider = function () {
+Application.prototype.changeValueSlider = function (idSlider, draw) {
 	var slider, arg1, arg2;
 	switch (arguments.length) {
-		case 2 :
-			slider = arguments[0];
-			arg1 = arguments[1];
+		case 3 :
+			slider = idSlider;
+			arg1 = arguments[2];
 
-			if (arg1.search ("Min") != -1 && 
+			if (arg1.search ("Min") != -1 &&
 				(parseInt ($(arg1).val ())
 				< parseInt ($(arg1.replace ("Min", "Max")).val ())))
 			{
 				$(slider).slider ('values', 0, $(arg1).val ());
 			}
-			else if (arg1.search ("Max") != -1 && 
+			else if (arg1.search ("Max") != -1 &&
 				(parseInt ($(arg1).val ())
 				> parseInt ($(arg1.replace ("Max", "Min")).val ())))
 			{
 				$(slider).slider ('values', 1, $(arg1).val ());
 			}
 			break;
-		case 3 :
-			slider = arguments[0];
-			arg1 = arguments[1];
-			arg2 = arguments[2];
+		case 4 :
+			slider = idSlider;
+			arg1 = arguments[2];
+			arg2 = arguments[3];
 
 			$(slider).slider ("option", "max", arg2);
 			$(slider).slider ('values', 0, arg1);
@@ -325,7 +172,8 @@ Application.prototype.changeValueSlider = function () {
 			throw "Application.changeValueSlider.ErrorArgumentsLength";
 			break;
 	}
-	this.show (true);
+	if (draw)
+		this.show (true);
 };
 
 
@@ -342,7 +190,7 @@ Application.prototype.clearDraw = function () {
 
 //==============================================================================
 /**
- * Show the loading image in the state bar.
+ * Show the loading image on the 3D view.
  *
  * @return {void}
  */
@@ -353,10 +201,24 @@ Application.prototype.loading = function () {
 
 //==============================================================================
 /**
- * Hide the loading image in the state bar.
+ * Hide the loading image on the 3D view.
  *
  * @return {void}
  */
 Application.prototype.stopLoading = function () {
 	document.getElementById ("loadingImg").style = "display: none";
+};
+
+//==============================================================================
+/**
+ * Show the aborted message on the 3D view.
+ *
+ * @return {void}
+ */
+Application.prototype.abort = function () {
+	this.stopLoading ();
+	document.getElementById ("abortMessage").style = "";
+	setTimeout (function () {
+		document.getElementById ("abortMessage").style = "display: none";
+	}, 2500);
 };

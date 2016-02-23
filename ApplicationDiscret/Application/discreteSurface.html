@@ -374,7 +374,7 @@
 								value="meridianFreeHand"
 								autocomplete="off"/>
 							<div class="optionGroup">
-								<button id="a3" class="tr" onclick="appli.clearDraw ()">Effacer</button>	
+								<button id="a3" class="tr" onclick="appli.clearDraw ()">Effacer</button>
 								<button id="" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
 							</div>
 							<label for="meridianFormula">&nbsp;</label>
@@ -384,8 +384,8 @@
 								value="meridianFormula"
 								autocomplete="off"/>
 							<div class="optionGroup">
-								<p class="formulaInput">f(x) = <input id ="meridianFormulaInput" 
-																	  onkeyup="if (event.keyCode == 13) appli.meridianEquation()" 
+								<p class="formulaInput">f(x) = <input id ="meridianFormulaInput"
+																	  onkeyup="if (event.keyCode == 13) appli.meridianEquation()"
 																	  type="text" autocomplete="off"/></p>
 							</div>
 						</form>
@@ -439,9 +439,9 @@
 								name="revolTypeValue"
 								value="revolFormula"/>
 							<div class="optionGroup">
-								<p class="formulaInput">f(x,y) = <input id ="revolutionFormulaInput" 
-																		onkeyup="if (event.keyCode == 13) appli.revolutionEquation()" 
-																		type="text" 
+								<p class="formulaInput">f(x,y) = <input id ="revolutionFormulaInput"
+																		onkeyup="if (event.keyCode == 13) appli.revolutionEquation()"
+																		type="text"
 																		autocomplete="off"/> = 0</p>
 							</div>
 						</form>
@@ -463,37 +463,40 @@
 						<label class="title">Dimension X</label><br/>
 						<div class="doubleSliders" name="X" id="slider-rangeX"></div>
 						<input type="text" id="amountMinX"
-							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeX','#amountMinX')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeX', true, '#amountMinX')">
 						-
 						<input type="text" id="amountMaxX"
-							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeX','#amountMaxX')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeX', true, '#amountMaxX')">
 					</div>
 					<div class="wrapper">
 						<label class="title">Dimension Y</label><br/>
 						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
 						<input type="text" id="amountMinY"
-							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeY','#amountMinY')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeY', true, '#amountMinY')">
 						-
 						<input type="text" id="amountMaxY"
-							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeY','#amountMaxY')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeY', true, '#amountMaxY')">
 					</div>
 					<div class="wrapper">
 						<label class="title">Dimension Z</label><br/>
 						<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
 						<input type="text" id="amountMinZ"
-							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeZ','#amountMinZ')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeZ', true, '#amountMinZ')">
 						-
 						<input type="text" id="amountMaxZ"
-							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeZ','#amountMaxZ')">
+							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeZ', true, '#amountMaxZ')">
 					</div>
 					<div class="wrapper">
-<!--						<button id="" class="tr trTitle" onclick="appli.resetSliderMultiSlice ()">Remettre à zéro</button>-->
+						<button id="" class="tr trTitle" onclick="appli.resetSliderMultiSlice ()">Remettre à zéro</button>
 					</div>
 				</div><!-- end #surfaceParam -->
 
 				<canvas id="surfaceCanvas"></canvas>
-				<div id="loadingImg" style="display: none">
+				<div id="loadingImg" class="popupMessage" style="display: none">
 					<p class="tr">Génération...</p>
+				</div>
+				<div id="abortMessage" class="popupMessage" style="display: none">
+					<p class="tr">Annulation...</p>
 				</div>
 
 				<div id="surfaceOption" class="optionPanel">
@@ -542,7 +545,7 @@
 
 		<script type="text/javascript">
 			var appli = new Application ();
-			
+
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 5);
 			//appli.surfaceView.container.addObject (n64);
@@ -552,7 +555,14 @@
 			// appli.toggleRepere ();
 			// var cam = appli.surfaceView.container.camera
 			// var eye = cam.eyePos;
-
+			function plop (arg1, arg2) {
+				console.log ("nbargs =", arguments.length)
+				for (var i in arguments) {
+					console.log ("arg[i] =", arguments[i]);
+				}
+				console.log ("arg1 =", arg1)
+				console.log ("arg2 =", arg2)
+			}
 			/**
 			 * idée de courbe :
 			 * liste complète : http://www.mathcurve.com/courbes2d/courbes2d.shtml

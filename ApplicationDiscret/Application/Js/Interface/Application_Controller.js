@@ -58,19 +58,16 @@
 
 
 /**
- * Store an undoable action in the undo/redo list.
+ * TODO
  *
- * @param {UndoRedoAction} action - The undoable action.
+ * @param {boolean} forcePrepare - TODO
+ * @see {@link SurfaceViewer.show}
  *
  * @return {void}
  */
-// Application.prototype.addAction = function (action) {
-// 	if (!(action instanceof UndoRedoAction) || ! action.isValidAction ())
-// 		console.error ("Application.addAction: argument is not an Action !");
-// 	else
-// 		this.listAction.addAction (action);
-// 	this.updateUndoRedoMenuItem ();
-// };
+Application.prototype.show = function (forcePrepare) {
+	this.surfaceView.show (forcePrepare);
+};
 
 
 //==============================================================================
@@ -173,7 +170,8 @@ Application.prototype.changeMeridianMode = function () {
 		$("#meridianCanvas").hide ();
 		$("#meridianCanvas2").show ();
 
-		this.meridianController.setActive(document.getElementById ("meridianFormulaInput").value);
+		this.meridianController.setActive (
+			document.getElementById ("meridianFormulaInput").value);
 
 		this.exportController.setIdMeridian ("meridianCanvas2");
 	}
@@ -209,7 +207,10 @@ Application.prototype.changeRevolMode = function () {
 		this.revolController.setActive (selection.value);
 	}
 	else if (mode === "revolFormula") {
-		this.revolController.setActive (document.getElementById ("revolutionFormulaInput").value, EquationTypeEnum.implicit);
+		this.revolController.setActive (
+			document.getElementById ("revolutionFormulaInput").value,
+			EquationTypeEnum.implicit
+		);
 	}
 	else {
 		throw "Application.changeRevolMode: unkown given mode: " + mode;
@@ -259,7 +260,7 @@ Application.prototype.closeCurve = function () {
  */
 Application.prototype.meridianEquation = function () {
 	var input = document.getElementById ("meridianFormulaInput");
-	this.meridianController.setActive(input.value);
+	this.meridianController.setActive (input.value);
 	this.meridianView.draw ();
 };
 

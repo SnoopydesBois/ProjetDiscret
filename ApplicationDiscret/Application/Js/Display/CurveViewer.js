@@ -121,10 +121,10 @@ CurveViewer.prototype.show = function () {
 CurveViewer.prototype.draw = function () {
 	var curve = this.controller.getActiveCurve ();
 	var xRange = this.controller.getXRange ();
+	this.drawCanvasGrid ();
 	if (curve instanceof DrawnCurve) {
 		/// set the canvas size
 		this.resizeCanvas ();
-		this.drawCanvasGrid ();
 		/// draw the curve
 		this.drawFreeHand (curve);
 	}
@@ -138,6 +138,7 @@ CurveViewer.prototype.draw = function () {
 		this.drawExplicit (curve);
 	}
 	else {
+		this.drawGrid ();
 		console.error ("Bad type of curve, find: " + type (curve));
 	}
 };
@@ -319,7 +320,7 @@ CurveViewer.prototype.drawSegment = function (pointA, pointB) {
 //==============================================================================
 /**
  * Clear the canvas and set a new drawn curve.
- * 
+ *
  * @return {void}
  */
 CurveViewer.prototype.clearDraw = function () {
@@ -334,18 +335,18 @@ CurveViewer.prototype.clearDraw = function () {
 //==============================================================================
 /**
  * Resize the associeted canvas.
- * 
+ *
  * @return {void}
  */
 CurveViewer.prototype.resizeCanvas = function () {
 	var $ref = $("#meridianCanvas2");
 	var max = Math.max (this.xMaxInput.value / 2, this.yMaxInput.value);
 	var canvas = this.glContext.canvas;
-	
+
 	canvas.width = ($ref.width () + 2) * this.xMaxInput.value / 2 / max;
 	canvas.style.width = canvas.width + "px";
 	canvas.style.right = (($ref.width () + 2) - canvas.width) / 2 + "px";
-	
+
 	canvas.height = ($ref.height () + 2) * this.yMaxInput.value / max;
 	canvas.style.height = canvas.height + "px";
 	canvas.style.top = (($ref.height () + 2) - canvas.height) / 2 + "px";
@@ -356,30 +357,27 @@ CurveViewer.prototype.resizeCanvas = function () {
 //==============================================================================
 /**
  * Draw a grid on the canvas.
- * 
+ *
  * @return {void}
  */
 CurveViewer.prototype.drawCanvasGrid = function () {
 	var xMax = this.xMaxInput.value / 2;
 	var yMax = this.yMaxInput.value * 1;
 	var ctx = this.glContext,
-		unit = this.pointToPixel (1, yMax - 1),
+		offset = Math.round (this.pointToPixel (1, yMax - 1).y),
 		i;
-	ctx.strokeStyle = "#CCC";
+	console.log (xMax, yMax, offset);
+	// ctx.lineWidth = 1;
+	ctx.fillStyle = "#CCC";
 	for (i = 1; i < xMax; ++i) {
-		ctx.moveTo (unit.x * i, 0);
-		ctx.lineTo (unit.x * i, ctx.canvas.height);
+		ctx.fillRect (offset * i, 0, 1, ctx.canvas.height);
+		// console.log ("x", offset * i - 0.5)
 	}
-	ctx.stroke ();
-	ctx.closePath ();
-	ctx.beginPath ();
-	ctx.strokeStyle = "#C00";
+	// ctx.fillStyle = "#C00";
 	for (i = 1; i < yMax + 1; ++i) {
-		ctx.moveTo (ctx.canvas.width, unit.y * i);
-		ctx.lineTo (0, unit.y * i, 0);
+		ctx.fillRect (0, offset * i, ctx.canvas.width, 1);
+		// console.log ("yy", offset * i - 0.5)
 	}
-	ctx.stroke ();
-	ctx.closePath ();
 };
 
 
@@ -563,7 +561,7 @@ CurveViewer.computeYScale = function (width, height, xRange) {
 //==============================================================================
 /**
  * Closes the current drawn curve.
- * 
+ *
  * @return {void}
  */
 CurveViewer.prototype.closeCurve = function () {
@@ -573,4 +571,3 @@ CurveViewer.prototype.closeCurve = function () {
 		this.lastPoint = addedPoint;
 	}
 };
-
