@@ -358,7 +358,8 @@
 								id="meridianPrimitive"
 								name="meridianTypeValue"
 								value="meridianPrimitive"
-								checked="checked"/>
+								checked="checked"
+								autocomplete="off"/>
 							<div class="optionGroup">
 								<select id="listMeridians" name="listMeridians"
 									onchange="appli.changeMeridian (this.value)">
@@ -370,25 +371,22 @@
 							<input type="radio"
 								id="meridianFreeHand"
 								name="meridianTypeValue"
-								value="meridianFreeHand"/>
+								value="meridianFreeHand"
+								autocomplete="off"/>
 							<div class="optionGroup">
-<<<<<<< HEAD
-
 								<button id="a3" class="tr" onclick="appli.clearDraw ()">Effacer</button>	
 								<button id="" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
-
-=======
-								<button id="" class="tr" onclick="appli.clearDraw ()">Effacer</button>
-								<button id="" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
->>>>>>> origin/master
 							</div>
 							<label for="meridianFormula">&nbsp;</label>
 							<input type="radio"
 								id="meridianFormula"
 								name="meridianTypeValue"
-								value="meridianFormula"/>
+								value="meridianFormula"
+								autocomplete="off"/>
 							<div class="optionGroup">
-								<p class="formulaInput">f(x) = <input id ="meridianFormulaInput" onblur="appli.MeridianeEquation()" onchange="appli.MeridianeEquation()" type="text"/></p>
+								<p class="formulaInput">f(x) = <input id ="meridianFormulaInput" 
+																	  onkeyup="if (event.keyCode == 13) appli.meridianEquation()" 
+																	  type="text" autocomplete="off"/></p>
 							</div>
 						</form>
 					</div><!-- end #meridianOption -->
@@ -414,7 +412,8 @@
 								id="revolPrimitive"
 								name="revolTypeValue"
 								value="revolPrimitive"
-								checked="checked"/>
+								checked="checked"
+								autocomplete="off"/>
 							<div class="optionGroup">
 								<select id="listRevolutions" name="listRevolutions"
 									onchange="appli.changeRevol (this.value)">
@@ -440,7 +439,10 @@
 								name="revolTypeValue"
 								value="revolFormula"/>
 							<div class="optionGroup">
-								<p class="formulaInput">f(x,y) = <input id ="revolutionFormulaInput" onblur="appli.RevolutionEquation()" onchange="appli.RevolutionEquation()" type="text"/> = 0</p>
+								<p class="formulaInput">f(x,y) = <input id ="revolutionFormulaInput" 
+																		onkeyup="if (event.keyCode == 13) appli.revolutionEquation()" 
+																		type="text" 
+																		autocomplete="off"/> = 0</p>
 							</div>
 						</form>
 					</div><!-- end #revolOption -->
@@ -484,15 +486,6 @@
 						<input type="text" id="amountMaxZ"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 					</div>
-<<<<<<< HEAD
-
-
-					<button onClick="appli.show (true)" key = "a6" class ="tr" >Modifier</button>
-
-
-
-=======
->>>>>>> origin/master
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>

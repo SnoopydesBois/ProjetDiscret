@@ -35,10 +35,10 @@ CurveViewer.prototype.constructor = CurveViewer;
 
 /**
  * @constructor
- *
+ * TODO
  * @param {HTMLCanvasElement} canvas - The associated canvas.
  */
-function CurveViewer (canvas, curveController) {
+function CurveViewer (canvas, div, curveController) {
 	GenericViewer.call (this, canvas, "2d");
 
 	/**
@@ -72,6 +72,7 @@ function CurveViewer (canvas, curveController) {
 	 */
 	this.formModeSelected = document.forms["meridianType"];
 
+	this.displayDiv = div;
 
 	// initialisation
 	this.initCanvasEvent ();
@@ -119,17 +120,20 @@ CurveViewer.prototype.show = function () {
 CurveViewer.prototype.draw = function () {
 	var curve = this.controller.getActiveCurve ();
 	var xRange = this.controller.getXRange ();
-	if (curve instanceof ImplicitCurve) {
-		this.drawImplicit (curve);
-	}
-	else if (curve instanceof ExplicitCurve) {
-		this.drawExplicit (curve);
-	}
-	else if (curve instanceof DrawnCurve) {
+	if (curve instanceof DrawnCurve) {
 		/// set the canvas size
 		this.resizeCanvas ();
 		/// draw the curve
 		this.drawFreeHand (curve);
+	}
+	else if(curve.getEquation().toString() == "undefined"){
+		this.drawGrid ();
+	}
+	else if (curve instanceof ImplicitCurve) {
+		this.drawImplicit (curve);
+	}
+	else if (curve instanceof ExplicitCurve) {
+		this.drawExplicit (curve);
 	}
 	else {
 		console.error ("Bad type of curve, find: " + type (curve));
@@ -158,14 +162,11 @@ CurveViewer.prototype.drawImplicit = function (obj) {
 		);
 
 	functionPlot ({
-		target: '#revolCanvas2',
+		target: this.displayDiv,
 		width : $('#revolCanvas2').width (),
 		height : $('#revolCanvas2').height (),
-		xAxis : {domain: [
-			xRange.getMin (),
-			xRange.getMax ()
-		]},
-		yAxis : CurveViewer.computeYScale (width, height, xRange),
+		xAxis : {domain: [-1, 1]},
+		yAxis : CurveViewer.computeYScale (width, height, new Range(-1,1)),
 		disableZoom : true,
 		data : [{
 			color : color,
@@ -187,7 +188,8 @@ CurveViewer.prototype.drawImplicit = function (obj) {
  */
 CurveViewer.prototype.drawExplicit = function (obj) {
 	/// Let's render
-	var xRange = this.controller.getXRange ();
+	maxX = document.getElementById("dimx").value/2;
+	maxY = document.getElementById("dimz").value;
 	var color = "black",
 		min = Math.min (
 			$('#meridianCanvas2').width (),
@@ -195,23 +197,61 @@ CurveViewer.prototype.drawExplicit = function (obj) {
 		);
 
 	functionPlot ({
-		target : '#meridianCanvas2',
+		target : this.displayDiv,
 		width : min,
 		height : min,
-		xAxis : {domain: [0, xRange.getMax ()]},
-		yAxis : {domain: [0, xRange.getMax ()]},
+		xAxis : {domain: [0, maxX]},
+		yAxis : {domain: [0, maxY]},
 		disableZoom : true,
 		data: [{
 			x: obj.getEquation ().toStringNoParam ().replace (/x/g, 't'),
 			y: 't',
 			color : color,
-			range : [-10 * Math.PI, 10 * Math.PI],
-			fnType : 'parametric',
-			graphType : 'polyline'
+			range: [0, 150],
+			fnType: 'parametric',
+			graphType: 'polyline'
 		}]
 	}); // end functionPlot
 };
 
+
+
+//==============================================================================
+/**
+ * Draw a curve explicit curve.
+ *
+ * @param {ImplicitCurve} obj - The curve to draw.
+ * @param {Range} xRange - The inverse image range.
+ *
+ * @return {void}
+ */
+CurveViewer.prototype.drawGrid = function () {
+	maxX = document.getElementById("dimx").value/2;
+	maxY = document.getElementById("dimz").value;
+	/// Let's render
+	var color = "black",
+		min = Math.min (
+			$('#meridianCanvas2').width (),
+			$('#meridianCanvas2').height ()
+		);
+
+	functionPlot ({
+		target : this.displayDiv,
+		width : min,
+		height : min,
+		xAxis : {domain: [0, maxX]},
+		yAxis : {domain: [0,maxY]},
+		disableZoom : true,
+		data: [{
+			x: '-5',
+			y: '-5',
+			color : color,
+			range: [0, 150],
+			fnType: 'parametric',
+			graphType: 'polyline'
+		}]
+	}); // end functionPlot
+};
 
 //==============================================================================
 /**
