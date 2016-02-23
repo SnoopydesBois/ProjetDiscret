@@ -187,6 +187,24 @@ Camera.prototype.getPosition = function () {
 
 //==============================================================================
 /**
+ * @return {Vector} The look at position of the camera.
+ */
+Camera.prototype.getLookAtPosition = function () {
+	return this.centerPos;
+};
+
+
+//==============================================================================
+/**
+ * @return {Vector} The up direction of the camera.
+ */
+Camera.prototype.getUpDirection = function () {
+	return this.up;
+};
+
+
+//==============================================================================
+/**
  * Get view matrix.
  *
  * @return {Matrix} The view matrix.
@@ -310,7 +328,7 @@ Camera.prototype.zoom = function (factor) {
 	// orthographic zoom
 	this.setProjection (this.getProjection () + factor);
 	// perspective zoom
-	var normPos = new Vector (this.getPosition ()).normalize ();
+	var normPos = new Vector (this.getPosition ()).normalize (); // FIXME
 	this.eyePos.x += normPos.x * factor;
 	this.eyePos.y += normPos.y * factor;
 	this.eyePos.z += normPos.z * factor;

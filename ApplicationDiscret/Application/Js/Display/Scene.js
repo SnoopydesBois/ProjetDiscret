@@ -102,18 +102,19 @@ Scene.prototype.constructor = Scene;
 function Scene () {
 
 	GenericContainer.call (this);
-	
-	/** 
+
+	/**
 	 * {Vector} Initial cameraPosition.
 	 */
 	this.defaultCameraPosition = new Vector (3, 3, 3);
-	
+
 
 	/**
  	 * {Camera} The camera used in the scene.
  	 */
 	this.camera = new Camera (
-		new Vector(this.defaultCameraPosition),
+		new Vector (this.defaultCameraPosition),
+		// new Vector (1, 1, 1),
 		new Vector (0, 0, 0),
 		new Vector (0, 0, 1),
 		800,
@@ -415,22 +416,27 @@ Scene.prototype.prepareShaderMatrix = function (glContext, obj) {
 
 
 /**
- * Set the position of the camera. Recompute the matrix camera.
+ * Set the position and the look at point of the camera. Recompute the matrix
+ * camera.
  *
  * @param {(Vector | Number[3])} position - The new position of the camera.
+ * @param {(Vector | Number[3])} [lookAt] - The new look at point of the camera.
+ *
+ * @return {void}
  */
-Scene.prototype.setCameraAt = function (position) {
+Scene.prototype.setCameraAt = function (position, lookAt) {
 	this.camera.eyePos = new Vector (position);
+	lookAt && (this.camera.centerPos = new Vector (lookAt));
 	this.camera.computeMatrices ();
 };
 
 
+//==============================================================================
 /**
  * Replace the camera at its initial position.
  *
  * @return {void}
  */
 Scene.prototype.resetCamera = function () {
-	console.log("resetCamera (scene)");
-	this.setCameraAt(this.defaultCameraPosition);
+	this.setCameraAt (this.defaultCameraPosition);
 };

@@ -75,6 +75,7 @@ function CurveViewer (canvas, curveController) {
 
 	// initialisation
 	this.initCanvasEvent ();
+	this.resizeCanvas ();
 };
 
 
@@ -125,6 +126,9 @@ CurveViewer.prototype.draw = function () {
 		this.drawExplicit (curve);
 	}
 	else if (curve instanceof DrawnCurve) {
+		/// set the canvas size
+		this.resizeCanvas ();
+		/// draw the curve
 		this.drawFreeHand (curve);
 	}
 	else {
@@ -225,6 +229,8 @@ CurveViewer.prototype.drawFreeHand = function (curve) {
 		y = curve.getYList ();
 	var len = x.length, point;
 
+	this.glContext.clearRect (0, 0, this.glContext.canvas.width,
+		this.glContext.canvas.height);
 	if (len > 0) {
 		this.lastPoint = new Point (x[0], y[0]);
 		for (var i = 1; i < len ; ++i) {
@@ -269,13 +275,36 @@ CurveViewer.prototype.drawSegment = function (pointA, pointB) {
 
 //==============================================================================
 /**
- * TODO
+ * Clear the canvas and set a new drawn curve.
+ * 
+ * @return {void}
  */
 CurveViewer.prototype.clearDraw = function () {
 	this.glContext.clearRect (0, 0, this.glContext.canvas.width,
 		this.glContext.canvas.height);
 	this.controller.newCurve ();
 	this.lastPoint = new Point (-1, -1);
+};
+
+
+//==============================================================================
+/**
+ * Resize the associeted canvas.
+ * 
+ * @return {void}
+ */
+CurveViewer.prototype.resizeCanvas = function () {
+	var $ref = $("#meridianCanvas2");
+	var max = Math.max (this.xMaxInput.value / 2, this.yMaxInput.value);
+	var canvas = this.glContext.canvas;
+	
+	canvas.width = ($ref.width () + 2) * this.xMaxInput.value / 2 / max;
+	canvas.style.width = canvas.width + "px";
+	canvas.style.right = (($ref.width () + 2) - canvas.width) / 2 + "px";
+	
+	canvas.height = ($ref.height () + 2) * this.yMaxInput.value / max;
+	canvas.style.height = canvas.height + "px";
+	canvas.style.top = (($ref.height () + 2) - canvas.height) / 2 + "px";
 };
 
 

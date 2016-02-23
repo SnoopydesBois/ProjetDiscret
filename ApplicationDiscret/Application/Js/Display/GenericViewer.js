@@ -126,7 +126,7 @@ function GenericViewer (canvas, glContextType) {
 			break;
 		default :
 			this.glContext = null;
-			console.error ("ModelView.GenericViewer : unknow value for "
+			console.error ("ModelView.GenericViewer: unknow value for "
 				+ "glContextType parameter : " + glContextType);
 			return;
 	}

@@ -24,6 +24,7 @@
  */
 Application.prototype.selectMeridian = function () {
     $("#meridianPrimitive").prop ("checked", true).button ("refresh");
+    this.changeMeridianMode ();
 };
 
 
@@ -35,6 +36,7 @@ Application.prototype.selectMeridian = function () {
  */
 Application.prototype.selectRevol = function () {
     $("#revolPrimitive").prop ("checked", true).button ("refresh");
+    this.changeRevolMode ();
 };
 
 
@@ -46,6 +48,7 @@ Application.prototype.selectRevol = function () {
  */
 Application.prototype.inputMeridianFormula = function () {
     $("#meridianFormula").prop ("checked", true).button ("refresh");
+    this.changeMeridianMode ();
 };
 
 
@@ -57,6 +60,7 @@ Application.prototype.inputMeridianFormula = function () {
  */
 Application.prototype.inputRevolFormula = function () {
     $("#revolFormula").prop ("checked", true).button ("refresh");
+    this.changeRevolMode ();
 };
 
 
@@ -68,6 +72,7 @@ Application.prototype.inputRevolFormula = function () {
  */
 Application.prototype.drawFreeHandMeridian = function () {
     $("#meridianFreeHand").prop ("checked", true).button ("refresh");
+    this.changeMeridianMode ();
 };
 
 

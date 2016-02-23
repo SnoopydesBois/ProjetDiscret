@@ -64,13 +64,13 @@
  *
  * @return {void}
  */
-Application.prototype.addAction = function (action) {
-	if (!(action instanceof UndoRedoAction) || ! action.isValidAction ())
-		console.error ("Application.addAction: argument is not an Action !");
-	else
-		this.listAction.addAction (action);
-	this.updateUndoRedoMenuItem ();
-};
+// Application.prototype.addAction = function (action) {
+// 	if (!(action instanceof UndoRedoAction) || ! action.isValidAction ())
+// 		console.error ("Application.addAction: argument is not an Action !");
+// 	else
+// 		this.listAction.addAction (action);
+// 	this.updateUndoRedoMenuItem ();
+// };
 
 
 //==============================================================================
@@ -210,14 +210,14 @@ Application.prototype.saveCurves = function(){
  */
 Application.prototype.changeMeridianMode = function () {
 	var mode = $('#meridianType :radio:checked').attr ('id');
-	
-	/// empty the parameter list 
+
+	/// empty the parameter list
 	$("#meridianParam").empty ();
-	
+
 	if (mode === "meridianPrimitive") {
 		$("#meridianCanvas").hide (); // hide the div
 		$("#meridianCanvas2").show (); // display the canvas
-		/// fill teh parameter list
+		/// fill th parameter list
 		this.meridianParameters.displayParameter (
 			this.drawMeridian,
 			this.getRangeMeridian
@@ -239,11 +239,6 @@ Application.prototype.changeMeridianMode = function () {
 	else {
 		throw "Application.changeMeridianMode: unkown given mode: " + mode;
 	}
-	// $("#primitive").hide ();
-	// $("#freeHand").hide ();
-	// $("#formula").hide ();
-	// $("#" + mode).show ();
-
 	this.meridianView.draw ();
 };
 
@@ -251,6 +246,7 @@ Application.prototype.changeMeridianMode = function () {
 //==============================================================================
 /**
  * Put the camera back to its initial position.
+ *
  * @return {void}
  */
 Application.prototype.resetCamera = function () {
@@ -261,7 +257,7 @@ Application.prototype.resetCamera = function () {
 //==============================================================================
 /**
  * TODO
- * 
+ *
  * @return {void}
  */
 Application.prototype.changeRevolMode = function () {
@@ -280,8 +276,9 @@ Application.prototype.changeRevolMode = function () {
 
 //==============================================================================
 /**
- * TODO
- * 
+ * Get the 3D space size and set dimension of the bounding box and the drawing
+ * meridian canvas.
+ *
  * @return {void}
  */
 Application.prototype.changeDimension = function () {
@@ -292,16 +289,17 @@ Application.prototype.changeDimension = function () {
 		parseInt (document.getElementById ("dimy").value), 1));
 	dim[2] = Math.min (256, Math.max (
 		parseInt (document.getElementById ("dimz").value), 1));
-	
+
 	var box = this.surfaceView.getContainer ().getObjectByName ("boundingBox");
 	box.setDimension (dim);
+	this.meridianView.draw ();
 };
 
 
 //==============================================================================
 /**
  * Closes the current drawn curve.
- * 
+ *
  * @return {void}
  */
 Application.prototype.closeCurve = function () {
@@ -314,14 +312,14 @@ Application.prototype.closeCurve = function () {
 /**
  * TODO
  */
-Application.prototype.MeridianeEquation = function () {
-	var input = document.getElementById("meridianFormulaInput");
-	console.log(input.value);	
+Application.prototype.meridianeEquation = function () {
+	var input = document.getElementById ("meridianFormulaInput");
+	console.log (input.value);
 
-	var equation = new Equation(input);
-	var x = new ExplicitCurve(equation);
+	var equation = new Equation (input);
+	var x = new ExplicitCurve (equation);
 
-	ExplicitCurve.call(this, x);
+//	ExplicitCurve.call (this, x);
 
 	meridianController.setActive (x);
 	meridianView.draw ();
@@ -337,14 +335,14 @@ Application.prototype.MeridianeEquation = function () {
 /**
  * TODO
  */
-Application.prototype.RevolutionEquation = function () {
-	var input = document.getElementById("revolutionFormulaInput");
-	console.log(input.value);	
+Application.prototype.revolutionEquation = function () {
+	var input = document.getElementById ("revolutionFormulaInput");
+	console.log (input.value);
 
-	var equation = new Equation(input);
-	var x = new ImplicitCurve(equation);
+	var equation = new Equation (input);
+	var x = new ImplicitCurve (equation);
 
-	ImplicitCurve.call(this, x);
+//	ImplicitCurve.call(this, x);
 
 
 	revolController.setActive (x);
@@ -355,6 +353,3 @@ Application.prototype.RevolutionEquation = function () {
 		getRangeRevolution
 	);
 };
-
-
-

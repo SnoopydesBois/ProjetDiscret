@@ -73,7 +73,7 @@
 
 
 #loadingImg {
-	background: rgba(192, 192, 192, 0.5) url("loading.gif") no-repeat center center;
+	background: rgba(192, 192, 192, 0.5) url("loading64.gif") no-repeat center;
 }
 
 
@@ -88,5 +88,3 @@
 	text-align: center;
 	margin: 0;
 }
-
-
