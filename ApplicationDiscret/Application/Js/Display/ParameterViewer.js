@@ -92,10 +92,7 @@ ParameterViewer.prototype.displayParameter = function (draw, getRange) {
 	var that = this;
 
 	var range;
-	console.log(listParameter);
 	for (var param in listParameter) {
-		console.log(param);
-		console.log(listParameter[param]);
 		range = getRange (param);
 
 		var li = $("<li></li>");
