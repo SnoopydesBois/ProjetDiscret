@@ -79,7 +79,8 @@ Controller2DMeridian.prototype.setActive = function (name, type) {
 		curve = this.newCurve ();
 	}
 	else if (mode === "meridianFormula") {
-		curve = this.newCurve.setActive("", EquationTypeEnum.explicit);
+		curve = this.modelCurve.setActive(name, EquationTypeEnum.explicit);
+		this.modelParameter.setCurve(curve);
 	}
 	else {
 		console.error ("Controller2DMeridian.getActiveCurve: unknown drawing "

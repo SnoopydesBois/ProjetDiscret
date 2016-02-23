@@ -149,6 +149,7 @@ function Application () {
 	 */
 	this.meridianView = new CurveViewer (
 		document.getElementById ("meridianCanvas"),
+		document.getElementById ("meridianCanvas2"),
 		this.meridianController
 	);
 
@@ -184,6 +185,7 @@ function Application () {
 	 */
 	this.revolView = new CurveViewer (
 		document.getElementById ("revolCanvas"),
+		document.getElementById ("revolCanvas2"),
 		this.revolController
 	);
 
