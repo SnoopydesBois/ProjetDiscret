@@ -172,7 +172,7 @@ Application.prototype.loadMeridian = function(event){
 	var xml = request.responseXML;
 	
 	var typeCurve = xml.getElementsByTagName("Class")[0].textContent.toString();
-	var equation, listNameParameters, listValueParameters, xPoints, yPoints, xMin, xMax, yMin, yMax;
+	var equation /*, listNameParameters, listValueParameters*/, xPoints, yPoints, xMin, xMax, yMin, yMax;
 	
 	equation = xml.getElementsByTagName("Equation");
 	
@@ -183,8 +183,8 @@ Application.prototype.loadMeridian = function(event){
 	}
 	else{
 		// Same length since each parameters got a name and a value
-		listNameParameters = xml.getElementsByTagName("Name");
-		listValueParameters = xml.getElementsByTagName("Value");
+		//listNameParameters = xml.getElementsByTagName("Name");
+		//listValueParameters = xml.getElementsByTagName("Value");
 		xMin = parseFloat(xml.getElementsByTagName("xMin")[0].textContent.toString());
 		xMax = parseFloat(xml.getElementsByTagName("xMax")[0].textContent.toString());
 		yMin = parseFloat(xml.getElementsByTagName("yMin")[0].textContent.toString());
@@ -205,13 +205,18 @@ Application.prototype.loadMeridian = function(event){
 	else if(typeCurve === "ExplicitCurve"){
 		this.meridianController.setActive(equation[0].textContent.toString(), EquationTypeEnum.explicit);
 		
-		for(var i = 0; i < listNameParameters.length; i++){
+		/*for(var i = 0; i < listNameParameters.length; i++){
 			this.meridianController.setParameter(listNameParameters[i].textContent.toString(), parseFloat(listValueParameters[i].textContent.toString()) );
-		}
+		}*/
 		
 		this.meridianController.setXRange(new Range(xMin, xMax));
 		this.meridianController.setYRange(new Range(yMin, yMax));
 	}
+	
+	this.meridianParameters.displayParameter (
+		this.drawMeridian,
+		this.getRangeMeridian
+	);
 	this.meridianView.draw();
 };
 
@@ -250,5 +255,9 @@ Application.prototype.loadRevolution = function(event){
 	this.revolController.setXRange(new Range(xMin, xMax));
 	this.revolController.setYRange(new Range(yMin, yMax));
 	
+	this.revolutionParameters.displayParameter (
+		this.drawRevolution,
+		this.getRangeRevolution
+	);
 	this.revolView.draw();
 };

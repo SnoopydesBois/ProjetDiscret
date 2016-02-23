@@ -386,10 +386,10 @@ ModelExport.prototype.writeImplicitCurve = function(curveController){
 						'\t\t\t<!ELEMENT xMax (#PCDATA)>\n' +
 						'\t\t\t<!ELEMENT yMin (#PCDATA)>\n' +
 						'\t\t\t<!ELEMENT yMax (#PCDATA)>\n' +
-					'\t\t<!ELEMENT Parameters (Parameter)*>\n' +
+					/*'\t\t<!ELEMENT Parameters (Parameter)*>\n' +
 						'\t\t\t<!ELEMENT Parameter (Name, Value)>\n' +
 							'\t\t\t\t<!ELEMENT Name (#PCDATA)>\n' +
-							'\t\t\t\t<!ELEMENT Value (#PCDATA)>\n' +
+							'\t\t\t\t<!ELEMENT Value (#PCDATA)>\n' +*/
 				']>\n' +
 			'<Curve>\n' +
 				'\t<CurveType>\n' +
@@ -402,14 +402,16 @@ ModelExport.prototype.writeImplicitCurve = function(curveController){
 					'\t\t<yMin>' + curveController.getYRange().getMin() + '</yMin>\n' +
 					'\t\t<yMax>' + curveController.getYRange().getMax() + '</yMax>\n' +
 				'\t</Range>\n'+
-				'\t<Parameters>\n';
+				//'\t<Parameters>\n';
+				"";
+	/*
 	var listParam = curveController.getAllParameters();
 	for(var param in listParam){
 		xml += '\t\t<Parameter>\n\t\t\t<Name>' + param + '</Name>\n' +
 				'\t\t\t<Value>' + listParam[param] + '</Value>\n\t\t</Parameter>\n';
-	}
-	xml += '`\t</Parameters>\n' +	
-		'</Curve>';
+	}*/
+	// xml += '`\t</Parameters>\n' +	
+	xml += '</Curve>';
 	return xml;
 };
 
@@ -430,10 +432,10 @@ ModelExport.prototype.writeExplicitCurve = function(curveController){
 						'\t\t\t<!ELEMENT xMax (#PCDATA)>\n' +
 						'\t\t\t<!ELEMENT yMin (#PCDATA)>\n' +
 						'\t\t\t<!ELEMENT yMax (#PCDATA)>\n' +
-					'\t\t<!ELEMENT Parameters (Parameter)*>\n' +
+					/*'\t\t<!ELEMENT Parameters (Parameter)*>\n' +
 						'\t\t\t<!ELEMENT Parameter (Name, Value)>\n' +
 							'\t\t\t\t<!ELEMENT Name (#PCDATA)>\n' +
-							'\t\t\t\t<!ELEMENT Value (#PCDATA)>\n' +
+							'\t\t\t\t<!ELEMENT Value (#PCDATA)>\n' +*/
 				']>\n' +
 			'<Curve>\n' +
 				'\t<CurveType>\n' +
@@ -446,14 +448,16 @@ ModelExport.prototype.writeExplicitCurve = function(curveController){
 					'\t\t<yMin>' + curveController.getYRange().getMin() + '</yMin>\n' +
 					'\t\t<yMax>' + curveController.getYRange().getMax() + '</yMax>\n' +
 				'\t</Range>\n'+
-				'\t<Parameters>\n';
+				//'\t<Parameters>\n';
+				"";
+	/*
 	var listParam = curveController.getAllParameters();
 	for(var param in listParam){
 		xml += '\t\t<Parameter>\n\t\t\t<Name>' + param + '</Name>\n' +
 				'\t\t\t<Value>' + listParam[param] + '</Value>\n\t\t</Parameter>\n';
-	}
-	xml += '`\t</Parameters>\n' +	
-		'</Curve>';
+	}*/
+	// xml += '`\t</Parameters>\n' +	
+	xml += '</Curve>';
 	return xml;
 };
 

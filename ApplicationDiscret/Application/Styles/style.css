@@ -83,7 +83,7 @@ ul, li {
 	width: calc(70% - 1px);
 	height: calc(100% - 42px);
 	background-color: white;
-	border: solid #5f8 1px;
+	/*border: solid #5f8 1px;*/
 }
 
 
