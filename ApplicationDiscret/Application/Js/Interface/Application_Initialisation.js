@@ -76,23 +76,24 @@ Application.prototype.initAppli = function () {
 	this.revolutionParameters.displayParameter (this.drawRevolution,
 		this.getRangeRevolution);
 
-	// Sale
+
+	/// Interface initialization
+
+	// Double slider creation
 	var dimX = document.getElementById ("dimx").value;
 	var dimY = document.getElementById ("dimy").value;
 	var dimZ = document.getElementById ("dimz").value;
-	// Double slider creation
 	this.createSlider ("#slider-rangeX", 0, dimX);
 	this.createSlider ("#slider-rangeY", 0, dimY);
 	this.createSlider ("#slider-rangeZ", 0, dimZ);
-
-
-	/// Interface initialization
+	
 	$(".buttonGroup").buttonset ();
 	$(".buttonGroup button")
 		.removeClass("ui-button ui-widget ui-state-default ui-button-text-only")
 		.removeAttr ("role")
 		.unbind ();
 
+	this.changeDimension ();
 	this.resizeInterface ();
 	this.initWindowEvent ();
 	this.showDefaultMessage ();
@@ -161,6 +162,8 @@ Application.prototype.initWindowEvent = function () {
 //==============================================================================
 /**
  * TODO
+ * 
+ * @return {void}
  */
 Application.prototype.createSlider = function (id, min, max) {
 	// Slider creation

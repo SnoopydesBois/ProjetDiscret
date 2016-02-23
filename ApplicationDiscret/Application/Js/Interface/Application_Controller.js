@@ -64,13 +64,13 @@
  *
  * @return {void}
  */
-Application.prototype.addAction = function (action) {
-	if (!(action instanceof UndoRedoAction) || ! action.isValidAction ())
-		console.error ("Application.addAction: argument is not an Action !");
-	else
-		this.listAction.addAction (action);
-	this.updateUndoRedoMenuItem ();
-};
+// Application.prototype.addAction = function (action) {
+// 	if (!(action instanceof UndoRedoAction) || ! action.isValidAction ())
+// 		console.error ("Application.addAction: argument is not an Action !");
+// 	else
+// 		this.listAction.addAction (action);
+// 	this.updateUndoRedoMenuItem ();
+// };
 
 
 //==============================================================================
@@ -147,10 +147,18 @@ Application.prototype.getAllParameters = function (name) {
  */
 Application.prototype.changeMeridianMode = function () {
 	var mode = $('#meridianType :radio:checked').attr ('id');
+
+	/// empty the parameter list
+	$("#meridianParam").empty ();
+
 	if (mode === "meridianPrimitive") {
 		$("#meridianCanvas").hide (); // hide the div
 		$("#meridianCanvas2").show (); // display the canvas
-
+		/// fill th parameter list
+		this.meridianParameters.displayParameter (
+			this.drawMeridian,
+			this.getRangeMeridian
+		);
 		this.exportController.setIdMeridian ("meridianCanvas2");
 	}
 	else if (mode === "meridianFreeHand") {
@@ -168,11 +176,6 @@ Application.prototype.changeMeridianMode = function () {
 	else {
 		throw "Application.changeMeridianMode: unkown given mode: " + mode;
 	}
-	// $("#primitive").hide ();
-	// $("#freeHand").hide ();
-	// $("#formula").hide ();
-	// $("#" + mode).show ();
-
 	this.meridianView.draw ();
 };
 
@@ -180,28 +183,25 @@ Application.prototype.changeMeridianMode = function () {
 //==============================================================================
 /**
  * Put the camera back to its initial position.
+ *
  * @return {void}
  */
-Application.prototype.resetCamera = function(){
-	console.log("resetCamera (appli)");
+Application.prototype.resetCamera = function () {
 	this.surfaceView.resetCamera();
 };
+
+
+//==============================================================================
 /**
  * TODO
+ *
+ * @return {void}
  */
 Application.prototype.changeRevolMode = function () {
 	var mode = $('#revolType :radio:checked').attr ('id');
 	if (mode === "revolPrimitive") {
-		// $("#meridianCanvas").hide (); // hide the div
-		// $("#meridianCanvas2").show (); // display the canvas
-		//
-		// this.exportController.setIdMeridian ("meridianCanvas2");
 	}
 	else if (mode === "revolFormula") {
-		// $("#meridianCanvas").hide ();
-		// $("#meridianCanvas2").show ();
-		//
-		// this.exportController.setIdMeridian ("meridianCanvas");
 	}
 	else {
 		throw "Application.changeRevolMode: unkown given mode: " + mode;
@@ -211,18 +211,53 @@ Application.prototype.changeRevolMode = function () {
 };
 
 
-Application.prototype.MeridianeEquation = function () {
-		var input = document.getElementById("meridianFormulaInput");
-		console.log(input.value);	
-		
-		var equation = new Equation(input);
-		var x = new ExplicitCurve(equation);
-	
-	ExplicitCurve.call(this, x);
-	
-	if (! checkType (arguments, "string")) {
-		throw "Application.changeRevol: given parameter is not a string";
-	}
+//==============================================================================
+/**
+ * Get the 3D space size and set dimension of the bounding box and the drawing
+ * meridian canvas.
+ *
+ * @return {void}
+ */
+Application.prototype.changeDimension = function () {
+	var dim = [0, 0, 0];
+	dim[0] = Math.min (256, Math.max (
+		parseInt (document.getElementById ("dimx").value), 1));
+	dim[1] = Math.min (256, Math.max (
+		parseInt (document.getElementById ("dimy").value), 1));
+	dim[2] = Math.min (256, Math.max (
+		parseInt (document.getElementById ("dimz").value), 1));
+
+	var box = this.surfaceView.getContainer ().getObjectByName ("boundingBox");
+	box.setDimension (dim);
+	this.meridianView.draw ();
+};
+
+
+//==============================================================================
+/**
+ * Closes the current drawn curve.
+ *
+ * @return {void}
+ */
+Application.prototype.closeCurve = function () {
+	if ($('#meridianType :radio:checked').attr ('id') === "meridianFreeHand")
+		this.meridianView.closeCurve ();
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+Application.prototype.meridianeEquation = function () {
+	var input = document.getElementById ("meridianFormulaInput");
+	console.log (input.value);
+
+	var equation = new Equation (input);
+	var x = new ExplicitCurve (equation);
+
+//	ExplicitCurve.call (this, x);
+
 	meridianController.setActive (x);
 	meridianView.draw ();
 
@@ -230,23 +265,23 @@ Application.prototype.MeridianeEquation = function () {
 		drawMeridian,
 		getRangeMeridian
 	);
-	
-	
-}
+};
 
-Application.prototype.RevolutionEquation = function () {
-		var input = document.getElementById("revolutionFormulaInput");
-		console.log(input.value);	
-		
-		var equation = new Equation(input);
-		var x = new ImplicitCurve(equation);
-	
-	ImplicitCurve.call(this, x);
-	
-	if (! checkType (arguments, "string")) {
-		throw "Application.changeRevol: given parameter is not a string";
-	}
-	
+
+//==============================================================================
+/**
+ * TODO
+ */
+Application.prototype.revolutionEquation = function () {
+	var input = document.getElementById ("revolutionFormulaInput");
+	console.log (input.value);
+
+	var equation = new Equation (input);
+	var x = new ImplicitCurve (equation);
+
+//	ImplicitCurve.call(this, x);
+
+
 	revolController.setActive (x);
 	revolView.draw ();
 
@@ -254,5 +289,4 @@ Application.prototype.RevolutionEquation = function () {
 		drawRevolution,
 		getRangeRevolution
 	);
-
-}
+};
