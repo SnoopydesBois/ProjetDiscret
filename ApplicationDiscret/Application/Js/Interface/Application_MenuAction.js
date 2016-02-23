@@ -207,7 +207,7 @@ Application.prototype.loadMeridian = function(event){
 			drawnCurve.addPoint(xPoints[i], yPoints[i]);
 		}
 	}
-	else if(typeCurve === "ExplicitCurve"){
+	else if(typeCurve === "ExplicitCurve" || typeCurve === "ImplicitCurve"){
 		this.meridianController.setActive(equation[0].textContent.toString(), EquationTypeEnum.explicit);
 		
 		/*for(var i = 0; i < listNameParameters.length; i++){
@@ -240,6 +240,11 @@ Application.prototype.loadRevolution = function(event){
 	var xml = request.responseXML;
 	
 	var typeCurve = xml.getElementsByTagName("Class")[0].textContent.toString();
+	
+	if(typeCurve !== "ImplicitCurve"){
+		return;
+	}
+	
 	var equation, listNameParameters, listValueParameters, xPoints, yPoints, xMin, xMax, yMin, yMax;
 	equation = xml.getElementsByTagName("Equation");
 	// Same length since each parameters got a name and a value
