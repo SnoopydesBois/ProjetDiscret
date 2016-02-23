@@ -68,7 +68,7 @@ function algo () {
 		if (tValues[t][1] === 0) tValues[t][1]=0.001;
 		tValues[t][2] = parametric_curve.getX(t + 0.5);
 		if (tValues[t][2] === 0) tValues[t][2]=0.001;
-		z = Math.floor(parametric_curve.getY(t) + 0.5);
+		z = Math.floor(parametric_curve.getY(t));
 		for (y = 0; y < dimy && bufferSize === 0; ++y){
 			for (x = 0; x < dimx && bufferSize === 0; ++x){
 				connexity = checkVoxel(implicit_curve, x - maxx, y - maxy, tValues[t]);
@@ -103,7 +103,7 @@ function algo () {
 		}
 		connexity = checkVoxel(implicit_curve, voxel[0] - maxx, voxel[1] - maxy, tValues[voxel[2]]);
 		if(connexity !== 0){
-			buffer.push([voxel[0], voxel[1], Math.floor(parametric_curve.getY(voxel[2]) + 0.5), connexity]);
+			buffer.push([voxel[0], voxel[1], Math.floor(parametric_curve.getY(voxel[2])), connexity]);
 			bufferSize++;
 			addNeighboursToPile(voxel[0],voxel[1],voxel[2],pile, checked, dimx, dimy, dimt);
 		}
