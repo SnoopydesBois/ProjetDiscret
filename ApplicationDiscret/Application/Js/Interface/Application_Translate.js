@@ -185,13 +185,13 @@ aLangKeys['fr']['m52'] = 'À propos';
 
 /* Liste des paramétres méridienne français */
 
+
 aLangKeys['fr']['mer1'] = 'List of meridian parameters';
 aLangKeys['fr']['mer1'] = 'Liste des paramètres de la méridienne';
 aLangKeys['fr']['mer1'] = 'Liste des paramètres de la méridienne';
 aLangKeys['fr']['mer2'] = 'Option Méridienne';
 aLangKeys['fr']['mer3'] = 'ligne';
 aLangKeys['fr']['mer4'] = 'Sinusoid';
-
 
 
 /* Liste des paramétres revolution français */

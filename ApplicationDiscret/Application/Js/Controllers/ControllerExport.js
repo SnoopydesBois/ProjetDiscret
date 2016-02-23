@@ -164,6 +164,6 @@ ControllerExport.prototype.exportSTL = function(renderer){
 /**
  *
  */
-ControllerExport.prototype.saveCurves = function(meridian, revolution){
-	this.model.saveCurves(meridian, revolution);
+ControllerExport.prototype.saveCurves = function(meridianController, revolutionController){
+	this.model.saveCurves(meridianController, revolutionController);
 };

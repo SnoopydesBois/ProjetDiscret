@@ -147,7 +147,7 @@ ModelCurve.prototype.setActive = function (curve, type) {
 			this.activeCurve = new ImplicitCurve (curve);
 			break;
 		case EquationTypeEnum.explicit :
-			this.activeCurve = new Explicit (curve);
+			this.activeCurve = new ExplicitCurve (curve);
 			break;
 		case EquationTypeEnum.parametric :
 			throw "ModelCurve.setActive: This model does not handle parametric "
