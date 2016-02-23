@@ -182,7 +182,7 @@ CurveViewer.drawExplicit = function (obj, xRange) {
 			x: obj.getEquation().toStringNoParam().replace(/x/g , 't'),
 			y: 't',
 			color : color,
-			range: [-10 * Math.PI, 10 * Math.PI],
+			range: [0, 150],
 			fnType: 'parametric',
 			graphType: 'polyline'
 		}]
