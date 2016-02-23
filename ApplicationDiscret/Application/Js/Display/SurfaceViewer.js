@@ -345,22 +345,25 @@ SurfaceViewer.prototype.onMouseUp = function (event) {
  * @return {void}
  */
 SurfaceViewer.prototype.onMouseMove = function (event) {
-	if (event.buttons === 1 && this.mousePosOnPress[0] != -1) {
+	if ((event.buttons == 4 || (event.buttons == 1 && event.ctrlKey)) 
+		&& this.mousePosOnPress[0] != -1) 
+	{
+		/* middle button is pressed (or left button and ctrl key pressed) and
+		 * the user generate mousedown event on the surface canvas.
+		 */
+		this.moveCamera (
+			(event.layerX - this.mousePosOnPress[0]) * 0.005,
+			(event.layerY - this.mousePosOnPress[1]) * 0.005
+		);
+	}
+	else if (event.buttons == 1 && this.mousePosOnPress[0] != -1) {
 		/* left button is pressed and the user generate mousedown event on the
+
 		 * surface canvas.
 		 */
 		this.rotateCamera (
 			(this.mousePosOnPress[0] - event.layerX) * 0.01,
 			(event.layerY - this.mousePosOnPress[1]) * 0.01
-		);
-	}
-	else if (event.buttons === 4 && this.mousePosOnPress[0] != -1) {
-		/* middle button is pressed and the user generate mousedown event on the
-		 * surface canvas.
-		 */
-		this.moveCamera (
-			(event.layerX - this.mousePosOnPress[0]) * 0.005,
-			(event.layerY - this.mousePosOnPress[1]) * 0.005
 		);
 	}
 };
@@ -451,8 +454,8 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 /**
  * Move the camera at spheric coordintates.
  *
- * @param {Number} phiOffset - Lattitude offset. TODO vérifier anglais
- * @param {Number} thetaOffset - Longitude offset. TODO vérifier anglais
+ * @param {Number} phiOffset - Azimuth offset.
+ * @param {Number} thetaOffset - Altitude offset.
  *
  * @return {void}
  */
@@ -465,9 +468,15 @@ SurfaceViewer.prototype.rotateCamera = function (phiOffset, thetaOffset) {
 	/// compute angle
 	var pos = new Vector (this.camPosWhenClick).sub (this.camCenterWhenClick);
 	var dist = pos.getLength ();
-	var phi = angle (pos.x, pos.y) + phiOffset;
-	var theta = clamp (-Math.PI / 2, Math.PI / 2,
-		Math.asin (pos.z / dist) + thetaOffset);
+	var phi = getAzimuth (this.camPosWhenClick, this.camCenterWhenClick) + phiOffset;
+	var theta = clamp (
+		-Math.PI / 2 + 0.0002, 
+		Math.PI / 2 - 0.0002, 
+		getAltitude (
+			this.camPosWhenClick, 
+			this.camCenterWhenClick
+		) + thetaOffset
+	);
 
 
 	/// compute position
@@ -495,20 +504,21 @@ SurfaceViewer.prototype.moveCamera = function (xOffset, yOffset) {
 	if (! checkType (arguments, "number", "number")) {
 		throw "SurfaceViewer.moveCamera: one of parameter are not number";
 	}
+	
+	/// compute local base
+	var base = new Matrix ()
+		.rotateZ (getAzimuth (this.camPosWhenClick, this.camCenterWhenClick))
+	base.rotate (
+		getAltitude (this.camPosWhenClick, this.camCenterWhenClick),
+		base.getYVector ()
+	);
+	
 	/// compute translation
-	var direction = new Vector (this.camPosWhenClick)
-		.sub (this.camCenterWhenClick)
-	var tx = new Vector (direction)
-		tx = tx.cross (this.container.getCamera ().getUpDirection ()) // FIXME
-		tx.normalize ()
-		tx.mul (xOffset);
-	var t = new Vector (this.camPosWhenClick)
-		t.sub (this.camCenterWhenClick)
-		t = t.cross (tx) // FIXME
-		t.normalize ()
-		t.mul (-yOffset)
-		t.add (tx);
-
+	var t = new Vector (base.getYVector ())
+		.mul (-xOffset)
+		.add (new Vector (base.getZVector ()).mul (yOffset));
+	
+	/// set camera position
 	this.container.setCameraAt (
 		addVector (this.camPosWhenClick, t),
 		addVector (this.camCenterWhenClick, t)
@@ -578,10 +588,15 @@ SurfaceViewer.prototype.getImgData = function (width, height) {
 
 //==============================================================================
 /**
- * Reverse the data in the array
+ * Reverse the data in the array. XXX peut être en faire une fonction plutot qu'une méthode ?
+ * 
+ * @param {} tab - TODO
+ * @param {} width - TODO
+ * @param {} height - TODO
+ * 
+ * @return {} TODO
  */
 SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
-
 	var pixel = [];
 	for (var i = height - 1; i >= 0; --i) {
 		for (var j = 0; j < width * 4; ++j) {
@@ -603,3 +618,4 @@ SurfaceViewer.prototype.resetCamera = function () {
 	this.container.resetCamera();
 	this.draw ();
 };
+

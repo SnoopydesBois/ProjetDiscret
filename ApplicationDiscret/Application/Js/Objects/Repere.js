@@ -132,23 +132,28 @@ Repere.prototype.getMatrix = function (camera) {
 	if (! checkType (arguments, Camera))
 		throw "Repere.getMatrix: Given parameter is not a Camera";
 
+	var base = new Matrix ()
+		.rotateZ (getAzimuth (
+			camera.getPosition (), 
+			camera.getLookAtPosition ()
+		))
+	base.rotate (
+		getAltitude (camera.getPosition (), camera.getLookAtPosition ()),
+		base.getYVector ()
+	);
 	/// compute and return the matrix
 	var coef = 0.083 / camera.height;
-
-	var t = new Vector (camera.eyePos).normalize ();
-	t = new Vector (camera.eyePos).sub (t.mul (0.2));
-
-	var ty = camera.eyePos.cross (camera.up).normalize ();
-	t = t.add (new Vector (ty)
-		.mul (camera.width * coef)
-		.sub (new Vector (ty).mul (0.015))
-	);
-	var tz = camera.eyePos.cross (ty).normalize ();
-	t = t.add (new Vector (tz)
-		.mul (camera.height * coef)
-		.sub (new Vector (tz).mul (0.015))
-	);
-
+//	var coef = 2.0 / camera.height;
+	var t = new Vector (camera.getPosition ())
+		.sub (camera.getLookAtPosition ())
+		.normalize ();
+	var ty = base.getYVector ().mul (- camera.width * coef);
+	var tz = base.getZVector ().mul (- camera.height * coef)
+	t = new Vector (camera.getPosition ())
+		.sub (t.mul (0.2))
+		.add (ty).sub (new Vector (ty).mul (0.12))
+		.add (tz).sub (new Vector (tz).mul (0.12));
+	
 	return new Matrix (this.matrix).translate (t);
 };
 
@@ -275,3 +280,5 @@ Repere.prototype.drawBackBuffer = function () {
  * @return {void}
  */
 Repere.prototype.unprepare = function () {};
+
+
