@@ -365,7 +365,6 @@ CurveViewer.prototype.drawCanvasGrid = function () {
 	var ctx = this.glContext,
 		unit = this.pointToPixel (1, yMax - 1),
 		i;
-	console.log ("max", xMax, yMax);
 	ctx.strokeStyle = "#CCC";
 	for (i = 1; i < xMax; ++i) {
 		ctx.moveTo (unit.x * i, 0);
@@ -537,7 +536,6 @@ CurveViewer.prototype.addPoint = function (point) {
 	if (Math.hypot (point.x - this.lastPoint.x, point.y - this.lastPoint.y)
 		 > this.MIN_DIST_BETWEEN_POINT)
 	{
-		console.log (point.x, point.y);
 		this.controller.getActiveCurve ().addPoint (point.x, point.y);
 		if (this.lastPoint.x != -1)
 			this.drawSegment (this.lastPoint, point);

@@ -228,7 +228,7 @@ Application.prototype.loadMeridian = function(event){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 Application.prototype.loadRevolution = function(event){
 	var tmppath = URL.createObjectURL (event.target.files[0]);
@@ -266,3 +266,38 @@ Application.prototype.loadRevolution = function(event){
 	);
 	this.revolView.draw();
 };
+
+
+//==============================================================================
+/**
+ * TODO
+ * 
+ * @return {void}
+ */
+Application.prototype.resetSliderMultiSlice = function () {
+	var dim = this.surfaceView.getSurfaceRenderer ()
+	if (dim) {
+		console.log ();
+		dim = dim.getSurface ().getDimension ();
+	}
+	else {
+		dim = new Vector (31, 31, 31);
+	}
+	document.getElementById ("amountMaxX").value = dim.x;
+	document.getElementById ("amountMaxY").value = dim.y;
+	document.getElementById ("amountMaxZ").value = dim.z;
+	
+	document.getElementById ("amountMinX").value = 0;
+	document.getElementById ("amountMinY").value = 0;
+	document.getElementById ("amountMinZ").value = 0;
+	
+	this.changeValueSlider('#slider-rangeX','#amountMaxX');
+//	this.changeValueSlider('#slider-rangeX','#amountMinX');
+//	this.changeValueSlider('#slider-rangeY','#amountMaxY');
+//	this.changeValueSlider('#slider-rangeY','#amountMinY');
+//	this.changeValueSlider('#slider-rangeZ','#amountMaxZ');
+	this.changeValueSlider('#slider-rangeZ','#amountMinZ');
+};
+
+
+
