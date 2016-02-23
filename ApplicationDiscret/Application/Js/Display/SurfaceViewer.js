@@ -46,16 +46,27 @@ function SurfaceViewer (canvas) {
 
 	/**
 	 * {int[2]} The position of the mouse on the canvas when the user press a
-	 * button (used for the camera mouvement).
+	 * button (used for the camera mouvement). -1 is the default value (use to
+	 * resolved conflict).
 	 * @see {@link onMouseDown, onMouseMove}
 	 */
-	this.mousePosOnPress = [0, 0];
+	this.mousePosOnPress = [-1, -1];
 
 	/**
 	 * {Vector} Camera position in space when the user press left mouse button.
-	 * Used by 'onMouseMove' method to compute the new camera position.
+	 * Used by 'onMouseMove', 'rotateCamera' and 'moveCamera' methods to compute
+	 * the new camera position.
+	 * @see {@link onMouseMove, rotateCamera}
 	 */
 	this.camPosWhenClick = new Vector (3, 3, 3);
+
+	/**
+	 * {Vector} Center camera position in space when the user press middle mouse
+	 * button. Used by 'onMouseMove', 'rotateCamera' and 'moveCamera' methods to
+	 * compute the new camera position.
+	 * @see {@link onMouseMove, rotateCamera, moveCamera}
+	 */
+	this.camCenterWhenClick = new Vector (0, 0, 0);
 
 	/**
 	 * {HTMLInputElement} The connexity user choice.
@@ -63,7 +74,7 @@ function SurfaceViewer (canvas) {
 	this.connexityInput = document.getElementById ("connexityChoice");
 
 	/**
-	 * {HTMLInputElement} The connexity user choice.
+	 * {HTMLInputElement} The voxel radius user choice.
 	 */
 	this.voxelRadiusInput = document.getElementById ("voxelRadius");
 
@@ -120,7 +131,7 @@ function SurfaceViewer (canvas) {
 
 
 /**
- * Set the dimension of the viewport. TODO renommer
+ * Set the dimension of the viewport.
  */
 SurfaceViewer.prototype.setViewDimension = function () {
 	this.glContext.viewport (
@@ -233,7 +244,6 @@ SurfaceViewer.prototype.prepare = function () {
  */
 SurfaceViewer.prototype.draw = function (backBuffer) {
 	if (this.container.getNbObject () != 0) {
-//		this.container.draw (this.glContext, true, this.backColorBuffer);
 		this.container.draw (this.glContext, backBuffer, this.screenBuffer);
 	}
 	else
@@ -277,6 +287,7 @@ SurfaceViewer.prototype.onResize = function (event) {
 //==============================================================================
 /**
  * @override
+ *
  * Save the camera coordinates and the mouse coordintates. TODO compléter
  * @see {@link camPosWhenClick, mousePosOnPress}
  *
@@ -285,10 +296,12 @@ SurfaceViewer.prototype.onResize = function (event) {
  * @return {void}
  */
 SurfaceViewer.prototype.onMouseDown = function (event) {
-	if (event.buttons === 1) {
-		this.camPosWhenClick = this.container.getCamera().getPosition();
+	if (event.buttons & 5) { // left or middle click
+		this.camPosWhenClick = this.container.getCamera ().getPosition ();
 		this.mousePosOnPress[0] = event.layerX;
 		this.mousePosOnPress[1] = event.layerY;
+		this.camCenterWhenClick =
+			this.container.getCamera ().getLookAtPosition ();
 	}
 
 	// draw the scene for picking
@@ -309,6 +322,7 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
 //==============================================================================
 /**
  * @override
+ *
  * TODO
  *
  * @param {MouseEvent} event - The event.
@@ -316,18 +330,14 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
  * @return {void}
  */
 SurfaceViewer.prototype.onMouseUp = function (event) {
-//	if (event.buttons === 1) {
-//		this.camPosWhenClick = this.container.getCamera().getPosition();
-//		this.mousePosOnPress[0] = event.layerX;
-//		this.mousePosOnPress[1] = event.layerY;
-//		event.preventDefault ();
-//	}
+	this.mousePosOnPress[0] = -1;
 };
 
 
 //==============================================================================
 /**
  * @override
+ *
  * Move the camera.
  *
  * @param {MouseEvent} event - The event.
@@ -335,10 +345,22 @@ SurfaceViewer.prototype.onMouseUp = function (event) {
  * @return {void}
  */
 SurfaceViewer.prototype.onMouseMove = function (event) {
-	if (event.buttons === 1) {
-		this.moveCameraAt (
+	if (event.buttons === 1 && this.mousePosOnPress[0] != -1) {
+		/* left button is pressed and the user generate mousedown event on the
+		 * surface canvas.
+		 */
+		this.rotateCamera (
 			(this.mousePosOnPress[0] - event.layerX) * 0.01,
 			(event.layerY - this.mousePosOnPress[1]) * 0.01
+		);
+	}
+	else if (event.buttons === 4 && this.mousePosOnPress[0] != -1) {
+		/* middle button is pressed and the user generate mousedown event on the
+		 * surface canvas.
+		 */
+		this.moveCamera (
+			(event.layerX - this.mousePosOnPress[0]) * 0.005,
+			(event.layerY - this.mousePosOnPress[1]) * 0.005
 		);
 	}
 };
@@ -347,6 +369,7 @@ SurfaceViewer.prototype.onMouseMove = function (event) {
 //==============================================================================
 /**
  * @override
+ *
  * Change the zoom of the camera.
  *
  * @param {MouseEvent} event - The event.
@@ -355,20 +378,10 @@ SurfaceViewer.prototype.onMouseMove = function (event) {
  */
 SurfaceViewer.prototype.onWheel = function (event) {
 	if (event.deltaY != 0) {
-		var epsilon = event.deltaY < 0 ? -0.1 : 0.1 ;
-		var cam = this.container.getCamera ();
-		// orthographic zoom
-		cam.setProjection (
-			cam.getProjection () + epsilon
-		);
-		// perspective zoom
-		var normPos = new Vector (cam.getPosition ()).normalize ();
-		this.container.setCameraAt ([
-			cam.getPosition ().x + normPos.x * epsilon,
-			cam.getPosition ().y + normPos.y * epsilon,
-			cam.getPosition ().z + normPos.z * epsilon
-		]);
-		cam.computeMatrices ();
+		if (event.deltaY < 0)
+			this.container.getCamera ().zoomIn ();
+		else
+			this.container.getCamera ().zoomOut ();
 		this.draw ();
 	}
 };
@@ -386,19 +399,19 @@ SurfaceViewer.prototype.onWheel = function (event) {
 SurfaceViewer.prototype.onKeyDown = function (event) { // FIXME
 	switch (event.keyCode) {
 	case 38 : // Up
-		this.moveCameraAt (0.0, 0.01);
+		this.rotateCamera (0.0, 0.01);
 		++this.mousePosOnPress[1];
 		break;
 	case 40 : // Down
-		this.moveCameraAt (0.0, -0.01);
+		this.rotateCamera (0.0, -0.01);
 		--this.mousePosOnPress[1];
 		break;
 	case 37 : // Left
-		this.moveCameraAt (0.01, 0.0);
+		this.rotateCamera (0.01, 0.0);
 		++this.mousePosOnPress[0];
 		break;
 	case 39 : // Right
-		this.moveCameraAt (-0.01, 0.0);
+		this.rotateCamera (-0.01, 0.0);
 		--this.mousePosOnPress[0];
 		break;
 	}
@@ -428,9 +441,9 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 //	window.addEventListener ("keydown", this.onKeyDown.bind (this));
 
 	// mouse move for mouvement
-	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
 	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this));
-//	this.canvas.addEventListener ("contextmenu", function () {return false;});
+	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
+	this.canvas.addEventListener ("mouseup", this.onMouseUp.bind (this));
 };
 
 
@@ -438,19 +451,19 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 /**
  * Move the camera at spheric coordintates.
  *
- * @param {Number} phiOffset - Lattitude offset.
- * @param {Number} thetaOffset - Longitude offset.
+ * @param {Number} phiOffset - Lattitude offset. TODO vérifier anglais
+ * @param {Number} thetaOffset - Longitude offset. TODO vérifier anglais
  *
  * @return {void}
  */
-SurfaceViewer.prototype.moveCameraAt = function (phiOffset, thetaOffset) {
+SurfaceViewer.prototype.rotateCamera = function (phiOffset, thetaOffset) {
 	/// parameter verification
 	if (! checkType (arguments, "number", "number")) {
-		throw "SurfaceViewer.moveCameraAt: one of parameter are not number";
+		throw "SurfaceViewer.rotateCamera: one of parameter are not number";
 	}
 
 	/// compute angle
-	var pos = this.camPosWhenClick;
+	var pos = new Vector (this.camPosWhenClick).sub (this.camCenterWhenClick);
 	var dist = pos.getLength ();
 	var phi = angle (pos.x, pos.y) + phiOffset;
 	var theta = clamp (-Math.PI / 2, Math.PI / 2,
@@ -458,10 +471,48 @@ SurfaceViewer.prototype.moveCameraAt = function (phiOffset, thetaOffset) {
 
 
 	/// compute position
-	var x = dist * Math.cos (phi) * Math.cos (theta);
-	var y = dist * Math.sin (phi) * Math.cos (theta);
-	var z = dist * Math.sin (theta);
-	this.container.setCameraAt ([x, y, z]);
+	pos.x = dist * Math.cos (phi) * Math.cos (theta);
+	pos.y = dist * Math.sin (phi) * Math.cos (theta);
+	pos.z = dist * Math.sin (theta);
+	this.container.setCameraAt (pos.add (this.camCenterWhenClick));
+
+	/// drawing
+	this.draw ();
+};
+
+
+//==============================================================================
+/**
+ * Translate the camera (eye and center position) in its local base.
+ *
+ * @param {Number} xOffset - X offset (left-right).
+ * @param {Number} yOffset - Y offset (up-down).
+ *
+ * @return {void}
+ */
+SurfaceViewer.prototype.moveCamera = function (xOffset, yOffset) {
+	/// parameter verification
+	if (! checkType (arguments, "number", "number")) {
+		throw "SurfaceViewer.moveCamera: one of parameter are not number";
+	}
+	/// compute translation
+	var direction = new Vector (this.camPosWhenClick)
+		.sub (this.camCenterWhenClick)
+	var tx = new Vector (direction)
+		tx = tx.cross (this.container.getCamera ().getUpDirection ()) // FIXME
+		tx.normalize ()
+		tx.mul (xOffset);
+	var t = new Vector (this.camPosWhenClick)
+		t.sub (this.camCenterWhenClick)
+		t = t.cross (tx) // FIXME
+		t.normalize ()
+		t.mul (-yOffset)
+		t.add (tx);
+
+	this.container.setCameraAt (
+		addVector (this.camPosWhenClick, t),
+		addVector (this.camCenterWhenClick, t)
+	);
 
 	/// drawing
 	this.draw ();
@@ -485,17 +536,18 @@ SurfaceViewer.prototype.computeCamera = function () {
  * generated surface (i.e. not the repere, not the bounding box but the third
  * object).
  */
-SurfaceViewer.prototype.getSurface = function () {
+SurfaceViewer.prototype.getSurfaceRenderer = function () {
 	return this.container.getObjectByName (
-		SurfaceRenderer.getLastSurfaceName ()
+		SurfaceRenderer.getCurrentSurfaceName ()
 	);
 };
 
 
-
 //==============================================================================
 /**
- * @return {float[]} The image data.
+ * @param {int} width - The width of the canvas from which we get the data
+ * @param {int} height - The height of the canvas from which we get the data
+ * @return {float[]} the image data
  */
 SurfaceViewer.prototype.getImgData = function (width, height) {
 	// Bind the frame framebuffer and the depth buffer for the color rendering
@@ -525,6 +577,9 @@ SurfaceViewer.prototype.getImgData = function (width, height) {
 
 
 //==============================================================================
+/**
+ * Reverse the data in the array
+ */
 SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
 
 	var pixel = [];
@@ -534,4 +589,18 @@ SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
 		}
 	}
 	return pixel;
+};
+
+
+
+//==============================================================================
+/**
+ * Put the camera back to its initial position.
+ *
+ * @return {void}
+ */
+SurfaceViewer.prototype.resetCamera = function () {
+	console.log ("resetCamera (surfaceViewer)");
+	this.container.resetCamera();
+	this.draw ();
 };

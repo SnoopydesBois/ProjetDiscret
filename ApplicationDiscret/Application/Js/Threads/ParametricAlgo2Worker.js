@@ -43,7 +43,10 @@ function ParametricAlgo2Worker (parametricCurve, implicitCurve, dimension, surfa
 	var that = this;
 	this.worker[0].onmessage = function (e) {
 		that.readBuffer(e.data[0], e.data[1]);
-		if (e.data.length == 3 && e.data[2] == "Terminate") {
+		if (e.data.length == 3 && e.data[2] == "Abort") {
+			appli.alertMessage("Aborted");
+		}
+		else if (e.data.length == 3 && e.data[2] == "Terminate") {
 			that.worker[0].terminate();
 			that.worker[0] = undefined;
 			that.activeWorkers--;

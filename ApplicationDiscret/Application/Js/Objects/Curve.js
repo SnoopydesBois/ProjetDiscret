@@ -49,14 +49,17 @@ Curve.prototype.computePoints = function (ranX, ranY) {
 	throw "Curve.computePoints.ErrorNotImplementedInAbstractClass";
 };
 
+
 //==============================================================================
 /**
  * @param {String} parameter - The parameter to modify.
  * @param {Number} value - The value to set.
+ * 
+ * @return {void}
  */
 Curve.prototype.setParameter = function (parameter, value) {
 	throw "Curve.setParameter.ErrorNotImplementedInAbstractClass";
-}
+};
 
 
 //==============================================================================
@@ -68,7 +71,8 @@ Curve.prototype.setParameter = function (parameter, value) {
  */
 Curve.prototype.getAllParameters = function () {
 	throw "Curve.setParameter.ErrorNotImplementedInAbstractClass";
-}
+};
+
 
 //==============================================================================
 /**
@@ -76,7 +80,8 @@ Curve.prototype.getAllParameters = function () {
  */
 Curve.prototype.getParameter = function (name) {
 	throw "Curve.setParameter.ErrorNotImplementedInAbstractClass";
-}
+};
+
 
 //==============================================================================
 /**

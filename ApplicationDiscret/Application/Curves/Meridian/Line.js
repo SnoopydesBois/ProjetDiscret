@@ -7,11 +7,11 @@ Line.prototype.constructor = Line;
 * @constructor {Equation} the equation of the curve
 */
 function Line() {
-	var equation = new Equation("1/a*x + b");
-	equation.setParameter("a", 3);
-	equation.setParameter("b", 1.0);
+	var equation = new Equation("tan(3.14/2 - angle*3.14/180) * x + décalage");
+	equation.setParameter("angle", 45);
+	equation.setParameter("décalage", 1.0);
 	ExplicitCurve.call(this, equation);
 	
-	this.parametersRange['a'] = new Range(1.0, 15.0);
-	this.parametersRange['b'] = new Range(1.0,5.0);
+	this.parametersRange['angle'] = new Range(5.0, 85.0);
+	this.parametersRange['décalage'] = new Range(1.0,5.0);
 }

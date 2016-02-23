@@ -1,4 +1,4 @@
-// LICENCE ////////////////////////////////////////////////////////////////////
+// LICENCE /////////////////////////////////////////////////////////////////////
 
 
 /**
@@ -43,14 +43,14 @@
  */
 
 
-// INDEX //////////////////////////////////////////////////////////////////////
+// INDEX ///////////////////////////////////////////////////////////////////////
 
 
 /* Application ()
  */
 
 
-// CODE ///////////////////////////////////////////////////////////////////////
+// CODE ////////////////////////////////////////////////////////////////////////
 
 
 
@@ -121,14 +121,14 @@ function Application () {
 
 
 		/// Surface ///
-	
+
 	/**
 	 * {SurfaceViewer} TODO
 	 */
 	this.surfaceView = new SurfaceViewer (
 		document.getElementById ("surfaceCanvas")
 	);
-	
+
 	/**
 	 * {Controller3D} TODO
 	 */
@@ -136,12 +136,13 @@ function Application () {
 
 
 		/// Meridian ///
-	
-	
+
+
 	/**
 	 * {Controller2DMeridian} TODO
 	 */
 	this.meridianController = new Controller2DMeridian (-1, 1, -1, 1);
+
 
 	/**
 	 * {CurveViewer} TODO
@@ -150,12 +151,12 @@ function Application () {
 		document.getElementById ("meridianCanvas"),
 		this.meridianController
 	);
-	
+
 	/**
 	 * {ParameterViewer} TODO
 	 */
 	this.meridianParameters = new ParameterViewer (
-		'#listMeridianParameters', this.meridianController
+		'#meridianParam', this.meridianController
 	);
 
 	/**
@@ -190,7 +191,7 @@ function Application () {
 	 * {ParameterViewer} TODO
 	 */
 	this.revolutionParameters = new ParameterViewer (
-		'#listRevolutionParameters', this.revolController
+		'#revolParam', this.revolController
 	);
 
 	/**
@@ -202,11 +203,17 @@ function Application () {
 	 * {Function} TODO
 	 */
 	this.getRangeRevolution = null;
-	
-	
+
+
 		/// Other ///
-	
-	
+
+
+	/**
+	 * {ControllerExport} TODO
+	 */
+	this.exportController = new ControllerExport("surfaceCanvas", "meridianCanvas2", "revolCanvas2");
+
+
 	/**
 	 * {String} The default message in the state bar.
 	 */
@@ -215,7 +222,7 @@ function Application () {
 	/**
 	 * {ListUndoRedoAction} The list of undoable/redoable action.
 	 */
-	this.listAction = new ListUndoRedoAction (25);
+//	this.listAction = new ListUndoRedoAction (25);
 }
 
 
@@ -228,16 +235,21 @@ function Application () {
  * @return {void}
  */
 Application.prototype.computationFinished = function () {
-	if(this.surfaceController.newVoxels()){
+	if (this.surfaceController.newVoxels ()) {
 		//this.surfaceController.voxelsRead();
 		//this.surfaceView.show ();
 	}
-	if (! this.surfaceController.isAlgoFinished ()){
+	if (! this.surfaceController.isAlgoFinished ()) {
 		setTimeout (this.computationFinished.bind (this), 1000);
 	}
 	else {
-		this.validMessage ("Finished", 0);
-		this.surfaceView.show ();
+		if(this.surfaceController.isAlgoFinished () != "error") {
+			this.validMessage ("Finished", 0);
+		}
+		document.getElementById ("generate1").disabled = false;
+		document.getElementById ("generate2").disabled = false;
+		this.stopLoading ();
+		this.surfaceView.show (true);
 	}
 };
 
@@ -250,7 +262,9 @@ Application.prototype.computationFinished = function () {
  * @return {void}
  */
 Application.prototype.generateAndDraw = function (mode) {
-	this.showMessage ("Computing...", 0, "blue");
+	document.getElementById("generate1").disabled = true;
+	document.getElementById("generate2").disabled = true;
+	this.showMessage ("Computing...", 0, "#04E");
 	var dimX = document.getElementById ("dimx").value;
 	var dimY = document.getElementById ("dimy").value;
 	var dimZ = document.getElementById ("dimz").value;
@@ -263,7 +277,12 @@ Application.prototype.generateAndDraw = function (mode) {
 		dimX,dimY,dimZ
 	]);
 
-	this.surfaceController.generate (mode);
+	try{
+		this.surfaceController.generate (mode);
+	}
+	catch(e){
+		this.errorMessage ("Aborted", 0);
+	}
 	this.surfaceRenderer = new SurfaceRenderer (
 		this.surfaceController,
 		this.surfaceView.getGLContext ()
@@ -274,7 +293,7 @@ Application.prototype.generateAndDraw = function (mode) {
 	this.surfaceView.container.addObject (this.surfaceRenderer);
 
 	this.computationFinished ();
-
+	this.loading ();
 	this.changeValueSlider ("#slider-rangeX", 0, parseInt (dimX));
 	this.changeValueSlider ("#slider-rangeY", 0, parseInt (dimY));
 	this.changeValueSlider ("#slider-rangeZ", 0, parseInt (dimZ));
@@ -293,5 +312,3 @@ Application.prototype.generateAndDraw = function (mode) {
 Application.prototype.show = function (forcePrepare) {
 	this.surfaceView.show (forcePrepare);
 };
-
-

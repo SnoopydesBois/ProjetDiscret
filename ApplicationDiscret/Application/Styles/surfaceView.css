@@ -15,25 +15,31 @@
 }
 
 
-#surfaceView .paramPanel label {
+#surfaceView .paramPanel input {
+    margin: 0;
+}
+
+
+#surfaceView .paramPanel label.title {
 	display: block;
 	text-align: center;
 	margin-top: 0.7em;
 }
 
+
 #surfaceView .optionPanel input[type=text],
 #surfaceView .optionPanel input[type=number] {
-	width : 3em;
+	width: 3em;
 }
 
 
 #surfaceView .optionPanel select {
-	width : 4em;
+	width: 4em;
 }
 
 
 #surfaceParam input {
-	width : calc((100% - 2em) / 2);
+	width: calc((100% - 2em) / 2);
 }
 
 
@@ -47,4 +53,38 @@
 #surfaceOption div.wrapper {
     display: inline-block;
     margin: 0 0.2em;
+}
+
+
+#surfaceView .paramPanel .ui-slider-range {
+    position: absolute;
+}
+
+
+#surfaceView .paramPanel .doubleSliders {
+    position: relative;
+}
+
+
+#surfaceView .doubleSliders {
+	margin: -0.5em 5% 0.5em 5%;
+	position: relative;
+}
+
+
+#loadingImg {
+	background: rgba(192, 192, 192, 0.5) url("loading64.gif") no-repeat center;
+}
+
+
+#loadingImg p {
+	position: absolute;
+	top: calc(50% + 32px);
+	width: 100%;
+	color: white;
+	text-shadow: 0px 0px 5px black;
+	font-family: "Liberation Sans", "Arial", sans-serif;
+	font-size: 3.5em;
+	text-align: center;
+	margin: 0;
 }

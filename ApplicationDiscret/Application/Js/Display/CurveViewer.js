@@ -45,15 +45,37 @@ function CurveViewer (canvas, curveController) {
 	 * {Controller2D} TODO
 	 */
 	this.controller = curveController;
-	
+
 	/**
-	 * {int[2]} Last mouse position where a point was added.
+	 * {float[2]} Last point added to the curve. If -1, there are not last
+	 * point. TODO vérifier anglais
 	 */
-	this.lastMousePos = [-1, -1];
-	
-	
-	// initialisation$
+	this.lastPoint = new Point (-1, -1);
+
+	/**
+	 * {HTMLInputElement} TODO
+	 */
+	this.xMaxInput = document.getElementById ("dimy");
+
+	/**
+	 * {HTMLInputElement} TODO
+	 */
+	this.yMaxInput = document.getElementById ("dimz");
+
+	/**
+	 * {float} Minimal distance between two added point.
+	 */
+	this.MIN_DIST_BETWEEN_POINT = 0.5;
+
+	/**
+	 * TODO
+	 */
+	this.formModeSelected = document.forms["meridianType"];
+
+
+	// initialisation
 	this.initCanvasEvent ();
+	this.resizeCanvas ();
 };
 
 
@@ -78,15 +100,14 @@ CurveViewer.prototype.getController = function () {
 //##############################################################################
 
 
-////==============================================================================
-///**
-// * Show all objects in the container (prepare it and draw it).
-// *
-// * @return {void}
-// */
-//CurveViewer.prototype.show = function () {
-//	this.container.show (this.glContext);
-//};
+/**
+ * Draw all current object.
+ *
+ * @return {void}
+ */
+CurveViewer.prototype.show = function () {
+	this.draw ();
+};
 
 
 //==============================================================================
@@ -99,87 +120,89 @@ CurveViewer.prototype.draw = function () {
 	var curve = this.controller.getActiveCurve ();
 	var xRange = this.controller.getXRange ();
 	if (curve instanceof ImplicitCurve) {
-		CurveViewer.drawImplicit (curve, xRange);
+		this.drawImplicit (curve);
 	}
 	else if (curve instanceof ExplicitCurve) {
-		CurveViewer.drawExplicit (curve, xRange);
+		this.drawExplicit (curve);
+	}
+	else if (curve instanceof DrawnCurve) {
+		/// set the canvas size
+		this.resizeCanvas ();
+		/// draw the curve
+		this.drawFreeHand (curve);
 	}
 	else {
-		console.error ("Bad type of curve , find: " + type (curve));
+		console.error ("Bad type of curve, find: " + type (curve));
 	}
 };
 
 
 //==============================================================================
 /**
- * @static
  * Draw a curve implicit curve.
- * 
+ *
  * @param {ImplicitCurve} obj - The curve to draw.
  * @param {Range} xRange - The inverse image range.
- * 
+ *
  * @return {void}
  */
-CurveViewer.drawImplicit = function (obj, xRange) {
+CurveViewer.prototype.drawImplicit = function (obj) {
 	/// Let's render
+	var xRange = this.controller.getXRange ();
 	var color = "black",
-		width, height, min;
-		
-	width = $('#revolCanvas2').width();
-	height = $('#revolCanvas2').height();
-	min = Math.min (
-		$('#revolCanvas2').width(),
-		$('#revolCanvas2').height ()
-	);
-	
+		width = $('#revolCanvas2').width (),
+		height = $('#revolCanvas2').height (),
+		min = Math.min (
+			$('#revolCanvas2').width (),
+			$('#revolCanvas2').height ()
+		);
+
 	functionPlot ({
 		target: '#revolCanvas2',
-		width : $('#revolCanvas2').width(),
-		height : $('#revolCanvas2').height(),
+		width : $('#revolCanvas2').width (),
+		height : $('#revolCanvas2').height (),
 		xAxis : {domain: [
-			xRange.getMin(),
-			xRange.getMax()
+			xRange.getMin (),
+			xRange.getMax ()
 		]},
 		yAxis : CurveViewer.computeYScale (width, height, xRange),
 		disableZoom : true,
-		data: [{
+		data : [{
 			color : color,
-			fn : obj.getEquation().toStringNoParam (),
+			fn : obj.getEquation ().toStringNoParam (),
 			fnType : 'implicit',
 		}]
 	}); // end functionPlot
 };
 
 
-
 //==============================================================================
 /**
- * @static
- * Draw a curve parametric curve.
- * 
+ * Draw a curve explicit curve.
+ *
  * @param {ImplicitCurve} obj - The curve to draw.
  * @param {Range} xRange - The inverse image range.
- * 
+ *
  * @return {void}
  */
-CurveViewer.drawExplicit = function (obj, xRange) {
+CurveViewer.prototype.drawExplicit = function (obj) {
 	/// Let's render
+	var xRange = this.controller.getXRange ();
 	var color = "black",
-		width, height, min;
+		min = Math.min (
+			$('#meridianCanvas2').width (),
+			$('#meridianCanvas2').height ()
+		);
 
-	min = Math.min (
-		$('#meridianCanvas2').width (),
-		$('#meridianCanvas2').height ()
-	);
 	functionPlot ({
-		target: '#meridianCanvas2',
+		target : '#meridianCanvas2',
 		width : min,
 		height : min,
-		xAxis : {domain: [0, xRange.getMax()]},
-		yAxis : {domain: [0, xRange.getMax()]},
+		xAxis : {domain: [0, xRange.getMax ()]},
+		yAxis : {domain: [0, xRange.getMax ()]},
 		disableZoom : true,
 		data: [{
-			x: obj.getEquation().toStringNoParam().replace(/x/g , 't'),
+			x: obj.getEquation ().toStringNoParam ().replace (/x/g, 't'),
 			y: 't',
 			color : color,
 			range: [0, 150],
@@ -192,13 +215,96 @@ CurveViewer.drawExplicit = function (obj, xRange) {
 
 //==============================================================================
 /**
- * @static
- * TODO
+ * Draw a free hand curve.
+ *
+ * @param {DrawnCurve} obj - The curve to draw.
+ * @param {Range} xRange - The inverse image range.
+ * @param {Range} yRange - The image range.
+ *
+ * @return {void}
  */
-CurveViewer.computeYScale = function (width, height, xRange) {
-	var xDiff = xRange.length;
-	var yDiff = height * xDiff / width;
-	return [-yDiff / 2, yDiff / 2];
+CurveViewer.prototype.drawFreeHand = function (curve) {
+	/// Let's render
+	var x = curve.getXList (),
+		y = curve.getYList ();
+	var len = x.length, point;
+
+	this.glContext.clearRect (0, 0, this.glContext.canvas.width,
+		this.glContext.canvas.height);
+	if (len > 0) {
+		this.lastPoint = new Point (x[0], y[0]);
+		for (var i = 1; i < len ; ++i) {
+			point = new Point (x[i], y[i]);
+			this.drawSegment (this.lastPoint, point);
+			delete this.lastPoint;
+			this.lastPoint = point;
+		} // end for each next point
+	} // end if there are point
+};
+
+
+//==============================================================================
+/**
+ * Draw a segment between two point. /!\ Arguments are curve's point not pixel's
+ * point.
+ *
+ * @param {Point} pointA - The first point.
+ * @param {Point} pointB - The second point.
+ *
+ * @return {void}
+ * @throws {String} If one of parameter is not a Point.
+ */
+CurveViewer.prototype.drawSegment = function (pointA, pointB) {
+	/// parameter verification
+	if (! checkType (arguments, Point, Point)) {
+		console.trace ();
+		throw "CurveViewer.drawSegment: one of parameter is not a Point";
+	}
+
+	var p1 = this.pointToPixel (pointA.x, pointA.y),
+		p2 = this.pointToPixel (pointB.x, pointB.y);
+
+	/// draw it
+	var ctx = this.glContext;
+	ctx.beginPath ();
+	ctx.moveTo (p1.x, p1.y);
+	ctx.lineTo (p2.x, p2.y);
+	ctx.stroke ();
+};
+
+
+//==============================================================================
+/**
+ * Clear the canvas and set a new drawn curve.
+ * 
+ * @return {void}
+ */
+CurveViewer.prototype.clearDraw = function () {
+	this.glContext.clearRect (0, 0, this.glContext.canvas.width,
+		this.glContext.canvas.height);
+	this.controller.newCurve ();
+	this.lastPoint = new Point (-1, -1);
+};
+
+
+//==============================================================================
+/**
+ * Resize the associeted canvas.
+ * 
+ * @return {void}
+ */
+CurveViewer.prototype.resizeCanvas = function () {
+	var $ref = $("#meridianCanvas2");
+	var max = Math.max (this.xMaxInput.value / 2, this.yMaxInput.value);
+	var canvas = this.glContext.canvas;
+	
+	canvas.width = ($ref.width () + 2) * this.xMaxInput.value / 2 / max;
+	canvas.style.width = canvas.width + "px";
+	canvas.style.right = (($ref.width () + 2) - canvas.width) / 2 + "px";
+	
+	canvas.height = ($ref.height () + 2) * this.yMaxInput.value / max;
+	canvas.style.height = canvas.height + "px";
+	canvas.style.top = (($ref.height () + 2) - canvas.height) / 2 + "px";
 };
 
 
@@ -218,6 +324,7 @@ CurveViewer.computeYScale = function (width, height, xRange) {
  * @return {void}
  */
 CurveViewer.prototype.onResize = function (event) {
+	this.lastPoint = new Point (-1, -1);
 	this.draw ();
 };
 
@@ -226,24 +333,16 @@ CurveViewer.prototype.onResize = function (event) {
 /**
  * @override
  * Add a point to the curve and draw it on the screen.
- * 
+ *
  * @param {MouseEvent} event - The mouse event.
  */
 CurveViewer.prototype.onMouseDown = function (event) {
-	this.drawLastSegment (event.layerX, event.layerY);
-};
-
-
-//==============================================================================
-/**
- * @override
- * Add a point to the curve and draw it on the screen.
- * 
- * @param {MouseEvent} event - The mouse event.
- */
-CurveViewer.prototype.onMouseMove = function (event) {
-	if (event.buttons & 1) {
-		this.drawLastSegment (event.layerX, event.layerY);
+	if ((event.buttons & 1) && this.formModeSelected["meridianTypeValue"].value
+		== "meridianFreeHand")
+	{
+		// if left button is pressed and the mode is "drawing mode"
+		var p = this.pixelToPoint (event.layerX, event.layerY);
+		this.addPoint (p);
 	}
 };
 
@@ -251,11 +350,18 @@ CurveViewer.prototype.onMouseMove = function (event) {
 //==============================================================================
 /**
  * @override
- * TODO
- * 
+ * Add a point to the curve and draw it on the screen.
+ *
  * @param {MouseEvent} event - The mouse event.
  */
-CurveViewer.prototype.onMouseUp = function (event) {
+CurveViewer.prototype.onMouseMove = function (event) {
+	if ((event.buttons & 1) && this.formModeSelected["meridianTypeValue"].value
+		== "meridianFreeHand")
+	{
+		// if left button is pressed and the mode is "drawing mode"
+		var p = this.pixelToPoint (event.layerX, event.layerY);
+		this.addPoint (p);
+	}
 };
 
 
@@ -268,43 +374,128 @@ CurveViewer.prototype.onMouseUp = function (event) {
 
 /**
  * TODO
- * 
+ *
  * @return {void}
  */
 CurveViewer.prototype.initCanvasEvent = function () {
 	// initialisation
 	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this));
 	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
-	this.canvas.addEventListener ("mouseup", this.onMouseUp.bind (this));
+
 };
 
+
+//==============================================================================
+/**
+ * Transform a pixel coordinates on the canvas into point of the curve. /!\ The
+ * origine of point is the bottom left corner but pixel origine is the top left
+ * corner. Top and bottom was inverted in this function.
+ *
+ * @param {float} x - Pixel X coordinate.
+ * @param {float} y - Pixel Y coordinate.
+ *
+ * @return {Point} The computed point (truncate at two decimal number).
+ * @throws {String} If one of the parameter is not of the expected type.
+ */
+CurveViewer.prototype.pixelToPoint = function (x, y) {
+	/// parameter verification
+	if (! checkType (arguments, "number", "number")) {
+		throw "CurveViewer.pixelToPoint: bad type(s) of parameter(s)";
+	}
+
+	/// compute
+	var point = new Point (
+		x * (this.xMaxInput.value / 2) / this.glContext.canvas.width,
+		y * this.yMaxInput.value / this.glContext.canvas.height
+	);
+	point.y = this.yMaxInput.value - point.y;
+	return point;
+};
+
+
+//==============================================================================
+/**
+ * Transform a point of the curve into pixel coordinates on the canvas. /!\ The
+ * origine of point is the bottom left corner but pixel origine is the top left
+ * corner. Top and bottom was inverted in this function.
+ *
+ * @param {float} x - Point X coordinate.
+ * @param {float} y - Point Y coordinate.
+ *
+ * @return {Point} The computed pixel.
+ * @throws {String} If one of the parameter is not of the expected type.
+ */
+CurveViewer.prototype.pointToPixel = function (x, y) {
+	/// parameter verification
+	if (! checkType (arguments, "number", "number")) {
+		throw "CurveViewer.pointToPixel: bad type(s) of parameter(s)";
+	}
+
+	/// compute
+	var pixel = new Point (
+		x * this.glContext.canvas.width / (this.xMaxInput.value / 2),
+		y * this.glContext.canvas.height / this.yMaxInput.value
+	);
+	pixel.y = this.glContext.canvas.height - 1 - Math.floor (pixel.y);
+
+	return pixel;
+};
+
+
+//==============================================================================
+/**
+ * Add a point to the current curve and draw it on the canvas. If the point is
+ * too close that the last, it is not added.
+ *
+ * @param {Point} point - A point.
+ *
+ * @return {boolean} True if the point was added, false otherwise.
+ */
+CurveViewer.prototype.addPoint = function (point) {
+	/// parameter verification
+	if (! point instanceof Point) {
+		throw "CurveViewer.addPoint: parameter is not a Point";
+	}
+
+	/// add
+	if (Math.hypot (point.x - this.lastPoint.x, point.y - this.lastPoint.y)
+		 > this.MIN_DIST_BETWEEN_POINT)
+	{
+		this.controller.getActiveCurve ().addPoint (point.x, point.y);
+		if (this.lastPoint.x != -1)
+			this.drawSegment (this.lastPoint, point);
+		this.lastPoint = point;
+		return true;
+	}
+	else
+		return false;
+};
+
+
+//==============================================================================
+/**
+ * @static
+ * TODO
+ */
+CurveViewer.computeYScale = function (width, height, xRange) {
+	var xDiff = xRange.length;
+	var yDiff = height * xDiff / width;
+	return [-yDiff / 2, yDiff / 2];
+};
 
 
 
 //==============================================================================
 /**
+ * Closes the current drawn curve.
  * 
+ * @return {void}
  */
-CurveViewer.prototype.drawLastSegment = function (x, y) {
-	/// add point 
-	this.controller.addPoint (x, y, new Vector (
-			this.glContext.canvas.width, this.glContext.canvas.height, 0
-		), new Vector (
-			parseInt ($("#dimy").val ()), parseInt ($("#dimz").val ()), 0
-		)
-	);
-	
-	if (this.lastMousePos[0] != -1) { // there is an other point
-		/// draw it
-		var ctx = this.glContext;
-		ctx.beginPath ();
-		ctx.moveTo (this.lastMousePos[0], this.lastMousePos[1]);
-		ctx.lineTo (x, y);
-		ctx.stroke ();
+CurveViewer.prototype.closeCurve = function () {
+	var addedPoint = this.controller.closeCurve ();
+	if (addedPoint) {
+		this.drawSegment (this.lastPoint, addedPoint);
+		this.lastPoint = addedPoint;
 	}
-	/// remember
-	this.lastMousePos[0] = x;
-	this.lastMousePos[1] = y;
 };
-
 

@@ -104,10 +104,17 @@ function Scene () {
 	GenericContainer.call (this);
 
 	/**
+	 * {Vector} Initial cameraPosition.
+	 */
+	this.defaultCameraPosition = new Vector (3, 3, 3);
+
+
+	/**
  	 * {Camera} The camera used in the scene.
  	 */
 	this.camera = new Camera (
-		new Vector (3, 3, 3),
+		new Vector (this.defaultCameraPosition),
+		// new Vector (1, 1, 1),
 		new Vector (0, 0, 0),
 		new Vector (0, 0, 1),
 		800,
@@ -289,18 +296,18 @@ Scene.prototype.prepare = function (glContext, connexity, voxelRadius) {
 				var o = this.objectList[i].getModelController ().getSurface ();
 				o.printOnly (
 					new Range (
-						parseInt (document.getElementById ("amountMinX").value),
-						parseInt (document.getElementById ("amountMaxX").value)
+						parseInt ($("#slider-rangeX").slider ('values', 0)),
+						parseInt ($("#slider-rangeX").slider ('values', 1))
 							- 1
 					),
 					new Range (
-						parseInt (document.getElementById ("amountMinY").value),
-						parseInt (document.getElementById ("amountMaxY").value)
+						parseInt ($("#slider-rangeY").slider ('values', 0)),
+						parseInt ($("#slider-rangeY").slider ('values', 1))
 							- 1
 					),
 					new Range (
-						parseInt (document.getElementById ("amountMinZ").value),
-						parseInt (document.getElementById ("amountMaxZ").value)
+						parseInt ($("#slider-rangeZ").slider ('values', 0)),
+						parseInt ($("#slider-rangeZ").slider ('values', 1))
 							- 1
 					)
 				);
@@ -409,11 +416,27 @@ Scene.prototype.prepareShaderMatrix = function (glContext, obj) {
 
 
 /**
- * Set the position of the camera. Recompute the matrix camera.
+ * Set the position and the look at point of the camera. Recompute the matrix
+ * camera.
  *
  * @param {(Vector | Number[3])} position - The new position of the camera.
+ * @param {(Vector | Number[3])} [lookAt] - The new look at point of the camera.
+ *
+ * @return {void}
  */
-Scene.prototype.setCameraAt = function (position) {
+Scene.prototype.setCameraAt = function (position, lookAt) {
 	this.camera.eyePos = new Vector (position);
+	lookAt && (this.camera.centerPos = new Vector (lookAt));
 	this.camera.computeMatrices ();
+};
+
+
+//==============================================================================
+/**
+ * Replace the camera at its initial position.
+ *
+ * @return {void}
+ */
+Scene.prototype.resetCamera = function () {
+	this.setCameraAt (this.defaultCameraPosition);
 };

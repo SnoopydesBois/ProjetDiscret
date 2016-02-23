@@ -66,28 +66,38 @@ Application.prototype.initAppli = function () {
 	this.initControllers ();
 
 	this.meridianController.setActive ("Line");
-
 	this.revolController.setActive ("Circle");
 
 	this.meridianParameters.setController (this.meridianController);
-	this.meridianParameters.displayParameter (this.drawMeridian, this.getRangeMeridian);
+	this.meridianParameters.displayParameter (this.drawMeridian,
+		this.getRangeMeridian);
 
 	this.revolutionParameters.setController (this.revolController);
-	this.revolutionParameters.displayParameter (this.drawRevolution, this.getRangeRevolution);
-
-	// Sale
-	var dimX = document.getElementById ("dimx").value;
-	var dimY = document.getElementById ("dimy").value;
-	var dimZ = document.getElementById ("dimz").value;
-	// Double slider creation
-	this.createSlider ("#slider-rangeX", 0, dimX);
-	this.createSlider ("#slider-rangeY", 0, dimY);
-	this.createSlider ("#slider-rangeZ", 0, dimZ);
+	this.revolutionParameters.displayParameter (this.drawRevolution,
+		this.getRangeRevolution);
 
 
 	/// Interface initialization
+
+	// Double slider creation
+	var dimX = document.getElementById ("dimx").value;
+	var dimY = document.getElementById ("dimy").value;
+	var dimZ = document.getElementById ("dimz").value;
+	this.createSlider ("#slider-rangeX", 0, dimX);
+	this.createSlider ("#slider-rangeY", 0, dimY);
+	this.createSlider ("#slider-rangeZ", 0, dimZ);
+	
+	$(".buttonGroup").buttonset ();
+	$(".buttonGroup button")
+		.removeClass("ui-button ui-widget ui-state-default ui-button-text-only")
+		.removeAttr ("role")
+		.unbind ();
+
+	this.changeDimension ();
 	this.resizeInterface ();
 	this.initWindowEvent ();
+	this.showDefaultMessage ();
+	this.changeMeridianMode ();
 };
 
 
@@ -105,18 +115,21 @@ Application.prototype.initControllers = function () {
 	/// add curve for revolution
 	this.revolController.addCurve ("Circle", Circle);
 	this.revolController.addCurve ("Heart", Heart);
+	this.revolController.addCurve ("Triangle", Triangle);
 	this.revolController.addCurve ("Lemniscate", Lemniscate);
 	this.revolController.addCurve ("Curve1", Curve1);
 	this.revolController.addCurve ("Curve2", Curve2);
 	this.revolController.addCurve ("Curve3", Curve3);
 	this.revolController.addCurve ("Curve4", Curve4);
-	this.revolController.addCurve ("Curve5", Curve5);
+	this.revolController.addCurve ("Hyperbol", Hyperbol);
 	this.revolController.addCurve ("Curve6", Curve6);
 	this.revolController.addCurve ("Curve7", Curve7);
 	this.revolController.addCurve ("Curve8", Curve8);
 	this.revolController.addCurve ("Curve9", Curve9);
 	this.revolController.addCurve ("Curve10", Curve10);
 
+//	this.revolController.addCurve ("eq", eq);
+	
 	/// bind generation with active curve
 	this.surfaceController.setGetCurveRevolution (
 		this.revolController.getActiveCurve.bind (this.revolController)
@@ -132,9 +145,6 @@ Application.prototype.initControllers = function () {
 		.bind (this.meridianController);
 	this.getRangeRevolution = this.revolController.getParametersRange
 		.bind (this.revolController);
-
-	// FIXME faire une frozen reference
-
 };
 
 
@@ -146,13 +156,14 @@ Application.prototype.initControllers = function () {
  */
 Application.prototype.initWindowEvent = function () {
 	window.addEventListener ("resize", this.resizeInterface.bind (this));
-	this.showDefaultMessage ();
 };
 
 
 //==============================================================================
 /**
  * TODO
+ * 
+ * @return {void}
  */
 Application.prototype.createSlider = function (id, min, max) {
 	// Slider creation
@@ -168,6 +179,9 @@ Application.prototype.createSlider = function (id, min, max) {
 			}
 			$("#amountMin" + $(id).attr ("name")).val (ui.values[0]);
 			$("#amountMax" + $(id).attr ("name")).val (ui.values[1]);
+		},
+		stop : function(event, ui){
+			appli.show (true)
 		}
 	});
 

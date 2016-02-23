@@ -20,8 +20,10 @@
 
 
 /**
+ * @extends Curve
  * @classdesc TODO
  */
+DrawnCurve.prototype = new Curve;
 DrawnCurve.prototype.constructor = DrawnCurve;
 
 
@@ -37,7 +39,9 @@ DrawnCurve.prototype.constructor = DrawnCurve;
  * TODO
  */
 function DrawnCurve () {
-
+	
+	Curve.call (this);
+	
 	/**
 	 * {Number[]} X coordinate point list.
 	 */
@@ -47,7 +51,7 @@ function DrawnCurve () {
 	 * {Number[]} Y coordinate point list.
 	 */
 	this.yList = [];
-};
+}
 
 
 
@@ -144,13 +148,14 @@ DrawnCurve.prototype.getY = function (t) {
  *
  * @param {Number} x - X coordinate of the new point.
  * @param {Number} y - Y coordinate of the new point.
+ *
+ * @return {void}
  */
 DrawnCurve.prototype.addPoint = function (x, y) {
 	var len = this.xList.length;
 	if (len == 0) { // if it's the first point
 		this.xList.push (x);
 		this.yList.push (y);
-		// console.log ("new point :", this.xList[this.xList.length - 1], this.yList[this.yList.length - 1]);
 	}
 	else {
 		var lastX = this.xList[len - 1],
@@ -163,12 +168,10 @@ DrawnCurve.prototype.addPoint = function (x, y) {
 			for (var i = 1; i <= Math.floor (dist); ++i) {
 				this.xList.push (lastX + (i / dist) * -(lastX - x));
 				this.yList.push (lastY + (i / dist) * -(lastY - y));
-				// console.log ("interpol point :", this.xList[this.xList.length - 1], this.yList[this.yList.length - 1]);
 			}
 		} // end if dist too big
 		this.xList.push (x);
 		this.yList.push (y);
-		// console.log ("end point :", this.xList[this.xList.length - 1], this.yList[this.yList.length - 1]);
 	} // end if not the first point
 };
 
@@ -185,6 +188,7 @@ DrawnCurve.prototype.addPoint = function (x, y) {
  *
  * Always throw an exception. A drawn curve doesn't have any parameter.
  *
+ * @return {void}
  * @throws {String}
  */
 DrawnCurve.prototype.setParameter = function () {
@@ -192,16 +196,26 @@ DrawnCurve.prototype.setParameter = function () {
 };
 
 
-function interpol(t, tab){
-	if (t <= 0){
-		return tab[0]
-	} else if (t >= tab.length -1){
-		return tab[tab.length-1]
-	} else{
-		var v1 = tab[Math.floor(t)];
-		var v2 = tab[Math.floor(t) + 1];
-		tPerc = t - Math.floor(t);
-		return (1-tPerc) * v1 + tPerc * v2;
-	}
-};
 
+//##############################################################################
+//	Function
+//##############################################################################
+
+
+/**
+ * TODO
+ */
+function interpol (t, tab) {
+	if (t <= 0) {
+		return tab[0]
+	}
+	else if (t >= tab.length -1) {
+		return tab[tab.length - 1]
+	}
+	else {
+		var v1 = tab[Math.floor (t)];
+		var v2 = tab[Math.floor (t) + 1];
+		tPerc = t - Math.floor (t);
+		return (1 - tPerc) * v1 + tPerc * v2;
+	}
+}

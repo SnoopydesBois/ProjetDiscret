@@ -16,10 +16,6 @@
 
 
 
-importScripts("../Libraries/math.js");
-importScripts("../Objects/Equation.js");
-importScripts("../Objects/Vector.js");
-importScripts("../Enum/ConnexityEnum.js");
 importScripts("WorkersUtil.js");
 
 
@@ -76,7 +72,7 @@ function algo () {
 				if(connexity !== 0){
 					buffer.push([x, y, z, connexity]);
 					bufferSize++;
-					addNeighboursToPile(x,y,z,pile, checked);
+					addNeighboursToPile(x,y,z,pile, checked, dimx, dimy, dimz);
 				}
 				checked[x][y][z] = true;
 			} // end for x
@@ -107,7 +103,7 @@ function algo () {
 		if(connexity !== 0){
 			buffer.push([voxel[0], voxel[1], voxel[2], connexity]);
 			bufferSize++;
-			addNeighboursToPile(voxel[0],voxel[1],voxel[2],pile, checked);
+			addNeighboursToPile(voxel[0],voxel[1],voxel[2],pile, checked, dimx, dimy, dimz);
 		}
 	}
 	//post last buffer
@@ -132,7 +128,13 @@ function init(e) {
 			}
 		}
 	}
-	algo();
+	try{
+		algo();
+	}
+	catch(e){
+		postMessage([[], 0,"Abort"]);
+		postMessage([[], 0,"Terminate"]);
+	}
 }
 
 //==============================================================================

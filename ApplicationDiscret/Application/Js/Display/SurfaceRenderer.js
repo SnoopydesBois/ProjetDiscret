@@ -87,6 +87,10 @@ SurfaceRenderer.counter = -2;
 /**
  *
  */
+SurfaceRenderer.getCurrentSurfaceName = function () {
+	return "surface" + SurfaceRenderer.counter;
+};
+
 SurfaceRenderer.getLastSurfaceName = function () {
 	return "surface" + (SurfaceRenderer.counter - 1);
 };
@@ -190,6 +194,14 @@ SurfaceRenderer.prototype.getModelController = function () {
 };
 
 
+//==============================================================================
+/**
+ * @return {Surface} The surface used by the renderer.
+ */
+SurfaceRenderer.prototype.getSurface = function(){
+	return this.modelController.getSurface();
+};
+
 
 //##############################################################################
 //	Draw
@@ -217,7 +229,8 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 	this.cptPreparedVertex = 0;
 
 	/// prepare
-	radius || (radius = 0.5);
+	if (typeof radius == "undefined" || radius > 0.5 || radius < 0.0)
+		radius = 0.5;
 	var size = this.modelController.getDimension ();
 
 	/* In the indices buffer, there are at the most 4*6 number. One number is a
@@ -257,23 +270,10 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 		for (var y = 0; y < size.y; ++y) {
 			for (var z = 0; z < size.z; ++z) {
 				voxel = surface.getVoxel (x, y, z);
-				if (voxel != null)
-				// if (voxel != null && voxel.isVisible (connexity)
-					// && (radius != 0.5 || !voxel.isHidden (connexity)))
+				if (voxel != null && voxel.isVisible (connexity)
+					&& (radius != 0.5 || !voxel.isHidden (connexity)))
 				{
-					/// XXX temporaire
-					var color;
-					if (((voxel.getConnexity() & connexity) == 0) && (voxel.getConnexity() & ConnexityEnum.PLUS)) {
-						color = [0, 0.8, 0, 1];
-					}
-					else if (((voxel.getConnexity() & connexity) == 0) && (voxel.getConnexity() & ConnexityEnum.MINUS)) {
-						color = [0.8, 0, 0, 1];
-					}
-					else
-						color = [0.8, 0.8, 0.8, 1];
-					/// XXX end temporaire
-
-					// 1024 -> see above, this.nbGlBuffer computes
+					// 1024 -> see above, this.nbGlBuffer computes FIXME
 					idx = Math.trunc (cptPreparedVoxel / 2048);
 					this.prepareVoxel (
 						voxel,
@@ -283,8 +283,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 						indicesBuffer[idx],
 						colorBuffer[idx],
 						backColorBuffer[idx],
-						color,
-//						[0.8, 0.8, 0.8, 1],
+						[0.8, 0.8, 0.8, 1],
 						size
 					);
 					++cptPreparedVoxel;
@@ -344,6 +343,43 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 	this.prepared = true; // FIXME
 };
 
+
+//==============================================================================
+/**
+ *
+ */
+SurfaceRenderer.prototype.prepareSTL = function (connexity, indicesBuffer, vertexBuffer) {
+	/// parameters verification
+	if (! checkType (arguments, "number", Array, Array)) {
+		throw "SurfaceRenderer.prepareSTL: bad type(s) of parameter(s)";
+	}
+
+	var size = this.modelController.getDimension ();
+
+	// 2 triangles per faces
+	// No triangles strips because there are a lot of degenerated triangles
+	var surface = this.modelController.getSurface ();
+	for (var x = 0; x < size.x; ++x) {
+		for (var y = 0; y < size.y; ++y) {
+			for (var z = 0; z < size.z; ++z) {
+				voxel = surface.getVoxel (x, y, z);
+				if (voxel != null && voxel.isVisible (connexity)) {
+					this.prepareVoxel (
+						voxel,
+						connexity,
+						0.5,
+						vertexBuffer,
+						indicesBuffer,
+						[],
+						[],
+						[0, 0, 0, 0],
+						size
+					);
+				} // end if
+			} // end for z
+		} // end for y
+	} // end for x
+};
 
 //==============================================================================
 /**
@@ -667,5 +703,3 @@ SurfaceRenderer.prototype.addVertexBuffer = function (vertexBuffer, limit,
 SurfaceRenderer.prototype.getDimension = function () {
 	return this.getModelController ().getDimension ();
 };
-
-
