@@ -347,7 +347,11 @@ Camera.prototype.zoom = function (factor) {
 Camera.prototype.zoomIn = function () {
 	var factor = -(0.1 + this.constProjection * 0.05)
 	if ((this.eyePos.x - this.centerPos.x)
-		* (this.eyePos.x + factor - this.centerPos.x) >= 0)
+		* (this.eyePos.x + factor - this.centerPos.x)
+		+ (this.eyePos.y - this.centerPos.y)
+		* (this.eyePos.y + factor - this.centerPos.y)
+		+ (this.eyePos.z - this.centerPos.z)
+		* (this.eyePos.z + factor - this.centerPos.z) >= 0)
 	{
 		this.zoom (factor);
 	}

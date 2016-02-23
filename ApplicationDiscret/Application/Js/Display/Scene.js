@@ -106,7 +106,7 @@ function Scene () {
 	/**
 	 * {Vector} Initial camera position.
 	 */
-	this.defaultCameraPosition = new Vector (3, 3, 3);
+	this.defaultCameraPosition = new Vector (3.5, 3, 2.5);
 
 	/**
 	 * {Vector} Initial camera look at point.

@@ -470,8 +470,8 @@ SurfaceViewer.prototype.rotateCamera = function (phiOffset, thetaOffset) {
 	var dist = pos.getLength ();
 	var phi = getAzimuth (this.camPosWhenClick, this.camCenterWhenClick) + phiOffset;
 	var theta = clamp (
-		-Math.PI / 2 + Number.EPSILON, 
-		Math.PI / 2 - Number.EPSILON, 
+		-Math.PI / 2 + 0.0002, 
+		Math.PI / 2 - 0.0002, 
 		getAltitude (
 			this.camPosWhenClick, 
 			this.camCenterWhenClick
@@ -505,30 +505,20 @@ SurfaceViewer.prototype.moveCamera = function (xOffset, yOffset) {
 		throw "SurfaceViewer.moveCamera: one of parameter are not number";
 	}
 	
+	/// compute local base
 	var base = new Matrix ()
 		.rotateZ (getAzimuth (this.camPosWhenClick, this.camCenterWhenClick))
 	base.rotate (
 		getAltitude (this.camPosWhenClick, this.camCenterWhenClick),
 		base.getYVector ()
 	);
+	
+	/// compute translation
 	var t = new Vector (base.getYVector ())
 		.mul (-xOffset)
 		.add (new Vector (base.getZVector ()).mul (yOffset));
 	
-	/// compute translation
-//	var direction = new Vector (this.camCenterWhenClick)
-//		.sub (this.camPosWhenClick)
-//	var tx = new Vector (direction)
-//		tx = tx.cross (this.container.getCamera ().getUpDirection ())
-//		tx.normalize ()
-//		tx.mul (xOffset);
-//	var t = new Vector (this.camPosWhenClick)
-//		t.sub (this.camCenterWhenClick)
-//		t = t.cross (tx)
-//		t.normalize ()
-//		t.mul (-yOffset)
-//		t.add (tx);
-
+	/// set camera position
 	this.container.setCameraAt (
 		addVector (this.camPosWhenClick, t),
 		addVector (this.camCenterWhenClick, t)
