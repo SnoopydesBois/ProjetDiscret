@@ -104,18 +104,21 @@ function Scene () {
 	GenericContainer.call (this);
 
 	/**
-	 * {Vector} Initial cameraPosition.
+	 * {Vector} Initial camera position.
 	 */
 	this.defaultCameraPosition = new Vector (3, 3, 3);
 
+	/**
+	 * {Vector} Initial camera look at point.
+	 */
+	this.defaultLookAtPoint = new Vector (0, 0, 0);
 
 	/**
  	 * {Camera} The camera used in the scene.
  	 */
 	this.camera = new Camera (
 		new Vector (this.defaultCameraPosition),
-		// new Vector (1, 1, 1),
-		new Vector (0, 0, 0),
+		new Vector (this.defaultLookAtPoint),
 		new Vector (0, 0, 1),
 		800,
 		600,
@@ -438,5 +441,5 @@ Scene.prototype.setCameraAt = function (position, lookAt) {
  * @return {void}
  */
 Scene.prototype.resetCamera = function () {
-	this.setCameraAt (this.defaultCameraPosition);
+	this.setCameraAt (this.defaultCameraPosition, this.defaultLookAtPoint);
 };

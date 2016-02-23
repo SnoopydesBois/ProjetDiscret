@@ -201,21 +201,22 @@ Matrix.prototype.createLookAt = function (eye, center, up) {
 	var upCrossed = right.cross (dst).normalize (); // Y
 
 	this.m = new MAT_ARRAY_TYPE (16);
+	// First line
 	this.m[0] =   right.x;
 	this.m[1] =   upCrossed.x;
 	this.m[2] = - dst.x;
 	this.m[3] =   0.0; 
-	
+	// Second line
 	this.m[4] =   right.y;
 	this.m[5] =   upCrossed.y; 
 	this.m[6] = - dst.y; 
 	this.m[7] =   0.0;
-	
+	// Third line
 	this.m[8]  =   right.z;
 	this.m[9]  =   upCrossed.z;
 	this.m[10] = - dst.z;
 	this.m[11] =   0.0;
-	
+	// Last line
 	this.m[12] = - right.dot (eye);
 	this.m[13] = - upCrossed.dot (eye);
 	this.m[14] =   dst.dot (eye);
@@ -466,7 +467,7 @@ Matrix.prototype.toNormal = function () {
  * @return {Vector} A new vector, this vector is the result of the
  * multiplication of the matrix with the parameter (and a coeff).
  */
-Matrix.prototype.Apply = function (v) {
+Matrix.prototype.apply = function (v) {
 	if (!v instanceof Vector) {
 		throw("Matrix.apply: bad parameter");
 	}
@@ -685,8 +686,8 @@ Matrix.prototype.scale = function (that) {
  * @return {Matrix} this=RotateX(angeRad)*this 
  */
 Matrix.prototype.rotateX = function (angleRad) {
-	var c = Math.cos(angleRad); 
-	var s = Math.sin(angleRad);
+	var c = Math.cos (angleRad); 
+	var s = Math.sin (angleRad);
 	
 	// only the second and third lines are modified
 	for (var i = 0; i < 4; ++i) {
@@ -745,6 +746,39 @@ Matrix.prototype.rotateZ = function (angleRad) {
 
 //==============================================================================
 /**
+ * @param {float} angleRad - The angle of rotation (in rad).
+ * @param {Vector} axe - Axe of the rotation.
+ * 
+ * @return {Matrix} The rotated matrix.
+ */
+Matrix.prototype.rotate = function (angleRad, axe) {
+	// see https://fr.wikipedia.org/wiki/Matrice_de_rotation
+	var c = Math.cos (angleRad); 
+	var s = Math.sin (angleRad);
+	var that = new Matrix ();
+	var n = new Vector (axe).normalize ();
+	
+	// first line
+	that.m[0] = n.x * n.x * (1 - c) + c;
+	that.m[1] = n.x * n.y * (1 - c) - n.z * s;
+	that.m[2] = n.x * n.z * (1 - c) + n.y * s;
+	// second line
+	that.m[4] = n.y * n.x * (1 - c) + n.z * s;
+	that.m[5] = n.y * n.y * (1 - c) + c;
+	that.m[6] = n.y * n.z * (1 - c) - n.x * s;
+	// third line
+	that.m[8]  = n.z * n.x * (1 - c) - n.y * s;
+	that.m[9]  = n.z * n.y * (1 - c) + n.x * s;
+	that.m[10] = n.z * n.z * (1 - c) + c;
+	
+	that.mul (this);
+	this.m = that.m
+	return this;
+};
+
+
+//==============================================================================
+/**
  * Transform a matrix by modifying the line "which".
  * 
  * @param {int} which - which coordinate is changed
@@ -764,5 +798,33 @@ Matrix.prototype.shearing = function (which, from, value) {
 	// mandatory
 	return this;
 };
+
+
+//==============================================================================
+/**
+ * @return {Vector} The x vector of the matrix.
+ */
+Matrix.prototype.getXVector = function () {
+	return new Vector (this.m[0], this.m[1], this.m[2]);
+};
+
+
+//==============================================================================
+/**
+ * @return {Vector} The y vector of the matrix.
+ */
+Matrix.prototype.getYVector = function () {
+	return new Vector (this.m[4], this.m[5], this.m[6]);
+};
+
+
+//==============================================================================
+/**
+ * @return {Vector} The z vector of the matrix.
+ */
+Matrix.prototype.getZVector = function () {
+	return new Vector (this.m[8], this.m[9], this.m[10]);
+};
+
 
 

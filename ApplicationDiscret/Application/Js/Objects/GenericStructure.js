@@ -385,19 +385,6 @@ GenericStructure.prototype.draw = function (gl) {};
 GenericStructure.prototype.drawBackBuffer = function (gl) {};
 
 
-//==============================================================================
-///**
-// * Show the model. Prepare the model and draw it. Prepare and draw the picking.
-// * 
-// * @return {void}
-// */
-//GenericStructure.prototype.show = function () {
-//	this.prepare ();
-//	this.draw ();
-//	this.drawBackBuffer ();
-//};
-
-
 
 //##############################################################################
 //	Other methods
