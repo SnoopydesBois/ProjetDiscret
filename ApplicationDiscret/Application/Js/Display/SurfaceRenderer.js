@@ -85,7 +85,7 @@ SurfaceRenderer.counter = -2;
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 SurfaceRenderer.getCurrentSurfaceName = function () {
 	return "surface" + SurfaceRenderer.counter;

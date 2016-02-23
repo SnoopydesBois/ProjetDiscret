@@ -384,11 +384,13 @@ Vector.prototype.mul = function (that) {
  * @return {Vector} The vector normalized.
  */
 Vector.prototype.normalize = function () {
-	var inv = 1.0 / Math.sqrt (this.m[0] * this.m[0] + this.m[1] * this.m[1]
+	var norm = Math.sqrt (this.m[0] * this.m[0] + this.m[1] * this.m[1]
 		+ this.m[2] * this.m[2]);
-	this.m[0] *= inv;
-	this.m[1] *= inv;
-	this.m[2] *= inv;
+	if (norm !== 0) {
+		this.m[0] /= norm;
+		this.m[1] /= norm;
+		this.m[2] /= norm;
+	}
 	return this;
 };
 
@@ -473,10 +475,21 @@ Vector.prototype.toString = function () {
 
 //==============================================================================
 /**
+ * Test if the vector is nul.
+ *
+ * @return {boolean} True if each coordinate is nul, false otherwise.
+ */
+Vector.prototype.isNul = function () {
+	return this.m[0] === 0 && this.m[1] === 0 && this.m[2] === 0;
+};
+
+
+//==============================================================================
+/**
  * Test if the vector is equals to an other.
  *
  * @param {Vector} that - An other vector.
- *
+ * 
  * @return {boolean} True if 'that' equals to this for each coordinate, false
  * otherwise.
  * @throws {String} If the 'that' is not a Vector.

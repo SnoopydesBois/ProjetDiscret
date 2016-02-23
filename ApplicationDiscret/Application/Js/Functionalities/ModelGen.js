@@ -242,10 +242,8 @@ ModelGen.prototype.algoParametric = function (meridian, curveRevolution, mode){
 	this.surface = new Surface (dim);
 	var fRevol = curveRevolution.getEquation ();
 	if(mode === 0){
-		console.log("génération2");
 		this.worker = new ParametricAlgo2Worker(meridian, fRevol, dim, this.surface);
 	}else{
-		console.log("génération1");
 		this.worker = new ParametricAlgo1Worker(meridian, fRevol, dim, this.surface);
 	}
 //	return this.surface;

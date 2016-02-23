@@ -35,10 +35,10 @@ CurveViewer.prototype.constructor = CurveViewer;
 
 /**
  * @constructor
- *
+ * TODO
  * @param {HTMLCanvasElement} canvas - The associated canvas.
  */
-function CurveViewer (canvas, curveController) {
+function CurveViewer (canvas, div, curveController) {
 	GenericViewer.call (this, canvas, "2d");
 
 	/**
@@ -72,10 +72,12 @@ function CurveViewer (canvas, curveController) {
 	 */
 	this.formModeSelected = document.forms["meridianType"];
 
+	this.displayDiv = div;
 
 	// initialisation
 	this.initCanvasEvent ();
 	this.resizeCanvas ();
+	this.drawCanvasGrid ();
 };
 
 
@@ -112,24 +114,28 @@ CurveViewer.prototype.show = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Draw the curve on the target (canvas or div).
  *
  * @return {void}
  */
 CurveViewer.prototype.draw = function () {
 	var curve = this.controller.getActiveCurve ();
 	var xRange = this.controller.getXRange ();
-	if (curve instanceof ImplicitCurve) {
+	if (curve instanceof DrawnCurve) {
+		/// set the canvas size
+		this.resizeCanvas ();
+		this.drawCanvasGrid ();
+		/// draw the curve
+		this.drawFreeHand (curve);
+	}
+	else if (curve.getEquation ().toString () == "undefined") {
+		this.drawGrid ();
+	}
+	else if (curve instanceof ImplicitCurve) {
 		this.drawImplicit (curve);
 	}
 	else if (curve instanceof ExplicitCurve) {
 		this.drawExplicit (curve);
-	}
-	else if (curve instanceof DrawnCurve) {
-		/// set the canvas size
-		this.resizeCanvas ();
-		/// draw the curve
-		this.drawFreeHand (curve);
 	}
 	else {
 		console.error ("Bad type of curve, find: " + type (curve));
@@ -158,14 +164,11 @@ CurveViewer.prototype.drawImplicit = function (obj) {
 		);
 
 	functionPlot ({
-		target: '#revolCanvas2',
+		target: this.displayDiv,
 		width : $('#revolCanvas2').width (),
 		height : $('#revolCanvas2').height (),
-		xAxis : {domain: [
-			xRange.getMin (),
-			xRange.getMax ()
-		]},
-		yAxis : CurveViewer.computeYScale (width, height, xRange),
+		xAxis : {domain: [-1, 1]},
+		yAxis : CurveViewer.computeYScale (width, height, new Range(-1,1)),
 		disableZoom : true,
 		data : [{
 			color : color,
@@ -187,7 +190,8 @@ CurveViewer.prototype.drawImplicit = function (obj) {
  */
 CurveViewer.prototype.drawExplicit = function (obj) {
 	/// Let's render
-	var xRange = this.controller.getXRange ();
+	maxX = document.getElementById("dimx").value/2;
+	maxY = document.getElementById("dimz").value;
 	var color = "black",
 		min = Math.min (
 			$('#meridianCanvas2').width (),
@@ -195,19 +199,57 @@ CurveViewer.prototype.drawExplicit = function (obj) {
 		);
 
 	functionPlot ({
-		target : '#meridianCanvas2',
+		target : this.displayDiv,
 		width : min,
 		height : min,
-		xAxis : {domain: [0, xRange.getMax ()]},
-		yAxis : {domain: [0, xRange.getMax ()]},
+		xAxis : {domain: [0, maxX]},
+		yAxis : {domain: [0, maxY]},
 		disableZoom : true,
 		data: [{
 			x: obj.getEquation ().toStringNoParam ().replace (/x/g, 't'),
 			y: 't',
 			color : color,
-			range : [-10 * Math.PI, 10 * Math.PI],
-			fnType : 'parametric',
-			graphType : 'polyline'
+			range: [0, 150],
+			fnType: 'parametric',
+			graphType: 'polyline'
+		}]
+	}); // end functionPlot
+};
+
+
+//==============================================================================
+/**
+ * Draw a curve explicit curve.
+ *
+ * @param {ImplicitCurve} obj - The curve to draw.
+ * @param {Range} xRange - The inverse image range.
+ *
+ * @return {void}
+ */
+CurveViewer.prototype.drawGrid = function () {
+	maxX = document.getElementById("dimx").value/2;
+	maxY = document.getElementById("dimz").value;
+	/// Let's render
+	var color = "black",
+		min = Math.min (
+			$('#meridianCanvas2').width (),
+			$('#meridianCanvas2').height ()
+		);
+
+	functionPlot ({
+		target : this.displayDiv,
+		width : min,
+		height : min,
+		xAxis : {domain: [0, maxX]},
+		yAxis : {domain: [0,maxY]},
+		disableZoom : true,
+		data: [{
+			x: '-5',
+			y: '-5',
+			color : color,
+			range: [0, 150],
+			fnType: 'parametric',
+			graphType: 'polyline'
 		}]
 	}); // end functionPlot
 };
@@ -266,6 +308,7 @@ CurveViewer.prototype.drawSegment = function (pointA, pointB) {
 
 	/// draw it
 	var ctx = this.glContext;
+	ctx.strokeStyle = "black";
 	ctx.beginPath ();
 	ctx.moveTo (p1.x, p1.y);
 	ctx.lineTo (p2.x, p2.y);
@@ -284,6 +327,7 @@ CurveViewer.prototype.clearDraw = function () {
 		this.glContext.canvas.height);
 	this.controller.newCurve ();
 	this.lastPoint = new Point (-1, -1);
+	this.drawCanvasGrid ();
 };
 
 
@@ -305,6 +349,38 @@ CurveViewer.prototype.resizeCanvas = function () {
 	canvas.height = ($ref.height () + 2) * this.yMaxInput.value / max;
 	canvas.style.height = canvas.height + "px";
 	canvas.style.top = (($ref.height () + 2) - canvas.height) / 2 + "px";
+};
+
+
+
+//==============================================================================
+/**
+ * Draw a grid on the canvas.
+ * 
+ * @return {void}
+ */
+CurveViewer.prototype.drawCanvasGrid = function () {
+	var xMax = this.xMaxInput.value / 2;
+	var yMax = this.yMaxInput.value * 1;
+	var ctx = this.glContext,
+		unit = this.pointToPixel (1, yMax - 1),
+		i;
+	console.log ("max", xMax, yMax);
+	ctx.strokeStyle = "#CCC";
+	for (i = 1; i < xMax; ++i) {
+		ctx.moveTo (unit.x * i, 0);
+		ctx.lineTo (unit.x * i, ctx.canvas.height);
+	}
+	ctx.stroke ();
+	ctx.closePath ();
+	ctx.beginPath ();
+	ctx.strokeStyle = "#C00";
+	for (i = 1; i < yMax + 1; ++i) {
+		ctx.moveTo (ctx.canvas.width, unit.y * i);
+		ctx.lineTo (0, unit.y * i, 0);
+	}
+	ctx.stroke ();
+	ctx.closePath ();
 };
 
 
@@ -405,9 +481,11 @@ CurveViewer.prototype.pixelToPoint = function (x, y) {
 
 	/// compute
 	var point = new Point (
-		x * (this.xMaxInput.value / 2) / this.glContext.canvas.width,
-		y * this.yMaxInput.value / this.glContext.canvas.height
+		x * (this.xMaxInput.value / 2) / (this.glContext.canvas.width + 1),
+		(y + 1) * this.yMaxInput.value / (this.glContext.canvas.height + 1)
 	);
+//	console.log ("piToPo x", x, this.glContext.canvas.width, point.x);
+//	console.log ("piToPo y", y, this.glContext.canvas.height, point.y);
 	point.y = this.yMaxInput.value - point.y;
 	return point;
 };
@@ -430,14 +508,12 @@ CurveViewer.prototype.pointToPixel = function (x, y) {
 	if (! checkType (arguments, "number", "number")) {
 		throw "CurveViewer.pointToPixel: bad type(s) of parameter(s)";
 	}
-
 	/// compute
 	var pixel = new Point (
 		x * this.glContext.canvas.width / (this.xMaxInput.value / 2),
 		y * this.glContext.canvas.height / this.yMaxInput.value
 	);
 	pixel.y = this.glContext.canvas.height - 1 - Math.floor (pixel.y);
-
 	return pixel;
 };
 
@@ -461,6 +537,7 @@ CurveViewer.prototype.addPoint = function (point) {
 	if (Math.hypot (point.x - this.lastPoint.x, point.y - this.lastPoint.y)
 		 > this.MIN_DIST_BETWEEN_POINT)
 	{
+		console.log (point.x, point.y);
 		this.controller.getActiveCurve ().addPoint (point.x, point.y);
 		if (this.lastPoint.x != -1)
 			this.drawSegment (this.lastPoint, point);

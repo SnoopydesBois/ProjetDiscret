@@ -307,9 +307,9 @@ Camera.prototype.computeMatrices = function () {
 	var factor = Math.min (this.height, this.width);
 	this.orthographicProjectionMatrix = new Matrix (
 		-this.constProjection * this.width / factor,
-		this.constProjection * this.width / factor,
+		 this.constProjection * this.width / factor,
 		-this.constProjection * this.height / factor,
-		this.constProjection * this.height / factor,
+		 this.constProjection * this.height / factor,
 		this.near,
 		this.far
 	);
@@ -328,7 +328,9 @@ Camera.prototype.zoom = function (factor) {
 	// orthographic zoom
 	this.setProjection (this.getProjection () + factor);
 	// perspective zoom
-	var normPos = new Vector (this.getPosition ()).normalize (); // FIXME
+	var normPos = new Vector (this.getPosition ())
+		.sub (this.getLookAtPosition ())
+		.normalize ();
 	this.eyePos.x += normPos.x * factor;
 	this.eyePos.y += normPos.y * factor;
 	this.eyePos.z += normPos.z * factor;
@@ -345,7 +347,11 @@ Camera.prototype.zoom = function (factor) {
 Camera.prototype.zoomIn = function () {
 	var factor = -(0.1 + this.constProjection * 0.05)
 	if ((this.eyePos.x - this.centerPos.x)
-		* (this.eyePos.x + factor - this.centerPos.x) >= 0)
+		* (this.eyePos.x + factor - this.centerPos.x)
+		+ (this.eyePos.y - this.centerPos.y)
+		* (this.eyePos.y + factor - this.centerPos.y)
+		+ (this.eyePos.z - this.centerPos.z)
+		* (this.eyePos.z + factor - this.centerPos.z) >= 0)
 	{
 		this.zoom (factor);
 	}

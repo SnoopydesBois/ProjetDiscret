@@ -53,7 +53,7 @@ function algo () {
 	var maxy = Math.trunc(dimy / 2);
 	tMax = Math.min(tMax, dimt);
 	for (var t = 0; t < tMax; ++t) {
-		var z =  Math.floor(parametric_curve.getY(t) + 0.5);
+		var z =  Math.floor(parametric_curve.getY(t));
 		var rz = parametric_curve.getX(t);
 		if (rz == 0) rz+=0.01;
 		var rz1 = parametric_curve.getX(t - 0.5);

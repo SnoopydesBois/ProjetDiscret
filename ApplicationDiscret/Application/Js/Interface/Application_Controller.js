@@ -154,6 +154,8 @@ Application.prototype.changeMeridianMode = function () {
 	if (mode === "meridianPrimitive") {
 		$("#meridianCanvas").hide (); // hide the div
 		$("#meridianCanvas2").show (); // display the canvas
+		var selection = document.getElementById ("listMeridians");
+		this.meridianController.setActive(selection.value);
 		/// fill th parameter list
 		this.meridianParameters.displayParameter (
 			this.drawMeridian,
@@ -171,7 +173,9 @@ Application.prototype.changeMeridianMode = function () {
 		$("#meridianCanvas").hide ();
 		$("#meridianCanvas2").show ();
 
-		this.exportController.setIdMeridian ("meridianCanvas");
+		this.meridianController.setActive(document.getElementById ("meridianFormulaInput").value);
+
+		this.exportController.setIdMeridian ("meridianCanvas2");
 	}
 	else {
 		throw "Application.changeMeridianMode: unkown given mode: " + mode;
@@ -199,9 +203,13 @@ Application.prototype.resetCamera = function () {
  */
 Application.prototype.changeRevolMode = function () {
 	var mode = $('#revolType :radio:checked').attr ('id');
+	$("#revolParam").empty ();
 	if (mode === "revolPrimitive") {
+		var selection = document.getElementById ("listRevolutions");
+		this.revolController.setActive (selection.value);
 	}
 	else if (mode === "revolFormula") {
+		this.revolController.setActive (document.getElementById ("revolutionFormulaInput").value, EquationTypeEnum.implicit);
 	}
 	else {
 		throw "Application.changeRevolMode: unkown given mode: " + mode;
@@ -249,22 +257,10 @@ Application.prototype.closeCurve = function () {
 /**
  * TODO
  */
-Application.prototype.meridianeEquation = function () {
+Application.prototype.meridianEquation = function () {
 	var input = document.getElementById ("meridianFormulaInput");
-	console.log (input.value);
-
-	var equation = new Equation (input);
-	var x = new ExplicitCurve (equation);
-
-//	ExplicitCurve.call (this, x);
-
-	meridianController.setActive (x);
-	meridianView.draw ();
-
-	meridianParameters.displayParameter (
-		drawMeridian,
-		getRangeMeridian
-	);
+	this.meridianController.setActive(input.value);
+	this.meridianView.draw ();
 };
 
 
@@ -274,19 +270,6 @@ Application.prototype.meridianeEquation = function () {
  */
 Application.prototype.revolutionEquation = function () {
 	var input = document.getElementById ("revolutionFormulaInput");
-	console.log (input.value);
-
-	var equation = new Equation (input);
-	var x = new ImplicitCurve (equation);
-
-//	ImplicitCurve.call(this, x);
-
-
-	revolController.setActive (x);
-	revolView.draw ();
-
-	revolutionParameters.displayParameter (
-		drawRevolution,
-		getRangeRevolution
-	);
+	this.revolController.setActive (input.value, EquationTypeEnum.implicit);
+	this.revolView.draw ();
 };
