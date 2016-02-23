@@ -77,6 +77,7 @@ function CurveViewer (canvas, div, curveController) {
 	// initialisation
 	this.initCanvasEvent ();
 	this.resizeCanvas ();
+	this.drawCanvasGrid ();
 };
 
 
@@ -123,6 +124,7 @@ CurveViewer.prototype.draw = function () {
 	if (curve instanceof DrawnCurve) {
 		/// set the canvas size
 		this.resizeCanvas ();
+		this.drawCanvasGrid ();
 		/// draw the curve
 		this.drawFreeHand (curve);
 	}
@@ -306,6 +308,7 @@ CurveViewer.prototype.drawSegment = function (pointA, pointB) {
 
 	/// draw it
 	var ctx = this.glContext;
+	ctx.strokeStyle = "black";
 	ctx.beginPath ();
 	ctx.moveTo (p1.x, p1.y);
 	ctx.lineTo (p2.x, p2.y);
@@ -360,9 +363,9 @@ CurveViewer.prototype.drawCanvasGrid = function () {
 	var xMax = this.xMaxInput.value / 2;
 	var yMax = this.yMaxInput.value * 1;
 	var ctx = this.glContext,
-		unit = this.pointToPixel (1, yMax - 1)
+		unit = this.pointToPixel (1, yMax - 1),
 		i;
-	console.log (xMax, yMax);
+	console.log ("max", xMax, yMax);
 	ctx.strokeStyle = "#CCC";
 	for (i = 1; i < xMax; ++i) {
 		ctx.moveTo (unit.x * i, 0);
@@ -413,7 +416,6 @@ CurveViewer.prototype.onMouseDown = function (event) {
 	if ((event.buttons & 1) && this.formModeSelected["meridianTypeValue"].value
 		== "meridianFreeHand")
 	{
-		console.log (event.layerX, event.layerY)
 		// if left button is pressed and the mode is "drawing mode"
 		var p = this.pixelToPoint (event.layerX, event.layerY);
 		this.addPoint (p);
@@ -479,9 +481,11 @@ CurveViewer.prototype.pixelToPoint = function (x, y) {
 
 	/// compute
 	var point = new Point (
-		(x - 1) * (this.xMaxInput.value / 2) / this.glContext.canvas.width,
-		(y - 1) * this.yMaxInput.value / this.glContext.canvas.height
+		x * (this.xMaxInput.value / 2) / (this.glContext.canvas.width + 1),
+		(y + 1) * this.yMaxInput.value / (this.glContext.canvas.height + 1)
 	);
+//	console.log ("piToPo x", x, this.glContext.canvas.width, point.x);
+//	console.log ("piToPo y", y, this.glContext.canvas.height, point.y);
 	point.y = this.yMaxInput.value - point.y;
 	return point;
 };
@@ -533,6 +537,7 @@ CurveViewer.prototype.addPoint = function (point) {
 	if (Math.hypot (point.x - this.lastPoint.x, point.y - this.lastPoint.y)
 		 > this.MIN_DIST_BETWEEN_POINT)
 	{
+		console.log (point.x, point.y);
 		this.controller.getActiveCurve ().addPoint (point.x, point.y);
 		if (this.lastPoint.x != -1)
 			this.drawSegment (this.lastPoint, point);
