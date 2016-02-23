@@ -218,6 +218,15 @@ ModelCurve.prototype.getEquation = function () {
 
 //==============================================================================
 /**
+ * @return {String} The string corresponding to the current equation (without parameters)
+ */
+ModelCurve.prototype.getEquationNoParameter = function(){
+	return this.activeCurve.getEquationNoParameter();
+};
+
+
+//==============================================================================
+/**
  * @return {Range} the image range of the curve.
  */
 ModelCurve.prototype.getImage = function () {

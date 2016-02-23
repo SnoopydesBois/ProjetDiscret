@@ -200,6 +200,15 @@ Controller2D.prototype.getEquation = function () {
 
 //==============================================================================
 /**
+ * @return {String} The string corresponding to the current equation (without parameters).
+ */
+Controller2D.prototype.getEquationNoParameter = function(){
+	return this.modelCurve.getEquationNoParameter();
+};
+
+
+//==============================================================================
+/**
  * @return {Range} TODO
  */
 Controller2D.prototype.getXRange = function () {

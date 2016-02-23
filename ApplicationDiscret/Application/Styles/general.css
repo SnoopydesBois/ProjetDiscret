@@ -94,7 +94,9 @@ body {
 	padding: 2px 5px; /* haut/bas puis droite/gauche */
 }
 
-
+p {
+	font-size : 18px;
+}
 
 	  /*****************/
 	 /*** State bar ***/

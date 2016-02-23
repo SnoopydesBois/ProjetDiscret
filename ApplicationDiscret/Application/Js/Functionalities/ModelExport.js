@@ -395,7 +395,7 @@ ModelExport.prototype.writeImplicitCurve = function(curveController){
 				'\t<CurveType>\n' +
 					'\t\t<Class>ImplicitCurve</Class>\n' +
 				'\t</CurveType>\n' +
-				'\t<Equation>'+  curveController.getEquation()  +'</Equation>\n' +
+				'\t<Equation>'+  curveController.getEquationNoParameter()  +'</Equation>\n' +
 				'\t<Range>\n'+
 					'\t\t<xMin>' + curveController.getXRange().getMin() + '</xMin>\n' +
 					'\t\t<xMax>' + curveController.getXRange().getMax() + '</xMax>\n' +
@@ -441,7 +441,7 @@ ModelExport.prototype.writeExplicitCurve = function(curveController){
 				'\t<CurveType>\n' +
 					'\t\t<Class>ExplicitCurve</Class>\n' +
 				'\t</CurveType>\n' +
-				'\t<Equation>'+  curveController.getEquation()  +'</Equation>\n' +
+				'\t<Equation>'+  curveController.getEquationNoParameter()  +'</Equation>\n' +
 				'\t<Range>\n'+
 					'\t\t<xMin>' + curveController.getXRange().getMin() + '</xMin>\n' +
 					'\t\t<xMax>' + curveController.getXRange().getMax() + '</xMax>\n' +

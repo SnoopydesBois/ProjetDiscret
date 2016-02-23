@@ -358,7 +358,7 @@
 								id="meridianPrimitive"
 								name="meridianTypeValue"
 								value="meridianPrimitive"
-								checked="checked"/>
+								checked="checked" />
 							<div class="optionGroup">
 								<select id="listMeridians" name="listMeridians"
 									onchange="appli.changeMeridian (this.value)">
@@ -372,15 +372,8 @@
 								name="meridianTypeValue"
 								value="meridianFreeHand"/>
 							<div class="optionGroup">
-<<<<<<< HEAD
-
 								<button id="a3" class="tr" onclick="appli.clearDraw ()">Effacer</button>	
 								<button id="" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
-
-=======
-								<button id="" class="tr" onclick="appli.clearDraw ()">Effacer</button>
-								<button id="" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
->>>>>>> origin/master
 							</div>
 							<label for="meridianFormula">&nbsp;</label>
 							<input type="radio"
@@ -484,15 +477,7 @@
 						<input type="text" id="amountMaxZ"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 					</div>
-<<<<<<< HEAD
-
-
 					<button onClick="appli.show (true)" key = "a6" class ="tr" >Modifier</button>
-
-
-
-=======
->>>>>>> origin/master
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>
@@ -545,8 +530,8 @@
 
 
 		<script type="text/javascript">
-		var appli = new Application ();
-
+			var appli = new Application ();
+			
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 5);
 			appli.surfaceView.container.addObject (n64);
