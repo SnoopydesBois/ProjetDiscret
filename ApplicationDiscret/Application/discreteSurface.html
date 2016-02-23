@@ -138,12 +138,13 @@
 			<li id="fileMenu" tabindex="1">
 				<h1 key="m1" class="tr">Fichier</h1>
 				<ul>
-					<li title="Créer un nouveau modèle"
-						onclick="" key="m11" class="tr">Nouveau</li>
-
-					<li title="Ouvrir un modèle depuis un fichier sur cet ordinateur"
+					<li title="Ouvrir une meridienne depuis un fichier sur cet ordinateur"
 						onclick="this.firstElementChild.click()" key="m12" class="tr">
-						<input type="file" id="i_file" style="display:none">Ouvrir</input>
+						<input type="file" id="i_file" onchange="appli.loadMeridian(event)" style="display:none">Charger méridienne</input>
+					</li>
+					<li title="Ouvrir une courbe de revolution depuis un fichier sur cet ordinateur"
+						onclick="this.firstElementChild.click()" key="m12" class="tr">
+						<input type="file" id="i_file" onchange="appli.loadRevolution(event)" style="display:none">Charger courbe de révolution</input>
 					</li>
 					<li title="Enregistrer le modèle actuel"
 						key="m13" class="tr" onclick="appli.saveCurves()">Enregistrer</li>
@@ -317,7 +318,7 @@
 			--><li id="helpMenu" tabindex="6">
 				<h1 key="m5" class="tr">Aide</h1>
 				<ul>
-					<li key="m51" class="tr">Afficher l'aide</li>
+					<li key="m51" class="tr"><a href="help.html">Afficher l'aide</a></li>
 					<li key="m52" class="tr">À propos</li>
 				</ul>
 			</li>
@@ -371,8 +372,15 @@
 								name="meridianTypeValue"
 								value="meridianFreeHand"/>
 							<div class="optionGroup">
+<<<<<<< HEAD
+
+								<button id="a3" class="tr" onclick="appli.clearDraw ()">Effacer</button>	
+								<button id="" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
+
+=======
 								<button id="" class="tr" onclick="appli.clearDraw ()">Effacer</button>
 								<button id="" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
+>>>>>>> origin/master
 							</div>
 							<label for="meridianFormula">&nbsp;</label>
 							<input type="radio"
@@ -476,6 +484,15 @@
 						<input type="text" id="amountMaxZ"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider('#slider-rangeZ','#amountMaxZ')">
 					</div>
+<<<<<<< HEAD
+
+
+					<button onClick="appli.show (true)" key = "a6" class ="tr" >Modifier</button>
+
+
+
+=======
+>>>>>>> origin/master
 				</div>
 
 				<canvas id="surfaceCanvas"></canvas>

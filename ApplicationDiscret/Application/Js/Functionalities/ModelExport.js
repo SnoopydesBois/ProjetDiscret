@@ -335,7 +335,7 @@ ModelExport.prototype.exportSTL = function(renderer){
 /**
  * Save the current meridian and the current curve of revolution to a zip archive
  */
-ModelExport.prototype.saveCurves = function(meridian, revolution){
+ModelExport.prototype.saveCurves = function(meridianController, revolutionController){
 	// Date of save
 	var date = new Date();
 	
@@ -348,20 +348,20 @@ ModelExport.prototype.saveCurves = function(meridian, revolution){
 	var modelFolder = zip.folder("Curves " + txtDate);
 	
 	
-	if(meridian instanceof FormulaCurve){
+	if(meridianController.getActiveCurve() instanceof ExplicitCurve){
 		modelFolder.file("Meridian.xml", 
-				this.writeExplicit(meridian)
+				this.writeExplicitCurve(meridianController)
 			);
 
 	}
-	else if(meridian instanceof DrawnCurve){
+	else if(meridianController.getActiveCurve() instanceof DrawnCurve){
 		modelFolder.file("Meridian.xml", 
-				this.writeDrawn(meridian)
+				this.writeDrawnCurve(meridianController)
 			);
 	}	
 			
 	modelFolder.file("Revolution.xml",
-			this.writeImplicit(revolution)
+			this.writeImplicitCurve(revolutionController)
 		);
 	
 	var content = zip.generate({type:"blob"});
@@ -374,20 +374,45 @@ ModelExport.prototype.saveCurves = function(meridian, revolution){
 /**
  *
  */
-ModelExport.prototype.writeExplicit = function(curve){
-	return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + 
+ModelExport.prototype.writeImplicitCurve = function(curveController){
+	var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + 
 			'<!DOCTYPE Curve  [\n' +
 					'\t\t<!ELEMENT Curve (CurveType, Equation)>\n' +
 					'\t\t<!ELEMENT CurveType (Class)>\n' +
 					'\t\t<!ELEMENT Class (#PCDATA)>\n' +
 					'\t\t<!ELEMENT Equation (#PCDATA)>\n' +
+					'\t\t<!ELEMENT Range (xMin, xMax, yMin, yMax)>\n' +
+						'\t\t\t<!ELEMENT xMin (#PCDATA)>\n' +
+						'\t\t\t<!ELEMENT xMax (#PCDATA)>\n' +
+						'\t\t\t<!ELEMENT yMin (#PCDATA)>\n' +
+						'\t\t\t<!ELEMENT yMax (#PCDATA)>\n' +
+					/*'\t\t<!ELEMENT Parameters (Parameter)*>\n' +
+						'\t\t\t<!ELEMENT Parameter (Name, Value)>\n' +
+							'\t\t\t\t<!ELEMENT Name (#PCDATA)>\n' +
+							'\t\t\t\t<!ELEMENT Value (#PCDATA)>\n' +*/
 				']>\n' +
 			'<Curve>\n' +
 				'\t<CurveType>\n' +
-					'\t\t<Class> Explicit </Class>\n' +
+					'\t\t<Class>ImplicitCurve</Class>\n' +
 				'\t</CurveType>\n' +
-				'\t<Equation>' +  curve.getEquation()  + '</Equation>\n' +
-			'</Curve>';
+				'\t<Equation>'+  curveController.getEquation()  +'</Equation>\n' +
+				'\t<Range>\n'+
+					'\t\t<xMin>' + curveController.getXRange().getMin() + '</xMin>\n' +
+					'\t\t<xMax>' + curveController.getXRange().getMax() + '</xMax>\n' +
+					'\t\t<yMin>' + curveController.getYRange().getMin() + '</yMin>\n' +
+					'\t\t<yMax>' + curveController.getYRange().getMax() + '</yMax>\n' +
+				'\t</Range>\n'+
+				//'\t<Parameters>\n';
+				"";
+	/*
+	var listParam = curveController.getAllParameters();
+	for(var param in listParam){
+		xml += '\t\t<Parameter>\n\t\t\t<Name>' + param + '</Name>\n' +
+				'\t\t\t<Value>' + listParam[param] + '</Value>\n\t\t</Parameter>\n';
+	}*/
+	// xml += '`\t</Parameters>\n' +	
+	xml += '</Curve>';
+	return xml;
 };
 
 
@@ -395,20 +420,45 @@ ModelExport.prototype.writeExplicit = function(curve){
 /**
  *
  */
-ModelExport.prototype.writeImplicit = function(curve){
-	return '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n' + 
+ModelExport.prototype.writeExplicitCurve = function(curveController){
+	var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + 
 			'<!DOCTYPE Curve  [\n' +
 					'\t\t<!ELEMENT Curve (CurveType, Equation)>\n' +
 					'\t\t<!ELEMENT CurveType (Class)>\n' +
-					'\t\t<!ELEMENT Class (#PCDATA)>\n' +
+						'\t\t<!ELEMENT Class (#PCDATA)>\n' +
 					'\t\t<!ELEMENT Equation (#PCDATA)>\n' +
+					'\t\t<!ELEMENT Range (xMin, xMax, yMin, yMax)>\n' +
+						'\t\t\t<!ELEMENT xMin (#PCDATA)>\n' +
+						'\t\t\t<!ELEMENT xMax (#PCDATA)>\n' +
+						'\t\t\t<!ELEMENT yMin (#PCDATA)>\n' +
+						'\t\t\t<!ELEMENT yMax (#PCDATA)>\n' +
+					/*'\t\t<!ELEMENT Parameters (Parameter)*>\n' +
+						'\t\t\t<!ELEMENT Parameter (Name, Value)>\n' +
+							'\t\t\t\t<!ELEMENT Name (#PCDATA)>\n' +
+							'\t\t\t\t<!ELEMENT Value (#PCDATA)>\n' +*/
 				']>\n' +
 			'<Curve>\n' +
 				'\t<CurveType>\n' +
-					'\t\t<Class> Implicit </Class>\n' +
+					'\t\t<Class>ExplicitCurve</Class>\n' +
 				'\t</CurveType>\n' +
-				'\t<Equation>' +  curve.getEquation()  + '</Equation>\n' +
-			'</Curve>';
+				'\t<Equation>'+  curveController.getEquation()  +'</Equation>\n' +
+				'\t<Range>\n'+
+					'\t\t<xMin>' + curveController.getXRange().getMin() + '</xMin>\n' +
+					'\t\t<xMax>' + curveController.getXRange().getMax() + '</xMax>\n' +
+					'\t\t<yMin>' + curveController.getYRange().getMin() + '</yMin>\n' +
+					'\t\t<yMax>' + curveController.getYRange().getMax() + '</yMax>\n' +
+				'\t</Range>\n'+
+				//'\t<Parameters>\n';
+				"";
+	/*
+	var listParam = curveController.getAllParameters();
+	for(var param in listParam){
+		xml += '\t\t<Parameter>\n\t\t\t<Name>' + param + '</Name>\n' +
+				'\t\t\t<Value>' + listParam[param] + '</Value>\n\t\t</Parameter>\n';
+	}*/
+	// xml += '`\t</Parameters>\n' +	
+	xml += '</Curve>';
+	return xml;
 };
 
 
@@ -416,7 +466,7 @@ ModelExport.prototype.writeImplicit = function(curve){
 /**
  *
  */
-ModelExport.prototype.writeDrawn = function(curve){
+ModelExport.prototype.writeDrawnCurve = function(curveController){
 	var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n' + 
 				'<!DOCTYPE Curve [\n' +
 						'\t\t<!ELEMENT Curve (CurveType, Equation)>\n' +
@@ -427,24 +477,30 @@ ModelExport.prototype.writeDrawn = function(curve){
 				']>\n'+
 				'<Curve>\n' +
 					'\t<CurveType>\n' +
-						'\t\t<Class> Explicit </Class>\n' +
+						'\t\t<Class>DrawnCurve</Class>\n' +
 					'\t</CurveType>\n' +
-					'\t<xCoords> ';
+					'\t<xCoords>';
 				
-	var list = curve.getXList();
+	var list = curveController.getActiveCurve().getXList();
 	for(var i = 0; i < list.length; i++){
-		xml += list[i] + " ";
+		xml += list[i];
+		if(i < list.length-1){
+			xml += " ";
+		}
 	}
 	
-	xml += '\t</xCoords>\n' +
-			'\t<yCoords> ';
+	xml += '</xCoords>\n' +
+			'\t<yCoords>';
 	
-	list = curve.getYList();
+	list = curveController.getActiveCurve().getYList();
 	for(var i = 0; i < list.length; i++){
-		xml += list[i] + " ";
+		xml += list[i];
+		if(i < list.length-1){
+			xml += " ";
+		}
 	}
 	
-	xml += '\t</yCoords>\n' +
+	xml += '</yCoords>\n' +
 			'</Curve>';
 	return xml;
 	

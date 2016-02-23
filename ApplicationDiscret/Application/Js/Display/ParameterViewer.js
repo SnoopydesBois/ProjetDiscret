@@ -92,11 +92,20 @@ ParameterViewer.prototype.displayParameter = function (draw, getRange) {
 	var that = this;
 
 	var range;
+	console.log(listParameter);
 	for (var param in listParameter) {
+		console.log(param);
+		console.log(listParameter[param]);
 		range = getRange (param);
 
 		var li = $("<li></li>");
-		li.append ("<p class='titleParam'>&#9187; " + param + "</p>");
+		
+		/* &#9108; hexagon
+		 * &#9187; hexagon with circle inside
+		 * &#8227; triangle
+		 * &bull; dot
+		 */
+		li.append ("<p class='titleParam'>&nbsp; " + param + "</p>");
 		var input = $("<input type='range' name='" + param
 			+ "' id='" + id + param
 			+ "' class='rangeParam' value='" + listParameter[param]
@@ -104,6 +113,7 @@ ParameterViewer.prototype.displayParameter = function (draw, getRange) {
 			+ "' max='" + range.getMax ()
 			+ "'/>"
 		);
+		
 		input.change (function() {
 			that.controller.setParameter ($(this).attr ("name"),
 				parseInt ($(this).val ())

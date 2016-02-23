@@ -145,69 +145,6 @@ Application.prototype.getAllParameters = function (name) {
 /**
  * TODO
  */
-Application.prototype.export3DPng = function () {
-	this.exportController.export3DPng (this.surfaceView);
-}
-
-
-//==============================================================================
-/**
- * TODO
- */
-Application.prototype.exportMeridianPng = function () {
-	this.exportController.exportMeridianPng ();
-}
-
-
-//==============================================================================
-/**
- * TODO
- */
-Application.prototype.exportRevolutionPng = function () {
-	this.exportController.exportRevolutionPng ();
-}
-
-
-//==============================================================================
-/**
- * TODO
- */
-Application.prototype.exportX3D = function () {
-	if (this.surfaceView.getSurfaceRenderer ().getSurface () == null) {
-		return;
-	}
-	this.exportController.exportX3D (
-		this.surfaceView.getSurfaceRenderer ().getSurface ());
-};
-
-
-//==============================================================================
-/**
- * TODO
- */
-Application.prototype.exportSTL = function () {
-	if (this.surfaceView.getSurfaceRenderer () == null) {
-		return;
-	}
-	this.exportController.exportSTL (this.surfaceView.getSurfaceRenderer ());
-};
-
-
-
-//==============================================================================
-/**
- *
- */
-Application.prototype.saveCurves = function(){
-	// console.log("Application:SaveCurves");
-	this.exportController.saveCurves(this.meridianController.getActiveCurve(), this.revolController.getActiveCurve());
-};
-
-
-//==============================================================================
-/**
- * TODO
- */
 Application.prototype.changeMeridianMode = function () {
 	var mode = $('#meridianType :radio:checked').attr ('id');
 
