@@ -600,7 +600,6 @@ SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
  * @return {void}
  */
 SurfaceViewer.prototype.resetCamera = function () {
-	console.log ("resetCamera (surfaceViewer)");
 	this.container.resetCamera();
 	this.draw ();
 };

@@ -78,6 +78,9 @@ Controller2DMeridian.prototype.getActiveCurve = function () {
 	else if (mode === "meridianFreeHand") {
 		return this.modelDraw.getActiveCurve ();
 	}
+	else if (mode === "meridianFormula") {
+		return this.modelCurve.getActiveCurve ();
+	}
 	else {
 		console.error ("Controller2DMeridian.getActiveCurve: unknown drawing "
 			+ "mode: " + mode);

@@ -380,7 +380,7 @@
 								name="meridianTypeValue"
 								value="meridianFormula"/>
 							<div class="optionGroup">
-								<p class="formulaInput">f(x) = <input id ="meridianFormulaInput" onblur="appli.MeridianeEquation()" onchange="appli.MeridianeEquation()" type="text"/></p>
+								<p class="formulaInput">f(x) = <input id ="meridianFormulaInput" onblur="appli.meridianeEquation()" type="text"/></p>
 							</div>
 						</form>
 					</div><!-- end #meridianOption -->
@@ -532,7 +532,7 @@
 
 			var gl = appli.surfaceView.glContext;
 			var n64 = new N64 (gl, 6, 5);
-			appli.surfaceView.container.addObject (n64);
+			//appli.surfaceView.container.addObject (n64);
 			// globalParam.perspectiveView = false;
 			appli.initAppli ();
 			// appli.toggleBox ();
