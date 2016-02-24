@@ -271,3 +271,4 @@ Application.prototype.loadRevolution = function(event){
 	);
 	this.revolView.draw();
 };
+
