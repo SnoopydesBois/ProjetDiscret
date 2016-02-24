@@ -354,3 +354,14 @@ Application.prototype.loading = function () {
 Application.prototype.stopLoading = function () {
 	document.getElementById ("loadingImg").style = "display: none";
 };
+
+
+//==============================================================================
+/**
+ * Put the camera back to its initial position.
+ *
+ * @return {void}
+ */
+Application.prototype.resetCamera = function () {
+	this.surfaceView.resetCamera();
+};
