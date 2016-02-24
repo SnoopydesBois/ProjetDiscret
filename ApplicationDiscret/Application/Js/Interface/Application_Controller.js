@@ -58,19 +58,16 @@
 
 
 /**
- * Store an undoable action in the undo/redo list.
+ * TODO
  *
- * @param {UndoRedoAction} action - The undoable action.
+ * @param {boolean} forcePrepare - TODO
+ * @see {@link SurfaceViewer.show}
  *
  * @return {void}
  */
-// Application.prototype.addAction = function (action) {
-// 	if (!(action instanceof UndoRedoAction) || ! action.isValidAction ())
-// 		console.error ("Application.addAction: argument is not an Action !");
-// 	else
-// 		this.listAction.addAction (action);
-// 	this.updateUndoRedoMenuItem ();
-// };
+Application.prototype.show = function (forcePrepare) {
+	this.surfaceView.show (forcePrepare);
+};
 
 
 //==============================================================================
@@ -145,69 +142,6 @@ Application.prototype.getAllParameters = function (name) {
 /**
  * TODO
  */
-Application.prototype.export3DPng = function () {
-	this.exportController.export3DPng (this.surfaceView);
-}
-
-
-//==============================================================================
-/**
- * TODO
- */
-Application.prototype.exportMeridianPng = function () {
-	this.exportController.exportMeridianPng ();
-}
-
-
-//==============================================================================
-/**
- * TODO
- */
-Application.prototype.exportRevolutionPng = function () {
-	this.exportController.exportRevolutionPng ();
-}
-
-
-//==============================================================================
-/**
- * TODO
- */
-Application.prototype.exportX3D = function () {
-	if (this.surfaceView.getSurfaceRenderer ().getSurface () == null) {
-		return;
-	}
-	this.exportController.exportX3D (
-		this.surfaceView.getSurfaceRenderer ().getSurface ());
-};
-
-
-//==============================================================================
-/**
- * TODO
- */
-Application.prototype.exportSTL = function () {
-	if (this.surfaceView.getSurfaceRenderer () == null) {
-		return;
-	}
-	this.exportController.exportSTL (this.surfaceView.getSurfaceRenderer ());
-};
-
-
-
-//==============================================================================
-/**
- *
- */
-Application.prototype.saveCurves = function(){
-	// console.log("Application:SaveCurves");
-	this.exportController.saveCurves(this.meridianController.getActiveCurve(), this.revolController.getActiveCurve());
-};
-
-
-//==============================================================================
-/**
- * TODO
- */
 Application.prototype.changeMeridianMode = function () {
 	var mode = $('#meridianType :radio:checked').attr ('id');
 
@@ -217,6 +151,8 @@ Application.prototype.changeMeridianMode = function () {
 	if (mode === "meridianPrimitive") {
 		$("#meridianCanvas").hide (); // hide the div
 		$("#meridianCanvas2").show (); // display the canvas
+		var selection = document.getElementById ("listMeridians");
+		this.meridianController.setActive(selection.value);
 		/// fill th parameter list
 		this.meridianParameters.displayParameter (
 			this.drawMeridian,
@@ -234,7 +170,10 @@ Application.prototype.changeMeridianMode = function () {
 		$("#meridianCanvas").hide ();
 		$("#meridianCanvas2").show ();
 
-		this.exportController.setIdMeridian ("meridianCanvas");
+		this.meridianController.setActive (
+			document.getElementById ("meridianFormulaInput").value);
+
+		this.exportController.setIdMeridian ("meridianCanvas2");
 	}
 	else {
 		throw "Application.changeMeridianMode: unkown given mode: " + mode;
@@ -262,9 +201,16 @@ Application.prototype.resetCamera = function () {
  */
 Application.prototype.changeRevolMode = function () {
 	var mode = $('#revolType :radio:checked').attr ('id');
+	$("#revolParam").empty ();
 	if (mode === "revolPrimitive") {
+		var selection = document.getElementById ("listRevolutions");
+		this.revolController.setActive (selection.value);
 	}
 	else if (mode === "revolFormula") {
+		this.revolController.setActive (
+			document.getElementById ("revolutionFormulaInput").value,
+			EquationTypeEnum.implicit
+		);
 	}
 	else {
 		throw "Application.changeRevolMode: unkown given mode: " + mode;
@@ -312,22 +258,10 @@ Application.prototype.closeCurve = function () {
 /**
  * TODO
  */
-Application.prototype.meridianeEquation = function () {
+Application.prototype.meridianEquation = function () {
 	var input = document.getElementById ("meridianFormulaInput");
-	console.log (input.value);
-
-	var equation = new Equation (input);
-	var x = new ExplicitCurve (equation);
-
-//	ExplicitCurve.call (this, x);
-
-	meridianController.setActive (x);
-	meridianView.draw ();
-
-	meridianParameters.displayParameter (
-		drawMeridian,
-		getRangeMeridian
-	);
+	this.meridianController.setActive (input.value);
+	this.meridianView.draw ();
 };
 
 
@@ -337,19 +271,6 @@ Application.prototype.meridianeEquation = function () {
  */
 Application.prototype.revolutionEquation = function () {
 	var input = document.getElementById ("revolutionFormulaInput");
-	console.log (input.value);
-
-	var equation = new Equation (input);
-	var x = new ImplicitCurve (equation);
-
-//	ImplicitCurve.call(this, x);
-
-
-	revolController.setActive (x);
-	revolView.draw ();
-
-	revolutionParameters.displayParameter (
-		drawRevolution,
-		getRangeRevolution
-	);
+	this.revolController.setActive (input.value, EquationTypeEnum.implicit);
+	this.revolView.draw ();
 };

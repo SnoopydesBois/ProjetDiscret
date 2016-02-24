@@ -90,6 +90,38 @@ function angle (x, y) {
 }
 
 
+//==============================================================================
+/**
+ * TODO
+ * 
+ * @param {Vector} point - A point.
+ * @param {Vector} origin - The origin.
+ * 
+ * @return {Number} The azimuth angle of 'point' spheric coordinate (with the 
+ * specified origin). TODO vérifier anglais
+ */
+function getAzimuth (point, origin) {
+	var pos = new Vector (point).sub (origin);
+	return angle (pos.x, pos.y);
+}
+
+
+//==============================================================================
+/**
+ * TODO
+ * 
+ * @param {Vector} point - A point.
+ * @param {Vector} origin - The origin.
+ * 
+ * @return {Number} The altitude angle of 'point' spheric coordinate (with the 
+ * specified origin). TODO vérifier anglais
+ */
+function getAltitude (point, origin) {
+	var pos = new Vector (point).sub (origin);
+	return Math.asin (pos.z / pos.getLength ()); // XXX clamp ?
+}
+
+
 
 //##############################################################################
 //	Convertion

@@ -104,18 +104,21 @@ function Scene () {
 	GenericContainer.call (this);
 
 	/**
-	 * {Vector} Initial cameraPosition.
+	 * {Vector} Initial camera position.
 	 */
-	this.defaultCameraPosition = new Vector (3, 3, 3);
+	this.defaultCameraPosition = new Vector (3.5, 3, 2.5);
 
+	/**
+	 * {Vector} Initial camera look at point.
+	 */
+	this.defaultLookAtPoint = new Vector (0, 0, 0);
 
 	/**
  	 * {Camera} The camera used in the scene.
  	 */
 	this.camera = new Camera (
 		new Vector (this.defaultCameraPosition),
-		// new Vector (1, 1, 1),
-		new Vector (0, 0, 0),
+		new Vector (this.defaultLookAtPoint),
 		new Vector (0, 0, 1),
 		800,
 		600,
@@ -178,6 +181,7 @@ Scene.prototype.setCamera = function (camera) {
 
 /**
  * @override
+ *
  * Add an object (only if is a GenericStructure subclass).
  *
  * @param {!GenericStructure} anObject - Object to add to the scene.
@@ -222,7 +226,6 @@ Scene.prototype.getObjectByName = function (aName) {
 /**
  * Remove an object by name.
  *
-
  * @param {!String} aName - Name of the object to remove.
  *
  * @return {void}
@@ -314,8 +317,8 @@ Scene.prototype.prepare = function (glContext, connexity, voxelRadius) {
 			} // fin du truc sale
 			this.objectList[i].prepare (glContext, connexity, voxelRadius);
 			this.objectList[i].getShader ().activate ();
-		}
-	}
+		} // end if not prepared
+	} // end for all object
 };
 
 
@@ -326,6 +329,7 @@ Scene.prototype.prepare = function (glContext, connexity, voxelRadius) {
  * @param {WebGLRenderingContext} glContext - The gl context.
  * @param {boolean} [backBuffer] - Indicate if we have to draw the scene
  * normally or if we need to draw for picking.
+ * @param {} TODO
  *
  * @return {void}
  */
@@ -333,7 +337,6 @@ Scene.prototype.draw = function (glContext, backBuffer, renderBuffer) {
 	var size = Math.min (this.height, this.width) * 2;
 	glContext.clear (glContext.COLOR_BUFFER_BIT | glContext.DEPTH_BUFFER_BIT);
 	glContext.bindRenderbuffer (glContext.RENDERBUFFER, renderBuffer);
-//	this.camera.computeMatrices ();
 	var length = this.getNbObject ();
 	for (var i = 0; i < length; ++i) {
 		// Get Object Properties
@@ -438,5 +441,5 @@ Scene.prototype.setCameraAt = function (position, lookAt) {
  * @return {void}
  */
 Scene.prototype.resetCamera = function () {
-	this.setCameraAt (this.defaultCameraPosition);
+	this.setCameraAt (this.defaultCameraPosition, this.defaultLookAtPoint);
 };

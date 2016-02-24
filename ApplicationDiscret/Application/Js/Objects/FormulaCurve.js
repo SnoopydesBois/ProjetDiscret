@@ -35,6 +35,15 @@ FormulaCurve.prototype.getEquation = function(){
 
 //==============================================================================
 /**
+* @return {String} the equation of the curve
+*/
+FormulaCurve.prototype.getEquationNoParameter = function(){
+	return this.equation.toStringNoParam();
+};
+
+
+//==============================================================================
+/**
  * TODO
  */
 FormulaCurve.prototype.getParametersRange = function (name) {

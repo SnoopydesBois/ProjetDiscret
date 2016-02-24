@@ -83,7 +83,7 @@ ul, li {
 	width: calc(70% - 1px);
 	height: calc(100% - 42px);
 	background-color: white;
-	border: solid #5f8 1px;
+	/*border: solid #5f8 1px;*/
 }
 
 
@@ -97,19 +97,6 @@ ul, li {
  */
 input[type=range]::-moz-focus-outer {
     border: 0;
-}
-
-
-
-	/*** Meridian ***/
-
-
-#meridianView {
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 50%;
-	border-bottom: 1px solid gray;
 }
 
 
@@ -133,10 +120,6 @@ input[type=range]::-moz-focus-outer {
 }
 
 
-#meridianType .optionGroup {width: calc(100% - 3 * 42px - 1px);}
-#revolType .optionGroup {width: calc(100% - 2 * 42px - 2px);}
-
-
 .buttonGroup input[type=radio]:checked + div {
 	display: inline-block;
 }
@@ -148,26 +131,16 @@ input[type=range]::-moz-focus-outer {
 }
 
 
+.buttonGroup label[for] {
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+
 .optionGroup p {
 	text-align: center;
 	padding: 0;
 	margin: 0;
-}
-
-
-#meridianOption .formulaInput input {
-	width: calc(100% - 4em);
-}
-
-
-#revolOption .formulaInput input {
-	width: calc(100% - 7em);
-}
-
-
-.buttonGroup label[for] {
-	background-position: center;
-	background-repeat: no-repeat;
 }
 
 
@@ -187,6 +160,33 @@ label[for=meridianFormula], label[for=revolFormula] {
 
 
 
+	/*** Meridian ***/
+
+
+#meridianView {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 50%;
+	border-bottom: 1px solid gray;
+}
+
+
+#meridianType .optionGroup {width: calc(100% - 3 * 42px - 1px);}
+#revolType .optionGroup {width: calc(100% - 2 * 42px - 2px);}
+
+
+#meridianOption .formulaInput input {
+	width: calc(100% - 4em);
+}
+
+
+#meridianCanvas {
+	border: 1px solid gray;
+}
+
+
+
 	/*** Revolution ***/
 
 
@@ -196,6 +196,12 @@ label[for=meridianFormula], label[for=revolFormula] {
 	width: 100%;
 	height: 50%;
 }
+
+
+#revolOption .formulaInput input {
+	width: calc(100% - 7em);
+}
+
 
 
 	/*** Surface ***/
@@ -225,13 +231,10 @@ label[for=meridianFormula], label[for=revolFormula] {
 }
 
 
-#surfaceCanvas, #loadingImg {
+#surfaceCanvas, .popupMessage {
 	top: 0;
 	left: 0;
 	width: 80%;
 	height: calc(100% - 42px);
 	background-color: #121214;
 }
-
-
-	/*** Parameters ***/

@@ -65,8 +65,30 @@ function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
 //	Curve methods
 //##############################################################################
 
+/**
+ * @return {Curve} The current curve.
+ */
+Controller2DMeridian.prototype.setActive = function (name, type) {
+	var mode = document.forms["meridianType"]["meridianTypeValue"].value
+	var curve;
+	if (mode === "meridianPrimitive") {
+		curve = this.modelCurve.setActive (name, type);
+		this.modelParameter.setCurve(curve);
+	}
+	else if (mode === "meridianFreeHand") {
+		curve = this.newCurve ();
+	}
+	else if (mode === "meridianFormula") {
+		curve = this.modelCurve.setActive(name, EquationTypeEnum.explicit);
+		this.modelParameter.setCurve(curve);
+	}
+	else {
+		console.error ("Controller2DMeridian.getActiveCurve: unknown drawing "
+			+ "mode: " + mode);
+	}
+};
 
-
+//==============================================================================
 /**
  * @return {Curve} The current curve.
  */
@@ -77,6 +99,9 @@ Controller2DMeridian.prototype.getActiveCurve = function () {
 	}
 	else if (mode === "meridianFreeHand") {
 		return this.modelDraw.getActiveCurve ();
+	}
+	else if (mode === "meridianFormula") {
+		return this.modelCurve.getActiveCurve ();
 	}
 	else {
 		console.error ("Controller2DMeridian.getActiveCurve: unknown drawing "

@@ -39,8 +39,8 @@ aLangTitleKeys['fr']['m11'] = 'Créer un nouveau modèle';
 
 /* Menu Fichier anglais */
 aLangKeys['en']['m1'] = 'File';
-aLangKeys['en']['m11'] = 'New';
-aLangKeys['en']['m12'] = 'Open';
+aLangKeys['en']['m11'] = 'Load Meridian';
+aLangKeys['en']['m12'] = 'Load Revolution Curve';
 aLangKeys['en']['m13'] = 'Save';
 
 /* Menu Affichage anglais */
@@ -134,8 +134,8 @@ aLangKeys['en']['a6'] = 'modify';
 
 /* Menu Fichier français */
 aLangKeys['fr']['m1'] = 'Fichier';
-aLangKeys['fr']['m11'] = 'Nouveau';
-aLangKeys['fr']['m12'] = 'Ouvrir';
+aLangKeys['fr']['m11'] = 'Charger méridienne';
+aLangKeys['fr']['m12'] = 'Charger courbe de révolution';
 aLangKeys['fr']['m13'] = 'Enregistrer';
 
 /* Menu Affichage Français */
@@ -189,13 +189,13 @@ aLangKeys['fr']['m52'] = 'À propos';
 
 /* Liste des paramétres méridienne français */
 
+
 aLangKeys['fr']['mer1'] = 'List of meridian parameters';
 aLangKeys['fr']['mer1'] = 'Liste des paramètres de la méridienne';
 aLangKeys['fr']['mer1'] = 'Liste des paramètres de la méridienne';
 aLangKeys['fr']['mer2'] = 'Option Méridienne';
 aLangKeys['fr']['mer3'] = 'ligne';
 aLangKeys['fr']['mer4'] = 'Sinusoid';
-
 
 
 /* Liste des paramétres revolution français */
