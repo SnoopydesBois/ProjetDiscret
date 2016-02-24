@@ -8,13 +8,9 @@
 		<!-- css imports -->
 		
 		
-		<link rel="stylesheet" type="text/css" media="all" href="Styles/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/Bootstrap/style/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
-		<link rel="stylesheet" type="text/css" media="all" href="Styles/menus.css"/>
-		<link rel="stylesheet" type="text/css" media="all" href="Styles/style.css">
-		<link rel="stylesheet" type="text/css" media="all" href="Styles/parameterPanel.css">
-		<link rel="stylesheet" type="text/css" media="all" href="Styles/surfaceView.css">	
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/userDocumentation.css">	
 
 		<script type="text/javascript" src="Js/Libraries/jquery.js"></script>
@@ -24,101 +20,206 @@
 	</head>
 	<body>
 	<script>
+		// Handle the click on nested list
 		$(document).ready(function(){
 			$(".link").click(function(){
 				$(window).scrollTop($("#" + $(this).attr("link")).position().top);
 			});
 		});
 	</script>
-	<div id="prouti" class="container-fluid">
+	<div class="container-fluid">
 	
 
 		<div class="row">
-			<div class="col-lg-offset-2 col-lg-1">
+			<div class="col-lg-2">
 				<div id="sidebarNav" class="sidebar-nav">
 					<div class="navbar navbar-default" role="navigation">
 						<div class="navbar-collapse collapse sidebar-navbar-collapse">
-							<ul class="nav nav-pills nav-stacked">							
-								<li>
-									<a data-toggle="collapse" href="#2dSpace">2D Space</a>
-									<ul id="2dSpace" class="panel-collapse collapse">
-										<li><a href="#">Curve</a></li>
-										<li><a href="#">Parameters</a></li>
-										<li>
-											<a data-toggle="collapse" class="link" link="prout" href="#typeCurve">Type of curve</a>
-											<ul id="typeCurve" class="panel-collapse collapse">
-												<li><a href="#">Predefined</a></li>					
-												<li><a href="#">Hand free</a></li>					
-												<li><a href="#">Formula</a></li>					
-											</ul>
-										</li>
-									</ul>
-								</li>
-								<li> <a>3D Space</a> </li>
-							</ul>
+							<div class="nav nav-pills nav-stacked">							
+								<ul>
+									<a data-toggle="collapse" class="link" link="2dSpace" href="#2dSpaceDiv">2D Space<span class="caret"></span></a>
+									<div id="2dSpaceDiv" class="submenu panel-collapse collapse">
+										<div><a href="#Curve">Curve</a></div>
+										<div><a href="#Parameters">Parameters</a></div>
+										<div>
+											<a data-toggle="collapse" class="link" link="TypeCurve" href="#typeCurve">Type of curves<span class="caret"></span></a>
+											<div id="typeCurve" class="panel-collapse collapse submenu">
+												<div><a href="#Predefined">Predefined</a></div>					
+												<div><a href="#HandFree">Hand free</a></div>					
+												<div><a href="#Formula">Formula</a></div>					
+											</div>
+										</div>
+									</div>
+								</ul>
+								<ul> 
+									<a data-toggle="collapse" class="link" link="3dSpace" href="#3dSpaceDiv">3D Space<span class="caret"></span></a> 
+									<div id="3dSpaceDiv" class="submenu panel-collapse collapse">
+										<div>
+											<a data-toggle="collapse" class="link" link="3dVisualisation" href="#3dVisualisationDiv">3D Visualisation<span class="caret"></span></a>
+											<div id="3dVisualisationDiv" class="submenu panel-collapse collapse">
+												<div><a href="#Generation">Generation</a></div>
+											</div>
+										</div>
+										<div>
+											<a data-toggle="collapse" class="link" link="Interactions" href="#InteractionDiv">Interactions<span class="caret"></span></a>
+											<div id="InteractionDiv" class="submenu panel-collapse collapse">
+												<div><a href="#CameraMovements">Camera movements</a></div>
+												<div><a href="#3DDimensions">3D dimensions</a></div>
+												<div><a href="#Connexity">Connexity</a></div>
+												<div><a href="#VoxelSize">Voxel size</a></div>
+												<div><a href="#MultiSlices">Multi slices</a></div>
+											</div>
+										</div>
+									</div>
+								</ul>
+								<ul>
+									<a data-toggle="collapse" class="link" link="Menus" href="#MenusDiv">Menus<span class="caret"></span></a>
+									<div id="MenusDiv" class="submenu panel-collapse collapse">
+										<div><a href=""></a></div>
+									</div>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div id="container" class="col-lg-9">
-				<h1> 2D Space </h1>
-				
-					<p> There are two area dedicated to the 2D visualization. One is for the meridian, the other one is for the curve of revolution. </p>
+			<div id="container" class="col-lg-8">
+				<h1 id="2dSpace"> 2D Space </h1>
+					<div class="insideH1">
+						<p> There are two area dedicated to the 2D visualization. One is for the meridian, the other one is for the curve of revolution. </p>
 
-					<h2> Meridian space </h2>
-						<img class="img-responsive" src="UserDocumentation/MeridianPanel.png" alt="Meridian space"/>
+						<h2> Meridian space </h2>
+							<img class="img-responsive insideH2" src="UserDocumentation/MeridianPanel.png" alt="Meridian space"/>
 
-					<h2> Curve of revolution space </h2>
-						<img class="img-responsive" src="UserDocumentation/RevolutionPanel.png" alt="Curve of revolution space"/>
+						<h2> Curve of revolution space </h2>
+							<div class="insideH2">
+								<img class="img-responsive" src="UserDocumentation/RevolutionPanel.png" alt="Curve of revolution space"/>
 
-						<p> Theses area are composed of 3 parts : The curve, The parameters, The type of curve </p>
-					<hr/>
-					<h2> Curve </h2>
-						<img class="img-responsive" src="UserDocumentation/CurvePanel.png" alt="Curve area" />
-						<p>This area is used to display the 2D representation of the curve you want to use.<br/>
-						For the curve of revolution, the range are limited to -1, 1.<br/>
-						For the meridian, the range always start at 0. The maximum range is automatically computed based on the curve.<br/><br/>
+								<p> Theses area are composed of 3 parts : The curve, The parameters, The type of curve </p>
+							</div>
+						<hr/>
+						<h2 id="Curve"> Curve </h2>
+							<div class="insideH2">
+								<img class="img-responsive" src="UserDocumentation/CurvePanel.png" alt="Curve area" />
+								<p>This area is used to display the 2D representation of the curve you want to use.<br/>
+								For the curve of revolution, the range are limited to -1, 1.<br/>
+								For the meridian, the range always start at 0. The maximum range is automatically computed based on the curve.<br/><br/>
 
-						When the Hand Free Drawing mode is used (see Type of curve), it is possible to draw on this area.</p>
+								When the Hand Free Drawing mode is used (see Type of curve), it is possible to draw on this area.</p>
+							</div>
+						<h2 id="Parameters"> Parameters </h2>
+							<div class="insideH2">
+								<img class="img-responsive" src="UserDocumentation/ParametersPanel.png" alt="Parameter area" />
+								<p>This area is used to display the parameters associated to the curve shown in the Curve area (see Curve).<br/>
+								By moving the sliders, it is possible to modify the corresponding parameter on the curve.</p>
+							</div>
+						<h2 id="TypeCurve"> Type of curve </h2>
+							<div class="insideH2">
+								<img class="img-responsive" src="UserDocumentation/TypeCurve.png" alt="Type of curves" />
+								<p> The application allows you to use three different kind of curves.</p>
+								<ul>
+									<li id="Predefined"><p>Predefined type</p> <br/>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/ListCurves.png" alt="Predefined curves" />
+											<p>This type of curve is available for both, the meridians and the curves of revolution <br/></p>
+										</div>
+									</li>
 
-					<h2> Parameters </h2>
-						<img class="img-responsive" src="UserDocumentation/ParametersPanel.png" alt="Parameter area" />
-						<p>This area is used to display the parameters associated to the curve shown in the Curve area (see Curve).<br/>
-						By moving the sliders, it is possible to modify the corresponding parameter on the curve.</p>
+									<li id="HandFree"> <p>Free hand type</p> <br/>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/HandFreeCurve.png" alt="Hand free curves" />
+											<p>This type of curve is only available for the meridian <br/>
+												It allows you to draw your own curve. By clicking at two different places on the canvas, the application will create a segment from those points.<br/>
+												By holding down the left mouse button, you'll be able to freely draw on the canvas.<br/><br/>
+												You can clear the canvas by pressing the "Effacer" button.<br/>
+												<img src="UserDocumentation/ClearCurve.png" alt="Close the curve" /> <br/><br/>
+												It is also possible to close your curve by pressing the "Fermer la courbe" button.<br/>
+												<img src="UserDocumentation/CloseCurve.png" alt="Close the curve" />
+											</p>
+										</div>
+									</li>
 
-					<h2> Type of curve </h2>
-						<img class="img-responsive" src="UserDocumentation/TypeCurve.png" alt="Type of curves" />
-						<p> The application allows you to use three different kind of curves.</p>
-					<ul>
-						<li>Predefined type <br/>
-							<img class="img-responsive" src="UserDocumentation/ListCurves.png" alt="Predefined curves" />
-							<p>This type of curve is available for both, the meridians and the curves of revolution <br/></p>
-						</li>
-
-						<li>Hand free type <br/>
-							<img class="img-responsive" src="UserDocumentation/HandFreeCurve.png" alt="Hand free curves" />
-							<p>This type of curve is only available for the meridian <br/>
-								It allows you to draw your own curve. By clicking at two different places on the canvas, the application will create a segment from those points.<br/>
-								By holding down the left mouse button, you'll be able to freely draw on the canvas.<br/><br/>
-								You can clear the canvas by pressing the "Effacer" button.<br/>
-								<img src="UserDocumentation/ClearCurve.png" alt="Close the curve" /> <br/><br/>
-								It is also possible to close your curve by pressing the "Fermer la courbe" button.<br/>
-								<img src="UserDocumentation/CloseCurve.png" alt="Close the curve" />
-							</p>
-						</li>
-
-						<li>Formula type<br/>
-							<img class="img-responsive" src="UserDocumentation/FormulaCurve.png" alt="Formula curves" />
-							<p>This type of curve is available for both, the meridian and the curves of revolution.<br/>
-								It allows you to type an equation for a curve to draw. <br/><br/>
-								The meridian only accept equation of form F(x)= x. <br/>
-								The curve of revolution only accept of type F(x,y)= x + y. <br/>
-							</p>
-						</li>
-					</ul>
-
-				<h1> 3D Space </h1>
-					<img class="img-responsive" src="UserDocumentation/3DPanel.png" alt="3D space"/>
+									<li id="Formula"><p>Formula type</p><br/>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/FormulaCurve.png" alt="Formula curves" />
+											<p>This type of curve is available for both, the meridian and the curves of revolution.<br/>
+												It allows you to type an equation for a curve to draw. <br/><br/>
+												The meridian only accept equation of form F(x)= x. <br/>
+												The curve of revolution only accept of type F(x,y)= x + y. <br/>
+											</p>
+										</div>
+									</li>
+								</ul>
+							</div>
+					</div>
+				<h1 id="3dSpace"> 3D Space </h1>
+					<div class="insideH1">
+						<img class="img-responsive" src="UserDocumentation/3DPanel.png" alt="3D space"/>
+						
+						<h2 id="3dVisualisation"> 3D Visualization</h2>
+							<div class="insideH2">
+								<h3 id="Generation"> Generation </h3>
+									<div class="insideH3">
+										<img class="img-responsive" src="UserDocumentation/Generation.png" alt="Generation"/>
+										<p >There are two types of generation available.<br/>
+											Generation use (faster algorithm to model the surface using incremental algorithm).<br/>
+											Non optimized generation (slower algorithm testing every pixel). <br/>
+											Be aware that if your meridian is not conexe the faster algorithm may not generate all the voxels.
+										</p>
+									</div>
+							</div>
+						<br/>
+						<p>The resulting surface from the meridian applied to the curve of revolution is displayed on the 3D area. <br/>
+							There is a bounding box representing the limits of the space (the dimension) and a 3D landmark. <br/>
+						</p>
+						<img class="img-responsive" src="UserDocumentation/3Darea.png" alt="3D area"/>
+						<br/><br/>
+						<h2 id="Interactions"> Interactions</h2>
+							<div class="indisdeH2">
+								<p>There are multiple interactions possible with the 3D space.</p>
+								<ul>
+									<li id="CameraMovements"><p>Camera movements</p>
+										<div>
+											<p>By holding down the left mouse button, it is possible to rotate the camera around the surface.<br/>
+											By holding down the middle mouse button, it is possible to move the camera.</p>
+										</div>
+									</li id="3DDimensions">
+									<li><p>3d space dimension</p>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/3Ddimensions.png" alt="3D dimensions"/>
+											<p>It is possible to modify the dimension of the 3D space.<br/>
+											Either by typing directly the values or by cliking the arrows. The maximum value for a dimension is 256.</p>
+										</div>
+									</li>
+									<li id="Connexity"><p>Connexity</p>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/Connexity.png" alt="Connexity"/>
+											<p>There are three different type of connexity available : C26, C18, C6.</p>
+										</div>
+									</li>
+									<li id="VoxelSize"><p>Voxel size</p>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/VoxelSize.png" alt="Voxel size" />
+											<p>It is possible to modify the size of the voxels either by typing directly the values or by clicking the arrows.<br/>
+											The values must be between 0 and 1.</p>
+										</div>
+									</li>
+									
+									<p id="Validation">To validate the modifications, press enter in a field modified or click on the validate button.</p>
+									<img class="img-responsive" src="UserDocumentation/Validate.png" alt="Validate" />
+									
+									<li id="MultiSlices"> <p>MultiSlices</p>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/MultiSlice.png" alt="Multi slices" />
+											<p>It is possible to slice the surface along an axis (X,Y or Z).<br/>
+												By moving the slider or typing a value in the corresponding field, the surface is sliced.
+											</p>
+										</div>
+									</li>
+								</ul>
+							</div>
+						<br/>
+					</div>
 			</div>
 		</div>
 	

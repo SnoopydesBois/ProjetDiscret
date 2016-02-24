@@ -210,7 +210,7 @@ Surface.prototype.addVoxel = function (position, connexity) {
 		} // end for each neighbor
 	} // end if coordinates are corect
 	else {
-		console.error ("out fo bound:", x, y, z);
+		console.error ("out of bound:", x, y, z);
 		throw "Surface.addVoxel.OutOfBounds";
 	}
 };

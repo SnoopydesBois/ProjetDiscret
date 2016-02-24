@@ -1,7 +1,61 @@
 /* CODE ***********************************************************************/  
 
+body{
+	font-size : 16px;
+}
+
+ul{
+	padding : 15px;
+}
+
+
+li{
+	list-style-type : none;
+}
+
 #sidebarNav {
+	width: inherit;
 	position : fixed;
+	text-align : center;
+}
+
+#sidebarNav  div  ul{
+	border-block-end : 5px inset black;
+}
+
+#sidebarNav  div  ul .caret:after{
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    color: grey;         /* adjust as needed */
+}
+
+.submenu{
+	margin-left : 5px; 
+}
+
+.insideH1{
+	margin-left : 10px;
+}
+
+.insideH2{
+	margin-left : 30px;
+}
+
+.insideH3{
+	margin-left : 50px;
+}
+
+li{
+	margin-top : 10px;
+	margin-bottom : 0px;
+}
+li>p{
+	font-weight : bold;
+}
+
+li>div{
+	margin-left : 20px;
 }
 
 p, h1, h2, h3{

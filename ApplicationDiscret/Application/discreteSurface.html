@@ -114,7 +114,9 @@
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_MenuAction.js"></script>
+		<!-- Traduction -->
 		<script type="text/javascript" src="Js/Interface/Application_Translate.js"></script>
+		<!-- <script type="text/javascript" src="Js/Interface/Application_Translate_Title.js"></script> -->
 
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
@@ -129,30 +131,32 @@
 		<!-- Menus -->
 		<ul class="menus header">
 			<li id="fileMenu" tabindex="1">
-				<h1 key="m1" class="tr">Fichier</h1>
+				<h1 id="m1" class="tr">Fichier</h1>
 				<ul>
+
 					<li title="Ouvrir une meridienne depuis un fichier sur cet ordinateur"
-						onclick="this.firstElementChild.click()" key="m12" class="tr">
+						onclick="this.firstElementChild.click()" id="m11" class="tr">
 						<input type="file" id="i_file" onchange="appli.loadMeridian(event)" style="display:none">Charger méridienne</input>
 					</li>
 					<li title="Ouvrir une courbe de revolution depuis un fichier sur cet ordinateur"
-						onclick="this.firstElementChild.click()" key="m12" class="tr">
+						onclick="this.firstElementChild.click()" id="m12" class="tr">
 						<input type="file" id="i_file" onchange="appli.loadRevolution(event)" style="display:none">Charger courbe de révolution</input>
+
 					</li>
 					<li title="Enregistrer le modèle actuel"
-						key="m13" class="tr" onclick="appli.saveCurves()">Enregistrer</li>
+						id="m13" class="tr" onclick="appli.saveCurves()">Enregistrer</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="viewMenu" tabindex="2">
-				<h1 key="m2" class="tr">Affichage</h1>
+				<h1 id="m2" class="tr">Affichage</h1>
 				<ul>
-					<li title="Générer la surface dans la vue 3D" key="m21" class="tr"
+					<li title="Générer la surface dans la vue 3D" id="m21" class="tr"
 						onclick="appli.generateAndDraw (0)">Générer</li>
 
-					<li title="Centrer la caméra" key="m22" class="tr"
+					<li title="Centrer la caméra" id="m22" class="tr"
 						onclick="appli.resetCamera()">Centrer la caméra</li>
 
-					<li title="Changer le point de vue" key="m23" class="tr"
+					<li title="Changer le point de vue" id="m23" class="tr"
 						onclick="if (globalParam.perspectiveView) {
 							this.innerHTML = 'Perspective';
 						} else {
@@ -164,20 +168,20 @@
 
 					<li class="split"><hr/></li>
 
-					<li title="Affichez ou cachez le repère 3D" key="m27" class="tr trTitle"
+					<li title="Affichez ou cachez le repère 3D" id="m27" class="tr trTitle"
 						onclick="appli.toggleRepere ()">Afficher/Cacher repère</li>
 
-					<li title="Affichez ou cachez les limites de l'espace 3D" key="m28" class="tr trTitle"
+					<li title="Affichez ou cachez les limites de l'espace 3D" id="m28" class="tr trTitle"
 						onclick="appli.toggleBox ()">Afficher/Cacher limite 3D</li>
 
 					<li class="split"><hr/></li>
 
-					<li title="Ajouter un N64 pour le debug" key="m24" class="tr"
+					<li title="Ajouter un N64 pour le debug" id="m24" class="tr"
 						onclick="appli.surfaceView.container.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
-					<li title="Retirer le N64" key="m25" class="tr"
+					<li title="Retirer le N64" id="m25" class="tr"
 						onclick="appli.surfaceView.container.removeObjectByName ('n64'); appli.surfaceView.show ()">Supprimer N64</li>
 
-					<li title="Changer la palette de couleur" key="m26" class="tr"
+					<li title="Changer la palette de couleur" id="m26" class="tr"
 						onclick="if (globalParam.cubeColorDebug) {
 							this.innerHTML = 'Couleur RVB';
 						} else {
@@ -188,53 +192,53 @@
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="toolsMenu" tabindex="3">
-				<h1 key="m3" class="tr">Outils</h1>
+				<h1 id="m3" class="tr">Outils</h1>
 				<ul>
 					<li id="tool2D"
 						class="submenu"
 						title="Outils 2D">
-						<h1 key="m33" class="tr">Outils 2D</h1>
+						<h1 id="m33" class="tr">Outils 2D</h1>
 						<ul>
 							<li id="meridianChoice"
 								class="tr trTitle"
 								title="Choix de la méridienne"
-								onclick="appli.selectMeridian ()" key="m331">Méridiennes</li>
+								onclick="appli.selectMeridian ()" >Méridiennes</li>
 
 							<li id="curveOfRevolutionChoice"
 								class="tr trTitle"
 								title="Choix de la courbe de révolution"
-								onclick="appli.selectRevol ()" key="m332">Courbes de révolution</li>
+								onclick="appli.selectRevol ()" >Courbes de révolution</li>
 
 							<li class="split"><hr/></li>
 
 							<li id="meridianFormulaInputMenu"
 								class="tr trTitle"
 								title="Rentrer une formule pour la méridienne"
-								onclick="appli.inputMeridianFormula ()" key="m333">Formule méridienne</li>
+								onclick="appli.inputMeridianFormula ()" >Formule méridienne</li>
 
 							<li id="revolFormulaInput"
 								class="tr trTitle"
 								title="Rentrer une formule pour la courbe de révolution"
-								onclick="appli.inputRevolFormula ()" key="m334">Formule courbe de révolution</li>
+								onclick="appli.inputRevolFormula ()" >Formule courbe de révolution</li>
 
 							<li class="split"><hr/></li>
 
 							<li id="handFreeDrawing"
 								class="tr trTitle"
 								title="Dessiner à main levée"
-								onclick="appli.drawFreeHandMeridian ()" key="m335">Dessiner à main levée</li>
+								onclick="appli.drawFreeHandMeridian ()" >Dessiner à main levée</li>
 
 							<li class="split"><hr/></li>
 
 							<li id="showSimpleParameter"
 								class="inaccessible"
 								title="Afficher les paramètres simples"
-								onclick="" key="m336" class="tr">Paramètres simples</li>
+								onclick=""  class="tr">Paramètres simples</li>
 
 							<li id="showAdvancedParameter"
 								class="inaccessible"
 								title="Afficher les paramètres avancés"
-								onclick="" key="m337" class="tr">Paramètres avancés</li>
+								onclick=""  class="tr">Paramètres avancés</li>
 
 
 							<li class="split"><hr/></li>
@@ -242,12 +246,12 @@
 							<li id="addMeridian"
 								class="inaccessible"
 								title="Ajout méridienne"
-								onclick="" key="m338" class="tr">Ajout méridienne</li>
+								onclick=""  class="tr">Ajout méridienne</li>
 
 							<li id="addCurve"
 								class="inaccessible"
 								title="Ajout courbe de révolution"
-								onclick="" key="m339" class="tr">Ajout courbe de révolution</li>
+								onclick=""  class="tr">Ajout courbe de révolution</li>
 
 						</ul>
 					</li>
@@ -256,29 +260,29 @@
 					<li id="tool3D"
 						class="submenu"
 						title="Outils 3D">
-						<h1 key="m34" class="tr">Outils 3D</h1>
+						<h1 id="m34" class="tr">Outils 3D</h1>
 						<ul>
 
 
 							<li id="dimension"
 								class="inaccessible"
 								title="Choix des dimensions"
-								onclick="" key="m341" class="tr">Dimension</li>
+								onclick=""  class="tr">Dimension</li>
 
 							<li id="repereDisplay"
 								class="inaccessible"
 								title="Affichage du repère"
-								onclick="" key="m342" class="tr">Afficher le repère</li>
+								onclick=""  class="tr">Afficher le repère</li>
 
 							<li id="voxelSize"
 								class="inaccessible"
 								title="Taille des voxels"
-								onclick="" key="m343" class="tr">Taille des voxels</li>
+								onclick=""  class="tr">Taille des voxels</li>
 
 							<li id="multiSlice"
 								class="inaccessible"
 								title="Multicoupe"
-								onclick="" key="m344" class="tr">Multicoupe</li>
+								onclick=""  class="tr">Multicoupe</li>
 
 						</ul>
 					</li>
@@ -286,22 +290,22 @@
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="exportMenu" tabindex="5">
-				<h1 key="m4" class="tr">Export</h1>
+				<h1 id="m4" class="tr">Export</h1>
 				<ul>
 
-					<li><a id="download" key="m41" class="tr" onclick="appli.export3DPng()">Exporter surface 3D</a></li>
-					<li><a id="downloadMeridian" key="m42" class="tr" onclick="appli.exportMeridianPng()">Exporter méridienne</a></li>
-					<li><a id="downloadRevolution" key="m43" class="tr" onclick="appli.exportRevolutionPng()">Exporter courbe de révolution</a></li>
+					<li><a id="download"  class="tr" onclick="appli.export3DPng()">Exporter surface 3D</a></li>
+					<li><a id="downloadMeridian"  class="tr" onclick="appli.exportMeridianPng()">Exporter méridienne</a></li>
+					<li><a id="downloadRevolution"  class="tr" onclick="appli.exportRevolutionPng()">Exporter courbe de révolution</a></li>
 
 					<li class="split"><hr/></li>
 
 					<li id="tool3D"
 						class="submenu"
 						title="Outils 3D">
-						<h1 key="m44" class="tr">Export 3D</h1>
+						<h1 id="m44" class="tr">Export 3D</h1>
 						<ul>
-							<li key="m441" class="tr" onclick="appli.exportX3D()">Export X3D</li>
-							<li key="m442" class="tr" onclick="appli.exportSTL()">Export impression 3D</li>
+							<li id="m441" class="tr" onclick="appli.exportX3D()">Export X3D</li>
+							<li id="m442" class="tr" onclick="appli.exportSTL()">Export impression 3D</li>
 						</ul>
 					</li>
 				</ul>
@@ -309,10 +313,12 @@
 
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="helpMenu" tabindex="6">
-				<h1 key="m5" class="tr">Aide</h1>
+				<h1 id="m5" class="tr">Aide</h1>
 				<ul>
+
 					<li key="m51" class="tr"><a href="help.html">Afficher l'aide</a></li>
 					<li key="m52" class="tr">À propos</li>
+
 				</ul>
 			</li>
 
@@ -356,8 +362,8 @@
 							<div class="optionGroup">
 								<select id="listMeridians" name="listMeridians"
 									onchange="appli.changeMeridian (this.value)">
-									<option value="Line" key="mer3" class="tr">Ligne</option>
-									<option value="Sinusoid" key="mer4" class="tr">Sinusoid</option>
+									<option value="Line" id="mer3" class="tr">Ligne</option>
+									<option value="Sinusoid" id="mer4" class="tr">Sinusoid</option>
 								</select>
 							</div>
 							<label for="meridianFreeHand">&nbsp;</label>
@@ -367,8 +373,10 @@
 								value="meridianFreeHand"
 								autocomplete="off"/>
 							<div class="optionGroup">
+
 								<button id="a3" class="tr" onclick="appli.clearDraw ()">Effacer</button>
 								<button id="" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
+
 							</div>
 							<label for="meridianFormula">&nbsp;</label>
 							<input type="radio"
@@ -410,20 +418,20 @@
 							<div class="optionGroup">
 								<select id="listRevolutions" name="listRevolutions"
 									onchange="appli.changeRevol (this.value)">
-									<option value="Circle" key="revol3" class="tr">Cercle</option>
-									<option value="Triangle" key="revol134" class="tr">Croix</option>
-									<option value="Heart" key="revol4" class="tr">Coeur</option>
-									<option value="Lemniscate" key="revol5" class="tr">Lemniscate</option>
-									<option value="Curve1" key="revol6" class="tr">Curve1</option>
-									<option value="Curve2" key="revol7" class="tr">Curve2</option>
-									<option value="Curve3" key="revol8" class="tr">Curve3</option>
-									<option value="Curve4" key="revol9" class="tr">Curve4</option>
-									<option value="Hyperbol" key="revol10" class="tr">Hyperbol</option>
-									<option value="Curve6" key="revol11" class="tr">Curve6</option>
-									<option value="Curve7" key="revol12" class="tr">Curve7</option>
-									<option value="Curve8" key="revol13" class="tr">Curve8</option>
-									<option value="Curve9" key="revol14" class="tr">Curve9</option>
-									<option value="Curve10" key="revol15" class="tr">Curve10</option>
+									<option value="Circle" id="revol3" class="tr">Cercle</option>
+									<option value="Triangle" id="revol134" class="tr">Croix</option>
+									<option value="Heart" id="revol4" class="tr">Coeur</option>
+									<option value="Lemniscate" id="revol5" class="tr">Lemniscate</option>
+									<option value="Curve1" id="revol6" class="tr">Curve1</option>
+									<option value="Curve2" id="revol7" class="tr">Curve2</option>
+									<option value="Curve3" id="revol8" class="tr">Curve3</option>
+									<option value="Curve4" id="revol9" class="tr">Curve4</option>
+									<option value="Hyperbol" id="revol10" class="tr">Hyperbol</option>
+									<option value="Curve6" id="revol11" class="tr">Curve6</option>
+									<option value="Curve7" id="revol12" class="tr">Curve7</option>
+									<option value="Curve8" id="revol13" class="tr">Curve8</option>
+									<option value="Curve9" id="revol14" class="tr">Curve9</option>
+									<option value="Curve10" id="revol15" class="tr">Curve10</option>
 								</select>
 							</div>
 							<label for="revolFormula">&nbsp;</label>
@@ -449,8 +457,8 @@
 
 			<div id="surfaceView" class="viewer">
 				<div id="surfaceParam" class="paramPanel">
-					<button id="generate1" onclick="appli.generateAndDraw (0)" key="surf1" class="tr">Générer</button>
-					<button id="generate2" onclick="appli.generateAndDraw (1)" key="surf2" class="tr">Génération non optimisée</button>
+					<button id="generate1" onclick="appli.generateAndDraw (0)"  class="tr">Générer</button>
+					<button id="generate2" onclick="appli.generateAndDraw (1)"  class="tr">Génération non optimisée</button>
 					<hr/>
 					<div class="wrapper">
 						<label class="title">Dimension X</label><br/>
@@ -496,6 +504,7 @@
 					
 				</div><!-- end #surfaceParam -->
 
+
 				<canvas id="surfaceCanvas"></canvas>
 				<div id="loadingImg" class="popupMessage" style="display: none">
 					<p class="tr">Génération...</p>
@@ -513,7 +522,7 @@
 					</div>
 					<!-- TODO traduire -->
 					<div class="wrapper">
-						<label key="m341" class="tr" for="connexityChoice">Connexité&nbsp;:</label>
+						<label id="m341" class="tr" for="connexityChoice">Connexité&nbsp;:</label>
 						<select id="connexityChoice" name="connexityChoice"
 							onchange="appli.surfaceView.unprepare (); appli.surfaceView.show ()">
 							<option value="1">C26</option>
@@ -524,12 +533,12 @@
 
 					<!-- TODO traduire -->
 					<div class="wrapper">
-						<label key="m344" class="tr" for="voxelRadius">Taille des voxels&nbsp;:</label>
+						<label id="m344" class="tr" for="voxelRadius">Taille des voxels&nbsp;:</label>
 						<input id="voxelRadius" type="number" name="voxelRadius"
 							value="1" min="0" max="1" step="0.05"/>
 					</div>
 					<!-- TODO traduire -->
-					<button key="a5" class="tr" onclick="appli.show (true)">Visualiser</button>
+					<button id="a5" class="tr" onclick="appli.show (true)">Visualiser</button>
 				</div>
 			</div><!-- end #surfaceView -->
 
