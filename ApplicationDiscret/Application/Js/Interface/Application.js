@@ -213,18 +213,13 @@ function Application () {
 	/**
 	 * {ControllerExport} TODO
 	 */
-	this.exportController = new ControllerExport("surfaceCanvas", "meridianCanvas2", "revolCanvas2");
-
+	this.exportController = new ControllerExport ("surfaceCanvas",
+		"meridianCanvas2", "revolCanvas2");
 
 	/**
 	 * {String} The default message in the state bar.
 	 */
 	this.defaultMessage = "";
-
-	/**
-	 * {ListUndoRedoAction} The list of undoable/redoable action.
-	 */
-//	this.listAction = new ListUndoRedoAction (25);
 }
 
 
@@ -264,8 +259,8 @@ Application.prototype.computationFinished = function () {
  * @return {void}
  */
 Application.prototype.generateAndDraw = function (mode) {
-	document.getElementById("generate1").disabled = true;
-	document.getElementById("generate2").disabled = true;
+	document.getElementById ("generate1").disabled = true;
+	document.getElementById ("generate2").disabled = true;
 	this.showMessage ("Computing...", 0, "#04E");
 	var dimX = document.getElementById ("dimx").value;
 	var dimY = document.getElementById ("dimy").value;
@@ -273,17 +268,17 @@ Application.prototype.generateAndDraw = function (mode) {
 
 
 	this.surfaceController.setDimension ([
-		dimX,dimY,dimZ
+		dimX, dimY, dimZ
 	]);
 	this.surfaceView.container.getObjectByName ("boundingBox").setDimension ([
-		dimX,dimY,dimZ
+		dimX, dimY, dimZ
 	]);
-
-	try{
+	try {
 		this.surfaceController.generate (mode);
 	}
-	catch(e){
-		this.errorMessage ("Aborted", 0);
+	catch (e) {
+		this.alertMessage ("Aborted", 10000);
+		this.abort ();
 	}
 	this.surfaceRenderer = new SurfaceRenderer (
 		this.surfaceController,
@@ -296,21 +291,7 @@ Application.prototype.generateAndDraw = function (mode) {
 
 	this.computationFinished ();
 	this.loading ();
-	this.changeValueSlider ("#slider-rangeX", 0, parseInt (dimX));
-	this.changeValueSlider ("#slider-rangeY", 0, parseInt (dimY));
-	this.changeValueSlider ("#slider-rangeZ", 0, parseInt (dimZ));
-};
-
-
-//==============================================================================
-/**
- * TODO
- *
- * @param {boolean} forcePrepare - TODO
- * @see {@link SurfaceViewer.show}
- *
- * @return {void}
- */
-Application.prototype.show = function (forcePrepare) {
-	this.surfaceView.show (forcePrepare);
+	this.changeValueSlider ("#slider-rangeX", false, 0, parseInt (dimX));
+	this.changeValueSlider ("#slider-rangeY", false, 0, parseInt (dimY));
+	this.changeValueSlider ("#slider-rangeZ", true, 0, parseInt (dimZ));
 };

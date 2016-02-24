@@ -167,102 +167,157 @@ Application.prototype.saveCurves = function(){
 /**
  *
  */
-Application.prototype.loadMeridian = function(event){
+Application.prototype.loadMeridian = function (event) {
 	var tmppath = URL.createObjectURL (event.target.files[0]);
-	
-	var request = new XMLHttpRequest();
-	request.open("GET", tmppath, false);
-	request.send();
-	
+
+	var request = new XMLHttpRequest ();
+	request.open ("GET", tmppath, false);
+	request.send ();
+
 	var xml = request.responseXML;
-	
-	var typeCurve = xml.getElementsByTagName("Class")[0].textContent.toString();
-	var equation /*, listNameParameters, listValueParameters*/, xPoints, yPoints, xMin, xMax, yMin, yMax;
-	
-	equation = xml.getElementsByTagName("Equation");
-	
+
+	var typeCurve = xml.getElementsByTagName ("Class")[0].textContent
+        .toString ();
+	var equation, xPoints, yPoints, xMin, xMax, yMin, yMax;
+
+	equation = xml.getElementsByTagName ("Equation");
+
 	if(equation.length == 0){
 		// Same length for both of the lists
-		xPoints = xml.getElementsByTagName("xCoords")[0].textContent.toString().split(" ");
-		yPoints = xml.getElementsByTagName("yCoords")[0].textContent.toString().split(" ");
+		xPoints = xml.getElementsByTagName ("xCoords")[0].textContent
+            .toString ().split (" ");
+		yPoints = xml.getElementsByTagName ("yCoords")[0].textContent
+            .toString ().split (" ");
 	}
 	else{
 		// Same length since each parameters got a name and a value
 		//listNameParameters = xml.getElementsByTagName("Name");
 		//listValueParameters = xml.getElementsByTagName("Value");
-		xMin = parseFloat(xml.getElementsByTagName("xMin")[0].textContent.toString());
-		xMax = parseFloat(xml.getElementsByTagName("xMax")[0].textContent.toString());
-		yMin = parseFloat(xml.getElementsByTagName("yMin")[0].textContent.toString());
-		yMax = parseFloat(xml.getElementsByTagName("yMax")[0].textContent.toString());
+		xMin = parseFloat (xml.getElementsByTagName ("xMin")[0].textContent
+            .toString ());
+		xMax = parseFloat (xml.getElementsByTagName ("xMax")[0].textContent
+            .toString ());
+		yMin = parseFloat (xml.getElementsByTagName ("yMin")[0].textContent
+            .toString ());
+		yMax = parseFloat (xml.getElementsByTagName ("yMax")[0].textContent
+            .toString ());
 	}
-	
+
 	if(typeCurve === "DrawnCurve"){
-		$( "#meridianFreeHand" ).prop( "checked", true );
-		$( "#meridianPrimitive" ).prop( "checked", false );
-		$( "#meridianFormula" ).prop( "checked", false );
+		$("#meridianFreeHand").prop ("checked", true);
+		$("#meridianPrimitive").prop ("checked", false);
+		$("#meridianFormula").prop ("checked", false);
 		this.changeMeridianMode ()
-		this.meridianController.newCurve();
-		var drawnCurve = this.meridianController.getActiveCurve();
-		for(var i = 0; i < xPoints.length; i++){
-			drawnCurve.addPoint(xPoints[i], yPoints[i]);
+		this.meridianController.newCurve ();
+		var drawnCurve = this.meridianController.getActiveCurve ();
+		for (var i = 0; i < xPoints.length; ++i) {
+			drawnCurve.addPoint (xPoints[i], yPoints[i]);
 		}
 	}
-	else if(typeCurve === "ExplicitCurve"){
-		this.meridianController.setActive(equation[0].textContent.toString(), EquationTypeEnum.explicit);
-		
+	else if (typeCurve === "ExplicitCurve" || typeCurve === "ImplicitCurve") {
+		this.meridianController.setActive (
+            equation[0].textContent.toString (),
+            EquationTypeEnum.explicit
+        );
+
 		/*for(var i = 0; i < listNameParameters.length; i++){
 			this.meridianController.setParameter(listNameParameters[i].textContent.toString(), parseFloat(listValueParameters[i].textContent.toString()) );
 		}*/
-		
-		this.meridianController.setXRange(new Range(xMin, xMax));
-		this.meridianController.setYRange(new Range(yMin, yMax));
+
+		this.meridianController.setXRange (new Range (xMin, xMax));
+		this.meridianController.setYRange (new Range (yMin, yMax));
 	}
-	
+
 	this.meridianParameters.displayParameter (
 		this.drawMeridian,
 		this.getRangeMeridian
 	);
-	this.meridianView.draw();
+	this.meridianView.draw ();
 };
 
 
 //==============================================================================
 /**
- *
+ * TODO
  */
-Application.prototype.loadRevolution = function(event){
+Application.prototype.loadRevolution = function (event) {
 	var tmppath = URL.createObjectURL (event.target.files[0]);
-	
-	var request = new XMLHttpRequest();
-	request.open("GET", tmppath, false);
-	request.send();
-	
+
+	var request = new XMLHttpRequest ();
+	request.open ("GET", tmppath, false);
+	request.send ();
+
 	var xml = request.responseXML;
-	
-	var typeCurve = xml.getElementsByTagName("Class")[0].textContent.toString();
-	var equation, listNameParameters, listValueParameters, xPoints, yPoints, xMin, xMax, yMin, yMax;
-	equation = xml.getElementsByTagName("Equation");
-	// Same length since each parameters got a name and a value
-	listNameParameters = xml.getElementsByTagName("Name");
-	listValueParameters = xml.getElementsByTagName("Value");
-		
-	xMin = parseFloat(xml.getElementsByTagName("xMin")[0].textContent.toString());
-	xMax = parseFloat(xml.getElementsByTagName("xMax")[0].textContent.toString());
-	yMin = parseFloat(xml.getElementsByTagName("yMin")[0].textContent.toString());
-	yMax = parseFloat(xml.getElementsByTagName("yMax")[0].textContent.toString());
-	
-	this.revolController.setActive(equation[0].textContent.toString(), EquationTypeEnum.implicit);
-	
-	for(var i = 0; i < listNameParameters.length; i++){
-		this.revolController.setParameter(listNameParameters[i].textContent.toString(), parseFloat(listValueParameters[i].textContent.toString()) );
+
+	var typeCurve = xml.getElementsByTagName ("Class")[0].textContent
+        .toString ();
+
+	if (typeCurve !== "ImplicitCurve") {
+		return;
 	}
-	
-	this.revolController.setXRange(new Range(xMin, xMax));
-	this.revolController.setYRange(new Range(yMin, yMax));
-	
+
+	var equation, listNameParameters, listValueParameters, xPoints, yPoints,
+        xMin, xMax, yMin, yMax;
+	equation = xml.getElementsByTagName ("Equation");
+	// Same length since each parameters got a name and a value
+	listNameParameters = xml.getElementsByTagName ("Name");
+	listValueParameters = xml.getElementsByTagName ("Value");
+
+	xMin = parseFloat (xml.getElementsByTagName ("xMin")[0].textContent
+        .toString ());
+	xMax = parseFloat (xml.getElementsByTagName ("xMax")[0].textContent
+        .toString ());
+	yMin = parseFloat (xml.getElementsByTagName ("yMin")[0].textContent
+        .toString ());
+	yMax = parseFloat (xml.getElementsByTagName ("yMax")[0].textContent
+        .toString ());
+
+	this.revolController.setActive (
+        equation[0].textContent.toString(),
+        EquationTypeEnum.implicit
+    );
+
+	for (var i = 0; i < listNameParameters.length; ++i) {
+		this.revolController.setParameter (
+            listNameParameters[i].textContent.toString (),
+            parseFloat (listValueParameters[i].textContent.toString ())
+        );
+	}
+
+	this.revolController.setXRange (new Range (xMin, xMax));
+	this.revolController.setYRange (new Range (yMin, yMax));
+
 	this.revolutionParameters.displayParameter (
 		this.drawRevolution,
 		this.getRangeRevolution
 	);
-	this.revolView.draw();
+	this.revolView.draw ();
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ *
+ * @return {void}
+ */
+Application.prototype.resetSliderMultiSlice = function () {
+	var dim = this.surfaceView.getSurfaceRenderer ()
+	if (dim) {
+		dim = dim.getSurface ().getDimension ();
+	}
+	else {
+		dim = new Vector (31, 31, 31);
+	}
+	// document.getElementById ("amountMaxX").value = dim.x;
+	// document.getElementById ("amountMaxY").value = dim.y;
+	// document.getElementById ("amountMaxZ").value = dim.z;
+    //
+	// document.getElementById ("amountMinX").value = 0;
+	// document.getElementById ("amountMinY").value = 0;
+	// document.getElementById ("amountMinZ").value = 0;
+
+	this.changeValueSlider('#slider-rangeX', false, 0, dim.x);
+	this.changeValueSlider('#slider-rangeY', false, 0, dim.y);
+	this.changeValueSlider('#slider-rangeZ', true, 0, dim.z);
 };
