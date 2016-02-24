@@ -302,9 +302,9 @@ Application.prototype.loadRevolution = function (event) {
  * @return {void}
  */
 Application.prototype.resetSliderMultiSlice = function () {
-	this.resetSlider ("#slider-rangeX", false);
-	this.resetSlider ("#slider-rangeY", false);
-	this.resetSlider ("#slider-rangeZ", true);
+	this.resetSlider ("slider-rangeX", false);
+	this.resetSlider ("slider-rangeY", false);
+	this.resetSlider ("slider-rangeZ", true);
 };
 
 
