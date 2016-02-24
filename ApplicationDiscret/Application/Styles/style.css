@@ -61,6 +61,12 @@ ul, li {
 }
 
 
+.paramPanel hr {
+	border-color: #CCC;
+	margin: 0.75em 3px;
+}
+
+
 .optionPanel {
 	bottom: 0;
 	left: 0;

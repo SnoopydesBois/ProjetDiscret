@@ -61,9 +61,25 @@ ModelExport.prototype.constructor = ModelExport;
  *
  */
 function ModelExport (idSurface, idMeridian, idRevolution) {
+	
+	/**
+	 * TODO
+	 */
 	this.idSurface = idSurface;
+	
+	/**
+	 * TODO
+	 */
 	this.idMeridian = idMeridian;
+	
+	/**
+	 * TODO
+	 */
 	this.idRevolution = idRevolution;
+	
+	/**
+	 * TODO
+	 */
 	this.connexity = parseInt($("#connexityChoice").val());
 };
 

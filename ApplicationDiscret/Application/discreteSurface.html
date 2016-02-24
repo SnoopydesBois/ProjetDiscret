@@ -108,20 +108,13 @@
 <!--		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>-->
 <!--		<script type="text/javascript" src="Js/Interface/ListUndoRedoAction.js"></script>-->
 		<script type="text/javascript" src="Js/Interface/Application.js"></script>
-		<script type="text/javascript" src="Js/Interface/Application_Tools.js"></script>
+<!--		<script type="text/javascript" src="Js/Interface/Application_Tools.js"></script>-->
 		<script type="text/javascript" src="Js/Interface/Application_Controller.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Messages.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_MenuAction.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Translate.js"></script>
-
-		<script type="text/javascript" src="Js/Objects/N64.js"></script>
-		<script type="text/javascript" src="Js/Objects/Base.js"></script>
-		<!-- <script type="text/javascript" src="Js/Objects/Cube.js"></script> -->
-
-		<!-- Entrer equation -->
-<!--		<script type="text/javascript" src="Curves/Revolution/eq.js"></script>-->
 
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
@@ -489,6 +482,18 @@
 					<div class="wrapper">
 						<button id="" class="tr trTitle" onclick="appli.resetSliderMultiSlice ()">Remettre à zéro</button>
 					</div>
+					<hr/>
+					<div class="wrapper">
+						<button id="" class="tr trTitle" onclick="appli.resetCamera ()">Centrer la caméra</button>
+					</div>
+					<hr/>
+					<div class="wrapper">
+						<button id="" class="tr trTitle" onclick="appli.showXSlice ()">Afficher coupe X</button>
+						<button id="" class="tr trTitle" onclick="appli.showYSlice ()">Afficher coupe Y</button>
+						<button id="" class="tr trTitle" onclick="appli.showZSlice ()">Afficher coupe Z</button>
+						<button id="" class="tr trTitle" onclick="appli.hideSlice ()">Effacer les coupes</button>
+					</div>
+					
 				</div><!-- end #surfaceParam -->
 
 				<canvas id="surfaceCanvas"></canvas>
@@ -502,9 +507,9 @@
 				<div id="surfaceOption" class="optionPanel">
 					<div class="wrapper">
 						<p class="multiLabel">Dimension&nbsp;:</p>
-						<input id="dimx" type="number" value="31" min="1" max="256" onchange="appli.changeDimension ()"/>
-						<input id="dimy" type="number" value="31" min="1" max="256" onchange="appli.changeDimension ()"/>
-						<input id="dimz" type="number" value="31" min="1" max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimx" type="number" value="51" min="1" max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimy" type="number" value="51" min="1" max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimz" type="number" value="51" min="1" max="256" onchange="appli.changeDimension ()"/>
 					</div>
 					<!-- TODO traduire -->
 					<div class="wrapper">
@@ -545,24 +550,7 @@
 
 		<script type="text/javascript">
 			var appli = new Application ();
-
-			var gl = appli.surfaceView.glContext;
-			var n64 = new N64 (gl, 6, 5);
-			//appli.surfaceView.container.addObject (n64);
-			// globalParam.perspectiveView = false;
 			appli.initAppli ();
-			// appli.toggleBox ();
-			// appli.toggleRepere ();
-			// var cam = appli.surfaceView.container.camera
-			// var eye = cam.eyePos;
-			function plop (arg1, arg2) {
-				console.log ("nbargs =", arguments.length)
-				for (var i in arguments) {
-					console.log ("arg[i] =", arguments[i]);
-				}
-				console.log ("arg1 =", arg1)
-				console.log ("arg2 =", arg2)
-			}
 			/**
 			 * idée de courbe :
 			 * liste complète : http://www.mathcurve.com/courbes2d/courbes2d.shtml
@@ -597,8 +585,6 @@
 			 * 	ou http://www.mathcurve.com/courbes2d/scarabee/scarabee.shtml
 			 * courbe 7 : voir http://www.mathcurve.com/courbes2d/salmon/salmon.shtml
 			 */
-
-
 		</script>
 	</body>
 </html>

@@ -84,6 +84,9 @@ ControllerExport.prototype.constructor = ControllerExport;
  * @param{String} idRevolution - The id of the HTML element containing the curve of revolution to export
  */
 function ControllerExport (idSurface, idMeridian, idRevolution) {
+	/**
+	 * TODO
+	 */
 	this.model = new ModelExport(idSurface, idMeridian, idRevolution);
 }
 
@@ -153,7 +156,7 @@ ControllerExport.prototype.exportRevolutionPng = function(){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 ControllerExport.prototype.exportSTL = function(renderer){
 	this.model.exportSTL(renderer);
@@ -162,7 +165,7 @@ ControllerExport.prototype.exportSTL = function(renderer){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 ControllerExport.prototype.saveCurves = function(meridianController, revolutionController){
 	this.model.saveCurves(meridianController, revolutionController);
