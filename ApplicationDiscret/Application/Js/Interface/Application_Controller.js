@@ -184,17 +184,6 @@ Application.prototype.changeMeridianMode = function () {
 
 //==============================================================================
 /**
- * Put the camera back to its initial position.
- *
- * @return {void}
- */
-Application.prototype.resetCamera = function () {
-	this.surfaceView.resetCamera();
-};
-
-
-//==============================================================================
-/**
  * TODO
  *
  * @return {void}
@@ -205,6 +194,10 @@ Application.prototype.changeRevolMode = function () {
 	if (mode === "revolPrimitive") {
 		var selection = document.getElementById ("listRevolutions");
 		this.revolController.setActive (selection.value);
+		this.revolutionParameters.displayParameter (
+			this.drawRevolution,
+			this.getRangeRevolution
+	);
 	}
 	else if (mode === "revolFormula") {
 		this.revolController.setActive (

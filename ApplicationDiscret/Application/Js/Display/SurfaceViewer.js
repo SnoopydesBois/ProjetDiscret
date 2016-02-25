@@ -303,19 +303,29 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
 		this.camCenterWhenClick =
 			this.container.getCamera ().getLookAtPosition ();
 	}
-
-	// draw the scene for picking
-	this.container.draw (this.glContext, true, this.backBuffer);
-	var color = new Uint8Array (4);
-	this.glContext.readPixels (
-		event.layerX, this.glContext.drawingBufferHeight - event.layerY,
-		1, 1,
-		this.glContext.RGBA, this.glContext.UNSIGNED_BYTE, color
-	);
-//	console.log (colorToPos (color, new Vector (31 ,31, 31)).toString ());
-
-	// redraw correctly the scene
-	this.container.draw (this.glContext, false, this.screenBuffer);
+	if (event.buttons === 2) {
+//		event.preventDefault();
+//		event.stopPropagation();
+		// draw the scene for picking
+		this.container.draw (this.glContext, true, this.backBuffer);
+		var color = new Uint8Array (4);
+		this.glContext.readPixels (
+			event.layerX, this.glContext.drawingBufferHeight - event.layerY,
+			1, 1,
+			this.glContext.RGBA, this.glContext.UNSIGNED_BYTE, color
+		);
+		var surface = this.getSurfaceRenderer ();
+		var dim = surface.getDimension ();
+		var voxelPos = colorToPos (color, dim).getCube ();
+		
+		surface.setHighlightX (Math.floor ((dim.x + 0.5) / 2));
+		surface.setHighlightY (Math.floor ((dim.y + 0.5) / 2));
+		surface.setHighlightZ (voxelPos.z);
+		
+		globalParam.pickingForSlice = false;
+		// redraw correctly the scene
+		this.show (true);
+	}
 };
 
 
@@ -331,6 +341,12 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
  */
 SurfaceViewer.prototype.onMouseUp = function (event) {
 	this.mousePosOnPress[0] = -1;
+	if (event.buttons === 2) {
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	}
+
 };
 
 
@@ -421,6 +437,18 @@ SurfaceViewer.prototype.onKeyDown = function (event) { // FIXME
 };
 
 
+//==============================================================================
+/**
+ * TODO
+ */
+SurfaceViewer.prototype.onContextMenu = function (event) {
+	if (event.buttons === 2) {
+		event.preventDefault();
+		event.stopPropagation();
+	}
+};
+
+
 
 //##############################################################################
 //	Other methods
@@ -444,9 +472,10 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 //	window.addEventListener ("keydown", this.onKeyDown.bind (this));
 
 	// mouse move for mouvement
-	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this));
+	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this), true);
 	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
-	this.canvas.addEventListener ("mouseup", this.onMouseUp.bind (this));
+	this.canvas.addEventListener ("mouseup", this.onMouseUp.bind (this), true);
+	this.canvas.addEventListener ("contextmenu", this.onContextMenu.bind (this), true);
 };
 
 
@@ -607,15 +636,29 @@ SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
 };
 
 
+//==============================================================================
+/**
+ * Put the camera back to its initial position.
+ * @see {@link centerCamera}
+ * 
+ * @return {void}
+ */
+SurfaceViewer.prototype.resetCamera = function () {
+	this.container.resetCamera ();
+	this.draw ();
+};
+
 
 //==============================================================================
 /**
  * Put the camera back to its initial position.
- *
+ * @see {@link resetCamera}
+ * 
  * @return {void}
  */
-SurfaceViewer.prototype.resetCamera = function () {
-	this.container.resetCamera();
+SurfaceViewer.prototype.centerCamera = function () {
+	this.container.centerCamera ();
 	this.draw ();
 };
+
 

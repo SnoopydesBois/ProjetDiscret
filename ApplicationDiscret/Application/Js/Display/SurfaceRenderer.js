@@ -91,6 +91,11 @@ SurfaceRenderer.getCurrentSurfaceName = function () {
 	return "surface" + SurfaceRenderer.counter;
 };
 
+
+//==============================================================================
+/**
+ * TODO
+ */
 SurfaceRenderer.getLastSurfaceName = function () {
 	return "surface" + (SurfaceRenderer.counter - 1);
 };
@@ -111,29 +116,50 @@ SurfaceRenderer.prototype.getLastSurfaceName = function () {
  * @param {Controller3D} surfaceController - The controller of the surface to
  * display.
  * @param {WebGLRenderingContext} glContext - The gl context.
+ TODO
  */
-function SurfaceRenderer (surfaceController, glContext) {
+function SurfaceRenderer (surfaceController, glContext, name, color) {
 	/// Parameters verification
 //	if (! (surfaceController instanceof Controller3D)) {
 //		console.error ("SurfaceRenderer.constructor: bad type(s) of "
 //			+ "parameter(s)");
 //		showType (surfaceController, glContext);
 //		return;
-//	}
+//	} FIXME
 
 
-	++SurfaceRenderer.counter;
-	GenericStructure.call (this,
-		"surface" + SurfaceRenderer.counter,
-		new DefaultShader (glContext)
-	);
+	if (typeof name == "undefined") {
+		++SurfaceRenderer.counter;
+		name = "surface" + SurfaceRenderer.counter;
+	}
+	GenericStructure.call (this, name, new DefaultShader (glContext));
 
 
 	/**
-	 * {Controller} The model controller which contain the model to draw. FIXME vérifier anglais
+	 * {Controller} The model controller which contain the model to draw. TODO vérifier anglais
 	 */
 	this.modelController = surfaceController;
-
+	
+	/**
+	 * TODO
+	 */
+	this.color = color || [0.8, 0.8, 0.8, 1.0];
+	
+	/**
+	 * TODO
+	 */
+	this.highlightX = -1;
+	
+	/**
+	 * TODO
+	 */
+	this.highlightY = -1;
+	
+	/**
+	 * TODO
+	 */
+	this.highlightZ = -1;
+	
 	/**
 	 * {int} Number of needed gl buffer to draw the object. Set by 'prepare'
 	 * method, use by 'prepare' an 'draw' methods.
@@ -201,6 +227,52 @@ SurfaceRenderer.prototype.getModelController = function () {
 SurfaceRenderer.prototype.getSurface = function(){
 	return this.modelController.getSurface();
 };
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+SurfaceRenderer.prototype.setHighlightX = function (x) {
+	/// parameter verification
+	if (typeof x != "number") {
+		throw "SurfaceRenderer.highlightX: given parameter is not a number";
+	}
+	
+	/// set value
+	this.highlightX = x;
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+SurfaceRenderer.prototype.setHighlightY = function (y) {
+	/// parameter verification
+	if (typeof y != "number") {
+		throw "SurfaceRenderer.highlightY: given parameter is not a number";
+	}
+	
+	/// set value
+	this.highlightY = y;
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+SurfaceRenderer.prototype.setHighlightZ = function (z) {
+	/// parameter verification
+	if (typeof z != "number") {
+		throw "SurfaceRenderer.highlightZ: given parameter is not a number";
+	}
+	
+	/// set value
+	this.highlightZ = z;
+};
+
 
 
 //##############################################################################
@@ -283,7 +355,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 						indicesBuffer[idx],
 						colorBuffer[idx],
 						backColorBuffer[idx],
-						[0.8, 0.8, 0.8, 1],
+						this.color,
 						size
 					);
 					++cptPreparedVoxel;
@@ -309,7 +381,10 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 					vertexBuffer[tmp][offset + 1],
 					vertexBuffer[tmp][offset + 2]
 				);
-				this.addAColor (data[tmp], colorBuffer[tmp][i]);
+				if (globalParam.cubeColorDebug)
+					this.addAColor (data[tmp], backColorBuffer[tmp][i]);
+				else
+					this.addAColor (data[tmp], colorBuffer[tmp][i]);
 				// back buffer
 				this.addAPoint (bdata[tmp],
 					vertexBuffer[tmp][offset],
@@ -346,9 +421,11 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 
 //==============================================================================
 /**
- *
+ * STL
  */
-SurfaceRenderer.prototype.prepareSTL = function (connexity, indicesBuffer, vertexBuffer) {
+SurfaceRenderer.prototype.prepareSTL = function (connexity, indicesBuffer,
+	vertexBuffer)
+{
 	/// parameters verification
 	if (! checkType (arguments, "number", Array, Array)) {
 		throw "SurfaceRenderer.prepareSTL: bad type(s) of parameter(s)";
@@ -424,38 +501,35 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 	}
 	for (var i = 0; i < DirectionEnum.size; ++i) {
 		if (radius != 0.5 || voxel.hasFacet (i, connexity)) {
-			var color = [0, 0, 0, 1];
-			if (globalParam.cubeColorDebug) {
-				switch (i) {
-				case DirectionEnum.RIGHT :
-				case DirectionEnum.LEFT :
-					color = [0.9, 0, 0, 1];
-					break;
-				case DirectionEnum.BACK :
-				case DirectionEnum.FRONT :
-					color = [0, 0.9, 0, 1];
-					break;
-				case DirectionEnum.TOP :
-				case DirectionEnum.BOTTOM :
-					color = [0, 0, 0.9, 1];
-					break;
-
-//				case DirectionEnum.LEFT :
-//					color = [0.9, 0, 0.9, 1];
-//					break;
-//				case DirectionEnum.FRONT :
-//					color = [0.9, 0.9, 0, 1];
-//					break;
-//				case DirectionEnum.BOTTOM :
-//					color = [0, 0.9, 0.9, 1];
-//					break;
-				}
+			var color = [0.2, 0.8, 0.6, 1];
+			/// highlight ?
+			if (this.highlightZ != -1 && voxel.position.z == this.highlightZ) {
+				color[0] = 0;
+				color[1] = 0.5;
+				color[2] = 0.8;
+			}
+			else if (this.highlightY != -1 && voxel.position.y == this.highlightY) {
+				color[0] = 0;
+				color[1] = 0.8;
+				color[2] = 0.4;
+			}
+			else if (this.highlightX != -1 && voxel.position.x == this.highlightX) {
+				color[0] = 0.8;
+				color[1] = 0.15;
+				color[2] = 0.1;
 			}
 			else {
-				for (var a = 0; a < 3; ++a)
-					color[a] = colorVoxel[a]
-						+ DirectionEnum.properties[i].axis.colorOffset;
+				/// color copy
+				for (var j = 0; j < 4; ++j) {
+					color[j] = colorVoxel[j];
+				}
 			}
+			
+			/// color gradient
+			for (var a = 0; a < 3; ++a)
+				color[a] += DirectionEnum.properties[i].axis.colorOffset;
+			
+			/// prepare the face
 			this.prepareFace (
 				voxel,
 				i,
@@ -703,3 +777,5 @@ SurfaceRenderer.prototype.addVertexBuffer = function (vertexBuffer, limit,
 SurfaceRenderer.prototype.getDimension = function () {
 	return this.getModelController ().getDimension ();
 };
+
+

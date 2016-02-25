@@ -437,9 +437,27 @@ Scene.prototype.setCameraAt = function (position, lookAt) {
 //==============================================================================
 /**
  * Replace the camera at its initial position.
+ * @see {@link centerCamera}
  *
  * @return {void}
  */
 Scene.prototype.resetCamera = function () {
 	this.setCameraAt (this.defaultCameraPosition, this.defaultLookAtPoint);
 };
+
+
+//==============================================================================
+/**
+ * Replace the camera look at point at its initial position.
+ * @see {@link resetCamera}
+ * 
+ * @return {void}
+ */
+Scene.prototype.centerCamera = function () {
+	this.setCameraAt (
+		this.getCamera ().getPosition (),
+		this.defaultLookAtPoint
+	);
+};
+
+

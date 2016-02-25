@@ -33,7 +33,10 @@ function get3DGlContext (canvas) {
 	var gl = null;
 	try {
 		gl = canvas.getContext ("webgl", {preserveDrawingBuffer: true})
-			|| canvas.getContext ("experimental-webgl", {preserveDrawingBuffer: true});
+			|| canvas.getContext (
+				"experimental-webgl", 
+				{preserveDrawingBuffer: true}
+			);
 		gl.drawingBufferWidth = canvas.width;
 		gl.drawingBufferHeight = canvas.height;
 	} 

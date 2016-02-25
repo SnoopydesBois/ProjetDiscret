@@ -77,7 +77,7 @@ function CurveViewer (canvas, div, curveController) {
 	// initialisation
 	this.initCanvasEvent ();
 	this.resizeCanvas ();
-	this.drawCanvasGrid ();
+//	this.drawCanvasGrid ();
 };
 
 
@@ -121,7 +121,7 @@ CurveViewer.prototype.show = function () {
 CurveViewer.prototype.draw = function () {
 	var curve = this.controller.getActiveCurve ();
 	var xRange = this.controller.getXRange ();
-	this.drawCanvasGrid ();
+//	this.drawCanvasGrid ();
 	if (curve instanceof DrawnCurve) {
 		/// set the canvas size
 		this.resizeCanvas ();
@@ -328,7 +328,7 @@ CurveViewer.prototype.clearDraw = function () {
 		this.glContext.canvas.height);
 	this.controller.newCurve ();
 	this.lastPoint = new Point (-1, -1);
-	this.drawCanvasGrid ();
+//	this.drawCanvasGrid ();
 };
 
 
@@ -366,17 +366,12 @@ CurveViewer.prototype.drawCanvasGrid = function () {
 	var ctx = this.glContext,
 		offset = Math.round (this.pointToPixel (1, yMax - 1).y),
 		i;
-	console.log (xMax, yMax, offset);
-	// ctx.lineWidth = 1;
 	ctx.fillStyle = "#CCC";
 	for (i = 1; i < xMax; ++i) {
 		ctx.fillRect (offset * i, 0, 1, ctx.canvas.height);
-		// console.log ("x", offset * i - 0.5)
 	}
-	// ctx.fillStyle = "#C00";
 	for (i = 1; i < yMax + 1; ++i) {
 		ctx.fillRect (0, offset * i, ctx.canvas.width, 1);
-		// console.log ("yy", offset * i - 0.5)
 	}
 };
 

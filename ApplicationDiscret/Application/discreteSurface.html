@@ -66,16 +66,16 @@
 		<script type="text/javascript" src="Curves/Revolution/Circle.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Triangle.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Heart.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Lissajous.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Quadrifolium.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Knot.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Scarabeus.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Hyperbol.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Folium.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Hexafolium.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve1.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve2.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Curve3.js"></script>
-		<script type="text/javascript" src="Curves/Revolution/Curve4.js"></script>
-		<script type="text/javascript" src="Curves/Revolution/Hyperbol.js"></script>
-		<script type="text/javascript" src="Curves/Revolution/Curve6.js"></script>
-		<script type="text/javascript" src="Curves/Revolution/Curve7.js"></script>
-		<script type="text/javascript" src="Curves/Revolution/Curve8.js"></script>
-		<script type="text/javascript" src="Curves/Revolution/Curve9.js"></script>
-		<script type="text/javascript" src="Curves/Revolution/Curve10.js"></script>
 
 		<script type="text/javascript" src="Js/Shader/vertexShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/fragmentShader.js"></script>
@@ -108,7 +108,7 @@
 <!--		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>-->
 <!--		<script type="text/javascript" src="Js/Interface/ListUndoRedoAction.js"></script>-->
 		<script type="text/javascript" src="Js/Interface/Application.js"></script>
-		<script type="text/javascript" src="Js/Interface/Application_Tools.js"></script>
+<!--		<script type="text/javascript" src="Js/Interface/Application_Tools.js"></script>-->
 		<script type="text/javascript" src="Js/Interface/Application_Controller.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Messages.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
@@ -117,13 +117,6 @@
 		<!-- Traduction -->
 		<script type="text/javascript" src="Js/Interface/Application_Translate.js"></script>
 		<!-- <script type="text/javascript" src="Js/Interface/Application_Translate_Title.js"></script> -->
-
-		<script type="text/javascript" src="Js/Objects/N64.js"></script>
-		<script type="text/javascript" src="Js/Objects/Base.js"></script>
-		<!-- <script type="text/javascript" src="Js/Objects/Cube.js"></script> -->
-
-		<!-- Entrer equation -->
-<!--		<script type="text/javascript" src="Curves/Revolution/eq.js"></script>-->
 
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
@@ -140,29 +133,44 @@
 			<li id="fileMenu" tabindex="1">
 				<h1 id="m1" class="tr">Fichier</h1>
 				<ul>
-
+					<li title="Enregistrer et télécharger les courbe actuelles dans une archive ZIP"
+						id="m13" class="tr" onclick="appli.saveCurves()">Enregistrer</li>
+					
 					<li title="Ouvrir une meridienne depuis un fichier sur cet ordinateur"
+<<<<<<< HEAD
 						onclick="this.firstElementChild.click()" id="m11" class="tr"  >
 						<input type="file" onchange="appli.loadMeridian(event)" style="display:none">Charger méridienne</input>
+=======
+						onclick="this.firstElementChild.click()" id="m11" class="tr">
+						<input type="file" id="i_file" style="display: none" 
+							onchange="appli.loadMeridian(event)">Charger méridienne</input>
+>>>>>>> origin/master
 					</li>
+					
 					<li title="Ouvrir une courbe de revolution depuis un fichier sur cet ordinateur"
 						onclick="this.firstElementChild.click()" id="m12" class="tr">
+<<<<<<< HEAD
 						<input type="file"  onchange="appli.loadRevolution(event)" style="display:none">Charger courbe de révolution</input>
 
+=======
+						<input type="file" id="i_file" style="display: none"
+							onchange="appli.loadRevolution(event)">Charger courbe de révolution</input>
+>>>>>>> origin/master
 					</li>
-					<li title="Enregistrer le modèle actuel"
-						id="m13" class="tr" onclick="appli.saveCurves()">Enregistrer</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="viewMenu" tabindex="2">
 				<h1 id="m2" class="tr">Affichage</h1>
 				<ul>
+<<<<<<< HEAD
 					<li title="Générer la surface dans la vue 3D" id="m21" class="tr trtitle"
 						onclick="appli.generateAndDraw (0)">Générer</li>
 
 					<li title="Centrer la caméra" id="m22" class="tr"
 						onclick="appli.resetCamera()">Centrer la caméra</li>
 
+=======
+>>>>>>> origin/master
 					<li title="Changer le point de vue" id="m23" class="tr"
 						onclick="if (globalParam.perspectiveView) {
 							this.innerHTML = 'Perspective';
@@ -172,22 +180,7 @@
 						globalParam.perspectiveView = !globalParam.perspectiveView;
 						appli.surfaceView.computeCamera ();
 						appli.surfaceView.show ()">Orthographique</li>
-
-					<li class="split"><hr/></li>
-
-					<li title="Affichez ou cachez le repère 3D" id="m27" class="tr trTitle"
-						onclick="appli.toggleRepere ()">Afficher/Cacher repère</li>
-
-					<li title="Affichez ou cachez les limites de l'espace 3D" id="m28" class="tr trTitle"
-						onclick="appli.toggleBox ()">Afficher/Cacher limite 3D</li>
-
-					<li class="split"><hr/></li>
-
-					<li title="Ajouter un N64 pour le debug" id="m24" class="tr"
-						onclick="appli.surfaceView.container.addObject (n64); appli.surfaceView.show ()">Ajouter N64</li>
-					<li title="Retirer le N64" id="m25" class="tr"
-						onclick="appli.surfaceView.container.removeObjectByName ('n64'); appli.surfaceView.show ()">Supprimer N64</li>
-
+					
 					<li title="Changer la palette de couleur" id="m26" class="tr"
 						onclick="if (globalParam.cubeColorDebug) {
 							this.innerHTML = 'Couleur RVB';
@@ -196,144 +189,163 @@
 						}
 						globalParam.cubeColorDebug = !globalParam.cubeColorDebug;
 						appli.surfaceView.show (true)">Couleur RVB</li>
+					
+					<li id="camera" class="submenu">
+						<h1 id="" class="tr">Caméra</h1>
+						<ul>
+							<li title="Centrer la caméra" 
+								id="" class="tr trtitle"
+								onclick="appli.centerCamera ()">Centrer</li>
+							
+							<li title="Replacer la caméra à sa position d'origine" 
+								id="m22" class="tr trtitle"
+								onclick="appli.resetCamera ()">Réinitialiser</li>
+						</ul>
+					</li>
+					
+					<li class="split"><hr/></li>
+
+					<li title="Affichez ou cachez le repère 3D" 
+						id="m27" class="tr trTitle"
+						onclick="appli.toggleRepere ()">Afficher/Cacher repère</li>
+
+					<li title="Affichez ou cachez les limites de l'espace 3D" 
+						id="m28" class="tr trTitle"
+						onclick="appli.toggleBox ()">Afficher/Cacher limite 3D</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="toolsMenu" tabindex="3">
-				<h1 id="m3" class="tr">Outils</h1>
+				<h1 id="m3" class="tr">Courbes</h1>
 				<ul>
-					<li id="tool2D"
-						class="submenu"
-						title="Outils 2D">
-						<h1 id="m33" class="tr">Outils 2D</h1>
+					<li id="meridianChoice"
+						class="tr trTitle"
+						title="Choix de la méridienne"
+						onclick="appli.selectMeridian ()">Méridienne</li>
+				
+					<li id="handFreeDrawing" class="submenu">
+						<h1 id="" class="tr trtitle"
+							title="Dessin à main levée">Dessiner à main levée</h1>
 						<ul>
-							<li id="meridianChoice"
-								class="tr trTitle"
-								title="Choix de la méridienne"
-								onclick="appli.selectMeridian ()" >Méridiennes</li>
+							<li id="" class="tr trTitle"
+								title="Déssiner une courbe"
+								onclick="appli.drawFreeHandMeridian ()">Dessiner</li>
 
-							<li id="curveOfRevolutionChoice"
-								class="tr trTitle"
-								title="Choix de la courbe de révolution"
-								onclick="appli.selectRevol ()" >Courbes de révolution</li>
+							<li id="" class="tr trTitle"
+								title="Effacer la courbe"
+								onclick="appli.drawFreeHandMeridian (); appli.clearDraw ()">Effacer</li>
 
-							<li class="split"><hr/></li>
-
-							<li id="meridianFormulaInputMenu"
-								class="tr trTitle"
-								title="Rentrer une formule pour la méridienne"
-								onclick="appli.inputMeridianFormula ()" >Formule méridienne</li>
-
-							<li id="revolFormulaInput"
-								class="tr trTitle"
-								title="Rentrer une formule pour la courbe de révolution"
-								onclick="appli.inputRevolFormula ()" >Formule courbe de révolution</li>
-
-							<li class="split"><hr/></li>
-
-							<li id="handFreeDrawing"
-								class="tr trTitle"
-								title="Dessiner à main levée"
-								onclick="appli.drawFreeHandMeridian ()" >Dessiner à main levée</li>
-
-							<li class="split"><hr/></li>
-
-							<li id="showSimpleParameter"
-								class="inaccessible"
-								title="Afficher les paramètres simples"
-								onclick=""  class="tr">Paramètres simples</li>
-
-							<li id="showAdvancedParameter"
-								class="inaccessible"
-								title="Afficher les paramètres avancés"
-								onclick=""  class="tr">Paramètres avancés</li>
-
-
-							<li class="split"><hr/></li>
-
-							<li id="addMeridian"
-								class="inaccessible"
-								title="Ajout méridienne"
-								onclick=""  class="tr">Ajout méridienne</li>
-
-							<li id="addCurve"
-								class="inaccessible"
-								title="Ajout courbe de révolution"
-								onclick=""  class="tr">Ajout courbe de révolution</li>
-
+							<li id="" class="tr trTitle"
+								title="Fermer une courbe"
+								onclick="appli.drawFreeHandMeridian (); appli.closeCurve ()">Fermer la courbe</li>
 						</ul>
 					</li>
+					
+					<li id="meridianFormulaInputMenu"
+						class="tr trTitle"
+						title="Rentrer une formule pour la méridienne"
+						onclick="appli.inputMeridianFormula ()">Formule méridienne</li>
 
 					<li class="split"><hr/></li>
-					<li id="tool3D"
-						class="submenu"
-						title="Outils 3D">
-						<h1 id="m34" class="tr">Outils 3D</h1>
+
+					<li id="curveOfRevolutionChoice"
+						class="tr trTitle"
+						title="Choix de la courbe de révolution"
+						onclick="appli.selectRevol ()">Courbes de révolution</li>
+
+					<li id="revolFormulaInput"
+						class="tr trTitle"
+						title="Rentrer une formule pour la courbe de révolution"
+						onclick="appli.inputRevolFormula ()">Formule courbe de révolution</li>
+				</ul>
+			</li><!-- because inline-block put a small space between blocks
+			--><li id="surfaceMenu" tabindex="4">
+				<h1 id="" class="tr">Surface</h1>
+				<ul>
+					<li title="Générer la surface dans la vue 3D" id="m21" class="tr trtitle"
+						onclick="appli.generateAndDraw (0)">Générer</li>
+
+					<li title="Générer la surface dans la vue 3D avec un algorithme brute force.
+Plus LENT mais permet de résoudre certains problèmes de connexité." id="" class="tr trtitle"
+						onclick="appli.generateAndDraw (1)">Générer (brute force)</li>
+						
+					<li class="split"><hr/></li>
+
+					<li id="showSlice" class="submenu">
+						<h1 id="" class="tr trtitle"
+							title="Visualiser une coupe">Visualiser coupe</h1>
 						<ul>
+							<li id="" class="tr trtitle" title="Visualiser la coupe X"
+								onclick="appli.showXSlice ()">X</li>
 
+							<li id="" class="tr trtitle" title="Visualiser la coupe Y"
+								onclick="appli.showYSlice ()">Y</li>
 
-							<li id="dimension"
-								class="inaccessible"
-								title="Choix des dimensions"
-								onclick=""  class="tr">Dimension</li>
-
-							<li id="repereDisplay"
-								class="inaccessible"
-								title="Affichage du repère"
-								onclick=""  class="tr">Afficher le repère</li>
-
-							<li id="voxelSize"
-								class="inaccessible"
-								title="Taille des voxels"
-								onclick=""  class="tr">Taille des voxels</li>
-
-							<li id="multiSlice"
-								class="inaccessible"
-								title="Multicoupe"
-								onclick=""  class="tr">Multicoupe</li>
-
+							<li id="" class="tr trtitle" title="Visualiser la coupe Z"
+								onclick="appli.showZSlice ()">Z</li>
 						</ul>
 					</li>
-
+					
+					<li id="" class="tr trtitle"
+						onclick="appli.hideSlice ()">Effacer les coupes</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="exportMenu" tabindex="5">
 				<h1 id="m4" class="tr">Export</h1>
 				<ul>
 
-					<li><a id="download"  class="tr" onclick="appli.export3DPng()">Exporter surface 3D</a></li>
-					<li><a id="downloadMeridian"  class="tr" onclick="appli.exportMeridianPng()">Exporter méridienne</a></li>
-					<li><a id="downloadRevolution"  class="tr" onclick="appli.exportRevolutionPng()">Exporter courbe de révolution</a></li>
-
-					<li class="split"><hr/></li>
-
-					<li id="tool3D"
-						class="submenu"
-						title="Outils 3D">
-						<h1 id="m44" class="tr">Export 3D</h1>
+					<li id="downloadImage" class="submenu">
+						<h1 id="" class="tr" title="Enregistrer une image PNG">Image PNG</h1>
 						<ul>
-							<li id="m441" class="tr" onclick="appli.exportX3D()">Export X3D</li>
-							<li id="m442" class="tr" onclick="appli.exportSTL()">Export impression 3D</li>
+							<li>
+								<a id="downloadMeridian" class="tr trtitle"
+									title="Enregistrer une image de la méridienne en PNG"
+									onclick="appli.exportMeridianPng ()">Méridienne</a>
+							</li>
+							
+							<li>
+								<a id="downloadRevolution" class="tr trtitle"
+									title="Enregistrer une image de la courbe de révolution en PNG"
+									onclick="appli.exportRevolutionPng ()">Courbe de révolution</a>
+							</li>
+							
+							<li>
+								<a id="download" class="tr trtitle"
+									title="Enregistrer une image de la surface en PNG"
+									onclick="appli.export3DPng ()">Surface 3D</a>
+							</li>
 						</ul>
-					</li>
-				</ul>
-			</li>
+					</li><!-- end submenu "Image PNG" -->
 
+					<li id="tool3D" class="submenu">
+						<h1 id="m44" class="tr trtitle" title="Format d'export 3D">Format 3D</h1>
+						<ul>
+							<li id="m441" class="tr trtitle"
+								title="Exporter la surface au format X3D"
+								onclick="appli.exportX3D ()">X3D</li>
+							
+							<li id="m442" class="tr trtitle" 
+								title="Exporter la surface au format STL utilisable par une imprimante 3D"
+								onclick="appli.exportSTL ()">Impression 3D</li>
+						</ul>
+					</li><!-- end submenu "Format 3D" -->
+				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="helpMenu" tabindex="6">
 				<h1 id="m5" class="tr">Aide</h1>
 				<ul>
-
-					<li key="m51" class="tr"><a href="help.html">Afficher l'aide</a></li>
+					<li key="m51" class="tr"><a href="help.html" target="_blank">Afficher l'aide</a></li>
+					
 					<li key="m52" class="tr">À propos</li>
-
 				</ul>
-			</li>
-
-			<li id="translatemenu" tabindex="7">
-			<h1>Traduction</h1>
+			</li><!-- because inline-block put a small space between blocks
+			--><li id="translatemenu" tabindex="7">
+				<h1 id="" class="tr">Traduction</h1>
 				<ul>
-					<li id="en" class="lang">English</li>
-					<li id="fr" class="lang">Français</li>
+					<li id="en" class="lang" 
+						title="Translate everything in English">English</li>
+					
+					<li id="fr" class="lang" 
+						title="Traduit toute l'application en Français">Français</li>
 				</ul>
 			</li>
 		</ul><!-- end menus -->
@@ -408,6 +420,7 @@
 
 				<div id="revolView" class="viewer">
 					<ul id="revolParam" class="paramPanel"></ul>
+					
 					<canvas id="revolCanvas" style="display:none"></canvas>
 					<div id="revolCanvas2"></div>
 
@@ -429,16 +442,16 @@
 									<option value="Triangle" id="revol134" class="tr">Croix</option>
 									<option value="Heart" id="revol4" class="tr">Coeur</option>
 									<option value="Lemniscate" id="revol5" class="tr">Lemniscate</option>
-									<option value="Curve1" id="revol6" class="tr">Curve1</option>
-									<option value="Curve2" id="revol7" class="tr">Curve2</option>
-									<option value="Curve3" id="revol8" class="tr">Curve3</option>
-									<option value="Curve4" id="revol9" class="tr">Curve4</option>
+									<option value="Lissajous" id="revol6" class="tr">Courbe de Lissajous</option>
+									<option value="Quadrifolium" id="revol7" class="tr">Quadrifolium</option>
+									<option value="Knot" id="revol8" class="tr">Courbe du noeud</option>
+									<option value="Scarabeus" id="revol9" class="tr">Scarabeus</option>
 									<option value="Hyperbol" id="revol10" class="tr">Hyperbol</option>
-									<option value="Curve6" id="revol11" class="tr">Curve6</option>
-									<option value="Curve7" id="revol12" class="tr">Curve7</option>
-									<option value="Curve8" id="revol13" class="tr">Curve8</option>
-									<option value="Curve9" id="revol14" class="tr">Curve9</option>
-									<option value="Curve10" id="revol15" class="tr">Curve10</option>
+									<option value="Folium" id="revol11" class="tr">Folium de Descartes</option>
+									<option value="Hexafolium" id="revol14" class="tr">Hexafolium</option>
+									<option value="Curve1" id="revol12" class="tr">Curve1</option>
+									<option value="Curve2" id="revol13" class="tr">Curve2</option>
+									<option value="Curve3" id="revol15" class="tr">Curve3</option>
 								</select>
 							</div>
 							<label for="revolFormula">&nbsp;</label>
@@ -466,7 +479,9 @@
 				<div id="surfaceParam" class="paramPanel">
 					<button id="generate1" onclick="appli.generateAndDraw (0)"  class="tr">Générer</button>
 					<button id="generate2" onclick="appli.generateAndDraw (1)"  class="tr">Génération non optimisée</button>
+					
 					<hr/>
+					
 					<div class="wrapper">
 						<label class="title">Dimension X</label><br/>
 						<div class="doubleSliders" name="X" id="slider-rangeX"></div>
@@ -476,6 +491,7 @@
 						<input type="text" id="amountMaxX"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeX', true, '#amountMaxX')">
 					</div>
+					
 					<div class="wrapper">
 						<label class="title">Dimension Y</label><br/>
 						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
@@ -485,6 +501,7 @@
 						<input type="text" id="amountMaxY"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeY', true, '#amountMaxY')">
 					</div>
+					
 					<div class="wrapper">
 						<label class="title">Dimension Z</label><br/>
 						<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
@@ -494,9 +511,17 @@
 						<input type="text" id="amountMaxZ"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeZ', true, '#amountMaxZ')">
 					</div>
-
+					
 					<div class="wrapper">
-						<button id="" class="tr trTitle" onclick="appli.resetSliderMultiSlice ()">Remettre à zéro</button>
+						<button id="" class="tr trTitle"
+							onclick="appli.resetSliderMultiSlice ()">Remettre à zéro</button>
+					</div>
+					
+					<hr/>
+					
+					<div class="wrapper">
+						<button id="" class="tr trTitle"
+							onclick="appli.resetCamera ()">Centrer la caméra</button>
 					</div>
 				</div><!-- end #surfaceParam -->
 
@@ -512,9 +537,12 @@
 				<div id="surfaceOption" class="optionPanel">
 					<div class="wrapper">
 						<p class="multiLabel">Dimension&nbsp;:</p>
-						<input id="dimx" type="number" value="31" min="1" max="256" onchange="appli.changeDimension ()"/>
-						<input id="dimy" type="number" value="31" min="1" max="256" onchange="appli.changeDimension ()"/>
-						<input id="dimz" type="number" value="31" min="1" max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimx" type="number" value="51" min="1"
+							max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimy" type="number" value="51" min="1"
+							max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimz" type="number" value="51" min="1"
+							max="256" onchange="appli.changeDimension ()"/>
 					</div>
 					<!-- TODO traduire -->
 					<div class="wrapper">
@@ -555,24 +583,7 @@
 
 		<script type="text/javascript">
 			var appli = new Application ();
-
-			var gl = appli.surfaceView.glContext;
-			var n64 = new N64 (gl, 6, 5);
-			//appli.surfaceView.container.addObject (n64);
-			// globalParam.perspectiveView = false;
 			appli.initAppli ();
-			// appli.toggleBox ();
-			// appli.toggleRepere ();
-			// var cam = appli.surfaceView.container.camera
-			// var eye = cam.eyePos;
-			function plop (arg1, arg2) {
-				console.log ("nbargs =", arguments.length)
-				for (var i in arguments) {
-					console.log ("arg[i] =", arguments[i]);
-				}
-				console.log ("arg1 =", arg1)
-				console.log ("arg2 =", arg2)
-			}
 			/**
 			 * idée de courbe :
 			 * liste complète : http://www.mathcurve.com/courbes2d/courbes2d.shtml
@@ -607,8 +618,6 @@
 			 * 	ou http://www.mathcurve.com/courbes2d/scarabee/scarabee.shtml
 			 * courbe 7 : voir http://www.mathcurve.com/courbes2d/salmon/salmon.shtml
 			 */
-
-
 		</script>
 	</body>
 </html>

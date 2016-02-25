@@ -61,10 +61,21 @@ ModelExport.prototype.constructor = ModelExport;
  *
  */
 function ModelExport (idSurface, idMeridian, idRevolution) {
+	
+	/**
+	 * TODO
+	 */
 	this.idSurface = idSurface;
+	
+	/**
+	 * TODO
+	 */
 	this.idMeridian = idMeridian;
+	
+	/**
+	 * TODO
+	 */
 	this.idRevolution = idRevolution;
-	this.connexity = parseInt($("#connexityChoice").val());
 };
 
 
@@ -148,13 +159,13 @@ ModelExport.prototype.exportX3D = function(surface){
 	var indicesBuffer = [], vertexBuffer = [];
 	
 	var dimension = surface.getDimension();
-	
+	var connexity = parseInt($("#connexityChoice").val());
 	
 	for(var x = 0; x < dimension.x; x++){
 		for(var y = 0; y < dimension.y; y++){
 			for(var z = 0; z < dimension.z; z++){
 				var voxel = surface.getVoxel(x,z,y)
-				if(voxel != null && voxel.isVisible(this.connexity)){
+				if(voxel != null && voxel.isVisible(connexity)){
 					x3D += "\t<Transform translation=\""+  (x - dimension.x/2) + " " + (y - dimension.y/2) + " " + (z - dimension.z/2)  + "\">\n" +
 								"\t\t<Shape>\n" + 
 									"\t\t\t<Box size=\"" + 1.0 + " " +  1.0 + " " + 1.0 + "\"/>\n"+
@@ -273,8 +284,11 @@ ModelExport.prototype.exportSTL = function(renderer){
 	var vertexBuffer = [];
 	
 	var indicesBuffer = [];
-
-	renderer.prepareSTL(this.connexity, indicesBuffer, vertexBuffer);
+	var connexity = parseInt($("#connexityChoice").val());
+	if(connexity == ConnexityEnum.C26){
+		connexity = ConnexityEnum.C18;
+	}
+	renderer.prepareSTL(connexity, indicesBuffer, vertexBuffer);
 	
 	var nbTriangles = indicesBuffer.length/3;
 	// Creation of the buffer containing the data for the stl
@@ -372,7 +386,7 @@ ModelExport.prototype.saveCurves = function(meridianController, revolutionContro
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 ModelExport.prototype.writeImplicitCurve = function(curveController){
 	var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + 
@@ -418,7 +432,7 @@ ModelExport.prototype.writeImplicitCurve = function(curveController){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 ModelExport.prototype.writeExplicitCurve = function(curveController){
 	var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + 
@@ -464,7 +478,7 @@ ModelExport.prototype.writeExplicitCurve = function(curveController){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 ModelExport.prototype.writeDrawnCurve = function(curveController){
 	var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n' + 
