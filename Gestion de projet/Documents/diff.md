@@ -6,7 +6,7 @@ arêtes et faces
 
 * mettre quelle noms ?
 
-
+possiblité d'en choisir plusieurs
 
 Dimension espaces 3D
 ====================
@@ -26,7 +26,7 @@ rotation : clic gauche
 	ctrl + clic gauche : translation
 	clic droit : selection de coupe
 
-* clic dans le vide = deselection ?
+* clic dans le vide = deselection ? OUI
 
 
 
@@ -37,7 +37,7 @@ séparation simple/avancé
 coefficients
 
 -> pas de séparation
-   pas de coef
+   pas de coef --> très bien
 
 
 
@@ -46,7 +46,7 @@ Limites 3D
 
 plans interieur d'un cube
 
--> boite englobante
+-> boite englobante -> tres bien 
 
 
 
@@ -55,7 +55,7 @@ Impression 3D
 
 pas de format préciser
 
--> STL, pas de prise en compte de la mise en évidence des courbes
+-> STL, pas de prise en compte de la mise en évidence des courbes OUI
 
 
 
@@ -66,6 +66,8 @@ X3D
 
 -> oui mais pas de couleur ni de prise en compte de la mise en évidence des 
    courbes
+
+changer en points
 
 
 
@@ -83,7 +85,7 @@ Grille des courbes
 Repère formule et liste
 
 -> pas de grille pour le dessin.
-
+OUI
 
 
 Taille des voxel
@@ -92,6 +94,7 @@ Taille des voxel
 Taille libre
 
 -> Plus petit mais pas plus gros
+autoriser plus gros, jusqu'à deux
 
 
 
@@ -102,6 +105,7 @@ Fichier ZIP
 
 -> dézipper puis chargé fichier XML
 
+que XML
 
 
 Ajout de courbe prédéfinie
@@ -109,4 +113,20 @@ Ajout de courbe prédéfinie
 
 
 -> pas fait
+on s'en fou
+
+
+
+
+-------------------------------------
+coupe = croping
+option surface en haut
+buttonGroup : tous à gauche
+vérifier dépassement des limite 3D (réafficher les bonnes valeurs)
+vérifier canvas lors du dépassement limite 3D
+révol disparition des paramètre
+équation : var en anglis
+garder anciers rvb en moins flash
+"Visualiser coupe" à changer
+les trois coupe au voxel
 
