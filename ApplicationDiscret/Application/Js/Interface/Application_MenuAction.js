@@ -220,10 +220,6 @@ Application.prototype.loadMeridian = function (event) {
             EquationTypeEnum.explicit
         );
 
-		/*for(var i = 0; i < listNameParameters.length; i++){
-			this.meridianController.setParameter(listNameParameters[i].textContent.toString(), parseFloat(listValueParameters[i].textContent.toString()) );
-		}*/
-
 		this.meridianController.setXRange (new Range (xMin, xMax));
 		this.meridianController.setYRange (new Range (yMin, yMax));
 	}

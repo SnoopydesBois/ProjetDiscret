@@ -8,6 +8,8 @@ arêtes et faces
 
 possiblité d'en choisir plusieurs
 
+
+
 Dimension espaces 3D
 ====================
 
@@ -67,11 +69,11 @@ X3D
 -> oui mais pas de couleur ni de prise en compte de la mise en évidence des 
    courbes
 
-changer en points
+très bien 
 
 
 
-Aide 
+Aide
 ====
 
 -> Pour le moment en anglais, 
@@ -121,12 +123,8 @@ on s'en fou
 -------------------------------------
 coupe = croping
 option surface en haut
-buttonGroup : tous à gauche
 vérifier dépassement des limite 3D (réafficher les bonnes valeurs)
 vérifier canvas lors du dépassement limite 3D
-révol disparition des paramètre
-équation : var en anglis
-garder anciers rvb en moins flash
 "Visualiser coupe" à changer
-les trois coupe au voxel
-
+taille des voxels
+multiconnexité
