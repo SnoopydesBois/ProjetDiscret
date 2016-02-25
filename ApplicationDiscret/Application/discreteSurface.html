@@ -137,21 +137,40 @@
 						id="m13" class="tr" onclick="appli.saveCurves()">Enregistrer</li>
 					
 					<li title="Ouvrir une meridienne depuis un fichier sur cet ordinateur"
+<<<<<<< HEAD
+						onclick="this.firstElementChild.click()" id="m11" class="tr"  >
+						<input type="file" onchange="appli.loadMeridian(event)" style="display:none">Charger méridienne</input>
+=======
 						onclick="this.firstElementChild.click()" id="m11" class="tr">
 						<input type="file" id="i_file" style="display: none" 
 							onchange="appli.loadMeridian(event)">Charger méridienne</input>
+>>>>>>> origin/master
 					</li>
 					
 					<li title="Ouvrir une courbe de revolution depuis un fichier sur cet ordinateur"
 						onclick="this.firstElementChild.click()" id="m12" class="tr">
+<<<<<<< HEAD
+						<input type="file"  onchange="appli.loadRevolution(event)" style="display:none">Charger courbe de révolution</input>
+
+=======
 						<input type="file" id="i_file" style="display: none"
 							onchange="appli.loadRevolution(event)">Charger courbe de révolution</input>
+>>>>>>> origin/master
 					</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="viewMenu" tabindex="2">
 				<h1 id="m2" class="tr">Affichage</h1>
 				<ul>
+<<<<<<< HEAD
+					<li title="Générer la surface dans la vue 3D" id="m21" class="tr trtitle"
+						onclick="appli.generateAndDraw (0)">Générer</li>
+
+					<li title="Centrer la caméra" id="m22" class="tr"
+						onclick="appli.resetCamera()">Centrer la caméra</li>
+
+=======
+>>>>>>> origin/master
 					<li title="Changer le point de vue" id="m23" class="tr"
 						onclick="if (globalParam.perspectiveView) {
 							this.innerHTML = 'Perspective';
@@ -375,7 +394,7 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="" cla
 							<div class="optionGroup">
 
 								<button id="a3" class="tr" onclick="appli.clearDraw ()">Effacer</button>
-								<button id="" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
+								<button id="a8" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
 
 							</div>
 							<label for="meridianFormula">&nbsp;</label>
