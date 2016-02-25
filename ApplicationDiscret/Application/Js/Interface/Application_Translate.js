@@ -35,7 +35,8 @@ aLangTitleKeys['fr']['m21'] = 'Générer la surface dans la vue 3D';
 //	English
 //##############################################################################
 
-
+/* Titre anglais */
+aLangKeys['en']['titre'] = 'discrete revolution surface';
 
 /* Menu Fichier anglais */
 aLangKeys['en']['m1'] = 'File';
@@ -46,16 +47,18 @@ aLangKeys['en']['m13'] = 'Save';
 /* Menu Affichage anglais */
 aLangKeys['en']['m2'] = 'Display';
 aLangKeys['en']['m21'] = 'Camera';
-aLangKeys['en']['m22'] = 'Center the camera';
+aLangKeys['en']['m22'] = 'Reset';
 aLangKeys['en']['m23'] = 'Orthographic';
 aLangKeys['en']['m24'] = 'Add N64';
 aLangKeys['en']['m25'] = 'Delete N64';
 aLangKeys['en']['m26'] = 'RGB Color';
 aLangKeys['en']['m27'] = 'Show/hide graduation';
 aLangKeys['en']['m28'] = 'Show/hide 3D space limits';
+aLangKeys['en']['m29'] = 'Center';
+
 
 /* Menu Outils anglais */
-aLangKeys['en']['m3'] = 'Tools';
+aLangKeys['en']['m3'] = 'Curves';
 aLangKeys['en']['m33'] = '2D Tools';
 aLangKeys['en']['m34'] = '3D Tools';
 
@@ -149,7 +152,7 @@ aLangKeys['en']['s5'] = 'Delete Slices';
 //	French
 //##############################################################################
 
-
+aLangKeys['fr']['titre'] = 'Surface de révolution discrète';
 
 /* Menu Fichier français */
 aLangKeys['fr']['m1'] = 'Fichier';
@@ -160,16 +163,17 @@ aLangKeys['fr']['m13'] = 'Enregistrer';
 /* Menu Affichage Français */
 aLangKeys['fr']['m2'] = 'Affichage';
 aLangKeys['fr']['m21'] = 'Caméra';
-aLangKeys['fr']['m22'] = 'Centrer La caméra';
+aLangKeys['fr']['m22'] = 'Réinitialiser';
 aLangKeys['fr']['m23'] = 'Orthographique';
 aLangKeys['fr']['m24'] = 'Ajouter N64';
 aLangKeys['fr']['m25'] = 'Supprimer N64';
 aLangKeys['fr']['m26'] = 'Couleur RVB';
 aLangKeys['fr']['m27'] = 'Afficher/Cacher repère';
 aLangKeys['fr']['m28'] = 'Afficher/Cacher limite 3D';
+aLangKeys['fr']['m29'] = 'Centrer';
 
 /* Menu Outils Franaçis */
-aLangKeys['fr']['m3'] = 'Outils';
+aLangKeys['fr']['m3'] = 'Courbes';
 aLangKeys['fr']['m33'] = 'Outils 2D';
 aLangKeys['fr']['m34'] = 'Outils 3D';
 
@@ -292,5 +296,18 @@ $(document).ready (function () {
 });
 
 
+
+function translateAbout()
+{
+
+var x = document.getElementById("m52");
+  
+   if(x.attr('tr') == 'en'){
+   $(this).href(AboutFR.html);}
+   else{
+	  $(this).href(AboutEN.html);
+   }
+   
+}
 
 

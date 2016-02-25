@@ -183,7 +183,7 @@
 						<h1 id="m21" class="tr">Caméra</h1>
 						<ul>
 							<li title="Centrer la caméra" 
-								id="" class="tr trtitle"
+								id="m29" class="tr trtitle"
 								onclick="appli.centerCamera ()">Centrer</li>
 							
 							<li title="Replacer la caméra à sa position d'origine" 
@@ -322,9 +322,9 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 			--><li id="helpMenu" tabindex="6">
 				<h1 id="m5" class="tr">Aide</h1>
 				<ul>
-					<li id="m51" class="tr"><a href="help.html" target="_blank">Afficher l'aide</a></li>
+					<li ><a id="m51" class="tr" href="help.html" target="_blank">Afficher l'aide</a></li>
 					
-					<li id="m52" class="tr">À propos</li>
+					<li><a id="m52" class="tr" onclick="translateAbout()"  target="_blank" >À propos</a></li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="translatemenu" tabindex="7">
@@ -361,6 +361,9 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 							onchange="appli.changeMeridianMode ()"
 							onsubmit="return false">
 							<label for="meridianPrimitive">&nbsp;</label>
+							<label for="meridianFreeHand">&nbsp;</label>
+							<label for="meridianFormula">&nbsp;</label>
+							
 							<input type="radio"
 								id="meridianPrimitive"
 								name="meridianTypeValue"
@@ -374,7 +377,6 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 									<option value="Sinusoid" id="mer4" class="tr">Sinusoid</option>
 								</select>
 							</div>
-							<label for="meridianFreeHand">&nbsp;</label>
 							<input type="radio"
 								id="meridianFreeHand"
 								name="meridianTypeValue"
@@ -386,7 +388,6 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 								<button id="a8" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
 
 							</div>
-							<label for="meridianFormula">&nbsp;</label>
 							<input type="radio"
 								id="meridianFormula"
 								name="meridianTypeValue"
@@ -418,6 +419,8 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 							onchange="appli.changeRevolMode ()"
 							onsubmit="return false">
 							<label for="revolPrimitive">&nbsp;</label>
+							<label for="revolFormula">&nbsp;</label>
+							
 							<input type="radio"
 								id="revolPrimitive"
 								name="revolTypeValue"
@@ -442,7 +445,6 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 									<option value="Curve3" id="revol15" class="tr">Napperon</option>
 								</select>
 							</div>
-							<label for="revolFormula">&nbsp;</label>
 							<input type="radio"
 								id="revolFormula"
 								name="revolTypeValue"
@@ -509,7 +511,7 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 					
 					<div class="wrapper">
 						<button id="a10" class="tr trTitle"
-							onclick="appli.resetCamera ()">Centrer la caméra</button>
+							onclick="appli.resetCamera ()">Réinitialiser la caméra</button>
 					</div>
 				</div><!-- end #surfaceParam -->
 
@@ -537,9 +539,9 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 						<label id="m341" class="tr" for="connexityChoice">Connexité&nbsp;:</label>
 						<select id="connexityChoice" name="connexityChoice"
 							onchange="appli.surfaceView.unprepare (); appli.surfaceView.show ()">
-							<option value="1">C26</option>
-							<option value="2">C18</option>
-							<option value="4">C6</option>
+							<option value="1">C-26</option>
+							<option value="2">C-18</option>
+							<option value="4">C-6</option>
 						</select>
 					</div>
 
@@ -547,7 +549,7 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 					<div class="wrapper">
 						<label id="m344" class="tr" for="voxelRadius">Taille des voxels&nbsp;:</label>
 						<input id="voxelRadius" type="number" name="voxelRadius"
-							value="1" min="0" max="1" step="0.05"/>
+							value="1" min="0" max="2" step="0.05"/>
 					</div>
 					<!-- TODO traduire -->
 					<button id="a5" class="tr" onclick="appli.show (true)">Visualiser</button>
@@ -569,7 +571,11 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 		</div>
 
 
+
+
 		<script type="text/javascript">
+		
+
 			var appli = new Application ();
 			appli.initAppli ();
 			/**
@@ -602,9 +608,6 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 			/*
 			 * courbe 2 : voir http://www.mathcurve.com/courbes2d/trefle/trefle.shtml
 			 * courbe 3, 8 : voir http://www.mathcurve.com/courbes2d/lissajous/lissajous.shtml
-			 * courbe 4 : voir http://www.mathcurve.com/courbes2d/trisectricedeceva/trisectricedeceva.shtml
-			 * 	ou http://www.mathcurve.com/courbes2d/scarabee/scarabee.shtml
-			 * courbe 7 : voir http://www.mathcurve.com/courbes2d/salmon/salmon.shtml
 			 */
 		</script>
 	</body>
