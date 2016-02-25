@@ -194,10 +194,23 @@
 						title="Choix de la méridienne"
 						onclick="appli.selectMeridian ()">Méridienne</li>
 				
-					<li id="handFreeDrawing"
-						class="tr trTitle"
-						title="Dessiner à main levée"
-						onclick="appli.drawFreeHandMeridian ()">Dessiner à main levée</li>
+					<li id="handFreeDrawing" class="submenu">
+						<h1 id="" class="tr trtitle"
+							title="Dessin à main levée">Dessiner à main levée</h1>
+						<ul>
+							<li id="" class="tr trTitle"
+								title="Déssiner une courbe"
+								onclick="appli.drawFreeHandMeridian ()">Dessiner</li>
+
+							<li id="" class="tr trTitle"
+								title="Effacer la courbe"
+								onclick="appli.drawFreeHandMeridian (); appli.clearDraw ()">Effacer</li>
+
+							<li id="" class="tr trTitle"
+								title="Fermer une courbe"
+								onclick="appli.drawFreeHandMeridian (); appli.closeCurve ()">Fermer la courbe</li>
+						</ul>
+					</li>
 					
 					<li id="meridianFormulaInputMenu"
 						class="tr trTitle"
@@ -472,13 +485,15 @@ Plus LENT mais permet de résoudre certaint CONFLIT." id="" class="tr trtitle"
 					</div>
 					
 					<div class="wrapper">
-						<button id="" class="tr trTitle" onclick="appli.resetSliderMultiSlice ()">Remettre à zéro</button>
+						<button id="" class="tr trTitle"
+							onclick="appli.resetSliderMultiSlice ()">Remettre à zéro</button>
 					</div>
 					
 					<hr/>
 					
 					<div class="wrapper">
-						<button id="" class="tr trTitle" onclick="appli.resetCamera ()">Centrer la caméra</button>
+						<button id="" class="tr trTitle"
+							onclick="appli.resetCamera ()">Centrer la caméra</button>
 					</div>
 				</div><!-- end #surfaceParam -->
 
@@ -494,9 +509,12 @@ Plus LENT mais permet de résoudre certaint CONFLIT." id="" class="tr trtitle"
 				<div id="surfaceOption" class="optionPanel">
 					<div class="wrapper">
 						<p class="multiLabel">Dimension&nbsp;:</p>
-						<input id="dimx" type="number" value="51" min="1" max="256" onchange="appli.changeDimension ()"/>
-						<input id="dimy" type="number" value="51" min="1" max="256" onchange="appli.changeDimension ()"/>
-						<input id="dimz" type="number" value="51" min="1" max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimx" type="number" value="51" min="1"
+							max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimy" type="number" value="51" min="1"
+							max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimz" type="number" value="51" min="1"
+							max="256" onchange="appli.changeDimension ()"/>
 					</div>
 					<!-- TODO traduire -->
 					<div class="wrapper">

@@ -88,7 +88,7 @@
 .menus .tool,
 .menus > li > ul li {
 	display : inherit;
-	width : 10em;
+	width : 12em;
 	border : none;
 	background-color : transparent;
 	box-sizing : initial;
@@ -121,6 +121,7 @@ li.submenu:hover > ul {
 .menus ul h1, ul h1 {
 	background-color : inherit;
 	margin : inherit;
+	padding-right: 16px;
 }
 
 
@@ -140,7 +141,7 @@ li.submenu:hover > ul {
 
 .menus ul hr,
 .submenu ul hr {
-	border-color : #CCCCCC;
+	border-color : #CCC;
 	margin : 3px;
 }
 
