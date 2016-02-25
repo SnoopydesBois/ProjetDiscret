@@ -321,6 +321,7 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
 		var dim = surface.getDimension ();
 		var facet = colorToPos (color, dim);
 		var dir = facet.getDirection ();
+		var noHighlight;
 		if (0 <= dir && dir < DirectionEnum.size) {
 			var voxelPos = facet.getCube ();
 			surface.setHighlightX (voxelPos.x);
@@ -328,9 +329,12 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
 			surface.setHighlightZ (voxelPos.z);
 		}
 		else {
-			surface.setHighlightX (-1);
-			surface.setHighlightY (-1);
-			surface.setHighlightZ (-1);
+			noHighlight = (surface.highlightX == -1);
+			if (! noHighlight) {
+				surface.setHighlightX (-1);
+				surface.setHighlightY (-1);
+				surface.setHighlightZ (-1);
+			}
 		}
 		// redraw correctly the scene
 		this.show (true);

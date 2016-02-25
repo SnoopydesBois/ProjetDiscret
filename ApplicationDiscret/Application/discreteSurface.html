@@ -134,21 +134,20 @@
 				<h1 id="m1" class="tr">Fichier</h1>
 				<ul>
 					<li title="Enregistrer et télécharger la méridienne actuelle"
-						id="m13" class="tr" onclick="appli.saveGeneratrix()">Enregistrer méridienne</li>
+						id="m13" class="tr trtitle" onclick="appli.saveGeneratrix()">Enregistrer méridienne</li>
 
 					<li title="Enregistrer et télécharger la courbe de révolution actuelle"
-						id="m13" class="tr" onclick="appli.saveRevolution()">Enregistrer courbe de révolution</li>
+						id="m14" class="tr trtitle" onclick="appli.saveRevolution()">Enregistrer courbe de révolution</li>
 					
 					<li title="Ouvrir une meridienne depuis un fichier sur cet ordinateur"
-
-						onclick="this.firstElementChild.click()" id="m11" class="tr">
+						onclick="this.firstElementChild.click()" id="m11" class="tr trtitle">
 						<input type="file" id="i_file" style="display: none" 
 							onchange="appli.loadMeridian(event)">Charger méridienne</input>
 
 					</li>
 					
 					<li title="Ouvrir une courbe de revolution depuis un fichier sur cet ordinateur"
-						onclick="this.firstElementChild.click()" id="m12" class="tr">
+						onclick="this.firstElementChild.click()" id="m12" class="tr trtitle">
 
 						<input type="file" id="i_file" style="display: none"
 							onchange="appli.loadRevolution(event)">Charger courbe de révolution</input>
@@ -160,24 +159,33 @@
 				<h1 id="m2" class="tr">Affichage</h1>
 				<ul>
 
-					<li title="Changer le point de vue" id="m23" class="tr"
-						onclick="if (globalParam.perspectiveView) {
-							this.innerHTML = 'Perspective';
-						} else {
-							this.innerHTML = 'Orthographique';
-						}
-						globalParam.perspectiveView = !globalParam.perspectiveView;
+					<li title="Point de vue perspective" id="m24" class="tr trtitle"
+						onclick="globalParam.perspectiveView = !globalParam.perspectiveView;
 						appli.surfaceView.computeCamera ();
-						appli.surfaceView.show ()">Orthographique</li>
+						appli.surfaceView.show ();
+						this.nextElementSibling.style='';
+						this.style='display: none'">Perspective</li>
+
+					<li title="Point de vue orthographique" id="m23" class="tr trtitle"
+						onclick="globalParam.perspectiveView = !globalParam.perspectiveView;
+						appli.surfaceView.computeCamera ();
+						appli.surfaceView.show ();
+						this.previousElementSibling.style='';
+						this.style='display: none'"
+						style="display: none">Orthographique</li>
 					
-					<li title="Changer la palette de couleur" id="m26" class="tr"
-						onclick="if (globalParam.cubeColorDebug) {
-							this.innerHTML = 'Couleur RVB';
-						} else {
-							this.innerHTML = 'Couleur blanche';
-						}
-						globalParam.cubeColorDebug = !globalParam.cubeColorDebug;
-						appli.surfaceView.show (true)">Couleur RVB</li>
+					<li title="Changer la palette de couleur en Rouge-Vert-Bleu" id="m25" class="tr trtitle"
+						onclick="globalParam.cubeColorDebug = !globalParam.cubeColorDebug;
+						appli.surfaceView.show (true);
+						this.nextElementSibling.style='';
+						this.style='display: none'">Couleur RVB</li>
+
+					<li title="Changer la palette de couleur en blanc" id="m26" class="tr trtitle"
+						onclick="globalParam.cubeColorDebug = !globalParam.cubeColorDebug;
+						appli.surfaceView.show (true);
+						this.previousElementSibling.style='';
+						this.style='display: none'"
+						style="display: none">Couleur blanche</li>
 					
 					<li id="camera" class="submenu">
 						<h1 id="m21" class="tr">Caméra</h1>
@@ -195,11 +203,11 @@
 					<li class="split"><hr/></li>
 
 					<li title="Affichez ou cachez le repère 3D" 
-						id="m27" class="tr trTitle"
+						id="m27" class="tr trtitle"
 						onclick="appli.toggleRepere ()">Afficher/Cacher repère</li>
 
 					<li title="Affichez ou cachez les limites de l'espace 3D" 
-						id="m28" class="tr trTitle"
+						id="m28" class="tr trtitle"
 						onclick="appli.toggleBox ()">Afficher/Cacher limite 3D</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
@@ -207,7 +215,7 @@
 				<h1 id="m3" class="tr">Courbes</h1>
 				<ul>
 					<li id="meridianChoice"
-						class="tr trTitle"
+						class="tr trtitle"
 						title="Choix de la méridienne"
 						onclick="appli.selectMeridian ()">Méridiennes</li>
 				
@@ -215,34 +223,34 @@
 						<h1 id="m35" class="tr trtitle"
 							title="Dessin à main levée">Dessiner à main levée</h1>
 						<ul>
-							<li id="m351" class="tr trTitle"
-								title="Déssiner une courbe"
-								onclick="appli.drawFreeHandMeridian ()" > Dessiner</li>
+							<li id="m351" class="tr trtitle"
+								title="Dessiner une courbe"
+								onclick="appli.drawFreeHandMeridian ()">Dessiner</li>
 
-							<li id="m352" class="tr trTitle"
+							<li id="m352" class="tr trtitle"
 								title="Effacer la courbe"
 								onclick="appli.drawFreeHandMeridian (); appli.clearDraw ()">Effacer</li>
 
-							<li id="m353" class="tr trTitle"
+							<li id="m353" class="tr trtitle"
 								title="Fermer une courbe"
 								onclick="appli.drawFreeHandMeridian (); appli.closeCurve ()">Fermer la courbe</li>
 						</ul>
 					</li>
 					
 					<li id="meridianFormulaInputMenu"
-						class="tr trTitle"
+						class="tr trtitle"
 						title="Rentrer une formule pour la méridienne"
 						onclick="appli.inputMeridianFormula ()">Formule méridienne</li>
 
 					<li class="split"><hr/></li>
 
 					<li id="curveOfRevolutionChoice"
-						class="tr trTitle"
+						class="tr trtitle"
 						title="Choix de la courbe de révolution"
 						onclick="appli.selectRevol ()">Courbes de révolution</li>
 
 					<li id="revolFormulaInput"
-						class="tr trTitle"
+						class="tr trtitle"
 						title="Rentrer une formule pour la courbe de révolution"
 						onclick="appli.inputRevolFormula ()">Formule courbe de révolution</li>
 				</ul>
@@ -253,28 +261,27 @@
 					<li title="Générer la surface dans la vue 3D" id="s2" class="tr trtitle"
 						onclick="appli.generateAndDraw (0)">Générer</li>
 
-					<li title="Générer la surface dans la vue 3D avec un algorithme brute force.
-Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" class="tr trtitle"
+					<li title="Générer la surface dans la vue 3D avec un algorithme brute force."
+						id="s3" class="tr trtitle"
 						onclick="appli.generateAndDraw (1)">Générer (brute force)</li>
 						
 					<li class="split"><hr/></li>
 
 					<li id="showSlice" class="submenu">
-						<h1 id="s4" class="tr trtitle"
-							title="Visualiser une coupe">Visualiser une coupe</h1>
+						<h1 id="s4" class="tr trtitle">Visualiser une coupe</h1>
 						<ul>
-							<li id="" class="tr trtitle" title="Visualiser la coupe X"
+							<li id="s41" class="tr trtitle" title="Visualiser la coupe X"
 								onclick="appli.showXSlice ()">X (rouge)</li>
 
-							<li id="" class="tr trtitle" title="Visualiser la coupe Y"
+							<li id="s42" class="tr trtitle" title="Visualiser la coupe Y"
 								onclick="appli.showYSlice ()">Y (verte)</li>
 
-							<li id="" class="tr trtitle" title="Visualiser la coupe Z"
+							<li id="s43" class="tr trtitle" title="Visualiser la coupe Z"
 								onclick="appli.showZSlice ()">Z (bleue)</li>
 						</ul>
 					</li>
 					
-					<li id="s5" class="tr trtitle"
+					<li id="s5" class="tr"
 						onclick="appli.hideSlice ()">Effacer les coupes</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
@@ -283,7 +290,8 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 				<ul>
 
 					<li id="downloadImage" class="submenu">
-						<h1 id="" class="tr" title="Enregistrer une image PNG">Image PNG</h1>
+						<h1 id="m41" class="tr trtitle"
+							title="Enregistrer une image PNG">Image PNG</h1>
 						<ul>
 							<li>
 								<a id="downloadMeridian" class="tr trtitle"
@@ -327,16 +335,8 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 					<li><a id="m52" class="tr" onclick="translateAbout()"  target="_blank" >À propos</a></li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
-			--><li id="translatemenu" tabindex="7">
-				<h1 id="" class="tr">EN/FR</h1>
-				<ul>
-					<li id="en" class="lang" 
-						title="Translate everything in English">English</li>
-					
-					<li id="fr" class="lang" 
-						title="Traduit toute l'application en Français">Français</li>
-				</ul>
-			</li>
+			--><li id="translatemenu" tabindex="7"
+				onclick="">En/Fr</li>
 		</ul><!-- end menus -->
 
 
@@ -467,13 +467,13 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 
 			<div id="surfaceView" class="viewer">
 				<div id="surfaceParam" class="paramPanel">
-					<button id="generate1" onclick="appli.generateAndDraw (0)"  class="tr">Générer</button>
-					<button id="generate2" onclick="appli.generateAndDraw (1)"  class="tr">Génération non optimisée</button>
+					<button id="generate1" onclick="appli.generateAndDraw (0)" class="tr">Générer</button>
+					<button id="generate2" onclick="appli.generateAndDraw (1)" class="tr">Génération non optimisée</button>
 					
 					<hr/>
 					
 					<div class="wrapper">
-						<label class="title">Coupe en X</label><br/>
+						<label class="title" id="xSlice">Coupe en X</label><br/>
 						<div class="doubleSliders" name="X" id="slider-rangeX"></div>
 						<input type="text" id="amountMinX"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeX', true, '#amountMinX')">
@@ -483,7 +483,7 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 					</div>
 					
 					<div class="wrapper">
-						<label class="title">Coupe en Y</label><br/>
+						<label class="title" id="ySlice">Coupe en Y</label><br/>
 						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
 						<input type="text" id="amountMinY"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeY', true, '#amountMinY')">
@@ -493,7 +493,7 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 					</div>
 					
 					<div class="wrapper">
-						<label class="title">Coupe en Z</label><br/>
+						<label class="title" id="zSlice">Coupe en Z</label><br/>
 						<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
 						<input type="text" id="amountMinZ"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeZ', true, '#amountMinZ')">
@@ -503,14 +503,14 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 					</div>
 					
 					<div class="wrapper">
-						<button id="a9" class="tr trTitle"
+						<button id="a9" class="tr"
 							onclick="appli.resetSliderMultiSlice ()">Remettre à zéro</button>
 					</div>
 					
 					<hr/>
 					
 					<div class="wrapper">
-						<button id="a10" class="tr trTitle"
+						<button id="a10" class="tr"
 							onclick="appli.resetCamera ()">Réinitialiser la caméra</button>
 					</div>
 				</div><!-- end #surfaceParam -->
@@ -518,10 +518,10 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 
 				<canvas id="surfaceCanvas"></canvas>
 				<div id="loadingImg" class="popupMessage" style="display: none">
-					<p class="tr">Génération...</p>
+					<p class="tr" id="popUpGen">Génération...</p>
 				</div>
 				<div id="abortMessage" class="popupMessage" style="display: none">
-					<p class="tr">Annulation...</p>
+					<p class="tr" id="popUpAbort">Annulation...</p>
 				</div>
 
 				<div id="surfaceOption" class="optionPanel">
@@ -534,7 +534,7 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 						<input id="dimz" type="number" value="51" min="1"
 							max="256" onchange="appli.changeDimension ()"/>
 					</div>
-					<!-- TODO traduire -->
+					
 					<div class="wrapper">
 						<label id="m341" class="tr" for="connexityChoice">Connexité&nbsp;:</label>
 						<select id="connexityChoice" name="connexityChoice"
@@ -545,13 +545,12 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 						</select>
 					</div>
 
-					<!-- TODO traduire -->
 					<div class="wrapper">
-						<label id="m344" class="tr" for="voxelRadius">Taille des voxels&nbsp;:</label>
+						<label id="voxelSize" class="tr" for="voxelRadius">Taille des voxels&nbsp;:</label>
 						<input id="voxelRadius" type="number" name="voxelRadius"
 							value="1" min="0" max="2" step="0.05"/>
 					</div>
-					<!-- TODO traduire -->
+					
 					<button id="a5" class="tr" onclick="appli.show (true)">Visualiser</button>
 				</div>
 			</div><!-- end #surfaceView -->
