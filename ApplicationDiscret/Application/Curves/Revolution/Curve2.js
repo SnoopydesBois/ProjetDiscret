@@ -7,8 +7,8 @@ Curve2.prototype.constructor = Curve2;
 * @constructor {Equation} the equation of the curve
 */
 function Curve2() {
-	//((2*x^2 + 2*y^2)^3 - 48*x^2*y^2);
-	var equation = new Equation("((2*x^2 + 2*y^2)^3 - 48*x^2*y^2)");
+	// -1. + (-3. x + 4. x^3)^2 + (-1. + 2.25 y^2)^2
+	var equation = new Equation("-1. + (-3. x + 4. x^3)^2 + (-1. + 2.25 y^2)^2");
 	// equation.setParameter("xCenter", 0.0);
 	// equation.setParameter("yCenter", -0.1);
 	// equation.setParameter("radius", 0.7);

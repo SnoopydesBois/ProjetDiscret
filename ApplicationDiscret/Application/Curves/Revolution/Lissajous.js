@@ -1,14 +1,14 @@
-Curve7.prototype = new ImplicitCurve;
-Curve7.prototype.constructor = Curve7;
+Lissajous.prototype = new ImplicitCurve;
+Lissajous.prototype.constructor = Lissajous;
 
 
 //==============================================================================
 /**
 * @constructor {Equation} the equation of the curve
 */
-function Curve7() {
-	// -0.5 + (12.96 x^2 - 49.7664 x^4 + 47.7757 x^6 - 5.76 y^2 +  8.2944 y^4)^2
-	var equation = new Equation("-0.5 + (12.96 x^2 - 49.7664 x^4 + 47.7757 x^6 - 5.76 y^2 +  8.2944 y^4)^2");
+function Lissajous() {
+	// y^2 - 16 x^2*(1 - x^2)*(1 - 2 x^2)^2
+	var equation = new Equation("y^2 - 16 x^2*(1 - x^2)*(1 - 2 x^2)^2");
 	// equation.setParameter("xCenter", 0.0);
 	// equation.setParameter("yCenter", -0.1);
 	// equation.setParameter("radius", 0.7);

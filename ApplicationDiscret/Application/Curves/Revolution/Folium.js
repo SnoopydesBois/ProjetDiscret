@@ -1,14 +1,14 @@
-Curve10.prototype = new ImplicitCurve;
-Curve10.prototype.constructor = Curve10;
+Folium.prototype = new ImplicitCurve;
+Folium.prototype.constructor = Folium;
 
 
 //==============================================================================
 /**
 * @constructor {Equation} the equation of the curve
 */
-function Curve10() {
-	 // x^2 + y^2 - (0.9 + 0.1*Abs[Cos[5*th]])^2] -> th angle entre vecteur {1,0} et {x,y}
-	var equation = new Equation("x^2 + y^2 - ( 0.9 + 0.2* abs( cos( 5*( acos( 1 * x / sqrt(x^2 + y^2) ) ) ) ^2 ) ) ");
+function Folium() {
+	//8 x^3 + 8 y^3 - 12 x y
+	var equation = new Equation("8 x^3 + 8 y^3 - 12 x y");
 	// equation.setParameter("xCenter", 0.0);
 	// equation.setParameter("yCenter", -0.1);
 	// equation.setParameter("radius", 0.7);

@@ -1,14 +1,14 @@
-Curve4.prototype = new ImplicitCurve;
-Curve4.prototype.constructor = Curve4;
+Quadrifolium.prototype = new ImplicitCurve;
+Quadrifolium.prototype.constructor = Quadrifolium;
 
 
 //==============================================================================
 /**
 * @constructor {Equation} the equation of the curve
 */
-function Curve4() {
-	//-4 ((1 - 2.14286 x)^2 - 4.59184 y^2)^2 +  9 (0.714286 x - 1.53061 x^2 - 1.53061 y^2)^2 ((1 - 2.14286 x)^2 + 4.59184 y^2)
-	var equation = new Equation("-4 ((1 - 2.14286 x)^2 - 4.59184 y^2)^2 +  9 (0.714286 x - 1.53061 x^2 - 1.53061 y^2)^2 ((1 - 2.14286 x)^2 + 4.59184 y^2)");
+function Quadrifolium() {
+	//((2*x^2 + 2*y^2)^3 - 48*x^2*y^2);
+	var equation = new Equation("((2*x^2 + 2*y^2)^3 - 48*x^2*y^2)");
 	// equation.setParameter("xCenter", 0.0);
 	// equation.setParameter("yCenter", -0.1);
 	// equation.setParameter("radius", 0.7);

@@ -1,14 +1,14 @@
-Curve6.prototype = new ImplicitCurve;
-Curve6.prototype.constructor = Curve6;
+Knot.prototype = new ImplicitCurve;
+Knot.prototype.constructor = Knot;
 
 
 //==============================================================================
 /**
 * @constructor {Equation} the equation of the curve
 */
-function Curve6() {
-	//8 x^3 + 8 y^3 - 12 x y
-	var equation = new Equation("8 x^3 + 8 y^3 - 12 x y");
+function Knot() {
+	//16*y^3 + 12*y^2 - (4*x^2 - 1)^2
+	var equation = new Equation("16*y^3 + 12*y^2 - (4*x^2 - 1)^2");
 	// equation.setParameter("xCenter", 0.0);
 	// equation.setParameter("yCenter", -0.1);
 	// equation.setParameter("radius", 0.7);
