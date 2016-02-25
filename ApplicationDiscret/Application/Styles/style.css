@@ -116,6 +116,7 @@ input[type=range]::-moz-focus-outer {
 	height: 100%;
 	width: 42px;
 	box-sizing: border-box;
+    border-style: none solid;
 }
 
 
@@ -163,6 +164,24 @@ label[for=meridianFreeHand] {
 label[for=meridianFormula], label[for=revolFormula] {
 	background-image: url("formula.png");
 }
+
+
+
+	/*** Menu ***/
+
+
+/*fileMenu*/
+/*viewMenu*/
+/*	camera*/
+/*toolsMenu*/
+/*	handFreeDrawing*/
+/*surfaceMenu*/
+/*	showSlice*/
+/*exportMenu*/
+/*	downloadImage*/
+/*	tool3D*/
+/*helpMenu*/
+/*translatemenu*/
 
 
 

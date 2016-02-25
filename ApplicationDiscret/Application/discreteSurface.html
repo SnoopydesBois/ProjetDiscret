@@ -63,7 +63,7 @@
 		<script type="text/javascript" src="Curves/Meridian/Sinusoid.js"></script>
 
 		<script type="text/javascript" src="Curves/Revolution/Lemniscate.js"></script>
-		<script type="text/javascript" src="Curves/Revolution/Circle.js"></script>
+		<script type="text/javascript" src="Curves/Revolution/Ellipse.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Triangle.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Heart.js"></script>
 		<script type="text/javascript" src="Curves/Revolution/Lissajous.js"></script>
@@ -137,21 +137,40 @@
 						id="m13" class="tr" onclick="appli.saveCurves()">Enregistrer</li>
 					
 					<li title="Ouvrir une meridienne depuis un fichier sur cet ordinateur"
+<<<<<<< HEAD
+						onclick="this.firstElementChild.click()" id="m11" class="tr"  >
+						<input type="file" onchange="appli.loadMeridian(event)" style="display:none">Charger méridienne</input>
+=======
 						onclick="this.firstElementChild.click()" id="m11" class="tr">
 						<input type="file" id="i_file" style="display: none" 
 							onchange="appli.loadMeridian(event)">Charger méridienne</input>
+>>>>>>> origin/master
 					</li>
 					
 					<li title="Ouvrir une courbe de revolution depuis un fichier sur cet ordinateur"
 						onclick="this.firstElementChild.click()" id="m12" class="tr">
+<<<<<<< HEAD
+						<input type="file"  onchange="appli.loadRevolution(event)" style="display:none">Charger courbe de révolution</input>
+
+=======
 						<input type="file" id="i_file" style="display: none"
 							onchange="appli.loadRevolution(event)">Charger courbe de révolution</input>
+>>>>>>> origin/master
 					</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="viewMenu" tabindex="2">
 				<h1 id="m2" class="tr">Affichage</h1>
 				<ul>
+<<<<<<< HEAD
+					<li title="Générer la surface dans la vue 3D" id="m21" class="tr trtitle"
+						onclick="appli.generateAndDraw (0)">Générer</li>
+
+					<li title="Centrer la caméra" id="m22" class="tr"
+						onclick="appli.resetCamera()">Centrer la caméra</li>
+
+=======
+>>>>>>> origin/master
 					<li title="Changer le point de vue" id="m23" class="tr"
 						onclick="if (globalParam.perspectiveView) {
 							this.innerHTML = 'Perspective';
@@ -171,10 +190,19 @@
 						globalParam.cubeColorDebug = !globalParam.cubeColorDebug;
 						appli.surfaceView.show (true)">Couleur RVB</li>
 					
-					<li title="Centrer la caméra" 
-						id="m22" class="tr"
-						onclick="appli.resetCamera ()">Centrer la caméra</li>
-
+					<li id="camera" class="submenu">
+						<h1 id="" class="tr">Caméra</h1>
+						<ul>
+							<li title="Centrer la caméra" 
+								id="" class="tr trtitle"
+								onclick="appli.centerCamera ()">Centrer</li>
+							
+							<li title="Replacer la caméra à sa position d'origine" 
+								id="m22" class="tr trtitle"
+								onclick="appli.resetCamera ()">Réinitialiser</li>
+						</ul>
+					</li>
+					
 					<li class="split"><hr/></li>
 
 					<li title="Affichez ou cachez le repère 3D" 
@@ -194,10 +222,23 @@
 						title="Choix de la méridienne"
 						onclick="appli.selectMeridian ()">Méridienne</li>
 				
-					<li id="handFreeDrawing"
-						class="tr trTitle"
-						title="Dessiner à main levée"
-						onclick="appli.drawFreeHandMeridian ()">Dessiner à main levée</li>
+					<li id="handFreeDrawing" class="submenu">
+						<h1 id="" class="tr trtitle"
+							title="Dessin à main levée">Dessiner à main levée</h1>
+						<ul>
+							<li id="" class="tr trTitle"
+								title="Déssiner une courbe"
+								onclick="appli.drawFreeHandMeridian ()">Dessiner</li>
+
+							<li id="" class="tr trTitle"
+								title="Effacer la courbe"
+								onclick="appli.drawFreeHandMeridian (); appli.clearDraw ()">Effacer</li>
+
+							<li id="" class="tr trTitle"
+								title="Fermer une courbe"
+								onclick="appli.drawFreeHandMeridian (); appli.closeCurve ()">Fermer la courbe</li>
+						</ul>
+					</li>
 					
 					<li id="meridianFormulaInputMenu"
 						class="tr trTitle"
@@ -217,19 +258,19 @@
 						onclick="appli.inputRevolFormula ()">Formule courbe de révolution</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
-			--><li id="exportMenu" tabindex="4">
+			--><li id="surfaceMenu" tabindex="4">
 				<h1 id="" class="tr">Surface</h1>
 				<ul>
 					<li title="Générer la surface dans la vue 3D" id="m21" class="tr trtitle"
 						onclick="appli.generateAndDraw (0)">Générer</li>
 
 					<li title="Générer la surface dans la vue 3D avec un algorithme brute force.
-Plus LENT mais permet de résoudre certaint CONFLIT." id="" class="tr trtitle"
+Plus LENT mais permet de résoudre certains problèmes de connexité." id="" class="tr trtitle"
 						onclick="appli.generateAndDraw (1)">Générer (brute force)</li>
 						
 					<li class="split"><hr/></li>
 
-					<li id="" class="submenu">
+					<li id="showSlice" class="submenu">
 						<h1 id="" class="tr trtitle"
 							title="Visualiser une coupe">Visualiser coupe</h1>
 						<ul>
@@ -252,7 +293,7 @@ Plus LENT mais permet de résoudre certaint CONFLIT." id="" class="tr trtitle"
 				<h1 id="m4" class="tr">Export</h1>
 				<ul>
 
-					<li id="" class="submenu">
+					<li id="downloadImage" class="submenu">
 						<h1 id="" class="tr" title="Enregistrer une image PNG">Image PNG</h1>
 						<ul>
 							<li>
@@ -353,7 +394,7 @@ Plus LENT mais permet de résoudre certaint CONFLIT." id="" class="tr trtitle"
 							<div class="optionGroup">
 
 								<button id="a3" class="tr" onclick="appli.clearDraw ()">Effacer</button>
-								<button id="" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
+								<button id="a8" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
 
 							</div>
 							<label for="meridianFormula">&nbsp;</label>
@@ -397,8 +438,7 @@ Plus LENT mais permet de résoudre certaint CONFLIT." id="" class="tr trtitle"
 							<div class="optionGroup">
 								<select id="listRevolutions" name="listRevolutions"
 									onchange="appli.changeRevol (this.value)">
-									<option value="Circle" id="revol3" class="tr">Cercle</option>
-									<option value="Triangle" id="revol134" class="tr">Croix</option>
+									<option value="Ellipse" id="revol3" class="tr">Ellipse</option>
 									<option value="Heart" id="revol4" class="tr">Coeur</option>
 									<option value="Lemniscate" id="revol5" class="tr">Lemniscate</option>
 									<option value="Lissajous" id="revol6" class="tr">Courbe de Lissajous</option>
@@ -472,13 +512,15 @@ Plus LENT mais permet de résoudre certaint CONFLIT." id="" class="tr trtitle"
 					</div>
 					
 					<div class="wrapper">
-						<button id="" class="tr trTitle" onclick="appli.resetSliderMultiSlice ()">Remettre à zéro</button>
+						<button id="" class="tr trTitle"
+							onclick="appli.resetSliderMultiSlice ()">Remettre à zéro</button>
 					</div>
 					
 					<hr/>
 					
 					<div class="wrapper">
-						<button id="" class="tr trTitle" onclick="appli.resetCamera ()">Centrer la caméra</button>
+						<button id="" class="tr trTitle"
+							onclick="appli.resetCamera ()">Centrer la caméra</button>
 					</div>
 				</div><!-- end #surfaceParam -->
 
@@ -494,9 +536,12 @@ Plus LENT mais permet de résoudre certaint CONFLIT." id="" class="tr trtitle"
 				<div id="surfaceOption" class="optionPanel">
 					<div class="wrapper">
 						<p class="multiLabel">Dimension&nbsp;:</p>
-						<input id="dimx" type="number" value="51" min="1" max="256" onchange="appli.changeDimension ()"/>
-						<input id="dimy" type="number" value="51" min="1" max="256" onchange="appli.changeDimension ()"/>
-						<input id="dimz" type="number" value="51" min="1" max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimx" type="number" value="51" min="1"
+							max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimy" type="number" value="51" min="1"
+							max="256" onchange="appli.changeDimension ()"/>
+						<input id="dimz" type="number" value="51" min="1"
+							max="256" onchange="appli.changeDimension ()"/>
 					</div>
 					<!-- TODO traduire -->
 					<div class="wrapper">

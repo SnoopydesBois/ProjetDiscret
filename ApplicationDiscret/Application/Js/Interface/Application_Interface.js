@@ -194,17 +194,6 @@ Application.prototype.stopLoading = function () {
 
 //==============================================================================
 /**
- * Put the camera back to its initial position.
- *
- * @return {void}
- */
-Application.prototype.resetCamera = function () {
-	this.surfaceView.resetCamera();
-};
-
-
-//==============================================================================
-/**
  * Show the aborted message on the 3D view.
  *
  * @return {void}

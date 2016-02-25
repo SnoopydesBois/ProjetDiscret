@@ -66,7 +66,7 @@ Application.prototype.initAppli = function () {
 	this.initControllers ();
 
 	this.meridianController.setActive ("Line");
-	this.revolController.setActive ("Circle");
+	this.revolController.setActive ("Ellipse");
 
 	this.meridianParameters.setController (this.meridianController);
 	this.meridianParameters.displayParameter (this.drawMeridian,
@@ -113,7 +113,7 @@ Application.prototype.initControllers = function () {
 	this.meridianController.addCurve ("Sinusoid", Sinusoid);
 
 	/// add curve for revolution
-	this.revolController.addCurve ("Circle", Circle);
+	this.revolController.addCurve ("Ellipse", Ellipse);
 	this.revolController.addCurve ("Heart", Heart);
 	this.revolController.addCurve ("Triangle", Triangle);
 	this.revolController.addCurve ("Lemniscate", Lemniscate);

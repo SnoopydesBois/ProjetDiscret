@@ -194,6 +194,10 @@ Application.prototype.changeRevolMode = function () {
 	if (mode === "revolPrimitive") {
 		var selection = document.getElementById ("listRevolutions");
 		this.revolController.setActive (selection.value);
+		this.revolutionParameters.displayParameter (
+			this.drawRevolution,
+			this.getRangeRevolution
+	);
 	}
 	else if (mode === "revolFormula") {
 		this.revolController.setActive (

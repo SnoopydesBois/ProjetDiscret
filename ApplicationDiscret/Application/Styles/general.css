@@ -50,6 +50,7 @@
 	/***************/
 
 
+
 body {
 	background-color: #ddd;
 	font-family: arial, sans-serif;
@@ -58,7 +59,6 @@ body {
 	padding: 0;
 	outline: none;
 }
-
 
 
 .header, .footer {
@@ -71,14 +71,12 @@ body {
 }
 
 
-
 .header {
 	height: 25px;
 	top: 0%;
 	z-index: 100; /* grand => proche, petit => loin */
 	border-bottom: 1px solid #B2B2B2;
 }
-
 
 
 .footer {
@@ -88,11 +86,12 @@ body {
 }
 
 
-
 .footer p {
 	margin: 0;
 	padding: 2px 5px; /* haut/bas puis droite/gauche */
 }
+
+
 
 	  /*****************/
 	 /*** State bar ***/

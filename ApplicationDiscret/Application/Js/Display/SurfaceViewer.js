@@ -636,15 +636,29 @@ SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
 };
 
 
+//==============================================================================
+/**
+ * Put the camera back to its initial position.
+ * @see {@link centerCamera}
+ * 
+ * @return {void}
+ */
+SurfaceViewer.prototype.resetCamera = function () {
+	this.container.resetCamera ();
+	this.draw ();
+};
+
 
 //==============================================================================
 /**
  * Put the camera back to its initial position.
- *
+ * @see {@link resetCamera}
+ * 
  * @return {void}
  */
-SurfaceViewer.prototype.resetCamera = function () {
-	this.container.resetCamera();
+SurfaceViewer.prototype.centerCamera = function () {
+	this.container.centerCamera ();
 	this.draw ();
 };
+
 

@@ -29,8 +29,8 @@ var aLangTitleKeys = [];
 aLangTitleKeys['en'] = [];
 aLangTitleKeys['fr'] = [];
 
-aLangTitleKeys['en']['m11'] = 'Create a new model';
-aLangTitleKeys['fr']['m11'] = 'Créer un nouveau modèle';
+aLangTitleKeys['en']['m21'] = 'Generate the surface on 3D Vue';
+aLangTitleKeys['fr']['m21'] = 'Générer la surface dans la vue 3D';
 //##############################################################################
 //	English
 //##############################################################################
@@ -109,7 +109,7 @@ aLangKeys['en']['mer4'] = 'Sinusoid';
 /* Liste des paramétres revolution anglais */
 aLangKeys['en']['revol1'] = 'List of revolution parameters';
 aLangKeys['en']['revol2'] = 'Revolution options';
-aLangKeys['en']['revol3'] = 'Circle';
+aLangKeys['en']['revol3'] = 'Ellipse';
 aLangKeys['en']['revol4'] = 'Heart';
 aLangKeys['en']['revol5'] = 'Lemniscate';
 
@@ -125,7 +125,8 @@ aLangKeys['en']['a3'] = 'Delete';
 aLangKeys['en']['a4'] = 'crushing';
 aLangKeys['en']['a5'] = 'display';
 aLangKeys['en']['a6'] = 'modify';
-
+aLangKeys['en']['a7'] = 'Generation';
+aLangKeys['en']['a8'] = 'Close the curve';
 //##############################################################################
 //	French
 //##############################################################################
@@ -211,7 +212,7 @@ aLangKeys['fr']['revol2'] = 'Options Revolution';
 aLangKeys['fr']['revol1'] = 'Liste des paramètres Révolution';
 aLangKeys['fr']['revol2'] = 'Options Revolution';
 
-aLangKeys['fr']['revol3'] = 'Cercle';
+aLangKeys['fr']['revol3'] = 'Ellipse';
 aLangKeys['fr']['revol4'] = 'Coeur';
 aLangKeys['fr']['revol5'] = 'Lemniscate';
 
@@ -228,7 +229,8 @@ aLangKeys['fr']['a3'] = 'Effacer';
 aLangKeys['fr']['a4'] = 'ecrasement';
 aLangKeys['fr']['a5'] = 'Visualiser';
 aLangKeys['fr']['a6'] = 'modifier';
-
+aLangKeys['fr']['a7'] = 'Génération';
+aLangKeys['fr']['a8'] = 'Fermer la courbe';
 //##############################################################################
 //	Main function
 //##############################################################################
