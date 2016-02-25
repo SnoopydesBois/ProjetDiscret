@@ -69,9 +69,8 @@ AlgoWorker.prototype.readBuffer = function (buffer, size) {
 			this.surface.addVoxel(new Vector(voxel[0],voxel[1],voxel[2]), voxel[3]);
 		}
 		catch(e){
-		appli.alertMessage("Somevoxels were out of the bounds and will not be dispalyed");
+			appli.alertMessage("Somevoxels were out of the bounds and will not be dispalyed");
 			console.log("Some voxels are out of the bounds");
-			this.finished = "error"
 		}
 	}
 	this.newVoxels = true;

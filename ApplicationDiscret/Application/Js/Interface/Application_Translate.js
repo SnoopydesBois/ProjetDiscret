@@ -115,7 +115,7 @@ aLangKeys['en']['mer4'] = 'Sinusoid';
 /* Liste des paramétres revolution anglais */
 aLangKeys['en']['revol1'] = 'List of revolution parameters';
 aLangKeys['en']['revol2'] = 'Revolution options';
-aLangKeys['en']['revol3'] = 'Circle';
+aLangKeys['en']['revol3'] = 'Ellipse';
 aLangKeys['en']['revol4'] = 'Heart';
 aLangKeys['en']['revol5'] = 'Lemniscate';
 
@@ -237,7 +237,7 @@ aLangKeys['fr']['revol2'] = 'Options Revolution';
 aLangKeys['fr']['revol1'] = 'Liste des paramètres Révolution';
 aLangKeys['fr']['revol2'] = 'Options Revolution';
 
-aLangKeys['fr']['revol3'] = 'Cercle';
+aLangKeys['fr']['revol3'] = 'Ellipse';
 aLangKeys['fr']['revol4'] = 'Coeur';
 aLangKeys['fr']['revol5'] = 'Lemniscate';
 
