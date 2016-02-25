@@ -221,14 +221,22 @@ Application.prototype.changeRevolMode = function () {
  * @return {void}
  */
 Application.prototype.changeDimension = function () {
+	var dimX = document.getElementById ("dimx");
+	var dimY = document.getElementById ("dimy");
+	var dimZ = document.getElementById ("dimz");
+	
 	var dim = [0, 0, 0];
 	dim[0] = Math.min (256, Math.max (
-		parseInt (document.getElementById ("dimx").value), 1));
+		parseInt (dimX.value), 1));
 	dim[1] = Math.min (256, Math.max (
-		parseInt (document.getElementById ("dimy").value), 1));
+		parseInt (dimY.value), 1));
 	dim[2] = Math.min (256, Math.max (
-		parseInt (document.getElementById ("dimz").value), 1));
+		parseInt (dimZ.value), 1));
 
+	dimX.value = dim[0];
+	dimY.value = dim[1];
+	dimZ.value = dim[2];
+	
 	var box = this.surfaceView.getContainer ().getObjectByName ("boundingBox");
 	box.setDimension (dim);
 	this.meridianView.draw ();
