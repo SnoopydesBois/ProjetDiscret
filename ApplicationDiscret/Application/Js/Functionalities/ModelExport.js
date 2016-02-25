@@ -168,7 +168,7 @@ ModelExport.prototype.exportX3D = function(surface){
 				if(voxel != null && voxel.isVisible(connexity)){
 					x3D += "\t<Transform translation=\""+  (x - dimension.x/2) + " " + (y - dimension.y/2) + " " + (z - dimension.z/2)  + "\">\n" +
 								"\t\t<Shape>\n" + 
-									"\t\t\t<Box size=\"" + 1.0 + " " +  1.0 + " " + 1.0 + "\"/>\n"+
+									"\t\t\t<Box size=\"" + (1.0 - dimension.x/2) + " " + (1.0 - dimension.y/2) + " " + (1.0 - dimension.z/2) + "\"/>\n"+
 								"\t\t</Shape>\n" +
 							"\t</Transform>\n";
 				}
@@ -191,7 +191,7 @@ ModelExport.prototype.exportX3D = function(surface){
  * Export the meridian div to PNG
  */
 ModelExport.prototype.exportMeridianPng = function(){
-	this.getImg2DData(this.idMeridian, "meridian.png")
+	this.getImg2DData(this.idMeridian, "generatrix.png")
 }
 
 
@@ -200,7 +200,7 @@ ModelExport.prototype.exportMeridianPng = function(){
  * Export the curve of revolution div to PNG
  */
 ModelExport.prototype.exportRevolutionPng = function(){
-	this.getImg2DData(this.idRevolution, "revolution.png");
+	this.getImg2DData(this.idRevolution, "directrix.png");
 }
 
 
@@ -221,7 +221,7 @@ ModelExport.prototype.getImg2DData = function(id, name){
 		var imageData = context.getImageData(0,0, width, height);
 				
 		canvas.toBlob(function(blob) {
-			saveAs(blob, "meridian.png");
+			saveAs(blob, "generatrix.png");
 		});
 	}
 	else{
@@ -341,57 +341,31 @@ ModelExport.prototype.exportSTL = function(renderer){
     
     // FileSaver.js defines `saveAs` for saving files out of the browser
     saveAs(blob, "surfaceSTL.stl");
-}
-
+};	
 
 
 //==============================================================================
 /**
- * Save the current meridian and the current curve of revolution to a zip archive
+ *
  */
-ModelExport.prototype.saveCurves = function(meridianController, revolutionController){
-	// Date of save
-	var date = new Date();
-	
-	var txtDate = date.getDate() + "_" + date.getMonth() + 1 + "_" + date.getFullYear() + "@" + date.getHours(); 
-	
-	// Zip creation
-	var zip = new JSZip();
-	
-	// Folder containing 3 files
-	var modelFolder = zip.folder("Curves " + txtDate);
-	
-	
-	if(meridianController.getActiveCurve() instanceof ExplicitCurve){
-		modelFolder.file("Meridian.xml", 
-				this.writeExplicitCurve(meridianController)
-			);
-
+ModelExport.prototype.saveGeneratrix = function(meridianController){
+	var curve = meridianController.getActiveCurve();
+	if(curve instanceof ExplicitCurve){
+		this.saveExplicitCurve(meridianController);
 	}
-	else if(meridianController.getActiveCurve() instanceof DrawnCurve){
-		modelFolder.file("Meridian.xml", 
-				this.writeDrawnCurve(meridianController)
-			);
-	}	
-			
-	modelFolder.file("Revolution.xml",
-			this.writeImplicitCurve(revolutionController)
-		);
-	
-	var content = zip.generate({type:"blob"});
-	
-	window.saveAs(content, "Curves.zip");
-};
-
+	else if(curve instanceof DrawnCurve){
+		this.saveDrawnCurve(meridianController);
+	}
+}
 
 //==============================================================================
 /**
  * TODO
  */
-ModelExport.prototype.writeImplicitCurve = function(curveController){
+ModelExport.prototype.saveImplicitCurve = function(curveController){
 	var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + 
 			'<!DOCTYPE Curve  [\n' +
-					'\t\t<!ELEMENT Curve (CurveType, Equation)>\n' +
+					'\t\t<!ELEMENT Curve (CurveType, Equation, Range)>\n' +
 					'\t\t<!ELEMENT CurveType (Class)>\n' +
 					'\t\t<!ELEMENT Class (#PCDATA)>\n' +
 					'\t\t<!ELEMENT Equation (#PCDATA)>\n' +
@@ -400,10 +374,6 @@ ModelExport.prototype.writeImplicitCurve = function(curveController){
 						'\t\t\t<!ELEMENT xMax (#PCDATA)>\n' +
 						'\t\t\t<!ELEMENT yMin (#PCDATA)>\n' +
 						'\t\t\t<!ELEMENT yMax (#PCDATA)>\n' +
-					/*'\t\t<!ELEMENT Parameters (Parameter)*>\n' +
-						'\t\t\t<!ELEMENT Parameter (Name, Value)>\n' +
-							'\t\t\t\t<!ELEMENT Name (#PCDATA)>\n' +
-							'\t\t\t\t<!ELEMENT Value (#PCDATA)>\n' +*/
 				']>\n' +
 			'<Curve>\n' +
 				'\t<CurveType>\n' +
@@ -416,17 +386,13 @@ ModelExport.prototype.writeImplicitCurve = function(curveController){
 					'\t\t<yMin>' + curveController.getYRange().getMin() + '</yMin>\n' +
 					'\t\t<yMax>' + curveController.getYRange().getMax() + '</yMax>\n' +
 				'\t</Range>\n'+
-				//'\t<Parameters>\n';
 				"";
-	/*
-	var listParam = curveController.getAllParameters();
-	for(var param in listParam){
-		xml += '\t\t<Parameter>\n\t\t\t<Name>' + param + '</Name>\n' +
-				'\t\t\t<Value>' + listParam[param] + '</Value>\n\t\t</Parameter>\n';
-	}*/
-	// xml += '`\t</Parameters>\n' +	
 	xml += '</Curve>';
-	return xml;
+	
+	var blob = new Blob([xml], {type: 'text/xml'});
+    
+    // FileSaver.js defines `saveAs` for saving files out of the browser
+    saveAs(blob, "directrix.xml");
 };
 
 
@@ -434,10 +400,10 @@ ModelExport.prototype.writeImplicitCurve = function(curveController){
 /**
  * TODO
  */
-ModelExport.prototype.writeExplicitCurve = function(curveController){
+ModelExport.prototype.saveExplicitCurve = function(curveController){
 	var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + 
 			'<!DOCTYPE Curve  [\n' +
-					'\t\t<!ELEMENT Curve (CurveType, Equation)>\n' +
+					'\t\t<!ELEMENT Curve (CurveType, Equation, Range)>\n' +
 					'\t\t<!ELEMENT CurveType (Class)>\n' +
 						'\t\t<!ELEMENT Class (#PCDATA)>\n' +
 					'\t\t<!ELEMENT Equation (#PCDATA)>\n' +
@@ -446,10 +412,6 @@ ModelExport.prototype.writeExplicitCurve = function(curveController){
 						'\t\t\t<!ELEMENT xMax (#PCDATA)>\n' +
 						'\t\t\t<!ELEMENT yMin (#PCDATA)>\n' +
 						'\t\t\t<!ELEMENT yMax (#PCDATA)>\n' +
-					/*'\t\t<!ELEMENT Parameters (Parameter)*>\n' +
-						'\t\t\t<!ELEMENT Parameter (Name, Value)>\n' +
-							'\t\t\t\t<!ELEMENT Name (#PCDATA)>\n' +
-							'\t\t\t\t<!ELEMENT Value (#PCDATA)>\n' +*/
 				']>\n' +
 			'<Curve>\n' +
 				'\t<CurveType>\n' +
@@ -462,17 +424,13 @@ ModelExport.prototype.writeExplicitCurve = function(curveController){
 					'\t\t<yMin>' + curveController.getYRange().getMin() + '</yMin>\n' +
 					'\t\t<yMax>' + curveController.getYRange().getMax() + '</yMax>\n' +
 				'\t</Range>\n'+
-				//'\t<Parameters>\n';
 				"";
-	/*
-	var listParam = curveController.getAllParameters();
-	for(var param in listParam){
-		xml += '\t\t<Parameter>\n\t\t\t<Name>' + param + '</Name>\n' +
-				'\t\t\t<Value>' + listParam[param] + '</Value>\n\t\t</Parameter>\n';
-	}*/
-	// xml += '`\t</Parameters>\n' +	
+				
 	xml += '</Curve>';
-	return xml;
+	var blob = new Blob([xml], {type: 'text/xml'});
+    
+    // FileSaver.js defines `saveAs` for saving files out of the browser
+    saveAs(blob, "generatrix.xml");
 };
 
 
@@ -480,10 +438,10 @@ ModelExport.prototype.writeExplicitCurve = function(curveController){
 /**
  * TODO
  */
-ModelExport.prototype.writeDrawnCurve = function(curveController){
+ModelExport.prototype.saveDrawnCurve = function(curveController){
 	var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n' + 
 				'<!DOCTYPE Curve [\n' +
-						'\t\t<!ELEMENT Curve (CurveType, Equation)>\n' +
+						'\t\t<!ELEMENT Curve (CurveType, xCoords, yCoords)>\n' +
 						'\t\t<!ELEMENT CurveType (Class)>\n' +
 						'\t\t<!ELEMENT Class (#PCDATA)>\n' +
 						'\t\t<!ELEMENT xCoords (#PCDATA)>\n' +
@@ -516,6 +474,9 @@ ModelExport.prototype.writeDrawnCurve = function(curveController){
 	
 	xml += '</yCoords>\n' +
 			'</Curve>';
-	return xml;
-	
+			
+	var blob = new Blob([xml], {type: 'text/xml'});
+    
+    // FileSaver.js defines `saveAs` for saving files out of the browser
+    saveAs(blob, "generatrix.xml");
 };

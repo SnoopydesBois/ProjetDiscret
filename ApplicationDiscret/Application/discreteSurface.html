@@ -133,8 +133,11 @@
 			<li id="fileMenu" tabindex="1">
 				<h1 id="m1" class="tr">Fichier</h1>
 				<ul>
-					<li title="Enregistrer et télécharger les courbe actuelles dans une archive ZIP"
-						id="m13" class="tr" onclick="appli.saveCurves()">Enregistrer</li>
+					<li title="Enregistrer et télécharger la méridienne actuelle"
+						id="m13" class="tr" onclick="appli.saveGeneratrix()">Enregistrer méridienne</li>
+
+					<li title="Enregistrer et télécharger la courbe de révolution actuelle"
+						id="m13" class="tr" onclick="appli.saveRevolution()">Enregistrer courbe de révolution</li>
 					
 					<li title="Ouvrir une meridienne depuis un fichier sur cet ordinateur"
 
@@ -206,7 +209,7 @@
 					<li id="meridianChoice"
 						class="tr trTitle"
 						title="Choix de la méridienne"
-						onclick="appli.selectMeridian ()">Méridienne</li>
+						onclick="appli.selectMeridian ()">Méridiennes</li>
 				
 					<li id="handFreeDrawing" class="submenu">
 						<h1 id="m35" class="tr trtitle"
@@ -258,16 +261,16 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 
 					<li id="showSlice" class="submenu">
 						<h1 id="s4" class="tr trtitle"
-							title="Visualiser une coupe">Visualiser coupe</h1>
+							title="Visualiser une coupe">Visualiser une coupe</h1>
 						<ul>
 							<li id="" class="tr trtitle" title="Visualiser la coupe X"
-								onclick="appli.showXSlice ()">X</li>
+								onclick="appli.showXSlice ()">X (rouge)</li>
 
 							<li id="" class="tr trtitle" title="Visualiser la coupe Y"
-								onclick="appli.showYSlice ()">Y</li>
+								onclick="appli.showYSlice ()">Y (verte)</li>
 
 							<li id="" class="tr trtitle" title="Visualiser la coupe Z"
-								onclick="appli.showZSlice ()">Z</li>
+								onclick="appli.showZSlice ()">Z (bleue)</li>
 						</ul>
 					</li>
 					
@@ -437,9 +440,9 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 									<option value="Hyperbol" id="revol10" class="tr">Hyperbol</option>
 									<option value="Folium" id="revol11" class="tr">Folium de Descartes</option>
 									<option value="Hexafolium" id="revol14" class="tr">Hexafolium</option>
-									<option value="Curve1" id="revol12" class="tr">Curve1</option>
-									<option value="Curve2" id="revol13" class="tr">Curve2</option>
-									<option value="Curve3" id="revol15" class="tr">Curve3</option>
+									<option value="Curve1" id="revol12" class="tr">Gauffre</option>
+									<option value="Curve2" id="revol13" class="tr">Lissajous Atomique</option>
+									<option value="Curve3" id="revol15" class="tr">Napperon</option>
 								</select>
 							</div>
 							<input type="radio"
@@ -470,7 +473,7 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 					<hr/>
 					
 					<div class="wrapper">
-						<label class="title">Dimension X</label><br/>
+						<label class="title">Coupe en X</label><br/>
 						<div class="doubleSliders" name="X" id="slider-rangeX"></div>
 						<input type="text" id="amountMinX"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeX', true, '#amountMinX')">
@@ -480,7 +483,7 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 					</div>
 					
 					<div class="wrapper">
-						<label class="title">Dimension Y</label><br/>
+						<label class="title">Coupe en Y</label><br/>
 						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
 						<input type="text" id="amountMinY"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeY', true, '#amountMinY')">
@@ -490,7 +493,7 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 					</div>
 					
 					<div class="wrapper">
-						<label class="title">Dimension Z</label><br/>
+						<label class="title">Coupe en Z</label><br/>
 						<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
 						<input type="text" id="amountMinZ"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeZ', true, '#amountMinZ')">

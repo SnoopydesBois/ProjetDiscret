@@ -26,6 +26,16 @@
 				$(window).scrollTop($("#" + $(this).attr("link")).position().top);
 			});
 		});
+		
+		$(document).ready(function(){    
+			$('.caret').on('shown', function () {
+			   $(".icon-chevron-down").removeClass("icon-chevron-down").addClass("icon-chevron-up");
+			});
+
+			$('.caret').on('hidden', function () {
+			   $(".icon-chevron-up").removeClass("icon-chevron-up").addClass("icon-chevron-down");
+			});
+		});
 	</script>
 	<div class="container-fluid">
 	
@@ -39,7 +49,7 @@
 								<ul>
 									<a data-toggle="collapse" class="link" link="2dSpace" href="#2dSpaceDiv">2D Space<span class="caret"></span></a>
 									<div id="2dSpaceDiv" class="submenu panel-collapse collapse">
-										<div><a href="#Curve">Curve</a></div>
+										<div><a href="#CurveDisplay">Curve display</a></div>
 										<div><a href="#Parameters">Parameters</a></div>
 										<div>
 											<a data-toggle="collapse" class="link" link="TypeCurve" href="#typeCurve">Type of curves<span class="caret"></span></a>
@@ -75,7 +85,50 @@
 								<ul>
 									<a data-toggle="collapse" class="link" link="Menus" href="#MenusDiv">Menus<span class="caret"></span></a>
 									<div id="MenusDiv" class="submenu panel-collapse collapse">
-										<div><a href=""></a></div>
+										<div>
+											<a data-toggle="collapse" class="link" link="File" href="#FichierDiv">File<span class="caret"></span></a>
+											<div id="FichierDiv" class="submenu panel-collaspe collapse">
+												<div><a href="#Save">Saving</a></div>
+												<div><a href="#Load">Loading</a></div>
+											</div>
+										</div>
+										<div>
+											<a data-toggle="collapse" class="link" link="Display" href="#DisplayDiv">Display<span class="caret"></span></a>
+											<div id="DisplayDiv" class="submenu panel-collapse collapse">
+												<div>
+													<div><a href="#TypeView">Perspective/Orthographic</a></div>
+													<div><a href="#Color">Color</a></div>
+													<div><a href="#Camera">Camera</a></div>
+													<div><a href="#3DObjects">Hide/Show</a></div>
+												</div>
+											</div>
+										</div>
+										<div> <a href="#Curve">Curve</a></div>
+										<div> 
+											<a data-toggle="collapse" class="link" link="Surface" href="#SurfaceDiv">Surface<span class="caret"></span></a>
+											<div id="SurfaceDiv" class="submenu panel-collapse collapse">
+												<div>
+													<div><a href="#GenerationMenu">Generation</a></div>
+													<div><a href="#SliceShow">Display slice</a></div>
+													<div><a href="#SliceRemove">Erase slices</a></div>
+												</div>
+											</div>
+										</div>
+										<div>
+											<a data-toggle="collapse" class="link" link="Export" href="#ExportDiv">Export<span class="caret"></span></a>
+											<div id="ExportDiv" class="submenu panel-collapse collapse">
+												<div>
+													<div><a href="#PNG">PNG</a></div>
+													<div><a href="#Format">3D Format</a></div>
+												</div>
+											</div>
+										</div>
+										<div>
+											<a href="#Help">Help</a>
+										</div>
+										<div>
+											<a href="#Translate">Translate</a>
+										</div>
 									</div>
 								</ul>
 							</div>
@@ -98,7 +151,7 @@
 								<p> Theses area are composed of 3 parts : The curve, The parameters, The type of curve </p>
 							</div>
 						<hr/>
-						<h2 id="Curve"> Curve </h2>
+						<h2 id="CurveDisplay"> Curve </h2>
 							<div class="insideH2">
 								<img class="img-responsive" src="UserDocumentation/CurvePanel.png" alt="Curve area" />
 								<p>This area is used to display the 2D representation of the curve you want to use.<br/>
@@ -219,6 +272,76 @@
 								</ul>
 							</div>
 						<br/>
+					</div>
+				<h1 id="Menus">Menus</h1>
+					<div class="insideH1">
+						<img class="img-responsive" src="UserDocumentation/Menus.png" alt="Menus" />
+						<p> The application offers multiple menus actions.</p>
+						
+						<h2 id="File">File menu</h2>
+							<div class="insideH2">
+								<img class="img-responsive" src="UserDocumentation/Filemenu.png" alt="File menu"/>
+								<p>It is possible to save or load the current curves</p>
+								<h3 id="Save">Saving</h3>
+									<div class="insideH3">
+										<p>The current generatrix/directrix can be saved to an XML format.
+											The application propose to download the corresponding XML file.
+										</p>
+									</div>
+								<h3 id="Load">Loading</h3>
+									<div class="insideH3">
+										<p>To load a curve, the application will open a window asking which curve to load.<br/>
+											It is then possible to select a previously saved curve (xml format).<br/>
+											Be aware that it is not possible to load a directrix as a generatrix and vice versa.
+										</p>
+									</div>
+							</div>
+						<h2 id="Display">Display</h2>
+							<div class="insideH2">
+								<img class="img-responsive" src="UserDocumentation/Displaymenu.png" alt="Display menu" />
+								<p>The application offer multiple options to modify the camera or the 3D space.</p>
+								<h3 id="Typeview">Perspective/Orthographic</h3>
+									<div class="insideH3">
+										<img class="img-responsive" src="UserDocumentation/PerspectivCamera.png" alt="Type of view" />
+										<p>By default, the camera is in perspective view.<br/>
+											Clicking on this item will switch the view between perspective and orthographic.
+										</p>
+										<div class="row">
+											<div class="col-lg-6">
+												<img class="img-responsive" src="UserDocumentation/PerspectiveCamera.png" alt="Perspective view" />
+											</div>
+											<div class="col-lg-6">
+												<img class="img-responsive" src="UserDocumentation/OrthographicCamera.png" alt="Orthographic view" />
+											</div>
+										</div>
+									</div>									
+								<h3 id="Color">Color</h3>
+									<div class="insideH3">
+										<div class="row">
+											<div class="col-lg-6">
+												<img class="img-responsive" src="UserDocumentation/PerspectiveCamera.png" alt="White surface" />
+											</div>
+											<div class="col-lg-6">
+												<img class="img-responsive" src="UserDocumentation/ColorRVB.png" alt="RVB surface" />
+											</div>
+										</div>
+										<p>By clicking on this item, the 3D view will switch between the normal view and a colored one. </p>
+									</div>
+								<h3 id="Camera">Camera</h3>
+									<div class="insideH3">
+										<img class="img-responsive" src="UserDocumentation/Camera.png" alt="Camera options" />
+										<p>The items are used to reset the position of the camera or center its point of view.<br/>
+											Center will replace the camera to its initial position. <br/>
+											Center the camera will position the camera so it looks to the center of the surface without modifying the zoom. <br/>
+											Center the camera is useful when the camera has been moved (with middle mouse button).
+										</p>
+									</div>
+								<h3 id="3DObjects">Hide/Show</h3>
+									<div class="insideH3">
+										<img class="img-responsive" src="UserDocumentation/HideShow.png" alt="Hide/Show"/>
+										<p>These two items allows to hide/show the bounding box or the repere.</p>
+									</div>
+							</div>
 					</div>
 			</div>
 		</div>
