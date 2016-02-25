@@ -1,14 +1,14 @@
-Curve8.prototype = new ImplicitCurve;
-Curve8.prototype.constructor = Curve8;
+Hexafolium.prototype = new ImplicitCurve;
+Hexafolium.prototype.constructor = Hexafolium;
 
 
 //==============================================================================
 /**
 * @constructor {Equation} the equation of the curve
 */
-function Curve8() {
-	// -1. + (-3. x + 4. x^3)^2 + (-1. + 2.25 y^2)^2
-	var equation = new Equation("-1. + (-3. x + 4. x^3)^2 + (-1. + 2.25 y^2)^2");
+function Hexafolium() {
+	// -(3*x^2 - y^2)^2*y^2 + (x^2 + y^2)^4
+	var equation = new Equation("-(3*x^2 - y^2)^2*y^2 + (x^2 + y^2)^4");
 	// equation.setParameter("xCenter", 0.0);
 	// equation.setParameter("yCenter", -0.1);
 	// equation.setParameter("radius", 0.7);
