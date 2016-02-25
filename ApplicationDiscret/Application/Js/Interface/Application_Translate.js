@@ -43,7 +43,7 @@ var aLangTitleKeys = [];
 aLangTitleKeys['en'] = [];
 aLangTitleKeys['fr'] = [];
 
-aLangTitleKeys['en']['m21'] = 'Generate the surface on 3D Vue';
+aLangTitleKeys['en']['m21'] = 'Generate the surface on the 3D View';
 aLangTitleKeys['fr']['m21'] = 'Générer la surface dans la vue 3D';
 //##############################################################################
 //	English
@@ -54,66 +54,53 @@ aLangKeys['en']['titre'] = 'discrete revolution surface';
 
 /* Menu Fichier anglais */
 aLangKeys['en']['m1'] = 'File';
-aLangKeys['en']['m11'] = 'Load Meridian';
-aLangKeys['en']['m12'] = 'Load Revolution Curve';
-aLangKeys['en']['m13'] = 'Save';
+aLangKeys['en']['m11'] = 'Load generatrix';
+aLangKeys['en']['m12'] = 'Load directrix';
+aLangKeys['en']['m13'] = 'Save generatrix';
+aLangKeys['en']['m14'] = 'Save directrix';
 
 /* Menu Affichage anglais */
 aLangKeys['en']['m2'] = 'Display';
 aLangKeys['en']['m21'] = 'Camera';
 aLangKeys['en']['m22'] = 'Reset';
 aLangKeys['en']['m23'] = 'Orthographic';
-aLangKeys['en']['m24'] = 'Add N64';
-aLangKeys['en']['m25'] = 'Delete N64';
-aLangKeys['en']['m26'] = 'RGB Color';
+aLangKeys['en']['m25'] = 'RGB color';
+aLangKeys['en']['m26'] = 'White color';
 aLangKeys['en']['m27'] = 'Show/hide graduation';
 aLangKeys['en']['m28'] = 'Show/hide 3D space limits';
 aLangKeys['en']['m29'] = 'Center';
 
 
-/* Menu Outils anglais */
-aLangKeys['en']['m3'] = 'Curves';
-aLangKeys['en']['m33'] = '2D Tools';
-aLangKeys['en']['m34'] = '3D Tools';
-
+aLangKeys['fr']['m3'] = 'Curve:';
+aLangKeys['fr']['m341'] = 'Connexity:';
 
 /* Sous menu 2D anglais */
-aLangKeys['en']['meridianChoice'] = 'The meridian';
-aLangKeys['en']['curveOfRevolutionChoice'] = 'Revolution curve';
-aLangKeys['en']['meridianFormulaInputMenu'] = 'Merridian formula';
-aLangKeys['en']['revolFormulaInput'] = 'Revolution curve formula';
-aLangKeys['en']['handFreeDrawing'] = 'Draw with free hand';
-aLangKeys['en']['showSimpleParameter'] = 'Simple parameters';
-aLangKeys['en']['showAdvancedParameter'] = 'Advanced parameters';
-aLangKeys['en']['addMeridian'] = 'Add merridian';
-aLangKeys['en']['addCurve'] = 'Add revolution curve';
+aLangKeys['en']['meridianChoice'] = 'Generatrix';
+aLangKeys['en']['curveOfRevolutionChoice'] = 'Directrix';
+aLangKeys['en']['meridianFormulaInputMenu'] = 'Generatrix formula';
+aLangKeys['en']['revolFormulaInput'] = 'Directrix formula';
+aLangKeys['en']['handFreeDrawing'] = 'Free hand drawing';
 
-/*Sous menu dessain à main levée anglais*/
-aLangKeys['en']['m35'] = 'Draw with free hand';
+/*Sous menu dessin à main levée anglais*/
+aLangKeys['en']['m35'] = 'Free hand drawing';
 aLangKeys['en']['m351'] = 'Drawing';
-aLangKeys['en']['m352'] = 'Delete';
+aLangKeys['en']['m352'] = 'Clear';
 aLangKeys['en']['m353'] = 'Close the curve';
 
 /* Sous menu 3D anglais */
-aLangKeys['en']['dimension'] = 'Dimension';
-aLangKeys['en']['repereDisplay'] = 'Display graduation';
 aLangKeys['en']['voxelSize'] = 'Voxels size';
-aLangKeys['en']['multiSlice'] = 'Multislices';
-
 
 /* Menu export anglais */
 aLangKeys['en']['m4'] = 'Export';
-aLangKeys['en']['download'] = 'Export 3D Area';
-aLangKeys['en']['downloadMeridian'] = 'Export Merridian';
-aLangKeys['en']['downloadRevolution'] = 'Export Revolution Curve';
+aLangKeys['en']['m41'] = 'Image PNG';
+aLangKeys['en']['download'] = '3D Surface';
+aLangKeys['en']['downloadMeridian'] = 'Generatrix';
+aLangKeys['en']['downloadRevolution'] = 'Directrix';
 aLangKeys['en']['m44'] = 'Export 3D';
 
 /*sous menue export 3D anglais*/
-aLangKeys['en']['m441'] = 'Export X3D';
-aLangKeys['en']['m442'] = 'Export Print X3D';
-
-
-
+aLangKeys['en']['m441'] = 'X3D';
+aLangKeys['en']['m442'] = 'Print X3D';
 
 
 /*Menu Aide anglais*/
@@ -123,29 +110,34 @@ aLangKeys['en']['m52'] = 'About';
 
 
 /* Liste des paramétres méridienne anglais */
-aLangKeys['en']['mer1'] = 'List of Merridian parameters';
-aLangKeys['en']['mer2'] = 'Meridian options';
-aLangKeys['en']['mer3'] = 'line';
+aLangKeys['en']['mer3'] = 'Line';
 aLangKeys['en']['mer4'] = 'Sinusoid';
 
 
 /* Liste des paramétres revolution anglais */
-aLangKeys['en']['revol1'] = 'List of revolution parameters';
-aLangKeys['en']['revol2'] = 'Revolution options';
 aLangKeys['en']['revol3'] = 'Ellipse';
 aLangKeys['en']['revol4'] = 'Heart';
 aLangKeys['en']['revol5'] = 'Lemniscate';
+aLangKeys['en']['revol6'] = 'Lissajous curve';
+aLangKeys['en']['revol8'] = 'Knot curve';
+aLangKeys['en']['revol10'] = 'Hyperbola';
+aLangKeys['en']['revol11'] = 'Folium of Descartes';
+aLangKeys['en']['revol12'] = 'Waffle';
+aLangKeys['en']['revol13'] = 'Atomic Lissajous';
+aLangKeys['en']['revol15'] = 'Doily';
 
 /* Liste des paramétres surface anglais */
 aLangKeys['en']['generate1'] = 'Generate';
-aLangKeys['en']['generate2'] = 'Not optimized Generation';
-aLangKeys['en']['surf3'] = 'List of surface parameters';
+aLangKeys['en']['generate2'] = 'Non optimized generation';
+
+aLangKeys['fr']['xSlice'] = 'X slice';
+aLangKeys['fr']['ySlice'] = 'Y slice';
+aLangKeys['fr']['zSlice'] = 'Z slice';
 
 /*Autres champs en Anglais*/
 aLangKeys['en']['a1'] = 'Angle';
 aLangKeys['en']['a2'] = 'Shift';
-aLangKeys['en']['a3'] = 'Delete';
-aLangKeys['en']['a4'] = 'Crushing';
+aLangKeys['en']['a3'] = 'Clear';
 aLangKeys['en']['a5'] = 'Display';
 aLangKeys['en']['a6'] = 'Modify';
 aLangKeys['en']['a7'] = 'Generation';
@@ -153,12 +145,17 @@ aLangKeys['en']['a8'] = 'Close the curve';
 aLangKeys['en']['a9'] = 'Reset';
 aLangKeys['en']['a10'] = 'Center the Camera';
 
+aLangKeys['fr']['popUpGen'] = 'Generation...';
+aLangKeys['fr']['popUpGen'] = 'Abort...';
 /*Menu surface anglais*/
-aLangKeys['en']['s1'] = 'Area';
+aLangKeys['en']['s1'] = 'Surface';
 aLangKeys['en']['s2'] = 'Generate';
 aLangKeys['en']['s3'] = 'Generate (brute force)';
 aLangKeys['en']['s4'] = 'Display Slice';
-aLangKeys['en']['s5'] = 'Delete Slices';
+aLangKeys['en']['s5'] = 'Deselect Slices';
+aLangKeys['en']['s41'] = 'X (red)';
+aLangKeys['en']['s42'] = 'Y (green)';
+aLangKeys['en']['s43'] = 'Z (blue)';
 
 
 
@@ -172,35 +169,30 @@ aLangKeys['fr']['titre'] = 'Surface de révolution discrète';
 aLangKeys['fr']['m1'] = 'Fichier';
 aLangKeys['fr']['m11'] = 'Charger méridienne';
 aLangKeys['fr']['m12'] = 'Charger courbe de révolution';
-aLangKeys['fr']['m13'] = 'Enregistrer';
+aLangKeys['fr']['m13'] = 'Enregistrer méridienne';
+aLangKeys['fr']['m14'] = 'Enregistrer courbe de révolution';
 
 /* Menu Affichage Français */
 aLangKeys['fr']['m2'] = 'Affichage';
 aLangKeys['fr']['m21'] = 'Caméra';
 aLangKeys['fr']['m22'] = 'Réinitialiser';
 aLangKeys['fr']['m23'] = 'Orthographique';
-aLangKeys['fr']['m24'] = 'Ajouter N64';
-aLangKeys['fr']['m25'] = 'Supprimer N64';
-aLangKeys['fr']['m26'] = 'Couleur RVB';
+aLangKeys['fr']['m25'] = 'Couleur RVB';
+aLangKeys['fr']['m26'] = 'Couleur blanche';
 aLangKeys['fr']['m27'] = 'Afficher/Cacher repère';
 aLangKeys['fr']['m28'] = 'Afficher/Cacher limite 3D';
 aLangKeys['fr']['m29'] = 'Centrer';
 
-/* Menu Outils Franaçis */
+/* Menu Outils Français */
 aLangKeys['fr']['m3'] = 'Courbes';
-aLangKeys['fr']['m33'] = 'Outils 2D';
-aLangKeys['fr']['m34'] = 'Outils 3D';
+aLangKeys['fr']['m341'] = 'Connexité:';
 
 /* Sous menu 2D français */
 aLangKeys['fr']['meridianChoice'] = 'Méridiennes';
 aLangKeys['fr']['curveOfRevolutionChoice'] = 'Courbe de révolution';
 aLangKeys['fr']['meridianFormulaInputMenu'] = 'Formule méridienne';
-aLangKeys['fr']['revolFormulaInput'] = 'formule courbe de révolution';
+aLangKeys['fr']['revolFormulaInput'] = 'Formule courbe de révolution';
 aLangKeys['fr']['handFreeDrawing'] = 'Dessiner à main levée';
-aLangKeys['fr']['showSimpleParameter'] = 'Paramétres simple';
-aLangKeys['fr']['showAdvancedParameter'] = 'Paramétres avancés';
-aLangKeys['fr']['addMeridian'] = 'Ajout méridienne';
-aLangKeys['fr']['addCurve'] = 'Ajout courbe de révolution';
 
 /*Sous menu dessain à main levée français*/
 aLangKeys['fr']['m35'] = 'Dessiner à main levée';
@@ -210,21 +202,18 @@ aLangKeys['fr']['m353'] = 'Fermer la courbe';
 
 
 /* Sous menu 3D français */
-aLangKeys['fr']['dimension'] = 'Dimension';
-aLangKeys['fr']['repereDisplay'] = 'Afficher le repère';
 aLangKeys['fr']['voxelSize'] = 'Taille des voxels';
-aLangKeys['fr']['multiSlice'] = 'Multicoupe';
 
 /* Menu export français */
 aLangKeys['fr']['m4'] = 'Export';
-aLangKeys['fr']['download'] = 'Exporter surface 3D';
-aLangKeys['fr']['downloadMeridian'] = 'Exporter méridienne';
-aLangKeys['fr']['downloadRevolution'] = 'Exporter courbe de révolution';
+aLangKeys['fr']['download'] = 'Surface 3D';
+aLangKeys['fr']['downloadMeridian'] = 'Méridienne';
+aLangKeys['fr']['downloadRevolution'] = 'Courbe de révolution';
 aLangKeys['fr']['m44'] = 'Export 3D';
 
 /* Sous menu export 3D français */
-aLangKeys['fr']['m441'] = 'Export X3D';
-aLangKeys['fr']['m442'] = 'Export impression X3D';
+aLangKeys['fr']['m441'] = 'X3D';
+aLangKeys['fr']['m442'] = 'Impression X3D';
 
 /* Menu Aide français*/
 aLangKeys['fr']['m5'] = 'Aide';
@@ -232,37 +221,30 @@ aLangKeys['fr']['m51'] = 'Afficher aide';
 aLangKeys['fr']['m52'] = 'À propos';
 
 /* Liste des paramétres méridienne français */
-
-
-aLangKeys['fr']['mer1'] = 'List of meridian parameters';
-aLangKeys['fr']['mer1'] = 'Liste des paramètres de la méridienne';
-aLangKeys['fr']['mer1'] = 'Liste des paramètres de la méridienne';
-aLangKeys['fr']['mer2'] = 'Option Méridienne';
-aLangKeys['fr']['mer3'] = 'ligne';
+aLangKeys['fr']['mer3'] = 'Ligne';
 aLangKeys['fr']['mer4'] = 'Sinusoid';
 
 
 /* Liste des paramétres revolution français */
-aLangKeys['fr']['revol1'] = 'Liste des paramètres Révolution';
-aLangKeys['fr']['revol2'] = 'Option Revolution';
-
-/* Liste des paramètres revolution français */
-aLangKeys['fr']['revol1'] = 'Liste des paramètres Révolution';
-aLangKeys['fr']['revol2'] = 'Options Revolution';
-
-
-/* Liste des paramètres revolution français */
-aLangKeys['fr']['revol1'] = 'Liste des paramètres Révolution';
-aLangKeys['fr']['revol2'] = 'Options Revolution';
-
 aLangKeys['fr']['revol3'] = 'Ellipse';
 aLangKeys['fr']['revol4'] = 'Coeur';
 aLangKeys['fr']['revol5'] = 'Lemniscate';
+aLangKeys['fr']['revol6'] = 'Courbe de Lissajous';
+aLangKeys['fr']['revol8'] = 'Courbe du noeud';
+aLangKeys['fr']['revol10'] = 'Hyperbole';
+aLangKeys['fr']['revol11'] = 'Folium de Descartes';
+aLangKeys['fr']['revol12'] = 'Gauffre';
+aLangKeys['fr']['revol13'] = 'Lissajous atomique';
+aLangKeys['fr']['revol15'] = 'Napperon';
+
 
 /* Liste des paramétres surface français */
 aLangKeys['fr']['generate1'] = 'Générer';
 aLangKeys['fr']['generate2'] = 'Génération non optimisée';
-aLangKeys['fr']['surf3'] = 'Liste des paramètres de la Surface';
+
+aLangKeys['fr']['xSlice'] = 'Coupe en X';
+aLangKeys['fr']['ySlice'] = 'Coupe en Y';
+aLangKeys['fr']['zSlice'] = 'Coupe en Z';
 
 
 /*Autres champs en Français*/
@@ -274,9 +256,11 @@ aLangKeys['fr']['a5'] = 'Visualiser';
 aLangKeys['fr']['a6'] = 'modifier';
 aLangKeys['fr']['a7'] = 'Génération';
 aLangKeys['fr']['a8'] = 'Fermer la courbe';
-
 aLangKeys['fr']['a9'] = 'Remettre à zéro';
 aLangKeys['fr']['a10'] = 'Centrer la Caméra';
+
+aLangKeys['fr']['popUpGen'] = 'Génération...';
+aLangKeys['fr']['popUpAbort'] = 'Annulation...';
 
 /*Menu surface français*/
 aLangKeys['fr']['s1'] = 'Surface';
@@ -284,6 +268,9 @@ aLangKeys['fr']['s2'] = 'Générer';
 aLangKeys['fr']['s3'] = 'Générer (brute force)';
 aLangKeys['fr']['s4'] = 'Visualiser coupe';
 aLangKeys['fr']['s5'] = 'Effacer les coupes';
+aLangKeys['fr']['s41'] = 'X (rouge)';
+aLangKeys['fr']['s42'] = 'Y (verte)';
+aLangKeys['fr']['s43'] = 'Z (bleue)';
 
 
 //##############################################################################
@@ -328,5 +315,4 @@ function translateAbout () {
 	}
    
 }
-
 
