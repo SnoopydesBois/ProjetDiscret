@@ -180,7 +180,7 @@
 						<h1 id="m21" class="tr">Caméra</h1>
 						<ul>
 							<li title="Centrer la caméra" 
-								id="" class="tr trtitle"
+								id="m29" class="tr trtitle"
 								onclick="appli.centerCamera ()">Centrer</li>
 							
 							<li title="Replacer la caméra à sa position d'origine" 
@@ -319,9 +319,9 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 			--><li id="helpMenu" tabindex="6">
 				<h1 id="m5" class="tr">Aide</h1>
 				<ul>
-					<li id="m51" class="tr"><a href="help.html" target="_blank">Afficher l'aide</a></li>
+					<li ><a id="m51" class="tr" href="help.html" target="_blank">Afficher l'aide</a></li>
 					
-					<li id="m52" class="tr">À propos</li>
+					<li><a id="m52" class="tr" onclick="translateAbout()"  target="_blank" >À propos</a></li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="translatemenu" tabindex="7">
@@ -566,7 +566,11 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" c
 		</div>
 
 
+
+
 		<script type="text/javascript">
+		
+
 			var appli = new Application ();
 			appli.initAppli ();
 			/**
