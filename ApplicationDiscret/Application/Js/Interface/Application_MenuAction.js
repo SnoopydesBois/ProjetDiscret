@@ -406,3 +406,29 @@ Application.prototype.hideSlice = function () {
 };
 
 
+//==============================================================================
+/**
+ * Put the camera back to its initial position.
+ * @see {@link centerCamera}
+ *
+ * @return {void}
+ */
+Application.prototype.resetCamera = function () {
+	this.surfaceView.resetCamera ();
+};
+
+
+//==============================================================================
+/**
+ * Put the camera look at point to its initial position.
+ * @see {@link resetCamera}
+ * 
+ * @return {void}
+ */
+Application.prototype.centerCamera = function () {
+	this.surfaceView.centerCamera ();
+};
+
+
+
+
