@@ -20,6 +20,8 @@
 //##############################################################################
 
 
+var activeLang = '';
+
 
 var aLangKeys = [];
 aLangKeys['en'] = [];
@@ -281,15 +283,14 @@ aLangKeys['fr']['s5'] = 'Effacer les coupes';
 $(document).ready (function () {
     // onclick behavior
     $('.lang').click (function () {
-        var lang = $(this).attr ('id'); // obtain language id
-		console.log(lang);
+        activeLang = $(this).attr ('id'); // obtain language id
         // translate all translatable elements
         $('.tr').each (function (i) {
-			$(this).text (aLangKeys[lang][$(this).attr ('id')]);			
+			$(this).text (aLangKeys[activeLang][$(this).attr ('id')]);			
         });		
 		
 		 $('.trtitle').each (function (i) {
-			$(this).title (aLangTitleKeys[lang][$(this).attr('id')]);			
+			$(this).title (aLangTitleKeys[activeLang][$(this).attr('id')]);			
         });
 		
     });
@@ -297,16 +298,16 @@ $(document).ready (function () {
 
 
 
-function translateAbout()
-{
+function translateAbout () {
+
 	var x = document.getElementById("m52");
   
-	if(x.attr('tr') == 'en'){
+	if(x.attr('tr') == 'en') {
 		$(this).href(AboutFR.html);
 	}
-	else{
+	else {
 		$(this).href(AboutEN.html);
 	}
-};
-
+   
+}
 
