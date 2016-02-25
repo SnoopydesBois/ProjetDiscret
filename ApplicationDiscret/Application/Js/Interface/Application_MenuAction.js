@@ -134,11 +134,11 @@ Application.prototype.exportRevolutionPng = function () {
  * TODO
  */
 Application.prototype.exportX3D = function () {
-	if (this.surfaceView.getSurfaceRenderer ().getSurface () == null) {
+	if (this.surfaceView.getSurfaceRenderer ().getSurface() == null) {
 		return;
 	}
 	this.exportController.exportX3D (
-		this.surfaceView.getSurfaceRenderer ().getSurface ());
+		this.surfaceView.getSurfaceRenderer().getSurface());
 };
 
 

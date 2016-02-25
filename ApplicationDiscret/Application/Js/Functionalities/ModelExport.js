@@ -168,7 +168,7 @@ ModelExport.prototype.exportX3D = function(surface){
 				if(voxel != null && voxel.isVisible(connexity)){
 					x3D += "\t<Transform translation=\""+  (x - dimension.x/2) + " " + (y - dimension.y/2) + " " + (z - dimension.z/2)  + "\">\n" +
 								"\t\t<Shape>\n" + 
-									"\t\t\t<Box size=\"" + 1.0 + " " +  1.0 + " " + 1.0 + "\"/>\n"+
+									"\t\t\t<Box size=\"" + (1.0 - dimension.x/2) + " " + (1.0 - dimension.y/2) + " " + (1.0 - dimension.z/2) + "\"/>\n"+
 								"\t\t</Shape>\n" +
 							"\t</Transform>\n";
 				}

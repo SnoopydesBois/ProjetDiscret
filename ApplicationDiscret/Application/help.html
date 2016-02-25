@@ -26,6 +26,16 @@
 				$(window).scrollTop($("#" + $(this).attr("link")).position().top);
 			});
 		});
+		
+		$(document).ready(function(){    
+			$('.caret').on('shown', function () {
+			   $(".icon-chevron-down").removeClass("icon-chevron-down").addClass("icon-chevron-up");
+			});
+
+			$('.caret').on('hidden', function () {
+			   $(".icon-chevron-up").removeClass("icon-chevron-up").addClass("icon-chevron-down");
+			});
+		});
 	</script>
 	<div class="container-fluid">
 	
@@ -37,12 +47,12 @@
 						<div class="navbar-collapse collapse sidebar-navbar-collapse">
 							<div class="nav nav-pills nav-stacked">							
 								<ul>
-									<a data-toggle="collapse" class="link" link="2dSpace" href="#2dSpaceDiv">2D Space<span class="caret"></span></a>
+									<a data-toggle="collapse" class="link" link="2dSpace" href="#2dSpaceDiv">2D Space<span class="caret caretMenu"></span></a>
 									<div id="2dSpaceDiv" class="submenu panel-collapse collapse">
 										<div><a href="#Curve">Curve</a></div>
 										<div><a href="#Parameters">Parameters</a></div>
 										<div>
-											<a data-toggle="collapse" class="link" link="TypeCurve" href="#typeCurve">Type of curves<span class="caret"></span></a>
+											<a data-toggle="collapse" class="link" link="TypeCurve" href="#typeCurve">Type of curves<span class="caret caretMenu"></span></a>
 											<div id="typeCurve" class="panel-collapse collapse submenu">
 												<div><a href="#Predefined">Predefined</a></div>					
 												<div><a href="#HandFree">Hand free</a></div>					
@@ -52,16 +62,16 @@
 									</div>
 								</ul>
 								<ul> 
-									<a data-toggle="collapse" class="link" link="3dSpace" href="#3dSpaceDiv">3D Space<span class="caret"></span></a> 
+									<a data-toggle="collapse" class="link" link="3dSpace" href="#3dSpaceDiv">3D Space<span class="caret caretMenu"></span></a> 
 									<div id="3dSpaceDiv" class="submenu panel-collapse collapse">
 										<div>
-											<a data-toggle="collapse" class="link" link="3dVisualisation" href="#3dVisualisationDiv">3D Visualisation<span class="caret"></span></a>
+											<a data-toggle="collapse" class="link" link="3dVisualisation" href="#3dVisualisationDiv">3D Visualisation<span class="caret caretMenu"></span></a>
 											<div id="3dVisualisationDiv" class="submenu panel-collapse collapse">
 												<div><a href="#Generation">Generation</a></div>
 											</div>
 										</div>
 										<div>
-											<a data-toggle="collapse" class="link" link="Interactions" href="#InteractionDiv">Interactions<span class="caret"></span></a>
+											<a data-toggle="collapse" class="link" link="Interactions" href="#InteractionDiv">Interactions<span class="caret caretMenu"></span></a>
 											<div id="InteractionDiv" class="submenu panel-collapse collapse">
 												<div><a href="#CameraMovements">Camera movements</a></div>
 												<div><a href="#3DDimensions">3D dimensions</a></div>
@@ -73,7 +83,7 @@
 									</div>
 								</ul>
 								<ul>
-									<a data-toggle="collapse" class="link" link="Menus" href="#MenusDiv">Menus<span class="caret"></span></a>
+									<a data-toggle="collapse" class="link" link="Menus" href="#MenusDiv">Menus<span class="caret caretMenu"></span></a>
 									<div id="MenusDiv" class="submenu panel-collapse collapse">
 										<div><a href=""></a></div>
 									</div>

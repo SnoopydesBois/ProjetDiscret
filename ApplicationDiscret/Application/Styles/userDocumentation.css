@@ -23,13 +23,6 @@ li{
 	border-block-end : 5px inset black;
 }
 
-#sidebarNav  div  ul .caret{
-    /* symbol for "opening" panels */
-    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
-    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
-    color: grey;         /* adjust as needed */
-}
-
 .submenu{
 	margin-left : 5px; 
 }
