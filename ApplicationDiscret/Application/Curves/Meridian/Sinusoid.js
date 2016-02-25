@@ -16,10 +16,10 @@ function Sinusoid () {
 	
 	ExplicitCurve.call (this, equation);
 	
-	this.parametersRange['amplitude'] = new Range(2.0, 15);
+	this.parametersRange['amplitude'] = new Range(2.0, 50);
 	this.parametersRange['period'] = new Range(10,30);
 	this.parametersRange['phase_shift'] = new Range(0, 2 * 3.14159265359);
-	this.parametersRange['horizontal_shift'] = new Range(1,10);
+	this.parametersRange['horizontal_shift'] = new Range(1,50);
 };
 
 //==============================================================================
