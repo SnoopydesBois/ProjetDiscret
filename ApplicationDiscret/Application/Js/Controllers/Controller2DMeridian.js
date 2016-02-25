@@ -93,7 +93,7 @@ Controller2DMeridian.prototype.setActive = function (name, type) {
  * @return {Curve} The current curve.
  */
 Controller2DMeridian.prototype.getActiveCurve = function () {
-	var mode = document.forms["meridianType"]["meridianTypeValue"].value
+	var mode = document.forms["meridianType"]["meridianTypeValue"].value;
 	if (mode === "meridianPrimitive") {
 		return this.modelCurve.getActiveCurve ();
 	}

@@ -297,11 +297,11 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 	if (! checkType (arguments, WebGLRenderingContext, "number", "number")) {
 		throw "SurfaceRenderer.prepare: bad type(s) of parameter(s)";
 	}
-	console.log ("Prepare de " + this.structureName);
+//	console.log ("Prepare de " + this.structureName);
 	this.cptPreparedVertex = 0;
 
 	/// prepare
-	if (typeof radius == "undefined" || radius > 0.5 || radius < 0.0)
+	if (typeof radius == "undefined" || radius > 1.0 || radius < 0.0)
 		radius = 0.5;
 	var size = this.modelController.getDimension ();
 
@@ -381,10 +381,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 					vertexBuffer[tmp][offset + 1],
 					vertexBuffer[tmp][offset + 2]
 				);
-				if (globalParam.cubeColorDebug)
-					this.addAColor (data[tmp], backColorBuffer[tmp][i]);
-				else
-					this.addAColor (data[tmp], colorBuffer[tmp][i]);
+				this.addAColor (data[tmp], colorBuffer[tmp][i]);
 				// back buffer
 				this.addAPoint (bdata[tmp],
 					vertexBuffer[tmp][offset],
@@ -659,8 +656,45 @@ SurfaceRenderer.prototype.prepareFace = function (
 		// -> DO NOTHING
 	break;
 	}
-
-	colorBuffer.push (colorFace);
+	var color = [0, 0, 0, 1];
+	if (globalParam.cubeColorDebug) {
+		switch (direction) {
+			case DirectionEnum.TOP:
+			case DirectionEnum.BOTTOM:
+				// blue
+				color[1] = 0.4;
+				color[2] = 0.8;
+//				color[0] = 0.7;
+//				color[1] = 0.7;
+//				color[2] = 0.8;
+				break;
+			case DirectionEnum.FRONT:
+			case DirectionEnum.BACK:
+				// green
+				color[0] = 0.3;
+				color[1] = 0.8;
+				color[2] = 0.4;
+//				color[0] = 0.7;
+//				color[1] = 0.8;
+//				color[2] = 0.75;
+				break;
+			case DirectionEnum.LEFT:
+			case DirectionEnum.RIGHT:
+				// red
+				color[0] = 0.8;
+				color[1] = 0.4;
+				color[2] = 0.3;
+//				color[0] = 0.8;
+//				color[1] = 0.75;
+//				color[2] = 0.7;
+		}
+	}
+	else {
+		for (var j = 0; j < 4; ++j) {
+			color[j] = colorFace[j];
+		}
+	}
+	colorBuffer.push (color);
 
 	// The color used by the picking according to the facet position
 	if (backColorBuffer != undefined && backColorBuffer != null)
@@ -670,13 +704,13 @@ SurfaceRenderer.prototype.prepareFace = function (
 
 //==============================================================================
 /**
- * Draw the model (draw the triangles).
+ * Draw the model (draw the triangles). TODO
  *
  * @param {WebGLRenderingContext} gl - The gl context.
  *
  * @return {void}
  */
-SurfaceRenderer.prototype.draw = function (gl) {
+SurfaceRenderer.prototype.draw = function (gl, radius) {
 	if (! gl instanceof WebGLRenderingContext) {
 		console.error ("SurfaceRenderer.draw: parameter is not a "
 			+ "WebGLRenderingContext");
@@ -687,19 +721,11 @@ SurfaceRenderer.prototype.draw = function (gl) {
 	for (var tmp = 0; tmp < this.nbGlBuffer; ++tmp) {
 		// Let's the shader prepare its attributes
 		this.shader.setAttributes (gl, this.glVertexBuffer[tmp],
-			globalParam.perspectiveView ? 1 : 0);
+			globalParam.perspectiveView ? 1 : 0, radius);
 		// Let's render !
 		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.glIndiciesBuffer[tmp]);
 		gl.drawElements (gl.TRIANGLES, this.glIndiciesBuffer[tmp].numItems,
 			gl.UNSIGNED_SHORT, 0);
-
-		// Let's the shader prepare its attributes
-//		this.shader.setAttributes (gl, this.selectvbo[tmp],
-//			globalParam.perspectiveView ? 1 : 0);
-		// Let's render !
-//		gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER, this.selectibo[tmp]);
-//		gl.drawElements (gl.TRIANGLES, this.selectibo[tmp].numItems,
-//			gl.UNSIGNED_SHORT, 0);
 	}
 };
 

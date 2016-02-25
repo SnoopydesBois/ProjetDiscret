@@ -1,6 +1,6 @@
 /**
-* Fragment shader for the application
-*/
+ * {String} Fragment shader for the application. TODO
+ */
 var fragSrc =
   "precision mediump float;\n"
 + "\n"
@@ -9,7 +9,7 @@ var fragSrc =
 + "\n"
 + "uniform vec3 uDimension;\n"
 + "uniform int uMode;\n"
-+ "uniform int radius;\n"
++ "uniform float uRadius;\n"
 + "\n"
 + "\n"
 + "void main (void) {\n"
@@ -63,20 +63,26 @@ var fragSrc =
 + "	}\n"
 + "	else {\n"
 + "		 // Pixel coordinates on the screen\n"
-+ "\n"
++ "		const float width = 0.2;\n"
++ "		vec3 center = floor (pos) + 0.5;\n" // center of the cube 
++ "		vec3 Min = center - uRadius / 2.0;\n" // min border of the cube
++ "		vec3 min = Min + width;\n" // min border of the real color
++ "		vec3 Max = center + uRadius / 2.0;\n" // max border of the cube
++ "		vec3 max = Max - width;\n" // max border of the real color
 + "		int nb = 0; // We count the number of coordinates that are integers\n"
-+ "		if (step(tight[0], fract(pos.x)) == 0.0 \n"
-+ "			|| step(tight[1], fract(pos.x)) == 1.0) {\n"
++ "		if (Min.x <= pos.x && pos.x <= min.x || max.x <= pos.x && pos.x <= Max.x) {\n"
 + "			nb++;\n"
 + "		}\n"
-+ "	\n"
-+ "		if (step(tight[0], fract(pos.y)) == 0.0 \n"
-+ "			|| step(tight[1], fract(pos.y)) == 1.0) {\n"
++ "\n"
++ "		if (Min.y <= pos.y && pos.y <= min.y || max.y <= pos.y && pos.y <= Max.y) {\n"
+//+ "		if (step (tight[0], fract (pos.y)) == 0.0 \n"
+//+ "			|| step (tight[1], fract (pos.y)) == 1.0) {\n"
 + "			nb++;\n"
 + "		}\n"
-+ "	\n"
-+ "		if (step(tight[0], fract(pos.z)) == 0.0 \n"
-+ "			|| step(tight[1], fract(pos.z)) == 1.0) {\n"
++ "\n"
++ "		if (Min.z <= pos.z && pos.z <= min.z || max.z <= pos.z && pos.z <= Max.z) {\n"
+//+ "		if (step (tight[0], fract (pos.z)) == 0.0 \n"
+//+ "			|| step (tight[1], fract (pos.z)) == 1.0) {\n"
 + "			nb++;\n"
 + "		}\n"
 + "	    // If there is only one integer coordinate, we render normally\n"
@@ -89,7 +95,7 @@ var fragSrc =
 + "			float colorY = vColor.y * 0.7;\n"
 + "			float colorZ = vColor.z * 0.7;\n"
 + "			"
-+ "			gl_FragColor = vec4(colorX, colorY, colorZ, 1.0);\n"
++ "			gl_FragColor = vec4 (colorX, colorY, colorZ, 1.0);\n"
 + "		}\n"
 + "	} // end switch uMode\n"
 + "}";

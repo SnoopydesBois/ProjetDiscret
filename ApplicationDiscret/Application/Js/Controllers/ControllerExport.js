@@ -165,8 +165,17 @@ ControllerExport.prototype.exportSTL = function(renderer){
 
 //==============================================================================
 /**
- * TODO
+ *
  */
-ControllerExport.prototype.saveCurves = function(meridianController, revolutionController){
-	this.model.saveCurves(meridianController, revolutionController);
+ControllerExport.prototype.saveImplicitCurve = function(revolutionController){
+	this.model.saveImplicitCurve(revolutionController);
+};
+
+
+//==============================================================================
+/**
+ *
+ */
+ControllerExport.prototype.saveGeneratrix = function(meridianController){
+	this.model.saveGeneratrix(meridianController);
 };

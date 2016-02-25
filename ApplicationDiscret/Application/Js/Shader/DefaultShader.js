@@ -126,17 +126,12 @@ function DefaultShader (glContext) {
  * 
  * @return {void}
  */
-// Anciennement nommé setMode 
 DefaultShader.prototype.setRenderingMode = function (mode) {
 	if (! isValueOfEnum (RenderingModeEnum, mode))
 		console.error ("DefaultShader.setRenderingMode : give a correct mode");
 	else
 		this.renderingMode = mode;
 };
-DefaultShader.prototype.setMode = function (m) {
-	this.setRenderingMode (m);
-	console.error ("Cette methode à été renommé, il faut utiliser DefaultShader.setRenderingMode");
-}
 
 
 //==============================================================================
@@ -165,7 +160,7 @@ DefaultShader.prototype.getRenderingMode = function () {
  * @return {void}
  */
 DefaultShader.prototype.setAttributes = function (glContext, vertexBuffer,
-	viewMode) 
+	viewMode, radius) 
 {
 	/// parameters verification
 	if (! checkType (arguments, WebGLRenderingContext, WebGLBuffer, "number")) {
@@ -179,6 +174,7 @@ DefaultShader.prototype.setAttributes = function (glContext, vertexBuffer,
 	var attrCol = this.getAttributeLocation ("aColor");
 	var attrMode = this.getUniformLocation ("uMode");
 	var attrVMode = this.getUniformLocation ("uViewMode");
+	var attrRadius = this.getUniformLocation ("uRadius");
 	
 	// Activate Attribute
 	glContext.enableVertexAttribArray (attrPos);
@@ -188,8 +184,9 @@ DefaultShader.prototype.setAttributes = function (glContext, vertexBuffer,
 	glContext.vertexAttribPointer (attrPos, 3, glContext.FLOAT, false, 28, 0);
 	glContext.vertexAttribPointer (attrCol, 4, glContext.FLOAT, false, 28, 12);
 	
-	this.glContext.uniform1i (attrMode, this.renderingMode);
-	this.glContext.uniform1i (attrVMode, viewMode);
+	glContext.uniform1i (attrMode, this.renderingMode);
+	glContext.uniform1i (attrVMode, viewMode);
+	glContext.uniform1f (attrRadius, radius);
 };
 
 
