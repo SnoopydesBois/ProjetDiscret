@@ -29,8 +29,8 @@ var aLangTitleKeys = [];
 aLangTitleKeys['en'] = [];
 aLangTitleKeys['fr'] = [];
 
-aLangTitleKeys['en']['m11'] = 'Create a new model';
-aLangTitleKeys['fr']['m11'] = 'Créer un nouveau modèle';
+aLangTitleKeys['en']['m21'] = 'Generate the surface on 3D Vue';
+aLangTitleKeys['fr']['m21'] = 'Générer la surface dans la vue 3D';
 //##############################################################################
 //	English
 //##############################################################################
@@ -125,7 +125,8 @@ aLangKeys['en']['a3'] = 'Delete';
 aLangKeys['en']['a4'] = 'crushing';
 aLangKeys['en']['a5'] = 'display';
 aLangKeys['en']['a6'] = 'modify';
-
+aLangKeys['en']['a7'] = 'Generation';
+aLangKeys['en']['a8'] = 'Close the curve';
 //##############################################################################
 //	French
 //##############################################################################
@@ -228,7 +229,8 @@ aLangKeys['fr']['a3'] = 'Effacer';
 aLangKeys['fr']['a4'] = 'ecrasement';
 aLangKeys['fr']['a5'] = 'Visualiser';
 aLangKeys['fr']['a6'] = 'modifier';
-
+aLangKeys['fr']['a7'] = 'Génération';
+aLangKeys['fr']['a8'] = 'Fermer la courbe';
 //##############################################################################
 //	Main function
 //##############################################################################

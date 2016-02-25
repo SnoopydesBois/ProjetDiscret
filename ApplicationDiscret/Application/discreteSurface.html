@@ -142,12 +142,12 @@
 				<ul>
 
 					<li title="Ouvrir une meridienne depuis un fichier sur cet ordinateur"
-						onclick="this.firstElementChild.click()" id="m11" class="tr">
-						<input type="file" id="i_file" onchange="appli.loadMeridian(event)" style="display:none">Charger méridienne</input>
+						onclick="this.firstElementChild.click()" id="m11" class="tr"  >
+						<input type="file" onchange="appli.loadMeridian(event)" style="display:none">Charger méridienne</input>
 					</li>
 					<li title="Ouvrir une courbe de revolution depuis un fichier sur cet ordinateur"
 						onclick="this.firstElementChild.click()" id="m12" class="tr">
-						<input type="file" id="i_file" onchange="appli.loadRevolution(event)" style="display:none">Charger courbe de révolution</input>
+						<input type="file"  onchange="appli.loadRevolution(event)" style="display:none">Charger courbe de révolution</input>
 
 					</li>
 					<li title="Enregistrer le modèle actuel"
@@ -157,7 +157,7 @@
 			--><li id="viewMenu" tabindex="2">
 				<h1 id="m2" class="tr">Affichage</h1>
 				<ul>
-					<li title="Générer la surface dans la vue 3D" id="m21" class="tr"
+					<li title="Générer la surface dans la vue 3D" id="m21" class="tr trtitle"
 						onclick="appli.generateAndDraw (0)">Générer</li>
 
 					<li title="Centrer la caméra" id="m22" class="tr"
@@ -382,7 +382,7 @@
 							<div class="optionGroup">
 
 								<button id="a3" class="tr" onclick="appli.clearDraw ()">Effacer</button>
-								<button id="" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
+								<button id="a8" class="tr" onclick="appli.closeCurve ()">Fermer la courbe</button>
 
 							</div>
 							<label for="meridianFormula">&nbsp;</label>
