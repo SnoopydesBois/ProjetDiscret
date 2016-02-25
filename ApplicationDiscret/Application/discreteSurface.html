@@ -137,40 +137,26 @@
 						id="m13" class="tr" onclick="appli.saveCurves()">Enregistrer</li>
 					
 					<li title="Ouvrir une meridienne depuis un fichier sur cet ordinateur"
-<<<<<<< HEAD
-						onclick="this.firstElementChild.click()" id="m11" class="tr"  >
-						<input type="file" onchange="appli.loadMeridian(event)" style="display:none">Charger méridienne</input>
-=======
+
 						onclick="this.firstElementChild.click()" id="m11" class="tr">
 						<input type="file" id="i_file" style="display: none" 
 							onchange="appli.loadMeridian(event)">Charger méridienne</input>
->>>>>>> origin/master
+
 					</li>
 					
 					<li title="Ouvrir une courbe de revolution depuis un fichier sur cet ordinateur"
 						onclick="this.firstElementChild.click()" id="m12" class="tr">
-<<<<<<< HEAD
-						<input type="file"  onchange="appli.loadRevolution(event)" style="display:none">Charger courbe de révolution</input>
 
-=======
 						<input type="file" id="i_file" style="display: none"
 							onchange="appli.loadRevolution(event)">Charger courbe de révolution</input>
->>>>>>> origin/master
+
 					</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="viewMenu" tabindex="2">
 				<h1 id="m2" class="tr">Affichage</h1>
 				<ul>
-<<<<<<< HEAD
-					<li title="Générer la surface dans la vue 3D" id="m21" class="tr trtitle"
-						onclick="appli.generateAndDraw (0)">Générer</li>
 
-					<li title="Centrer la caméra" id="m22" class="tr"
-						onclick="appli.resetCamera()">Centrer la caméra</li>
-
-=======
->>>>>>> origin/master
 					<li title="Changer le point de vue" id="m23" class="tr"
 						onclick="if (globalParam.perspectiveView) {
 							this.innerHTML = 'Perspective';
@@ -191,7 +177,7 @@
 						appli.surfaceView.show (true)">Couleur RVB</li>
 					
 					<li id="camera" class="submenu">
-						<h1 id="" class="tr">Caméra</h1>
+						<h1 id="m21" class="tr">Caméra</h1>
 						<ul>
 							<li title="Centrer la caméra" 
 								id="" class="tr trtitle"
@@ -223,18 +209,18 @@
 						onclick="appli.selectMeridian ()">Méridienne</li>
 				
 					<li id="handFreeDrawing" class="submenu">
-						<h1 id="" class="tr trtitle"
+						<h1 id="m35" class="tr trtitle"
 							title="Dessin à main levée">Dessiner à main levée</h1>
 						<ul>
-							<li id="" class="tr trTitle"
+							<li id="m351" class="tr trTitle"
 								title="Déssiner une courbe"
-								onclick="appli.drawFreeHandMeridian ()">Dessiner</li>
+								onclick="appli.drawFreeHandMeridian ()" > Dessiner</li>
 
-							<li id="" class="tr trTitle"
+							<li id="m352" class="tr trTitle"
 								title="Effacer la courbe"
 								onclick="appli.drawFreeHandMeridian (); appli.clearDraw ()">Effacer</li>
 
-							<li id="" class="tr trTitle"
+							<li id="m353" class="tr trTitle"
 								title="Fermer une courbe"
 								onclick="appli.drawFreeHandMeridian (); appli.closeCurve ()">Fermer la courbe</li>
 						</ul>
@@ -259,19 +245,19 @@
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="surfaceMenu" tabindex="4">
-				<h1 id="" class="tr">Surface</h1>
+				<h1 id="s1" class="tr">Surface</h1>
 				<ul>
-					<li title="Générer la surface dans la vue 3D" id="m21" class="tr trtitle"
+					<li title="Générer la surface dans la vue 3D" id="s2" class="tr trtitle"
 						onclick="appli.generateAndDraw (0)">Générer</li>
 
 					<li title="Générer la surface dans la vue 3D avec un algorithme brute force.
-Plus LENT mais permet de résoudre certains problèmes de connexité." id="" class="tr trtitle"
+Plus LENT mais permet de résoudre certains problèmes de connexité." id="s3" class="tr trtitle"
 						onclick="appli.generateAndDraw (1)">Générer (brute force)</li>
 						
 					<li class="split"><hr/></li>
 
 					<li id="showSlice" class="submenu">
-						<h1 id="" class="tr trtitle"
+						<h1 id="s4" class="tr trtitle"
 							title="Visualiser une coupe">Visualiser coupe</h1>
 						<ul>
 							<li id="" class="tr trtitle" title="Visualiser la coupe X"
@@ -285,7 +271,7 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="" cla
 						</ul>
 					</li>
 					
-					<li id="" class="tr trtitle"
+					<li id="s5" class="tr trtitle"
 						onclick="appli.hideSlice ()">Effacer les coupes</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
@@ -333,13 +319,13 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="" cla
 			--><li id="helpMenu" tabindex="6">
 				<h1 id="m5" class="tr">Aide</h1>
 				<ul>
-					<li key="m51" class="tr"><a href="help.html" target="_blank">Afficher l'aide</a></li>
+					<li id="m51" class="tr"><a href="help.html" target="_blank">Afficher l'aide</a></li>
 					
-					<li key="m52" class="tr">À propos</li>
+					<li id="m52" class="tr">À propos</li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="translatemenu" tabindex="7">
-				<h1 id="" class="tr">Traduction</h1>
+				<h1 id="" class="tr">EN/FR</h1>
 				<ul>
 					<li id="en" class="lang" 
 						title="Translate everything in English">English</li>
@@ -512,14 +498,14 @@ Plus LENT mais permet de résoudre certains problèmes de connexité." id="" cla
 					</div>
 					
 					<div class="wrapper">
-						<button id="" class="tr trTitle"
+						<button id="a9" class="tr trTitle"
 							onclick="appli.resetSliderMultiSlice ()">Remettre à zéro</button>
 					</div>
 					
 					<hr/>
 					
 					<div class="wrapper">
-						<button id="" class="tr trTitle"
+						<button id="a10" class="tr trTitle"
 							onclick="appli.resetCamera ()">Centrer la caméra</button>
 					</div>
 				</div><!-- end #surfaceParam -->
