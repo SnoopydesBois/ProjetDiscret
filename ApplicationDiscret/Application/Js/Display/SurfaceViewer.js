@@ -247,7 +247,7 @@ SurfaceViewer.prototype.draw = function (backBuffer) {
 		this.container.draw (
 			this.glContext,
 			backBuffer,
-			parseFloat (this.voxelRadiusInput.value),
+			parseFloat (this.voxelRadiusInput.value) / 2,
 			this.screenBuffer
 		);
 	}
