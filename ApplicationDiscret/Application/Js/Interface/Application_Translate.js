@@ -20,9 +20,21 @@
 //##############################################################################
 
 
-var activeLang = '';
+/**
+ * TODO
+ */
+Application.prototype.activeIndexLang = 0;
 
 
+/**
+ * TODO
+ */
+Application.languages = ['fr', 'en'];
+
+
+/**
+ * TODO
+ */
 var aLangKeys = [];
 aLangKeys['en'] = [];
 aLangKeys['fr'] = [];
@@ -280,33 +292,39 @@ aLangKeys['fr']['s5'] = 'Effacer les coupes';
 
 
 
-$(document).ready (function () {
-    // onclick behavior
-    $('.lang').click (function () {
-        activeLang = $(this).attr ('id'); // obtain language id
-        // translate all translatable elements
-        $('.tr').each (function (i) {
-			$(this).text (aLangKeys[activeLang][$(this).attr ('id')]);			
-        });		
-		
-		 $('.trtitle').each (function (i) {
-			$(this).title (aLangTitleKeys[activeLang][$(this).attr('id')]);			
-        });
-		
-    });
-});
+/**
+ * TODO
+ */
+Application.prototype.translateAll = function () {
+	this.activeIndexLang = (this.activeIndexLang + 1)
+		% Application.languages.length;
+	activeLang = Application.languages[this.activeIndexLang];
+	
+	// translate all HTMLtext translatable elements
+	$('.tr').each (function (i) {
+		$(this).text (aLangKeys[activeLang][$(this).attr ('id')]);			
+	});		
+
+	// translate all title attribute translatable elements
+	$('.trtitle').each (function (i) {
+		$(this).title (aLangTitleKeys[activeLang][$(this).attr('id')]);			
+	});
+};
 
 
 
+/**
+ * TODO
+ */
 function translateAbout () {
 
-	var x = document.getElementById("m52");
+	var x = document.getElementById ("m52");
   
 	if(x.attr('tr') == 'en') {
-		$(this).href(AboutFR.html);
+		$(this).href (AboutFR.html);
 	}
 	else {
-		$(this).href(AboutEN.html);
+		$(this).href (AboutEN.html);
 	}
    
 }
