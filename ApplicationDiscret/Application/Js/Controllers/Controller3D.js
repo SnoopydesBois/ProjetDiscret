@@ -110,13 +110,22 @@ function Controller3D (dimension) {
 
 //==============================================================================
 /**
+ * TODO
+ */
+Controller3D.prototype.newSurface = function () {
+	return this.modelGen.newSurface (this.getDimension ());
+};
+
+
+//==============================================================================
+/**
  * Function that start the generation of the surface from the meridian and the
  * curbe of revolution.
  * 
  * @param {###} mode - 
  * 
  * @return {void}
- * @throws {String} ###
+ * @throws {String} TODO
  */
 Controller3D.prototype.generate = function (mode) {
 	/// verification

@@ -100,7 +100,7 @@
 .menus   ul li:hover,
 .submenu ul li:hover,
 .menus > li:hover > h1 {
-	background-color : #CCCCCC;
+	background-color : #B6CBE3;
 	color : black;
 }
 
@@ -131,8 +131,10 @@ li.submenu:hover > ul {
 }
 
 
-.submenu h1:after {
-	content : " ->";
+.submenu h1 {
+	background-image: url(arrow.png);
+	background-repeat: no-repeat;
+	background-position: right center;
 }
 
 

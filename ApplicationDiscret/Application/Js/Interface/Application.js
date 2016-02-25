@@ -132,7 +132,7 @@ function Application () {
 	/**
 	 * {Controller3D} TODO
 	 */
-	this.surfaceController = new Controller3D (new Vector (31, 31, 31));
+	this.surfaceController = new Controller3D (new Vector (51, 51, 51));
 
 
 		/// Meridian ///

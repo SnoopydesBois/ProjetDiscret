@@ -61,8 +61,20 @@ ModelExport.prototype.constructor = ModelExport;
  *
  */
 function ModelExport (idSurface, idMeridian, idRevolution) {
+	
+	/**
+	 * TODO
+	 */
 	this.idSurface = idSurface;
+	
+	/**
+	 * TODO
+	 */
 	this.idMeridian = idMeridian;
+	
+	/**
+	 * TODO
+	 */
 	this.idRevolution = idRevolution;
 };
 
@@ -374,7 +386,7 @@ ModelExport.prototype.saveCurves = function(meridianController, revolutionContro
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 ModelExport.prototype.writeImplicitCurve = function(curveController){
 	var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + 
@@ -420,7 +432,7 @@ ModelExport.prototype.writeImplicitCurve = function(curveController){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 ModelExport.prototype.writeExplicitCurve = function(curveController){
 	var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' + 
@@ -466,7 +478,7 @@ ModelExport.prototype.writeExplicitCurve = function(curveController){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 ModelExport.prototype.writeDrawnCurve = function(curveController){
 	var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n' + 
