@@ -63,7 +63,7 @@ var fragSrc =
 + "	}\n"
 + "	else {\n"
 + "		 // Pixel coordinates on the screen\n"
-+ "		const float width = 0.2;\n"
++ "		const float width = 0.05;\n"
 + "		vec3 center = floor (pos) + 0.5;\n" // center of the cube 
 + "		vec3 Min = center - uRadius / 2.0;\n" // min border of the cube
 + "		vec3 min = Min + width;\n" // min border of the real color

@@ -54,3 +54,7 @@ li>div{
 p, h1, h2, h3{
 	text-align: justify;
 }
+
+img{
+	border : 1px solid black;
+}
