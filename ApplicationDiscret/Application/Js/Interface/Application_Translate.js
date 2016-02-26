@@ -71,8 +71,8 @@ aLangKeys['en']['m28'] = 'Show/hide 3D space limits';
 aLangKeys['en']['m29'] = 'Center';
 
 
-aLangKeys['en']['m3'] = 'Curve:';
-aLangKeys['en']['m341'] = 'Connexity:';
+aLangKeys['en']['m3'] = 'Curve';
+aLangKeys['en']['m341'] = 'Connexity';
 
 
 /* Sous menu 2D anglais */
@@ -147,7 +147,7 @@ aLangKeys['en']['a3'] = 'Clear';
 aLangKeys['en']['a5'] = 'Display';
 aLangKeys['en']['a8'] = 'Close the curve';
 aLangKeys['en']['a9'] = 'Reset';
-aLangKeys['en']['a10'] = 'Center the Camera';
+aLangKeys['en']['a10'] = 'Reset the camera';
 
 aLangKeys['en']['popUpGen'] = 'Generation...';
 aLangKeys['en']['popUpGen'] = 'Abort...';
@@ -266,7 +266,7 @@ aLangKeys['fr']['a3'] = 'Effacer';
 aLangKeys['fr']['a5'] = 'Visualiser';
 aLangKeys['fr']['a8'] = 'Fermer la courbe';
 aLangKeys['fr']['a9'] = 'Remettre à zéro';
-aLangKeys['fr']['a10'] = 'Centrer la Caméra';
+aLangKeys['fr']['a10'] = 'Réinitialiser la caméra';
 
 
 aLangKeys['fr']['popUpGen'] = 'Génération...';
