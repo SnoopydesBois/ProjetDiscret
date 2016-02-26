@@ -92,7 +92,6 @@ Application.prototype.initAppli = function () {
 		.removeClass("ui-button ui-widget ui-state-default ui-button-text-only")
 		.removeAttr ("role")
 		.unbind ();
-
 	this.changeDimension ();
 	this.resizeInterface ();
 	this.initWindowEvent ();

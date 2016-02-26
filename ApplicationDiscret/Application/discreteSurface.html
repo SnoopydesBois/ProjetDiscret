@@ -27,7 +27,6 @@
 		<script type="text/javascript" src="Js/Libraries/math.js"></script>
 		<script type="text/javascript" src="Js/Libraries/jquery.js"></script>
 		<script type="text/javascript" src="Js/Libraries/jquery-ui.js"></script>
-
 		<script type="text/javascript" src="Js/Libraries/jszip.js"></script>
 		<script type="text/javascript" src="Js/Libraries/saveSvgAsPng.js"></script>
 		<script type="text/javascript" src="Js/Libraries/FileSaver.js"></script>
@@ -79,16 +78,13 @@
 
 		<script type="text/javascript" src="Js/Shader/vertexShader.js"></script>
 		<script type="text/javascript" src="Js/Shader/fragmentShader.js"></script>
-		<script type="text/javascript" src="Js/Shader/vertexShader_repere.js"></script>
 		<script type="text/javascript" src="Js/Shader/Shader.js"></script>
 		<script type="text/javascript" src="Js/Shader/DefaultShader.js"></script>
-		<script type="text/javascript" src="Js/Shader/RepereShader.js"></script>
 
 		<script type="text/javascript" src="Js/Controllers/Controller.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller2D.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller2DMeridian.js"></script>
 		<script type="text/javascript" src="Js/Controllers/Controller3D.js"></script>
-		<script type="text/javascript" src="Js/Controllers/ControllerCamera.js"></script>
 		<script type="text/javascript" src="Js/Controllers/ControllerExport.js"></script>
 
 		<script type="text/javascript" src="Js/Functionalities/ModelGen.js"></script>
@@ -105,16 +101,12 @@
 		<script type="text/javascript" src="Js/Display/CurveViewer.js"></script>
 		<script type="text/javascript" src="Js/Display/ParameterViewer.js"></script>
 
-<!--		<script type="text/javascript" src="Js/Interface/UndoRedoAction.js"></script>-->
-<!--		<script type="text/javascript" src="Js/Interface/ListUndoRedoAction.js"></script>-->
 		<script type="text/javascript" src="Js/Interface/Application.js"></script>
-<!--		<script type="text/javascript" src="Js/Interface/Application_Tools.js"></script>-->
 		<script type="text/javascript" src="Js/Interface/Application_Controller.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Messages.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Interface.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_MenuAction.js"></script>
-		<!-- Traduction -->
 		<script type="text/javascript" src="Js/Interface/Application_TranslateTitle.js"></script> 
 		<script type="text/javascript" src="Js/Interface/Application_Translate.js"></script>
 
@@ -550,9 +542,9 @@
 					<div class="wrapper">
 						<label id="voxelSize" class="tr" for="voxelRadius">Taille des voxels&nbsp;:</label>
 						<input id="voxelRadius" type="number" name="voxelRadius"
-							value="1" min="0" max="2" step="0.05"/>
+							value="1" min="0" max="2" step="0.05"
+							onchange="appli.changeVoxelSize (parseFloat (this.value))"/>
 					</div>
-					
 					<button id="a5" class="tr" onclick="appli.show (true)">Visualiser</button>
 				</div>
 			</div><!-- end #surfaceView -->
