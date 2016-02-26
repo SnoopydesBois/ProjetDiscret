@@ -320,7 +320,7 @@ ModelExport.prototype.export3DPng = function(surfaceView){
  * @return {String} the url to the canvas img
  */
 ModelExport.prototype.getImg3DData = function(id, surfaceView){
-	if(!(checkTypes(arguments, "String", SurfaceView)){
+	if(!((arguments, "String", SurfaceView))){
 		throw "ModelExport.getImg3DData.ErrorBadParameterType";
 	}
 
