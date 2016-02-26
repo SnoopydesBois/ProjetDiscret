@@ -134,7 +134,7 @@ aLangKeys['en']['revol15'] = 'Doily';
 
 /* Liste des paramétres surface anglais */
 aLangKeys['en']['generate1'] = 'Generate';
-aLangKeys['en']['generate2'] = 'Non optimized generation';
+aLangKeys['en']['generate2'] = 'Generate (brute-force)';
 
 
 aLangKeys['en']['xSlice'] = 'X slice';
@@ -253,7 +253,7 @@ aLangKeys['fr']['revol15'] = 'Napperon';
 
 /* Liste des paramétres surface français */
 aLangKeys['fr']['generate1'] = 'Générer';
-aLangKeys['fr']['generate2'] = 'Génération non optimisée';
+aLangKeys['fr']['generate2'] = 'Génération (brute-force)';
 
 
 aLangKeys['fr']['xSlice'] = 'Coupe en X';

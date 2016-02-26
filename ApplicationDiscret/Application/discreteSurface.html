@@ -462,12 +462,12 @@
 			<div id="surfaceView" class="viewer">
 				<div id="surfaceParam" class="paramPanel">
 					<button id="generate1" onclick="appli.generateAndDraw (0)" class="tr">Générer</button>
-					<button id="generate2" onclick="appli.generateAndDraw (1)" class="tr">Génération non optimisée</button>
+					<button id="generate2" onclick="appli.generateAndDraw (1)" class="tr">Génération (brute-force)</button>
 					
 					<hr/>
 					
 					<div class="wrapper">
-						<label class="title" id="xSlice">Coupe en X</label><br/>
+						<label class="tr title" id="xSlice">Coupe en X</label><br/>
 						<div class="doubleSliders" name="X" id="slider-rangeX"></div>
 						<input type="text" id="amountMinX"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeX', true, '#amountMinX')">
@@ -477,7 +477,7 @@
 					</div>
 					
 					<div class="wrapper">
-						<label class="title" id="ySlice">Coupe en Y</label><br/>
+						<label class="tr title" id="ySlice">Coupe en Y</label><br/>
 						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
 						<input type="text" id="amountMinY"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeY', true, '#amountMinY')">
@@ -487,7 +487,7 @@
 					</div>
 					
 					<div class="wrapper">
-						<label class="title" id="zSlice">Coupe en Z</label><br/>
+						<label class="tr title" id="zSlice">Coupe en Z</label><br/>
 						<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
 						<input type="text" id="amountMinZ"
 							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeZ', true, '#amountMinZ')">
