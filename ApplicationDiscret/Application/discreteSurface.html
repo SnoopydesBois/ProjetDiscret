@@ -115,8 +115,8 @@
 		<script type="text/javascript" src="Js/Interface/Application_Initialisation.js"></script>
 		<script type="text/javascript" src="Js/Interface/Application_MenuAction.js"></script>
 		<!-- Traduction -->
+		<script type="text/javascript" src="Js/Interface/Application_TranslateTitle.js"></script> 
 		<script type="text/javascript" src="Js/Interface/Application_Translate.js"></script>
-		<!-- <script type="text/javascript" src="Js/Interface/Application_Translate_Title.js"></script> -->
 
 		<!-- css imports -->
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
@@ -330,13 +330,15 @@
 			--><li id="helpMenu" tabindex="6">
 				<h1 id="m5" class="tr">Aide</h1>
 				<ul>
-					<li ><a id="m51" class="tr" href="help.html" target="_blank">Afficher l'aide</a></li>
+					<li ><a id="m51" class="tr atr" href="helpFR.html"
+						target="_blank">Afficher l'aide</a></li>
 					
-					<li><a id="m52" class="tr" onclick="translateAbout()"  target="_blank" >À propos</a></li>
+					<li><a id="m52" class="tr atr" href="aboutFR.html"
+						target="_blank">À propos</a></li>
 				</ul>
 			</li><!-- because inline-block put a small space between blocks
 			--><li id="translatemenu" tabindex="7"
-				onclick="">En/Fr</li>
+				onclick="appli.translateAll ()">En/Fr</li>
 		</ul><!-- end menus -->
 
 
@@ -569,12 +571,9 @@
 			<p>Message...</p>
 		</div>
 
-
-
-
-		<script type="text/javascript">
 		
-
+		<!-- Initialisation -->
+		<script type="text/javascript">
 			var appli = new Application ();
 			appli.initAppli ();
 			/**
@@ -603,10 +602,6 @@
 			 * - http://www.mathcurve.com/courbes2d/abdank/abdank.shtml
 			 * - http://www.mathcurve.com/courbes2d/parabolesemicubic/parabolesemicubic.shtml
 			 * -
-			 */
-			/*
-			 * courbe 2 : voir http://www.mathcurve.com/courbes2d/trefle/trefle.shtml
-			 * courbe 3, 8 : voir http://www.mathcurve.com/courbes2d/lissajous/lissajous.shtml
 			 */
 		</script>
 	</body>
