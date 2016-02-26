@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+		<title id="title" class="tr">User documentation</title>
+		<link rel="icon" type="image/png" href="Styles/favicon.png"/>
+
+		<!-- css imports -->
+
+
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/Bootstrap/style/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/userDocumentation.css">
+
+		<script type="text/javascript" src="Js/Libraries/jquery.js"></script>
+		<script type="text/javascript" src="Js/Libraries/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="Js/Libraries/bootstrap.min.js"></script>
+
+	</head>
+	<body>
+	<script>
+		// Handle the click on nested list
+		$(document).ready(function(){
+			$(".link").click(function(){
+				$(window).scrollTop($("#" + $(this).attr("link")).position().top);
+			});
+		});
+
+		$(document).ready(function(){
+			$('.caret').on('shown', function () {
+			   $(".icon-chevron-down").removeClass("icon-chevron-down").addClass("icon-chevron-up");
+			});
+
+			$('.caret').on('hidden', function () {
+			   $(".icon-chevron-up").removeClass("icon-chevron-up").addClass("icon-chevron-down");
+			});
+		});
+	</script>
+	<div class="container-fluid">
+
+
+		<div class="row">
+			<div class="col-lg-2">
+				<div id="sidebarNav" class="sidebar-nav">
+					<div class="navbar navbar-default" role="navigation">
+						<div class="navbar-collapse collapse sidebar-navbar-collapse">
+							<div class="nav nav-pills nav-stacked">
+								<ul>
+									<a data-toggle="collapse" class="link" link="2dSpace" href="#2dSpaceDiv">Espace 2D<span class="caret"></span></a>
+									<div id="2dSpaceDiv" class="submenu panel-collapse collapse">
+										<div><a href="#CurveDisplay">Affichage des courbes</a></div>
+										<div><a href="#Parameters">Paramètres</a></div>
+										<div>
+											<a data-toggle="collapse" class="link" link="TypeCurve" href="#typeCurve">Type de courbes<span class="caret"></span></a>
+											<div id="typeCurve" class="panel-collapse collapse submenu">
+												<div><a href="#Predefined">Prédéfinies</a></div>
+												<div><a href="#HandFree">Dessin à main levée</a></div>
+												<div><a href="#Formula">Formule</a></div>
+											</div>
+										</div>
+									</div>
+								</ul>
+								<ul>
+									<a data-toggle="collapse" class="link" link="3dSpace" href="#3dSpaceDiv">Espace 3D<span class="caret"></span></a>
+									<div id="3dSpaceDiv" class="submenu panel-collapse collapse">
+										<div>
+											<a data-toggle="collapse" class="link" link="3dVisualisation" href="#3dVisualisationDiv">Visualisation 3D<span class="caret"></span></a>
+											<div id="3dVisualisationDiv" class="submenu panel-collapse collapse">
+												<div><a href="#Generation">Génération</a></div>
+											</div>
+										</div>
+										<div>
+											<a data-toggle="collapse" class="link" link="Interactions" href="#InteractionDiv">Intéractions<span class="caret"></span></a>
+											<div id="InteractionDiv" class="submenu panel-collapse collapse">
+												<div><a href="#CameraMovements">Mouvement de caméra</a></div>
+												<div><a href="#3DDimensions">Dimensions 3D</a></div>
+												<div><a href="#Connexity">Connexité</a></div>
+												<div><a href="#VoxelSize">Taille des voxels</a></div>
+												<div><a href="#MultiSlices">Multi-coupes</a></div>
+											</div>
+										</div>
+									</div>
+								</ul>
+								<ul>
+									<a data-toggle="collapse" class="link" link="Menus" href="#MenusDiv">Menus<span class="caret"></span></a>
+									<div id="MenusDiv" class="submenu panel-collapse collapse">
+										<div>
+											<a data-toggle="collapse" class="link" link="File" href="#FichierDiv">Fichier<span class="caret"></span></a>
+											<div id="FichierDiv" class="submenu panel-collaspe collapse">
+												<div><a href="#Save">Sauvegarder</a></div>
+												<div><a href="#Load">Charger</a></div>
+											</div>
+										</div>
+										<div>
+											<a data-toggle="collapse" class="link" link="Display" href="#DisplayDiv">Affichage<span class="caret"></span></a>
+											<div id="DisplayDiv" class="submenu panel-collapse collapse">
+												<div>
+													<div><a href="#TypeView">Perspective/Orthographique</a></div>
+													<div><a href="#Color">Couleur</a></div>
+													<div><a href="#Camera">Caméra</a></div>
+													<div><a href="#3DObjects">Afficher/Cacher</a></div>
+												</div>
+											</div>
+										</div>
+										<div> <a href="#Curve">Courbe</a></div>
+										<div>
+											<a data-toggle="collapse" class="link" link="Surface" href="#SurfaceDiv">Surface<span class="caret"></span></a>
+											<div id="SurfaceDiv" class="submenu panel-collapse collapse">
+												<div>
+													<div><a href="#GenerationMenu">Génération</a></div>
+													<div><a href="#SliceShow">Affichage des coupes</a></div>
+													<div><a href="#SliceRemove">Désélection des coupes</a></div>
+												</div>
+											</div>
+										</div>
+										<div>
+											<a data-toggle="collapse" class="link" link="Export" href="#ExportDiv">Export<span class="caret"></span></a>
+											<div id="ExportDiv" class="submenu panel-collapse collapse">
+												<div>
+													<div><a href="#PNG">PNG</a></div>
+													<div><a href="#Format">Format 3D</a></div>
+												</div>
+											</div>
+										</div>
+										<div>
+											<a href="#Translate">Traduction</a>
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="container" class="col-lg-8">
+				<h1 id="2dSpace">Espace 2D</h1>
+					<div class="insideH1">
+						<p> Il y a deux espaces dédiés à la visualisation 2D. L'un est pour la méridienne, l'autre pour la courbe de révolution.</p>
+
+						<h2>Espace méridienne</h2>
+							<img class="img-responsive insideH2" src="UserDocumentation/En/MeridianPanel.png" alt="Meridian space"/>
+
+						<h2>Espace courbe de révolution</h2>
+							<div class="insideH2">
+								<img class="img-responsive" src="UserDocumentation/RevolutionPanel.png" alt="Curve of revolution space"/>
+
+								<p> Ces espaces sont divisés en trois parties : la courbe, les paramètres et le type de courbe.</p>
+							</div>
+						<hr/>
+						<h2 id="CurveDisplay">Courbe</h2>
+							<div class="insideH2">
+								<img class="img-responsive" src="UserDocumentation/CurvePanel.png" alt="Curve area" />
+								<p>Cet espace est utilisé pour afficher les courbes 2D.<br/>
+								Pour les courbes de revolution, l'intervalle est limité sur -1, 1.<br/>
+								Pour la méridienne, l'intervalle commence toujours à 0. La borne maximale est calculée automatiquement selon la courbe.<br/><br/>
+
+								Lorsque le dessin à main levée est utilisé (voir <a href="#TypeCurve">Type de courbes</a>), il est possible de dessiner sur cet espace.</p>
+							</div>
+						<h2 id="Parameters">Paramètres</h2>
+							<div class="insideH2">
+								<img class="img-responsive" src="UserDocumentation/ParametersPanel.png" alt="Parameter area" />
+								<p>Cet espace est utilisé pour afficher les paramètres de la courbe affichée dans l'espace 2D associé (voir <a href="#CurveDisplay">Courbe</a>).<br/>
+								En déplaçant un slider, il est possible de modifier le paramètre de la courbe correspondant.</p>
+							</div>
+						<h2 id="TypeCurve">Type de courbes</h2>
+							<div class="insideH2">
+								<img class="img-responsive" src="UserDocumentation/Fr/TypeCurve.png" alt="Type of curves" />
+								<p>L'application permet d'utiliser trois types de courbes différents.</p>
+								<ul>
+									<li id="Predefined"><p>Type prédéfinis</p> <br/>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/Fr/ListCurves.png" alt="Predefined curves" />
+											<p>Ce type de courbe est disponible pour la méridienne et la courbe de révolution.<br/></p>
+										</div>
+									</li>
+
+									<li id="HandFree"> <p>Type dessin à main levée</p> <br/>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/Fr/HandFreeCurve.png" alt="Hand free curves" />
+											<p>Ce type de courbe n'est pas disponible pour la courbe de révolution.<br/>
+												Cela permet de dessiner votre propre courbe. <br/>
+												En cliquant en deux points différents du canvas, l'application va créer le segment résultant.<br/>
+												En maintenant le bouton gauche de la souris enfoncé, il est possible de dessiner librement sur le canvas.<br/><br/>
+												Il est possible d'effacer le dessin en appuyant sur le bouton "Effacer".<br/>
+												<img src="UserDocumentation/Fr/ClearCurve.png" alt="Close the curve" /> <br/><br/>
+												Il est aussi possible de fermer la courbe en appuyant sur le bouton "Fermer la courbe"<br/>
+												<img src="UserDocumentation/Fr/CloseCurve.png" alt="Close the curve" />
+											</p>
+										</div>
+									</li>
+
+									<li id="Formula"><p>Type formule</p><br/>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/FormulaCurve.png" alt="Formula curves" />
+											<p>Ce type de courbes est disponible pour la méridienne et la courbe de révolution.<br/>
+												Cela permet de définir la courbe à utiliser à l'aide d'une équation mathématique.<br/><br/>
+												La méridienne ne peut être définie que par des fonctions du type y = f(x).<br/>
+												La courbe de révolution ne peut être définie que par des fonctions du type f(x,y) = 0.<br/>
+											</p>
+										</div>
+									</li>
+								</ul>
+							</div>
+					</div>
+				<h1 id="3dSpace"> Espace 3D </h1>
+					<div class="insideH1">
+						<img class="img-responsive" src="UserDocumentation/Fr/3DPanel.png" alt="3D space"/>
+
+						<h2 id="3dVisualisation"> Visualisation 3D</h2>
+							<div class="insideH2">
+								<h3 id="Generation"> Génération </h3>
+									<div class="insideH3">
+										<img class="img-responsive" src="UserDocumentation/Fr/Generation.png" alt="Generation"/>
+										<p >Vous pouvez choisir entre deux types de génération&nbsp;:<br/>
+											"Générer" (L'algorithme de génération utilise une méthode incrémentale et sera donc plus rapide).<br/>
+											"Générer (brute-force)" (L'algorithme test chaque voxel et est donc plus lent). <br/>
+											Dans le cas où la surface générée ne serait pas connexe (c'est à dire en plusieurs parties séparées) il est probable qu'elle ne soit pas entièrement affichée par l'algorithme rapide.
+											Il est donc conseillé d'utiliser la génération brute-force si la surface risque de ne pas être connexe (notamment si la courbe de révolution ou la méridienne apparaissent non connexe sur l'espace 2D).
+										</p>
+									</div>
+							</div>
+						<br/>
+						<p>La surface résultant de l'application de la méridienne à la courbe de révolution est affichée sur l'espace 3D.<br/>
+							Une boîte permet de visualiser les limites de l'espace.<br/>
+						</p>
+						<img class="img-responsive" src="UserDocumentation/3Darea.png" alt="3D area"/>
+						<br/><br/>
+						<h2 id="Interactions"> Interactions</h2>
+							<div class="indisdeH2">
+								<p>Différentes actions premettent de modifier l'espace 3D.</p>
+								<ul>
+									<li id="Selection"><p>Sélection</p>
+										<div>
+											<p>Il est possible de mettre en évidence des coupes en un voxel selon chacun des axes à l'aide d'un clic droit.<br/>
+												Les voxels affichés en bleu représente une coupe perpendiculaire à l'axe vertical. Il correspondent à la courbe de révolution au niveau du voxel choisi.<br/>
+												Les voxels rouges et verts représentent les coupes perpendiculaires aux axes horizontaux.<br/>
+												Un clic droit en dehors de la surface permet de déselectionner les coupes affichées.
+											</p>
+											<img class="img-responsive" src="UserDocumentation/Select3D.png" alt="3D selection"/>
+										</div>
+									</li>
+									<li id="CameraMovements"><p>Contrôle de la caméra</p>
+										<div>
+											<p>Il est possible d'effectuer une rotation autour de la surface en maintenant le clic gauche enfoncé.<br/>
+											De la même façon, le clic molette permet d'effectuer une translation.</p>
+										</div>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/Fr/ResetCam.png" alt="Reset the camera" />
+											<p> Il est possible de remettre la caméra à sa position initiale.
+										</div>
+									</li id="3DDimensions">
+									<li><p>Dimension de l'espace 3D</p>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/3Ddimensions.png" alt="3D dimensions"/>
+											<p>Il est possible de modifier les dimensions de l'espace 3D à l'aide des flèches ou en entrant directement de nouvelles valeurs (dimension maximum : 256). <br\>
+											Les modifications de dimensions ne seront prise en compte que lors de la prochaine de mande de génération de surface.
+										</div>
+									</li>
+									<li id="Connexity"><p>Connexité</p>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/Fr/Connexity.png" alt="Connexity"/>
+											<p>Il est possible de choisir entre plusieurs connexité&nbsp;: c6 (connexité par face), c18 (connexité par arrête), c26 (connexité par sommet), c6 renforcée (c6 + c18 + c26) et c18 renforcée (c18 + c26).</p>
+										</div>
+									</li>
+									<li id="VoxelSize"><p>Taille des voxels</p>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/Fr/VoxelSize.png" alt="Voxel size" />
+											<p>Il est possible de modifier la taille d'affichage des voxels en entrant une nouvelle valeur dans le champ ou à l'aide des flèches.
+											La taille doit être comprise entre 0 et 2</p>
+										</div>
+									</li>
+
+									<li id="MultiSlices"> <p>Multicoupes</p>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/Fr/MultiSlice.png" alt="Multi slices" />
+											<p> Il est possible de couper la surface selon nimporte quel des trois axes à l'aide des champs ou des sliders.<br/>
+												Le bouton Réinitialiser permet d'annuler toutes les coupes et d'afficher la surface entier.
+											</p>
+										</div>
+									</li>
+								</ul>
+							</div>
+						<br/>
+					</div>
+				<h1 id="Menus">Menus</h1>
+					<div class="insideH1">
+						<img class="img-responsive" src="UserDocumentation/Fr/Menus.png" alt="Menus" />
+						<p> Les menus de l'application permettent plusieurs action.</p>
+
+						<h2 id="File">Fichier</h2>
+							<div class="insideH2">
+								<img class="img-responsive" src="UserDocumentation/Fr/Filemenu.png" alt="File menu"/>
+								<p>Il est possible de sauvegarder ou de charger des courbes.</p>
+								<h3 id="Save">Sauvegarde</h3>
+									<div class="insideH3">
+										<p>Il est possible de sauvegarder la méridienne ou la courbe de révolution dans un fichier à télécharger.
+										</p>
+									</div>
+								<h3 id="Load">Chargement</h3>
+									<div class="insideH3">
+										<p>Pour charger une courbe il faudra choisir un fichier contenant une courbe (préalablement créé grâce à la fonction sauvegarde)<br/>
+											Il n'est pas possible de charger une courbe de révolution en tant que méridienne ou une méridienne en tant que courbe de révolution.
+										</p>
+									</div>
+							</div>
+						<h2 id="Display">Affichage</h2>
+							<div class="insideH2">
+								<img class="img-responsive" src="UserDocumentation/Fr/Displaymenu.png" alt="Display menu" />
+								<p>Ce menu permet d'accéder à plusieurs options de contrôle de la caméra ou de l'espace 3D.</p>
+								<h3 id="TypeView">Perspective/Orthographique</h3>
+									<div class="insideH3">
+										<p>Par défaut, l'affichage est en mode perspective.<br/>
+											Cliquer sur ce menu permet de switcher entre les deux modes d'affichage.
+										</p>
+										<div class="row">
+											<div class="col-lg-6">
+												<img class="img-responsive" src="UserDocumentation/PerspectiveCamera.png" alt="Perspective view" />
+											</div>
+											<div class="col-lg-6">
+												<img class="img-responsive" src="UserDocumentation/OrthographicCamera.png" alt="Orthographic view" />
+											</div>
+										</div>
+									</div>
+								<h3 id="Color">Couleur</h3>
+									<div class="insideH3">
+										<p>Cette option permet de changer entre la vue en nuance de gris et une vue colorée.</p>
+										<div class="row">
+											<div class="col-lg-6">
+												<img class="img-responsive" src="UserDocumentation/PerspectiveCamera.png" alt="White surface" />
+											</div>
+											<div class="col-lg-6">
+												<img class="img-responsive" src="UserDocumentation/ColorRVB.png" alt="RVB surface" />
+											</div>
+										</div>
+
+									</div>
+								<h3 id="Camera">Camera</h3>
+									<div class="insideH3">
+										<img class="img-responsive" src="UserDocumentation/Fr/Camera.png" alt="Camera options" />
+										<p>Ces options permettent de repositionner la caméra ou de changer sa direction.<br/>
+											"Réinitialiser" permet de remettre la caméra à sa position initiale.<br/>
+											"Centrer" permet de recentrer la direction de la caméra sans changer sa position. Cette option peut être utile après une translation.
+										</p>
+									</div>
+								<h3 id="3DObjects">Afficher/Cacher...</h3>
+									<div class="insideH3">
+										<img class="img-responsive" src="UserDocumentation/Fr/HideShow.png" alt="Hide/Show"/>
+										<p>Ces deux options permettent d'afficher ou de cacher respectivement le repère ou les limites de l'espace.</p>
+									</div>
+							</div>
+						<h2 id="Curve">Curves</h2>
+							<div class="insideH2">
+								<img class="img-responsive" src="UserDocumentation/En/Curves.png" alt="Curves menu"/>
+								<p>Ce menu permet de choisir le type de courbe à utiliser.<br/>
+									Cf <a href="#TypeCurve">Type de courbes</a>.
+								</p>
+							</div>
+						<h2 id="Surface">Surface</h2>
+							<div class="insideH2">
+								<img class="img-responsive" src="UserDocumentation/En/SurfaceMenu.png" alt="Surface menu"/>
+								<h3 id="GenerationMenu">Génération</h3>
+									<div class="insideH3">
+										<p> Cf <a href="#Generation">Génération</a> dans <a href="#3dVisualisation">Visualisation</a>
+									</div>
+								<h3 id="#SliceShow">Visualiser coupe</h3>
+									<div class="insideH3">
+										<p>Lorsqu'un voxel est séléctionné, permet de couper la surface selon les courbes en couleur.<br/>
+											Cf <a href="#Selection">Séléction</a> dans <a href="#Interactions">Interactions</a>.
+										</p>
+										<img class="img-responsive" src="UserDocumentation/Fr/SlicesMenu.png" alt="Surface menu"/>
+										<ul>
+											<li><p>Axe X</p>
+												<div>
+													<p>La surface est coupée de façon à mettre en évidence la courbe rouge.</p>
+													<img class="img-responsive" src="UserDocumentation/RedGeneratrix.png" alt="Red generatrix"/>
+												</div>
+											</li>
+											<li><p>Axe Y</p>
+												<div>
+													<p>La surface est coupée de façon à mettre en évidence la courbe verte.</p>
+													<img class="img-responsive" src="UserDocumentation/GreenGeneratrix.png" alt="Green generatrix"/>
+												</div>
+											</li>
+											<li><p>Axe Z</p>
+												<div>
+													<p>La surface est coupée de façon à mettre en évidence la courbe rouge.</p>
+													<img class="img-responsive" src="UserDocumentation/BlueDirectrix.png" alt="Blue directrix"/>
+												</div>
+											</li>
+									</div>
+								<h3 id="#SliceRemove">Effacer les coupes</h3>
+									<div class="insideH3">
+										<p>Annule la coloration des courbes liée à la sélection.</p>
+									</div>
+
+							</div>
+						<h2 id="Export">Export</h2>
+							<div class="insideH2">
+								<h3 id="PNG">PNG</h3>
+									<div class="insideH3">
+										<img class="img-responsive" src="UserDocumentation/Fr/ExportPNG.png" alt="Export png" />
+										<p>Ces options permettent d'exporter des images de la méridienne, de la courbe de révolution ou de la surface générée sous forme d'un fichier à télécharger<br/>
+									</div>
+								<h3 id="Format">Export 3D</h3>
+									<div class="insideH3">
+										<img class="img-responsive" src="UserDocumentation/Fr/Export3D.png" alt="Export x3d" />
+										<p>Ce menu permet d'exporter la surface afin de pouvoir l'utiliser dans un modeleur, soit au format X3D soit au format STL
+										</p>
+									</div>
+							</div>
+						<h2 id="Translate">EN/FR</h2>
+							<div class="insideH2">
+								<p>Permet de traduire l'application en anglais ou en français.
+								</p>
+								<img class="img-responsive" src="UserDocumentation/Translate.png" alt="Translation"/>
+							</div>
+					</div>
+			</div>
+		</div>
+
+	</div>
+	</body>
+</html>
+

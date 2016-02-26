@@ -18,7 +18,7 @@
 
 
 /**
- * @classdesc TODO
+ * @classdesc The model to handle the drawn curve.
  */
 ModelDraw.prototype.constructor = ModelDraw;
 

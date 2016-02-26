@@ -30,7 +30,6 @@
 		<script type="text/javascript" src="Js/Libraries/jszip.js"></script>
 		<script type="text/javascript" src="Js/Libraries/saveSvgAsPng.js"></script>
 		<script type="text/javascript" src="Js/Libraries/FileSaver.js"></script>
-		<script type="text/javascript" src="Js/Libraries/canvas2image.js"></script>
 		<script type="text/javascript" src="Js/Libraries/webgl-debug.js"></script>
 
 		<script type="text/javascript" src="Js/Objects/Range.js"></script>
@@ -464,7 +463,7 @@
 					<button id="generate1" class="tr"
 						onclick="appli.generateAndDraw (0)">Générer</button>
 					<button id="generate2" class="tr"
-						onclick="appli.generateAndDraw (1)">Génération non optimisée</button>
+						onclick="appli.generateAndDraw (1)">Génération (brute-force)</button>
 					
 					<hr/>
 					
@@ -493,7 +492,7 @@
 					<hr/>
 					
 					<div class="wrapper">
-						<label class="title" id="xSlice">Coupe en X</label><br/>
+						<label class="tr title" id="xSlice">Coupe en X</label><br/>
 						<div class="doubleSliders" name="X" id="slider-rangeX"></div>
 						<input type="text" id="amountMinX"
 							onkeypress="if (event.keyCode == 13)
@@ -505,7 +504,7 @@
 					</div>
 					
 					<div class="wrapper">
-						<label class="title" id="ySlice">Coupe en Y</label><br/>
+						<label class="tr title" id="ySlice">Coupe en Y</label><br/>
 						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
 						<input type="text" id="amountMinY"
 							onkeypress="if (event.keyCode == 13)
@@ -517,7 +516,7 @@
 					</div>
 					
 					<div class="wrapper">
-						<label class="title" id="zSlice">Coupe en Z</label><br/>
+						<label class="tr title" id="zSlice">Coupe en Z</label><br/>
 						<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
 						<input type="text" id="amountMinZ"
 							onkeypress="if (event.keyCode == 13)

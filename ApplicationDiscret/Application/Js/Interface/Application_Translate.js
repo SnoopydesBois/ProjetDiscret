@@ -72,7 +72,7 @@ aLangKeys['en']['m29'] = 'Center';
 
 
 aLangKeys['en']['m3'] = 'Curve';
-aLangKeys['en']['m341'] = 'Connexity:';
+aLangKeys['en']['m341'] = 'Connexity';
 
 
 /* Sous menu 2D anglais */
@@ -134,7 +134,7 @@ aLangKeys['en']['revol15'] = 'Doily';
 
 /* Liste des paramétres surface anglais */
 aLangKeys['en']['generate1'] = 'Generate';
-aLangKeys['en']['generate2'] = 'Non optimized generation';
+aLangKeys['en']['generate2'] = 'Generate (brute-force)';
 
 
 aLangKeys['en']['xSlice'] = 'X slice';
@@ -147,7 +147,7 @@ aLangKeys['en']['a3'] = 'Clear';
 aLangKeys['en']['a5'] = 'Display';
 aLangKeys['en']['a8'] = 'Close the curve';
 aLangKeys['en']['a9'] = 'Reset';
-aLangKeys['en']['a10'] = 'Center the Camera';
+aLangKeys['en']['a10'] = 'Reset the camera';
 
 aLangKeys['en']['popUpGen'] = 'Generation...';
 aLangKeys['en']['popUpGen'] = 'Abort...';
@@ -253,7 +253,7 @@ aLangKeys['fr']['revol15'] = 'Napperon';
 
 /* Liste des paramétres surface français */
 aLangKeys['fr']['generate1'] = 'Générer';
-aLangKeys['fr']['generate2'] = 'Génération non optimisée';
+aLangKeys['fr']['generate2'] = 'Génération (brute-force)';
 
 
 aLangKeys['fr']['xSlice'] = 'Coupe en X';
@@ -266,7 +266,7 @@ aLangKeys['fr']['a3'] = 'Effacer';
 aLangKeys['fr']['a5'] = 'Visualiser';
 aLangKeys['fr']['a8'] = 'Fermer la courbe';
 aLangKeys['fr']['a9'] = 'Remettre à zéro';
-aLangKeys['fr']['a10'] = 'Centrer la Caméra';
+aLangKeys['fr']['a10'] = 'Réinitialiser la caméra';
 
 
 aLangKeys['fr']['popUpGen'] = 'Génération...';
