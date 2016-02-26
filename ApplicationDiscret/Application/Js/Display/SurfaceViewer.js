@@ -244,7 +244,12 @@ SurfaceViewer.prototype.prepare = function () {
  */
 SurfaceViewer.prototype.draw = function (backBuffer) {
 	if (this.container.getNbObject () != 0) {
-		this.container.draw (this.glContext, backBuffer, this.screenBuffer);
+		this.container.draw (
+			this.glContext,
+			backBuffer,
+			parseFloat (this.voxelRadiusInput.value) / 2,
+			this.screenBuffer
+		);
 	}
 	else
 		console.log ("No object to draw");
@@ -304,8 +309,6 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
 			this.container.getCamera ().getLookAtPosition ();
 	}
 	if (event.buttons === 2) {
-//		event.preventDefault();
-//		event.stopPropagation();
 		// draw the scene for picking
 		this.container.draw (this.glContext, true, this.backBuffer);
 		var color = new Uint8Array (4);
@@ -316,13 +319,23 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
 		);
 		var surface = this.getSurfaceRenderer ();
 		var dim = surface.getDimension ();
-		var voxelPos = colorToPos (color, dim).getCube ();
-		
-		surface.setHighlightX (Math.floor ((dim.x + 0.5) / 2));
-		surface.setHighlightY (Math.floor ((dim.y + 0.5) / 2));
-		surface.setHighlightZ (voxelPos.z);
-		
-		globalParam.pickingForSlice = false;
+		var facet = colorToPos (color, dim);
+		var dir = facet.getDirection ();
+		var noHighlight;
+		if (0 <= dir && dir < DirectionEnum.size) {
+			var voxelPos = facet.getCube ();
+			surface.setHighlightX (voxelPos.x);
+			surface.setHighlightY (voxelPos.y);
+			surface.setHighlightZ (voxelPos.z);
+		}
+		else {
+			noHighlight = (surface.highlightX == -1);
+			if (! noHighlight) {
+				surface.setHighlightX (-1);
+				surface.setHighlightY (-1);
+				surface.setHighlightZ (-1);
+			}
+		}
 		// redraw correctly the scene
 		this.show (true);
 	}
@@ -341,12 +354,6 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
  */
 SurfaceViewer.prototype.onMouseUp = function (event) {
 	this.mousePosOnPress[0] = -1;
-	if (event.buttons === 2) {
-		event.preventDefault();
-		event.stopPropagation();
-		return false;
-	}
-
 };
 
 
@@ -374,7 +381,6 @@ SurfaceViewer.prototype.onMouseMove = function (event) {
 	}
 	else if (event.buttons == 1 && this.mousePosOnPress[0] != -1) {
 		/* left button is pressed and the user generate mousedown event on the
-
 		 * surface canvas.
 		 */
 		this.rotateCamera (
@@ -416,24 +422,24 @@ SurfaceViewer.prototype.onWheel = function (event) {
  * @return {void}
  */
 SurfaceViewer.prototype.onKeyDown = function (event) { // FIXME
-	switch (event.keyCode) {
-	case 38 : // Up
-		this.rotateCamera (0.0, 0.01);
-		++this.mousePosOnPress[1];
-		break;
-	case 40 : // Down
-		this.rotateCamera (0.0, -0.01);
-		--this.mousePosOnPress[1];
-		break;
-	case 37 : // Left
-		this.rotateCamera (0.01, 0.0);
-		++this.mousePosOnPress[0];
-		break;
-	case 39 : // Right
-		this.rotateCamera (-0.01, 0.0);
-		--this.mousePosOnPress[0];
-		break;
-	}
+//	switch (event.keyCode) {
+//	case 38 : // Up
+//		this.rotateCamera (0.0, 0.01);
+//		++this.mousePosOnPress[1];
+//		break;
+//	case 40 : // Down
+//		this.rotateCamera (0.0, -0.01);
+//		--this.mousePosOnPress[1];
+//		break;
+//	case 37 : // Left
+//		this.rotateCamera (0.01, 0.0);
+//		++this.mousePosOnPress[0];
+//		break;
+//	case 39 : // Right
+//		this.rotateCamera (-0.01, 0.0);
+//		--this.mousePosOnPress[0];
+//		break;
+//	}
 };
 
 
@@ -472,10 +478,11 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 //	window.addEventListener ("keydown", this.onKeyDown.bind (this));
 
 	// mouse move for mouvement
-	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this), true);
+	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this));
 	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
-	this.canvas.addEventListener ("mouseup", this.onMouseUp.bind (this), true);
-	this.canvas.addEventListener ("contextmenu", this.onContextMenu.bind (this), true);
+	this.canvas.addEventListener ("mouseup", this.onMouseUp.bind (this));
+	this.canvas.addEventListener ("contextmenu", this.onContextMenu.bind (this),
+		true);
 };
 
 

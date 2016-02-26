@@ -134,11 +134,11 @@ Application.prototype.exportRevolutionPng = function () {
  * TODO
  */
 Application.prototype.exportX3D = function () {
-	if (this.surfaceView.getSurfaceRenderer ().getSurface () == null) {
+	if (this.surfaceView.getSurfaceRenderer ().getSurface() == null) {
 		return;
 	}
 	this.exportController.exportX3D (
-		this.surfaceView.getSurfaceRenderer ().getSurface ());
+		this.surfaceView.getSurfaceRenderer().getSurface());
 };
 
 
@@ -158,8 +158,17 @@ Application.prototype.exportSTL = function () {
 /**
  * TODO
  */
-Application.prototype.saveCurves = function(){
-	this.exportController.saveCurves(this.meridianController, this.revolController);
+Application.prototype.saveRevolution = function(){
+	this.exportController.saveImplicitCurve(this.revolController);
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+Application.prototype.saveGeneratrix = function(){
+	this.exportController.saveGeneratrix(this.meridianController);
 };
 
 
@@ -169,7 +178,7 @@ Application.prototype.saveCurves = function(){
  */
 Application.prototype.loadMeridian = function (event) {
 	var tmppath = URL.createObjectURL (event.target.files[0]);
-
+	
 	var request = new XMLHttpRequest ();
 	request.open ("GET", tmppath, false);
 	request.send ();
@@ -181,7 +190,6 @@ Application.prototype.loadMeridian = function (event) {
 	var equation, xPoints, yPoints, xMin, xMax, yMin, yMax;
 
 	equation = xml.getElementsByTagName ("Equation");
-
 	if(equation.length == 0){
 		// Same length for both of the lists
 		xPoints = xml.getElementsByTagName ("xCoords")[0].textContent
@@ -219,10 +227,6 @@ Application.prototype.loadMeridian = function (event) {
             equation[0].textContent.toString (),
             EquationTypeEnum.explicit
         );
-
-		/*for(var i = 0; i < listNameParameters.length; i++){
-			this.meridianController.setParameter(listNameParameters[i].textContent.toString(), parseFloat(listValueParameters[i].textContent.toString()) );
-		}*/
 
 		this.meridianController.setXRange (new Range (xMin, xMax));
 		this.meridianController.setYRange (new Range (yMin, yMax));
@@ -428,7 +432,6 @@ Application.prototype.resetCamera = function () {
 Application.prototype.centerCamera = function () {
 	this.surfaceView.centerCamera ();
 };
-
 
 
 

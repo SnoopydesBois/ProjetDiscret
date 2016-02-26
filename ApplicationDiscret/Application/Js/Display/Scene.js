@@ -329,11 +329,12 @@ Scene.prototype.prepare = function (glContext, connexity, voxelRadius) {
  * @param {WebGLRenderingContext} glContext - The gl context.
  * @param {boolean} [backBuffer] - Indicate if we have to draw the scene
  * normally or if we need to draw for picking.
- * @param {} TODO
+ * @param {} - TODO
+ * @param {} - TODO
  *
  * @return {void}
  */
-Scene.prototype.draw = function (glContext, backBuffer, renderBuffer) {
+Scene.prototype.draw = function (glContext, backBuffer, voxelRadius, renderBuffer) {
 	var size = Math.min (this.height, this.width) * 2;
 	glContext.clear (glContext.COLOR_BUFFER_BIT | glContext.DEPTH_BUFFER_BIT);
 	glContext.bindRenderbuffer (glContext.RENDERBUFFER, renderBuffer);
@@ -356,7 +357,7 @@ Scene.prototype.draw = function (glContext, backBuffer, renderBuffer) {
 			}
 		}
 		else
-			obj.draw (glContext);
+			obj.draw (glContext, voxelRadius);
 	} // end for each displayable object
 };
 
@@ -448,16 +449,18 @@ Scene.prototype.resetCamera = function () {
 
 //==============================================================================
 /**
- * Replace the camera look at point at its initial position.
+ * Replace the camera look at point at its initial position. TODO
  * @see {@link resetCamera}
  * 
  * @return {void}
  */
 Scene.prototype.centerCamera = function () {
-	this.setCameraAt (
-		this.getCamera ().getPosition (),
-		this.defaultLookAtPoint
+	var lookAt = new Vector (
+		this.defaultLookAtPoint.x,
+		this.defaultLookAtPoint.y,
+		this.getCamera ().getLookAtPosition ().z
 	);
+	this.setCameraAt (this.getCamera ().getPosition (), lookAt);
 };
 
 

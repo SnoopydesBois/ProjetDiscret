@@ -74,7 +74,7 @@ Application.prototype.hasMessage = function () {
  * @param {String} msg - The message.
  * @param {int} duration - Duration of the display of the message in millisecond
  * (0 for infinity).
- * @param {float[]} color - The color in CSS format.
+ * @param {String} color - The color in CSS format.
  *
  * @return {void}
  */
@@ -127,3 +127,6 @@ Application.prototype.alertMessage = function (msg, duration) {
 Application.prototype.validMessage = function (msg, duration) {
 	this.showMessage (msg, duration, "#0A0");
 };
+
+
+
