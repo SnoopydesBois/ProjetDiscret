@@ -4,19 +4,19 @@
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 		<title id="title" class="tr">User documentation</title>
 		<link rel="icon" type="image/png" href="Styles/favicon.png"/>
-		
+
 		<!-- css imports -->
-		
-		
+
+
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/Bootstrap/style/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
-		<link rel="stylesheet" type="text/css" media="all" href="Styles/userDocumentation.css">	
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/userDocumentation.css">
 
 		<script type="text/javascript" src="Js/Libraries/jquery.js"></script>
 		<script type="text/javascript" src="Js/Libraries/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="Js/Libraries/bootstrap.min.js"></script>
-		
+
 	</head>
 	<body>
 	<script>
@@ -26,8 +26,8 @@
 				$(window).scrollTop($("#" + $(this).attr("link")).position().top);
 			});
 		});
-		
-		$(document).ready(function(){    
+
+		$(document).ready(function(){
 			$('.caret').on('shown', function () {
 			   $(".icon-chevron-down").removeClass("icon-chevron-down").addClass("icon-chevron-up");
 			});
@@ -38,14 +38,14 @@
 		});
 	</script>
 	<div class="container-fluid">
-	
+
 
 		<div class="row">
 			<div class="col-lg-2">
 				<div id="sidebarNav" class="sidebar-nav">
 					<div class="navbar navbar-default" role="navigation">
 						<div class="navbar-collapse collapse sidebar-navbar-collapse">
-							<div class="nav nav-pills nav-stacked">							
+							<div class="nav nav-pills nav-stacked">
 								<ul>
 									<a data-toggle="collapse" class="link" link="2dSpace" href="#2dSpaceDiv">2D Space<span class="caret"></span></a>
 									<div id="2dSpaceDiv" class="submenu panel-collapse collapse">
@@ -54,15 +54,15 @@
 										<div>
 											<a data-toggle="collapse" class="link" link="TypeCurve" href="#typeCurve">Type of curves<span class="caret"></span></a>
 											<div id="typeCurve" class="panel-collapse collapse submenu">
-												<div><a href="#Predefined">Predefined</a></div>					
-												<div><a href="#HandFree">Free-hand-drawing</a></div>					
-												<div><a href="#Formula">Formula</a></div>					
+												<div><a href="#Predefined">Predefined</a></div>
+												<div><a href="#HandFree">Free-hand-drawing</a></div>
+												<div><a href="#Formula">Formula</a></div>
 											</div>
 										</div>
 									</div>
 								</ul>
-								<ul> 
-									<a data-toggle="collapse" class="link" link="3dSpace" href="#3dSpaceDiv">3D Space<span class="caret"></span></a> 
+								<ul>
+									<a data-toggle="collapse" class="link" link="3dSpace" href="#3dSpaceDiv">3D Space<span class="caret"></span></a>
 									<div id="3dSpaceDiv" class="submenu panel-collapse collapse">
 										<div>
 											<a data-toggle="collapse" class="link" link="3dVisualisation" href="#3dVisualisationDiv">3D Visualisation<span class="caret"></span></a>
@@ -104,7 +104,7 @@
 											</div>
 										</div>
 										<div> <a href="#Curve">Curve</a></div>
-										<div> 
+										<div>
 											<a data-toggle="collapse" class="link" link="Surface" href="#SurfaceDiv">Surface<span class="caret"></span></a>
 											<div id="SurfaceDiv" class="submenu panel-collapse collapse">
 												<div>
@@ -194,8 +194,8 @@
 											<img class="img-responsive" src="UserDocumentation/FormulaCurve.png" alt="Formula curves" />
 											<p>This type of curve is available for both, the generatrix and the directrix.<br/>
 												It allows you to type an equation for a curve to draw. <br/><br/>
-												The generatrix only accept equation of form F(x)= x. <br/>
-												The directrix only accept of type F(x,y)= x + y. <br/>
+												The generatrix only accept equation of form y = f(x). <br/>
+												The directrix only accept equation of type f(x,y) = 0. <br/>
 											</p>
 										</div>
 									</li>
@@ -205,7 +205,7 @@
 				<h1 id="3dSpace"> 3D Space </h1>
 					<div class="insideH1">
 						<img class="img-responsive" src="UserDocumentation/En/3DPanel.png" alt="3D space"/>
-						
+
 						<h2 id="3dVisualisation"> 3D Visualization</h2>
 							<div class="insideH2">
 								<h3 id="Generation"> Generation </h3>
@@ -213,7 +213,7 @@
 										<img class="img-responsive" src="UserDocumentation/En/Generation.png" alt="Generation"/>
 										<p >There are two types of generation available.<br/>
 											"Generate" (faster algorithm to model the surface using incremental algorithm).<br/>
-											"Generate (brute-force)" (slower algorithm testing every pixel). <br/>
+											"Generate (brute-force)" (slower algorithm testing every voxel). <br/>
 											Be aware that if your generatrix is not connected the faster algorithm may not generate all the voxels.
 										</p>
 									</div>
@@ -265,13 +265,10 @@
 										<div>
 											<img class="img-responsive" src="UserDocumentation/En/VoxelSize.png" alt="Voxel size" />
 											<p>It is possible to modify the size of the voxels either by typing directly the values or by clicking the arrows.<br/>
-											The values must be between 0 and 1.</p>
+											The values must be between 0 and 2.</p>
 										</div>
 									</li>
-									
-									<p id="Validation">To validate the modifications, press enter in a field modified or click on the validate button.</p>
-									<img class="img-responsive" src="UserDocumentation/En/Validate.png" alt="Validate" />
-									
+
 									<li id="MultiSlices"> <p>Multislices</p>
 										<div>
 											<img class="img-responsive" src="UserDocumentation/En/MultiSlice.png" alt="Multi slices" />
@@ -289,7 +286,7 @@
 					<div class="insideH1">
 						<img class="img-responsive" src="UserDocumentation/En/Menus.png" alt="Menus" />
 						<p> The application offers multiple menus actions.</p>
-						
+
 						<h2 id="File">File menu</h2>
 							<div class="insideH2">
 								<img class="img-responsive" src="UserDocumentation/En/Filemenu.png" alt="File menu"/>
@@ -325,7 +322,7 @@
 												<img class="img-responsive" src="UserDocumentation/OrthographicCamera.png" alt="Orthographic view" />
 											</div>
 										</div>
-									</div>									
+									</div>
 								<h3 id="Color">Color</h3>
 									<div class="insideH3">
 										<p>By clicking on this item, the 3D view will switch between the normal view and a colored one. </p>
@@ -337,7 +334,7 @@
 												<img class="img-responsive" src="UserDocumentation/ColorRVB.png" alt="RVB surface" />
 											</div>
 										</div>
-										
+
 									</div>
 								<h3 id="Camera">Camera</h3>
 									<div class="insideH3">
@@ -354,7 +351,7 @@
 										<p>These two items allows to hide/show the bounding box or the repere.</p>
 									</div>
 							</div>
-						<h2 id="Curve">Curve</h2>
+						<h2 id="Curve">Curves</h2>
 							<div class="insideH2">
 								<img class="img-responsive" src="UserDocumentation/En/Curves.png" alt="Curves menu"/>
 								<p>These menu items are linked to the tools of the corresponding panels.<br/>
@@ -399,7 +396,7 @@
 									<div class="insideH3">
 										<p>It is possible to Deselect the slices by clicking on the item from the menu.</p>
 									</div>
-									
+
 							</div>
 						<h2 id="Export">Export</h2>
 							<div class="insideH2">
@@ -429,7 +426,7 @@
 										</p>
 									</div>
 							</div>
-						<h2 id="Translate">En/Fr translation</h2>
+						<h2 id="Translate">En/Fr</h2>
 							<div class="insideH2">
 								<p>The application is translated in English and French.<br/>
 									It is possible to switch to a language by clicking on En/Fr.
@@ -439,8 +436,8 @@
 					</div>
 			</div>
 		</div>
-	
+
 	</div>
 	</body>
 </html>
-	
+
