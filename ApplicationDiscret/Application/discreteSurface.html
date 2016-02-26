@@ -566,8 +566,11 @@
 		
 		<!-- Initialisation -->
 		<script type="text/javascript">
-			var appli = new Application ();
-			appli.initAppli ();
+			var appli;
+			window.onload = function () {
+				appli = new Application ();
+				appli.initAppli ();
+			}
 			/**
 			 * idée de courbe :
 			 * liste complète : http://www.mathcurve.com/courbes2d/courbes2d.shtml
