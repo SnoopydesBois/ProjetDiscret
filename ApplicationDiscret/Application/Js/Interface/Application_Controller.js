@@ -66,7 +66,9 @@
  * @return {void}
  */
 Application.prototype.show = function (forcePrepare) {
+	this.showMessage ("dessin");
 	this.surfaceView.show (forcePrepare);
+	this.showMessage ("pret");
 };
 
 
@@ -274,4 +276,92 @@ Application.prototype.revolutionEquation = function () {
 	var input = document.getElementById ("revolutionFormulaInput");
 	this.revolController.setActive (input.value, EquationTypeEnum.implicit);
 	this.revolView.draw ();
+};
+
+
+//==============================================================================
+/**
+ * This function calls itself again every second in a different thread until the
+ * computation is finished. Then it redraws the scene.
+ *
+ * @return {void}
+ */
+Application.prototype.computationFinished = function () {
+	if (this.surfaceController.newVoxels ()) {
+		// do nothing
+	}
+	if (! this.surfaceController.isAlgoFinished ()) {
+		setTimeout (this.computationFinished.bind (this), 1000);
+	}
+	else {
+		if (this.surfaceController.isAlgoFinished () != "error") {
+			this.validMessage ("Finished", 0);
+		}
+		document.getElementById ("generate1").disabled = false;
+		document.getElementById ("generate2").disabled = false;
+		this.stopLoading ();
+		this.surfaceView.show (true);
+	}
+};
+
+
+//==============================================================================
+/**
+ * This function is called by the generate button. Calls the algorithm and draws
+ * the resulting surface.
+ *
+ * @return {void}
+ */
+Application.prototype.generateAndDraw = function (mode) {
+	document.getElementById ("generate1").disabled = true;
+	document.getElementById ("generate2").disabled = true;
+	this.showMessage ("Computing...", 0, "#04E");
+	var dimX = document.getElementById ("dimx").value;
+	var dimY = document.getElementById ("dimy").value;
+	var dimZ = document.getElementById ("dimz").value;
+
+
+	this.surfaceController.setDimension ([
+		dimX, dimY, dimZ
+	]);
+	this.surfaceView.container.getObjectByName ("boundingBox").setDimension ([
+		dimX, dimY, dimZ
+	]);
+	try {
+		this.surfaceController.generate (mode);
+	}
+	catch (e) {
+		this.alertMessage ("Aborted", 10000);
+		this.abort ();
+	}
+	this.surfaceRenderer = new SurfaceRenderer (
+		this.surfaceController,
+		this.surfaceView.getGLContext ()
+	);
+	this.surfaceView.container.removeObjectByName (
+		SurfaceRenderer.getLastSurfaceName ()
+	);
+	this.surfaceView.container.addObject (this.surfaceRenderer);
+
+	this.computationFinished ();
+	this.loading ();
+	this.changeValueSlider ("#slider-rangeX", false, 0, parseInt (dimX));
+	this.changeValueSlider ("#slider-rangeY", false, 0, parseInt (dimY));
+	this.changeValueSlider ("#slider-rangeZ", true, 0, parseInt (dimZ));
+};
+
+
+//==============================================================================
+/**
+ * Change the voxel size of the current surface after a delay.
+ * 
+ * @return {void}
+ */
+Application.prototype.changeVoxelSize = function () {
+	clearTimeout (this.voxelSizeTriggerId);
+	this.voxelSizeTriggerId = setTimeout (
+		this.show.bind (this),
+		1500,
+		true
+	);
 };

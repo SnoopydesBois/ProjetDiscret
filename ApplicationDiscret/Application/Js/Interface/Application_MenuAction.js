@@ -156,7 +156,7 @@ Application.prototype.exportSTL = function () {
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 Application.prototype.saveRevolution = function(){
 	this.exportController.saveImplicitCurve(this.revolController);
@@ -165,7 +165,7 @@ Application.prototype.saveRevolution = function(){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 Application.prototype.saveGeneratrix = function(){
 	this.exportController.saveGeneratrix(this.meridianController);
@@ -432,7 +432,6 @@ Application.prototype.resetCamera = function () {
 Application.prototype.centerCamera = function () {
 	this.surfaceView.centerCamera ();
 };
-
 
 
 
