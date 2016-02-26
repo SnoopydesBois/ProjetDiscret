@@ -63,6 +63,7 @@
  */
 Application.prototype.initAppli = function () {
 	/// Application initialization
+	this.verifNavigator ();
 	this.initControllers ();
 
 	this.meridianController.setActive ("Line");
@@ -187,4 +188,18 @@ Application.prototype.createSlider = function (id, min, max) {
 	// Text input initialisation
 	$("#amountMin" + $(id).attr ("name")).val ($(id).slider ('values', 0));
 	$("#amountMax" + $(id).attr ("name")).val ($(id).slider ('values', 1));
+};
+
+
+//==============================================================================
+/**
+ * Check the navigator. If it is not "Mozilla" (for Firefox an Chorme), display
+ * a pop up.
+ * 
+ * @return {void}
+ */
+Application.prototype.verifNavigator = function () {
+	if (navigator.appCodeName != "Mozilla")
+		// erase style="display: none"
+		document.getElementById ("notMozillaPopUp").style = ""; 
 };

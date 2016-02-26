@@ -119,6 +119,8 @@ function GenericViewer (canvas, glContextType) {
 			break;
 		case "3d" :
 			this.glContext = get3DGlContext (this.canvas);
+			if (this.glContext == null)
+				document.getElementById ("noWebGlPopUp").style = "";
 			break;
 		case undefined :
 			// constructor call for inheritance

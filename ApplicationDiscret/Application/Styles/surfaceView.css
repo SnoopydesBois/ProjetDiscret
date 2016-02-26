@@ -92,24 +92,24 @@
 }
 
 
-.popupMessage {
+#surfaceView .popupMessage {
+	top: 2.1em;
+	left: 0;
+	width: 80%;
+	height: calc(100% - 2.1em);
 	background: rgba(192, 192, 192, 0.5) url("loading64.gif") no-repeat center;
 }
 
 
-.popupMessage p {
-	position: absolute;
-	top: calc(50% + 32px);
+#surfaceView .popupMessage p {
 	width: 100%;
-	color: white;
-	text-shadow: 0px 0px 5px black;
-	font-family: "Liberation Sans", "Arial", sans-serif;
+	margin-top: 65%;
 	font-size: 3.5em;
-	text-align: center;
-	margin: 0;
+	text-shadow: 0 0 5px black;
 }
 
 
 #abortMessage p {
     text-shadow: 0px 0px 5px #C00;
 }
+

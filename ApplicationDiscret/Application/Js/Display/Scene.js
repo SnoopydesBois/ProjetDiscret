@@ -216,8 +216,8 @@ Scene.prototype.getObjectByName = function (aName) {
 			return this.objectList[i];
 	}
 
-	console.log ("Scene.getObjectByName: object : \"" + aName
-			+ "\" not found");
+//	console.log ("Scene.getObjectByName: object : \"" + aName
+//			+ "\" not found");
 	return null;
 };
 
@@ -237,8 +237,8 @@ Scene.prototype.removeObjectByName = function (aName) {
 			return;
 		}
 	}
-	console.log ("Scene.removeObjectByName: object : \"" + aName
-			+ "\" not found");
+//	console.log ("Scene.removeObjectByName: object : \"" + aName
+//			+ "\" not found");
 };
 
 

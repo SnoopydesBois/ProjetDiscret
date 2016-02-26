@@ -71,7 +71,7 @@ aLangKeys['en']['m28'] = 'Show/hide 3D space limits';
 aLangKeys['en']['m29'] = 'Center';
 
 
-aLangKeys['en']['m3'] = 'Curve:';
+aLangKeys['en']['m3'] = 'Curve';
 aLangKeys['en']['m341'] = 'Connexity:';
 
 
@@ -193,7 +193,7 @@ aLangKeys['fr']['m29'] = 'Centrer';
 
 /* Menu Outils français */
 aLangKeys['fr']['m3'] = 'Courbes';
-aLangKeys['fr']['m341'] = 'Connexité:';
+aLangKeys['fr']['m341'] = 'Connexité :';
 
 
 /* Sous menu 2D français */
@@ -297,10 +297,13 @@ translateHref['fr'] = [];
 
 translateHref['fr']['m51'] = 'helpFR.html';
 translateHref['fr']['m52'] = 'aboutFR.html';
+translateHref['fr']['verifNavDownload'] = 'https://www.mozilla.org/fr/firefox/new/';
+translateHref['fr']['verifNavDownload2'] = 'https://www.mozilla.org/fr/firefox/new/';
 
 translateHref['en']['m51'] = 'helpEN.html';
 translateHref['en']['m52'] = 'aboutEN.html';
-
+translateHref['en']['verifNavDownload'] = 'https://www.mozilla.org/en-US/firefox/new/';
+translateHref['en']['verifNavDownload2'] = 'https://www.mozilla.org/en-US/firefox/new/';
 
 
 //##############################################################################
