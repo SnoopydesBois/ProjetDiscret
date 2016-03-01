@@ -1,12 +1,4 @@
-% cdc.tex
-% 
-% author : abisutti
-% created : Mon, 19 Oct 2015 13:48:21 +0200
-% modified : Mon, 19 Oct 2015 13:48:21 +0200
-
-
-
-\documentclass{beamer}
+\documentclass[xcolor=dvipsnames]{beamer}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -18,50 +10,63 @@
 \usepackage{colortbl}
 \usepackage{textcomp}
 \usepackage{xstring}
+%\usepackage{pifont}
 
 \input{macro.tex}
 
 
-\title[R\'eunion de lancement]{Surfaces de r\'evolution discrètes}
-\subtitle{R\'eunion de lancement}
-\author[]{Zied \smallcaps{Ben} \smallcaps{Othmane} \\ Thomas \smallcaps{Benoist} \\ Adrien \smallcaps{Bisutti} \\ Lydie \smallcaps{Richaume}} % FIXME Enlever les parenthèses
+\title[Livraison - Bilan]{Surfaces de r\'evolution discrètes}
+\subtitle{Livraison - Bilan}
+\author[]{Zied \smallcaps{Ben} \smallcaps{Othmane} \\ Thomas \smallcaps{Benoist} \\ Adrien \smallcaps{Bisutti} \\ Lydie \smallcaps{Richaume}}
 \institute{Universit\'e de Poitiers}
-\date{4 novembre 2015}
+\date{2 mars 2016}
 
 \usetheme{Madrid}
 \usecolortheme{sidebartab}
 \usefonttheme{professionalfonts}
-%\useinnertheme{nom du theme interne}
-%\useoutertheme{nom du theme externe}
+
+\definecolor{fondtitre}{rgb}{0.0,0.35,0.7}
+\setbeamercolor{palette primary}{bg=fondtitre}
+\setbeamercolor{palette secondary}{bg=fondtitre!75!black}
+\setbeamercolor{palette tertiary}{bg=fondtitre!55!black}
+\setbeamercolor{palette quaternary}{bg=fondtitre!35!black}
+\setbeamercolor{item}{fg=fondtitre}
 
 
 
 %%% MACRO %%%
 
+
 % Affichage du plan à chaque début de section
 \AtBeginSection[]{
 	\begin{frame}{Plan}
-		\begin{columns}
-			\begin{column}{5cm}
-			  	\tableofcontents[sections={1-4}, currentsection, hideothersubsections]
-			\end{column}
-			\begin{column}{5cm}
-			  	\tableofcontents[sections={5-7}, currentsection, hideothersubsections]
-			\end{column}
-		\end{columns}
+	  	\tableofcontents[currentsection, hideothersubsections]
+%		\begin{columns}
+%			\begin{column}{5cm}
+%			  	\tableofcontents[sections={1-4}, currentsection, hideothersubsections]
+%			\end{column}
+%			\begin{column}{5cm}
+%			  	\tableofcontents[sections={5-7}, currentsection, hideothersubsections]
+%			\end{column}
+%		\end{columns}
 	\end{frame}
 }
 
+
 % Nouvelle boîte pour le titre
-\definecolor{titlecolor}{RGB}{51, 51, 179}
 \newenvironment<>{titleblock}[1]{%
-	\setbeamercolor{block body}{fg=white, bg=titlecolor}%
+	\setbeamercolor{block body}{fg=white, bg=fondtitre}%
 	\begin{block}#2{#1}}{\end{block}}
+
 
 % Vide la barre de navigation
 \setbeamertemplate{navigation symbols}{}
 
+
+
 %%% DOCUMENT %%%
+
+
 
 \begin{document}
 
@@ -86,14 +91,15 @@
 
 
 \begin{frame}{Plan}
-	\begin{columns}
-		\begin{column}{5cm}
-			\tableofcontents[sections={1-4}, hideallsubsections]
-		\end{column}
-		\begin{column}{5cm}
-			\tableofcontents[sections={5-7}, hideallsubsections]
-		\end{column}
-	\end{columns}
+	\tableofcontents[hideallsubsections]
+%	\begin{columns}
+%		\begin{column}{5cm}
+%			\tableofcontents[sections={1-4}, hideallsubsections]
+%		\end{column}
+%		\begin{column}{5cm}
+%			\tableofcontents[sections={5-7}, hideallsubsections]
+%		\end{column}
+%	\end{columns}
 \end{frame}
 
 
@@ -105,28 +111,10 @@
 \section{Introduction}
 
 
-% --- Équipe -------------------------------------------------------------------
-	\subsection{Collaborateurs et clients}
-	\begin{frame}{\subsecname}
-		\begin{itemize}
-			\item Clients~:
-				\begin{itemize}
-					\item \'Eric \smallcaps{Andres} (Professeur et ancien directeur de d\'epartement XLIM-SIC)
-					\item Gaëlle \smallcaps{Largeteau}-\smallcaps{Skapin} (Maitre de Conf\'erence, G\'eom\'etrie~discr\`ete)
-				\end{itemize}
-			\item Encadrant p\'edagogique~: 
-				\begin{itemize}
-					\item Philippe \smallcaps{Meseure} (Professeur, Informatique graphique)
-				\end{itemize}
-		\end{itemize}
-	\end{frame}
-
-
 % --- Contexte -----------------------------------------------------------------
-	\subsection{Contexte}
-	\begin{frame}{\subsecname}
+	\begin{frame}{\secname}
 		\begin{itemize}
-			\item Nouvel algorithme conçu par \'Eric \smallcaps{Andres} et Gaëlle \smallcaps{Largeteau}-\smallcaps{Skapin} pour mod\'eliser des surfaces de r\'evolution discrètes.
+			\item Nouvel algorithme conçu par \'Eric \smallcaps{Andres} et Ga\"elle \smallcaps{Largeteau}-\smallcaps{Skapin} pour mod\'eliser des surfaces de r\'evolution discrètes.
 			\item Visualisation des r\'esultats avec Mathematica
 		\end{itemize}
 		\begin{figure}
@@ -137,121 +125,218 @@
 		\end{itemize}
 	\end{frame}
 	
+	
 
-%---Objectifs------------------------------------------------------------------
-	\subsection{Objectifs}
+%===============================================================================
+%	GESTION DU PROJET
+%===============================================================================
+
+
+\section{Planification}
+	
+	
+	\subsection{Diagramme de Gantt}
 	\begin{frame}{\subsecname}
-		\begin{itemize}
-			\item Objectifs métiers
-			\begin{itemize}
-				\item Illustrer les r\'esultats de l'algorithme
-				\item Mettre \`a disposition un outil de mod\'elisation
-			\end{itemize}
-		\end{itemize}
-		\begin{itemize}
-			\item Objectifs techniques
-			\begin{itemize}
-				\item Application web $\to$ WebGL
-				\item Utilisable par tous
-			\end{itemize}
-		\end{itemize}
+		\begin{center}
+			\href{run:ImagesLivraison/Gantt_ProjetDiscretReference.gif}{Diagramme pr\'evisionnel}\\
+			\bigskip
+			\href{run:ImagesLivraison/Gantt_ProjetDiscretRealise.gif}{Diagramme r\'ealis\'e}
+		\end{center}
 	\end{frame}
-
-
-% --- Roles --------------------------------------------------------------------
-	 \subsection{Organisation de l'\'equipe}
-	 \begin{frame}{\subsecname}
-		\begin{itemize}
-			\item Composition de l'\'equipe~:
-				\begin{itemize}
-					\item Thomas \smallcaps{Benoist} - Chef de projet
-					\item Zied \smallcaps{Ben} \smallcaps{Othmane} - Responsable qualit\'e
-					\item Adrien \smallcaps{Bisutti} - Responsable des risques
-					\item Lydie \smallcaps{Richaume} - Responsable des t\^aches
-				\end{itemize}
-		\end{itemize}
+	
+	
+	\subsection{Livrables}
+	\begin{frame}{\subsecname}
+		\begin{center}
+		\small
+		\begin{tabular}{|c|>{\raggedright}m{4,5cm}|c|c|}
+			\hline
+			\textbf{\No} & \textbf{Livrable}
+			& \textbf{Date pr\'evue} & \textbf{Date effective}\\
+			\hline
+			1 & R\'esultat de l'algorithme et interface & 23/12 
+			& 18/01\\
+			\hline
+			2 & Application minimale & 21/01 & 25/01\\
+			\hline
+			2\textsuperscript{bis} & Multicoupe et param\`etres & --- & 29/01\\
+			\hline
+			3 & Courbes avec param\`etres modifiables et trac\'e \`a main
+			lev\'ee & 29/01 & ---\\
+			\hline
+			4 & \'Equations et export & 19/02 & ---\\
+			\hline
+			5 & Application finale et documentation & 02/03 & ---\\
+			\hline
+		\end{tabular}
+		\end{center}
 	\end{frame}
-
 
 
 
 %===============================================================================
-%	Cahier des charges
+%	CAHIER DES CHARGES
 %===============================================================================
+
+%\newcommand{\Valid}{{\color{ForestGreen}\ding{52}}}
+%\newcommand{\NotCheck}{{\color{BrickRed}\ding{56}}}
+%\newcommand{\Added}{{\color{RoyalBlue}\ding{52}}}
+%\newcommand{\Modified}{{\color{BurntOrange}\ding{56}}}
+\newcommand{\Valid}{{\color{ForestGreen}V}}
+\newcommand{\NotCheck}{{\color{BrickRed}X}}
+\newcommand{\Added}{{\color{RoyalBlue}+}}
+\newcommand{\Modified}{{\color{BurntOrange}/}}
+
 
 \section{Fonctionnalités demandées}
-	\subsection{Génération des Surfaces}
-	 \begin{frame}{\subsecname}
-		\begin{itemize}
-			\item Générer la surface
-				\begin{itemize}
-					\item A partir d'une méridienne et d'une courbe de révolution
-					\item Méridienne : fonction y = f(x) ou paramétrique (dessin)
-					\item Courbe de révolution : fonction implicite f(x,y) = 0
-				\end{itemize}
-		\end{itemize}
+
+% --- Surface ------------------------------------------------------------------
+	\subsection{Génération des surfaces}
+	\begin{frame}{\subsecname}
+		\vfill
+	 	\begin{center}
+		{\renewcommand{\arraystretch}{1.3}
+		\begin{tabular}{|l|c|l}
+			\cline{1-2}
+			\textbf{Fonctionnalités} & \textbf{Niveau} &\\
+			\cline{1-2}
+			Génération de la surface & 1 & \Valid\\
+			\cline{1-2}
+			Diff\'erents algorithmes & 1 & \Valid\\
+			\cline{1-2}
+		\end{tabular}}
+		\end{center}
+		\vspace{\stretch{2}}
+		\Valid~: R\'ealis\'e \hfill \NotCheck~: Non r\'ealis\'e
+		\hfill \Modified~: Modifi\'e \hfill \Added~: Ajout\'e
 	\end{frame}
 
 
+% --- 2D -----------------------------------------------------------------------
 	\subsection{Gestion des courbes}
-	 \begin{frame}{\subsecname}
-		\begin{itemize}
-			\item Afficher la méridienne et la courbe de révolution
-			\item Pouvoir choisir la méridienne et la courbe de révolution de différentes façons :
-				\begin{itemize}
-					\item Choisir dans une liste de modèles
-					\item Entrer une équation mathématique
-					\item Dessiner une courbe (pour la méridienne)
-				\end{itemize}
-			\item Modifier les paramètres des modèles
-			\item Afficher/cacher le repère des courbes
-			\item Choisir la taille d'affichage des voxels
-		\end{itemize}
+	\begin{frame}{\subsecname}
+		\vfill
+	 	\begin{center}
+		{\renewcommand{\arraystretch}{1.3}
+		\begin{tabular}{|l|c|l}
+			\cline{1-2}
+			\textbf{Fonctionnalités} & \textbf{Niveau} &\\
+			\cline{1-2}
+			Affichage des courbes & 1 & \Valid\\
+			\cline{1-2}
+			Mode de selection des courbes & 2 & \Valid\\
+			\cline{1-2}
+			Liste de courbes prédéfinies & 2 & \Valid\\
+			\cline{1-2}
+			Dessin de la m\'eridienne & 2 & \Valid\\
+			\cline{1-2}
+			Param\`etres des courbes & 2 & \Valid \Modified\\
+			\cline{1-2}
+			Afficher/cacher le rep\`ere des courbes & 4 & \NotCheck\\
+			\cline{1-2}
+			Entrer une \'equation & 5 & \Valid\\
+			\cline{1-2}
+		\end{tabular}}
+		\end{center}
+		\vspace{\stretch{2}}
+		\Valid~: R\'ealis\'e \hfill \NotCheck~: Non r\'ealis\'e
+		\hfill \Modified~: Modifi\'e \hfill \Added~: Ajout\'e
 	\end{frame}
 
 
+% --- 3D -----------------------------------------------------------------------
 	\subsection{Manipulation de l'espace 3D}
-	 \begin{frame}{\subsecname}
-		\begin{itemize}
-			\item Choisir les dimensions
-			\item Contrôler la caméra
-			\item Mettre en évidence d'une méridienne et courbe de révolution sur la surface
-			\item Choisir la connexité affichée
-			\item Choisir la taille d'affichage des voxels
-			\item Choisir des dimensions d'affichage de l'espace 3D (afficher des coupes)
-			\item Afficher/cacher les limites de l'espace 3D
-			\item Afficher/cacher l'objet repère
-			\item Choisir vue orthographique/perspective
-		\end{itemize}
+	\begin{frame}{\subsecname}
+		\vfill
+	 	\begin{center}
+		{\renewcommand{\arraystretch}{1.3}
+		\begin{tabular}{|l|c|l}
+			\cline{1-2}
+			\textbf{Fonctionnalités} & \textbf{Niveau} &\\
+			\cline{1-2}
+			Choix des dimensions & 2 & \Valid \Modified\\
+			\cline{1-2}
+			Mouvement de cam\'era & 2 & \Valid\\
+			\cline{1-2}
+			Mise en \'evidence des courbes en 3D & 2 & \Valid\\
+			\cline{1-2}
+			Choix de la connexit\'e & 2 & \Valid \Modified\\
+			\cline{1-2}
+			Multi-coupes & 3 & \Valid\\
+			\cline{1-2}
+			Afficher/cacher limites espace 3D & 3 & \Valid \Modified\\
+			\cline{1-2}
+			Afficher/cacher rep\`ere 3D & 3 & \Valid\\
+			\cline{1-2}
+			Taille des voxels & 4 & \Valid \Modified\\
+			\cline{1-2}
+			Vue orthographique/perspective & 5 & \Valid\\
+			\cline{1-2}
+		\end{tabular}}
+		\end{center}
+		\vspace{\stretch{2}}
+		\Valid~: R\'ealis\'e \hfill \NotCheck~: Non r\'ealis\'e
+		\hfill \Modified~: Modifi\'e \hfill \Added~: Ajout\'e
 	\end{frame}
 
 
+% --- Export -------------------------------------------------------------------
 	\subsection{Export et sauvegarde}
-	 \begin{frame}{\subsecname}
-		\begin{itemize}
-			\item Exporter la surface générée :
-				\begin{itemize}
-					\item A destination d'un modeleur (format X3D)
-					\item A destion d'une imprimante 3D (STL)
-				\end{itemize}
-			\item Exporter en PNG une image de la courbe de révolution, de la méridienne ou de la surface générée
-			\item Sauvegarder les courbes dans une archive ZIP
-			\item Charger les courbes à l'aide d'un ZIP générer par la fonction de sauvegarde
-		\end{itemize}
+	\begin{frame}{\subsecname}
+		\vfill
+	 	\begin{center}
+		{\renewcommand{\arraystretch}{1.3}
+		\begin{tabular}{|l|c|l}
+			\cline{1-2}
+			\textbf{Fonctionnalités} & \textbf{Niveau} &\\
+			\cline{1-2}
+			Export 3D & 3 & \Valid\\
+			\cline{1-2}
+			Export impression 3D & 3 & \Valid\\
+			\cline{1-2}
+			Export PNG & 4 & \Valid\\
+			\cline{1-2}
+			Sauvegarde des courbes & 5 & \Valid \Modified\\
+			\cline{1-2}
+			Chargement des courbes & 5 & \Valid \Modified\\
+			\cline{1-2}
+		\end{tabular}}
+		\end{center}
+		\vspace{\stretch{2}}
+		\Valid~: R\'ealis\'e \hfill \NotCheck~: Non r\'ealis\'e
+		\hfill \Modified~: Modifi\'e \hfill \Added~: Ajout\'e
 	\end{frame}
 
+
+% --- Autre --------------------------------------------------------------------
 	\subsection{Autre}
 	\begin{frame}{\subsecname}
-		\begin{itemize}
-			\item Aide utilisateur
-			\item Choix de la langue
-			\item Sauvegarde automatique des courbes personnalisées dans le navigateur
-		\end{itemize}
+		\vfill
+	 	\begin{center}
+		{\renewcommand{\arraystretch}{1.3}
+		\begin{tabular}{|l|c|l}
+			\cline{1-2}
+			\textbf{Fonctionnalités} & \textbf{Niveau} &\\
+			\cline{1-2}
+			Aide utilisateur & 3 & \Valid \Modified\\
+			\cline{1-2}
+			Choix de la langue & 5 & \Valid\\
+			\cline{1-2}
+			Ajout courbes personnalisées & 5 & \NotCheck\\
+			\cline{1-2}
+		\end{tabular}}
+		\end{center}
+		\vspace{\stretch{2}}
+		\Valid~: R\'ealis\'e \hfill \NotCheck~: Non r\'ealis\'e
+		\hfill \Modified~: Modifi\'e \hfill \Added~: Ajout\'e
 	\end{frame}
+
+
 
 %===============================================================================
 %	CONCLUSION
 %===============================================================================
+
 
 \section{Conclusion}
 
@@ -259,10 +344,8 @@
 % --- Rappel -------------------------------------------------------------------
 \begin{frame}{\secname}
 	\begin{itemize}
-		\item Organisation en cycles $\to$ d\'eveloppement incr\'emental
-		\item Validation r\'egulière et avec les clients
-		\item Un seul risque majeur
-		\item Prochaine \'etape~: Conception
+		\item Documentation technique non livr\'e
+		\item Projet extensible, code réutilisable
 	\end{itemize}
 \end{frame}
 
@@ -276,7 +359,7 @@
 			\smallskip
 			\Large Surfaces de r\'evolution discrètes\\
 			\medskip
-			\small R\'eunion de lancement
+			\small Livraison - Bilan
 			\smallskip
 		\end{center}
 	\end{titleblock}
