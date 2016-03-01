@@ -1,6 +1,23 @@
 %%% MACRO %%%
 
 
+\makeatletter
+\@ifpackageloaded{pifont}{
+	\newcommand{\Valid}{{\color{ForestGreen}\ding{52}}}
+	\newcommand{\NotCheck}{{\color{BrickRed}\ding{56}}}
+	\newcommand{\Added}{{\color{RoyalBlue}\,\ding{58}}}
+	\newcommand{\Modified}{{\color{BurntOrange}\,\ding{93}}}
+}{
+	\newcommand{\Valid}{{\color{ForestGreen}V}}
+	\newcommand{\NotCheck}{{\color{BrickRed}X}}
+	\newcommand{\Added}{{\color{RoyalBlue}+}}
+	\newcommand{\Modified}{{\color{BurntOrange}/}}
+}
+\makeatother
+
+
+
+%===============================================================================
 % FIXME Prendre en compte les majuscule déjà présente
 \makeatletter
 \@ifpackageloaded{xstring}{
