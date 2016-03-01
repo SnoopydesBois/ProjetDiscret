@@ -79,7 +79,7 @@ Controller2DMeridian.prototype.setActive = function (name, type) {
 		curve = this.newCurve ();
 	}
 	else if (mode === "meridianFormula") {
-		curve = this.modelCurve.setActive(name, EquationTypeEnum.explicit);
+		curve = this.modelCurve.setActive(name, EquationTypeEnum.EXPLICIT);
 		this.modelParameter.setCurve(curve);
 	}
 	else {

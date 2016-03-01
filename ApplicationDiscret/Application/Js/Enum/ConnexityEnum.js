@@ -12,14 +12,16 @@
  * @enum
  * TODO
  */
-var ConnexityEnum = Object.freeze ({
+var ConnexityEnum = {
 	/// values
 	NULL : 0,
 	C26  : 1,
 	C18  : 2,
 	C6   : 4,
-	PLUS : 8,
-	MINUS : 16,
 	ALL  : 7
-});
+};
 
+
+
+if (Object.freeze)
+	ConnexityEnum = Object.freeze (ConnexityEnum);

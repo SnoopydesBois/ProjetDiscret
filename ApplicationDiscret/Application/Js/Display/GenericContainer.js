@@ -106,17 +106,13 @@ function GenericContainer () {
 GenericContainer.prototype.getNbObject = function () {
 	return this.objectList.length;
 };
-GenericContainer.prototype.getLength = function () {
-	console.error ("Cette methode à été renommé, il faut utiliser GenericContainer.getNbObject");
-	return this.getNbObject ();
-};
 
 
 //==============================================================================
 /**
  * Scaling.
  *
- * @param {float} scale - The scaling of the scene.
+ * @param {float} scale - The scaling factor of the scene.
  *
  * @return {void}
  * @throws {String} If the provided parameter is not a number.
@@ -132,7 +128,7 @@ GenericContainer.prototype.setScale = function (scale) {
 
 //==============================================================================
 /**
- * @return {float} The scale of the scene.
+ * @return {float} The scale factor of the scene.
  */
 GenericContainer.prototype.getScale = function () {
 	return this.scale;
@@ -188,7 +184,7 @@ GenericContainer.prototype.setWidth = function (width) {
 /**
  * Get the height of the scene.
  *
- * @return {int} the height of the scene.
+ * @return {int} The height of the scene.
  */
 GenericContainer.prototype.getHeight = function () {
 	return this.height;
