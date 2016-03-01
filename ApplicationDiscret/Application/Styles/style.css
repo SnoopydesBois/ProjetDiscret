@@ -133,6 +133,7 @@ input[type=range]::-moz-focus-outer {
 
 .buttonGroup input[type=radio]:checked + div {
 	display: inline-block;
+	vertical-align: top;
 }
 
 
@@ -274,7 +275,7 @@ label[for=meridianFormula], label[for=revolFormula] {
 }
 
 
-#surfaceCanvas, 
+#surfaceCanvas,
 #surfaceCanvas .popupMessage {
 	bottom: 0;
 	left: 0;
@@ -353,4 +354,3 @@ label[for=meridianFormula], label[for=revolFormula] {
 	margin-top: 0;
 	margin-bottom: 25%;
 }
-
