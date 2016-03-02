@@ -10,7 +10,7 @@
 \usepackage{colortbl}
 \usepackage{textcomp}
 \usepackage{xstring}
-\usepackage{pifont}
+%\usepackage{pifont}
 
 \input{macro.tex}
 
@@ -309,6 +309,22 @@
 
 
 
+
+%===============================================================================
+%	CAHIER DES CHARGES
+%===============================================================================
+
+
+\section{D\'emonstration}
+\begin{frame}{\secname}
+	\begin{center}
+		\href
+		{run:../../../ApplicationDiscret/Application/discreteSurface.html}
+		{\secname}
+	\end{center}
+\end{frame}
+
+
 %===============================================================================
 %	CONCLUSION
 %===============================================================================
@@ -319,9 +335,21 @@
 
 % --- Rappel -------------------------------------------------------------------
 \begin{frame}{\secname}
+	\'Etat de la livraison
 	\begin{itemize}
-		\item Documentation technique non livr\'e
-		\item Projet extensible, code réutilisable
+		\item Fonctionnalités requises toutes implant\'ees
+		\item Documentation technique non livr\'ee
+	\end{itemize}
+	
+	\bigskip
+	Perspective
+	\begin{itemize}
+		\item Courbe de r\'evolution \`a main lev\'ee
+		\begin{itemize}
+			\item Nouvel algorithme
+			\item Modification de l'interface
+		\end{itemize}
+		\item Extension~: Surfaces d'extrusion
 	\end{itemize}
 \end{frame}
 
@@ -333,7 +361,7 @@
 	\begin{titleblock}{}
 		\begin{center}
 			\smallskip
-			\Large Surfaces de r\'evolution discrètes\\
+			\Large Surfaces de r\'evolution discr\`etes\\
 			\medskip
 			\small Livraison - Bilan
 			\smallskip
