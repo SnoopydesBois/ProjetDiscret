@@ -139,7 +139,7 @@ ModelExport.prototype.getIdRevolution = function(){
  * @throw {String} The parameter is not of String type.
  */
 ModelExport.prototype.setIdSurface = function(idSurface){
-	if(!(typeof idSurface === "String")){
+	if(!(typeof idSurface === "string")){
 		throw "ModelExport.setIdSurface.ErrorBadParameterType";
 	}
 	
@@ -155,7 +155,7 @@ ModelExport.prototype.setIdSurface = function(idSurface){
  * @return {void}
  */
 ModelExport.prototype.setIdMeridian = function(idMeridian){
-	if(!(typeof idMeridian === "String")){
+	if(!(typeof idMeridian === "string")){
 		throw "ModelExport.setIdMeridian.ErrorBadParameterType";
 	}
 	this.idMeridian = idMeridian;
@@ -171,7 +171,7 @@ ModelExport.prototype.setIdMeridian = function(idMeridian){
  * @return {void}
  */
 ModelExport.prototype.setIdRevolution = function(idRevolution){
-	if(!(typeof idRevolution === "String")){
+	if(!(typeof idRevolution === "string")){
 		throw "ModelExport.setIdRevolution.ErrorBadParameterType";
 	}
 	this.idRevolution = idRevolution;
@@ -270,7 +270,7 @@ ModelExport.prototype.exportRevolutionPng = function(){
  * @return {void}
  */
 ModelExport.prototype.getImg2DData = function(id, name){
-	if(!checkType(arguments, "String", "String")){
+	if(!checkType(arguments, "string", "string")){
 		throw "ModelExport.getImg2DData.ErrorBadParameterType";
 	}
 	// If there is no svg, document.querySelector return null. 
@@ -320,7 +320,7 @@ ModelExport.prototype.export3DPng = function(surfaceView){
  * @return {String} the url to the canvas img
  */
 ModelExport.prototype.getImg3DData = function(id, surfaceView){
-	if(!((arguments, "String", SurfaceView))){
+	if(!((arguments, "string", SurfaceView))){
 		throw "ModelExport.getImg3DData.ErrorBadParameterType";
 	}
 
@@ -446,12 +446,12 @@ ModelExport.prototype.saveGeneratrix = function(meridianController){
 //==============================================================================
 /**
  * Save an implicit curve to xml format.
- * @param {CurveController} curveController - The controller of the curve to 
+ * @param {Controller2D} curveController - The controller of the curve to 
  * save.
  * @return {void}
  */
 ModelExport.prototype.saveImplicitCurve = function(curveController){	
-	if(!(curveController instanceof CurveController)){
+	if(!(curveController instanceof Controller2D)){
 		throw "ModelExport.saveImplicitCurve.ErrorBadParameterType";
 	}
 	
@@ -493,12 +493,12 @@ ModelExport.prototype.saveImplicitCurve = function(curveController){
 //==============================================================================
 /**
  * Save an explicit curve to xml format.
- * @param {CurveController} curveController - The controller of the curve to 
+ * @param {Controller2DMeridian} curveController - The controller of the curve to 
  * save.
  * @return {void}
  */
 ModelExport.prototype.saveExplicitCurve = function(curveController){
-	if(!(curveController instanceof CurveController)){
+	if(!(curveController instanceof Controller2DMeridian)){
 		throw "ModelExport.saveExplicitCurve.ErrorBadParameterType";
 	}
 	
@@ -540,12 +540,12 @@ ModelExport.prototype.saveExplicitCurve = function(curveController){
 //==============================================================================
 /**
  * Save a drawn curve to xml format.
- * @param {CurveController} curveController - The controller of the curve to 
+ * @param {Controller2DMeridian} curveController - The controller of the curve to 
  * save.
  * @return {void}
  */
 ModelExport.prototype.saveDrawnCurve = function(curveController){
-	if(!(curveController instanceof CurveController)){
+	if(!(curveController instanceof Controller2DMeridian)){
 		throw "ModelExport.saveDrawnCurve.ErrorBadParameterType";
 	}
 	
