@@ -98,6 +98,7 @@ Scene.prototype.constructor = Scene;
 
 /**
  * @constructor
+ * TODO desc
  */
 function Scene () {
 
@@ -114,8 +115,8 @@ function Scene () {
 	this.defaultLookAtPoint = new Vector (0, 0, 0);
 
 	/**
- 	 * {Camera} The camera used in the scene.
- 	 */
+	 * {Camera} The camera used in the scene.
+	 */
 	this.camera = new Camera (
 		new Vector (this.defaultCameraPosition),
 		new Vector (this.defaultLookAtPoint),
@@ -163,6 +164,7 @@ Scene.prototype.getCamera = function () {
  *
  * @param {Camera} camera - The new camera of the scene
  *
+ * @return {void}
  * @throws {String} If the provided parameter is not a Camera.
  */
 Scene.prototype.setCamera = function (camera) {
@@ -451,7 +453,7 @@ Scene.prototype.resetCamera = function () {
 /**
  * Replace the camera look at point at its initial position. TODO
  * @see {@link resetCamera}
- * 
+ *
  * @return {void}
  */
 Scene.prototype.centerCamera = function () {
@@ -462,5 +464,3 @@ Scene.prototype.centerCamera = function () {
 	);
 	this.setCameraAt (this.getCamera ().getPosition (), lookAt);
 };
-
-

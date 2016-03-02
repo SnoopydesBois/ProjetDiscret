@@ -204,7 +204,7 @@ Application.prototype.changeRevolMode = function () {
 	else if (mode === "revolFormula") {
 		this.revolController.setActive (
 			document.getElementById ("revolutionFormulaInput").value,
-			EquationTypeEnum.implicit
+			EquationTypeEnum.IMPLICIT
 		);
 	}
 	else {
@@ -226,7 +226,7 @@ Application.prototype.changeDimension = function () {
 	var dimX = document.getElementById ("dimx");
 	var dimY = document.getElementById ("dimy");
 	var dimZ = document.getElementById ("dimz");
-	
+
 	var dim = [0, 0, 0];
 	dim[0] = Math.min (256, Math.max (
 		parseInt (dimX.value), 1));
@@ -238,7 +238,7 @@ Application.prototype.changeDimension = function () {
 	dimX.value = dim[0];
 	dimY.value = dim[1];
 	dimZ.value = dim[2];
-	
+
 	var box = this.surfaceView.getContainer ().getObjectByName ("boundingBox");
 	box.setDimension (dim);
 	this.meridianView.draw ();
@@ -274,7 +274,7 @@ Application.prototype.meridianEquation = function () {
  */
 Application.prototype.revolutionEquation = function () {
 	var input = document.getElementById ("revolutionFormulaInput");
-	this.revolController.setActive (input.value, EquationTypeEnum.implicit);
+	this.revolController.setActive (input.value, EquationTypeEnum.IMPLICIT);
 	this.revolView.draw ();
 };
 
@@ -354,7 +354,7 @@ Application.prototype.generateAndDraw = function (mode) {
 //==============================================================================
 /**
  * Change the voxel size of the current surface after a delay.
- * 
+ *
  * @return {void}
  */
 Application.prototype.changeVoxelSize = function () {

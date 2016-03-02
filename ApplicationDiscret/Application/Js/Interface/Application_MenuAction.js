@@ -178,7 +178,7 @@ Application.prototype.saveGeneratrix = function(){
  */
 Application.prototype.loadMeridian = function (event) {
 	var tmppath = URL.createObjectURL (event.target.files[0]);
-	
+
 	var request = new XMLHttpRequest ();
 	request.open ("GET", tmppath, false);
 	request.send ();
@@ -225,7 +225,7 @@ Application.prototype.loadMeridian = function (event) {
 	else if (typeCurve === "ExplicitCurve" || typeCurve === "ImplicitCurve") {
 		this.meridianController.setActive (
             equation[0].textContent.toString (),
-            EquationTypeEnum.explicit
+            EquationTypeEnum.EXPLICIT
         );
 
 		this.meridianController.setXRange (new Range (xMin, xMax));
@@ -278,7 +278,7 @@ Application.prototype.loadRevolution = function (event) {
 
 	this.revolController.setActive (
         equation[0].textContent.toString(),
-        EquationTypeEnum.implicit
+        EquationTypeEnum.IMPLICIT
     );
 
 	for (var i = 0; i < listNameParameters.length; ++i) {
@@ -426,12 +426,9 @@ Application.prototype.resetCamera = function () {
 /**
  * Put the camera look at point to its initial position.
  * @see {@link resetCamera}
- * 
+ *
  * @return {void}
  */
 Application.prototype.centerCamera = function () {
 	this.surfaceView.centerCamera ();
 };
-
-
-

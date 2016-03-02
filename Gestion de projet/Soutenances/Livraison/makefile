@@ -1,6 +1,6 @@
 SRC = $(wildcard *.tex)
 OBJ = $(SRC:.tex=.aux) $(SRC:.tex=.log) $(SRC:.tex=.nav) $(SRC:.tex=.out) $(SRC:.tex=.snm) $(SRC:.tex=.toc)
-OUT = cdc.pdf features.pdf lancement.pdf vision.pdf# Donnez le nonm des PDF (avec l'extention .pdf). Les noms doivent correspondre au nom du fichier source.
+OUT = livraison.pdf# Donnez le nonm des PDF (avec l'extention .pdf). Les noms doivent correspondre au nom du fichier source.
 
 CC = pdflatex
 OPTS = 
@@ -89,41 +89,4 @@ check :
 
 
 # Dépendances générées automatiquement =========================================
-
-
-cdc : cdc.pdf
-
-
-cdc.pdf : cdc.tex macro.tex format.tex
-	@ echo "\033[21;33m-> compilation de $@\033[39m"
-	$(CC) $< 
-	@ echo
-
-
-features : features.pdf
-
-
-features.pdf : features.tex macro.tex
-	@ echo "\033[21;33m-> compilation de $@\033[39m"
-	$(CC) $< 
-	@ echo
-
-
-lancement : lancement.pdf
-
-
-lancement.pdf : lancement.tex macro.tex
-	@ echo "\033[21;33m-> compilation de $@\033[39m"
-	$(CC) $< 
-	@ echo
-
-
-vision : vision.pdf
-
-
-vision.pdf : vision.tex macro.tex format.tex
-	@ echo "\033[21;33m-> compilation de $@\033[39m"
-	$(CC) $< 
-	@ echo
-
 
