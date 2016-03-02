@@ -62,3 +62,8 @@ var DrawModeEnum = Object.freeze ({
 		1 : {name : "HAND_FREE"}
 	}
 });
+
+
+
+if (Object.freeze)
+	DrawModeEnum = Object.freeze (DrawModeEnum);

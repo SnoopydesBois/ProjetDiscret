@@ -1,0 +1,84 @@
+%%% MACRO %%%
+
+
+\makeatletter
+\@ifpackageloaded{pifont}{
+	\newcommand{\Valid}{{\color{ForestGreen}\ding{52}}}
+	\newcommand{\NotCheck}{{\color{BrickRed}\ding{56}}}
+	\newcommand{\Added}{{\color{RoyalBlue}\,\ding{58}}}
+	\newcommand{\Modified}{{\color{BurntOrange}\,\ding{93}}}
+}{
+	\newcommand{\Valid}{{\color{ForestGreen}V}}
+	\newcommand{\NotCheck}{{\color{BrickRed}X}}
+	\newcommand{\Added}{{\color{RoyalBlue}+}}
+	\newcommand{\Modified}{{\color{BurntOrange}/}}
+}
+\makeatother
+
+
+
+%===============================================================================
+% FIXME Prendre en compte les majuscule déjà présente
+\makeatletter
+\@ifpackageloaded{xstring}{
+	\newcommand\smallcaps[1]{\StrLeft{#1}{1}\scriptsize\uppercase{\StrGobbleLeft{#1}{1}}\normalsize }
+}{
+	\newcommand\smallcaps[1]{\textsc{#1}}
+}
+\makeatother
+
+
+
+%===============================================================================
+% Définit un type de puce pour une liste. Si le pakage "pifont" est chargé, il 
+% est utilisé, sinon on met un tiret.
+\makeatletter
+\@ifpackageloaded{pifont}{
+	\newcommand\goodItemArrow[0]{\ding{226}}
+}{
+	\newcommand\goodItemArrow[0]{-}
+}
+\makeatother
+
+
+
+%===============================================================================
+% Item de liste avec spécification de la puce et paramètre écrit en gras.
+\newcommand\functionality[1]{
+	\item[\goodItemArrow] \textbf{#1}\\
+}
+
+
+
+%===============================================================================
+% Commande \Euro indépendante des paquets chargés 
+\makeatletter
+\@ifpackageloaded{eurosym}{
+	\newcommand\Euro[0]{\euro{}}
+}{
+	\@ifpackageloaded{textcomp}{
+		\newcommand\Euro[0]{\texteuro}
+	}{
+		\newcommand\Euro[0]{Euro}
+	}
+}
+\makeatother
+
+
+
+%===============================================================================
+% Accès à des variables dans le document. 
+%\makeatletter
+%\let\titleName\@title
+%\let\subtitleName\@subtitle
+%\let\authorName\@author
+%\makeatother
+
+
+
+% Titre de la section courante (que dans beamer)
+%\secname 
+% Titre de la sous-section courante (que dans beamer)
+%\subsecname
+
+

@@ -1,0 +1,356 @@
+\documentclass[xcolor=dvipsnames]{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage{textcomp}
+\usepackage{xstring}
+\usepackage{pifont}
+
+\input{macro.tex}
+
+
+\title[Livraison - Bilan]{Surfaces de r\'evolution discr\`etes}
+\subtitle{Livraison - Bilan}
+\author[]{Zied \smallcaps{Ben} \smallcaps{Othmane} \\ Thomas \smallcaps{Benoist} \\ Adrien \smallcaps{Bisutti} \\ Lydie \smallcaps{Richaume}}
+\institute{Universit\'e de Poitiers}
+\date{2 mars 2016}
+
+\usetheme{Madrid}
+\usecolortheme{sidebartab}
+\usefonttheme{professionalfonts}
+
+\definecolor{fondtitre}{rgb}{0.0,0.35,0.7}
+\setbeamercolor{palette primary}{bg=fondtitre}
+\setbeamercolor{palette secondary}{bg=fondtitre!75!black}
+\setbeamercolor{palette tertiary}{bg=fondtitre!55!black}
+\setbeamercolor{palette quaternary}{bg=fondtitre!35!black}
+\setbeamercolor{item}{fg=fondtitre}
+
+
+
+%%% MACRO %%%
+
+
+% Affichage du plan \`a chaque d\'ebut de section
+\AtBeginSection[]{
+	\begin{frame}{Plan}
+	  	\tableofcontents[currentsection, hideothersubsections]
+	\end{frame}
+}
+
+
+% Nouvelle boîte pour le titre
+\newenvironment<>{titleblock}[1]{%
+	\setbeamercolor{block body}{fg=white, bg=fondtitre}%
+	\begin{block}#2{#1}}{\end{block}}
+
+
+% Vide la barre de navigation
+\setbeamertemplate{navigation symbols}{}
+
+
+
+%%% DOCUMENT %%%
+
+
+
+\begin{document}
+
+
+%===============================================================================
+%	TITRE
+%===============================================================================
+
+
+\begin{frame}
+	\titlepage
+	\includegraphics[width=2cm]{../Images/logo-Xlim.png}
+	\hfill
+	\includegraphics[width=2cm]{../Images/logo_univ_poitiers.png}
+\end{frame}
+
+
+
+%===============================================================================
+%	PLAN
+%===============================================================================
+
+
+\begin{frame}{Plan}
+	\tableofcontents[hideallsubsections]
+\end{frame}
+
+
+
+%===============================================================================
+%	INTRODUCTION
+%===============================================================================
+
+\section{Introduction}
+
+
+% --- Contexte -----------------------------------------------------------------
+	\begin{frame}{\secname}
+		\begin{itemize}
+			\item Nouvel algorithme conçu par \'Eric \smallcaps{Andres} et Ga\"elle \smallcaps{Largeteau}-\smallcaps{Skapin} pour mod\'eliser des surfaces de r\'evolution discr\`etes.
+			\item Visualisation des r\'esultats avec Mathematica
+		\end{itemize}
+		\begin{figure}
+			\includegraphics[height=3.8cm]{../Images/revolution2.jpg}
+		\end{figure}
+		\begin{itemize}
+			\item Besoin d'un outil utilisable partout et par tous
+		\end{itemize}
+	\end{frame}
+	
+	
+
+%===============================================================================
+%	GESTION DU PROJET
+%===============================================================================
+
+
+\section{Diagramme de Gantt}
+	
+	\begin{frame}{\secname}
+		\begin{center}
+			\href{run:ImagesLivraison/Gantt_ProjetDiscretLivraison.gif}{Diagramme pr\'evisionnel}\\
+			\bigskip
+			\href{run:ImagesLivraison/Gantt_ProjetDiscretSuiviLivraison.gif}{Diagramme r\'ealis\'e}
+		\end{center}
+	\end{frame}
+	
+	
+%===============================================================================
+%	CAHIER DES CHARGES
+%===============================================================================
+
+
+\section{Fonctionnalit\'es}
+
+% --- Surface ------------------------------------------------------------------
+	\subsection{G\'en\'eration des surfaces}
+	\begin{frame}{\subsecname}
+		\vspace{2cm}
+	 	\begin{center}
+		{\renewcommand{\arraystretch}{1.3}
+		\begin{tabular}{|l|c|l}
+			\cline{1-2}
+			\textbf{Fonctionnalit\'es} & \textbf{Niveau} &\\
+			\cline{1-2}
+			G\'en\'eration de la surface & 1 & \Valid\\
+			\cline{1-2}
+			Diff\'erents algorithmes & 1 & \Valid\\
+			\cline{1-2}
+		\end{tabular}}
+		\end{center}
+		\vspace{3cm}
+		\Valid~: R\'ealis\'e \hfill \NotCheck~: Non r\'ealis\'e
+		\hfill \Modified~: Modifi\'e \hfill \Added~: Ajout\'e
+	\end{frame}
+
+
+% --- 2D -----------------------------------------------------------------------
+	\subsection{Gestion des courbes}
+	\begin{frame}{\subsecname}
+		\vspace{1cm}
+	 	\begin{center}
+		{\renewcommand{\arraystretch}{1.3}
+		\begin{tabular}{|l|c|l}
+			\cline{1-2}
+			\textbf{Fonctionnalit\'es} & \textbf{Niveau} &\\
+			\cline{1-2}
+			Affichage des courbes & 1 & \Valid\\
+			\cline{1-2}
+			Mode de selection des courbes & 2 & \Valid\\
+			\cline{1-2}
+			Liste de courbes pr\'ed\'efinies & 2 & \Valid\\
+			\cline{1-2}
+			Dessin de la m\'eridienne & 2 & \Valid\\
+			\cline{1-2}
+			Param\`etres des courbes & 2 & \Valid \Modified\\
+			\cline{1-2}
+			Afficher/cacher le rep\`ere des courbes & 4 & \NotCheck\\
+			\cline{1-2}
+			Entrer une \'equation & 5 & \Valid\\
+			\cline{1-2}
+		\end{tabular}}
+		\end{center}
+		\vspace{1cm}
+		\Valid~: R\'ealis\'e \hfill \NotCheck~: Non r\'ealis\'e
+		\hfill \Modified~: Modifi\'e \hfill \Added~: Ajout\'e
+	\end{frame}
+
+
+% --- 3D -----------------------------------------------------------------------
+	\subsection{Manipulation de l'espace 3D}
+	\begin{frame}{\subsecname}
+	 	\begin{center}
+		{\renewcommand{\arraystretch}{1.3}
+		\begin{tabular}{|l|c|l}
+			\cline{1-2}
+			\textbf{Fonctionnalit\'es} & \textbf{Niveau} &\\
+			\cline{1-2}
+			Choix des dimensions & 2 & \Valid \Modified\\
+			\cline{1-2}
+			Mouvement de cam\'era & 2 & \Valid\\
+			\cline{1-2}
+			Mise en \'evidence des courbes en 3D & 2 & \Valid\\
+			\cline{1-2}
+			Choix de la connexit\'e & 2 & \Valid \Modified\\
+			\cline{1-2}
+			Multi-coupes & 3 & \Valid\\
+			\cline{1-2}
+			Afficher/cacher limites espace 3D & 3 & \Valid \Modified\\
+			\cline{1-2}
+			Afficher/cacher rep\`ere 3D & 3 & \Valid\\
+			\cline{1-2}
+			Taille des voxels & 4 & \Valid \Modified\\
+			\cline{1-2}
+			Vue orthographique/perspective & 5 & \Valid\\
+			\cline{1-2}
+			Palette de couleur & -- & \Added\\
+			\cline{1-2}
+		\end{tabular}}
+		\end{center}
+		\Valid~: R\'ealis\'e \hfill \NotCheck~: Non r\'ealis\'e
+		\hfill \Modified~: Modifi\'e \hfill \Added~: Ajout\'e
+	\end{frame}
+
+
+% --- Export -------------------------------------------------------------------
+	\subsection{Export et sauvegarde}
+	\begin{frame}{\subsecname}
+		\vspace{1.5cm}
+	 	\begin{center}
+		{\renewcommand{\arraystretch}{1.3}
+		\begin{tabular}{|l|c|l}
+			\cline{1-2}
+			\textbf{Fonctionnalit\'es} & \textbf{Niveau} &\\
+			\cline{1-2}
+			Export 3D & 3 & \Valid\\
+			\cline{1-2}
+			Export impression 3D & 3 & \Valid\\
+			\cline{1-2}
+			Export PNG & 4 & \Valid\\
+			\cline{1-2}
+			Sauvegarde des courbes & 5 & \Valid \Modified\\
+			\cline{1-2}
+			Chargement des courbes & 5 & \Valid \Modified\\
+			\cline{1-2}
+		\end{tabular}}
+		\end{center}
+		\vspace{2cm}
+		\Valid~: R\'ealis\'e \hfill \NotCheck~: Non r\'ealis\'e
+		\hfill \Modified~: Modifi\'e \hfill \Added~: Ajout\'e
+	\end{frame}
+
+
+% --- Autre --------------------------------------------------------------------
+	\subsection{Autre}
+	\begin{frame}{\subsecname}
+		\vspace{2cm}
+	 	\begin{center}
+		{\renewcommand{\arraystretch}{1.3}
+		\begin{tabular}{|l|c|l}
+			\cline{1-2}
+			\textbf{Fonctionnalit\'es} & \textbf{Niveau} &\\
+			\cline{1-2}
+			Aide utilisateur & 3 & \Valid \Modified\\
+			\cline{1-2}
+			Choix de la langue & 5 & \Valid\\
+			\cline{1-2}
+			Ajout courbes personnalis\'ees & 5 & \NotCheck\\
+			\cline{1-2}
+		\end{tabular}}
+		\end{center}
+		\vspace{2.5cm}
+		\Valid~: R\'ealis\'e \hfill \NotCheck~: Non r\'ealis\'e
+		\hfill \Modified~: Modifi\'e \hfill \Added~: Ajout\'e
+	\end{frame}
+
+
+
+
+%===============================================================================
+%	CAHIER DES CHARGES
+%===============================================================================
+
+
+\section{D\'emonstration}
+\begin{frame}{\secname}
+	\begin{center}
+		\href
+		{run:../../../ApplicationDiscret/Application/discreteSurface.html}
+		{\secname}
+	\end{center}
+\end{frame}
+
+
+%===============================================================================
+%	CONCLUSION
+%===============================================================================
+
+
+\section{Conclusion}
+
+
+% --- Rappel -------------------------------------------------------------------
+\begin{frame}{\secname}
+	\'Etat de la livraison~:
+	\begin{itemize}
+		\item Fonctionnalit\'es requises toutes implant\'ees
+		\item Documentation technique non livr\'ee
+	\end{itemize}
+	
+	\bigskip
+	\'Evolutions possibles~:
+	\begin{itemize}
+		\item Courbe de r\'evolution \`a main lev\'ee
+		\begin{itemize}
+			\item Nouvel algorithme
+			\item Modification de l'interface
+		\end{itemize}
+		\item Extension~: Surfaces d'extrusion
+	\end{itemize}
+\end{frame}
+
+
+% --- Remerciment --------------------------------------------------------------
+\begin{frame}{}
+	\bigskip
+	\bigskip
+	\begin{titleblock}{}
+		\begin{center}
+			\smallskip
+			\Large Surfaces de r\'evolution discr\`etes\\
+			\medskip
+			\small Livraison - Bilan
+			\smallskip
+		\end{center}
+	\end{titleblock}
+
+	\bigskip
+	\begin{center}
+		Merci de votre attention.\\
+		\medskip
+		Avez-vous des questions\,?			
+	\end{center}
+
+	\bigskip
+	\bigskip
+	\includegraphics[width=2cm]{../Images/logo-Xlim.png}
+	\hfill
+	\includegraphics[width=2cm]{../Images/logo_univ_poitiers.png}
+\end{frame}
+
+
+\end{document}
+
+

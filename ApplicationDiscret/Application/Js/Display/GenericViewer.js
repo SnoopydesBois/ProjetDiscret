@@ -83,7 +83,8 @@ GenericViewer.prototype.constructor = GenericViewer;
 
 
 /**
- * @constructor Class to manage an Object (you must inherit from this class).
+ * @constructor
+ * Class to manage an Object (you must inherit from this class).
  *
  * @param {HTMLCanvasElement} canvas - The associated canvas.
  * @param {String} glContextType - The type of webGl context for drawing. The
@@ -119,6 +120,8 @@ function GenericViewer (canvas, glContextType) {
 			break;
 		case "3d" :
 			this.glContext = get3DGlContext (this.canvas);
+			if (this.glContext == null)
+				document.getElementById ("noWebGlPopUp").style = "";
 			break;
 		case undefined :
 			// constructor call for inheritance
@@ -161,6 +164,7 @@ GenericViewer.prototype.getGLContext = function () {
 //##############################################################################
 //	Draw
 //##############################################################################
+
 
 
 /**

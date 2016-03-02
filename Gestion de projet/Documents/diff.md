@@ -122,7 +122,4 @@ on s'en fou
 
 -------------------------------------
 coupe = croping
-option surface en haut
-vérifier dépassement des limite 3D (réafficher les bonnes valeurs)
 vérifier canvas lors du dépassement limite 3D
-	multiconnexité

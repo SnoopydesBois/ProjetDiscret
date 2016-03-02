@@ -4,19 +4,19 @@
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 		<title id="title" class="tr">User documentation</title>
 		<link rel="icon" type="image/png" href="Styles/favicon.png"/>
-		
+
 		<!-- css imports -->
-		
-		
+
+
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/Bootstrap/style/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="Styles/general.css"/>
-		<link rel="stylesheet" type="text/css" media="all" href="Styles/userDocumentation.css">	
+		<link rel="stylesheet" type="text/css" media="all" href="Styles/userDocumentation.css">
 
 		<script type="text/javascript" src="Js/Libraries/jquery.js"></script>
 		<script type="text/javascript" src="Js/Libraries/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="Js/Libraries/bootstrap.min.js"></script>
-		
+
 	</head>
 	<body>
 	<script>
@@ -26,8 +26,8 @@
 				$(window).scrollTop($("#" + $(this).attr("link")).position().top);
 			});
 		});
-		
-		$(document).ready(function(){    
+
+		$(document).ready(function(){
 			$('.caret').on('shown', function () {
 			   $(".icon-chevron-down").removeClass("icon-chevron-down").addClass("icon-chevron-up");
 			});
@@ -38,14 +38,14 @@
 		});
 	</script>
 	<div class="container-fluid">
-	
+
 
 		<div class="row">
 			<div class="col-lg-2">
 				<div id="sidebarNav" class="sidebar-nav">
 					<div class="navbar navbar-default" role="navigation">
 						<div class="navbar-collapse collapse sidebar-navbar-collapse">
-							<div class="nav nav-pills nav-stacked">							
+							<div class="nav nav-pills nav-stacked">
 								<ul>
 									<a data-toggle="collapse" class="link" link="2dSpace" href="#2dSpaceDiv">2D Space<span class="caret"></span></a>
 									<div id="2dSpaceDiv" class="submenu panel-collapse collapse">
@@ -54,15 +54,15 @@
 										<div>
 											<a data-toggle="collapse" class="link" link="TypeCurve" href="#typeCurve">Type of curves<span class="caret"></span></a>
 											<div id="typeCurve" class="panel-collapse collapse submenu">
-												<div><a href="#Predefined">Predefined</a></div>					
-												<div><a href="#HandFree">Free-hand-drawing</a></div>					
-												<div><a href="#Formula">Formula</a></div>					
+												<div><a href="#Predefined">Predefined</a></div>
+												<div><a href="#HandFree">Free-hand-drawing</a></div>
+												<div><a href="#Formula">Formula</a></div>
 											</div>
 										</div>
 									</div>
 								</ul>
-								<ul> 
-									<a data-toggle="collapse" class="link" link="3dSpace" href="#3dSpaceDiv">3D Space<span class="caret"></span></a> 
+								<ul>
+									<a data-toggle="collapse" class="link" link="3dSpace" href="#3dSpaceDiv">3D Space<span class="caret"></span></a>
 									<div id="3dSpaceDiv" class="submenu panel-collapse collapse">
 										<div>
 											<a data-toggle="collapse" class="link" link="3dVisualisation" href="#3dVisualisationDiv">3D Visualisation<span class="caret"></span></a>
@@ -104,7 +104,7 @@
 											</div>
 										</div>
 										<div> <a href="#Curve">Curve</a></div>
-										<div> 
+										<div>
 											<a data-toggle="collapse" class="link" link="Surface" href="#SurfaceDiv">Surface<span class="caret"></span></a>
 											<div id="SurfaceDiv" class="submenu panel-collapse collapse">
 												<div>
@@ -136,31 +136,31 @@
 			<div id="container" class="col-lg-8">
 				<h1 id="2dSpace"> 2D Space </h1>
 					<div class="insideH1">
-						<p> There are two area dedicated to the 2D visualization. One is for the meridian, the other one is for the curve of revolution. </p>
+						<p> There are two area dedicated to the 2D visualization. One is for the generatrix, the other one is for the directrix. </p>
 
-						<h2> Meridian space </h2>
+						<h2> Generatrix space </h2>
 							<img class="img-responsive insideH2" src="UserDocumentation/En/MeridianPanel.png" alt="Meridian space"/>
 
-						<h2> Curve of revolution space </h2>
+						<h2> Directrix space </h2>
 							<div class="insideH2">
-								<img class="img-responsive" src="UserDocumentation/En/RevolutionPanel.png" alt="Curve of revolution space"/>
+								<img class="img-responsive" src="UserDocumentation/RevolutionPanel.png" alt="Curve of revolution space"/>
 
 								<p> Theses area are composed of 3 parts : The curve, The parameters, The type of curve </p>
 							</div>
 						<hr/>
 						<h2 id="CurveDisplay"> Curve </h2>
 							<div class="insideH2">
-								<img class="img-responsive" src="UserDocumentation/En/CurvePanel.png" alt="Curve area" />
+								<img class="img-responsive" src="UserDocumentation/CurvePanel.png" alt="Curve area" />
 								<p>This area is used to display the 2D representation of the curve you want to use.<br/>
-								For the curve of revolution, the range are limited to -1, 1.<br/>
-								For the meridian, the range always start at 0. The maximum range is automatically computed based on the curve.<br/><br/>
+								For the directrix, the range are limited to -1, 1.<br/>
+								For the generatrix, the range always start at 0. The maximum range is automatically computed based on the curve.<br/><br/>
 
-								When the Hand Free Drawing mode is used (see Type of curve), it is possible to draw on this area.</p>
+								When the Hand Free Drawing mode is used (see <a href="#TypeCurve">Type of curve</a>), it is possible to draw on this area.</p>
 							</div>
 						<h2 id="Parameters"> Parameters </h2>
 							<div class="insideH2">
 								<img class="img-responsive" src="UserDocumentation/ParametersPanel.png" alt="Parameter area" />
-								<p>This area is used to display the parameters associated to the curve shown in the Curve area (see Curve).<br/>
+								<p>This area is used to display the parameters associated to the curve shown in the Curve area (see <a href="#CurveDisplay">Curve</a>).<br/>
 								By moving the sliders, it is possible to modify the corresponding parameter on the curve.</p>
 							</div>
 						<h2 id="TypeCurve"> Type of curve </h2>
@@ -171,19 +171,19 @@
 									<li id="Predefined"><p>Predefined type</p> <br/>
 										<div>
 											<img class="img-responsive" src="UserDocumentation/En/ListCurves.png" alt="Predefined curves" />
-											<p>This type of curve is available for both, the meridians and the curves of revolution <br/></p>
+											<p>This type of curve is available for both, the generatrix and the directrix <br/></p>
 										</div>
 									</li>
 
 									<li id="HandFree"> <p>Free hand type</p> <br/>
 										<div>
 											<img class="img-responsive" src="UserDocumentation/En/HandFreeCurve.png" alt="Hand free curves" />
-											<p>This type of curve is only available for the meridian <br/>
+											<p>This type of curve is only available for the generatrix <br/>
 												It allows you to draw your own curve. By clicking at two different places on the canvas, the application will create a segment from those points.<br/>
 												By holding down the left mouse button, you'll be able to freely draw on the canvas.<br/><br/>
-												You can clear the canvas by pressing the "Effacer" button.<br/>
+												You can clear the canvas by pressing the "Clear" button.<br/>
 												<img src="UserDocumentation/En/ClearCurve.png" alt="Close the curve" /> <br/><br/>
-												It is also possible to close your curve by pressing the "Fermer la courbe" button.<br/>
+												It is also possible to close your curve by pressing the "Close the curve" button.<br/>
 												<img src="UserDocumentation/En/CloseCurve.png" alt="Close the curve" />
 											</p>
 										</div>
@@ -191,11 +191,11 @@
 
 									<li id="Formula"><p>Formula type</p><br/>
 										<div>
-											<img class="img-responsive" src="UserDocumentation/En/FormulaCurve.png" alt="Formula curves" />
-											<p>This type of curve is available for both, the meridian and the curves of revolution.<br/>
+											<img class="img-responsive" src="UserDocumentation/FormulaCurve.png" alt="Formula curves" />
+											<p>This type of curve is available for both, the generatrix and the directrix.<br/>
 												It allows you to type an equation for a curve to draw. <br/><br/>
-												The meridian only accept equation of form F(x)= x. <br/>
-												The curve of revolution only accept of type F(x,y)= x + y. <br/>
+												The generatrix only accept equation of form y = f(x). <br/>
+												The directrix only accept equation of type f(x,y) = 0. <br/>
 											</p>
 										</div>
 									</li>
@@ -205,21 +205,21 @@
 				<h1 id="3dSpace"> 3D Space </h1>
 					<div class="insideH1">
 						<img class="img-responsive" src="UserDocumentation/En/3DPanel.png" alt="3D space"/>
-						
+
 						<h2 id="3dVisualisation"> 3D Visualization</h2>
 							<div class="insideH2">
 								<h3 id="Generation"> Generation </h3>
 									<div class="insideH3">
 										<img class="img-responsive" src="UserDocumentation/En/Generation.png" alt="Generation"/>
 										<p >There are two types of generation available.<br/>
-											Generation use (faster algorithm to model the surface using incremental algorithm).<br/>
-											Non optimized generation (slower algorithm testing every pixel). <br/>
-											Be aware that if your meridian is not connexe the faster algorithm may not generate all the voxels.
+											"Generate" (faster algorithm to model the surface using incremental algorithm).<br/>
+											"Generate (brute-force)" (slower algorithm testing every voxel). <br/>
+											Be aware that if your generatrix is not connected the faster algorithm may not generate all the voxels.
 										</p>
 									</div>
 							</div>
 						<br/>
-						<p>The resulting surface from the meridian applied to the curve of revolution is displayed on the 3D area. <br/>
+						<p>The resulting surface from the generatrix applied to the directrix is displayed on the 3D area. <br/>
 							There is a bounding box representing the limits of the space (the dimension) and a 3D landmark. <br/>
 						</p>
 						<img class="img-responsive" src="UserDocumentation/3Darea.png" alt="3D area"/>
@@ -232,7 +232,7 @@
 										<div>
 											<p>When right-clicking on a voxel, the application will color the generatrix and the directrix.<br/>
 												The blue voxels are the one on the directrix of the surface.<br/>
-												The greend and red are on the generatrix.<br/>
+												The green and red are on the generatrix.<br/>
 												A right-click outside of the surface will deselect the voxel.
 											</p>
 											<img class="img-responsive" src="UserDocumentation/Select3D.png" alt="3D selection"/>
@@ -243,10 +243,14 @@
 											<p>By holding down the left mouse button, it is possible to rotate the camera around the surface.<br/>
 											By holding down the middle mouse button, it is possible to move the camera.</p>
 										</div>
+										<div>
+											<img class="img-responsive" src="UserDocumentation/EN/ResetCam.png" alt="Reset the camera" />
+											<p> It is possible to reset the position of the camera to its initial position.
+										</div>
 									</li id="3DDimensions">
 									<li><p>3d Space dimension</p>
 										<div>
-											<img class="img-responsive" src="UserDocumentation/En/3Ddimensions.png" alt="3D dimensions"/>
+											<img class="img-responsive" src="UserDocumentation/3Ddimensions.png" alt="3D dimensions"/>
 											<p>It is possible to modify the dimension of the 3D space.<br/>
 											Either by typing directly the values or by cliking the arrows. The maximum value for a dimension is 256.</p>
 										</div>
@@ -261,18 +265,16 @@
 										<div>
 											<img class="img-responsive" src="UserDocumentation/En/VoxelSize.png" alt="Voxel size" />
 											<p>It is possible to modify the size of the voxels either by typing directly the values or by clicking the arrows.<br/>
-											The values must be between 0 and 1.</p>
+											The values must be between 0 and 2.</p>
 										</div>
 									</li>
-									
-									<p id="Validation">To validate the modifications, press enter in a field modified or click on the validate button.</p>
-									<img class="img-responsive" src="UserDocumentation/En/Validate.png" alt="Validate" />
-									
+
 									<li id="MultiSlices"> <p>Multislices</p>
 										<div>
 											<img class="img-responsive" src="UserDocumentation/En/MultiSlice.png" alt="Multi slices" />
 											<p>It is possible to slice the surface along an axis (X,Y or Z).<br/>
-												By moving the slider or typing a value in the corresponding field, the surface is sliced.
+												By moving the slider or typing a value in the corresponding field, the surface is sliced.<br/>
+												The Reset button replace the slider to their maximum range.
 											</p>
 										</div>
 									</li>
@@ -284,7 +286,7 @@
 					<div class="insideH1">
 						<img class="img-responsive" src="UserDocumentation/En/Menus.png" alt="Menus" />
 						<p> The application offers multiple menus actions.</p>
-						
+
 						<h2 id="File">File menu</h2>
 							<div class="insideH2">
 								<img class="img-responsive" src="UserDocumentation/En/Filemenu.png" alt="File menu"/>
@@ -320,7 +322,7 @@
 												<img class="img-responsive" src="UserDocumentation/OrthographicCamera.png" alt="Orthographic view" />
 											</div>
 										</div>
-									</div>									
+									</div>
 								<h3 id="Color">Color</h3>
 									<div class="insideH3">
 										<p>By clicking on this item, the 3D view will switch between the normal view and a colored one. </p>
@@ -332,7 +334,7 @@
 												<img class="img-responsive" src="UserDocumentation/ColorRVB.png" alt="RVB surface" />
 											</div>
 										</div>
-										
+
 									</div>
 								<h3 id="Camera">Camera</h3>
 									<div class="insideH3">
@@ -349,7 +351,7 @@
 										<p>These two items allows to hide/show the bounding box or the repere.</p>
 									</div>
 							</div>
-						<h2 id="Curve">Curve</h2>
+						<h2 id="Curve">Curves</h2>
 							<div class="insideH2">
 								<img class="img-responsive" src="UserDocumentation/En/Curves.png" alt="Curves menu"/>
 								<p>These menu items are linked to the tools of the corresponding panels.<br/>
@@ -392,9 +394,9 @@
 									</div>
 								<h3 id="#SliceRemove">Deselect slices</h3>
 									<div class="insideH3">
-										<p>it is possible to Deselect the slices by clicking on the item from the menu.</p>
+										<p>It is possible to Deselect the slices by clicking on the item from the menu.</p>
 									</div>
-									
+
 							</div>
 						<h2 id="Export">Export</h2>
 							<div class="insideH2">
@@ -409,13 +411,13 @@
 										<img class="img-responsive" src="UserDocumentation/En/Export3D.png" alt="Export x3d" />
 										<p>The application propose to export the surface to different 3D formats.
 											<ul>
-												<li><p>x3d</p>
+												<li><p>X3D</p>
 													<div>
 														<p>The application propose to export to the x3d format so it can be open by most of the 3d modeller.<br/>
 														As it render each voxels, the modellers struggle to open the file (it might take a lot of time).</p>
 													</div>
 												</li>
-												<li><p>stl</p>
+												<li><p>STL</p>
 													<div>
 														<p>The application propose to export the surface to stl format so that it can be 3D printed.<br/></p>
 													</div>
@@ -424,18 +426,18 @@
 										</p>
 									</div>
 							</div>
-						<h2 id="Translate">EN/FR translation</h2>
+						<h2 id="Translate">En/Fr</h2>
 							<div class="insideH2">
 								<p>The application is translated in English and French.<br/>
-									It is possible to switch to a language by clicking on it.
+									It is possible to switch to a language by clicking on En/Fr.
 								</p>
 								<img class="img-responsive" src="UserDocumentation/Translate.png" alt="Translation"/>
 							</div>
 					</div>
 			</div>
 		</div>
-	
+
 	</div>
 	</body>
 </html>
-	
+

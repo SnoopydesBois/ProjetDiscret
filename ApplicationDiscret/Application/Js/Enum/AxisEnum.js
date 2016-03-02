@@ -46,13 +46,14 @@
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
+
 /**
  * @enum
  * Enumeration of axis.
  * /!\ CAUTION: value aren't number ! Each axis is an object which contain a
  * 'colorOffset' attributes. TODO vérifier anglais
  */
-var AxisEnum = Object.freeze ({
+var AxisEnum = {
 	/// values
 	X : {colorOffset :  0.0},
 	Y : {colorOffset : -0.1},
@@ -81,4 +82,9 @@ var AxisEnum = Object.freeze ({
 			default : return null; break;
 		}
 	}
-});
+};
+
+
+
+if (Object.freeze)
+	AxisEnum = Object.freeze (AxisEnum);

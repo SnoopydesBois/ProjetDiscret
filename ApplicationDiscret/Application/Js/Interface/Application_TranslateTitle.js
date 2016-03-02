@@ -120,7 +120,7 @@ translateTitle['fr']['meridianFormulaInputMenu'] = 'Rentrer une formule pour la 
 translateTitle['fr']['revolFormulaInput'] = 'Rentrer une formule pour la courbe de révolution';
 
 
-translateTitle['fr']['m35'] = 'Fermer une courbe';
+translateTitle['fr']['m35'] = 'Dessin à main levée';
 translateTitle['fr']['m351'] = 'Dessiner une courbe';
 translateTitle['fr']['m352'] = 'Effacer la courbe';
 translateTitle['fr']['m353'] = 'Fermer une courbe';

@@ -30,7 +30,6 @@
 		<script type="text/javascript" src="Js/Libraries/jszip.js"></script>
 		<script type="text/javascript" src="Js/Libraries/saveSvgAsPng.js"></script>
 		<script type="text/javascript" src="Js/Libraries/FileSaver.js"></script>
-		<script type="text/javascript" src="Js/Libraries/canvas2image.js"></script>
 		<script type="text/javascript" src="Js/Libraries/webgl-debug.js"></script>
 
 		<script type="text/javascript" src="Js/Objects/Range.js"></script>
@@ -461,39 +460,71 @@
 
 			<div id="surfaceView" class="viewer">
 				<div id="surfaceParam" class="paramPanel">
-					<button id="generate1" onclick="appli.generateAndDraw (0)" class="tr">Générer</button>
-					<button id="generate2" onclick="appli.generateAndDraw (1)" class="tr">Génération non optimisée</button>
+					<button id="generate1" class="tr"
+						onclick="appli.generateAndDraw (0)">Générer</button>
+					<button id="generate2" class="tr"
+						onclick="appli.generateAndDraw (1)">Génération (brute-force)</button>
+					
+					<hr/>
+					
+					<div id="connexityChoiceParam" class="wrapper">
+						<label id="m341" class="tr inlineTitle"
+							for="connexityChoice">Connexité&nbsp;:</label>
+						<select id="connexityChoice" name="connexityChoice"
+							onchange="appli.surfaceView.unprepare ();
+								appli.surfaceView.show ()">
+							<option value="1">C-26</option>
+							<option value="2">C-18</option>
+							<option value="4">C-6</option>
+							<option value="3">C-18 renforcé</option>
+							<option value="7">C-6 renforcé</option>
+						</select>
+					</div>
+
+					<div id="voxelRadiusParam" class="wrapper">
+						<label id="voxelSize" class="tr inlineTitle"
+							for="voxelRadius">Taille des voxels&nbsp;:</label>
+						<input id="voxelRadius"	type="number" name="voxelRadius"
+							value="1" min="0" max="2" step="0.05"
+							onchange="appli.changeVoxelSize (parseFloat (this.value))"/>
+					</div>
 					
 					<hr/>
 					
 					<div class="wrapper">
-						<label class="title" id="xSlice">Coupe en X</label><br/>
+						<label class="tr title" id="xSlice">Coupe en X</label><br/>
 						<div class="doubleSliders" name="X" id="slider-rangeX"></div>
 						<input type="text" id="amountMinX"
-							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeX', true, '#amountMinX')">
+							onkeypress="if (event.keyCode == 13)
+								appli.changeValueSlider ('#slider-rangeX', true, '#amountMinX')">
 						-
 						<input type="text" id="amountMaxX"
-							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeX', true, '#amountMaxX')">
+							onkeypress="if (event.keyCode == 13)
+								appli.changeValueSlider ('#slider-rangeX', true, '#amountMaxX')">
 					</div>
 					
 					<div class="wrapper">
-						<label class="title" id="ySlice">Coupe en Y</label><br/>
+						<label class="tr title" id="ySlice">Coupe en Y</label><br/>
 						<div class="doubleSliders" name="Y" id="slider-rangeY"></div>
 						<input type="text" id="amountMinY"
-							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeY', true, '#amountMinY')">
+							onkeypress="if (event.keyCode == 13)
+								appli.changeValueSlider ('#slider-rangeY', true, '#amountMinY')">
 						-
 						<input type="text" id="amountMaxY"
-							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeY', true, '#amountMaxY')">
+							onkeypress="if (event.keyCode == 13)
+								appli.changeValueSlider ('#slider-rangeY', true, '#amountMaxY')">
 					</div>
 					
 					<div class="wrapper">
-						<label class="title" id="zSlice">Coupe en Z</label><br/>
+						<label class="tr title" id="zSlice">Coupe en Z</label><br/>
 						<div class="doubleSliders" name="Z" id="slider-rangeZ"></div>
 						<input type="text" id="amountMinZ"
-							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeZ', true, '#amountMinZ')">
+							onkeypress="if (event.keyCode == 13)
+								appli.changeValueSlider ('#slider-rangeZ', true, '#amountMinZ')">
 						-
 						<input type="text" id="amountMaxZ"
-							onkeypress="if (event.keyCode == 13) appli.changeValueSlider ('#slider-rangeZ', true, '#amountMaxZ')">
+							onkeypress="if (event.keyCode == 13)
+								appli.changeValueSlider ('#slider-rangeZ', true, '#amountMaxZ')">
 					</div>
 					
 					<div class="wrapper">
@@ -529,23 +560,6 @@
 							max="256" onchange="appli.changeDimension ()"/>
 					</div>
 					
-					<div class="wrapper">
-						<label id="m341" class="tr" for="connexityChoice">Connexité&nbsp;:</label>
-						<select id="connexityChoice" name="connexityChoice"
-							onchange="appli.surfaceView.unprepare (); appli.surfaceView.show ()">
-							<option value="1">C-26</option>
-							<option value="2">C-18</option>
-							<option value="4">C-6</option>
-						</select>
-					</div>
-
-					<div class="wrapper">
-						<label id="voxelSize" class="tr" for="voxelRadius">Taille des voxels&nbsp;:</label>
-						<input id="voxelRadius" type="number" name="voxelRadius"
-							value="1" min="0" max="2" step="0.05"
-							onchange="appli.changeVoxelSize (parseFloat (this.value))"/>
-					</div>
-					<button id="a5" class="tr" onclick="appli.show (true)">Visualiser</button>
 				</div>
 			</div><!-- end #surfaceView -->
 
@@ -554,7 +568,59 @@
 <!-- End view -->
 <!--#########################################################################-->
 
-
+			<div id="notMozillaPopUp" class="popupMessage" style="display: none">
+				<div class="flexWrapper">
+					<p>
+						Il semble que vous n'utilisiez pas Mozilla Firefox.
+						Cette application a été spécialement développée pour Mozilla
+						Firefox (version 32 ou superieur). Il se peux que vous
+						rencontriez des problèmes si vous utilisez un autre
+						navigateur.
+						<br></br>
+						Il semble que vous n'utilisiez pas Mozilla Firefox.
+						Cette application a été spécialement développée pour Mozilla
+						Firefox (version 32 ou superieur). Il se peux que vous
+						rencontriez des problèmes si vous utilisez un autre
+						navigateur.
+					</p>
+					<p class="buttonBar">
+						<span id="verifNavOk" class="tr buttonLike"
+							onclick="this.parentNode.parentNode.style = 'display: none'"
+							>J'ai compris</span>
+						<a id="verifNavDownload" class="tr atr buttonLike"
+							href="https://www.mozilla.org/fr/firefox/new/"
+							target="_blank"
+							onclick="this.parentNode.parentNode.style = 'display: none'"
+							>Télécharger Mozilla Firefox</a>
+					</p>
+				</div>
+			</div>
+			
+			<div id="noWebGlPopUp" class="popupMessage" style="display: none">
+				<div class="flexWrapper">
+					<p>
+						Il semble que votre navigateur ne supporte pas WebGl.
+						<br/>
+						Vérifier vos paramètres ou télécharger Mozilla Firefox pour
+						utiliser cette application.
+						<br></br>
+						Il semble que votre navigateur ne supporte pas WebGl.
+						<br/>
+						Vérifier vos paramètres ou télécharger Mozilla Firefox pour
+						utiliser cette application.
+					</p>
+					<p class="buttonBar">
+<!--						<span id="verifNavOk" class="tr buttonLike"-->
+<!--							onclick="this.parentNode.parentNode.style = 'display: none'"-->
+<!--							>Retou</span>-->
+						<a id="verifNavDownload2" class="tr atr buttonLike"
+							href="https://www.mozilla.org/fr/firefox/new/"
+							target="_blank"
+							onclick="this.parentNode.parentNode.style = 'display: none'"
+							>Télécharger Mozilla Firefox</a>
+					</p>
+				</div>
+			</div>
 		</div><!-- #workspace -->
 
 

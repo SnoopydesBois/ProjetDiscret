@@ -15,15 +15,34 @@
 }
 
 
-#surfaceView .paramPanel input {
-    margin: 0;
-}
-
-
 #surfaceView .paramPanel label.title {
 	display: block;
 	text-align: center;
 	margin-top: 0.7em;
+}
+
+
+#surfaceView .paramPanel #connexityChoiceParam {
+	margin-bottom: 0.5em;
+}
+
+
+#surfaceView .paramPanel #connexityChoiceParam,
+#surfaceView .paramPanel #voxelRadiusParam {
+    text-align: center;
+}
+
+
+#surfaceView .paramPanel #voxelRadius {
+	width: 3em;
+}
+
+
+#surfaceView .optionPanel input[type=text],
+#surfaceView .optionPanel input[type=number],
+#surfaceView .paramPanel input[type=text],
+#surfaceView .paramPanel input[type=number] {
+    margin: 0;
 }
 
 
@@ -38,8 +57,9 @@
 }
 
 
-#surfaceParam input {
-	width: calc((100% - 2em) / 2);
+#surfaceParam input[type=text] {
+	width: calc(50% - 1em);
+	margin: 0.1em 0;
 }
 
 
@@ -72,21 +92,22 @@
 }
 
 
-.popupMessage {
+#surfaceView .popupMessage {
+	top: 2.1em;
+	left: 0;
+	width: 80%;
+	height: calc(100% - 2.1em);
 	background: rgba(192, 192, 192, 0.5) url("loading64.gif") no-repeat center;
 }
 
 
-.popupMessage p {
-	position: absolute;
-	top: calc(50% + 32px);
+#surfaceView .popupMessage p {
+    position: absolute;
 	width: 100%;
-	color: white;
-	text-shadow: 0px 0px 5px black;
-	font-family: "Liberation Sans", "Arial", sans-serif;
+    margin-top: 0;
+	top: calc(50% + 48px);
 	font-size: 3.5em;
-	text-align: center;
-	margin: 0;
+	text-shadow: 0 0 5px black;
 }
 
 
