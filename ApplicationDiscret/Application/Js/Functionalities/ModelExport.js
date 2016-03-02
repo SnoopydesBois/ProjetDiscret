@@ -304,7 +304,7 @@ ModelExport.prototype.getImg2DData = function(id, name){
  * @return {void}
  */
 ModelExport.prototype.export3DPng = function(surfaceView){
-	if(!(idSurface instanceof SurfaceView)){
+	if(!(surfaceView instanceof SurfaceViewer)){
 		throw "ModelExport.export3DPng.ErrorBadParameterType";
 	}
 	$('#download').attr('href', this.getImg3DData(this.idSurface, surfaceView));
@@ -320,7 +320,7 @@ ModelExport.prototype.export3DPng = function(surfaceView){
  * @return {String} the url to the canvas img
  */
 ModelExport.prototype.getImg3DData = function(id, surfaceView){
-	if(!((arguments, "string", SurfaceView))){
+	if(!((arguments, "string", SurfaceViewer))){
 		throw "ModelExport.getImg3DData.ErrorBadParameterType";
 	}
 
