@@ -15,7 +15,7 @@
 \input{macro.tex}
 
 
-\title[Livraison - Bilan]{Surfaces de r\'evolution discrètes}
+\title[Livraison - Bilan]{Surfaces de r\'evolution discr\`etes}
 \subtitle{Livraison - Bilan}
 \author[]{Zied \smallcaps{Ben} \smallcaps{Othmane} \\ Thomas \smallcaps{Benoist} \\ Adrien \smallcaps{Bisutti} \\ Lydie \smallcaps{Richaume}}
 \institute{Universit\'e de Poitiers}
@@ -37,7 +37,7 @@
 %%% MACRO %%%
 
 
-% Affichage du plan à chaque début de section
+% Affichage du plan \`a chaque d\'ebut de section
 \AtBeginSection[]{
 	\begin{frame}{Plan}
 	  	\tableofcontents[currentsection, hideothersubsections]
@@ -98,7 +98,7 @@
 % --- Contexte -----------------------------------------------------------------
 	\begin{frame}{\secname}
 		\begin{itemize}
-			\item Nouvel algorithme conçu par \'Eric \smallcaps{Andres} et Ga\"elle \smallcaps{Largeteau}-\smallcaps{Skapin} pour mod\'eliser des surfaces de r\'evolution discrètes.
+			\item Nouvel algorithme conçu par \'Eric \smallcaps{Andres} et Ga\"elle \smallcaps{Largeteau}-\smallcaps{Skapin} pour mod\'eliser des surfaces de r\'evolution discr\`etes.
 			\item Visualisation des r\'esultats avec Mathematica
 		\end{itemize}
 		\begin{figure}
@@ -116,67 +116,35 @@
 %===============================================================================
 
 
-\section{Planification}
+\section{Diagramme de Gantt}
 	
-	
-	\subsection{Diagramme de Gantt}
-	\begin{frame}{\subsecname}
+	\begin{frame}{\secname}
 		\begin{center}
-			\href{run:ImagesLivraison/Gantt_ProjetDiscretReference.gif}{Diagramme pr\'evisionnel}\\
+			\href{run:ImagesLivraison/Gantt_ProjetDiscretLivraison.gif}{Diagramme pr\'evisionnel}\\
 			\bigskip
-			\href{run:ImagesLivraison/Gantt_ProjetDiscretRealise.gif}{Diagramme r\'ealis\'e}
+			\href{run:ImagesLivraison/Gantt_ProjetDiscretSuiviLivraison.gif}{Diagramme r\'ealis\'e}
 		\end{center}
 	\end{frame}
 	
 	
-	\subsection{Livrables}
-	\begin{frame}{\subsecname}
-		\begin{center}
-		\small
-		{\renewcommand{\arraystretch}{1.3}
-		\begin{tabular}{|c|>{\raggedright}m{4,5cm}|c|c|}
-			\hline
-			\textbf{\No} & \textbf{Livrable}
-			& \textbf{Date pr\'evue} & \textbf{Date effective}\\
-			\hline
-			1 & R\'esultat de l'algorithme et interface & 23/12 
-			& 18/01\\
-			\hline
-			2 & Application minimale & 21/01 & 25/01\\
-			\hline
-			2\textsuperscript{bis} & Multicoupe et param\`etres & --- & 29/01\\
-			\hline
-			3 & Courbes avec param\`etres modifiables et trac\'e \`a main
-			lev\'ee & 29/01 & ---\\
-			\hline
-			4 & \'Equations et export & 19/02 & ---\\
-			\hline
-			5 & Application finale et documentation & 02/03 & ---\\
-			\hline
-		\end{tabular}}
-		\end{center}
-	\end{frame}
-
-
-
 %===============================================================================
 %	CAHIER DES CHARGES
 %===============================================================================
 
 
-\section{Fonctionnalités demandées}
+\section{Fonctionnalit\'es}
 
 % --- Surface ------------------------------------------------------------------
-	\subsection{Génération des surfaces}
+	\subsection{G\'en\'eration des surfaces}
 	\begin{frame}{\subsecname}
 		\vspace{2cm}
 	 	\begin{center}
 		{\renewcommand{\arraystretch}{1.3}
 		\begin{tabular}{|l|c|l}
 			\cline{1-2}
-			\textbf{Fonctionnalités} & \textbf{Niveau} &\\
+			\textbf{Fonctionnalit\'es} & \textbf{Niveau} &\\
 			\cline{1-2}
-			Génération de la surface & 1 & \Valid\\
+			G\'en\'eration de la surface & 1 & \Valid\\
 			\cline{1-2}
 			Diff\'erents algorithmes & 1 & \Valid\\
 			\cline{1-2}
@@ -196,13 +164,13 @@
 		{\renewcommand{\arraystretch}{1.3}
 		\begin{tabular}{|l|c|l}
 			\cline{1-2}
-			\textbf{Fonctionnalités} & \textbf{Niveau} &\\
+			\textbf{Fonctionnalit\'es} & \textbf{Niveau} &\\
 			\cline{1-2}
 			Affichage des courbes & 1 & \Valid\\
 			\cline{1-2}
 			Mode de selection des courbes & 2 & \Valid\\
 			\cline{1-2}
-			Liste de courbes prédéfinies & 2 & \Valid\\
+			Liste de courbes pr\'ed\'efinies & 2 & \Valid\\
 			\cline{1-2}
 			Dessin de la m\'eridienne & 2 & \Valid\\
 			\cline{1-2}
@@ -227,7 +195,7 @@
 		{\renewcommand{\arraystretch}{1.3}
 		\begin{tabular}{|l|c|l}
 			\cline{1-2}
-			\textbf{Fonctionnalités} & \textbf{Niveau} &\\
+			\textbf{Fonctionnalit\'es} & \textbf{Niveau} &\\
 			\cline{1-2}
 			Choix des dimensions & 2 & \Valid \Modified\\
 			\cline{1-2}
@@ -264,7 +232,7 @@
 		{\renewcommand{\arraystretch}{1.3}
 		\begin{tabular}{|l|c|l}
 			\cline{1-2}
-			\textbf{Fonctionnalités} & \textbf{Niveau} &\\
+			\textbf{Fonctionnalit\'es} & \textbf{Niveau} &\\
 			\cline{1-2}
 			Export 3D & 3 & \Valid\\
 			\cline{1-2}
@@ -292,13 +260,13 @@
 		{\renewcommand{\arraystretch}{1.3}
 		\begin{tabular}{|l|c|l}
 			\cline{1-2}
-			\textbf{Fonctionnalités} & \textbf{Niveau} &\\
+			\textbf{Fonctionnalit\'es} & \textbf{Niveau} &\\
 			\cline{1-2}
 			Aide utilisateur & 3 & \Valid \Modified\\
 			\cline{1-2}
 			Choix de la langue & 5 & \Valid\\
 			\cline{1-2}
-			Ajout courbes personnalisées & 5 & \NotCheck\\
+			Ajout courbes personnalis\'ees & 5 & \NotCheck\\
 			\cline{1-2}
 		\end{tabular}}
 		\end{center}
@@ -335,14 +303,14 @@
 
 % --- Rappel -------------------------------------------------------------------
 \begin{frame}{\secname}
-	\'Etat de la livraison
+	\'Etat de la livraison~:
 	\begin{itemize}
-		\item Fonctionnalités requises toutes implant\'ees
+		\item Fonctionnalit\'es requises toutes implant\'ees
 		\item Documentation technique non livr\'ee
 	\end{itemize}
 	
 	\bigskip
-	Perspective
+	\'Evolutions possibles~:
 	\begin{itemize}
 		\item Courbe de r\'evolution \`a main lev\'ee
 		\begin{itemize}
