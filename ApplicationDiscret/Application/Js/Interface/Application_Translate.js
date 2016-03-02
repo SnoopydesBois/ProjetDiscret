@@ -114,6 +114,10 @@ aLangKeys['en']['m51'] = 'Display Help';
 aLangKeys['en']['m52'] = 'About';
 
 
+aLangKeys['en']['c18reinfored'] = 'C-18 reinforced';
+aLangKeys['en']['c6reinfored'] = 'C-6 reinforced';
+
+
 /* Liste des paramétres méridienne anglais */
 aLangKeys['en']['mer3'] = 'Line';
 aLangKeys['en']['mer4'] = 'Sinusoid';
@@ -150,7 +154,7 @@ aLangKeys['en']['a9'] = 'Reset';
 aLangKeys['en']['a10'] = 'Reset the camera';
 
 aLangKeys['en']['popUpGen'] = 'Generation...';
-aLangKeys['en']['popUpGen'] = 'Abort...';
+aLangKeys['en']['popUpAbort'] = 'Abort...';
 
 
 /*Menu surface anglais*/
@@ -231,6 +235,9 @@ aLangKeys['fr']['m442'] = 'Impression X3D';
 aLangKeys['fr']['m5'] = 'Aide';
 aLangKeys['fr']['m51'] = 'Afficher aide';
 aLangKeys['fr']['m52'] = 'À propos';
+
+aLangKeys['fr']['c18reinfored'] = 'C-18 renforcé';
+aLangKeys['fr']['c6reinfored'] = 'C-6 renforcé';
 
 
 /* Liste des paramétres méridienne français */
