@@ -1,0 +1,18 @@
+Information compte gmail :
+compte gmail : projetdiscret@gmail.com
+mot de passe : projetdiscret@2016
+
+information hébergeur :
+hebergeur : 000webhost.com
+adresse mail :projetdiscret@gmail.com
+mot de passe :projetdiscret@2016
+
+FTP:
+FTP host name	projetdiscret.comlu.com
+FTP user name	a4920083
+FTP password	projetdiscret
+Folder to upload files	public_html
+Logiciel à télecharger : Filezilla
+
+www.projetdiscret.comlu.com
+
