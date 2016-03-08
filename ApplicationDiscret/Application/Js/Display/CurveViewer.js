@@ -9,8 +9,30 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/*
- * constructor ()
+/* CurveViewer (
+ *     canvas : HTMLCanvasElement, 
+ *     div : HTMLDivElement,
+ *     curveController : curveController
+ * )
+ * getController () : Controller2D
+ * show () : void
+ * draw () : void
+ * drawImplicit (obj : ImplicitCurve) : void
+ * drawExplicit (obj : ExplicitCurve) : 
+ * drawGrid () :
+ * drawFreeHand (curve) :
+ * drawSegment (pointA, pointB) :
+ * clearDraw () :
+ * resizeCanvas () :
+ * drawCanvasGrid () :
+ * onResize (event) :
+ * onMouseDown (event) :
+ * onMouseMove (event) :
+ * initCanvasEvent () :
+ * pixelToPoint (x, y) :
+ * pointToPixel (x, y) :
+ * addPoint (point) :
+ * closeCurve () :
  */
 
 
@@ -35,30 +57,38 @@ CurveViewer.prototype.constructor = CurveViewer;
 
 /**
  * @constructor
- * TODO
+ * Construct a CurveViewer with a div and a canvas for drawing and a controller.
+ * Call the super constructor with the canvas and the string "2d".
+ * @see {@link GenericViewer}
+ * 
  * @param {HTMLCanvasElement} canvas - The associated canvas.
+ * @param {HTMLDivElement} div - The associated div where the SVG curve is draw.
+ * @param {Controller2D} curveController - Controller of this view.
  */
 function CurveViewer (canvas, div, curveController) {
 	GenericViewer.call (this, canvas, "2d");
 
 	/**
-	 * {Controller2D} TODO
+	 * {Controller2D} Controller of this view. Must be a Controller2DMeridian if
+	 * you want to have the possibility to draw a curve. XXX vérifier anglais
 	 */
 	this.controller = curveController;
 
 	/**
 	 * {float[2]} Last point added to the curve. If -1, there are not last
-	 * point. TODO vérifier anglais
+	 * point. XXX vérifier anglais
 	 */
 	this.lastPoint = new Point (-1, -1);
 
 	/**
-	 * {HTMLInputElement} TODO
+	 * {HTMLInputElement} Input which containt the Y dimension of the 3D space.
+	 * Use to compute the x range of the drawn curve.
 	 */
 	this.xMaxInput = document.getElementById ("dimy");
 
 	/**
-	 * {HTMLInputElement} TODO
+	 * {HTMLInputElement} Input which containt the Z dimension of the 3D space.
+	 * Use to compute the y range of the drawn curve.
 	 */
 	this.yMaxInput = document.getElementById ("dimz");
 
@@ -68,12 +98,20 @@ function CurveViewer (canvas, div, curveController) {
 	this.MIN_DIST_BETWEEN_POINT = 0.5;
 
 	/**
-	 * TODO
+	 * {HTMLFormElement} Use 'value' attribute to identify the drawing mode (
+	 * i.e. primitive, free hand or formula).
+	 * @see {@link onMouseDown, onMouseMove}
 	 */
 	this.formModeSelected = document.forms["meridianType"];
-
+	// FIXME just adapt to the meridian
+	
+	/**
+	 * {HTMLDivElement} The div where the SVG (i.e. explicit and implicit curve)
+	 * is draw.
+	 */
 	this.displayDiv = div;
-
+	
+	
 	// initialisation
 	this.initCanvasEvent ();
 	this.resizeCanvas ();
@@ -166,8 +204,9 @@ CurveViewer.prototype.drawImplicit = function (obj) {
 		target: this.displayDiv,
 		width: $('#revolCanvas2').width (),
 		height: $('#revolCanvas2').height (),
-		xAxis: {domain: [-1, 1]},
-		yAxis: CurveViewer.computeYScale (width, height, new Range (-1, 1)),
+		xAxis: {domain: [-1.05, 1.05]},
+		yAxis: CurveViewer.computeYScale (
+			width, height, new Range (-1.05, 1.05)),
 		disableZoom: true,
 		data: [{
 			color: "black",
@@ -188,12 +227,12 @@ CurveViewer.prototype.drawImplicit = function (obj) {
  */
 CurveViewer.prototype.drawExplicit = function (obj) {
 	/// Let's render
-	maxX = document.getElementById ("dimx").value / 2;
+	maxX = document.getElementById ("dimy").value / 2;
 	maxY = document.getElementById ("dimz").value;
 	var min = Math.min (
 			$('#meridianCanvas2').width (),
 			$('#meridianCanvas2').height ()
-		);
+		); // FIXME just adapt to the meridian
 
 	functionPlot ({
 		target: this.displayDiv,
@@ -216,25 +255,26 @@ CurveViewer.prototype.drawExplicit = function (obj) {
 
 //==============================================================================
 /**
- * TODO
+ * Draw a grid on the div. In order to show it, a point is draw outside the
+ * grid.
  *
  * @return {void}
  */
 CurveViewer.prototype.drawGrid = function () {
-	maxX = document.getElementById ("dimx").value / 2;
+	maxX = document.getElementById ("dimy").value / 2;
 	maxY = document.getElementById ("dimz").value;
 	/// Let's render
 	var min = Math.min (
 			$('#meridianCanvas2').width (),
 			$('#meridianCanvas2').height ()
-		);
+		); // FIXME just adapt to the meridian
 
 	functionPlot ({
 		target: this.displayDiv,
 		width: min,
 		height: min,
 		xAxis: {domain: [0, maxX]},
-		yAxis: {domain: [0,maxY]},
+		yAxis: {domain: [0, maxY]},
 		disableZoom: true,
 		data: [{
 			x: '-5',
@@ -290,7 +330,6 @@ CurveViewer.prototype.drawFreeHand = function (curve) {
 CurveViewer.prototype.drawSegment = function (pointA, pointB) {
 	/// parameter verification
 	if (! checkType (arguments, Point, Point)) {
-		console.trace ();
 		throw "CurveViewer.drawSegment: one of parameter is not a Point";
 	}
 
@@ -328,7 +367,7 @@ CurveViewer.prototype.clearDraw = function () {
  * @return {void}
  */
 CurveViewer.prototype.resizeCanvas = function () {
-	var $ref = $("#meridianCanvas2");
+	var $ref = $("#meridianCanvas2"); // FIXME just adapt to the meridian
 	var max = Math.max (this.xMaxInput.value / 2, this.yMaxInput.value);
 	var canvas = this.glContext.canvas;
 
@@ -342,10 +381,10 @@ CurveViewer.prototype.resizeCanvas = function () {
 };
 
 
-
 //==============================================================================
 /**
- * Draw a grid on the canvas.
+ * Draw a grid on the canvas. FIXME doesn't work correctly, some lines are
+ * missing.
  *
  * @return {void}
  */
@@ -389,7 +428,8 @@ CurveViewer.prototype.onResize = function (event) {
 //==============================================================================
 /**
  * @override
- * Add a point to the curve and draw it on the screen.
+ * Add a point to the drawn curve and draw it on the screen. Only works if the
+ * drawing mode is free hand.
  *
  * @param {MouseEvent} event - The mouse event.
  *
@@ -397,7 +437,7 @@ CurveViewer.prototype.onResize = function (event) {
  */
 CurveViewer.prototype.onMouseDown = function (event) {
 	if ((event.buttons & 1) && this.formModeSelected["meridianTypeValue"].value
-		== "meridianFreeHand")
+		== "meridianFreeHand") // FIXME just adapt to the meridian
 	{
 		// if left button is pressed and the mode is "drawing mode"
 		var p = this.pixelToPoint (event.layerX, event.layerY);
@@ -409,7 +449,8 @@ CurveViewer.prototype.onMouseDown = function (event) {
 //==============================================================================
 /**
  * @override
- * Add a point to the curve and draw it on the screen.
+ * Add a point to the drawn curve and draw it on the screen. Only works if the
+ * drawing mode is free hand.
  *
  * @param {MouseEvent} event - The mouse event.
  *
@@ -417,7 +458,7 @@ CurveViewer.prototype.onMouseDown = function (event) {
  */
 CurveViewer.prototype.onMouseMove = function (event) {
 	if ((event.buttons & 1) && this.formModeSelected["meridianTypeValue"].value
-		== "meridianFreeHand")
+		== "meridianFreeHand") // FIXME just adapt to the meridian
 	{
 		// if left button is pressed and the mode is "drawing mode"
 		var p = this.pixelToPoint (event.layerX, event.layerY);
@@ -448,7 +489,7 @@ CurveViewer.prototype.initCanvasEvent = function () {
 //==============================================================================
 /**
  * Transform a pixel coordinates on the canvas into point of the curve. /!\ The
- * origine of point is the bottom left corner but pixel origine is the top left
+ * origin of point is the bottom left corner but pixel origin is the top left
  * corner. Top and bottom was inverted in this function.
  *
  * @param {float} x - Pixel X coordinate.
@@ -476,7 +517,7 @@ CurveViewer.prototype.pixelToPoint = function (x, y) {
 //==============================================================================
 /**
  * Transform a point of the curve into pixel coordinates on the canvas. /!\ The
- * origine of point is the bottom left corner but pixel origine is the top left
+ * origin of point is the bottom left corner but pixel origin is the top left
  * corner. Top and bottom was inverted in this function.
  *
  * @param {float} x - Point X coordinate.
@@ -534,20 +575,21 @@ CurveViewer.prototype.addPoint = function (point) {
 //==============================================================================
 /**
  * @static
- * TODO
+ * Compute the Y range of a curve with its X range.
  *
- * @param {int} width - .
- * @param {int} height - .
- * @param {Range} xRange - .
+ * @param {int} width - Width in pixel of the element where the curve is
+ * display.
+ * @param {int} height - Height in pixel of the element where the curve is
+ * display.
+ * @param {Range} xRange - X range of the curve.
  *
- * @return {int[2]}
+ * @return {int[2]} Y range of the curve.
  */
 CurveViewer.computeYScale = function (width, height, xRange) {
-	var xDiff = xRange.length; /// XXX what ?!?
+	var xDiff = xRange.length();
 	var yDiff = height * xDiff / width;
 	return [-yDiff / 2, yDiff / 2];
 };
-
 
 
 //==============================================================================
@@ -563,3 +605,5 @@ CurveViewer.prototype.closeCurve = function () {
 		this.lastPoint = addedPoint;
 	}
 };
+
+

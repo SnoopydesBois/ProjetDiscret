@@ -127,22 +127,6 @@ Application.prototype.changeRevol = function (name) {
 //==============================================================================
 /**
  * TODO
- *
- * @param {} name - .
- */
-Application.prototype.getAllParameters = function (name) {
-	if (name === 'meridian') {
-		this.meridianController.getAllParameters ();
-	}
-	else if (name === 'revolution') {
-		this.revolController.getAllParameters ();
-	}
-};
-
-
-//==============================================================================
-/**
- * TODO
  */
 Application.prototype.changeMeridianMode = function () {
 	var mode = $('#meridianType :radio:checked').attr ('id');
