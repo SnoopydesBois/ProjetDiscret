@@ -10,7 +10,7 @@
 
 
 /* CurveViewer (
- *     canvas : HTMLCanvasElement, 
+ *     canvas : HTMLCanvasElement,
  *     div : HTMLDivElement,
  *     curveController : curveController
  * )
@@ -18,21 +18,22 @@
  * show () : void
  * draw () : void
  * drawImplicit (obj : ImplicitCurve) : void
- * drawExplicit (obj : ExplicitCurve) : 
- * drawGrid () :
- * drawFreeHand (curve) :
- * drawSegment (pointA, pointB) :
- * clearDraw () :
- * resizeCanvas () :
- * drawCanvasGrid () :
- * onResize (event) :
- * onMouseDown (event) :
- * onMouseMove (event) :
- * initCanvasEvent () :
- * pixelToPoint (x, y) :
- * pointToPixel (x, y) :
- * addPoint (point) :
- * closeCurve () :
+ * drawExplicit (obj : ExplicitCurve) : void
+ * drawGrid () : void
+ * drawFreeHand (curve : DrawnCurve) : void
+ * drawSegment (pointA : Point, pointB : Point) : void
+ * clearDraw () : void
+ * resizeCanvas () : void
+ * drawCanvasGrid () : void
+ * onResize (event : MouseEvent) : void
+ * onMouseDown (event : MouseEvent) : void
+ * onMouseMove (event : MouseEvent) : void
+ * initCanvasEvent () : void
+ * pixelToPoint (x : float, y : float) : Point
+ * pointToPixel (x : float, y : float) : Point
+ * addPoint (point : Point) : boolean
+ * computeYScale (width : int, height : int, xRange : Range) : int[2]
+ * closeCurve () : void
  */
 
 
@@ -595,7 +596,7 @@ CurveViewer.computeYScale = function (width, height, xRange) {
 //==============================================================================
 /**
  * Closes the current drawn curve.
- *
+ * 
  * @return {void}
  */
 CurveViewer.prototype.closeCurve = function () {
