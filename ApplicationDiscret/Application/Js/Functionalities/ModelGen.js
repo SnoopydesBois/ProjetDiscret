@@ -292,19 +292,7 @@ ModelGen.prototype.isSelectedVoxel = function (position) {
 		throw "ModelGen.isSelectedVoxel: the surface is not generated";
 	}
 
-	return this.surface.getSelectedVoxel().getCoordinates().equals (position);
+	return this.surface.getSelectedVoxel ().getCoordinates ().equals (position);
 };
-
-
-//==============================================================================
-/**
- * TODO description
- */
-ModelGen.prototype.newSurface = function (dimension) {
-	this.dimension = new Vector (dimension);
-	this.surface = new Surface (this.dimension);
-	return this.surface;
-};
-
 
 

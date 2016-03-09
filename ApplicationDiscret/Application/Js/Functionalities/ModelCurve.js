@@ -196,11 +196,11 @@ ModelCurve.prototype.getActiveCurve = function () {
 
 //==============================================================================
 /**
- * @param {String} name - The name of the parameter
- * @return {Range} The range of the parameter
+ * @param {String} name - The name of the parameter.
+ * @return {Range} The range of the parameter.
  */
 ModelCurve.prototype.getParametersRange = function (name) {
-	if(typeof name !== "string"){
+	if (typeof name !== "string") {
 		throw "ModelCurve.getParametersRange.ErrorParameterType";
 	}
 
@@ -210,7 +210,7 @@ ModelCurve.prototype.getParametersRange = function (name) {
 
 //==============================================================================
 /**
- * @return {Equation} The equation of the active curve
+ * @return {Equation} The equation of the active curve.
  */
 ModelCurve.prototype.getEquation = function () {
 	return this.activeCurve.getEquation ();
@@ -219,16 +219,17 @@ ModelCurve.prototype.getEquation = function () {
 
 //==============================================================================
 /**
- * @return {String} The string corresponding to the current equation (without parameters)
+ * @return {String} The string corresponding to the current equation (without
+ * parameters).
  */
-ModelCurve.prototype.getEquationNoParameter = function(){
-	return this.activeCurve.getEquationNoParameter();
+ModelCurve.prototype.getEquationNoParameter = function () {
+	return this.activeCurve.getEquationNoParameter ();
 };
 
 
 //==============================================================================
 /**
- * @return {Range} the image range of the curve.
+ * @return {Range} The image range of the curve.
  */
 ModelCurve.prototype.getImage = function () {
 	return this.image;

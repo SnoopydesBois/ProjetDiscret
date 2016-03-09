@@ -110,15 +110,6 @@ function Controller3D (dimension) {
 
 //==============================================================================
 /**
- * return {void}
- */
-Controller3D.prototype.newSurface = function () {
-	this.modelGen.newSurface (this.getDimension ());
-};
-
-
-//==============================================================================
-/**
  * Function that start the generation of the surface from the meridian and the
  * curbe of revolution.
  * 

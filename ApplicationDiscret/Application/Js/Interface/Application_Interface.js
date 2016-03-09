@@ -91,15 +91,6 @@ Application.prototype.resizeInterface = function () {
 /**
  * TODO
  */
-Application.prototype.getMeridianCurveName = function () {
-	return $("listMeridians");
-};
-
-
-//==============================================================================
-/**
- * TODO
- */
 Application.prototype.changeValueSlider = function (idSlider, draw) {
 	var slider, arg1, arg2;
 	switch (arguments.length) {

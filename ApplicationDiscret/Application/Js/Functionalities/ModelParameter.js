@@ -73,7 +73,13 @@ function ModelParameter () {
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Mutator
+//##############################################################################
+
+
+
 /**
  * 
  * @param {Curve} curve - The curve which parameters are modified.
@@ -85,16 +91,22 @@ ModelParameter.prototype.setCurve = function (curve) {
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Curve modifier
+//##############################################################################
+
+
+
 /**
- * 
+ * Set a value to a parameter. 
  * @param {String} parameter - The name of the parameter to modify.
  * @param {Number} value - The value of the parameter to set.
  * 
  * @return {void}
  */
 ModelParameter.prototype.setParameter = function (parameter, value) {
-	this.curve.setParameter(parameter, value);
+	this.curve.setParameter (parameter, value);
 };
 
 
@@ -105,9 +117,10 @@ ModelParameter.prototype.setParameter = function (parameter, value) {
  * @return {Map<String, Number>} A map composed of the name of a parameter (the
  * key) and its value (the value).
  */
-ModelParameter.prototype.getAllParameters = function(){
-	return this.curve.getAllParameters();
+ModelParameter.prototype.getAllParameters = function () {
+	return this.curve.getAllParameters ();
 };
+
 
 //==============================================================================
 /**
@@ -115,6 +128,8 @@ ModelParameter.prototype.getAllParameters = function(){
  * @param {String} name - The name of the parameter
  * @return {Number} The value of the named parameter
  */
-ModelParameter.prototype.getParameter = function(name){
-	return this.curve.getParameter(name);
+ModelParameter.prototype.getParameter = function (name) {
+	return this.curve.getParameter (name);
 };
+
+
