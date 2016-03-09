@@ -74,29 +74,30 @@ function Application () {
 
 		// Licence
 
-	/*
-	console.log ('%c©2015 : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl\n'
+
+	console.log ('%c©2015 : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, '
+	+'LAURET Karl\n'
 	+'%c\n'
 	+'benoist.thomas@hotmail.fr\n'
 	+'biscui_86@hotmail.fr\n'
 	+'tanguy.desplebain@gmail.com\n'
 	+'lauret.karl@hotmail.fr\n'
 	+'%c\n'
-	+'Ce logiciel est un programme informatique servant à modéliser des'
+	+'Ce logiciel est un programme informatique servant à modéliser des '
 	+'structures 3D voxellisées.\n'
 	+'\n'
-	+'Ce logiciel est régi par la licence CeCILL soumise au droit français et'
-	+'respectant les principes de diffusion des logiciels libres.\nVous pouvez'
-	+'utiliser, modifier et/ou redistribuer ce programme sous les conditions'
-	+'de la licence CeCILL telle que diffusée par le CEA, le CNRS et l\'INRIA'
+	+'Ce logiciel est régi par la licence CeCILL soumise au droit français et '
+	+'respectant les principes de diffusion des logiciels libres.\nVous pouvez '
+	+'utiliser, modifier et/ou redistribuer ce programme sous les conditions '
+	+'de la licence CeCILL telle que diffusée par le CEA, le CNRS et l\'INRIA '
 	+'sur le site %c"http://www.cecill.info"%c.\n'
 	+'\n'
-	+'En contrepartie de l\'accessibilité au code source et des droits de copie,'
-	+'de modification et de redistribution accordés par cette licence, il n\'est'
-	+'offert aux utilisateurs qu\'une garantie limitée.\nPour les mêmes raisons,'
-	+'seule une responsabilité restreinte pèse sur l\'auteur du programme, le'
-	+'titulaire des droits patrimoniaux et les concédants successifs.\n'
-	+'\n'
+	+'En contrepartie de l\'accessibilité au code source et des droits de copie'
+	+', de modification et de redistribution accordés par cette licence, il n\''
+	+'est offert aux utilisateurs qu\'une garantie limitée.\nPour les mêmes '
+	+'raisons, seule une responsabilité restreinte pèse sur l\'auteur du '
+	+'programme, le titulaire des droits patrimoniaux et les concédants '
+	+'successifs.\n\n'
 	+'A cet égard  l\'attention de l\'utilisateur est attirée sur les risques'
 	+'associés au chargement, à l\'utilisation, à la modification et/ou au'
 	+'développement et à la reproduction du logiciel par l\'utilisateur étant\n'
@@ -105,8 +106,8 @@ function Application () {
 	+'avertis possédant  des  connaissances  informatiques approfondies.\nLes'
 	+'utilisateurs sont donc invités à charger  et  tester  l\'adéquation  du'
 	+'logiciel à leurs besoins dans des conditions permettant d\'assurer la'
-	+'sécurité de leurs systèmes et ou de leurs données et, plus généralement,\n'
-	+'à l\'utiliser et l\'exploiter dans les mêmes conditions de sécurité.\n'
+	+'sécurité de leurs systèmes et ou de leurs données et, plus généralement,'
+	+'\nà l\'utiliser et l\'exploiter dans les mêmes conditions de sécurité.\n'
 	+'\n'
 	+'Le fait que vous puissiez accéder à cet en-tête signifie que vous avez'
 	+'pris connaissance de la licence CeCILL, et que vous en avez accepté les'
@@ -116,11 +117,13 @@ function Application () {
 	, 'color: #FF0000; font-weight:bold',
 	'color: #FF0000; text-decoration: underline', 'color: #FF0000',
 	'color: #FF0000; text-decoration: underline', 'color: #FF0000');
-	*/
 
 
 
-		/// Surface ///
+		  ///////////////
+		 /// Surface ///
+		///////////////
+
 
 	/**
 	 * {SurfaceViewer} TODO
@@ -132,10 +135,13 @@ function Application () {
 	/**
 	 * {Controller3D} TODO
 	 */
-	this.surfaceController = new Controller3D (new Vector (31, 31, 31));
+	this.surfaceController = new Controller3D (new Vector (51, 51, 51));
 
 
-		/// Meridian ///
+
+		  ////////////////
+		 /// Meridian ///
+		////////////////
 
 
 	/**
@@ -171,7 +177,10 @@ function Application () {
 	this.getRangeMeridian = null;
 
 
-		/// Revolution ///
+
+		  //////////////////
+		 /// Revolution ///
+		//////////////////
 
 
 	/**
@@ -207,7 +216,10 @@ function Application () {
 	this.getRangeRevolution = null;
 
 
-		/// Other ///
+
+		  /////////////
+		 /// Other ///
+		/////////////
 
 
 	/**
@@ -220,78 +232,12 @@ function Application () {
 	 * {String} The default message in the state bar.
 	 */
 	this.defaultMessage = "";
+	
+	/**
+	 * {int} Id return by 'setTimeout' for the voxel size trigger.
+	 */
+	this.voxelSizeTriggerId;
+	
 }
 
 
-// FIXME virer les méthodes suivantes de ce fichier
-//==============================================================================
-/**
- * This function calls itself again every second in a different thread until the
- * computation is finished. Then it redraws the scene.
- *
- * @return {void}
- */
-Application.prototype.computationFinished = function () {
-	if (this.surfaceController.newVoxels ()) {
-		//this.surfaceController.voxelsRead();
-		//this.surfaceView.show ();
-	}
-	if (! this.surfaceController.isAlgoFinished ()) {
-		setTimeout (this.computationFinished.bind (this), 1000);
-	}
-	else {
-		if(this.surfaceController.isAlgoFinished () != "error") {
-			this.validMessage ("Finished", 0);
-		}
-		document.getElementById ("generate1").disabled = false;
-		document.getElementById ("generate2").disabled = false;
-		this.stopLoading ();
-		this.surfaceView.show (true);
-	}
-};
-
-
-//==============================================================================
-/**
- * This function is called by the generate button. Calls the algorithm and draws
- * the resulting surface.
- *
- * @return {void}
- */
-Application.prototype.generateAndDraw = function (mode) {
-	document.getElementById ("generate1").disabled = true;
-	document.getElementById ("generate2").disabled = true;
-	this.showMessage ("Computing...", 0, "#04E");
-	var dimX = document.getElementById ("dimx").value;
-	var dimY = document.getElementById ("dimy").value;
-	var dimZ = document.getElementById ("dimz").value;
-
-
-	this.surfaceController.setDimension ([
-		dimX, dimY, dimZ
-	]);
-	this.surfaceView.container.getObjectByName ("boundingBox").setDimension ([
-		dimX, dimY, dimZ
-	]);
-	try {
-		this.surfaceController.generate (mode);
-	}
-	catch (e) {
-		this.alertMessage ("Aborted", 10000);
-		this.abort ();
-	}
-	this.surfaceRenderer = new SurfaceRenderer (
-		this.surfaceController,
-		this.surfaceView.getGLContext ()
-	);
-	this.surfaceView.container.removeObjectByName (
-		SurfaceRenderer.getLastSurfaceName ()
-	);
-	this.surfaceView.container.addObject (this.surfaceRenderer);
-
-	this.computationFinished ();
-	this.loading ();
-	this.changeValueSlider ("#slider-rangeX", false, 0, parseInt (dimX));
-	this.changeValueSlider ("#slider-rangeY", false, 0, parseInt (dimY));
-	this.changeValueSlider ("#slider-rangeZ", true, 0, parseInt (dimZ));
-};

@@ -91,50 +91,6 @@ Application.prototype.resizeInterface = function () {
 /**
  * TODO
  */
-Application.prototype.getMeridianCurveName = function () {
-	return $("listMeridians");
-};
-
-
-//==============================================================================
-/**
- * Enable or disable an element. Add or remove the class attribute "active".
- *
- * @param {HTMLElement} element - The element.
- *
- * @return {void}
- */
-// Application.prototype.switchActive = function (element) {
-// 	var elem = $(element);
-// 	if (elem.hasClass ("active"))
-// 		elem.removeClass ("active");
-// 	else
-// 		elem.addClass ("active");
-// };
-//
-
-//==============================================================================
-/**
- * Enable or disable an element. Add or remove the class attribute "active".
- *
- * @param {HTMLElement} element - The element.
- * @param {boolean} active - True for add "active" class, false for remove it.
- *
- * @return {void}
- */
-// Application.prototype.setActiveClass = function (element, active) {
-// 	var elem = $(element);
-// 	if (active)
-// 		elem.addClass ("active");
-// 	else
-// 		elem.removeClass ("active");
-// };
-
-
-//==============================================================================
-/**
- * TODO
- */
 Application.prototype.changeValueSlider = function (idSlider, draw) {
 	var slider, arg1, arg2;
 	switch (arguments.length) {
@@ -164,14 +120,31 @@ Application.prototype.changeValueSlider = function (idSlider, draw) {
 			$(slider).slider ('values', 0, arg1);
 			$(slider).slider ('values', 1, arg2);
 
-			$("#amountMin" + $(slider).attr ("name")).val (arg1) ;
-			$("#amountMax" + $(slider).attr ("name")).val (arg2) ;
+			$("#amountMin" + $(slider).attr ("name")).val (arg1);
+			$("#amountMax" + $(slider).attr ("name")).val (arg2);
 
 			break;
 		default :
 			throw "Application.changeValueSlider.ErrorArgumentsLength";
 			break;
 	}
+	if (draw)
+		this.show (true);
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+Application.prototype.resetSlider = function (idSlider, draw) {
+	var $slider = $("#" + idSlider);
+	var max = $slider.slider ("option", "max"),
+		min = $slider.slider ("option", "min");
+	$slider.slider ("values", 0, min)
+	$slider.slider ("values", 1, max)
+	$("#amountMin" + $slider.attr ("name")).val (min);
+	$("#amountMax" + $slider.attr ("name")).val (max);
 	if (draw)
 		this.show (true);
 };
@@ -207,17 +180,6 @@ Application.prototype.loading = function () {
  */
 Application.prototype.stopLoading = function () {
 	document.getElementById ("loadingImg").style = "display: none";
-};
-
-
-//==============================================================================
-/**
- * Put the camera back to its initial position.
- *
- * @return {void}
- */
-Application.prototype.resetCamera = function () {
-	this.surfaceView.resetCamera();
 };
 
 

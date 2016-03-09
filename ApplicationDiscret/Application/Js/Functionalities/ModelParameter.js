@@ -73,7 +73,13 @@ function ModelParameter () {
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Mutator
+//##############################################################################
+
+
+
 /**
  * TODO
  * 
@@ -86,9 +92,15 @@ ModelParameter.prototype.setCurve = function (curve) {
 };
 
 
-//==============================================================================
+
+//##############################################################################
+//	Curve modifier
+//##############################################################################
+
+
+
 /**
- * TODO
+ * Set a value to a parameter.
  * 
  * @param {String} parameter - The name of the parameter to modify.
  * @param {Number} value - The value of the parameter to set.
@@ -96,7 +108,7 @@ ModelParameter.prototype.setCurve = function (curve) {
  * @return {void}
  */
 ModelParameter.prototype.setParameter = function (parameter, value) {
-	this.curve.setParameter(parameter, value);
+	this.curve.setParameter (parameter, value);
 };
 
 
@@ -107,20 +119,17 @@ ModelParameter.prototype.setParameter = function (parameter, value) {
  * @return {Map<String, Number>} A map composed of the name of a parameter (the
  * key) and its value (the value).
  */
-ModelParameter.prototype.getAllParameters = function(){
-	// var listParameter = this.curve.getAllParameters();
-	// var mapParameter = [];
-	// for(var i in listParameter){
-		// mapParameter.push([i,listParameter[i]]);
-	// }
-	// return mapParameter;
-	return this.curve.getAllParameters();
+ModelParameter.prototype.getAllParameters = function () {
+	return this.curve.getAllParameters ();
 };
+
 
 //==============================================================================
 /**
- * TODO
+ * @param {String} name - Name of a curve parameter.
  */
-ModelParameter.prototype.getParameter = function(name){
-	return this.curve.getParameter(name);
+ModelParameter.prototype.getParameter = function (name) {
+	return this.curve.getParameter (name);
 };
+
+

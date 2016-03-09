@@ -244,7 +244,12 @@ SurfaceViewer.prototype.prepare = function () {
  */
 SurfaceViewer.prototype.draw = function (backBuffer) {
 	if (this.container.getNbObject () != 0) {
-		this.container.draw (this.glContext, backBuffer, this.screenBuffer);
+		this.container.draw (
+			this.glContext,
+			backBuffer,
+			parseFloat (this.voxelRadiusInput.value) / 2,
+			this.screenBuffer
+		);
 	}
 	else
 		console.log ("No object to draw");
@@ -303,19 +308,37 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
 		this.camCenterWhenClick =
 			this.container.getCamera ().getLookAtPosition ();
 	}
-
-	// draw the scene for picking
-	this.container.draw (this.glContext, true, this.backBuffer);
-	var color = new Uint8Array (4);
-	this.glContext.readPixels (
-		event.layerX, this.glContext.drawingBufferHeight - event.layerY,
-		1, 1,
-		this.glContext.RGBA, this.glContext.UNSIGNED_BYTE, color
-	);
-//	console.log (colorToPos (color, new Vector (31 ,31, 31)).toString ());
-
-	// redraw correctly the scene
-	this.container.draw (this.glContext, false, this.screenBuffer);
+	if (event.buttons === 2) {
+		// draw the scene for picking
+		this.container.draw (this.glContext, true, this.backBuffer);
+		var color = new Uint8Array (4);
+		this.glContext.readPixels (
+			event.layerX, this.glContext.drawingBufferHeight - event.layerY,
+			1, 1,
+			this.glContext.RGBA, this.glContext.UNSIGNED_BYTE, color
+		);
+		var surface = this.getSurfaceRenderer ();
+		var dim = surface.getDimension ();
+		var facet = colorToPos (color, dim);
+		var dir = facet.getDirection ();
+		var noHighlight;
+		if (0 <= dir && dir < DirectionEnum.size) {
+			var voxelPos = facet.getCube ();
+			surface.setHighlightX (voxelPos.x);
+			surface.setHighlightY (voxelPos.y);
+			surface.setHighlightZ (voxelPos.z);
+		}
+		else {
+			noHighlight = (surface.highlightX == -1);
+			if (! noHighlight) {
+				surface.setHighlightX (-1);
+				surface.setHighlightY (-1);
+				surface.setHighlightZ (-1);
+			}
+		}
+		// redraw correctly the scene
+		this.show (true);
+	}
 };
 
 
@@ -358,7 +381,6 @@ SurfaceViewer.prototype.onMouseMove = function (event) {
 	}
 	else if (event.buttons == 1 && this.mousePosOnPress[0] != -1) {
 		/* left button is pressed and the user generate mousedown event on the
-
 		 * surface canvas.
 		 */
 		this.rotateCamera (
@@ -400,23 +422,35 @@ SurfaceViewer.prototype.onWheel = function (event) {
  * @return {void}
  */
 SurfaceViewer.prototype.onKeyDown = function (event) { // FIXME
-	switch (event.keyCode) {
-	case 38 : // Up
-		this.rotateCamera (0.0, 0.01);
-		++this.mousePosOnPress[1];
-		break;
-	case 40 : // Down
-		this.rotateCamera (0.0, -0.01);
-		--this.mousePosOnPress[1];
-		break;
-	case 37 : // Left
-		this.rotateCamera (0.01, 0.0);
-		++this.mousePosOnPress[0];
-		break;
-	case 39 : // Right
-		this.rotateCamera (-0.01, 0.0);
-		--this.mousePosOnPress[0];
-		break;
+//	switch (event.keyCode) {
+//	case 38 : // Up
+//		this.rotateCamera (0.0, 0.01);
+//		++this.mousePosOnPress[1];
+//		break;
+//	case 40 : // Down
+//		this.rotateCamera (0.0, -0.01);
+//		--this.mousePosOnPress[1];
+//		break;
+//	case 37 : // Left
+//		this.rotateCamera (0.01, 0.0);
+//		++this.mousePosOnPress[0];
+//		break;
+//	case 39 : // Right
+//		this.rotateCamera (-0.01, 0.0);
+//		--this.mousePosOnPress[0];
+//		break;
+//	}
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+SurfaceViewer.prototype.onContextMenu = function (event) {
+	if (event.buttons === 2) {
+		event.preventDefault();
+		event.stopPropagation();
 	}
 };
 
@@ -447,6 +481,8 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this));
 	this.canvas.addEventListener ("mousemove", this.onMouseMove.bind (this));
 	this.canvas.addEventListener ("mouseup", this.onMouseUp.bind (this));
+	this.canvas.addEventListener ("contextmenu", this.onContextMenu.bind (this),
+		true);
 };
 
 
@@ -607,15 +643,29 @@ SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
 };
 
 
+//==============================================================================
+/**
+ * Put the camera back to its initial position.
+ * @see {@link centerCamera}
+ * 
+ * @return {void}
+ */
+SurfaceViewer.prototype.resetCamera = function () {
+	this.container.resetCamera ();
+	this.draw ();
+};
+
 
 //==============================================================================
 /**
  * Put the camera back to its initial position.
- *
+ * @see {@link resetCamera}
+ * 
  * @return {void}
  */
-SurfaceViewer.prototype.resetCamera = function () {
-	this.container.resetCamera();
+SurfaceViewer.prototype.centerCamera = function () {
+	this.container.centerCamera ();
 	this.draw ();
 };
+
 

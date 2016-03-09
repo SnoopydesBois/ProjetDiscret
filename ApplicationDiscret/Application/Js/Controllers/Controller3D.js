@@ -116,7 +116,7 @@ function Controller3D (dimension) {
  * @param {###} mode - 
  * 
  * @return {void}
- * @throws {String} ###
+ * @throws {String} TODO
  */
 Controller3D.prototype.generate = function (mode) {
 	/// verification

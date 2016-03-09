@@ -63,10 +63,11 @@
  */
 Application.prototype.initAppli = function () {
 	/// Application initialization
+	this.verifNavigator ();
 	this.initControllers ();
 
 	this.meridianController.setActive ("Line");
-	this.revolController.setActive ("Circle");
+	this.revolController.setActive ("Ellipse");
 
 	this.meridianParameters.setController (this.meridianController);
 	this.meridianParameters.displayParameter (this.drawMeridian,
@@ -92,7 +93,6 @@ Application.prototype.initAppli = function () {
 		.removeClass("ui-button ui-widget ui-state-default ui-button-text-only")
 		.removeAttr ("role")
 		.unbind ();
-
 	this.changeDimension ();
 	this.resizeInterface ();
 	this.initWindowEvent ();
@@ -113,20 +113,20 @@ Application.prototype.initControllers = function () {
 	this.meridianController.addCurve ("Sinusoid", Sinusoid);
 
 	/// add curve for revolution
-	this.revolController.addCurve ("Circle", Circle);
+	this.revolController.addCurve ("Ellipse", Ellipse);
 	this.revolController.addCurve ("Heart", Heart);
 	this.revolController.addCurve ("Triangle", Triangle);
 	this.revolController.addCurve ("Lemniscate", Lemniscate);
+	this.revolController.addCurve ("Lissajous", Lissajous);
+	this.revolController.addCurve ("Quadrifolium", Quadrifolium);
+	this.revolController.addCurve ("Knot", Knot);
+	this.revolController.addCurve ("Scarabeus", Scarabeus);
+	this.revolController.addCurve ("Hyperbol", Hyperbol);
+	this.revolController.addCurve ("Folium", Folium);
+	this.revolController.addCurve ("Hexafolium", Hexafolium);
 	this.revolController.addCurve ("Curve1", Curve1);
 	this.revolController.addCurve ("Curve2", Curve2);
 	this.revolController.addCurve ("Curve3", Curve3);
-	this.revolController.addCurve ("Curve4", Curve4);
-	this.revolController.addCurve ("Hyperbol", Hyperbol);
-	this.revolController.addCurve ("Curve6", Curve6);
-	this.revolController.addCurve ("Curve7", Curve7);
-	this.revolController.addCurve ("Curve8", Curve8);
-	this.revolController.addCurve ("Curve9", Curve9);
-	this.revolController.addCurve ("Curve10", Curve10);
 
 //	this.revolController.addCurve ("eq", eq);
 	
@@ -188,4 +188,18 @@ Application.prototype.createSlider = function (id, min, max) {
 	// Text input initialisation
 	$("#amountMin" + $(id).attr ("name")).val ($(id).slider ('values', 0));
 	$("#amountMax" + $(id).attr ("name")).val ($(id).slider ('values', 1));
+};
+
+
+//==============================================================================
+/**
+ * Check the navigator. If it is not "Mozilla" (for Firefox an Chorme), display
+ * a pop up.
+ * 
+ * @return {void}
+ */
+Application.prototype.verifNavigator = function () {
+	if (navigator.appCodeName != "Mozilla")
+		// erase style="display: none"
+		document.getElementById ("notMozillaPopUp").style = ""; 
 };

@@ -66,7 +66,7 @@
  */
 
 
-ControllerCamera.prototype = new Controller ();
+ControllerExport.prototype = new Controller ();
 ControllerExport.prototype.constructor = ControllerExport;
 
 
@@ -84,6 +84,9 @@ ControllerExport.prototype.constructor = ControllerExport;
  * @param{String} idRevolution - The id of the HTML element containing the curve of revolution to export
  */
 function ControllerExport (idSurface, idMeridian, idRevolution) {
+	/**
+	 * TODO
+	 */
 	this.model = new ModelExport(idSurface, idMeridian, idRevolution);
 }
 
@@ -113,9 +116,9 @@ ControllerExport.prototype.setIdRevolution = function(idRevolution){
 //##############################################################################
 
 
-//==============================================================================
 /**
- * Call the model method to export the surface to x3d
+ * Call the model method to export the surface to x3d.
+ * 
  * @param {Surface} surface - The surface to export to x3d file
  */
 ControllerExport.prototype.exportX3D = function(surface){
@@ -125,8 +128,10 @@ ControllerExport.prototype.exportX3D = function(surface){
 
 //==============================================================================
 /**
- * Call the model method to export the surface to PNG
- * @param {SurfaceViewer} surfaceView - The surfaceView containing the objects to render
+ * Call the model method to export the surface to PNG.
+ * 
+ * @param {SurfaceViewer} surfaceView - The surfaceView containing the objects
+ *  to render
  */
 ControllerExport.prototype.export3DPng = function(surfaceView){
 	this.model.export3DPng(surfaceView);
@@ -135,7 +140,7 @@ ControllerExport.prototype.export3DPng = function(surfaceView){
 
 //==============================================================================
 /**
- * Call the model method to export the meridian to PNG
+ * Call the model method to export the meridian to PNG.
  */
 ControllerExport.prototype.exportMeridianPng = function(){
 	this.model.exportMeridianPng();
@@ -144,7 +149,7 @@ ControllerExport.prototype.exportMeridianPng = function(){
 
 //==============================================================================
 /**
- * Call the model method to export the revolution ton PNG
+ * Call the model method to export the revolution ton PNG.
  */
 ControllerExport.prototype.exportRevolutionPng = function(){
 	this.model.exportRevolutionPng();
@@ -153,7 +158,7 @@ ControllerExport.prototype.exportRevolutionPng = function(){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
 ControllerExport.prototype.exportSTL = function(renderer){
 	this.model.exportSTL(renderer);
@@ -162,8 +167,19 @@ ControllerExport.prototype.exportSTL = function(renderer){
 
 //==============================================================================
 /**
- *
+ * TODO
  */
-ControllerExport.prototype.saveCurves = function(meridianController, revolutionController){
-	this.model.saveCurves(meridianController, revolutionController);
+ControllerExport.prototype.saveImplicitCurve = function(revolutionController){
+	this.model.saveImplicitCurve(revolutionController);
 };
+
+
+//==============================================================================
+/**
+ * TODO
+ */
+ControllerExport.prototype.saveGeneratrix = function(meridianController){
+	this.model.saveGeneratrix(meridianController);
+};
+
+

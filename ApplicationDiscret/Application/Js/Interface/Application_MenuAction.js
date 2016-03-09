@@ -134,11 +134,11 @@ Application.prototype.exportRevolutionPng = function () {
  * TODO
  */
 Application.prototype.exportX3D = function () {
-	if (this.surfaceView.getSurfaceRenderer ().getSurface () == null) {
+	if (this.surfaceView.getSurfaceRenderer ().getSurface() == null) {
 		return;
 	}
 	this.exportController.exportX3D (
-		this.surfaceView.getSurfaceRenderer ().getSurface ());
+		this.surfaceView.getSurfaceRenderer().getSurface());
 };
 
 
@@ -156,16 +156,25 @@ Application.prototype.exportSTL = function () {
 
 //==============================================================================
 /**
- *
+ * TODO
  */
-Application.prototype.saveCurves = function(){
-	this.exportController.saveCurves(this.meridianController, this.revolController);
+Application.prototype.saveRevolution = function(){
+	this.exportController.saveImplicitCurve(this.revolController);
 };
 
 
 //==============================================================================
 /**
- *
+ * TODO
+ */
+Application.prototype.saveGeneratrix = function(){
+	this.exportController.saveGeneratrix(this.meridianController);
+};
+
+
+//==============================================================================
+/**
+ * TODO
  */
 Application.prototype.loadMeridian = function (event) {
 	var tmppath = URL.createObjectURL (event.target.files[0]);
@@ -181,7 +190,6 @@ Application.prototype.loadMeridian = function (event) {
 	var equation, xPoints, yPoints, xMin, xMax, yMin, yMax;
 
 	equation = xml.getElementsByTagName ("Equation");
-
 	if(equation.length == 0){
 		// Same length for both of the lists
 		xPoints = xml.getElementsByTagName ("xCoords")[0].textContent
@@ -217,12 +225,8 @@ Application.prototype.loadMeridian = function (event) {
 	else if (typeCurve === "ExplicitCurve" || typeCurve === "ImplicitCurve") {
 		this.meridianController.setActive (
             equation[0].textContent.toString (),
-            EquationTypeEnum.explicit
+            EquationTypeEnum.EXPLICIT
         );
-
-		/*for(var i = 0; i < listNameParameters.length; i++){
-			this.meridianController.setParameter(listNameParameters[i].textContent.toString(), parseFloat(listValueParameters[i].textContent.toString()) );
-		}*/
 
 		this.meridianController.setXRange (new Range (xMin, xMax));
 		this.meridianController.setYRange (new Range (yMin, yMax));
@@ -274,7 +278,7 @@ Application.prototype.loadRevolution = function (event) {
 
 	this.revolController.setActive (
         equation[0].textContent.toString(),
-        EquationTypeEnum.implicit
+        EquationTypeEnum.IMPLICIT
     );
 
 	for (var i = 0; i < listNameParameters.length; ++i) {
@@ -302,22 +306,129 @@ Application.prototype.loadRevolution = function (event) {
  * @return {void}
  */
 Application.prototype.resetSliderMultiSlice = function () {
-	var dim = this.surfaceView.getSurfaceRenderer ()
-	if (dim) {
-		dim = dim.getSurface ().getDimension ();
-	}
-	else {
-		dim = new Vector (31, 31, 31);
-	}
-	// document.getElementById ("amountMaxX").value = dim.x;
-	// document.getElementById ("amountMaxY").value = dim.y;
-	// document.getElementById ("amountMaxZ").value = dim.z;
-    //
-	// document.getElementById ("amountMinX").value = 0;
-	// document.getElementById ("amountMinY").value = 0;
-	// document.getElementById ("amountMinZ").value = 0;
+	this.resetSlider ("slider-rangeX", false);
+	this.resetSlider ("slider-rangeY", false);
+	this.resetSlider ("slider-rangeZ", true);
+};
 
-	this.changeValueSlider('#slider-rangeX', false, 0, dim.x);
-	this.changeValueSlider('#slider-rangeY', false, 0, dim.y);
-	this.changeValueSlider('#slider-rangeZ', true, 0, dim.z);
+
+//==============================================================================
+/**
+ * TODO
+ *
+ * @return {void}
+ */
+Application.prototype.showXSlice = function () {
+	var s = this.surfaceView.getSurfaceRenderer ();
+	if (s && s.highlightX != -1) {
+		var $slider = $("#slider-rangeX");
+		var x = s.highlightX + 1;
+		var minX = $slider.slider ('values', 0);
+		if (minX > x) {
+			minX = x - 1;
+			x = $slider.slider ("values", 1);
+		}
+		var slider = $slider.slider (
+			"option", "values", [minX, x]);
+		this.resetSlider ("slider-rangeY", false);
+		this.resetSlider ("slider-rangeZ", false);
+		$("#amountMinX").val (minX);
+		$("#amountMaxX").val (x);
+		this.show (true);
+	}
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ *
+ * @return {void}
+ */
+Application.prototype.showYSlice = function () {
+	var s = this.surfaceView.getSurfaceRenderer ();
+	if (s && s.highlightY != -1) {
+		var $slider = $("#slider-rangeY");
+		var y = s.highlightY + 1;
+		var minY = $slider.slider ('values', 0);
+		if (minY > y) {
+			minY = y - 1;
+			y = $slider.slider ("values", 1);
+		}
+		var slider = $slider.slider (
+			"option", "values", [minY, y]);
+		this.resetSlider ("slider-rangeX", false);
+		this.resetSlider ("slider-rangeZ", false);
+		$("#amountMinY").val (minY);
+		$("#amountMaxY").val (y);
+		this.show (true);
+	}
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ *
+ * @return {void}
+ */
+Application.prototype.showZSlice = function () {
+	var s = this.surfaceView.getSurfaceRenderer ();
+	if (s && s.highlightZ != -1) {
+		var $slider = $("#slider-rangeZ");
+		var z = s.highlightZ + 1;
+		var minZ = $slider.slider ('values', 0);
+		if (minZ > z) {
+			minZ = z - 1;
+			z = $slider.slider ("values", 1);
+		}
+		var slider = $slider.slider (
+			"option", "values", [minZ, z]);
+		this.resetSlider ("slider-rangeX", false);
+		this.resetSlider ("slider-rangeY", false);
+		$("#amountMinZ").val (minZ);
+		$("#amountMaxZ").val (z);
+		this.show (true);
+	}
+};
+
+
+//==============================================================================
+/**
+ * TODO
+ *
+ * @return {void}
+ */
+Application.prototype.hideSlice = function () {
+	var s = this.surfaceView.getSurfaceRenderer ();
+	if (s) {
+		s.highlightX = -1;
+		s.highlightY = -1;
+		s.highlightZ = -1;
+		this.show (true);
+	}
+};
+
+
+//==============================================================================
+/**
+ * Put the camera back to its initial position.
+ * @see {@link centerCamera}
+ *
+ * @return {void}
+ */
+Application.prototype.resetCamera = function () {
+	this.surfaceView.resetCamera ();
+};
+
+
+//==============================================================================
+/**
+ * Put the camera look at point to its initial position.
+ * @see {@link resetCamera}
+ *
+ * @return {void}
+ */
+Application.prototype.centerCamera = function () {
+	this.surfaceView.centerCamera ();
 };

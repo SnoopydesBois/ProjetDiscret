@@ -70,13 +70,13 @@
 
 
 .ui-state-focus, .ui-state-active {
-    background-color: #BBB;
-    border-color: #AAA;
+    background-color: #99AFC7;
+    border-color: #798DA3;
 }
 
 
 .ui-state-hover {
-    background-color: #DDD;
-    border-color: #BBB;
+    background-color: #B6CBE3;
+    border-color: #8BAED6;
 }
 

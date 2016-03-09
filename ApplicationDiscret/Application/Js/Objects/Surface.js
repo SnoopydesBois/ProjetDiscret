@@ -218,7 +218,7 @@ Surface.prototype.addVoxel = function (position, connexity) {
 
 //==============================================================================
 /**
- * 
+ * TODO
  * 
  * @param {(Vector | Number[3] | Number)} voxelPosition - TODO
  * @param {DirectionEnum} direction - The direction of the facet.
@@ -239,49 +239,6 @@ Surface.prototype.voxelHasFacet = function (voxelPosition, direction,
 		&& neighbor.getConnexity () > connexity)
 	);
 };
-
-
-//==============================================================================
-///**
-// * Remove a voxel from the model.
-// * @param {Vector} position - the coordinates of the voxel to remove
-// * @return {boolean} true if there is no error, false otherwise.
-// * @throws {String} "Surface.removeVoxel.ErrorNotAVector"
-// * - the position should be of type Vector
-// * @throws {String} "Surface.removeVoxel.OutOfBounds"
-// * - the voxel is out of bounds
-// */
-//Surface.prototype.removeVoxel = function (position) {
-//	if (!position instanceof Vector)
-//		throw "Surface.removeVoxel.ErrorNotAVector";
-//	
-//	var x = position.m[0];
-//	var y = position.m[1];
-//	var z = position.m[2];
-//	if (this.isIn(x,y,z)) {
-//		if (this.matVoxel[x][y][z] != null) {
-//			this.matVoxel[x][y][z] = null;
-//			
-//			var size = DirectionEnum.size;
-//			for (var i = 0; i < size; ++i) {
-//				var newX = x + DirectionEnum.properties[i].x;
-//				var newY = y + DirectionEnum.properties[i].y;
-//				var newZ = z + DirectionEnum.properties[i].z;
-//				
-//				if (this.isIn(newX,	newY, newZ)) {
-//					if (this.matVoxel[newX][newY][newZ] !== null) {
-//						this.matVoxel[newX][newY][newZ]
-//								.addFacet(DirectionEnum.properties[i].oppose);
-//					}
-//				}
-//			}
-//			this.nbVoxel--;
-//		}
-//		return true;
-//	} 
-//	else
-//		throw "Surface.removeVoxel.OutOfBounds";
-//};
 
 
 //==============================================================================
@@ -532,6 +489,8 @@ Surface.prototype.printOnly = function (rangeX, rangeY, rangeZ) {
 
 //==============================================================================
 /**
+ * TODO
+ * 
  * @param {ConnexityEnum} connexity - The new connexity of the surface.
  * 
  * @throws {String} "Surface.setConnexity.ErrorNotAConnexity" - Connexity should

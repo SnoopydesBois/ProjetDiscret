@@ -9,7 +9,7 @@
 // INDEX ///////////////////////////////////////////////////////////////////////
 
 
-/* Application ()
+/* TODO
  */
 
 
@@ -35,7 +35,7 @@ ParameterViewer.prototype.constructor = ParameterViewer;
  * @constructor
  */
 function ParameterViewer (idContainer) {
-	
+
 	/**
 	 * TODO
 	 */
@@ -46,7 +46,7 @@ function ParameterViewer (idContainer) {
 	else {
 		this.container = $(idContainer);
 	}
-	
+
 	/**
 	 * TODO
 	 */
@@ -64,6 +64,8 @@ function ParameterViewer (idContainer) {
 /**
  * @param {Controller2D} controller - The controller the parameterView is going
  * to use.
+ *
+ * @return {void}
  */
 ParameterViewer.prototype.setController = function (controller) {
 	this.controller = controller;
@@ -78,9 +80,11 @@ ParameterViewer.prototype.setController = function (controller) {
 
 
 /**
+ * TODO
+ *
  * @param {Function} draw - The function to redraw the curve.
  * @param {Function} getRange - TODO
- * 
+ *
  * @return {void}
  */
 ParameterViewer.prototype.displayParameter = function (draw, getRange) {
@@ -96,12 +100,7 @@ ParameterViewer.prototype.displayParameter = function (draw, getRange) {
 		range = getRange (param);
 
 		var li = $("<li></li>");
-		
-		/* &#9108; hexagon
-		 * &#9187; hexagon with circle inside
-		 * &#8227; triangle
-		 * &bull; dot
-		 */
+
 		li.append ("<p class='titleParam'>&nbsp; " + param + "</p>");
 		var input = $("<input type='range' name='" + param
 			+ "' id='" + id + param
@@ -110,7 +109,7 @@ ParameterViewer.prototype.displayParameter = function (draw, getRange) {
 			+ "' max='" + range.getMax ()
 			+ "'/>"
 		);
-		
+
 		input.change (function() {
 			that.controller.setParameter ($(this).attr ("name"),
 				parseInt ($(this).val ())
@@ -119,7 +118,5 @@ ParameterViewer.prototype.displayParameter = function (draw, getRange) {
 		});
 		li.append (input);
 		this.container.append (li);
-	}
+	} // end for each param
 };
-
-

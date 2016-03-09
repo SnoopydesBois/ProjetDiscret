@@ -52,7 +52,7 @@
  * Enumeration of attributes that can be given to a Shader.
  * /!\ CAUTION: value aren't number ! TODO vérifier anglais
  */
-var AttributeEnum = Object.freeze ({
+var AttributeEnum = {
 	/// values
 	position  : {},
 	color     : {},
@@ -60,4 +60,8 @@ var AttributeEnum = Object.freeze ({
 	tangent   : {},
 	bitangent : {},
 	texcoord  : {}
-});
+};
+
+
+if (Object.freeze)
+	AttributeEnum = Object.freeze (AttributeEnum);

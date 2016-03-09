@@ -9,33 +9,33 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* objectList : Object
+/* objectList : GenericStructure[]
  * scale : float
  * width : int
  * height : int
  * translateX : float
  * translateY : float
  *
- * constructor ()
- *
+ * GenericContainer ()
+ * 
  * getNbObject () : int
- * setScale (scale : float) : void
- * getScale () : float
- * multScale (scale : float) : void
- * getWidth () : int
- * setWidth (width : int) : void
- * getHeight () : int
- * setHeight (height : int) : void
- * addTranslateX (x : float) : void
- * addTranslateY (y : float) : void
- * setTranslate (x : float, y : float) : void
- *
- * addObject (anObject : Object) : void
- * getObject (index : int) : Object
- * removeObject (index : int) : void
- * prepare (glContext : mixed) : void
- * draw (glContext : mixed, backBuffer : boolean) : void
+ * setScale (scale) : void
+ * getScale () :
+ * multScale (scale) :
+ * getWidth () :
+ * setWidth (width) :
+ * getHeight () :
+ * setHeight (height) :
+ * addTranslateX (x) :
+ * addTranslateY (y) :
+ * setTranslate (x, y) :
+ * addObject (anObject) :
+ * getObject (index) :
+ * removeObject (index) :
+ * prepare (glContext) :
+ * draw (glContext, backBuffer) :
  */
+
 
 
 /// CODE ///////////////////////////////////////////////////////////////////////
@@ -62,7 +62,7 @@ GenericContainer.prototype.constructor = GenericContainer;
 function GenericContainer () {
 
 	/**
-	 * {GenericStructure[]} List of objects. FIXME créer type jsdoc
+	 * {GenericStructure[]} List of objects.
 	 */
 	this.objectList = [];
 
@@ -90,13 +90,14 @@ function GenericContainer () {
 	 * {float} The translation along the Y axis.
 	 */
 	this.translateY = 0.0;
-};
+}
 
 
 
 //##############################################################################
 //	Accessors and Mutators
 //##############################################################################
+
 
 
 /**
@@ -106,17 +107,13 @@ function GenericContainer () {
 GenericContainer.prototype.getNbObject = function () {
 	return this.objectList.length;
 };
-GenericContainer.prototype.getLength = function () {
-	console.error ("Cette methode à été renommé, il faut utiliser GenericContainer.getNbObject");
-	return this.getNbObject ();
-};
 
 
 //==============================================================================
 /**
  * Scaling.
  *
- * @param {float} scale - The scaling of the scene.
+ * @param {float} scale - The scaling factor of the scene.
  *
  * @return {void}
  * @throws {String} If the provided parameter is not a number.
@@ -132,7 +129,7 @@ GenericContainer.prototype.setScale = function (scale) {
 
 //==============================================================================
 /**
- * @return {float} The scale of the scene.
+ * @return {float} The scale factor of the scene.
  */
 GenericContainer.prototype.getScale = function () {
 	return this.scale;
@@ -188,7 +185,7 @@ GenericContainer.prototype.setWidth = function (width) {
 /**
  * Get the height of the scene.
  *
- * @return {int} the height of the scene.
+ * @return {int} The height of the scene.
  */
 GenericContainer.prototype.getHeight = function () {
 	return this.height;
@@ -360,3 +357,5 @@ GenericContainer.prototype.prepare = function (glContext) {};
  * @return {void}
  */
 GenericContainer.prototype.draw = function (glContext, backBuffer) {};
+
+
