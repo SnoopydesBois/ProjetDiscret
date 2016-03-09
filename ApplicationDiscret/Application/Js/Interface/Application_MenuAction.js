@@ -432,3 +432,5 @@ Application.prototype.resetCamera = function () {
 Application.prototype.centerCamera = function () {
 	this.surfaceView.centerCamera ();
 };
+
+

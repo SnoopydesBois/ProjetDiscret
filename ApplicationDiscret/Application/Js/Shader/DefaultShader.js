@@ -155,7 +155,8 @@ DefaultShader.prototype.getRenderingMode = function () {
  * 
  * @param {WebGLRenderingContext} glContext - The webGl context.
  * @param {WebGLBuffer} vertexBuffer - The buffer data.
- * @param {WebGLBuffer} viewMode - TODO
+ * @param {int} viewMode - 1 for perspective or 0 for orthographic.
+ * @param {float} radius - Cubes' radius (i.e. voxels' radius).
  * 
  * @return {void}
  */

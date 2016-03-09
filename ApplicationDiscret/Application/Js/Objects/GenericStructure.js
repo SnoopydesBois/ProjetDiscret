@@ -116,7 +116,7 @@ function GenericStructure (name, shader) {
 	this.structureName = name;
 	
 	/**
-	 * {Matrix} Current object matrix. FIXME compléter.
+	 * {Matrix} Current object matrix.
 	 */
 	this.matrix = new Matrix ();
 	
@@ -136,19 +136,28 @@ function GenericStructure (name, shader) {
 	this.isPickable = true;
 	
 	/**
-	 * TODO
+	 * {int} Number of needed gl buffer to draw the object. Set by 'prepare'
+	 * method, use by 'prepare' an 'draw' methods.
+	 */
+	this.nbGlBuffer = 0;
+	
+	/**
+	 * {WebGLBuffer[]} Array of gl vertex buffer. Fill by 'prepare' method. The length of
+	 * this array is 'this.nbGlBuffer'.
 	 */
 	this.glVertexBuffer = [];
-	
+
 	/**
-	 * TODO
+	 * {WebGLBuffer[]} Array of gl vertex color buffer for picking. Fill by 'prepare'
+	 * method. The length of this array is 'this.nbGlBuffer'.
 	 */
 	this.glBackBuffer = [];
-	
+
 	/**
-	 * TODO
+	 * {WebGLBuffer[]} Array of gl indices buffer. Fill by 'prepare' method. The length
+	 * of this array is 'this.nbGlBuffer'.
 	 */
-	this.glIndicesBuffer = [];
+	this.glIndiciesBuffer = [];
 	
 	/**
 	 * {boolean} This value indicate if the structure is already prepared or

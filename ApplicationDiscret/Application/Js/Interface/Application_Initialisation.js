@@ -128,8 +128,6 @@ Application.prototype.initControllers = function () {
 	this.revolController.addCurve ("Curve2", Curve2);
 	this.revolController.addCurve ("Curve3", Curve3);
 
-//	this.revolController.addCurve ("eq", eq);
-	
 	/// bind generation with active curve
 	this.surfaceController.setGetCurveRevolution (
 		this.revolController.getActiveCurve.bind (this.revolController)

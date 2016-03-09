@@ -9,11 +9,20 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* CurveViewer (
+/* controller : Controller2D
+ * lastPoint : Point
+ * xMaxInput : HTMLInputElement
+ * yMaxInput : HTMLInputElement
+ * MIN_DIST_BETWEEN_POINT : float
+ * formModeSelected : HTMLFormElement
+ * displayDiv : HTMLDivElement
+ * 
+ * CurveViewer (
  *     canvas : HTMLCanvasElement,
  *     div : HTMLDivElement,
  *     curveController : curveController
  * )
+ * 
  * getController () : Controller2D
  * show () : void
  * draw () : void
@@ -76,7 +85,7 @@ function CurveViewer (canvas, div, curveController) {
 	this.controller = curveController;
 
 	/**
-	 * {float[2]} Last point added to the curve. If -1, there are not last
+	 * {Point} Last point added to the curve. If -1, there are not last
 	 * point. XXX vérifier anglais
 	 */
 	this.lastPoint = new Point (-1, -1);

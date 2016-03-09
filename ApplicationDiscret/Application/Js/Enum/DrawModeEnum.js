@@ -51,7 +51,7 @@
  * @enum
  * Enumeration of attributes that can be given to a Controller2D.
  */
-var DrawModeEnum = Object.freeze ({
+var DrawModeEnum = {
 	/// values
 	EQUATION : 0,
 	HAND_FREE : 1,
@@ -61,7 +61,7 @@ var DrawModeEnum = Object.freeze ({
 		0 : {name : "EQUATION"},
 		1 : {name : "HAND_FREE"}
 	}
-});
+};
 
 
 

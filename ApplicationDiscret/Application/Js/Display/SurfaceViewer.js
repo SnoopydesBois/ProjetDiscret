@@ -6,6 +6,47 @@
  */
 
 
+/// INDEX //////////////////////////////////////////////////////////////////////
+
+
+/* container : Scene
+ * mousePosOnPress : int[2]
+ * camPosWhenClick : Vector
+ * camCenterWhenClick : Vector
+ * connexityInput : HTMLInputElement
+ * voxelRadiusInput : HTMLInputElement
+ * frameBuffer : WebGLFrameBuffer
+ * screenBuffer : WebGLRenderBuffer
+ * backBuffer : WebGLRenderBuffer
+ * 
+ * SurfaceViewer (canvas : HTMLCanvasElement)
+ * 
+ * setViewDimension () : void
+ * setDimension (width : int, height : int) : void
+ * setMouse (x : int, y : int) : void
+ * reload () : void
+ * show (forcePrepare : boolean) : void
+ * prepare () : void
+ * draw (backBuffer : boolean) : void
+ * unprepare () : void
+ * onResize (event : WindowEvent) : void
+ * onMouseDown (event : MouseEvent) : void
+ * onMouseUp (event : MouseEvent) : void
+ * onMouseMove (event : MouseEvent) : void
+ * onWheel (event : MouseEvent) : void
+ * onContextMenu (event : MouseEvent) : void
+ * initCanvasEvent () : void
+ * rotateCamera (phiOffset : Number, thetaOffset : Number) : void
+ * moveCamera (xOffset : Number, yOffset : Number) : void
+ * computeCamera () : void
+ * getSurfaceRenderer () : SurfaceRenderer
+ * getImgData (width : int, height : int) : float[]
+ * reverseTab (tab : Array, width : int, height : int) : Array
+ * resetCamera () : void
+ * centerCamera () : void
+ */
+
+
 // CODE ////////////////////////////////////////////////////////////////////////
 
 
@@ -28,7 +69,8 @@ SurfaceViewer.prototype.constructor = SurfaceViewer;
 
 /**
  * @constructor
- *
+ * TODO
+ * 
  * @param {HTMLCanvasElement} canvas - The associated canvas.
  */
 function SurfaceViewer (canvas) {
@@ -79,17 +121,18 @@ function SurfaceViewer (canvas) {
 	this.voxelRadiusInput = document.getElementById ("voxelRadius");
 
 	/**
-	 * {WebGLFrameBuffer} TODO
+	 * {WebGLFrameBuffer} The frame buffer which "contain" all render buffer.
 	 */
 	this.frameBuffer = this.glContext.createFramebuffer ();
 
 	/**
-	 * {WebGLFrameBuffer} TODO
+	 * {WebGLRenderBuffer} The main render buffer. Used to draw the main image.
 	 */
 	this.screenBuffer = this.glContext.createRenderbuffer ();
 
 	/**
-	 * {WebGLFrameBuffer} TODO
+	 * {WebGLRenderBuffer} Render buffer for picking. Used to store picking
+	 * color of each facet.
 	 */
 	this.backBuffer = this.glContext.createRenderbuffer ();
 
@@ -132,6 +175,8 @@ function SurfaceViewer (canvas) {
 
 /**
  * Set the dimension of the viewport.
+ * 
+ * @return {void}
  */
 SurfaceViewer.prototype.setViewDimension = function () {
 	this.glContext.viewport (
@@ -293,7 +338,10 @@ SurfaceViewer.prototype.onResize = function (event) {
 /**
  * @override
  *
- * Save the camera coordinates and the mouse coordintates. TODO compléter
+ * Left and middle buttons : save the camera coordinates and the mouse
+ * coordintates.
+ * Right button : highlight X, Y and Z slice where the user click. If there is
+ * no facet, highlight is disactivate.
  * @see {@link camPosWhenClick, mousePosOnPress}
  *
  * @param {MouseEvent} event - The event.
@@ -346,7 +394,7 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
 /**
  * @override
  *
- * TODO
+ * Reset attribute 'mousePosOnPress' (only set the first value at -1).
  *
  * @param {MouseEvent} event - The event.
  *
@@ -414,38 +462,10 @@ SurfaceViewer.prototype.onWheel = function (event) {
 
 //==============================================================================
 /**
- * @override
- * Store camera and mouse position.
- *
- * @param {KeyEvent} event - The event.
- *
+ * Prevent the context menu. FIXME n'est pas suffisant sous Windows.
+ * 
+ * @param {MouseEvent} event - The mouse event.
  * @return {void}
- */
-SurfaceViewer.prototype.onKeyDown = function (event) { // FIXME
-//	switch (event.keyCode) {
-//	case 38 : // Up
-//		this.rotateCamera (0.0, 0.01);
-//		++this.mousePosOnPress[1];
-//		break;
-//	case 40 : // Down
-//		this.rotateCamera (0.0, -0.01);
-//		--this.mousePosOnPress[1];
-//		break;
-//	case 37 : // Left
-//		this.rotateCamera (0.01, 0.0);
-//		++this.mousePosOnPress[0];
-//		break;
-//	case 39 : // Right
-//		this.rotateCamera (-0.01, 0.0);
-//		--this.mousePosOnPress[0];
-//		break;
-//	}
-};
-
-
-//==============================================================================
-/**
- * TODO
  */
 SurfaceViewer.prototype.onContextMenu = function (event) {
 	if (event.buttons === 2) {
@@ -472,10 +492,6 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 
 	// mouse wheel for zoom
 	this.canvas.addEventListener ("wheel", this.onWheel.bind (this));
-
-	// key down for camera mouvement
-//	this.canvas.addEventListener ("keydown", this.onKeyDown.bind (this));
-//	window.addEventListener ("keydown", this.onKeyDown.bind (this));
 
 	// mouse move for mouvement
 	this.canvas.addEventListener ("mousedown", this.onMouseDown.bind (this));
@@ -567,7 +583,7 @@ SurfaceViewer.prototype.moveCamera = function (xOffset, yOffset) {
 
 //==============================================================================
 /**
- * Forces the scene's camera to compute its matrices. TODO vérifier anglais.
+ * Forces the scene's camera to compute its matrices. XXX vérifier anglais.
  *
  * @return {void}
  */
@@ -591,9 +607,10 @@ SurfaceViewer.prototype.getSurfaceRenderer = function () {
 
 //==============================================================================
 /**
- * @param {int} width - The width of the canvas from which we get the data
- * @param {int} height - The height of the canvas from which we get the data
- * @return {float[]} the image data
+ * @param {int} width - The width of the canvas from which we get the data.
+ * @param {int} height - The height of the canvas from which we get the data.
+ * 
+ * @return {float[]} The image data
  */
 SurfaceViewer.prototype.getImgData = function (width, height) {
 	// Bind the frame framebuffer and the depth buffer for the color rendering
@@ -624,13 +641,16 @@ SurfaceViewer.prototype.getImgData = function (width, height) {
 
 //==============================================================================
 /**
- * Reverse the data in the array. XXX peut être en faire une fonction plutot qu'une méthode ?
+ * Vertical flip of a matrix.
+ * @example | 1 2 |  ->  | 3 4 |
+ *          | 3 4 |      | 1 2 |
+ * XXX peut être en faire une fonction plutot qu'une méthode ?
  * 
- * @param {} tab - TODO
- * @param {} width - TODO
- * @param {} height - TODO
+ * @param {Array} tab - An array (like a matrix).
+ * @param {int} width - Matrix width.
+ * @param {int} height - Matrix height.
  * 
- * @return {} TODO
+ * @return {Array} The fliped matrix.
  */
 SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
 	var pixel = [];
@@ -646,7 +666,7 @@ SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
 //==============================================================================
 /**
  * Put the camera back to its initial position.
- * @see {@link centerCamera}
+ * @see {@link centerCamera, Scene.resetCamera, Camera.setCameraAt}
  * 
  * @return {void}
  */
@@ -658,8 +678,8 @@ SurfaceViewer.prototype.resetCamera = function () {
 
 //==============================================================================
 /**
- * Put the camera back to its initial position.
- * @see {@link resetCamera}
+ * Center the camera (i.e. project its look at point on Z axis).
+ * @see {@link resetCamera, Scene.centerCamera, Camera.setCameraAt}
  * 
  * @return {void}
  */
