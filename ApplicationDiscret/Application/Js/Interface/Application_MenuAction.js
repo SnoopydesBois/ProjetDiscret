@@ -158,8 +158,8 @@ Application.prototype.exportSTL = function () {
 /**
  * TODO
  */
-Application.prototype.saveRevolution = function(){
-	this.exportController.saveImplicitCurve(this.revolController);
+Application.prototype.saveDirectrix = function(){
+	this.exportController.saveDirectrix(this.revolController);
 };
 
 

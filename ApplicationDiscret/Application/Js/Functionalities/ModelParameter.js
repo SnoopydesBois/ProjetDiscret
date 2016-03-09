@@ -75,9 +75,8 @@ function ModelParameter () {
 
 //==============================================================================
 /**
- * TODO
  * 
- * @param {Curve} curve - The curve the parameters are modifying.
+ * @param {Curve} curve - The curve which parameters are modified.
  * 
  * @return {void}
  */
@@ -88,7 +87,6 @@ ModelParameter.prototype.setCurve = function (curve) {
 
 //==============================================================================
 /**
- * TODO
  * 
  * @param {String} parameter - The name of the parameter to modify.
  * @param {Number} value - The value of the parameter to set.
@@ -108,18 +106,14 @@ ModelParameter.prototype.setParameter = function (parameter, value) {
  * key) and its value (the value).
  */
 ModelParameter.prototype.getAllParameters = function(){
-	// var listParameter = this.curve.getAllParameters();
-	// var mapParameter = [];
-	// for(var i in listParameter){
-		// mapParameter.push([i,listParameter[i]]);
-	// }
-	// return mapParameter;
 	return this.curve.getAllParameters();
 };
 
 //==============================================================================
 /**
- * TODO
+ * Retrieve the value of a parameter which name is passed in parameter
+ * @param {String} name - The name of the parameter
+ * @return {Number} The value of the named parameter
  */
 ModelParameter.prototype.getParameter = function(name){
 	return this.curve.getParameter(name);

@@ -49,20 +49,20 @@
  * getIdSurface ()
  * getIdMeridian ()
  * getIdRevolution()
- * setIdSurface ()
- * setIdMeridian ()
- * setIdRevolution ()
- * exportX3D ()
+ * setIdSurface (idSurface : String)
+ * setIdMeridian (idMeridian : String)
+ * setIdRevolution (idRevolution : String)
+ * exportX3D (surface : Surface)
  * exportMeridianPng ()
  * exportRevolutionPng ()
- * getImg2DData()
- * export3DPng()
- * getImg3DData ()
- * exportSTL ()
- * saveGeneratrix ()
- * saveImplicitCurve ()
- * saveExplicitCurve ()
- * saveDrawnCurve ()
+ * getImg2DData(id : String, name : String)
+ * export3DPng(surfaceView : SurfaceViewer)
+ * getImg3DData (id : String, surfaceView : SurfaceViewer)
+ * exportSTL (renderer : SurfaceRenderer)
+ * saveGeneratrix (meridianController : Controller2DMeridian)
+ * saveImplicitCurve (curveController : Controller2D)
+ * saveExplicitCurve (curveController : Controller2DMeridian)
+ * saveDrawnCurve (curveController : Controller2DMeridian)
  */
 
 
@@ -153,6 +153,7 @@ ModelExport.prototype.setIdSurface = function(idSurface){
  * @param {String} idMeridian - The id of the HTML element containing the 
  * generatrix
  * @return {void}
+ * @throw {String} The parameter is not of String type
  */
 ModelExport.prototype.setIdMeridian = function(idMeridian){
 	if(!(typeof idMeridian === "string")){
@@ -169,6 +170,7 @@ ModelExport.prototype.setIdMeridian = function(idMeridian){
  * @param {String} idRevolution - The id of the HTML element containing the 
  * directrix
  * @return {void}
+ * @throw {String} The parameter is not of String type
  */
 ModelExport.prototype.setIdRevolution = function(idRevolution){
 	if(!(typeof idRevolution === "string")){
@@ -184,6 +186,7 @@ ModelExport.prototype.setIdRevolution = function(idRevolution){
  * Propose to save an x3d file representing the surface by boxes
  * @param {Surface} surface - The surface to export to x3d file
  * @return {void}
+ * @throw {String} The parameter is not of Surface type
  */
 ModelExport.prototype.exportX3D = function(surface){
 	if(!(surface instanceof Surface)){

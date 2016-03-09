@@ -110,10 +110,10 @@ function Controller3D (dimension) {
 
 //==============================================================================
 /**
- * TODO
+ * return {void}
  */
 Controller3D.prototype.newSurface = function () {
-	return this.modelGen.newSurface (this.getDimension ());
+	this.modelGen.newSurface (this.getDimension ());
 };
 
 
@@ -145,8 +145,7 @@ Controller3D.prototype.generate = function (mode) {
 
 //==============================================================================
 /**
-
- * @return {Surface} The surface.
+ * @return {Surface} The current surface of the model.
  */
 Controller3D.prototype.getSurface = function () {
 	return this.modelGen.getSurface ();
