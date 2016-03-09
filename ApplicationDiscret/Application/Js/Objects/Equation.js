@@ -54,11 +54,11 @@ function Equation(formula) {
 			}
 		});
 		try{
-		this.preparedFormula = this.formulaTree.compile();
+			this.preparedFormula = this.formulaTree.compile();
 		}
 		catch(e){
-		console.log("compilation failed");
-		console.log(this.getString());
+			console.log("compilation failed");
+			console.log(this.getString());
 		}
 	}
 }
