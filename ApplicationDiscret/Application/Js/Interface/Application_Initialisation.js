@@ -103,7 +103,8 @@ Application.prototype.initAppli = function () {
 
 //==============================================================================
 /**
- * Init the main functionalities.
+ * Init meridian and revolution curve controller. Init function to draw curves
+ * and get range. XXX vérifier anglais.
  *
  * @return {void}
  */
@@ -159,7 +160,12 @@ Application.prototype.initWindowEvent = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Transform a div element onto a double slider (with jQuery).
+ * 
+ * @param {(HTMLDivElement | String)} id - The div element or its id (with a '#'
+ * at first character). 
+ * @param {int} min - Minimum value of the slider.
+ * @param {int} max - Maximum value of the slider.
  * 
  * @return {void}
  */
@@ -171,7 +177,6 @@ Application.prototype.createSlider = function (id, min, max) {
 		max : max,
 		values: [min, max],
 		slide: function (event, ui) {
-			// 20 => pixel size of a selector
 			if ((ui.values[0]) >= ui.values[1]) {
 				return false;
 			}

@@ -46,10 +46,18 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* addAction (action : UndoRedoAction) : void
+/* show (forcePrepare : boolean) : void
  * changeMeridian (name : String) : void
  * changeRevol (name : String) : void
- * TODO
+ * changeMeridianMode () : void
+ * changeRevolMode () : void
+ * changeDimension () : void
+ * closeCurve () : void
+ * meridianEquation () : void
+ * revolutionEquation () : void
+ * computationFinished () : void
+ * generateAndDraw (mode : int) : void
+ * changeVoxelSize () : void
  */
 
 
@@ -58,23 +66,25 @@
 
 
 /**
- * TODO
+ * Show all 3D object.
  *
- * @param {boolean} forcePrepare - TODO
+ * @param {boolean} forcePrepare - True to force the redraw of all object, false
+ * otherwise.
  * @see {@link SurfaceViewer.show}
  *
  * @return {void}
  */
 Application.prototype.show = function (forcePrepare) {
-	this.showMessage ("dessin");
+	this.showMessage ("Dessin"); // FIXME traduire
 	this.surfaceView.show (forcePrepare);
-	this.showMessage ("pret");
+	this.showMessage ("Prêt"); // FIXME traduire
 };
 
 
 //==============================================================================
 /**
- * TODO
+ * Change the meridian curve by a primitive curve. Update view and parameter
+ * view.
  * @see {@link Controller2D.setActive}
  *
  * @param {String} name - The name of the new meridian curve.
@@ -100,7 +110,8 @@ Application.prototype.changeMeridian = function (name) {
 
 //==============================================================================
 /**
- * TODO
+ * Change the revolution curve by a primitive curve. Update view and parameter
+ * view.
  * @see {@link Controller2D.setActive}
  *
  * @param {String} name - The name of the new revolution curve.
@@ -126,7 +137,11 @@ Application.prototype.changeRevol = function (name) {
 
 //==============================================================================
 /**
- * TODO
+ * Change the meridian mode (primitive, free hand or formula). Update view and
+ * parameter view.
+ * 
+ * @return {void}
+ * @throws {String} If the mode (i.e. the checked input radio id) is not valid.
  */
 Application.prototype.changeMeridianMode = function () {
 	var mode = $('#meridianType :radio:checked').attr ('id');
@@ -138,7 +153,7 @@ Application.prototype.changeMeridianMode = function () {
 		$("#meridianCanvas").hide (); // hide the div
 		$("#meridianCanvas2").show (); // display the canvas
 		var selection = document.getElementById ("listMeridians");
-		this.meridianController.setActive(selection.value);
+		this.meridianController.setActive (selection.value);
 		/// fill th parameter list
 		this.meridianParameters.displayParameter (
 			this.drawMeridian,
@@ -170,9 +185,11 @@ Application.prototype.changeMeridianMode = function () {
 
 //==============================================================================
 /**
- * TODO
- *
+ * Change the revolution mode (primitive or formula). Update view and parameter
+ * view.
+ * 
  * @return {void}
+ * @throws {String} If the mode (i.e. the checked input radio id) is not valid.
  */
 Application.prototype.changeRevolMode = function () {
 	var mode = $('#revolType :radio:checked').attr ('id');
@@ -243,7 +260,10 @@ Application.prototype.closeCurve = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Set the equation of the meridian. Equation string is directly read in the
+ * DOM.
+ * 
+ * @return {void}
  */
 Application.prototype.meridianEquation = function () {
 	var input = document.getElementById ("meridianFormulaInput");
@@ -254,7 +274,10 @@ Application.prototype.meridianEquation = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Set the equation of the revolution curve. Equation string is directly read in
+ * the DOM.
+ * 
+ * @return {void}
  */
 Application.prototype.revolutionEquation = function () {
 	var input = document.getElementById ("revolutionFormulaInput");
@@ -266,7 +289,7 @@ Application.prototype.revolutionEquation = function () {
 //==============================================================================
 /**
  * This function calls itself again every second in a different thread until the
- * computation is finished. Then it redraws the scene.
+ * computation of the surface is finished. Then it redraws the scene.
  *
  * @return {void}
  */
@@ -293,6 +316,9 @@ Application.prototype.computationFinished = function () {
 /**
  * This function is called by the generate button. Calls the algorithm and draws
  * the resulting surface.
+ * 
+ * @param {int} mode - Generation algorithm. 0 for incremental and 1 for
+ * brute-force.
  *
  * @return {void}
  */
@@ -305,12 +331,9 @@ Application.prototype.generateAndDraw = function (mode) {
 	var dimZ = document.getElementById ("dimz").value;
 
 
-	this.surfaceController.setDimension ([
-		dimX, dimY, dimZ
-	]);
-	this.surfaceView.container.getObjectByName ("boundingBox").setDimension ([
-		dimX, dimY, dimZ
-	]);
+	this.surfaceController.setDimension ([dimX, dimY, dimZ]);
+	this.surfaceView.container.getObjectByName ("boundingBox")
+		.setDimension ([dimX, dimY, dimZ]);
 	try {
 		this.surfaceController.generate (mode);
 	}
@@ -349,3 +372,5 @@ Application.prototype.changeVoxelSize = function () {
 		true
 	);
 };
+
+

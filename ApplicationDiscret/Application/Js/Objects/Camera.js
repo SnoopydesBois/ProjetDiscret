@@ -137,7 +137,7 @@ function Camera (eyePos, centerPos, up, width, height, fov, near, far) {
 	this.fov = fov || 45;
 
 	/**
-	 * {flaot} Nearest point of the camera.
+	 * {float} Nearest point of the camera.
 	 */
 	this.near = near || 0.1;
 

@@ -51,7 +51,7 @@
  * @enum
  * Enumeration of axis.
  * /!\ CAUTION: value aren't number ! Each axis is an object which contain a
- * 'colorOffset' attributes. TODO vérifier anglais
+ * 'colorOffset' attributes. XXX vérifier anglais
  */
 var AxisEnum = {
 	/// values
@@ -88,3 +88,5 @@ var AxisEnum = {
 
 if (Object.freeze)
 	AxisEnum = Object.freeze (AxisEnum);
+
+

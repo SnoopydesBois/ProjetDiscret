@@ -40,6 +40,7 @@
  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
+ * TODO
  */
 
 
@@ -47,14 +48,14 @@
 
 
 /* resizeInterface () : void
- * addMenuEntry (entry : Entry) : void
- * addMenuSplit (menu : MenuEntryEnum, index : int) : void
- * addToolsEntry (entry : Entry) : void
- * activeToolButton (className : String, id : String) : void
- * switchActive (element : HTMLElement) : void
- * setActiveClass (element : HTMLElement, active : bool) : void
- * updateUndoRedoMenuItem () : void
+ * changeValueSlider (idSlider : String, draw : boolean) : void
+ * resetSlider (idSlider : String, draw : boolean) : void
+ * clearDraw () : void
+ * loading () : void
+ * stopLoading () : void
+ * abort () : void
  */
+
 
 
 /// CODE ///////////////////////////////////////////////////////////////////////
@@ -62,13 +63,14 @@
 
 
 /**
- * TODO
+ * Resize curve and surface view and set the 'width' and 'height' attribute for
+ * each canvas.
  *
  * @return {void}
  */
 Application.prototype.resizeInterface = function () {
 	/// resize interface
-	var canvasWidth = $("#revolCanvas2").height (); // 70% of curvesView width
+	var canvasWidth = $("#revolCanvas2").height (); // 70% of curveView width
 	$("#curvesView").width (canvasWidth * 10 / 7);
 	$("#surfaceView").width (
 		$("#workspace").width () - $("#curvesView").width () - 1
@@ -89,7 +91,7 @@ Application.prototype.resizeInterface = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Change the TODO
  */
 Application.prototype.changeValueSlider = function (idSlider, draw) {
 	var slider, arg1, arg2;
@@ -135,7 +137,13 @@ Application.prototype.changeValueSlider = function (idSlider, draw) {
 
 //==============================================================================
 /**
- * TODO
+ * Reset a slider. Redraw the scene if necessary.
+ * 
+ * @param {String} idSlider - Id of the slider.
+ * @param {boolean} draw - True if you want to redraw the scene, false
+ * otherwise.
+ * 
+ * @return {void}
  */
 Application.prototype.resetSlider = function (idSlider, draw) {
 	var $slider = $("#" + idSlider);
@@ -196,3 +204,5 @@ Application.prototype.abort = function () {
 		document.getElementById ("abortMessage").style = "display: none";
 	}, 2500);
 };
+
+
