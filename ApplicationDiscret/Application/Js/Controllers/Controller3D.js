@@ -136,8 +136,7 @@ Controller3D.prototype.generate = function (mode) {
 
 //==============================================================================
 /**
-
- * @return {Surface} The surface.
+ * @return {Surface} The current surface of the model.
  */
 Controller3D.prototype.getSurface = function () {
 	return this.modelGen.getSurface ();

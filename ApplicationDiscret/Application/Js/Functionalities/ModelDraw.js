@@ -32,7 +32,6 @@ ModelDraw.prototype.constructor = ModelDraw;
 
 /**
  * @constructor
- * TODO
  */
 function ModelDraw () {
 

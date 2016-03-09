@@ -10,7 +10,10 @@
 
 
 /* constructor ()
- * TODO
+ * setActive(name : (Curve | String), type : (EquationTypeEnum)
+ * getActiveCurve()
+ * newCurve()
+ * closeCurve()
  */
 
 
@@ -19,7 +22,7 @@
 
 
 /**
- * @classdesc TODO
+ * @classdesc This class inherit from Controller2D and is used to communicate with a modelCurve or a ModelDraw
  */
 Controller2DMeridian.prototype = new Controller2D;
 Controller2DMeridian.prototype.constructor = Controller2DMeridian;
@@ -44,12 +47,12 @@ Controller2DMeridian.prototype.constructor = Controller2DMeridian;
 function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
 	mode)
 {
-
+	// Call to mother constructor
 	Controller2D.call (this, imageMin, imageMax, antecedantMin, antecedantMax,
 		DrawModeEnum.HAND_FREE);
 
 	/**
-	 * {ModelDraw} TODO
+	 * {ModelDraw} The model to handle the drawn curve
 	 */
 	this.modelDraw = new ModelDraw ();
 
@@ -57,7 +60,7 @@ function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
 	 * {HTMLSelectElement} The current curve mode.
 	 */
 	this.mode = document.getElementById ("meridianType");
-}
+};
 
 
 
@@ -66,18 +69,26 @@ function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
 //##############################################################################
 
 /**
- * @return {Curve} The current curve.
+ * Set an active curve depending of the active mode
+ * @param {(Curve | String)} name - If of type curve, it is the new curve to set to the model
+ * if of type String, it is the name of a predefined curve to set as active
+ * @param {(EquationTypeEnum)} type - If name is of type Curve, the model needs to know the
+ * type of this new curve
+ * @return {void}
  */
 Controller2DMeridian.prototype.setActive = function (name, type) {
 	var mode = document.forms["meridianType"]["meridianTypeValue"].value
 	var curve;
+	// List of curves mode
 	if (mode === "meridianPrimitive") {
 		curve = this.modelCurve.setActive (name, type);
 		this.modelParameter.setCurve(curve);
 	}
+	// Draw mode
 	else if (mode === "meridianFreeHand") {
 		curve = this.newCurve ();
 	}
+	// Formula mode
 	else if (mode === "meridianFormula") {
 		curve = this.modelCurve.setActive(name, EquationTypeEnum.EXPLICIT);
 		this.modelParameter.setCurve(curve);
@@ -113,7 +124,7 @@ Controller2DMeridian.prototype.getActiveCurve = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Ask the modelDraw to create a new Curve
  */
 Controller2DMeridian.prototype.newCurve = function () {
 	this.modelDraw.newCurve ();
@@ -128,47 +139,4 @@ Controller2DMeridian.prototype.newCurve = function () {
  */
 Controller2DMeridian.prototype.closeCurve = function () {
 	return this.modelDraw.closeCurve ();
-};
-
-
-//==============================================================================
-/**
- * TODO
- *
- * @param {} eq -
- *
- * @return {}
- */
-Controller2DMeridian.prototype.parseImplicit = function (eq) {
-	// TODO parsing
-	throw "Controller2DMeridian.parseImplicit: this function is not implemented";
-};
-
-
-//==============================================================================
-/**
- * TODO
- *
- * @param {} eqX -
- * @param {} eqY -
- *
- * @return {}
- */
-Controller2DMeridian.prototype.parseParametric = function (eqX, eqY) {
-	// TODO parsing
-	throw "Controller2DMeridian.parseParametric: this function is not implemented";
-};
-
-
-//==============================================================================
-/**
- * TODO
- *
- * @param {} eq -
- *
- * @return {}
- */
-Controller2DMeridian.prototype.parseExplicit = function (eq) {
-	// TODO parsing
-	throw "Controller2DMeridian.parseExplicit: this function is not implemented";
 };

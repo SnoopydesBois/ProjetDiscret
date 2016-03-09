@@ -1,0 +1,172 @@
+\documentclass{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,urlcolor=black,linkcolor=black]{hyperref}
+\title{Projet Discret\\Rapport Pédagogique}
+\author{Thomas BENOIT,\\Zied BEN OTHMANE, Adrien BISUTTI, Lydie RICHAUME}
+\date{Mars 2016}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+%----------------------------------------------------------
+%INTRODUCTION
+%----------------------------------------------------------
+
+\section{Introduction}
+
+%Contexte------------------------------
+\subsection{Contexte}
+\paragraph{}
+Dans le cadre de notre formation de deuxième année de master d'informatique nous avons eu à réaliser un projet à destination de clients réels. Ce projet s'est déroulé sur six mois\,: depuis Octobre jusqu'en Mars. Il permet de mettre en pratique les compétences que nous avons acquises durant nos cours de gestion de projet, ainsi que de nous confronter au développement d'un projet de dimension moyenne.
+
+\paragraph{}
+Nos clients, \'Eric Andres et Gaëlle Largeteau-Skapin, ont développé un algorithme de génération de surfaces de révolution discrètes et souhaitaient pouvoir mettre à disposition un outil qui permettrait d'étayer leur publication.
+
+\paragraph{}
+Une surface de révolution est un objet mathématique en trois dimensions généré à l'aide de deux courbes en deux dimensions\,: la courbe de révolution et la méridienne. La courbe de révolution (le plus souvent un cercle) définit la transformation à appliquer à la méridienne afin de générer la surface de révolution.
+
+%Problématique-------------------------
+\subsection{Problématique}
+\paragraph{}
+Le but de ce projet est de construire un site web qui permette de créer une surface de révolution discrète à partir d'une courbe dessinée à main levée ou décrite à partir d'une équation. Ce site doit aussi permettre de modifier la courbe de révolution et d'exporter les surfaces obtenues ainsi que de les examiner coupe par coupe.
+
+%Travail réalisé-----------------------
+\subsection{Travail réalisé}
+\paragraph{}
+Afin de répondre à cette problématique, nous avons réalisé une application web se basant sur les technologies HTML5/CSS, Javascript et WebGL qui respecte le cahier des charges\footnote{Présent en annexe.} signé par les clients.
+\paragraph{}
+\begin{center}
+Screen de l'application
+\end{center}
+\paragraph{}
+Le travail réalisé comprend également une documentation technique (architecture de l'application sous forme de diagrammes de classes et documentation du code générée avec JSDoc) qui permet de maintenir et de faire évoluer l'application.
+
+%Organisation du rapport---------------
+\subsection{Organisation du rapport}
+\paragraph{}
+\newpage
+
+%----------------------------------------------------------
+%TRAVAIL REALISE
+%----------------------------------------------------------
+
+\section{Travail réalisé}
+\paragraph{}
+Dans cette section nous décrirons les fonctionnalités développées en lien avec le cahier des charges. Nous détaillerons les difficultés que nous avons pu rencontré ainsi que les solutions que nous avons mises en place.
+
+%HTML et CSS--------------------------
+\subsection{HTML et CSS}
+\paragraph{}
+
+%Fonctionnalités----------------------
+\subsection{Fonctionnalités}
+\paragraph{}
+
+%3D-----------------------------------
+\subsubsection{3D}
+\paragraph{}
+
+%2D-----------------------------------
+\subsubsection{2D}
+\paragraph{}
+
+%Gestion de données-------------------
+\subsubsection{Gestion de données}
+\paragraph{}
+
+%Traduction---------------------------
+\subsubsection{Traduction} %Supprimer ?
+\paragraph{}
+
+\newpage
+
+%----------------------------------------------------------
+%CONDUITE DE PROJET
+%----------------------------------------------------------
+
+\section{Conduite de projet}
+
+%Rôles--------------------------------
+\subsection{Rôles}
+\paragraph{}
+Notre équipe est composée de quatre personnes\,: 
+\begin{itemize}
+    \item Thomas Benoît - Chef de projet
+    \item Zied Ben Othmane - Responsable qualité
+    \item Adrien Bisutti - Responsable des risques
+    \item Lydie Richaume - Responsable des tâches
+\end{itemize}
+
+%Méthode de développement-------------
+\subsection{Méthode de développement}
+\paragraph{}
+Nous avons choisi un cycle de développement en spirale. En effet, cela nous permettait de travailler de manière incrémentale et de garder un contact constant avec les clients afin d'être certains de leur satisfaction, tout en gardant une certaine souplesse quant à la durée de chaque cycle.
+
+%Planification------------------------
+\subsection{Planification}
+\paragraph{}
+
+
+%Gestion des risques------------------
+\subsection{Gestion des risques}
+\paragraph{}
+Nous avons identifié une vingtaine de risque, les plus importants, dont les fiches sont fournies en annexe, étant\,: 
+\begin{itemize}
+    \item la possibilité d'un nouveau client\,;
+    \item la possibilité d'une évolution de l'algorithme fourni par le client\,;
+    \item la possibilité que le rendu 3D demande trop de ressources\,;
+    \item 
+\end{itemize}
+
+\paragraph{}
+Nous avons été prévenus dès le début du projet que celui-ci avait été proposé comme projet transdisciplinaire au sein de l'université. Cela pouvait se traduire par un ajout de clients menant possiblement à une modification du cahier des charges. Cela aurait donc pu impacter fortement notre projet, notamment au niveau des délais\,: en effet, la conception réalisée en début de projet aurait pu ne plus convenir et nous aurions pu avoir à modifier des fonctionnalités déjà développées.
+
+Afin de pouvoir anticiper ces problèmes, il a été décidé que nous demandions un maximum d'informations concernant les changements potentiels à nos clients et que nous nous tenions régulièrement informé des évolutions du dossier.
+
+Ce risque s'est avéré (date)\,: le projet de l'université a été accepté et nos clients ont assisté à une réunion avec les nouveaux clients. Il en est rapidement ressorti que l'université n'aurait pas de demandes supplémentaires. Le degré de gravité du risque a donc diminué.
+
+\paragraph{}
+Il a été annoncé dès le début du projet que nos clients travaillaient encore sur de nouvelles versions de leur algorithme. Il était donc possible que nous ayons a inclure des fonctionnalités supplémentaires à celles spécifiées au départ du projet. Cela pouvait donc impacter nos délais par l'ajout de tâches résultant. 
+
+Afin d'éviter que cela nous fasse prendre un retard trop grand, il a été décidé que nous n'accepterions pas de modifications annoncées moins d'un mois avant la fin du projet, et que nous nous informerions régulièrement auprès des clients de l'avancement de leurs recherches afin d'anticiper toute modification de planning.
+
+Ce risque ne s'est finalement pas avéré.
+
+\paragraph{}
+Notre projet reprenait le squelette d'un projet précédent et un problème connu était la lenteur du rendu 3D lors de l'affichage d'une quantité trop importante de voxels. Cela pouvait donc avoir un impact important sur les performances de l'application. Afin de palier ce problème, nous avons prévu une tâche visant à améliorer l'algorithme de génération.
+
+Cette tâche a effectivement permis d'obtenir un temps de rendu acceptable sur la plupart des machines, mais le temps de rendu peut rester long lorsque l'on choisit les dimensions maximales pour l'espace 3D.
+
+\paragraph{}
+Bien que nous développions une application web, nous n'avons pas eu à gérer les risques liés à l'utilisation d'un serveur. En effet, notre projet était développé uniquement en HTML et Javascript, et il était mentionné dans le cahier des charges que l'hébergement de l'application serait laissé à la charge du client.
+
+%Plan qualité logiciel----------------
+\subsection{Plan qualité logiciel}
+\paragraph{}
+
+%Coûts--------------------------------
+\subsection{Coûts}
+\paragraph{}
+
+\newpage
+
+%----------------------------------------------------------
+%CONCLUSION
+%----------------------------------------------------------
+
+\section{Conclusion}
+\paragraph{}
+
+\newpage
+
+%----------------------------------------------------------
+%ANNEXE
+%----------------------------------------------------------
+
+\section{Annexes}
+
+\end{document}

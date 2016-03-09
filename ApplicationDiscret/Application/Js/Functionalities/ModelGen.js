@@ -94,6 +94,7 @@ ModelGen.prototype.getVoxel = function (position) {
 //==============================================================================
 /**
  * @return {Voxel} the voxel selected
+ * @throw {String} The surface is not yet generated
  */
 ModelGen.prototype.getSelectedVoxel = function () {
 	if(this.surface === undefined){
@@ -130,7 +131,7 @@ ModelGen.prototype.getDimension = function () {
  * space (@see {@link Vector}).
  *
  * @return {void}
- * @throws {String} TODO
+ * @throws {String} The dimension is not of type Vector, Array or Number
  */
 ModelGen.prototype.setDimension = function (dimension) {
 	/// parameter verification
@@ -234,8 +235,7 @@ ModelGen.prototype.voxelsRead = function () {
  * @param {Curve} meridian - The meridian to use to model.
  * @param {Curve} curveRevolution - The curve of revolution to use to model.
  *
- * @return {Surface} The surface modeled using the meridian and the curve
- * of revolution.
+ * @return {void}
  */
 ModelGen.prototype.algoParametric = function (meridian, curveRevolution, mode){	
 	var dim = this.getDimension ();
@@ -246,7 +246,6 @@ ModelGen.prototype.algoParametric = function (meridian, curveRevolution, mode){
 	}else{
 		this.worker = new ParametricAlgo1Worker(meridian, fRevol, dim, this.surface);
 	}
-//	return this.surface;
 };
 
 

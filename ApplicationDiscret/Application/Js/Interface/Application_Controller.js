@@ -183,7 +183,7 @@ Application.prototype.changeRevolMode = function () {
 		this.revolutionParameters.displayParameter (
 			this.drawRevolution,
 			this.getRangeRevolution
-	);
+		);
 	}
 	else if (mode === "revolFormula") {
 		this.revolController.setActive (

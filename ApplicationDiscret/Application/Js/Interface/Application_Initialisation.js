@@ -201,3 +201,5 @@ Application.prototype.verifNavigator = function () {
 		// erase style="display: none"
 		document.getElementById ("notMozillaPopUp").style = ""; 
 };
+
+

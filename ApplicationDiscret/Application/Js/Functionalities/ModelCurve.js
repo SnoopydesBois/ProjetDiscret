@@ -47,7 +47,8 @@
 
 
 /* constructor ()
- * TODO
+ * addCurve (name : String, constructor : Function)
+ * setActive (curve : (Equation | String), EquationTypeEnum)
  */
 
 
@@ -130,7 +131,7 @@ ModelCurve.prototype.addCurve = function (name, constructor) {
  * default curve and the parameter "curve" is the name of this default curve
  * present in the attribute listCurve of the model.
  *
- * @param {String} curve - The equation of the curve or its name.
+ * @param {(Equation|String)} curve - The equation of the curve or its name.
  * @param {EquationTypeEnum} [type] - The type of the new active curve.
  *
  * @return {void}
@@ -258,6 +259,7 @@ ModelCurve.prototype.setImage = function (image) {
 //==============================================================================
 /**
  * @param {Range} the inverse image range of the curve to set
+ * return {void}
  */
 ModelCurve.prototype.setInverseImage = function (inverseImage) {
 	this.inverseImage = inverseImage;
@@ -274,6 +276,7 @@ ModelCurve.prototype.setInverseImage = function (inverseImage) {
 /**
  * @param {Equation} eq - The equation to set to the active implicit/explicit
  * curve.
+ * @return {void}
  */
 ModelCurve.prototype.addEquation = function (eq) {
 	if (!(eq instanceof Equation)) {

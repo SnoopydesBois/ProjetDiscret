@@ -9,8 +9,22 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* constructor ()
- * TODO
+/* constructor (imageMin : Number, imageMax : Number, antecedantMin : Number, antecedantMax : Number, mode : DrawModeEnum)
+ * addCurve (name : String, Function)
+ * getActiveCurve ()
+ * setActive (name : {Curve, String}, type : EquationTypeEnum) 
+ * getAllParameters ()
+ * getParametersRange (name : String)
+ * setParameter (param : String, value : Number) 
+ * getPoints ()
+ * getEquation ()
+ * getEquationNoParameter ()
+ * getXRange ()
+ * getYRange ()
+ * setXRange (xRange : Range)
+ * setYRange (yRange : Range)
+ * startHandFree (dim)
+ * newHandFree (dim, coord)
  */
 
 
@@ -19,7 +33,7 @@
 
 
 /**
- * @classdesc TODO
+ * @classdesc A class used to communicate between the application and the curve model
  */
 Controller2D.prototype = new Controller;
 Controller2D.prototype.constructor = Controller2D;
@@ -68,10 +82,13 @@ function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 		 * {DrawModeEnum} The type of drawing method used.
 		 */
 		this.mode = mode;
-		//this.modelParser = new ModelParser();
+		
+		/**
+		 * {ModelParameter} The model that control the curve parameters
+		 */
 		this.modelParameter = new ModelParameter();
 	}
-}
+};
 
 
 
@@ -105,9 +122,9 @@ Controller2D.prototype.addCurve = function (name, constructor) {
 
 //==============================================================================
 /**
- * TODO doc
- *
- * @return {void}
+ * Return the active curve of the model
+ * The curve returned can only be of type FormulaCurve as a Controller2D only use a modelCurve
+ * @return {FormulaCurve} the curve of the model
  */
 Controller2D.prototype.getActiveCurve = function () {
 	return this.modelCurve.getActiveCurve ();
@@ -116,10 +133,12 @@ Controller2D.prototype.getActiveCurve = function () {
 
 //==============================================================================
 /**
- * TODO doc
+ * Set a curve to the model
  *
- * @param {(Curve | String)} name - TODO ???
- * @param {(EquationTypeEnum)} type - TODO ???
+ * @param {(Curve | String)} name - If of type curve, it is the new curve to set to the model
+ * if of type String, it is the name of a predefined curve to set as active
+ * @param {(EquationTypeEnum)} type - If name is of type Curve, the model needs to know the
+ * type of this new curve
  *
  * @return {void}
  */
@@ -142,22 +161,23 @@ Controller2D.prototype.setActive = function (name, type) {
 
 //==============================================================================
 /**
- *
+ * Return all the parameters associated to a curve
+ * @return {Map<String, Number>} A map composed of the name of a parameter (the
+ * key) and its value (the value).
  */
 Controller2D.prototype.getAllParameters = function (){
-	//console.log(this.modelParameter.getAllParameters());
 	return this.modelParameter.getAllParameters ();
 };
 
 
 //==============================================================================
 /**
- * TODO
+ * Return the range of a parameter
  * @see ModelCurve.getParametersRange
  *
- * @param {TODO} name - TODO description
+ * @param {String} name - The name of the parameter
  *
- * @return {TODO}
+ * @return {Range} The range of the named parameter
  */
 Controller2D.prototype.getParametersRange = function (name){
 	return this.modelCurve.getParametersRange(name);
@@ -166,11 +186,11 @@ Controller2D.prototype.getParametersRange = function (name){
 
 //==============================================================================
 /**
- * TODO
+ * Set a value to a specified parameter
  * @see ModelParameter.setParameter
  *
- * @param {TODO} param - TODO description
- * @param {TODO} name - TODO description
+ * @param {String} param - The name of the parameter to set
+ * @param {Number} value - The value to set to the parameter
  *
  * @return {void}
  */
@@ -209,7 +229,7 @@ Controller2D.prototype.getEquationNoParameter = function(){
 
 //==============================================================================
 /**
- * @return {Range} TODO
+ * @return {Range} Return the X range of the curve
  */
 Controller2D.prototype.getXRange = function () {
 	return this.modelCurve.getImage ();
@@ -218,7 +238,7 @@ Controller2D.prototype.getXRange = function () {
 
 //==============================================================================
 /**
- * @return {Range} TODO
+ * @return {Range} Return the Y range of the curve
  */
 Controller2D.prototype.getYRange = function () {
 	return this.modelCurve.getInverseImage ();
@@ -227,32 +247,30 @@ Controller2D.prototype.getYRange = function () {
 
 //==============================================================================
 /**
- * @param {Range} xRange - The new xRange to set.
+ * @param {Range} xRange - The new xRange to set to the model.
  *
- * @return {TODO}
+ * @return {void}
  */
 Controller2D.prototype.setXRange = function (xRange) {
-	return this.modelCurve.setImage (xRange);
+	// TODO tester si enlever le return marche
+	this.modelCurve.setImage (xRange);
 };
 
 
 //==============================================================================
 /**
- * @param {Range} yRange - The new yRange to set.
+ * @param {Range} yRange - The new yRange to set to the model.
  *
- * @return {TODO}
+ * @return {void}
  */
 Controller2D.prototype.setYRange = function (yRange) {
-	return this.modelCurve.setInverseImage (yRange);
+	this.modelCurve.setInverseImage (yRange);
 };
 
 
 //==============================================================================
 /**
- * TODO doc
- * To redefine in child controllers XXX realy ???
- *
- * @param {} dim -
+ * IMPLEMENTED IN CHILD CLASSES
  */
 Controller2D.prototype.startHandFree = function (dim) {
 	throw "Controller2D.startHandFree: this function is not implemented";
@@ -261,49 +279,8 @@ Controller2D.prototype.startHandFree = function (dim) {
 
 //==============================================================================
 /**
- * TODO doc
- * To redefine in child controllers XXX realy ???
- *
- * @param {} dim -
- * @param {} coord -
+ * IMPLEMENTED IN CHILD CLASSES
  */
 Controller2D.prototype.newHandFree = function (dim, coord) {
 	throw "Controller2D.newHandFree: this function is not implemented";
-};
-
-
-//==============================================================================
-/**
- * TODO doc
- *
- * @param {} eq -
- */
-Controller2D.prototype.parseImplicit = function (eq) {
-	// TODO parsing
-	throw "Controller2D.parseImplicit: this function is not implemented";
-};
-
-
-//==============================================================================
-/**
- * TODO doc
- *
- * @param {} eqX -
- * @param {} eqY -
- */
-Controller2D.prototype.parseParametric = function (eqX, eqY) {
-	// TODO parsing
-	throw "Controller2D.parseParametric: this function is not implemented";
-};
-
-
-//==============================================================================
-/**
- * TODO doc
- *
- * @param {} eq -
- */
-Controller2D.prototype.parseExplicit = function (eq) {
-	// TODO parsing
-	throw "Controller2D.parseExplicit: this function is not implemented";
 };

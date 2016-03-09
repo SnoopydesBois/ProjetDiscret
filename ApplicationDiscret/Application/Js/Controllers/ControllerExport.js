@@ -48,11 +48,15 @@
 
 /*
  * constructor ()
- * pressKey (event : WindowEvent) : void
- * mouseDown (event : WindowEvent) : void
- * mouseUp (event : WindowEvent) : void
- * mouseMouv (event : WindowEvent) : void
- * scroll (event : WindowEvent) : void
+ * setIdMeridian(idMeridian : String)
+ * setIdRevolution(idRevolution : String)
+ * exportX3D(surface : Surface)
+ * export3DPng(surfaceView : SurfaceViewer)
+ * exportMeridianPng()
+ * exportRevolutionPng()
+ * exportSTL(renderer : SurfaceRenderer)
+ * saveDirectrix(directrixController : Controller2D)
+ * saveGeneratrix(generatrixController : Controller2DMeridian)
  */
 
 
@@ -61,8 +65,7 @@
 
 
 /**
- * @classdesc TODO
- * This class is empty, just for genericity.
+ * @classdesc A class used to communicate between the application and the modelExport
  */
 
 
@@ -85,16 +88,17 @@ ControllerExport.prototype.constructor = ControllerExport;
  */
 function ControllerExport (idSurface, idMeridian, idRevolution) {
 	/**
-	 * TODO
+	 * {ModelExport} The model used to export the data
 	 */
 	this.model = new ModelExport(idSurface, idMeridian, idRevolution);
-}
+};
 
 
 //==============================================================================
 /**
  * Set the id of the new HTML element containing the meridian to export
  * @param {String} idMeridian - The id of the HTML element containing the meridian
+ * @return {void}
  */
 ControllerExport.prototype.setIdMeridian = function(idMeridian){
 	this.model.idMeridian = idMeridian;
@@ -105,6 +109,7 @@ ControllerExport.prototype.setIdMeridian = function(idMeridian){
 /**
  * Set the id of the new HTML element containing the curve of revolution to export
  * @param {String} idRevolution - The id of the HTML element containing the curve of revolution
+ * @return {void}
  */
 ControllerExport.prototype.setIdRevolution = function(idRevolution){
 	this.model.idRevolution = idRevolution;
@@ -118,8 +123,8 @@ ControllerExport.prototype.setIdRevolution = function(idRevolution){
 
 /**
  * Call the model method to export the surface to x3d.
- * 
  * @param {Surface} surface - The surface to export to x3d file
+ * @return {void}
  */
 ControllerExport.prototype.exportX3D = function(surface){
 	this.model.exportX3D(surface);
@@ -129,9 +134,9 @@ ControllerExport.prototype.exportX3D = function(surface){
 //==============================================================================
 /**
  * Call the model method to export the surface to PNG.
- * 
  * @param {SurfaceViewer} surfaceView - The surfaceView containing the objects
  *  to render
+ * @return {void}
  */
 ControllerExport.prototype.export3DPng = function(surfaceView){
 	this.model.export3DPng(surfaceView);
@@ -141,6 +146,7 @@ ControllerExport.prototype.export3DPng = function(surfaceView){
 //==============================================================================
 /**
  * Call the model method to export the meridian to PNG.
+ * @return {void}
  */
 ControllerExport.prototype.exportMeridianPng = function(){
 	this.model.exportMeridianPng();
@@ -150,6 +156,7 @@ ControllerExport.prototype.exportMeridianPng = function(){
 //==============================================================================
 /**
  * Call the model method to export the revolution ton PNG.
+ * @return {void}
  */
 ControllerExport.prototype.exportRevolutionPng = function(){
 	this.model.exportRevolutionPng();
@@ -158,7 +165,9 @@ ControllerExport.prototype.exportRevolutionPng = function(){
 
 //==============================================================================
 /**
- * TODO
+ * Call the model to export the surface to STL
+ * @param {SurfaceRenderer} renderer - The surfaceRenderer used to model the surface
+ * @return {void}
  */
 ControllerExport.prototype.exportSTL = function(renderer){
 	this.model.exportSTL(renderer);
@@ -167,19 +176,23 @@ ControllerExport.prototype.exportSTL = function(renderer){
 
 //==============================================================================
 /**
- * TODO
+ * Save the current directrix to an xml format
+ * @param {Controller2D} directrixController - The controller used to access the directrix
+ * @return {void}
  */
-ControllerExport.prototype.saveImplicitCurve = function(revolutionController){
-	this.model.saveImplicitCurve(revolutionController);
+ControllerExport.prototype.saveDirectrix = function(directrixController){
+	this.model.saveDirectrix(directrixController);
 };
 
 
 //==============================================================================
 /**
- * TODO
+ * Save the current generatrix to an xml format
+ * @param {Controller2DMeridian} generatrixController - The controller used to access the generatrix
+ * @return {void}
  */
-ControllerExport.prototype.saveGeneratrix = function(meridianController){
-	this.model.saveGeneratrix(meridianController);
+ControllerExport.prototype.saveGeneratrix = function(generatrixController){
+	this.model.saveGeneratrix(generatrixController);
 };
 
 
