@@ -294,9 +294,6 @@ Application.prototype.revolutionEquation = function () {
  * @return {void}
  */
 Application.prototype.computationFinished = function () {
-	if (this.surfaceController.newVoxels ()) {
-		// do nothing
-	}
 	if (! this.surfaceController.isAlgoFinished ()) {
 		setTimeout (this.computationFinished.bind (this), 1000);
 	}

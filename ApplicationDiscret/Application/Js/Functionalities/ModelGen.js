@@ -45,21 +45,47 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* constructor ()
+/* dimension : Vector
+ * surface : Surface 
+ * 
+ * ModelGen (dimension : Vector)
  *
- * select (modelContr : ModelController,
- *         face : Facet,
- *         multiple : boolean) : void
- * cube (modelContr : ModelController) : void
- * face (modelContr : ModelController) : void
+ * getVoxel (position : Vector) : Voxel
+ * getSurface () : Surface
+ * getDimension () : Vector
+ * setDimension (dimension : Vector) : void
+ * generate (meridian : Curve, curveRevolution : Curve, mode : int) : Surface
+ * algoExplicit (
+ *     meridian : ExplicitCurve,
+ *     curveRevolution : ImplicitCurve,
+ *     mode : int
+ * ) : void
+ * isAlgoFinished () : boolean
+ * algoParametric (
+ *     meridian : DrawnCurve,
+ *     curveRevolution : ImplicitCurve,
+ *     mode : int
+ * ) : void
  */
+
 
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
+/**
+ * @classdesc Manage the generation of the surface.
+ */
 ModelGen.prototype.constructor = ModelGen;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
 
 /**
  * @constructor
@@ -77,37 +103,35 @@ function ModelGen (dimension) {
 	 * {Surface} The surface of the 3D space, there is no surface by default.
 	 */
 	this.surface = undefined;
+	
+	/**
+	 * {AlgoWorker} The worker (i.e. threads) which
+	 */
+	this.worker = null;
 }
 
 
-//==============================================================================
+
+//##############################################################################
+//	Other methods
+//##############################################################################
+
+
+
 /**
- * @param {Vector} position - the voxel's coordinates
- * @return {Voxel} the voxel at the x, y, z coordinates or null if it doesnt
- * exist
+ * @param {Vector} position - The voxel's coordinates.
+ * 
+ * @return {Voxel} The voxel at the x, y, z coordinates or null if it doesn't
+ * exist.
  */
 ModelGen.prototype.getVoxel = function (position) {
 	return this.surface.getVoxel (position);
-}
+};
 
 
 //==============================================================================
 /**
- * @return {Voxel} the voxel selected
- * @throw {String} The surface is not yet generated
- */
-ModelGen.prototype.getSelectedVoxel = function () {
-	if(this.surface === undefined){
-		throw "the surface is not generated";
-	}
-
-	return this.surface.getSelectedVoxel();
-}
-
-
-//==============================================================================
-/**
- * @return {Surface} The surface to model.
+ * @return {Surface} The surface of the model.
  */
 ModelGen.prototype.getSurface = function () {
 	return this.surface;
@@ -127,8 +151,9 @@ ModelGen.prototype.getDimension = function () {
 /**
  * Set the dimension of the generate surface.
  *
- * @param {(Vector | Number[3] | Number} dimension - The dimensions of the 3D
- * space (@see {@link Vector}).
+ * @param {(Vector | Number[3] | Number)} dimension - The dimensions of the 3D
+ * space.
+ * @see {@link Vector}
  *
  * @return {void}
  * @throws {String} The dimension is not of type Vector, Array or Number
@@ -160,7 +185,7 @@ ModelGen.prototype.generate = function (meridian, curveRevolution, mode) {
 	if (meridian instanceof ExplicitCurve
 			&& curveRevolution instanceof ImplicitCurve)
 	{
-		this.algoExplicit(meridian, curveRevolution, mode);
+		this.algoExplicit (meridian, curveRevolution, mode);
 	}
 	else if (meridian instanceof DrawnCurve
 			&& curveRevolution instanceof ImplicitCurve)
@@ -171,22 +196,27 @@ ModelGen.prototype.generate = function (meridian, curveRevolution, mode) {
 		throw "ModelGen.generate.ErrorBadCurveType";
 	}
 	return this.surface;
-}
+};
 
 
 //==============================================================================
 /**
  * This function generate the surface using the algorithm for explicit
- * functions
- * @param {Curve} meridian - the meridian to use to model
- * @param {Curve} curveRevolution - the curve of revolution to use to model
+ * functions.
+ * 
+ * @param {ExplicitCurve} meridian - The meridian to use to model.
+ * @param {ImplicitCurve} curveRevolution - The curve of revolution to use to
+ * model.
+ * @param {int} mode - 0 or incremental generation and 1 for brute-force.
+ * 
+ * @return {void}
  */
-ModelGen.prototype.algoExplicit = function (meridian, curveRevolution, mode){
+ModelGen.prototype.algoExplicit = function (meridian, curveRevolution, mode) {
 	var dim = this.getDimension ();
 	this.surface = new Surface (dim);
 	var fMeridian = meridian.getEquation ();
 	var fRevol = curveRevolution.getEquation ();
-	if(mode === 0) {
+	if (mode === 0) {
 		this.worker = new ExplicitAlgo2Worker (fMeridian, fRevol, dim,
 			this.surface);
 	}
@@ -201,7 +231,7 @@ ModelGen.prototype.algoExplicit = function (meridian, curveRevolution, mode){
 /**
  * This function return whether the algorithm finished his computations.
  *
- * @return {boolean} Whether the algorithm finished his computations.
+ * @return {boolean} True when algorithm finished, false otherwise.
  */
 ModelGen.prototype.isAlgoFinished = function () {
 	return this.worker.finished;
@@ -210,89 +240,28 @@ ModelGen.prototype.isAlgoFinished = function () {
 
 //==============================================================================
 /**
- * @return {} TODO
- */
-ModelGen.prototype.newVoxels = function () {
-	return this.worker.newVoxels;
-};
-
-
-//==============================================================================
-/**
- * TODO
- *
- * @return {void}
- */
-ModelGen.prototype.voxelsRead = function () {
-	this.worker.newVoxels = false;
-};
-
-//==============================================================================
-/**
  * This function generate the surface using the algorithm for parametric
  * functions.
  *
- * @param {Curve} meridian - The meridian to use to model.
- * @param {Curve} curveRevolution - The curve of revolution to use to model.
+ * @param {DrawnCurve} meridian - The meridian to use to model.
+ * @param {ImplicitCurve} curveRevolution - The curve of revolution to use to
+ * model.
+ * @param {int} mode - 0 or incremental generation and 1 for brute-force.
  *
  * @return {void}
  */
-ModelGen.prototype.algoParametric = function (meridian, curveRevolution, mode){	
+ModelGen.prototype.algoParametric = function (meridian, curveRevolution, mode) {	
 	var dim = this.getDimension ();
 	this.surface = new Surface (dim);
 	var fRevol = curveRevolution.getEquation ();
-	if(mode === 0){
-		this.worker = new ParametricAlgo2Worker(meridian, fRevol, dim, this.surface);
-	}else{
-		this.worker = new ParametricAlgo1Worker(meridian, fRevol, dim, this.surface);
-	}
-};
-
-
-//==============================================================================
-/**
- * TODO description
- *
- * @param {Vector} position - The position of the voxel to select.
- *
- * @return {void}
- * @throws {String}
- */
-ModelGen.prototype.selectVoxel = function (position) {
-	if (!(position instanceof Vector)){
-		throw "ModelGen.selectVoxel: position is not a Vector";
-	}
-	else if (this.surface === undefined){
-		throw "ModelGen.selectVoxel: the surface is not generated";
-	}
-
-	if (this.surface.isVoxel (position)){
-		this.surface.select (position); // Select
+	if (mode === 0) {
+		this.worker = new ParametricAlgo2Worker (meridian, fRevol, dim, 
+			this.surface);
 	}
 	else {
-		this.surface.select (null); // Unselect
+		this.worker = new ParametricAlgo1Worker (meridian, fRevol, dim, 
+			this.surface);
 	}
-};
-
-
-//==============================================================================
-/**
- * TODO description
- *
- * @param {Vector} position - The position of the voxel to select.
- *
- * @return {boolean} True if the voxel is selected, false otherwise.
- * @throws {String} TODO
- */
-ModelGen.prototype.isSelectedVoxel = function (position) {
-	if (!(position instanceof Vector)) {
-		throw "ModelGen.isSelectedVoxel: position is not a Vector";
-	}
-	else if (this.surface === undefined) {
-		throw "ModelGen.isSelectedVoxel: the surface is not generated";
-	}
-
-	return this.surface.getSelectedVoxel ().getCoordinates ().equals (position);
 };
 
 

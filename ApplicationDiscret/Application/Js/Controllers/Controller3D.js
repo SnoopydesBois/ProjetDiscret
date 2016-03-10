@@ -225,17 +225,6 @@ Controller3D.prototype.hasVoxel = function (x, y, z) {
 
 //==============================================================================
 /**
- * Get the selected cube.
- * 
- * @return {Voxel} The selected voxel.
- */
-Controller3D.prototype.getSelectedVoxel = function () {
-	return this.modelGen.getSelectedVoxel ();
-};
-
-
-//==============================================================================
-/**
  * @return {Vector} The dimension of the surface.
  */
 Controller3D.prototype.getDimension = function () {
@@ -262,25 +251,6 @@ Controller3D.prototype.setDimension = function (dimension) {
 	
 	/// return dimension
 	return this.modelGen.setDimension (dimension);
-};
-
-
-//==============================================================================
-/**
- * Is this cube selected.
- * 
- * @param {Vector} position - The coordinates of the voxel to test
- * 
- * @return {boolean} True if the voxel is selected, false otherwise.
- */
-Controller3D.prototype.isSelectedVoxel = function (position) {
-	/// parameter verification
-	if (! (position instanceof Vector)){
-		throw "Controller3D.isSelectedVoxel: given parameter is not a Vector"
-	}
-	
-	/// return
-	return this.modelGen.isSelectedVoxel (position);
 };
 
 
@@ -325,35 +295,6 @@ Controller3D.prototype.setGetCurveRevolution = function (curveRevolution) {
 
 //==============================================================================
 /**
- * Action when a mouse button is pressed. TODO This action is ...
- * 
- * @param {WindowEvent} event - Event captured by the window.
- * @param {Vector} position - The coordinates of the click.
- * 
- * FIXME 'position' ne sert a rien, la position du click est déja dans
- * event.layerX et event.layerY.
- * 
- * @return {void}
- * @throws {String} TODO
- */
-Controller3D.prototype.mouseDown = function (event, position) {
-	if (!(event instanceof WindowEvent)){ // A vérifier
-		throw "event is not a WindowEvent";
-	}
-	else if (!(position instanceof Vector)) {
-		throw "position is not a Vector"
-	}
-	
-	if (event.button === 0) { // FIXME ça veut dire quoi 0 ?
-		if (this.modelGen !== undefined) {
-			this.modelGen.selectVoxel (position);
-		}
-	}
-};
-
-
-//==============================================================================
-/**
  * This function return whether the algorithm finished his computations.
  * @see {@link ModelGen.isAlgoFinished}
  * 
@@ -361,30 +302,6 @@ Controller3D.prototype.mouseDown = function (event, position) {
  */
 Controller3D.prototype.isAlgoFinished = function (){
 	return this.modelGen.isAlgoFinished ();
-};
-
-
-//==============================================================================
-/**
- * TODO
- * @see {@link ModelGen.newVoxels}
- * 
- * @return {TODO} 
- */
-Controller3D.prototype.newVoxels = function () {
-	return this.modelGen.newVoxels ();
-};
-
-
-//==============================================================================
-/**
- * TODO
- * @see {@link ModelGen.voxelsRead}
- * 
- * @return {TODO} 
- */
-Controller3D.prototype.voxelsRead = function () {
-	this.modelGen.voxelsRead ();
 };
 
 
