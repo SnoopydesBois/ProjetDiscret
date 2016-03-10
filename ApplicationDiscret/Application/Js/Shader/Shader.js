@@ -45,22 +45,41 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* constructor (name : String,
- *              vertexSourceText : String,
- *              fragmentSourceText : String,
- *              gl : glContext,
- *              attributes : Attribute)
+/* shaderName : String
+ * vertexShaderSource : String
+ * fragmentShaderSource : String
+ * attributes : AttributeEnum[]
+ * program : WebGLProgram
+ * vertexShad : WebGLShader
+ * fragmentShad : WebGLShader
+ * glContext : WebGLRenderingContext
+ * 
+ * Shader (
+ *     name : String,
+ *     vertexSource : String,
+ *     fragmentSource : String,
+ *     glContext : WebGLRenderingContext,
+ *     attributes : AttributeEnum[}
+ * )
+ * 
+ * getName () : String
  * reload () : void
  * prepareShader () : void
- * setActive () : void
- * getName () : String
- * getUniformLocation (aName : String) : WebGLUniformLocation
+ * activate () : void
+ * getUniformLocation (aName : String) : int
  * getAttributeLocation (aName : String) : int
- * getAttribute (attrib : Object) : boolean
+ * hasAttribute (attrib : AttributeEnum) : boolean
  */
 
 
 /// CODE ///////////////////////////////////////////////////////////////////////
+
+
+
+/**
+ * @classdesc TODO
+ */
+Shader.prototype.constructor = Shader;
 
 
 
@@ -77,13 +96,10 @@
  * @param {String} name - Name of the shader.
  * @param {String} vertexSource - The vertex shader source code.
  * @param {String} fragmentSource - The fragment shader source code.
- * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
- * webGl context.
+ * @param {WebGLRenderingContext} glContext - The webGl context.
  * @param {AttributeEnum[]} attributes - attributes of the shader.
  */
-function Shader (name, vertexSource, fragmentSource, glContext, 
-	attributes) 
-{
+function Shader (name, vertexSource, fragmentSource, glContext, attributes) {
 	
 	/**
 	 * {String} The name of the shader.
@@ -101,7 +117,7 @@ function Shader (name, vertexSource, fragmentSource, glContext,
 	this.fragmentShaderSource = fragmentSource;
 	
 	/**
-	 * {AttributeEnum[]} A list of attributes for the shader. FIXME mal exprimé, mal expliqué
+	 * {AttributeEnum[]} A list of attributes used the shader.
 	 */
 	this.attributes = attributes;
 	
@@ -121,7 +137,7 @@ function Shader (name, vertexSource, fragmentSource, glContext,
 	this.fragmentShad = null; 
 	
 	/**
-	 * {(CanvasRenderingContext2D | WebGLRenderingContext)} A reference to the
+	 * {WebGLRenderingContext} A reference to the
 	 * using gl context.
 	 */
 	this.glContext = glContext; 
@@ -141,7 +157,6 @@ function Shader (name, vertexSource, fragmentSource, glContext,
 
 /**
  * @return {String} The name the shader.
-
  */
 Shader.prototype.getName = function () {
 	return this.shaderName;
@@ -159,7 +174,7 @@ Shader.prototype.getName = function () {
  * Load/reload the shaders.
  * 
  * @return {void}
- * @throws {String} TODO
+ * @throws {String} If the gl context does not exist.
  */
 Shader.prototype.reload = function () {
 	var gl = this.glContext;
@@ -216,27 +231,22 @@ Shader.prototype.activate = function () {
 	this.glContext.useProgram (this.program); 
 };
 
-Shader.prototype.setActive = function () {
-	console.error ("Cette methode à été renommé, il faut utiliser Shader.activate"); 
-	this.activate ();
-};
-
 
 //==============================================================================
 /**
- * Get uniform location given a name.
- * !!!!! Shader must be active before using this function !
- * @see activate()
+ * Get uniform location given a name. /!\ Shader must be active before using
+ * this function !
+ * @see {@link activate}
  * 
  * @param {String} aName - The name of the uniformLocation.
  * 
- * @return {WebGLUniformLocation} The uniformLocation from the program.
+ * @return {int} The uniformLocation from the program.
  */
 Shader.prototype.getUniformLocation = function (aName) {
-	if (typeof aName !== "string") {
+	if (typeof aName != "string") {
 		console.error ("Shader.getUniformLocation: the given name is not a "
 			+ "string !");
-		return;
+		return -1;
 	}
 	return this.glContext.getUniformLocation (this.program, aName);
 };
@@ -244,9 +254,9 @@ Shader.prototype.getUniformLocation = function (aName) {
 
 //==============================================================================
 /**
- * Get attribute location given a name.
- * !!!!! Shader must be active before using this function !
- * @see activate()
+ * Get attribute location given a name. /!\ Shader must be active before using
+ * this function !
+ * @see {@link activate}
  * 
  * @param {String} aName - The name of the attribute.
  * 
@@ -256,7 +266,7 @@ Shader.prototype.getAttributeLocation = function (aName) {
 	if (typeof aName !== "string") {
 		console.error ("Shader.getAttributeLocation: the given name is not a "
 			+ "string !");
-		return;
+		return -1;
 	}
 	return this.glContext.getAttribLocation (this.program, aName);
 };
@@ -264,8 +274,6 @@ Shader.prototype.getAttributeLocation = function (aName) {
 
 //==============================================================================
 /**
- * Get the attribute list, necessary to construct the vertex buffer.
- * 
  * @param {AttributeEnum} attrib - An attribute.
  * 
  * @return {boolean} True if the attribute exist, false otherwise.
@@ -278,10 +286,6 @@ Shader.prototype.hasAttribute = function (attrib) {
 			return true;
 	}
 	return false;
-};
-Shader.prototype.getAttribute = function (attrib) {
-	console.error ("Cette methode à été renommé, il faut utiliser Shader.hasAttribute"); 
-	this.hasAttribute (attrib);
 };
 
 

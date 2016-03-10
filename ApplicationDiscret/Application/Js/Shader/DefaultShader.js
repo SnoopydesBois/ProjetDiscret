@@ -45,11 +45,20 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* constructor (glContext : glContext)
- * setMode (mode : int) : void
- * getMode () : int
- * setAttributes (glContext : glContext, vbo : buffer) : void
+/* renderingMode : RenderingModeEnum
+ * 
+ * DefaultShader ()
+ * 
+ * setRenderingMode (mode : RenderingModeEnum) : void
+ * getRenderingMode () : RenderingModeEnum
+ * setAttributes (
+ *     glContext : WebGLRenderingContext,
+ *     vertexBuffer : WebGLBuffer,
+ *     viewMode : int,
+ *     radius : float
+ * ) : void
  */
+
 
 
 /// CODE ///////////////////////////////////////////////////////////////////////
@@ -74,12 +83,13 @@ DefaultShader.prototype.constructor = DefaultShader;
 /**
  * @static
  * 
- * Define the attributes used by the shader
+ * {AttributeEnum[]} Define the attributes used by the shader
  */
-DefaultShader.prototype.attributes = [
+DefaultShader.attributes = [
 	AttributeEnum.position,
 	AttributeEnum.color
 ];
+
 
 
 //##############################################################################
@@ -100,7 +110,7 @@ function DefaultShader (glContext) {
 		vertSrc,
 		fragSrc,
 		glContext,
-		DefaultShader.prototype.attributes
+		DefaultShader.attributes
 	);
 	
 	/**
@@ -151,7 +161,7 @@ DefaultShader.prototype.getRenderingMode = function () {
 
 
 /**
- * Set the attributes for the shader.
+ * Set attributes for the shader.
  * 
  * @param {WebGLRenderingContext} glContext - The webGl context.
  * @param {WebGLBuffer} vertexBuffer - The buffer data.

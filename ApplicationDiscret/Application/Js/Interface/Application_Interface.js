@@ -98,7 +98,13 @@ Application.prototype.resizeInterface = function () {
  * element) or its id.
  * @param {boolean} draw - True if you want to force the redraw of the surface,
  * false otherwise.
- * @param {(String | Number)} argument[2] - 
+ * @param {(String | int)} argument[2] - Id of the input element (in case
+ * there are 3 arguments) or value of the left bound (in case there are 4
+ * arguments).
+ * @param {int} [argument[3]] - Value of the right bound.
+ * 
+ * @return {void}
+ * @throws {String} If number of parameter not 3 or 4.
  */
 Application.prototype.changeValueSlider = function (idSlider, draw) {
 	var slider, arg1, arg2;

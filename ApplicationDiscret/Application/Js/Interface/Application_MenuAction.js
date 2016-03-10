@@ -232,7 +232,7 @@ Application.prototype.loadMeridian = function (event) {
 	var equation, xPoints, yPoints, xMin, xMax, yMin, yMax;
 
 	equation = xml.getElementsByTagName ("Equation");
-	i f(equation.length == 0) {
+	if (equation.length == 0) {
 		// Same length for both of the lists
 		xPoints = xml.getElementsByTagName ("xCoords")[0].textContent
             .toString ().split (" ");
