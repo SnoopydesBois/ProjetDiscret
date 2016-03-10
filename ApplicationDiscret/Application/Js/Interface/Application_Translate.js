@@ -9,11 +9,6 @@
 // CODE ////////////////////////////////////////////////////////////////////////
 
 
-/**
- * TODO explication module
- */
-
-
 
 //##############################################################################
 //	preparing language file
@@ -355,7 +350,6 @@ Application.prototype.translateAll = function () {
 	$('.atr').each (function (i) {
 		$(this).attr ("href", translateHref[activeLang][$(this).attr ('id')]);			
 	});
-	
 };
 
 

@@ -122,7 +122,7 @@ function DefaultShader (glContext) {
  * happen.
  * @see {@link RenderingModeEnum}
  * 
- * @param {int} mode - The mode to set.
+ * @param {RenderingModeEnum} mode - The mode to set.
  * 
  * @return {void}
  */

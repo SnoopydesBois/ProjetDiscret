@@ -49,6 +49,8 @@
 /* initAppli () : void
  * initControllers () : void
  * initWindowEvent () : void
+ * createSlider (id : String, min : int, max : int) : void
+ * verifNavigator () : void
  */
 
 

@@ -23,8 +23,8 @@
  * exportSTL () : void
  * saveDirectrix () : void
  * saveGeneratrix () : void
- * loadMeridian (event : TODO) : void
- * loadRevolution (event : TODO) : void
+ * loadMeridian (event : Event) : void
+ * loadRevolution (event : Event) : void
  * resetSliderMultiSlice () : void
  * showXSlice () : void
  * showYSlice () : void
@@ -214,7 +214,7 @@ Application.prototype.saveGeneratrix = function () {
 /**
  * Load as XML file the meridian curve.
  * 
- * @param {TODO} event - TODO.
+ * @param {Event} event - The event.
  * 
  * @return {void}
  */
@@ -232,14 +232,14 @@ Application.prototype.loadMeridian = function (event) {
 	var equation, xPoints, yPoints, xMin, xMax, yMin, yMax;
 
 	equation = xml.getElementsByTagName ("Equation");
-	if(equation.length == 0){
+	i f(equation.length == 0) {
 		// Same length for both of the lists
 		xPoints = xml.getElementsByTagName ("xCoords")[0].textContent
             .toString ().split (" ");
 		yPoints = xml.getElementsByTagName ("yCoords")[0].textContent
             .toString ().split (" ");
 	}
-	else{
+	else {
 		// Same length since each parameters got a name and a value
 		xMin = parseFloat (xml.getElementsByTagName ("xMin")[0].textContent
             .toString ());
@@ -284,7 +284,7 @@ Application.prototype.loadMeridian = function (event) {
 /**
  * Load as XML file the revolution curve.
  * 
- * @param {TODO} event - TODO.
+ * @param {Event} event - The event.
  * 
  * @return {void}
  */
@@ -321,7 +321,7 @@ Application.prototype.loadRevolution = function (event) {
         .toString ());
 
 	this.revolController.setActive (
-        equation[0].textContent.toString(),
+        equation[0].textContent.toString (),
         EquationTypeEnum.IMPLICIT
     );
 

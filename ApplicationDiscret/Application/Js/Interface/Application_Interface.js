@@ -91,7 +91,14 @@ Application.prototype.resizeInterface = function () {
 
 //==============================================================================
 /**
- * Change the TODO
+ * Change min and max value of a slider and reset it or change just a vlue of
+ * a slider with the value of a HTMLInputElement.
+ * 
+ * @param {(HTMLDivElement | String)} idSlider - The slider (i.e. the div
+ * element) or its id.
+ * @param {boolean} draw - True if you want to force the redraw of the surface,
+ * false otherwise.
+ * @param {(String | Number)} argument[2] - 
  */
 Application.prototype.changeValueSlider = function (idSlider, draw) {
 	var slider, arg1, arg2;
