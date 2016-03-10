@@ -46,22 +46,26 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/*
+/* image : Range
+ * inverseImage : Range
+ * listCurve : Map<String, Function>
+ * activeCurve : Curve
+ * 
  * ModelCurve ()
  * 
- * addCurve (name, constructor) :
- * setActive (curve, type) :
- * getPoints () :
- * getActiveCurve () :
- * getParametersRange (name) :
- * getEquation () :
- * getEquationNoParameter () :
- * getImage () :
- * getInverseImage () :
- * setImage (image) :
- * setInverseImage (inverseImage) :
- * addEquation (eq) :
- * consolePrintAvailableCurve () :
+ * addCurve (name : String, constructor : Function) : void
+ * setActive (curve : Equation, type : EquationTypeEnum) : void
+ * getPoints () : Point[][]
+ * getActiveCurve () : Curve
+ * getParametersRange (name : String) : Range
+ * getEquation () : Equation
+ * getEquationNoParameter () : String
+ * getImage () : Range
+ * getInverseImage () : Range
+ * setImage (image : Range) : void
+ * setInverseImage (inverseImage : Range) : void
+ * addEquation (eq : Equation) : void
+ * consolePrintAvailableCurve () : void
  */
 
 
