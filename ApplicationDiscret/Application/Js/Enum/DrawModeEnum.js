@@ -67,3 +67,5 @@ var DrawModeEnum = {
 
 if (Object.freeze)
 	DrawModeEnum = Object.freeze (DrawModeEnum);
+
+

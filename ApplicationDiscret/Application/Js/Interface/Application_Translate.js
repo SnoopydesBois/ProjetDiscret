@@ -9,11 +9,6 @@
 // CODE ////////////////////////////////////////////////////////////////////////
 
 
-/**
- * TODO explication module
- */
-
-
 
 //##############################################################################
 //	preparing language file
@@ -21,19 +16,22 @@
 
 
 /**
- * TODO
+ * {int} Index of the current language.
+ * @see {@link Application.languages}
  */
 Application.prototype.activeIndexLang = 0;
 
 
 /**
- * TODO
+ * {String[]} Mnemomic of avaible languages. Used to index all translation.
  */
 Application.languages = ['fr', 'en'];
 
 
 /**
- * TODO
+ * {String[][]} Matrix of translation. Each translation is indexed by the lang
+ * (string "en" or "fr") and the id of the element.
+ * @see {@link Application.languages}
  */
 var aLangKeys = [];
 aLangKeys['en'] = [];
@@ -297,20 +295,28 @@ aLangKeys['fr']['s43'] = 'Z (bleue)';
 //##############################################################################
 
 
-
+/**
+ * {String[][]} Matrix of translation for href attribute. Each translation is
+ * indexed by the lang (string "en" or "fr") and the id of the element.
+ * @see {@link Application.languages}
+ */
 var translateHref = [];
 translateHref['en'] = [];
 translateHref['fr'] = [];
 
 translateHref['fr']['m51'] = 'helpFR.html';
 translateHref['fr']['m52'] = 'aboutFR.html';
-translateHref['fr']['verifNavDownload'] = 'https://www.mozilla.org/fr/firefox/new/';
-translateHref['fr']['verifNavDownload2'] = 'https://www.mozilla.org/fr/firefox/new/';
+translateHref['fr']['verifNavDownload'] =
+	'https://www.mozilla.org/fr/firefox/new/';
+translateHref['fr']['verifNavDownload2'] =
+	'https://www.mozilla.org/fr/firefox/new/';
 
 translateHref['en']['m51'] = 'helpEN.html';
 translateHref['en']['m52'] = 'aboutEN.html';
-translateHref['en']['verifNavDownload'] = 'https://www.mozilla.org/en-US/firefox/new/';
-translateHref['en']['verifNavDownload2'] = 'https://www.mozilla.org/en-US/firefox/new/';
+translateHref['en']['verifNavDownload'] =
+	'https://www.mozilla.org/en-US/firefox/new/';
+translateHref['en']['verifNavDownload2'] =
+	'https://www.mozilla.org/en-US/firefox/new/';
 
 
 //##############################################################################
@@ -320,7 +326,7 @@ translateHref['en']['verifNavDownload2'] = 'https://www.mozilla.org/en-US/firefo
 
 
 /**
- * Translate all element (HTMLtex, title and href).
+ * Translate all element (HTMLtext, title and href).
  * 
  * @return {void}
  */
@@ -344,7 +350,6 @@ Application.prototype.translateAll = function () {
 	$('.atr').each (function (i) {
 		$(this).attr ("href", translateHref[activeLang][$(this).attr ('id')]);			
 	});
-	
 };
 
 

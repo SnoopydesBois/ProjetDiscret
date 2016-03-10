@@ -40,6 +40,7 @@
  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
+ * TODO
  */
 
 
@@ -47,14 +48,14 @@
 
 
 /* resizeInterface () : void
- * addMenuEntry (entry : Entry) : void
- * addMenuSplit (menu : MenuEntryEnum, index : int) : void
- * addToolsEntry (entry : Entry) : void
- * activeToolButton (className : String, id : String) : void
- * switchActive (element : HTMLElement) : void
- * setActiveClass (element : HTMLElement, active : bool) : void
- * updateUndoRedoMenuItem () : void
+ * changeValueSlider (idSlider : String, draw : boolean) : void
+ * resetSlider (idSlider : String, draw : boolean) : void
+ * clearDraw () : void
+ * loading () : void
+ * stopLoading () : void
+ * abort () : void
  */
+
 
 
 /// CODE ///////////////////////////////////////////////////////////////////////
@@ -62,13 +63,14 @@
 
 
 /**
- * TODO
+ * Resize curve and surface view and set the 'width' and 'height' attribute for
+ * each canvas.
  *
  * @return {void}
  */
 Application.prototype.resizeInterface = function () {
 	/// resize interface
-	var canvasWidth = $("#revolCanvas2").height (); // 70% of curvesView width
+	var canvasWidth = $("#revolCanvas2").height (); // 70% of curveView width
 	$("#curvesView").width (canvasWidth * 10 / 7);
 	$("#surfaceView").width (
 		$("#workspace").width () - $("#curvesView").width () - 1
@@ -89,7 +91,20 @@ Application.prototype.resizeInterface = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Change min and max value of a slider and reset it or change just a vlue of
+ * a slider with the value of a HTMLInputElement.
+ * 
+ * @param {(HTMLDivElement | String)} idSlider - The slider (i.e. the div
+ * element) or its id.
+ * @param {boolean} draw - True if you want to force the redraw of the surface,
+ * false otherwise.
+ * @param {(String | int)} argument[2] - Id of the input element (in case
+ * there are 3 arguments) or value of the left bound (in case there are 4
+ * arguments).
+ * @param {int} [argument[3]] - Value of the right bound.
+ * 
+ * @return {void}
+ * @throws {String} If number of parameter not 3 or 4.
  */
 Application.prototype.changeValueSlider = function (idSlider, draw) {
 	var slider, arg1, arg2;
@@ -135,7 +150,13 @@ Application.prototype.changeValueSlider = function (idSlider, draw) {
 
 //==============================================================================
 /**
- * TODO
+ * Reset a slider. Redraw the scene if necessary.
+ * 
+ * @param {String} idSlider - Id of the slider.
+ * @param {boolean} draw - True if you want to redraw the scene, false
+ * otherwise.
+ * 
+ * @return {void}
  */
 Application.prototype.resetSlider = function (idSlider, draw) {
 	var $slider = $("#" + idSlider);
@@ -196,3 +217,5 @@ Application.prototype.abort = function () {
 		document.getElementById ("abortMessage").style = "display: none";
 	}, 2500);
 };
+
+

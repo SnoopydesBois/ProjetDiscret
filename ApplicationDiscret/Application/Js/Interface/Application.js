@@ -126,14 +126,14 @@ function Application () {
 
 
 	/**
-	 * {SurfaceViewer} TODO
+	 * {SurfaceViewer} Surface view.
 	 */
 	this.surfaceView = new SurfaceViewer (
 		document.getElementById ("surfaceCanvas")
 	);
 
 	/**
-	 * {Controller3D} TODO
+	 * {Controller3D} Surface controller.
 	 */
 	this.surfaceController = new Controller3D (new Vector (51, 51, 51));
 
@@ -145,13 +145,13 @@ function Application () {
 
 
 	/**
-	 * {Controller2DMeridian} TODO
+	 * {Controller2DMeridian} Meridian controller.
 	 */
 	this.meridianController = new Controller2DMeridian (-1, 1, -1, 1);
 
 
 	/**
-	 * {CurveViewer} TODO
+	 * {CurveViewer} Meridian view.
 	 */
 	this.meridianView = new CurveViewer (
 		document.getElementById ("meridianCanvas"),
@@ -160,19 +160,19 @@ function Application () {
 	);
 
 	/**
-	 * {ParameterViewer} TODO
+	 * {ParameterViewer} Meridian parameter view.
 	 */
 	this.meridianParameters = new ParameterViewer (
 		'#meridianParam', this.meridianController
 	);
 
 	/**
-	 * {Function} TODO
+	 * {Function} Allow to draw the meridian.
 	 */
 	this.drawMeridian = null;
 
 	/**
-	 * {Function} TODO
+	 * {Function} Allow to get the X range of the meridian curve.
 	 */
 	this.getRangeMeridian = null;
 
@@ -184,13 +184,13 @@ function Application () {
 
 
 	/**
-	 * {Controller2D} TODO
+	 * {Controller2D} Revolution curve controller.
 	 */
 	this.revolController = new Controller2D (-1.1, 1.1, -1.1, 1.1,
 		DrawModeEnum.EQUATION);
 
 	/**
-	 * {CurveViewer} TODO
+	 * {CurveViewer} Revolution curve view.
 	 */
 	this.revolView = new CurveViewer (
 		document.getElementById ("revolCanvas"),
@@ -199,19 +199,19 @@ function Application () {
 	);
 
 	/**
-	 * {ParameterViewer} TODO
+	 * {ParameterViewer} Revolution curve parameter view.
 	 */
 	this.revolutionParameters = new ParameterViewer (
 		'#revolParam', this.revolController
 	);
 
 	/**
-	 * {Function} TODO
+	 * {Function} Allow to draw the revolution curve.
 	 */
 	this.drawRevolution = null;
 
 	/**
-	 * {Function} TODO
+	 * {Function} Allow to get the X range of the revolution curve.
 	 */
 	this.getRangeRevolution = null;
 
@@ -223,7 +223,7 @@ function Application () {
 
 
 	/**
-	 * {ControllerExport} TODO
+	 * {ControllerExport} Export controller.
 	 */
 	this.exportController = new ControllerExport ("surfaceCanvas",
 		"meridianCanvas2", "revolCanvas2");
@@ -238,6 +238,6 @@ function Application () {
 	 */
 	this.voxelSizeTriggerId;
 	
-}
+};
 
 

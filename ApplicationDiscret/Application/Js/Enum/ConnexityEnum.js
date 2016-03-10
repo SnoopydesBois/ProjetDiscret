@@ -10,7 +10,9 @@
 
 /**
  * @enum
- * TODO
+ * Means connexity. C26 is connexity by vertex (or 0-connexity), C18 is
+ * connexity by edge (or 1-connexity) and C6 is connexity by face (or
+ * 2-connexity). Each value is a binary mask.
  */
 var ConnexityEnum = {
 	/// values
@@ -25,3 +27,5 @@ var ConnexityEnum = {
 
 if (Object.freeze)
 	ConnexityEnum = Object.freeze (ConnexityEnum);
+
+

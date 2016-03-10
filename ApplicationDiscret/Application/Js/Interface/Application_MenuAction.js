@@ -2,23 +2,45 @@
 
 
 /**
- * @license
+ * @license TODO
  */
 
 
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/*
- * TODO
+/* selectMeridian () : void
+ * selectRevol () : void
+ * inputMeridianFormula () : void
+ * inputRevolFormula () : void
+ * drawFreeHandMeridian () : void
+ * toggleBox () : void
+ * toggleRepere () : void
+ * export3DPng () : void
+ * exportMeridianPng () : void
+ * exportRevolutionPng () : void
+ * exportX3D () : void
+ * exportSTL () : void
+ * saveDirectrix () : void
+ * saveGeneratrix () : void
+ * loadMeridian (event : Event) : void
+ * loadRevolution (event : Event) : void
+ * resetSliderMultiSlice () : void
+ * showXSlice () : void
+ * showYSlice () : void
+ * showZSlice () : void
+ * hideSlice () : void
+ * resetCamera () : void
+ * centerCamera () : void
  */
+
 
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 /**
- * Simule a click on the select primitive meridian button.
+ * Simulate a click on the select primitive meridian button.
  *
  * @return {void}
  */
@@ -30,7 +52,7 @@ Application.prototype.selectMeridian = function () {
 
 //==============================================================================
 /**
- * Simule a click on the select primitive revolution button.
+ * Simulate a click on the select primitive revolution button.
  *
  * @return {void}
  */
@@ -42,7 +64,7 @@ Application.prototype.selectRevol = function () {
 
 //==============================================================================
 /**
- * Simule a click on the formula meridian button.
+ * Simulate a click on the formula meridian button.
  *
  * @return {void}
  */
@@ -54,7 +76,7 @@ Application.prototype.inputMeridianFormula = function () {
 
 //==============================================================================
 /**
- * Simule a click on the formula revolution button.
+ * Simulate a click on the formula revolution button.
  *
  * @return {void}
  */
@@ -66,7 +88,7 @@ Application.prototype.inputRevolFormula = function () {
 
 //==============================================================================
 /**
- * Simule a click on the formula meridian button.
+ * Simulate a click on the formula meridian button.
  *
  * @return {void}
  */
@@ -104,47 +126,59 @@ Application.prototype.toggleRepere = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Export as PNG file the surface canvas.
+ * 
+ * @return {void}
  */
 Application.prototype.export3DPng = function () {
 	this.exportController.export3DPng (this.surfaceView);
-}
-
-
-//==============================================================================
-/**
- * TODO
- */
-Application.prototype.exportMeridianPng = function () {
-	this.exportController.exportMeridianPng ();
-}
-
-
-//==============================================================================
-/**
- * TODO
- */
-Application.prototype.exportRevolutionPng = function () {
-	this.exportController.exportRevolutionPng ();
-}
-
-
-//==============================================================================
-/**
- * TODO
- */
-Application.prototype.exportX3D = function () {
-	if (this.surfaceView.getSurfaceRenderer ().getSurface() == null) {
-		return;
-	}
-	this.exportController.exportX3D (
-		this.surfaceView.getSurfaceRenderer().getSurface());
 };
 
 
 //==============================================================================
 /**
- * TODO
+ * Export as PNG file the meridian curve.
+ * 
+ * @return {void}
+ */
+Application.prototype.exportMeridianPng = function () {
+	this.exportController.exportMeridianPng ();
+};
+
+
+//==============================================================================
+/**
+ * Export as PNG file the revolution curve.
+ * 
+ * @return {void}
+ */
+Application.prototype.exportRevolutionPng = function () {
+	this.exportController.exportRevolutionPng ();
+};
+
+
+//==============================================================================
+/**
+ * Export the surface at X3D format. If they don't have surface, do nothing.
+ * XXX vérifier anglais
+ * 
+ * @return {void}
+ */
+Application.prototype.exportX3D = function () {
+	if (this.surfaceView.getSurfaceRenderer ().getSurface () == null) {
+		return;
+	}
+	this.exportController.exportX3D (
+		this.surfaceView.getSurfaceRenderer ().getSurface ());
+};
+
+
+//==============================================================================
+/**
+ * Export the surface at X3D format. If they don't have surface, do nothing.
+ * XXX vérifier anglais
+ * 
+ * @return {void}
  */
 Application.prototype.exportSTL = function () {
 	if (this.surfaceView.getSurfaceRenderer () == null) {
@@ -156,25 +190,33 @@ Application.prototype.exportSTL = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Export as XML file the revolution curve.
+ * 
+ * @return {void}
  */
-Application.prototype.saveDirectrix = function(){
-	this.exportController.saveDirectrix(this.revolController);
+Application.prototype.saveDirectrix = function () {
+	this.exportController.saveDirectrix (this.revolController);
 };
 
 
 //==============================================================================
 /**
- * TODO
+ * Export as XML file the meridian curve.
+ * 
+ * @return {void}
  */
-Application.prototype.saveGeneratrix = function(){
-	this.exportController.saveGeneratrix(this.meridianController);
+Application.prototype.saveGeneratrix = function () {
+	this.exportController.saveGeneratrix (this.meridianController);
 };
 
 
 //==============================================================================
 /**
- * TODO
+ * Load as XML file the meridian curve.
+ * 
+ * @param {Event} event - The event.
+ * 
+ * @return {void}
  */
 Application.prototype.loadMeridian = function (event) {
 	var tmppath = URL.createObjectURL (event.target.files[0]);
@@ -190,17 +232,15 @@ Application.prototype.loadMeridian = function (event) {
 	var equation, xPoints, yPoints, xMin, xMax, yMin, yMax;
 
 	equation = xml.getElementsByTagName ("Equation");
-	if(equation.length == 0){
+	if (equation.length == 0) {
 		// Same length for both of the lists
 		xPoints = xml.getElementsByTagName ("xCoords")[0].textContent
             .toString ().split (" ");
 		yPoints = xml.getElementsByTagName ("yCoords")[0].textContent
             .toString ().split (" ");
 	}
-	else{
+	else {
 		// Same length since each parameters got a name and a value
-		//listNameParameters = xml.getElementsByTagName("Name");
-		//listValueParameters = xml.getElementsByTagName("Value");
 		xMin = parseFloat (xml.getElementsByTagName ("xMin")[0].textContent
             .toString ());
 		xMax = parseFloat (xml.getElementsByTagName ("xMax")[0].textContent
@@ -242,7 +282,11 @@ Application.prototype.loadMeridian = function (event) {
 
 //==============================================================================
 /**
- * TODO
+ * Load as XML file the revolution curve.
+ * 
+ * @param {Event} event - The event.
+ * 
+ * @return {void}
  */
 Application.prototype.loadRevolution = function (event) {
 	var tmppath = URL.createObjectURL (event.target.files[0]);
@@ -277,7 +321,7 @@ Application.prototype.loadRevolution = function (event) {
         .toString ());
 
 	this.revolController.setActive (
-        equation[0].textContent.toString(),
+        equation[0].textContent.toString (),
         EquationTypeEnum.IMPLICIT
     );
 
@@ -301,7 +345,7 @@ Application.prototype.loadRevolution = function (event) {
 
 //==============================================================================
 /**
- * TODO
+ * Reset the three multi slice sliders.
  *
  * @return {void}
  */
@@ -314,7 +358,7 @@ Application.prototype.resetSliderMultiSlice = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Move the X slider to show the highlight X slice. Reset Y and Z sliders.
  *
  * @return {void}
  */
@@ -341,7 +385,7 @@ Application.prototype.showXSlice = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Move the Y slider to show the highlight Y slice. Reset X and Z sliders.
  *
  * @return {void}
  */
@@ -368,7 +412,7 @@ Application.prototype.showYSlice = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Move the Z slider to show the highlight Z slice. Reset X and Y sliders.
  *
  * @return {void}
  */
@@ -395,7 +439,8 @@ Application.prototype.showZSlice = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Hide all highlighted slice and redraw the scene. If they don't have surface,
+ * do nothing. XXX vérifier anglais
  *
  * @return {void}
  */

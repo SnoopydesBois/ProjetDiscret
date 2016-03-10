@@ -29,3 +29,5 @@ var RenderingModeEnum = {
 
 if (Object.freeze)
 	RenderingModeEnum = Object.freeze (RenderingModeEnum);
+
+
