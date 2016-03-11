@@ -53,8 +53,6 @@
  * A ExplicitAlgo2Worker contains a number of workers that will
  * compute the surface with the Explicit algo with no optimization.
  */
-
-
 ExplicitAlgo2Worker.prototype = new AlgoWorker;
 ExplicitAlgo2Worker.prototype.constructor = ExplicitAlgo2Worker;
 
@@ -77,7 +75,7 @@ ExplicitAlgo2Worker.prototype.constructor = ExplicitAlgo2Worker;
  * @param {Surface} surface - The surface to draw.
  */
 function ExplicitAlgo2Worker (explicitCurve, implicitCurve, dimension, surface){
-	AlgoWorker.call(this, explicitCurve, implicitCurve, dimension, surface);
+	AlgoWorker.call (this, explicitCurve, implicitCurve, dimension, surface);
 	this.worker[0] = new Worker ("Js/Threads/EA2Worker.js");
 	this.activeWorkers++;
 	var that = this;
@@ -95,7 +93,6 @@ function ExplicitAlgo2Worker (explicitCurve, implicitCurve, dimension, surface){
 	}
 	this.worker[0].postMessage (["init", this.meridianCurve,
 		this.revolutionCurve, this.dim]);
-};
-
+}
 
 

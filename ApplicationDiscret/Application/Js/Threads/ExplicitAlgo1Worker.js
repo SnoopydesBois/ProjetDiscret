@@ -53,8 +53,6 @@
  * A ExplicitAlgo1Worker contains a number of workers that will
  * compute the surface with the Explicit algo with no optimization.
  */
-
-
 ExplicitAlgo1Worker.prototype = new AlgoWorker;
 ExplicitAlgo1Worker.prototype.constructor = ExplicitAlgo1Worker;
 
@@ -77,24 +75,25 @@ ExplicitAlgo1Worker.prototype.constructor = ExplicitAlgo1Worker;
  * @param {Surface} surface - The surface to draw.
  */
 function ExplicitAlgo1Worker (explicitCurve, implicitCurve, dimension, surface){
-	AlgoWorker.call(this, explicitCurve, implicitCurve, dimension, surface);
-	for (var i = 0; i < 8; ++i){
+	AlgoWorker.call (this, explicitCurve, implicitCurve, dimension, surface);
+	for (var i = 0; i < 8; ++i) {
 		this.worker[i] = new Worker ("Js/Threads/EA1Worker.js");
 		this.activeWorkers++;
 		var that = this
-		this.worker[i].onmessage = function(e){
+		this.worker[i].onmessage = function(e) {
 			if (e.data[0] === "Abort") {
 				that.finished = "error"
-				appli.alertMessage("Aborted");
+				appli.alertMessage ("Aborted");
 			}
 			else if (e.data[0] === "Terminate") {
 				that.worker[e.data[1]].terminate();
 				that.worker[e.data[1]] = undefined;
 				--that.activeWorkers;
-				if (that.activeWorkers == 0 && that.finished != "error"){
+				if (that.activeWorkers == 0 && that.finished != "error") {
 					that.finished = true;
 				}
-			} else {
+			}
+			else {
 				that.readBuffer(e.data[0], e.data[1]);
 			}
 		};
@@ -104,10 +103,6 @@ function ExplicitAlgo1Worker (explicitCurve, implicitCurve, dimension, surface){
 			(i + 1) * Math.floor ((this.dim[2] + 7) / 8)
 		]);
 	}
-};
-
-
-
-
+}
 
 

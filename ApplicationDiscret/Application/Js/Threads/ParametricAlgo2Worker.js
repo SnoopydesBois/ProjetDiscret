@@ -53,8 +53,6 @@
  * A ParametricAlgo2Worker contains a number of workers that will
  * compute the surface with the Parametric algo with no optimization.
  */
-
-
 ParametricAlgo2Worker.prototype = new AlgoWorker;
 ParametricAlgo2Worker.prototype.constructor = ParametricAlgo2Worker;
 
@@ -76,18 +74,23 @@ ParametricAlgo2Worker.prototype.constructor = ParametricAlgo2Worker;
  * @param {Vector} dimension - The space dimensions.
  * @param {Surface} surface - The surface to draw.
  */
-function ParametricAlgo2Worker (parametricCurve, implicitCurve, dimension, surface){
-	AlgoWorker.call(this, parametricCurve, implicitCurve, dimension, surface);
+function ParametricAlgo2Worker (
+	parametricCurve,
+	implicitCurve,
+	dimension, 
+	surface)
+{
+	AlgoWorker.call (this, parametricCurve, implicitCurve, dimension, surface);
 	this.worker[0] = new Worker ("Js/Threads/PA2Worker.js");
 	this.activeWorkers++;
 	var that = this;
 	this.worker[0].onmessage = function (e) {
 		that.readBuffer(e.data[0], e.data[1]);
 		if (e.data.length == 3 && e.data[2] == "Abort") {
-			appli.alertMessage("Aborted");
+			appli.alertMessage ("Aborted");
 		}
 		else if (e.data.length == 3 && e.data[2] == "Terminate") {
-			that.worker[0].terminate();
+			that.worker[0].terminate ();
 			that.worker[0] = undefined;
 			that.activeWorkers--;
 			that.finished = true;
@@ -95,5 +98,6 @@ function ParametricAlgo2Worker (parametricCurve, implicitCurve, dimension, surfa
 	}
 	this.worker[0].postMessage (["init", this.meridianCurve,
 		this.revolutionCurve, this.dim]);
-};
+}
+
 

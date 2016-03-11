@@ -90,17 +90,17 @@ function AlgoWorker (meridianCurve, revolutionCurve, dimension, surface) {
 	this.surface = surface;
 	
 	/**
-	 * {boolean} whether the algorithm has finished
+	 * {boolean} Whether the algorithm has finished.
 	 */
 	this.finished = false;
 	
 	/**
-	 * {int} nb of workers that are still active
+	 * {int} Nb of workers that are still active.
 	 */
 	this.activeWorkers = 0;
 	
 	/**
-	 * {Array} TODO FIXME transformer type en "type[]"
+	 * {Array} TODO FIXME transformer type en "type[]".
 	 */
 	this.worker = [];
 	
