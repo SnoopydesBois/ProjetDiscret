@@ -52,7 +52,7 @@
 
 /**
  * @extends GenericViewer
- * @classdesc TODO
+ * @classdesc Class used to render the 2d curves
  */
 CurveViewer.prototype = new GenericViewer;
 CurveViewer.prototype.constructor = CurveViewer;
@@ -67,12 +67,12 @@ CurveViewer.prototype.constructor = CurveViewer;
 
 /**
  * @constructor
- * Construct a CurveViewer with a div and a canvas for drawing and a controller.
- * Call the super constructor with the canvas and the string "2d".
+ * Constructs a CurveViewer with a controller, a div and a canvas for drawing.
+ * Calls the super constructor with the canvas and the string "2d".
  * @see {@link GenericViewer}
  * 
  * @param {HTMLCanvasElement} canvas - The associated canvas.
- * @param {HTMLDivElement} div - The associated div where the SVG curve is draw.
+ * @param {HTMLDivElement} div - The associated div where the SVG curve is drawn.
  * @param {Controller2D} curveController - Controller of this view.
  */
 function CurveViewer (canvas, div, curveController) {
@@ -80,30 +80,30 @@ function CurveViewer (canvas, div, curveController) {
 
 	/**
 	 * {Controller2D} Controller of this view. Must be a Controller2DMeridian if
-	 * you want to have the possibility to draw a curve. XXX vérifier anglais
+	 * you want to be able to draw a curve.
 	 */
 	this.controller = curveController;
 
 	/**
 	 * {Point} Last point added to the curve. If -1, there are not last
-	 * point. XXX vérifier anglais
+	 * points.
 	 */
 	this.lastPoint = new Point (-1, -1);
 
 	/**
-	 * {HTMLInputElement} Input which containt the Y dimension of the 3D space.
-	 * Use to compute the x range of the drawn curve.
+	 * {HTMLInputElement} Input which contains the Y dimension of the 3D space.
+	 * Used to compute the x range of the drawn curve.
 	 */
 	this.xMaxInput = document.getElementById ("dimy");
 
 	/**
-	 * {HTMLInputElement} Input which containt the Z dimension of the 3D space.
-	 * Use to compute the y range of the drawn curve.
+	 * {HTMLInputElement} Input which contains the Z dimension of the 3D space.
+	 * Used to compute the y range of the drawn curve.
 	 */
 	this.yMaxInput = document.getElementById ("dimz");
 
 	/**
-	 * {float} Minimal distance between two added point.
+	 * {float} Minimal distance between two added points.
 	 */
 	this.MIN_DIST_BETWEEN_POINT = 0.5;
 
@@ -117,7 +117,7 @@ function CurveViewer (canvas, div, curveController) {
 	
 	/**
 	 * {HTMLDivElement} The div where the SVG (i.e. explicit and implicit curve)
-	 * is draw.
+	 * is drawn.
 	 */
 	this.displayDiv = div;
 	
@@ -125,7 +125,6 @@ function CurveViewer (canvas, div, curveController) {
 	// initialisation
 	this.initCanvasEvent ();
 	this.resizeCanvas ();
-//	this.drawCanvasGrid ();
 };
 
 
@@ -151,7 +150,7 @@ CurveViewer.prototype.getController = function () {
 
 
 /**
- * Draw all current object.
+ * Draws all current objects.
  *
  * @return {void}
  */
@@ -162,14 +161,13 @@ CurveViewer.prototype.show = function () {
 
 //==============================================================================
 /**
- * Draw the curve on the target (canvas or div).
+ * Draws the curve on the target (canvas or div).
  *
  * @return {void}
  */
 CurveViewer.prototype.draw = function () {
 	var curve = this.controller.getActiveCurve ();
 	var xRange = this.controller.getXRange ();
-//	this.drawCanvasGrid ();
 	if (curve instanceof DrawnCurve) {
 		/// set the canvas size
 		this.resizeCanvas ();
@@ -194,7 +192,7 @@ CurveViewer.prototype.draw = function () {
 
 //==============================================================================
 /**
- * Draw a curve implicit curve.
+ * Draws an implicit curve.
  *
  * @param {ImplicitCurve} obj - The curve to draw.
  *
@@ -229,7 +227,7 @@ CurveViewer.prototype.drawImplicit = function (obj) {
 
 //==============================================================================
 /**
- * Draw a curve explicit curve.
+ * Draws an explicit curve.
  *
  * @param {ImplicitCurve} obj - The curve to draw.
  *
@@ -265,7 +263,7 @@ CurveViewer.prototype.drawExplicit = function (obj) {
 
 //==============================================================================
 /**
- * Draw a grid on the div. In order to show it, a point is draw outside the
+ * Draws a grid on the div. In order to show it, a point is drawn outside the
  * grid.
  *
  * @return {void}
@@ -300,7 +298,7 @@ CurveViewer.prototype.drawGrid = function () {
 
 //==============================================================================
 /**
- * Draw a free hand curve on the canvas.
+ * Draws a free hand curve on the canvas.
  *
  * @param {DrawnCurve} curve - The curve to draw.
  *
@@ -328,14 +326,14 @@ CurveViewer.prototype.drawFreeHand = function (curve) {
 
 //==============================================================================
 /**
- * Draw a segment between two point. /!\ Arguments are curve's point not pixel's
- * point.
+ * Draws a segment between two points. /!\ Arguments are the curve's points not the pixel's
+ * points.
  *
  * @param {Point} pointA - The first point.
  * @param {Point} pointB - The second point.
  *
  * @return {void}
- * @throws {String} If one of parameter is not a Point.
+ * @throws {String} One of the parameters is not of type Point.
  */
 CurveViewer.prototype.drawSegment = function (pointA, pointB) {
 	/// parameter verification
@@ -358,7 +356,7 @@ CurveViewer.prototype.drawSegment = function (pointA, pointB) {
 
 //==============================================================================
 /**
- * Clear the canvas and set a new drawn curve.
+ * Clears the canvas and set a new drawn curve.
  *
  * @return {void}
  */
@@ -372,7 +370,7 @@ CurveViewer.prototype.clearDraw = function () {
 
 //==============================================================================
 /**
- * Resize the associeted canvas.
+ * Resizes the associated canvas.
  *
  * @return {void}
  */
@@ -393,7 +391,7 @@ CurveViewer.prototype.resizeCanvas = function () {
 
 //==============================================================================
 /**
- * Draw a grid on the canvas. FIXME doesn't work correctly, some lines are
+ * Draws a grid on the canvas. FIXME doesn't work correctly, some lines are
  * missing.
  *
  * @return {void}
@@ -423,7 +421,7 @@ CurveViewer.prototype.drawCanvasGrid = function () {
 
 /**
  * @override
- * Redraw the current curve.
+ * Redraws the current curve.
  *
  * @param {WindowEvent} event - The window event.
  *
@@ -438,8 +436,8 @@ CurveViewer.prototype.onResize = function (event) {
 //==============================================================================
 /**
  * @override
- * Add a point to the drawn curve and draw it on the screen. Only works if the
- * drawing mode is free hand.
+ * Add a point to the drawn curve and draws it on the screen. Only works if the
+ * drawing mode is "free hand".
  *
  * @param {MouseEvent} event - The mouse event.
  *
@@ -459,8 +457,8 @@ CurveViewer.prototype.onMouseDown = function (event) {
 //==============================================================================
 /**
  * @override
- * Add a point to the drawn curve and draw it on the screen. Only works if the
- * drawing mode is free hand.
+ * Add a point to the drawn curve and draws it on the screen. Only works if the
+ * drawing mode is "free hand".
  *
  * @param {MouseEvent} event - The mouse event.
  *
@@ -485,7 +483,7 @@ CurveViewer.prototype.onMouseMove = function (event) {
 
 
 /**
- * Initialize canvas event (mouse down and mouse up).
+ * Initializes canvas event (mouse down and mouse up).
  *
  * @return {void}
  */
@@ -498,15 +496,15 @@ CurveViewer.prototype.initCanvasEvent = function () {
 
 //==============================================================================
 /**
- * Transform a pixel coordinates on the canvas into point of the curve. /!\ The
- * origin of point is the bottom left corner but pixel origin is the top left
- * corner. Top and bottom was inverted in this function.
+ * Transforms a pixel coordinates on the canvas into point of the curve. /!\ The
+ * origin of the point is the bottom left corner but pixel's origin is the top left
+ * corner. Top and bottom are inverted in this function.
  *
  * @param {float} x - Pixel X coordinate.
  * @param {float} y - Pixel Y coordinate.
  *
- * @return {Point} The computed point (truncate at two decimal number).
- * @throws {String} If one of the parameter is not of the expected type.
+ * @return {Point} The computed point (truncate to two decimal number).
+ * @throws {String} One of the parameter is not of type Number.
  */
 CurveViewer.prototype.pixelToPoint = function (x, y) {
 	/// parameter verification
@@ -526,15 +524,15 @@ CurveViewer.prototype.pixelToPoint = function (x, y) {
 
 //==============================================================================
 /**
- * Transform a point of the curve into pixel coordinates on the canvas. /!\ The
- * origin of point is the bottom left corner but pixel origin is the top left
+ * Transforms a point of the curve into pixel coordinates on the canvas. /!\ The
+ * origin of the point is the bottom left corner but pixel's origin is the top left
  * corner. Top and bottom was inverted in this function.
  *
  * @param {float} x - Point X coordinate.
  * @param {float} y - Point Y coordinate.
  *
  * @return {Point} The computed pixel.
- * @throws {String} If one of the parameter is not of the expected type.
+ * @throws {String} One of the parameter is not of type Number.
  */
 CurveViewer.prototype.pointToPixel = function (x, y) {
 	/// parameter verification
@@ -554,12 +552,13 @@ CurveViewer.prototype.pointToPixel = function (x, y) {
 
 //==============================================================================
 /**
- * Add a point to the current curve and draw it on the canvas. If the point is
- * too close that the last, it is not added.
+ * Adds a point to the current curve and draws it on the canvas. If the point is
+ * too close to the last, it is not added.
  *
  * @param {Point} point - A point.
  *
  * @return {boolean} True if the point was added, false otherwise.
+ * @throw {String} the parameter is not of type Point
  */
 CurveViewer.prototype.addPoint = function (point) {
 	/// parameter verification
@@ -585,12 +584,12 @@ CurveViewer.prototype.addPoint = function (point) {
 //==============================================================================
 /**
  * @static
- * Compute the Y range of a curve with its X range.
+ * Computes the Y range of a curve with its X range.
  *
- * @param {int} width - Width in pixel of the element where the curve is
- * display.
- * @param {int} height - Height in pixel of the element where the curve is
- * display.
+ * @param {int} width - Width in pixels of the HTML element where the curve is
+ * displayed.
+ * @param {int} height - Height in pixels of the HTML element where the curve is
+ * displayed.
  * @param {Range} xRange - X range of the curve.
  *
  * @return {int[2]} Y range of the curve.

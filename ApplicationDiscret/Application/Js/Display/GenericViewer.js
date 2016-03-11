@@ -78,7 +78,8 @@
 
 
 /**
- * @classdesc TODO
+ * @classdesc A class to handle the rendering of objects stored in 
+ * the GenericContainer used
  */
 GenericViewer.prototype.constructor = GenericViewer;
 
@@ -96,7 +97,7 @@ GenericViewer.prototype.constructor = GenericViewer;
  *
  * @param {HTMLCanvasElement} canvas - The associated canvas.
  * @param {String} glContextType - The type of webGl context for drawing. The
- * value is one of "2d", "3d".
+ * value is "2d" or "3d".
  */
 function GenericViewer (canvas, glContextType) {
 	if (arguments.length != 0 && // GenericViewer is a superclass
@@ -176,7 +177,7 @@ GenericViewer.prototype.getContainer = function () {
 
 
 /**
- * Show all objects in the container (prepare it and draw it).
+ * Shows all objects in the container (prepares it and draws it).
  *
  * @return {void}
  */
@@ -185,7 +186,7 @@ GenericViewer.prototype.show = function () {};
 
 //==============================================================================
 /**
- * Prepare all objects in the container.
+ * Prepares all objects in the container.
  *
  * @return {void}
  */
@@ -194,7 +195,7 @@ GenericViewer.prototype.prepare = function () {};
 
 //==============================================================================
 /**
- * Draw all objects in the container.
+ * Draws all objects in the container.
  *
  * @param {boolean} [backBuffer] - Indicate if we have to draw the scene
  * normally or if we need to draw for picking.

@@ -102,7 +102,7 @@ Scene.prototype.constructor = Scene;
 
 /**
  * @constructor
- * Create a 3D container.
+ * Creates a 3D container.
  */
 function Scene () {
 
@@ -114,7 +114,7 @@ function Scene () {
 	this.defaultCameraPosition = new Vector (3.5, 3.0, 2.5);
 
 	/**
-	 * {Vector} Initial camera look at point.
+	 * {Vector} Initial camera lookAt point.
 	 */
 	this.defaultLookAtPoint = new Vector (0, 0, 0);
 
@@ -164,12 +164,12 @@ Scene.prototype.getCamera = function () {
 
 //==============================================================================
 /**
- * Set a camera.
+ * Sets a camera.
  *
  * @param {Camera} camera - The new camera of the scene
  *
  * @return {void}
- * @throws {String} If the provided parameter is not a Camera.
+ * @throws {String} The provided parameter is not of type Camera.
  */
 Scene.prototype.setCamera = function (camera) {
 	if (camera instanceof Camera)
@@ -189,12 +189,12 @@ Scene.prototype.setCamera = function (camera) {
 /**
  * @override
  *
- * Add an object (only if is a GenericStructure subclass).
+ * Adds an object (only if it is a subclass of GenericStructure).
  *
  * @param {!GenericStructure} anObject - Object to add to the scene.
  *
  * @return {void}
- * @throws {String} If the provided parameter is not a GenericStructure or
+ * @throws {String} The provided parameter is not of type GenericStructure or
  * a GenericStructure subclass.
  */
 Scene.prototype.addObject = function (anObject) {
@@ -208,7 +208,7 @@ Scene.prototype.addObject = function (anObject) {
 
 //==============================================================================
 /**
- * Get an object given its name.
+ * Gets an object given its name.
  *
  * @param {String} aName - Name of the object to return.
  *
@@ -222,16 +222,13 @@ Scene.prototype.getObjectByName = function (aName) {
 		if (this.objectList[i].getName() === aName)
 			return this.objectList[i];
 	}
-
-//	console.warn ("Scene.getObjectByName: object : \"" + aName
-//		+ "\" not found");
 	return null;
 };
 
 
 //==============================================================================
 /**
- * Remove an object by name.
+ * Removes an object by name.
  *
  * @param {!String} aName - Name of the object to remove.
  *
@@ -244,14 +241,12 @@ Scene.prototype.removeObjectByName = function (aName) {
 			return;
 		}
 	}
-//	console.warn ("Scene.removeObjectByName: object : \"" + aName
-//		+ "\" not found");
 };
 
 
 //==============================================================================
 /**
- * Set the 'prepared' attribute of each object at false.
+ * Sets the 'prepared' attribute of each object to false.
  *
  * @return {void}
  */
@@ -271,7 +266,7 @@ Scene.prototype.unprepare = function () {
 
 
 /**
- * Reload the scene. Reload shader for each displayable object.
+ * Reloads the scene. Reloads shader for each displayable object.
  *
  * @return {void}
  */
@@ -288,7 +283,7 @@ Scene.prototype.reload = function () {
 
 //==============================================================================
 /**
- * Prepare the scene before rendering. Call the 'prepare' method of all object.
+ * Prepares the scene before rendering. Call the 'prepare' method of every object.
  *
  * @param {WebGLRenderingContext} glContext - The gl context.
  * @param {ConnexityEnum} connexity - Which connexity is displayed.
@@ -330,10 +325,10 @@ Scene.prototype.prepare = function (glContext, connexity, voxelRadius) {
 
 //==============================================================================
 /**
- * Draw a scene.
+ * Draws a scene.
  *
  * @param {WebGLRenderingContext} glContext - The gl context.
- * @param {boolean} backBuffer - Indicate if we have to draw the scene
+ * @param {boolean} backBuffer - Indicates if we have to draw the scene
  * normally or if we need to draw for picking (false -> normally; 
  * true -> picking).
  * @param {float} voxelRadius - Voxels' radius.
@@ -376,13 +371,14 @@ Scene.prototype.draw = function (
 
 //==============================================================================
 /**
- * Compute matrices (model, view, projection) of an object and send it to the
+ * Computes matrices (model, view, projection) of an object and send it to the
  * shader.
  *
  * @param {WebGLRenderingContext} glContext - The gl context.
  * @param {GenericStructure} obj - An object.
  *
  * @return {void}
+ * @throw {String} The parameters are not of correct types
  */
 Scene.prototype.prepareShaderMatrix = function (glContext, obj) {
 	/// Parameter verification
@@ -433,11 +429,11 @@ Scene.prototype.prepareShaderMatrix = function (glContext, obj) {
 
 
 /**
- * Set the position and the look at point of the camera. Recompute the matrix
+ * Sets the position and the lookAt point of the camera. Recomputes the matrix
  * camera.
  *
  * @param {(Vector | Number[3])} position - The new position of the camera.
- * @param {(Vector | Number[3])} [lookAt] - The new look at point of the camera.
+ * @param {(Vector | Number[3])} [lookAt] - The new lookAt point of the camera.
  *
  * @return {void}
  */
@@ -450,7 +446,7 @@ Scene.prototype.setCameraAt = function (position, lookAt) {
 
 //==============================================================================
 /**
- * Replace the camera at its initial position.
+ * Replaces the camera at its initial position.
  * @see {@link centerCamera, setCameraAt}
  *
  * @return {void}
@@ -462,7 +458,7 @@ Scene.prototype.resetCamera = function () {
 
 //==============================================================================
 /**
- * Project the camera look at point on the Z axis.
+ * Project the camera lookAt point on the Z axis.
  * @see {@link resetCamera, setCameraAt}
  *
  * @return {void}
