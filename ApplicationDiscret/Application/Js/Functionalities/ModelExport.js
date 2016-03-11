@@ -39,6 +39,7 @@
  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes
+ * TODO
  */
 
 
@@ -77,7 +78,7 @@
 
 
 /**
- * @classdesc TODO
+ * @classdesc Manage export format.
  */
 ModelExport.prototype.constructor = ModelExport;
 
@@ -142,7 +143,7 @@ ModelExport.prototype.getIdSurface = function () {
  * 
  * @return {String} The id of the HTML element containing the meridian.
  */
-ModelExport.prototype.getIdMeridian = function(){
+ModelExport.prototype.getIdMeridian = function () {
 	return this.idMeridian;
 };
 
@@ -169,7 +170,7 @@ ModelExport.prototype.getIdRevolution = function () {
  * @throws {String} The parameter is not of string type.
  */
 ModelExport.prototype.setIdSurface = function (idSurface) {
-	if (!(typeof idSurface == "string")) {
+	if (! (typeof idSurface == "string")) {
 		throw "ModelExport.setIdSurface.ErrorBadParameterType";
 	}
 	
@@ -188,7 +189,7 @@ ModelExport.prototype.setIdSurface = function (idSurface) {
  * @throws {String} The parameter is not of string type.
  */
 ModelExport.prototype.setIdMeridian = function (idMeridian) {
-	if (!(typeof idMeridian == "string")) {
+	if (! (typeof idMeridian == "string")) {
 		throw "ModelExport.setIdMeridian.ErrorBadParameterType";
 	}
 	this.idMeridian = idMeridian;
@@ -207,7 +208,7 @@ ModelExport.prototype.setIdMeridian = function (idMeridian) {
  * @throws {String} The parameter is not of string type.
  */
 ModelExport.prototype.setIdRevolution = function (idRevolution) {
-	if (!(typeof idRevolution == "string")) {
+	if (! (typeof idRevolution == "string")) {
 		throw "ModelExport.setIdRevolution.ErrorBadParameterType";
 	}
 	this.idRevolution = idRevolution;
@@ -225,7 +226,7 @@ ModelExport.prototype.setIdRevolution = function (idRevolution) {
  * @throws {String} The parameter is not of Surface type.
  */
 ModelExport.prototype.exportX3D = function (surface) {
-	if (!(surface instanceof Surface)) {
+	if (! (surface instanceof Surface)) {
 		throw "ModelExport.exportX3D.ErrorBadParameterType";
 	}
 	var x3D = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
@@ -251,7 +252,7 @@ ModelExport.prototype.exportX3D = function (surface) {
 		for (var y = 0; y < dimension.y; y++) {
 			for (var z = 0; z < dimension.z; z++) {
 				var voxel = surface.getVoxel (x, z, y)
-				if (voxel != null && voxel.isVisible(connexity)) {
+				if (voxel != null && voxel.isVisible (connexity)) {
 					x3D += "\t<Transform translation=\""+ (x - dimension.x / 2) 
 									+ " " 
 									+ (y - dimension.y / 2) 
@@ -267,13 +268,13 @@ ModelExport.prototype.exportX3D = function (surface) {
 										 + "\"/>\n"+
 								"\t\t</Shape>\n" +
 							"\t</Transform>\n";
-				}
-			}
-		}
-	}
+				} // end if
+			} // end for z
+		} // end for y
+	} // end for x
 
-	x3D += 		"\t</Scene>\n" +
-			"</X3D>";
+	x3D += "\t</Scene>\n" +
+		"</X3D>";
 		
 	var blob = new Blob([x3D], {type: "text/xml"});
 
@@ -311,10 +312,10 @@ ModelExport.prototype.exportRevolutionPng = function () {
  * @param {String} name - The name of the file to save.
  * 
  * @return {void}
- * @throws {TODO}
+ * @throws {String} If a parameter doesn't have the excepted type.
  */
 ModelExport.prototype.getImg2DData = function (id, name) {
-	if (!checkType(arguments, "string", "string")) {
+	if (!checkType (arguments, "string", "string")) {
 		throw "ModelExport.getImg2DData.ErrorBadParameterType";
 	}
 	// If there is no svg, document.querySelector return null. 
@@ -348,13 +349,14 @@ ModelExport.prototype.getImg2DData = function (id, name) {
  * surface.
  * 
  * @return {void}
- * @throws {TODO}
+ * @throws {String} If a parameter doesn't have the excepted type.
  */
 ModelExport.prototype.export3DPng = function (surfaceView) {
 	if (!(surfaceView instanceof SurfaceViewer)) {
 		throw "ModelExport.export3DPng.ErrorBadParameterType";
 	}
-	$('#download').attr('href', this.getImg3DData(this.idSurface, surfaceView));
+	$('#download').attr ('href', 
+		this.getImg3DData (this.idSurface, surfaceView));
 	$('#download').attr ('download', 'Surface3D.png');
 };
 
@@ -367,8 +369,8 @@ ModelExport.prototype.export3DPng = function (surfaceView) {
  * @param {SurfaceViewer} surfaceView - The surfaceView containing the objects
  * to render.
  * 
- * @return {String} the url to the canvas img.
- * @throws {TODO}
+ * @return {String} The url to the canvas img.
+ * @throws {String} If a parameter doesn't have the excepted type.
  */
 ModelExport.prototype.getImg3DData = function (id, surfaceView) {
 	if (!((arguments, "string", SurfaceViewer))) {
@@ -400,26 +402,26 @@ ModelExport.prototype.getImg3DData = function (id, surfaceView) {
  * @param {SurfaceRenderer} renderer - The surface renderer.
  * 
  * @return {void}
- * @throws {TODO}
+ * @throws {String} If a parameter doesn't have the excepted type.
  */
 ModelExport.prototype.exportSTL = function (renderer) {
 	if (!(renderer instanceof SurfaceRenderer)) {
 		throw "ModelExport.exportSTL.ErrorBadParameterType";
 	}
 	
-	var isLittleEndian = true; // STL files assume little endian, see wikipedia page
+	var isLittleIndian = true; // STL files assume little endian, see wikipedia
 
 	// Retrieving the coordinates
 	var vertexBuffer = [];
 	
 	var indicesBuffer = [];
-	var connexity = parseInt($("#connexityChoice").val());
-	if(connexity == ConnexityEnum.C26){
+	var connexity = parseInt ($("#connexityChoice").val ());
+	if (connexity == ConnexityEnum.C26) {
 		connexity = ConnexityEnum.C18;
 	}
-	renderer.prepareSTL(connexity, indicesBuffer, vertexBuffer);
+	renderer.prepareSTL (connexity, indicesBuffer, vertexBuffer);
 	
-	var nbTriangles = indicesBuffer.length/3;
+	var nbTriangles = indicesBuffer.length / 3;
 	// Creation of the buffer containing the data for the stl
 	
 	/* UINT8[80] – Header
@@ -442,21 +444,21 @@ ModelExport.prototype.exportSTL = function (renderer) {
 	var offset = 80; // For the STL header 
 		
 		
-    dataview.setUint32 (offset, nbTriangles, isLittleEndian);
+    dataview.setUint32 (offset, nbTriangles, isLittleIndian);
 	offset += 4;
 	
 	for (var i = 0; i < indicesBuffer.length; i+=3) {
-		dataview.setFloat32(offset, 0.0, isLittleEndian);
+		dataview.setFloat32(offset, 0.0, isLittleIndian);
 		offset += 4; // size of float in bytes
-		dataview.setFloat32(offset, 0.0, isLittleEndian);
+		dataview.setFloat32(offset, 0.0, isLittleIndian);
 		offset += 4;
-		dataview.setFloat32(offset, 0.0, isLittleEndian);
+		dataview.setFloat32(offset, 0.0, isLittleIndian);
 		offset += 4;
 		for (var p =  0; p < 3; p++) {
 			for (var c = 0; c < 3; c++) {
 				dataview.setFloat32(offset, vertexBuffer[
 						indicesBuffer[i + p] * 3 + c
-					], isLittleEndian);
+					], isLittleIndian);
 				offset += 4;
 			}
 		}
@@ -558,10 +560,10 @@ ModelExport.prototype.saveImplicitCurve = function (curveController) {
  * to save.
  * 
  * @return {void}
- * @throws {String} If the parameter is not a Controller2D.
+ * @throws {String} If the parameter is not a Controller2DMeridian.
  */
 ModelExport.prototype.saveExplicitCurve = function (curveController) {
-	if (!(curveController instanceof Controller2DMeridian)) {
+	if (! (curveController instanceof Controller2DMeridian)) {
 		throw "ModelExport.saveExplicitCurve.ErrorBadParameterType";
 	}
 	
@@ -583,16 +585,16 @@ ModelExport.prototype.saveExplicitCurve = function (curveController) {
 				'\t<CurveType>\n' +
 					'\t\t<Class>ExplicitCurve</Class>\n' +
 				'\t</CurveType>\n' +
-				'\t<Equation>' + curveController.getEquationNoParameter()
+				'\t<Equation>' + curveController.getEquationNoParameter ()
 					+ '</Equation>\n' +
 				'\t<Range>\n' +
-					'\t\t<xMin>' + curveController.getXRange().getMin()
+					'\t\t<xMin>' + curveController.getXRange ().getMin ()
 						+ '</xMin>\n' +
-					'\t\t<xMax>' + curveController.getXRange().getMax()
+					'\t\t<xMax>' + curveController.getXRange ().getMax ()
 						+ '</xMax>\n' +
-					'\t\t<yMin>' + curveController.getYRange().getMin()
+					'\t\t<yMin>' + curveController.getYRange ().getMin ()
 						+ '</yMin>\n' +
-					'\t\t<yMax>' + curveController.getYRange().getMax()
+					'\t\t<yMax>' + curveController.getYRange ().getMax ()
 						+ '</yMax>\n' +
 				'\t</Range>\n' +
 				"";
@@ -613,9 +615,10 @@ ModelExport.prototype.saveExplicitCurve = function (curveController) {
  * to save.
  * 
  * @return {void}
+ * @throws {String} If the parameter is not a Controller2DMeridian.
  */
-ModelExport.prototype.saveDrawnCurve = function(curveController){
-	if(!(curveController instanceof Controller2DMeridian)){
+ModelExport.prototype.saveDrawnCurve = function (curveController) {
+	if (! (curveController instanceof Controller2DMeridian)) {
 		throw "ModelExport.saveDrawnCurve.ErrorBadParameterType";
 	}
 	
@@ -635,8 +638,8 @@ ModelExport.prototype.saveDrawnCurve = function(curveController){
 					'\t</CurveType>\n' +
 					'\t<xCoords>';
 				
-	var list = curveController.getActiveCurve().getXList();
-	for(var i = 0; i < list.length; i++){
+	var list = curveController.getActiveCurve ().getXList ();
+	for (var i = 0; i < list.length; i++) {
 		xml += list[i];
 		if(i < list.length-1){
 			xml += " ";
@@ -646,16 +649,16 @@ ModelExport.prototype.saveDrawnCurve = function(curveController){
 	xml += '</xCoords>\n' +
 			'\t<yCoords>';
 	
-	list = curveController.getActiveCurve().getYList();
-	for(var i = 0; i < list.length; i++){
+	list = curveController.getActiveCurve ().getYList ();
+	for (var i = 0; i < list.length; i++){
 		xml += list[i];
-		if(i < list.length-1){
+		if (i < list.length - 1) {
 			xml += " ";
 		}
 	}
 	
 	xml += '</yCoords>\n' +
-			'</Curve>';
+		'</Curve>';
 			
 	var blob = new Blob([xml], {type: 'text/xml'});
     
