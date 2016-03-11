@@ -116,7 +116,7 @@ function ModelExport (idSurface, idMeridian, idRevolution) {
 	 * {String} The id of the HTML element of the directrix to export.
 	 */
 	this.idRevolution = idRevolution;
-}
+};
 
 
 

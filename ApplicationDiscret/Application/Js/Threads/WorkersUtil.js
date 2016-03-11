@@ -47,7 +47,7 @@ function arrayPosNeg (tab) {
 		pos = pos || tab[i] >= 0;
 	}
 	return neg && pos;
-}
+};
 
 
 //==============================================================================
@@ -78,7 +78,7 @@ function check18Connex (implicit_curve, x, y, z){
 	values[11] = implicit_curve.compute([(x)/z[2], (y-0.5)/z[2]]);
 
 	return arrayPosNeg (values);
-}
+};
 
 
 //==============================================================================
@@ -104,7 +104,7 @@ function check26Connex (implicit_curve, x, y, z){
 	values[5] = implicit_curve.compute([(x)/z[2], (y)/z[2]]);
 
 	return arrayPosNeg (values);
-}
+};
 
 
 //==============================================================================
@@ -132,7 +132,7 @@ function check6Connex (implicit_curve, x, y, z){
 	values[7] = implicit_curve.compute([(x-0.5)/z[0], (y-0.5)/z[0]]);
 
 	return arrayPosNeg (values);
-}
+};
 
 
 //==============================================================================
@@ -156,7 +156,7 @@ function checkVoxel (implicit_curve, x, y, z) {
 		res |= ConnexityEnum.C6;
 	}
 	return res;
-}
+};
 
 
 //==============================================================================
@@ -194,4 +194,4 @@ function addNeighboursToPile (x, y, z, pile, checked, dimx, dimy, dimz) {
 		checked[x][y][z+1] = true;
 		pile.push([x, y, z+1]);
 	}
-}
+};

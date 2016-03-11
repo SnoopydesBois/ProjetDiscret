@@ -153,7 +153,7 @@ Point.prototype.sub = function (that) {
  */
 Point.prototype.cross = function (that) {
 	throw "Point.cross : not yet implemented"
-}
+};
 
 
 
@@ -165,7 +165,7 @@ Point.prototype.cross = function (that) {
  */
 Point.prototype.rotateX = function (rad) {
 	throw "Point.rotateX : not yet implemented"
-}
+};
 
 
 //==============================================================================
@@ -176,7 +176,7 @@ Point.prototype.rotateX = function (rad) {
  */
 Point.prototype.rotateY = function (rad) {
 	throw "Point.rotateY : not yet implemented"
-}
+};
 
 
 //==============================================================================
@@ -187,7 +187,7 @@ Point.prototype.rotateY = function (rad) {
  */
 Point.prototype.rotateZ = function (rad) {
 	throw "Point.rotateZ : impossible"
-}
+};
 
 
 //==============================================================================
@@ -233,6 +233,6 @@ function addPoint (a, b) {
 	var pa = new Point (a);
 	var pb = new Point (b);
 	return pa.add (pb);
-}
+};
 
 

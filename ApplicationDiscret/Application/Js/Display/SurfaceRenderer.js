@@ -763,8 +763,9 @@ SurfaceRenderer.prototype.prepareFace = function (
 	colorBuffer.push (color);
 
 	// The color used by the picking according to the facet position
-	if (backColorBuffer != undefined && backColorBuffer != null)
+	if (backColorBuffer != undefined && backColorBuffer != null){
 		backColorBuffer.push (posToColor (voxel, direction, universSize));
+	}
 };
 
 

@@ -25,7 +25,7 @@ var ConnexityEnum = {
 
 
 
-if (Object.freeze)
+if (Object.freeze){
 	ConnexityEnum = Object.freeze (ConnexityEnum);
-
+}
 

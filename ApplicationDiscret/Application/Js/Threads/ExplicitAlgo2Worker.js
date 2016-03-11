@@ -55,7 +55,7 @@ function ExplicitAlgo2Worker (explicitCurve, implicitCurve, dimension, surface){
 	}
 	this.worker[0].postMessage (["init", this.meridianCurve,
 		this.revolutionCurve, this.dim]);
-}
+};
 
 
 

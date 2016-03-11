@@ -8,7 +8,7 @@ ExplicitCurve.prototype.constructor = ExplicitCurve;
 */
 function ExplicitCurve(equation) {
 	FormulaCurve.call(this, equation);
-}
+};
 
 
 //==============================================================================
@@ -64,7 +64,7 @@ ExplicitCurve.prototype.computePoints = function (ranX, ranY) {
 	}
 	return result;
 
-}
+};
 
 //==============================================================================
 /**
@@ -72,4 +72,4 @@ ExplicitCurve.prototype.computePoints = function (ranX, ranY) {
  */
 ExplicitCurve.prototype.computeRange = function(){
 	return new Range(-10,10);
-}
+};

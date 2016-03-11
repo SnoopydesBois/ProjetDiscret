@@ -64,7 +64,7 @@ function ExplicitAlgo1Worker (explicitCurve, implicitCurve, dimension, surface){
 			(i + 1) * Math.floor ((this.dim[2] + 7) / 8)
 		]);
 	}
-}
+};
 
 
 

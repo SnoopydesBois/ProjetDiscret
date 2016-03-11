@@ -143,8 +143,9 @@ Application.prototype.changeValueSlider = function (idSlider, draw) {
 			throw "Application.changeValueSlider.ErrorArgumentsLength";
 			break;
 	}
-	if (draw)
+	if (draw){
 		this.show (true);
+	}
 };
 
 
@@ -166,8 +167,9 @@ Application.prototype.resetSlider = function (idSlider, draw) {
 	$slider.slider ("values", 1, max)
 	$("#amountMin" + $slider.attr ("name")).val (min);
 	$("#amountMax" + $slider.attr ("name")).val (max);
-	if (draw)
+	if (draw){
 		this.show (true);
+	}
 };
 
 

@@ -55,7 +55,7 @@ function Range (min, max){
 	}
 	this.includeMin = true;
 	this.includeMax = true;
-}
+};
 
 
 

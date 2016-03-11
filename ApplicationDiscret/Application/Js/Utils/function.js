@@ -71,7 +71,7 @@
  */
 function clamp (mini, maxi, number) {
 	return Math.min (maxi, Math.max (mini, number));
-}
+};
 
 
 //==============================================================================
@@ -87,7 +87,7 @@ function angle (x, y) {
 	var len = Math.sqrt (x * x + y * y),
 		xNorm = x / len;
 	return (y < 0) ? Math.acos (-xNorm) + Math.PI : Math.acos (xNorm);
-}
+};
 
 
 //==============================================================================
@@ -103,7 +103,7 @@ function angle (x, y) {
 function getAzimuth (point, origin) {
 	var pos = new Vector (point).sub (origin);
 	return angle (pos.x, pos.y);
-}
+};
 
 
 //==============================================================================
@@ -119,7 +119,7 @@ function getAzimuth (point, origin) {
 function getAltitude (point, origin) {
 	var pos = new Vector (point).sub (origin);
 	return Math.asin (pos.z / pos.getLength ()); // XXX clamp ?
-}
+};
 
 
 
@@ -145,7 +145,7 @@ function posToColor (voxel, direction, universSize) {
 		voxel.getPosition().z / universSize.z, // blue
 		1.0 - direction / 100 // alpha
 	];
-}
+};
 
 
 //==============================================================================
@@ -166,7 +166,7 @@ function colorToPos (color, universSize) {
 		),
 		Math.round ((1.0 - color[3] / 256) * 100) // alpha -> direction
 	);
-}
+};
 
 
 
@@ -195,7 +195,7 @@ function addEvent (elem, type, eventHandle) {
 	else {
 		elem["on"+type] = eventHandle;
 	}
-}
+};
 
 
 
@@ -222,7 +222,7 @@ function type (obj) {
 			typeof obj
 		);
 	}
-}
+};
 
 
 //==============================================================================
@@ -236,7 +236,7 @@ function showType () {
 	for (var i in arguments)
 		types += type (arguments[i]) + "; ";
 	console.log (types);
-}
+};
 
 
 //==============================================================================
@@ -257,7 +257,7 @@ function isA (variable, expectedType) {
 		return typeof variable == expectedType;
 	else
 		return variable instanceof expectedType;
-}
+};
 
 
 //==============================================================================
@@ -288,7 +288,7 @@ function checkType (args) {
 		++i;
 	} // end while
 	return goodArgs;
-}
+};
 
 
 //==============================================================================
@@ -304,7 +304,7 @@ function isValueOfEnum (enumeration, value) {
 		if (value == enumeration[i])
 			return true;
 	return false;
-}
+};
 
 
 //##############################################################################

@@ -165,7 +165,7 @@ function Vector () {
 		console.error (e);
 	}
 //	return this;
-}
+};
 
 
 //==============================================================================
@@ -530,4 +530,4 @@ function addVector (a, b) {
 	var va = new Vector (a);
 	var vb = new Vector (b);
 	return va.add (vb);
-}
+};

@@ -55,5 +55,5 @@ function ParametricAlgo2Worker (parametricCurve, implicitCurve, dimension, surfa
 	}
 	this.worker[0].postMessage (["init", this.meridianCurve,
 		this.revolutionCurve, this.dim]);
-}
+};
 

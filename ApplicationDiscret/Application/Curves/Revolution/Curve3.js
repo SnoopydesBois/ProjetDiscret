@@ -12,7 +12,7 @@
 
 /**
  * @extends ImplicitCurve
- * @classdesc TODO
+ * @classdesc Predefined curve
  */
 Curve3.prototype = new ImplicitCurve;
 Curve3.prototype.constructor = Curve3;
@@ -30,7 +30,6 @@ Curve3.prototype.constructor = Curve3;
 //==============================================================================
 /**
  * @constructor
- * TODO desc
  */
 function Curve3 () {
 	 // x^2 + y^2 - (0.9 + 0.1*Abs[Cos[5*th]])^2]
@@ -41,4 +40,4 @@ function Curve3 () {
 	);
 
 	ImplicitCurve.call (this, equation);
-}
+};

@@ -108,7 +108,7 @@ function ModelGen (dimension) {
 	 * {AlgoWorker} The worker (i.e. threads) which
 	 */
 	this.worker = null;
-}
+};
 
 
 

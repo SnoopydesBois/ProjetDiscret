@@ -49,7 +49,7 @@ function ModelDraw () {
 	 * {DrawnCurve} The curve on which the model acts.
 	 */
 	this.curve = new DrawnCurve ();
-}
+};
 
 
 

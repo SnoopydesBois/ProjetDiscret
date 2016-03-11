@@ -104,7 +104,7 @@ function Controller3D (dimension) {
 	 * revolution
 	 */
 	this.getCurveRevolution = null;
-}
+};
 
 
 

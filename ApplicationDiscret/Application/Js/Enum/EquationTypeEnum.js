@@ -67,7 +67,7 @@ var EquationTypeEnum = {
 
 
 
-if (Object.freeze)
+if (Object.freeze){
 	EquationTypeEnum = Object.freeze (EquationTypeEnum);
-
+}
 

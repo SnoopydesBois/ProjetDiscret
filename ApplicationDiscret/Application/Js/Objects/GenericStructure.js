@@ -164,7 +164,7 @@ function GenericStructure (name, shader) {
 	 * not.
 	 */
 	this.prepared = false;
-}
+};
 
 
 

@@ -98,7 +98,7 @@ function Facet (cubeCoor, dir) {
 	 * {DirectionEnum} The direction of the face (ALL for a cube).
 	 */
 	this.direction = dir;
-}
+};
 
 
 
@@ -146,8 +146,9 @@ Facet.prototype.egale = function (face) {
 			&& this.cubeCoor.m[2] == face.cubeCoor.m[2]
 			&& this.direction == face.direction);
 	}
-	else
+	else{
 		return false;
+	}
 };
 
 

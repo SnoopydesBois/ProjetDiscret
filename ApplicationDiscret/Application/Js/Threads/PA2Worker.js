@@ -110,7 +110,7 @@ function algo () {
 	}
 	//post last buffer
 	postMessage([buffer, bufferSize,"Terminate"]);
-}
+};
 
 
 function init(e) {
@@ -140,7 +140,7 @@ function init(e) {
 		postMessage([[], 0,"Abort"]);
 		postMessage([[], 0,"Terminate"]);
 	}
-}
+};
 
 //==============================================================================
 /**
@@ -162,6 +162,6 @@ onmessage = function (e) {
 	else if(e.data[0] === "pile"){
 		pile = e.data[1];
 	}
-}
+};
 
 

@@ -63,7 +63,7 @@ var AttributeEnum = {
 };
 
 
-if (Object.freeze)
+if (Object.freeze){
 	AttributeEnum = Object.freeze (AttributeEnum);
-
+}
 

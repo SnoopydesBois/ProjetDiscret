@@ -3,7 +3,7 @@ BatEquation.prototype.constructor = BatEquation;
 
 //==============================================================================
 /**
-* @constructor {Equation} the equation of the curve
+* @constructor
 */
 function BatEquation() {
 	Equation.call(this, "");

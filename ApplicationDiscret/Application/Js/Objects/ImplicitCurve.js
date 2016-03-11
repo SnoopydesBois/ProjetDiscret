@@ -8,7 +8,7 @@ ImplicitCurve.prototype.constructor = ImplicitCurve;
  */
 function ImplicitCurve(equation) {
 	FormulaCurve.call(this, equation);
-}
+};
 
 
 //==============================================================================
@@ -67,4 +67,4 @@ ImplicitCurve.prototype.computePoints = function (ranX, ranY) {
 		result.push(points.slice(0));
 	}
 	return result;
-}
+};
