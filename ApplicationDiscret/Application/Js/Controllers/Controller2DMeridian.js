@@ -22,7 +22,7 @@
 
 
 /**
- * @classdesc This class inherit from Controller2D and is used to communicate with a modelCurve or a ModelDraw
+ * @classdesc This class inherits from Controller2D and is used to communicate with a modelCurve or a ModelDraw
  */
 Controller2DMeridian.prototype = new Controller2D;
 Controller2DMeridian.prototype.constructor = Controller2DMeridian;
@@ -52,7 +52,7 @@ function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
 		DrawModeEnum.HAND_FREE);
 
 	/**
-	 * {ModelDraw} The model to handle the drawn curve
+	 * {ModelDraw} The model used to handle the drawn curve
 	 */
 	this.modelDraw = new ModelDraw ();
 
@@ -70,7 +70,7 @@ function Controller2DMeridian (imageMin, imageMax, antecedantMin, antecedantMax,
 
 /**
  * Set an active curve depending of the active mode
- * @param {(Curve | String)} name - If of type curve, it is the new curve to set to the model
+ * @param {(Curve | String)} name - If of type curve, it is the new curve for the model
  * if of type String, it is the name of a predefined curve to set as active
  * @param {(EquationTypeEnum)} type - If name is of type Curve, the model needs to know the
  * type of this new curve
@@ -135,7 +135,7 @@ Controller2DMeridian.prototype.newCurve = function () {
 /**
  * Closes the active drawn curve.
  *
- * @return {Point} The added point (null if not exist or already added).
+ * @return {Point} The added point (null if does not exist or already added).
  */
 Controller2DMeridian.prototype.closeCurve = function () {
 	return this.modelDraw.closeCurve ();

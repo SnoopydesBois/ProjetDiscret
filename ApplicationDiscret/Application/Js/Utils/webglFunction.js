@@ -17,17 +17,12 @@
 
 
 /**
- * TODO description du module 
- */
-
-
-/**
- * Get a 3D gl context. Set the context viewport dimension with the canvas
- * dimension.
+ * Gets a 3D gl context. Sets the context viewport dimensions to be the same as 
+ * the canvas dimensions.
  * 
  * @param {HTMLCanvasElement} canvas - A canvas.
  * 
- * @return {WebGLRenderingContext} The 3D gl context if exist or null.
+ * @return {WebGLRenderingContext} The 3D gl context if it exists, null otherwise.
  */
 function get3DGlContext (canvas) {
 	var gl = null;
@@ -49,11 +44,11 @@ function get3DGlContext (canvas) {
 
 //==============================================================================
 /**
- * Create a shader with its source code and compile it.
+ * Creates a shader with its source code and compiles it.
  * 
  * @param {!WebGLRenderingContext} glContext - The gl context.
- * @param {!Number} type - The type of the shader. This value is the parameter
- * to  WebGLRenderingContext.createShader(). 
+ * @param {!Number} type - gl.VERTEX_SHADER or gl.FRAGMENT_SHADER. This value is the parameter
+ * given to WebGLRenderingContext.createShader().
  * @param {!String} source - The source code of the shader.
  * TODO vérifier le type 2.
  * 
@@ -91,7 +86,7 @@ function createShader (glContext, type, source) {
 
 //==============================================================================
 /**
- * Create a gl program and link given shaders.
+ * Creates a gl program and links the given shaders.
  * 
  * @param {!WebGLRenderingContext} glContext - The gl context.
  * @param {...WebGLShader} A compiled shader.
@@ -136,7 +131,7 @@ function createProgram (glContext) {
 
 //==============================================================================
 /**
- * Erase all in a canvas. Fill it with a color ("white" by default).
+ * Erases everything in a canvas. Fills it with a color ("white" by default).
  * 
  * @param {CanvasRenderingContext2D} ctx - The gl context.
  * @param {String} [color] - A CSS color.

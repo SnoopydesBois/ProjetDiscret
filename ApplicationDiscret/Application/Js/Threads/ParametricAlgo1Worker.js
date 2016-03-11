@@ -11,7 +11,10 @@
 
 
 /**
- * @classdesc TODO
+ * @extends AlgoWorker
+ * @classdesc 
+ * A ParametricAlgo1Worker contains a number of workers that will
+ * compute the surface with the Parametric algo with no optimization.
  */
 
 
@@ -28,7 +31,7 @@ ParametricAlgo1Worker.prototype.constructor = ParametricAlgo1Worker;
 
 /**
  * @constructor 
- * A ParametricAlgo1Worker contains a nomber of workers that will
+ * A ParametricAlgo1Worker contains a number of workers that will
  * compute the surface with the Parametric algo with no optimization.
  * 
  * @param {DrawnCurve} parametricCurve - The equation for the meridian.
@@ -65,9 +68,3 @@ function ParametricAlgo1Worker (parametricCurve, implicitCurve, dimension, surfa
 		]);
 	}
 };
-
-
-
-
-
-

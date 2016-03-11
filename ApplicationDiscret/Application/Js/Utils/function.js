@@ -49,7 +49,7 @@
 
 
 /* 
- * Function usefull in all the program
+ * Functions that are usefull in all the program.
  */
 
 
@@ -61,7 +61,7 @@
 
 
 /**
- * Clamp the number between mini and maxi.
+ * Clamps the number between mini and maxi.
  *
  * @param {Number} mini - The minimum limit.
  * @param {Number} maxi - The maximum limit.
@@ -77,7 +77,7 @@ function clamp (mini, maxi, number) {
 
 //==============================================================================
 /**
- * Compute polar angle of a 2D point (in radian).
+ * Computes the polar angle of a 2D point (in radian).
  *
  * @param {Number} x - X coordinate.
  * @param {Number} y - Y coordinate.
@@ -93,13 +93,13 @@ function angle (x, y) {
 
 //==============================================================================
 /**
- * Compute azymuthal angle of a 3D point with a given origin.
+ * Computes the azymuthal angle of a 3D point for a given origin.
  * 
  * @param {Vector} point - A point.
  * @param {Vector} origin - The origin.
  * 
- * @return {Number} The azimuth angle of 'point' spheric coordinate (with the 
- * specified origin). XXX vérifier anglais
+ * @return {Number} The azimuthal angle of 'point' spheric coordinate (for the 
+ * specified origin).
  */
 function getAzimuth (point, origin) {
 	var pos = new Vector (point).sub (origin);
@@ -109,13 +109,13 @@ function getAzimuth (point, origin) {
 
 //==============================================================================
 /**
- * Compute altitude angle of a 3D point with a given origin.
+ * Computes the altitude angle of a 3D point for a given origin.
  * 
  * @param {Vector} point - A point.
  * @param {Vector} origin - The origin.
  * 
- * @return {Number} The altitude angle of 'point' spheric coordinate (with the 
- * specified origin). XXX vérifier anglais
+ * @return {Number} The altitude angle of 'point' spheric coordinate (for the 
+ * specified origin).
  */
 function getAltitude (point, origin) {
 	var pos = new Vector (point).sub (origin);
@@ -131,7 +131,7 @@ function getAltitude (point, origin) {
 
 
 /**
- * Transform a face position into a color.
+ * Transforms a face position into a color.
  *
  * @param {Voxel} voxel - The voxel.
  * @param {DirectionEnum} direction - The direction of the face in the voxel.
@@ -152,7 +152,7 @@ function posToColor (voxel, direction, universSize) {
 
 //==============================================================================
 /**
- * Transform a face position into a color.
+ * Transforms a face color into a position.
  *
  * @param {float[4]} color - A color.
  * @param {Vector} universSize - Size of the 3D model.
@@ -179,12 +179,12 @@ function colorToPos (color, universSize) {
 
 
 /**
- * Add ab event to an element. Do nothing if the given element is null or
+ * Adds an event to an element. Does nothing if the given element is null or
  * undefined.
  * 
- * @param {HTMLElement} elem - The elem to which we add the event.
- * @param {Sting} type - The kind of event.
- * @param {Function} eventHandle - Then handler of the event.
+ * @param {HTMLElement} elem - The element to which we add the event.
+ * @param {String} type - The kind of event.
+ * @param {Function} eventHandle - The handler of the event.
  * 
  * @return {void}
  */
@@ -233,10 +233,10 @@ function type (obj) {
 
 //==============================================================================
 /**
- * Print a list of type of each arguments (print with console.log()).
+ * Prints a list of types for each argument (with console.log()).
  * @see {@link type}
  * 
- * @param {...*} Variable to test.
+ * @param {...*} Variables to test.
  *
  * @return {void}
  */
@@ -250,12 +250,12 @@ function showType () {
 
 //==============================================================================
 /**
- * Check if a variable have the expected type.
+ * Checks if a variable have the expected type.
  *
  * @param {*} variable - An object.
  * @param {(String | Function)} expectedType - The expected type of argument.
  *
- * @return {boolean} True if 'variable' have the good type, false otherwise.
+ * @return {boolean} True if 'variable' has the expected type, false otherwise.
  */
 function isA (variable, expectedType) {
 	if (expectedType === null)
@@ -271,15 +271,15 @@ function isA (variable, expectedType) {
 
 //==============================================================================
 /**
- * Check if a list of variables have expected type(s). The N variable in
- * 'args' is test with N + 1 type in the argument list. If the test type is an
- * array, the value is test with all type type in the array. XXX vérifier anglais.
+ * Checks if a list of variables have the expected type(s). The N variable in
+ * 'args' is tested with N + 1 type in the argument list. If an expected type is provided in an
+ * array, the value is tested with each type in the array.
  *
  * @param {Array} args - The list of argument.
  * @param {...(String | Function | (String | Function)[])} Expected type(s) of
  * argument.
  *
- * @return {boolean} True if all items in 'args' have the expected type, false
+ * @return {boolean} True if every item in 'args' have the expected type, false
  * otherwise.
  */
 function checkType (args) {
@@ -305,10 +305,10 @@ function checkType (args) {
 
 //==============================================================================
 /**
- * Search if a value is in an enumeration.
+ * Searches if a value is in an enumeration.
  *
- * @param {Object} enumeration - An enumeration-like build with an object. It
- * is like {KEY_1: NUMBER, KEY_N: NUMBER}.
+ * @param {Object} enumeration - An enumeration-like built with an object. Its
+ * strucure is {KEY_1: NUMBER, KEY_N: NUMBER}.
  * @param {(Number | String)} value - The value to test.
  */
 function isValueOfEnum (enumeration, value) {
