@@ -1,14 +1,15 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
- * Copyright BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy,
- * LAURET Karl, (juin 2015)
+ * Copyright (mars 2016)
+ * Auteur : BEN OTHMANE Zied, BENOIST Thomas, BISUTTI Adrien, RICHAUME Lydie
  *
+ * ziedici@gmail.com
  * benoist.thomas@hotmail.fr
  * biscui_86@hotmail.fr
- * tanguy.desplebain@gmail.com
- * lauret.karl@hotmail.fr
+ * l.richaume@gmail.com
  *
  * Ce logiciel est un programme informatique servant à modéliser des
  * structures 3D voxellisées.
@@ -38,8 +39,7 @@
  *
  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
- * termes
- * TODO
+ * termes.
  */
 
 
