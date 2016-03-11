@@ -11,8 +11,9 @@
 
 
 /**
+ * @extends AlgoWorker
  * @classdesc 
- * A ExplicitAlgo2Worker contains a nomber of workers that will
+ * A ExplicitAlgo2Worker contains a number of workers that will
  * compute the surface with the Explicit algo with no optimization.
  */
 
@@ -30,7 +31,7 @@ ExplicitAlgo2Worker.prototype.constructor = ExplicitAlgo2Worker;
 
 /**
  * @constructor 
- * A ExplicitAlgo2Worker contains a nomber of workers that will
+ * A ExplicitAlgo2Worker contains a number of workers that will
  * compute the surface with the Explicit algo with no optimization.
  * 
  * @param {Equation} explicitCurve - The equation for the meridian.

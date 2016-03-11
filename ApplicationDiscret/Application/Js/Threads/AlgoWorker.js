@@ -21,10 +21,9 @@
 
 /**
  * @abstract
- * An AlgoWorker contains a nomber of workers that will compute the surface.
+ * @classdesc An AlgoWorker contains a number of workers that will compute the surface.
  * This class is abstract and the algorithm used shall be defined in the
  * subclasses.
- * @classdesc TODO
  */
 AlgoWorker.prototype.constructor = AlgoWorker;
 
@@ -38,7 +37,7 @@ AlgoWorker.prototype.constructor = AlgoWorker;
 
 /**
  * @constructor 
- * A AlgoWorker contains a nomber of workers that will compute the surface.
+ * A AlgoWorker contains a number of workers that will compute the surface.
  * This class is abstract and the algorithm used shall be defined in the
  * subclass.
  * 

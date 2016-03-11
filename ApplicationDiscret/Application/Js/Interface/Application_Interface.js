@@ -63,7 +63,7 @@
 
 
 /**
- * Resize curve and surface view and set the 'width' and 'height' attribute for
+ * Resizes the curve and the surface views and set the 'width' and 'height' attributes for
  * each canvas.
  *
  * @return {void}
@@ -91,20 +91,20 @@ Application.prototype.resizeInterface = function () {
 
 //==============================================================================
 /**
- * Change min and max value of a slider and reset it or change just a vlue of
+ * Changes min and max value of a slider and resets it or changes just a value of
  * a slider with the value of a HTMLInputElement.
  * 
  * @param {(HTMLDivElement | String)} idSlider - The slider (i.e. the div
  * element) or its id.
  * @param {boolean} draw - True if you want to force the redraw of the surface,
  * false otherwise.
- * @param {(String | int)} argument[2] - Id of the input element (in case
- * there are 3 arguments) or value of the left bound (in case there are 4
+ * @param {(String | int)} argument[2] - Id of the HTMLInputElement (if
+ * there are 3 arguments) or value of the left bound (if there are 4
  * arguments).
  * @param {int} [argument[3]] - Value of the right bound.
  * 
  * @return {void}
- * @throws {String} If number of parameter not 3 or 4.
+ * @throws {String} If number of parameters is not 3 nor 4.
  */
 Application.prototype.changeValueSlider = function (idSlider, draw) {
 	var slider, arg1, arg2;
@@ -151,7 +151,7 @@ Application.prototype.changeValueSlider = function (idSlider, draw) {
 
 //==============================================================================
 /**
- * Reset a slider. Redraw the scene if necessary.
+ * Resets a slider. Redraws the scene if necessary.
  * 
  * @param {String} idSlider - Id of the slider.
  * @param {boolean} draw - True if you want to redraw the scene, false
@@ -175,7 +175,7 @@ Application.prototype.resetSlider = function (idSlider, draw) {
 
 //==============================================================================
 /**
- * Clear the drawn curve on the meridian canvas.
+ * Clears the drawn curve on the meridian canvas.
  *
  * @return {void}
  */
@@ -186,7 +186,7 @@ Application.prototype.clearDraw = function () {
 
 //==============================================================================
 /**
- * Show the loading image on the 3D view.
+ * Shows the loading image on the 3D view.
  *
  * @return {void}
  */
@@ -197,7 +197,7 @@ Application.prototype.loading = function () {
 
 //==============================================================================
 /**
- * Hide the loading image on the 3D view.
+ * Hides the loading image on the 3D view.
  *
  * @return {void}
  */
@@ -208,7 +208,7 @@ Application.prototype.stopLoading = function () {
 
 //==============================================================================
 /**
- * Show the aborted message on the 3D view.
+ * Shows the aborted message on the 3D view.
  *
  * @return {void}
  */

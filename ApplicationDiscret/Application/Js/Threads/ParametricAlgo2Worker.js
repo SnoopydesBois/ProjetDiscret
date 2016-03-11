@@ -11,8 +11,9 @@
 
 
 /**
+ * @extends AlgoWorker
  * @classdesc 
- * A ParametricAlgo2Worker contains a nomber of workers that will
+ * A ParametricAlgo2Worker contains a number of workers that will
  * compute the surface with the Parametric algo with no optimization.
  */
 
@@ -30,7 +31,7 @@ ParametricAlgo2Worker.prototype.constructor = ParametricAlgo2Worker;
 
 /**
  * @constructor 
- * A ParametricAlgo2Worker contains a nomber of workers that will
+ * A ParametricAlgo2Worker contains a number of workers that will
  * compute the surface with the Parametric algo with no optimization.
  * 
  * @param {DrawnCurve} parametricCurve - The equation for the meridian.

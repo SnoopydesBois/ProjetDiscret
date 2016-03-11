@@ -40,7 +40,7 @@
 
 
 /**
- * Simulate a click on the select primitive meridian button.
+ * Simulates a click on the selected primitive meridian button.
  *
  * @return {void}
  */
@@ -52,7 +52,7 @@ Application.prototype.selectMeridian = function () {
 
 //==============================================================================
 /**
- * Simulate a click on the select primitive revolution button.
+ * Simulates a click on the selected primitive revolution button.
  *
  * @return {void}
  */
@@ -64,7 +64,7 @@ Application.prototype.selectRevol = function () {
 
 //==============================================================================
 /**
- * Simulate a click on the formula meridian button.
+ * Simulates a click on the formula meridian button.
  *
  * @return {void}
  */
@@ -76,7 +76,7 @@ Application.prototype.inputMeridianFormula = function () {
 
 //==============================================================================
 /**
- * Simulate a click on the formula revolution button.
+ * Simulates a click on the formula revolution button.
  *
  * @return {void}
  */
@@ -88,7 +88,7 @@ Application.prototype.inputRevolFormula = function () {
 
 //==============================================================================
 /**
- * Simulate a click on the formula meridian button.
+ * Simulates a click on the formula meridian button.
  *
  * @return {void}
  */
@@ -100,7 +100,7 @@ Application.prototype.drawFreeHandMeridian = function () {
 
 //==============================================================================
 /**
- * Toggle the display attribute of the repere.
+ * Toggles the display attribute of the repere.
  *
  * @return {void}
  */
@@ -113,7 +113,7 @@ Application.prototype.toggleBox = function () {
 
 //==============================================================================
 /**
- * Toggle the display attribute of the bounding box.
+ * Toggles the display attribute of the bounding box.
  *
  * @return {void}
  */
@@ -126,7 +126,7 @@ Application.prototype.toggleRepere = function () {
 
 //==============================================================================
 /**
- * Export as PNG file the surface canvas.
+ * Exports the surface canvas as PNG file.
  * 
  * @return {void}
  */
@@ -137,7 +137,7 @@ Application.prototype.export3DPng = function () {
 
 //==============================================================================
 /**
- * Export as PNG file the meridian curve.
+ * Exports the meridian curve as PNG file.
  * 
  * @return {void}
  */
@@ -148,7 +148,7 @@ Application.prototype.exportMeridianPng = function () {
 
 //==============================================================================
 /**
- * Export as PNG file the revolution curve.
+ * Exports the revolution curve as PNG file.
  * 
  * @return {void}
  */
@@ -159,8 +159,7 @@ Application.prototype.exportRevolutionPng = function () {
 
 //==============================================================================
 /**
- * Export the surface at X3D format. If they don't have surface, do nothing.
- * XXX vérifier anglais
+ * Exports the surface in X3D format. If there is no surface, does nothing.
  * 
  * @return {void}
  */
@@ -175,8 +174,7 @@ Application.prototype.exportX3D = function () {
 
 //==============================================================================
 /**
- * Export the surface at X3D format. If they don't have surface, do nothing.
- * XXX vérifier anglais
+ * Exports the surface at STL format. If there is no surface, does nothing.
  * 
  * @return {void}
  */
@@ -190,7 +188,7 @@ Application.prototype.exportSTL = function () {
 
 //==============================================================================
 /**
- * Export as XML file the revolution curve.
+ * Exports the revolution curve in an XML file.
  * 
  * @return {void}
  */
@@ -201,7 +199,7 @@ Application.prototype.saveDirectrix = function () {
 
 //==============================================================================
 /**
- * Export as XML file the meridian curve.
+ * Exports the meridian curve in an XML file.
  * 
  * @return {void}
  */
@@ -212,7 +210,7 @@ Application.prototype.saveGeneratrix = function () {
 
 //==============================================================================
 /**
- * Load as XML file the meridian curve.
+ * Loads the meridian curve from an XML file.
  * 
  * @param {Event} event - The event.
  * 
@@ -282,7 +280,7 @@ Application.prototype.loadMeridian = function (event) {
 
 //==============================================================================
 /**
- * Load as XML file the revolution curve.
+ * Loads the revolution curve from an XML file.
  * 
  * @param {Event} event - The event.
  * 
@@ -345,7 +343,7 @@ Application.prototype.loadRevolution = function (event) {
 
 //==============================================================================
 /**
- * Reset the three multi slice sliders.
+ * Resets the three multi slice sliders.
  *
  * @return {void}
  */
@@ -358,7 +356,7 @@ Application.prototype.resetSliderMultiSlice = function () {
 
 //==============================================================================
 /**
- * Move the X slider to show the highlight X slice. Reset Y and Z sliders.
+ * Moves the X slider to show the highlight X slice. Resets Y and Z sliders.
  *
  * @return {void}
  */
@@ -385,7 +383,7 @@ Application.prototype.showXSlice = function () {
 
 //==============================================================================
 /**
- * Move the Y slider to show the highlight Y slice. Reset X and Z sliders.
+ * Moves the Y slider to show the highlight Y slice. Resets X and Z sliders.
  *
  * @return {void}
  */
@@ -412,7 +410,7 @@ Application.prototype.showYSlice = function () {
 
 //==============================================================================
 /**
- * Move the Z slider to show the highlight Z slice. Reset X and Y sliders.
+ * Moves the Z slider to show the highlight Z slice. Resets X and Y sliders.
  *
  * @return {void}
  */
@@ -439,8 +437,8 @@ Application.prototype.showZSlice = function () {
 
 //==============================================================================
 /**
- * Hide all highlighted slice and redraw the scene. If they don't have surface,
- * do nothing. XXX vérifier anglais
+ * Hides every highlighted slice and redraws the scene. If there is not any surface,
+ * does nothing.
  *
  * @return {void}
  */
@@ -457,8 +455,8 @@ Application.prototype.hideSlice = function () {
 
 //==============================================================================
 /**
- * Put the camera back to its initial position.
- * @see {@link centerCamera}
+ * Puts the camera back to its initial position.
+ * @see {@link centerCamera, SurfaceViewer.resetCamera}
  *
  * @return {void}
  */
@@ -469,8 +467,8 @@ Application.prototype.resetCamera = function () {
 
 //==============================================================================
 /**
- * Put the camera look at point to its initial position.
- * @see {@link resetCamera}
+ * Puts the camera "look at" point to its initial position.
+ * @see {@link resetCamera, SurfaceViewer.centerCamera}
  *
  * @return {void}
  */

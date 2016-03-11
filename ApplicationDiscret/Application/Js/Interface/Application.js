@@ -167,12 +167,12 @@ function Application () {
 	);
 
 	/**
-	 * {Function} Allow to draw the meridian.
+	 * {Function} Allows to draw the meridian.
 	 */
 	this.drawMeridian = null;
 
 	/**
-	 * {Function} Allow to get the X range of the meridian curve.
+	 * {Function} Allows to get the X range of the meridian curve.
 	 */
 	this.getRangeMeridian = null;
 
@@ -206,12 +206,12 @@ function Application () {
 	);
 
 	/**
-	 * {Function} Allow to draw the revolution curve.
+	 * {Function} Allows to draw the revolution curve.
 	 */
 	this.drawRevolution = null;
 
 	/**
-	 * {Function} Allow to get the X range of the revolution curve.
+	 * {Function} Allows to get the X range of the revolution curve.
 	 */
 	this.getRangeRevolution = null;
 
@@ -234,7 +234,7 @@ function Application () {
 	this.defaultMessage = "";
 	
 	/**
-	 * {int} Id return by 'setTimeout' for the voxel size trigger.
+	 * {int} Id returned by 'setTimeout' for the voxel size trigger.
 	 */
 	this.voxelSizeTriggerId;
 	

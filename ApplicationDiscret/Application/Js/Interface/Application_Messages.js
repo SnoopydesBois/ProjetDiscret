@@ -60,7 +60,7 @@
 
 /**
  * @return {boolean} True if there is a message in the state bar different
- * than the default message or empty.
+ * from the default message or empty.
  */
 Application.prototype.hasMessage = function () {
 	var p = $('#stateBar p').html ();
@@ -91,7 +91,7 @@ Application.prototype.showMessage = function (msg, duration, color) {
 
 //==============================================================================
 /**
- * Display the default message in the status bar.
+ * Displays the default message in the status bar.
  *
  * @return {void}
  */
@@ -102,7 +102,7 @@ Application.prototype.showDefaultMessage = function () {
 
 //==============================================================================
 /**
- * Display an alert message in red in the status bar.
+ * Displays an alert message in red in the status bar.
  *
  * @param {String} msg - The message.
  * @param {int} duration - Duration of the display of the message in millisecond
@@ -117,7 +117,7 @@ Application.prototype.alertMessage = function (msg, duration) {
 
 //==============================================================================
 /**
- * Display a validation message in green in the status bar.
+ * Displays a validation message in green in the status bar.
  *
  * @param {String} msg - The message.
  * @param {int} duration - Duration of the display of the message in millisecond

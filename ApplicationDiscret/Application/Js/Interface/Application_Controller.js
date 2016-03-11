@@ -66,9 +66,9 @@
 
 
 /**
- * Show all 3D object.
+ * Displays every 3D object.
  *
- * @param {boolean} forcePrepare - True to force the redraw of all object, false
+ * @param {boolean} forcePrepare - True to force the redrawing of every object, false
  * otherwise.
  * @see {@link SurfaceViewer.show}
  *
@@ -83,13 +83,14 @@ Application.prototype.show = function (forcePrepare) {
 
 //==============================================================================
 /**
- * Change the meridian curve by a primitive curve. Update view and parameter
+ * Changes the meridian curve for a model curve. Updates view and parameters
  * view.
  * @see {@link Controller2D.setActive}
  *
  * @param {String} name - The name of the new meridian curve.
  *
  * @return {void}
+ * @throws {String} Application.changeMeridian: given parameter is not a string
  */
 Application.prototype.changeMeridian = function (name) {
 	/// parameter verification
@@ -110,13 +111,14 @@ Application.prototype.changeMeridian = function (name) {
 
 //==============================================================================
 /**
- * Change the revolution curve by a primitive curve. Update view and parameter
+ * Changes the revolution curve for a model curve. Updates view and parameters
  * view.
  * @see {@link Controller2D.setActive}
  *
  * @param {String} name - The name of the new revolution curve.
  *
  * @return {void}
+ * @throws {String} Application.changeRevol: given parameter is not a string
  */
 Application.prototype.changeRevol = function (name) {
 	/// parameter verification
@@ -185,7 +187,7 @@ Application.prototype.changeMeridianMode = function () {
 
 //==============================================================================
 /**
- * Change the revolution mode (primitive or formula). Update view and parameter
+ * Changes the revolution mode (primitive or formula). Updates view and parameter
  * view.
  * 
  * @return {void}
@@ -218,7 +220,7 @@ Application.prototype.changeRevolMode = function () {
 
 //==============================================================================
 /**
- * Get the 3D space size and set dimension of the bounding box and the drawing
+ * Gets the 3D space size and sets the dimensions of the bounding box and the drawing
  * meridian canvas.
  *
  * @return {void}
@@ -260,7 +262,7 @@ Application.prototype.closeCurve = function () {
 
 //==============================================================================
 /**
- * Set the equation of the meridian. Equation string is directly read in the
+ * Sets the equation for the meridian. The equation's string is directly read in the
  * DOM.
  * 
  * @return {void}
@@ -274,7 +276,7 @@ Application.prototype.meridianEquation = function () {
 
 //==============================================================================
 /**
- * Set the equation of the revolution curve. Equation string is directly read in
+ * Sets the equation of the revolution curve. The equation's string is directly read in
  * the DOM.
  * 
  * @return {void}
@@ -288,7 +290,7 @@ Application.prototype.revolutionEquation = function () {
 
 //==============================================================================
 /**
- * This function calls itself again every second in a different thread until the
+ * This function calls itself again every second until the
  * computation of the surface is finished. Then it redraws the scene.
  *
  * @return {void}
@@ -357,7 +359,7 @@ Application.prototype.generateAndDraw = function (mode) {
 
 //==============================================================================
 /**
- * Change the voxel size of the current surface after a delay.
+ * Changes the voxel size for the current surface after a delay.
  *
  * @return {void}
  */
