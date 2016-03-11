@@ -85,7 +85,7 @@ DefaultShader.prototype.constructor = DefaultShader;
 /**
  * @static
  * 
- * {AttributeEnum[]} Define the attributes used by the shader
+ * {AttributeEnum[]} Defines the attributes used by the shader
  */
 DefaultShader.attributes = [
 	AttributeEnum.position,
@@ -129,11 +129,11 @@ function DefaultShader (glContext) {
 
 
 /**
- * Set the rendering mode for the shader. If the mode is not correct, nothing 
- * happen.
+ * Sets the rendering mode for the shader. If the mode is not correct, nothing 
+ * happens.
  * @see {@link RenderingModeEnum}
  * 
- * @param {RenderingModeEnum} mode - The mode to set.
+ * @param {RenderingModeEnum} mode - The new mode.
  * 
  * @return {void}
  */
@@ -147,7 +147,7 @@ DefaultShader.prototype.setRenderingMode = function (mode) {
 
 //==============================================================================
 /**
- * @return {RenderingModeEnum} The mode used to render by the shader.
+ * @return {RenderingModeEnum} The current mode.
  */
 DefaultShader.prototype.getRenderingMode = function () {
 	return this.renderingMode;
@@ -162,7 +162,7 @@ DefaultShader.prototype.getRenderingMode = function () {
 
 
 /**
- * Set attributes for the shader.
+ * Sets attributes of the shader.
  * 
  * @param {WebGLRenderingContext} glContext - The webGl context.
  * @param {WebGLBuffer} vertexBuffer - The buffer data.
