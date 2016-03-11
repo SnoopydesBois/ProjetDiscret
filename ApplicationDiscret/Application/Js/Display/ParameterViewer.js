@@ -9,7 +9,13 @@
 // INDEX ///////////////////////////////////////////////////////////////////////
 
 
-/* TODO
+/* container : HTMLUlElement
+ * controller : Controller2D
+ * 
+ * ParameterViewer (idContainer : Controller2D)
+ * 
+ * setController (controller : Controller2D) : void
+ * displayParameter (draw : Function, getRange : Function) : void
  */
 
 
@@ -33,22 +39,26 @@ ParameterViewer.prototype.constructor = ParameterViewer;
 
 /**
  * @constructor
+ * Construct a viewer for a parameter list.
+ * 
+ * @param {String} idContainer - Id of the associated controller. If the first
+ * character is a '#', it is ignored. XXX vérifier anglais
  */
 function ParameterViewer (idContainer) {
 
 	/**
-	 * TODO
+	 * {HTMLUlElement} The list which contain the ui parameters.
 	 */
 	this.container = null;
-	if (idContainer.charAt(0) !== '#'){
+	if (idContainer.charAt (0) !== '#')
 		this.container = $('#' + idContainer);
-	}
-	else {
+	else
 		this.container = $(idContainer);
-	}
 
 	/**
-	 * TODO
+	 * {Controller2D} The associated controller. Use to get all parameter of a
+	 * curve.
+	 * @see {@link displayParameter}
 	 */
 	this.controller = null;
 };
@@ -80,10 +90,11 @@ ParameterViewer.prototype.setController = function (controller) {
 
 
 /**
- * TODO
+ * Fill the list parameter (avoid it before). 
  *
- * @param {Function} draw - The function to redraw the curve.
- * @param {Function} getRange - TODO
+ * @param {Function} draw - A function to redraw the curve. Use to add an event
+ * on the input to redraw the curve when changing. XXX vérifier anglais
+ * @param {Function} getRange - A function to get the range of a parameter. 
  *
  * @return {void}
  */
@@ -110,7 +121,7 @@ ParameterViewer.prototype.displayParameter = function (draw, getRange) {
 			+ "'/>"
 		);
 
-		input.change (function() {
+		input.change (function () {
 			that.controller.setParameter ($(this).attr ("name"),
 				parseInt ($(this).val ())
 			);
@@ -120,3 +131,5 @@ ParameterViewer.prototype.displayParameter = function (draw, getRange) {
 		this.container.append (li);
 	} // end for each param
 };
+
+

@@ -46,16 +46,37 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* constructor ()
- * addCurve (name : String, constructor : Function)
- * setActive (curve : (Equation | String), EquationTypeEnum)
+/* image : Range
+ * inverseImage : Range
+ * listCurve : Map<String, Function>
+ * activeCurve : Curve
+ * 
+ * ModelCurve ()
+ * 
+ * addCurve (name : String, constructor : Function) : void
+ * setActive (curve : Equation, type : EquationTypeEnum) : void
+ * getPoints () : Point[][]
+ * getActiveCurve () : Curve
+ * getParametersRange (name : String) : Range
+ * getEquation () : Equation
+ * getEquationNoParameter () : String
+ * getImage () : Range
+ * getInverseImage () : Range
+ * setImage (image : Range) : void
+ * setInverseImage (inverseImage : Range) : void
+ * addEquation (eq : Equation) : void
+ * consolePrintAvailableCurve () : void
  */
+
 
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
 
+/**
+ * @classdesc Classe to manage the curve.
+ */
 ModelCurve.prototype.constructor = ModelCurve;
 
 
@@ -131,15 +152,15 @@ ModelCurve.prototype.addCurve = function (name, constructor) {
  * default curve and the parameter "curve" is the name of this default curve
  * present in the attribute listCurve of the model.
  *
- * @param {(Equation|String)} curve - The equation of the curve or its name.
+ * @param {(Equation | String)} curve - The equation of the curve or its name.
  * @param {EquationTypeEnum} [type] - The type of the new active curve.
  *
  * @return {void}
  */
 ModelCurve.prototype.setActive = function (curve, type) {
 	/// paramters verification
-	if (!(typeof curve == "string")) {
-		console.error("ModelCurve.setActive: parameter curve is of wrong type");
+	if (! checkType (arguments, ["string", Equation])) {
+		console.error("ModelCurve.setActive: bad type of 'curve' parameter");
 	}
 
 	/// set
@@ -156,11 +177,11 @@ ModelCurve.prototype.setActive = function (curve, type) {
 			break;
 		case undefined:
 		case null:
-			if (this.listCurve.has (curve)){
+			if (this.listCurve.has (curve)) {
 				this.activeCurve = new (this.listCurve.get(curve))();
-				if (this.activeCurve instanceof ExplicitCurve){
-					this.image = this.activeCurve.computeRange();
-					this.inverseImage = this.activeCurve.computeRange();
+				if (this.activeCurve instanceof ExplicitCurve) {
+					this.image = this.activeCurve.computeRange ();
+					this.inverseImage = this.activeCurve.computeRange ();
 				}
 			}
 			else {
@@ -197,6 +218,7 @@ ModelCurve.prototype.getActiveCurve = function () {
 //==============================================================================
 /**
  * @param {String} name - The name of the parameter.
+ * 
  * @return {Range} The range of the parameter.
  */
 ModelCurve.prototype.getParametersRange = function (name) {
@@ -204,7 +226,7 @@ ModelCurve.prototype.getParametersRange = function (name) {
 		throw "ModelCurve.getParametersRange.ErrorParameterType";
 	}
 
-	return this.activeCurve.getParametersRange(name);
+	return this.activeCurve.getParametersRange (name);
 };
 
 
@@ -297,3 +319,5 @@ ModelCurve.prototype.consolePrintAvailableCurve = function () {
 		console.log (key);
 	});
 };
+
+

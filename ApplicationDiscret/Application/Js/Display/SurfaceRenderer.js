@@ -46,16 +46,70 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* nbBuffer : int
- * vbo : Array(Buffer)
- * bbo : Array(Buffer)
- * ibo : Array(Buffer)
- * selectvbo : Array(Buffer)
- * selectibo : Array(Buffer)
- * hovervbo : Buffer
- * hoveribo : Buffer
- *
- * ModelView (modelController : ModelController, name : String, shader : Shader)
+/* modelController : Controller3D
+ * color : float[4]
+ * highlightX : int
+ * highlightY : int
+ * highlightZ : int
+ * 
+ * counter : int
+ * 
+ * SurfaceRenderer (
+ *     surfaceController : Controller3D,
+ *     glContext : WebGLRenderingContext,
+ *     name : String,
+ *     color : float[4]
+ * )
+ * 
+ * setModelController (newController : Controller) : void
+ * getModelController () : Controller3D
+ * getSurface () : Surface
+ * getDimension () : Vector
+ * setHighlightX (x : int) : void
+ * setHighlightY (y : int) : void
+ * setHighlightZ (z : int) : void
+ * prepare (
+ *     gl : WebGLRenderingContext,
+ *     connexity : ConnexityEnum,
+ *     radius : float
+ * ) : void
+ * prepareSTL (
+ *     connexity : ConnexityEnum,
+ *     indicesBuffer : int[],
+ *     vertexBuffer : float[]
+ * ) : void
+ * prepareVoxel (
+ *     voxel : Voxel,
+ *     connexity : ConnexityEnum,
+ *     radius : float,
+ *     vertexBuffer : float[],
+ *     indicesBuffer : int[],
+ *     colorBuffer : float[][4],
+ *     backColorBuffer : float[][4]
+ *     colorVoxel : float[4]
+ *     universSize : Vector
+ * ) : void
+ * prepareFace (
+ *     voxel : Voxel,
+ *     direction : DirectionEnum,
+ *     radius : float,
+ *     vertexBuffer : float[],
+ *     indicesBuffer : int[],
+ *     colorBuffer : float[][4],
+ *     backColorBuffer : float[][4]
+ *     colorFace : float[4]
+ *     universSize : Vector
+ * ) : void
+ * draw (gl : WebGLRenderingContext, radius : float) : void
+ * drawBackBuffer (gl : WebGLRenderingContext) : void
+ * addVertexBuffer (
+ *     vertexBuffer : Array,
+ *     limit : Vector,
+ *     vertexPos : Vector
+ * ) : void
+ * 
+ * getCurrentSurfaceName () : String
+ * getLastSurfaceName () : String
  */
 
 
@@ -65,7 +119,9 @@
 
 /**
  * @extends GenericStructure
- * @classdesc This class display one surface only
+ * @classdesc Class for displaying one surface only. The surface is prepared
+ * with four vertex per facet and with all cube in the same object, i.e. there
+ * is only one object with all vertex to display the surface;
  */
 SurfaceRenderer.prototype = new GenericStructure;
 SurfaceRenderer.prototype.constructor = SurfaceRenderer;
@@ -85,7 +141,8 @@ SurfaceRenderer.counter = -2;
 
 //==============================================================================
 /**
- * TODO
+ * @return {String} The name of the current SurfaceRenderer (i.e. the last
+ * created).
  */
 SurfaceRenderer.getCurrentSurfaceName = function () {
 	return "surface" + SurfaceRenderer.counter;
@@ -94,14 +151,13 @@ SurfaceRenderer.getCurrentSurfaceName = function () {
 
 //==============================================================================
 /**
- * TODO
+ * @return {String} The name of the last SurfaceRenderer. (i.e. the second two
+ * last created).
  */
 SurfaceRenderer.getLastSurfaceName = function () {
 	return "surface" + (SurfaceRenderer.counter - 1);
 };
-SurfaceRenderer.prototype.getLastSurfaceName = function () {
-	console.error ("method renommer ! utilisez \"SurfaceRenderer.getLastSurfaceName() (-> static)\"");
-}
+
 
 
 //##############################################################################
@@ -112,11 +168,13 @@ SurfaceRenderer.prototype.getLastSurfaceName = function () {
 
 /**
  * @constructor
- *
+ * Construct a renderer for a surface.
+ * 
  * @param {Controller3D} surfaceController - The controller of the surface to
  * display.
  * @param {WebGLRenderingContext} glContext - The gl context.
- TODO
+ * @param {String} name - Surface name.
+ * @param {float[4]} color - The RGBA color in float.
  */
 function SurfaceRenderer (surfaceController, glContext, name, color) {
 	/// Parameters verification
@@ -136,54 +194,33 @@ function SurfaceRenderer (surfaceController, glContext, name, color) {
 
 
 	/**
-	 * {Controller} The model controller which contain the model to draw. TODO vérifier anglais
+	 * {Controller3D} The model controller which contain the model to draw. XXX vérifier anglais
 	 */
 	this.modelController = surfaceController;
 	
 	/**
-	 * TODO
+	 * {float[4]} RGBA color in float.
 	 */
 	this.color = color || [0.8, 0.8, 0.8, 1.0];
 	
 	/**
-	 * TODO
+	 * {int} Index of highlighted slice on X axis. -1 means no slice is
+	 * highlight.
 	 */
 	this.highlightX = -1;
 	
 	/**
-	 * TODO
+	 * {int} Index of highlighted slice on Y axis. -1 means no slice is
+	 * highlight.
 	 */
 	this.highlightY = -1;
 	
 	/**
-	 * TODO
+	 * {int} Index of highlighted slice on Z axis. -1 means no slice is
+	 * highlight.
 	 */
 	this.highlightZ = -1;
 	
-	/**
-	 * {int} Number of needed gl buffer to draw the object. Set by 'prepare'
-	 * method, use by 'prepare' an 'draw' methods.
-	 */
-	this.nbGlBuffer = 0;
-
-	/**
-	 * {TODO} Array of gl vertex buffer. Fill by 'prepare' method. The length of
-	 * this array is 'this.nbGlBuffer'.
-	 */
-	this.glVertexBuffer = [];
-
-	/**
-	 * {TODO} Array of gl vertex color buffer for picking. Fill by 'prepare'
-	 * method. The length of this array is 'this.nbGlBuffer'.
-	 */
-	this.glBackBuffer = [];
-
-	/**
-	 * {TODO} Array of gl indices buffer. Fill by 'prepare' method. The length
-	 * of this array is 'this.nbGlBuffer'.
-	 */
-	this.glIndiciesBuffer = [];
-
 	/// Initialisation
 	this.shader.setRenderingMode (RenderingModeEnum.NORMAL);
 };
@@ -196,12 +233,13 @@ function SurfaceRenderer (surfaceController, glContext, name, color) {
 
 
 /**
- * Set the model controller.
+ * Throw and error because the model controller is not mutable.
+ * @see {@link SurfaceRenderer}
  *
  * @param {Controller} newController - The new model controller.
  *
  * @return {void}
- * @throws FIXME compléter
+ * @throws {String} The modelController is not mutable.
  */
 SurfaceRenderer.prototype.setModelController = function (newController) {
 	throw "SurfaceRenderer.setModelController: the modelController is not "
@@ -213,7 +251,7 @@ SurfaceRenderer.prototype.setModelController = function (newController) {
 /**
  * Get the model controller.
  *
- * @return {Controller}
+ * @return {Controller3D}
  */
 SurfaceRenderer.prototype.getModelController = function () {
 	return this.modelController;
@@ -224,14 +262,28 @@ SurfaceRenderer.prototype.getModelController = function () {
 /**
  * @return {Surface} The surface used by the renderer.
  */
-SurfaceRenderer.prototype.getSurface = function(){
-	return this.modelController.getSurface();
+SurfaceRenderer.prototype.getSurface = function () {
+	return this.modelController.getSurface ();
 };
 
 
 //==============================================================================
 /**
- * TODO
+ * @return {Vector} The dimension of the surface.
+ */
+SurfaceRenderer.prototype.getDimension = function () {
+	return this.getModelController ().getDimension ();
+};
+
+
+//==============================================================================
+/**
+ * Set the highlighted slice index on X axis.
+ * 
+ * @param {int} x - The index.
+ * 
+ * @return {void}
+ * @throws {String} If the given parameter is not a number.
  */
 SurfaceRenderer.prototype.setHighlightX = function (x) {
 	/// parameter verification
@@ -246,7 +298,12 @@ SurfaceRenderer.prototype.setHighlightX = function (x) {
 
 //==============================================================================
 /**
- * TODO
+ * Set the highlighted slice index on Y axis.
+ * 
+ * @param {int} y - The index.
+ * 
+ * @return {void}
+ * @throws {String} If the given parameter is not a number.
  */
 SurfaceRenderer.prototype.setHighlightY = function (y) {
 	/// parameter verification
@@ -261,7 +318,12 @@ SurfaceRenderer.prototype.setHighlightY = function (y) {
 
 //==============================================================================
 /**
- * TODO
+ * Set the highlighted slice index on Z axis.
+ * 
+ * @param {int} Z - The index.
+ * 
+ * @return {void}
+ * @throws {String} If the given parameter is not a number.
  */
 SurfaceRenderer.prototype.setHighlightZ = function (z) {
 	/// parameter verification
@@ -282,7 +344,9 @@ SurfaceRenderer.prototype.setHighlightZ = function (z) {
 
 
 /**
- * Prepare the model (create the triangles).
+ * Prepare the model (create the triangles) by preparing each voxel. If a voxel
+ * is not visible (hided by its neighboors or doesn't belong to the current
+ * connexity), it is not prepared.
  *
  * @param {WebGLRenderingContext} gl - The gl context.
  * @param {ConnexityEnum} connexity - Which connexity is displayed.
@@ -297,7 +361,6 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 	if (! checkType (arguments, WebGLRenderingContext, "number", "number")) {
 		throw "SurfaceRenderer.prepare: bad type(s) of parameter(s)";
 	}
-//	console.log ("Prepare de " + this.structureName);
 	this.cptPreparedVertex = 0;
 
 	/// prepare
@@ -345,7 +408,7 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 				if (voxel != null && voxel.isVisible (connexity)
 					&& (radius != 0.5 || !voxel.isHidden (connexity)))
 				{
-					// 1024 -> see above, this.nbGlBuffer computes FIXME
+					// 1024 -> see above, this.nbGlBuffer computes FIXME is 2048
 					idx = Math.trunc (cptPreparedVoxel / 2048);
 					this.prepareVoxel (
 						voxel,
@@ -412,13 +475,20 @@ SurfaceRenderer.prototype.prepare = function (gl, connexity, radius) {
 	}
 
 	/// Finish, tell it
-	this.prepared = true; // FIXME
+	this.prepared = true;
 };
 
 
 //==============================================================================
 /**
- * STL
+ * Fill indices and vertex buffer to the STL export.
+ * 
+ * @param {ConnexityEnum} connexity - The considered connexity.
+ * @param {int[]} indicesBuffer - Indices buffer.
+ * @param {float[]} vertexBuffer - Vertex buffer.
+ * 
+ * @return {void}
+ * @throws {String} If a parameter doesn't have the excepted type.
  */
 SurfaceRenderer.prototype.prepareSTL = function (connexity, indicesBuffer,
 	vertexBuffer)
@@ -459,8 +529,7 @@ SurfaceRenderer.prototype.prepareSTL = function (connexity, indicesBuffer,
 /**
  * Prepare each face (compute its color) of the voxel for rendering.
  *
- * @param {Surface} surface - The current surface.
- * @param {Vector} voxelPosition - The position of the current voxel.
+ * @param {Voxel} voxel - A voxel.
  * @param {ConnexityEnum} connexity - The displayed connexity.
  * @param {float} radius - The radius of the cube (distance beetween the cube
  * center end a face center).
@@ -470,7 +539,8 @@ SurfaceRenderer.prototype.prepareSTL = function (connexity, indicesBuffer,
  * (the indices) to draw all points.
  * @param {float[][4]} colorBuffer - The color buffer which contains the color
  * of each point.
- * @param {float[][4]} backColorBuffer - TODO
+ * @param {float[][4]} backColorBuffer - The color buffer which contains the
+ * picking color of each point.
  * @param {float[4]} colorVoxel - The color of the face to draw.
  * @param {Vector} universSize - The size of the univers.
  *
@@ -505,21 +575,24 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 				color[1] = 0.5;
 				color[2] = 0.8;
 			}
-			else if (this.highlightY != -1 && voxel.position.y == this.highlightY) {
+			else if (this.highlightY != -1 
+				&& voxel.position.y == this.highlightY)
+			{
 				color[0] = 0;
 				color[1] = 0.8;
 				color[2] = 0.4;
 			}
-			else if (this.highlightX != -1 && voxel.position.x == this.highlightX) {
+			else if (this.highlightX != -1
+				&& voxel.position.x == this.highlightX)
+			{
 				color[0] = 0.8;
 				color[1] = 0.15;
 				color[2] = 0.1;
 			}
 			else {
 				/// color copy
-				for (var j = 0; j < 4; ++j) {
+				for (var j = 0; j < 4; ++j)
 					color[j] = colorVoxel[j];
-				}
 			}
 			
 			/// color gradient
@@ -545,7 +618,8 @@ SurfaceRenderer.prototype.prepareVoxel = function (
 
 //==============================================================================
 /**
- * {Number[6][4][3]} The coordinates of four vertex per direction of a cube. TODO vérifier anglais
+ * {Number[6][4][3]} The coordinates of four vertex per direction of a cube.
+ * XXX vérifier anglais
  */
 var offsetVertexInCube = [
 	// Top
@@ -578,7 +652,8 @@ var offsetVertexInCube = [
  * (the indices) to draw all points.
  * @param {float[][4]} colorBuffer - The color buffer which contains the color
  * of each point.
- * @param {float[][4]} backColorBuffer - TODO
+ * @param {float[][4]} backColorBuffer - The color buffer which contains the
+ * picking color of each point.
  * @param {float[4]} colorFace - The color of the face to draw.
  * @param {Vector} universSize - The size of the univers.
  *
@@ -664,9 +739,6 @@ SurfaceRenderer.prototype.prepareFace = function (
 				// blue
 				color[1] = 0.4;
 				color[2] = 0.8;
-//				color[0] = 0.7;
-//				color[1] = 0.7;
-//				color[2] = 0.8;
 				break;
 			case DirectionEnum.FRONT:
 			case DirectionEnum.BACK:
@@ -674,9 +746,6 @@ SurfaceRenderer.prototype.prepareFace = function (
 				color[0] = 0.3;
 				color[1] = 0.8;
 				color[2] = 0.4;
-//				color[0] = 0.7;
-//				color[1] = 0.8;
-//				color[2] = 0.75;
 				break;
 			case DirectionEnum.LEFT:
 			case DirectionEnum.RIGHT:
@@ -684,9 +753,6 @@ SurfaceRenderer.prototype.prepareFace = function (
 				color[0] = 0.8;
 				color[1] = 0.4;
 				color[2] = 0.3;
-//				color[0] = 0.8;
-//				color[1] = 0.75;
-//				color[2] = 0.7;
 		}
 	}
 	else {
@@ -704,9 +770,10 @@ SurfaceRenderer.prototype.prepareFace = function (
 
 //==============================================================================
 /**
- * Draw the model (draw the triangles). TODO
+ * Draw the surface (draw the triangles).
  *
  * @param {WebGLRenderingContext} gl - The gl context.
+ * @param {float} radius - Cubes' radius (i.e. voxels' radius).
  *
  * @return {void}
  */
@@ -732,7 +799,7 @@ SurfaceRenderer.prototype.draw = function (gl, radius) {
 
 //==============================================================================
 /**
- * Draw the model for picking.
+ * Draw the surface for picking.
  *
  * @param {WebGLRenderingContext} gl - The gl context.
  *
@@ -766,10 +833,10 @@ SurfaceRenderer.prototype.drawBackBuffer = function (gl) {
  * @param {Array} vertexBuffer - The vertex buffer.
  * @param {Vector} limit - Maximum quantity of voxel on each dimension. Each
  * vertex coordinates is in [0, limit[i] - 1].
- * @param {Array} vertexPos - The vertex position.
+ * @param {Vector} vertexPos - The vertex position.
  *
  * @return {void}
- * @throws {String} If given parameter are not the expected type.
+ * @throws {String} If a parameter doesn't have the excepted type.
  */
 SurfaceRenderer.prototype.addVertexBuffer = function (vertexBuffer, limit,
 	vertexPos)
@@ -788,20 +855,6 @@ SurfaceRenderer.prototype.addVertexBuffer = function (vertexBuffer, limit,
 		(vertexPos.z + 0.5 - limit.z / 2) / m
 	);
 	++this.cptPreparedVertex;
-};
-
-
-
-//##############################################################################
-//	Other method
-//##############################################################################
-
-
-/**
- * @return {Vector} The dimension of the surface.
- */
-SurfaceRenderer.prototype.getDimension = function () {
-	return this.getModelController ().getDimension ();
 };
 
 

@@ -46,23 +46,31 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* constructor (name : String, number : int, callback : Function)
- * getName () : String
- * getNumber () : int
- * reload () : void
- * setDimension (width : int, height : int) : void
- * setMouse (x : int, y : int) : void
- * addTranslateX (x : float) : void
- * addTranslateY (x : float) : void
- * multScale (x : float) : void
- * onMousePressRight (event : MouseEvent) : void
- * onMouseUpRight (event : MouseEvent) : void
- * mouv (event : MouseEvent) : void
- * interval () : void
- * onKeyPress (event : KeyEvent) : void
- * prepare (gl : glContext) : void
- * draw (gl : glContext) : void
+/* container : GenericContainer
+ * canvas : HTMLCanvasElement
+ * glContext : Object
+ * 
+ * GenericViewer (canvas : HTMLCanvasElement, glContextType : String)
+ * 
+ * getGLContext () : Object
+ * getContainer () : GenericContainer
+ * show () : void
+ * prepare () : void
+ * draw (backBuffer : boolean) : void
+ * onMouseDown (event : MouseEvent) : void
+ * onMouseUp (event : MouseEvent) : void
+ * onMouseOver (event : MouseEvent) : void
+ * onMouseOut (event : MouseEvent) : void
+ * onMouseMove (event : MouseEvent) : void
+ * onWheel (event : MouseEvent) : void
+ * onClick (event : MouseEvent) : void
+ * onDblClick (event : MouseEvent) : void
+ * onKeyPress (event : KeyboardEvent) : void
+ * onKeyDown (event : KeyboardEvent) : void
+ * onKeyUp (event : KeyboardEvent) : void
+ * onResize (event : WindowEvent) : void
  */
+
 
 
 /// CODE ///////////////////////////////////////////////////////////////////////
@@ -136,15 +144,6 @@ function GenericViewer (canvas, glContextType) {
 };
 
 
-//==============================================================================
-/**
- * @return {GenericContainer} The container.
- */
-GenericViewer.prototype.getContainer = function () {
-	return this.container;
-};
-
-
 
 //##############################################################################
 //	Accessors and mutators
@@ -157,6 +156,15 @@ GenericViewer.prototype.getContainer = function () {
  */
 GenericViewer.prototype.getGLContext = function () {
 	return this.glContext;
+};
+
+
+//==============================================================================
+/**
+ * @return {GenericContainer} The container.
+ */
+GenericViewer.prototype.getContainer = function () {
+	return this.container;
 };
 
 
@@ -248,26 +256,22 @@ GenericViewer.prototype.onMouseOut = function (event) {};
 
 //==============================================================================
 /**
-
  * @abstract
  *
  * @param {MouseEvent} event - The mouse event.
  *
  * @return {void}
-
  */
 GenericViewer.prototype.onMouseMove = function (event) {};
 
 
 //==============================================================================
 /**
-
  * @abstract
  *
  * @param {MouseEvent} event - The mouse event.
  *
  * @return {void}
-
  */
 GenericViewer.prototype.onWheel = function (event) {};
 
@@ -336,3 +340,5 @@ GenericViewer.prototype.onKeyUp = function (event) {};
  * @return {void}
  */
 GenericViewer.prototype.onResize = function (event) {};
+
+

@@ -51,7 +51,7 @@
  * @enum
  * Enumeration of attributes that can be given to an Equation type.
  */
-var EquationTypeEnum = Object.freeze ({
+var EquationTypeEnum = {
 	/// values
 	IMPLICIT   : 0,
 	EXPLICIT   : 1,
@@ -63,4 +63,11 @@ var EquationTypeEnum = Object.freeze ({
 		1 : {name : "EXPLICIT"},
 		2 : {name : "PARAMETRIC"}
 	}
-});
+};
+
+
+
+if (Object.freeze)
+	EquationTypeEnum = Object.freeze (EquationTypeEnum);
+
+

@@ -46,34 +46,38 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* constructor ()
- *
- * getNbObject () : int
- * getObjectByName (aName : String) : Object
- * setLightPosition (pos : Vector) : void
- * getCameraById (anIndex : int) : Camera
- * setCamera (camera : Camera) : void
+/* defaultCameraPosition : Vector
+ * defaultLookAtPoint : Vector
+ * mouseX : int
+ * mouseY : int
+ * 
+ * Scene ()
+ * 
  * getCamera () : Camera
- * setScale (scale : float) : void
- * getScale () :float
- * multScale (scale : float) : void
- * setWidth (width : int) : void
- * setHeight (height : int) : void
- * getWidth () : int
- * getHeight () : int
- * setTranslate (x : float, y : float) : void
- * addTranslateX (x : float) : void
- * addTranslateY (y : float) : void
- * addObject (anObject : Object) : void
- * removeObjectById (id : int) : void
- * removeObjectByName (anObjectName : String) : void
- * addShader (aShader : Shader) : void
- * removeShaderByName (aName : String) : void
- * prepare (gl : glContext) : void
- * prepareShaderMatrix(gl : glContext, obj : GenericObject) : void
+ * setCamera (camera : Camera) : void
+ * addObject (anObject : GenericStructure) : void
+ * getObjectByName (aName : String) : GenericStructure
+ * removeObjectByName (aName : GenericStructure) : void
+ * unprepare () : void
  * reload () : void
- * draw (gl : glContext, backBuffer : boolean) : void
- * prepareSelect (gl : glContext) : void
+ * prepare (
+ *     glContext : WebGLRenderingContext,
+ *     connexity : ConnexityEnum,
+ *     voxelRadius : float
+ * ) : void
+ * draw (
+ *     glContext : WebGLRenderingContext,
+ *     backBuffer : boolean,
+ *     voxelRadius : float,
+ *     renderBuffer : WebGLRenderbuffer
+ * ) : void
+ * prepareShaderMatrix (
+ *     glContext : WebGLRenderingContext, 
+ *     obj : GenericStructure
+ * ) : void
+ * setCameraAt (position : Number, lookAt : Number) : void
+ * resetCamera () : void
+ * centerCamera () : void
  */
 
 
@@ -98,7 +102,7 @@ Scene.prototype.constructor = Scene;
 
 /**
  * @constructor
- * TODO desc
+ * Create a 3D container.
  */
 function Scene () {
 
@@ -107,7 +111,7 @@ function Scene () {
 	/**
 	 * {Vector} Initial camera position.
 	 */
-	this.defaultCameraPosition = new Vector (3.5, 3, 2.5);
+	this.defaultCameraPosition = new Vector (3.5, 3.0, 2.5);
 
 	/**
 	 * {Vector} Initial camera look at point.
@@ -137,7 +141,7 @@ function Scene () {
 	 * {int} The Y mouse coordinate.
 	 */
 	this.mouseY = 384;
-}
+};
 
 
 
@@ -181,6 +185,7 @@ Scene.prototype.setCamera = function (camera) {
 //##############################################################################
 
 
+
 /**
  * @override
  *
@@ -218,8 +223,8 @@ Scene.prototype.getObjectByName = function (aName) {
 			return this.objectList[i];
 	}
 
-//	console.log ("Scene.getObjectByName: object : \"" + aName
-//			+ "\" not found");
+//	console.warn ("Scene.getObjectByName: object : \"" + aName
+//		+ "\" not found");
 	return null;
 };
 
@@ -239,10 +244,9 @@ Scene.prototype.removeObjectByName = function (aName) {
 			return;
 		}
 	}
-//	console.log ("Scene.removeObjectByName: object : \"" + aName
-//			+ "\" not found");
+//	console.warn ("Scene.removeObjectByName: object : \"" + aName
+//		+ "\" not found");
 };
-
 
 
 //==============================================================================
@@ -251,7 +255,7 @@ Scene.prototype.removeObjectByName = function (aName) {
  *
  * @return {void}
  */
-Scene.prototype.unprepare = function (aName) {
+Scene.prototype.unprepare = function () {
 	var len = this.getNbObject ();
 	for (var i = 0; i < len; ++i) {
 		this.objectList[i].unprepare ();
@@ -329,14 +333,20 @@ Scene.prototype.prepare = function (glContext, connexity, voxelRadius) {
  * Draw a scene.
  *
  * @param {WebGLRenderingContext} glContext - The gl context.
- * @param {boolean} [backBuffer] - Indicate if we have to draw the scene
- * normally or if we need to draw for picking.
- * @param {} - TODO
- * @param {} - TODO
+ * @param {boolean} backBuffer - Indicate if we have to draw the scene
+ * normally or if we need to draw for picking (false -> normally; 
+ * true -> picking).
+ * @param {float} voxelRadius - Voxels' radius.
+ * @param {WebGLRenderbuffer} renderBuffer - The render buffer.
  *
  * @return {void}
  */
-Scene.prototype.draw = function (glContext, backBuffer, voxelRadius, renderBuffer) {
+Scene.prototype.draw = function (
+	glContext,
+	backBuffer,
+	voxelRadius,
+	renderBuffer)
+{
 	var size = Math.min (this.height, this.width) * 2;
 	glContext.clear (glContext.COLOR_BUFFER_BIT | glContext.DEPTH_BUFFER_BIT);
 	glContext.bindRenderbuffer (glContext.RENDERBUFFER, renderBuffer);
@@ -421,6 +431,7 @@ Scene.prototype.prepareShaderMatrix = function (glContext, obj) {
 //##############################################################################
 
 
+
 /**
  * Set the position and the look at point of the camera. Recompute the matrix
  * camera.
@@ -440,7 +451,7 @@ Scene.prototype.setCameraAt = function (position, lookAt) {
 //==============================================================================
 /**
  * Replace the camera at its initial position.
- * @see {@link centerCamera}
+ * @see {@link centerCamera, setCameraAt}
  *
  * @return {void}
  */
@@ -451,8 +462,8 @@ Scene.prototype.resetCamera = function () {
 
 //==============================================================================
 /**
- * Replace the camera look at point at its initial position. TODO
- * @see {@link resetCamera}
+ * Project the camera look at point on the Z axis.
+ * @see {@link resetCamera, setCameraAt}
  *
  * @return {void}
  */
@@ -464,3 +475,5 @@ Scene.prototype.centerCamera = function () {
 	);
 	this.setCameraAt (this.getCamera ().getPosition (), lookAt);
 };
+
+

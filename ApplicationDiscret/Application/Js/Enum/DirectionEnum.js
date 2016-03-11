@@ -53,7 +53,7 @@
  * oppose is the value of the opposite face;
  * size indicate the number of directions.
  */
-var DirectionEnum = Object.freeze ({
+var DirectionEnum = {
 	/// values
 	TOP    : 0,
 	BOTTOM : 1,
@@ -84,9 +84,11 @@ var DirectionEnum = Object.freeze ({
 		else
 			return undefined;
 	}
-});
+};
 
 
 
 if (Object.freeze)
 	DirectionEnum = Object.freeze (DirectionEnum);
+
+

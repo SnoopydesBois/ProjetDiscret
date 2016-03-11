@@ -9,12 +9,22 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* constructor ()
- *
+/* curve : DrawnCurve
+ * 
+ * ModelDraw ()
+ * 
+ * getActiveCurve  () : DrawnCurve
+ * newCurve  () : void
+ * getNbPoint  () : int
+ * getXCoordinates  () : Number[]
+ * getYCoordinates  () : Number[]
+ * closeCurve  () : Point
  */
 
 
+
 /// CODE ///////////////////////////////////////////////////////////////////////
+
 
 
 /**
@@ -36,10 +46,10 @@ ModelDraw.prototype.constructor = ModelDraw;
 function ModelDraw () {
 
 	/**
-	 * {DrawnCurve} the curve on which the model act
+	 * {DrawnCurve} The curve on which the model acts.
 	 */
 	this.curve = new DrawnCurve ();
-};
+}
 
 
 
@@ -126,6 +136,5 @@ ModelDraw.prototype.closeCurve = function () {
 	else 
 		return null;
 };
-
 
 

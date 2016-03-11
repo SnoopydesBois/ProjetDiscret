@@ -45,40 +45,59 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* constructor ()
- * getIdSurface ()
- * getIdMeridian ()
- * getIdRevolution()
- * setIdSurface (idSurface : String)
- * setIdMeridian (idMeridian : String)
- * setIdRevolution (idRevolution : String)
- * exportX3D (surface : Surface)
- * exportMeridianPng ()
- * exportRevolutionPng ()
- * getImg2DData(id : String, name : String)
- * export3DPng(surfaceView : SurfaceViewer)
- * getImg3DData (id : String, surfaceView : SurfaceViewer)
- * exportSTL (renderer : SurfaceRenderer)
- * saveGeneratrix (meridianController : Controller2DMeridian)
- * saveImplicitCurve (curveController : Controller2D)
- * saveExplicitCurve (curveController : Controller2DMeridian)
- * saveDrawnCurve (curveController : Controller2DMeridian)
+/* idSurface : String
+ * idMeridian : String
+ * idRevolution : String
+ * 
+ * ModelExport (idSurface : String, idMeridian : String, idRevolution : String)
+ * 
+ * getIdSurface () : String
+ * getIdMeridian () : String
+ * getIdRevolution () : String
+ * setIdSurface (idSurface : String) : void
+ * setIdMeridian (idMeridian : String) : void
+ * setIdRevolution (idRevolution : String) : void
+ * exportX3D (surface : Surface) : void
+ * exportMeridianPng () : void
+ * exportRevolutionPng () : void
+ * getImg2DData (id : String, name : String) : void
+ * export3DPng (surfaceView : SurfaceViewer) : void
+ * getImg3DData (id : String, surfaceView : SurfaceViewer) : String
+ * exportSTL (renderer : SurfaceRenderer) : void
+ * saveGeneratrix (meridianController : Controller2DMeridian) : void
+ * saveImplicitCurve (curveController : Controller2D) : void
+ * saveExplicitCurve (curveController : Controller2DMeridian) : void
+ * saveDrawnCurve (curveController : Controller2DMeridian) : void
  */
+
 
 
 /// CODE ///////////////////////////////////////////////////////////////////////
 
 
-ModelExport.prototype.constructor = ModelExport;
 
 /**
+ * @classdesc TODO
+ */
+ModelExport.prototype.constructor = ModelExport;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
+
+/**
+ * @constructor
  * The id to provide for the model are exactly what is written for the id 
  * attribute in the html tag. Not with a # in front.
- * @constructor
- * @param{String} idSurface - The id of the container of the surface to export.
- * @param{String} idMeridian - The id of the container of the generatrix 
+ * 
+ * @param {String} idSurface - The id of the container of the surface to export.
+ * @param {String} idMeridian - The id of the container of the generatrix 
  * to export.
- * @param{String} idRevolution - The id of the container of the directrix 
+ * @param {String} idRevolution - The id of the container of the directrix 
  * to export.
  */
 function ModelExport (idSurface, idMeridian, idRevolution) {
@@ -97,23 +116,31 @@ function ModelExport (idSurface, idMeridian, idRevolution) {
 	 * {String} The id of the HTML element of the directrix to export.
 	 */
 	this.idRevolution = idRevolution;
-};
+}
 
 
-//==============================================================================
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
+
 /**
- * Get the current id of the canvas containing the surface used to export
- * @return {String} The id of the canvas containing the surface
+ * Get the current id of the canvas containing the surface used to export.
+ * 
+ * @return {String} The id of the canvas containing the surface.
  */
-ModelExport.prototype.getIdSurface = function(){
+ModelExport.prototype.getIdSurface = function () {
 	return this.idSurface;
 };
 
 
 //==============================================================================
 /**
- * Get the current id of the HTML element containing meridian to export
- * @return {String} The id of the HTML element containing the meridian
+ * Get the current id of the HTML element containing meridian to export.
+ * 
+ * @return {String} The id of the HTML element containing the meridian.
  */
 ModelExport.prototype.getIdMeridian = function(){
 	return this.idMeridian;
@@ -123,23 +150,26 @@ ModelExport.prototype.getIdMeridian = function(){
 //==============================================================================
 /**
  * Get the current id of the HTML element containing curve of revolution to 
- * export
+ * export.
+ * 
  * @return {String} The id of the HTML element containing the revolution
  */
-ModelExport.prototype.getIdRevolution = function(){
+ModelExport.prototype.getIdRevolution = function () {
 	return this.idRevolution;
 };
 
 
 //==============================================================================
 /**
- * Set the id of the new canvas containing the surface to export
- * @param {String} idSurface - The id of the canvas containing the surface
+ * Set the id of the new canvas containing the surface to export.
+ * 
+ * @param {String} idSurface - The id of the canvas containing the surface.
+ * 
  * @return {void}
- * @throw {String} The parameter is not of String type.
+ * @throws {String} The parameter is not of string type.
  */
-ModelExport.prototype.setIdSurface = function(idSurface){
-	if(!(typeof idSurface === "string")){
+ModelExport.prototype.setIdSurface = function (idSurface) {
+	if (!(typeof idSurface == "string")) {
 		throw "ModelExport.setIdSurface.ErrorBadParameterType";
 	}
 	
@@ -149,14 +179,16 @@ ModelExport.prototype.setIdSurface = function(idSurface){
 
 //==============================================================================
 /**
- * Set the id of the new HTML element containing the meridian to export
+ * Set the id of the new HTML element containing the meridian to export.
+ * 
  * @param {String} idMeridian - The id of the HTML element containing the 
- * generatrix
+ * generatrix.
+ * 
  * @return {void}
- * @throw {String} The parameter is not of String type
+ * @throws {String} The parameter is not of string type.
  */
-ModelExport.prototype.setIdMeridian = function(idMeridian){
-	if(!(typeof idMeridian === "string")){
+ModelExport.prototype.setIdMeridian = function (idMeridian) {
+	if (!(typeof idMeridian == "string")) {
 		throw "ModelExport.setIdMeridian.ErrorBadParameterType";
 	}
 	this.idMeridian = idMeridian;
@@ -166,14 +198,16 @@ ModelExport.prototype.setIdMeridian = function(idMeridian){
 //==============================================================================
 /**
  * Set the id of the new HTML element containing the curve of revolution to 
- * export
+ * export.
+ * 
  * @param {String} idRevolution - The id of the HTML element containing the 
- * directrix
+ * directrix.
+ * 
  * @return {void}
- * @throw {String} The parameter is not of String type
+ * @throws {String} The parameter is not of string type.
  */
-ModelExport.prototype.setIdRevolution = function(idRevolution){
-	if(!(typeof idRevolution === "string")){
+ModelExport.prototype.setIdRevolution = function (idRevolution) {
+	if (!(typeof idRevolution == "string")) {
 		throw "ModelExport.setIdRevolution.ErrorBadParameterType";
 	}
 	this.idRevolution = idRevolution;
@@ -182,14 +216,16 @@ ModelExport.prototype.setIdRevolution = function(idRevolution){
 
 //==============================================================================
 /**
- * Export the 3D canvas to x3d
- * Propose to save an x3d file representing the surface by boxes
- * @param {Surface} surface - The surface to export to x3d file
+ * Export the 3D canvas to X3D. Propose to save an X3D file representing the
+ * surface by boxes.
+ * 
+ * @param {Surface} surface - The surface to export to X3D file.
+ * 
  * @return {void}
- * @throw {String} The parameter is not of Surface type
+ * @throws {String} The parameter is not of Surface type.
  */
-ModelExport.prototype.exportX3D = function(surface){
-	if(!(surface instanceof Surface)){
+ModelExport.prototype.exportX3D = function (surface) {
+	if (!(surface instanceof Surface)) {
 		throw "ModelExport.exportX3D.ErrorBadParameterType";
 	}
 	var x3D = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
@@ -205,30 +241,30 @@ ModelExport.prototype.exportX3D = function(surface){
 						 "\t<head></head>\n" +
 					"\t<Scene>\n" ;
 	
-	var dimension = surface.getDimension();
+	var dimension = surface.getDimension ();
 	
 	// Get the current connexity.
-	var connexity = parseInt($("#connexityChoice").val());
+	var connexity = parseInt ($("#connexityChoice").val ());
 	
 	// Create the voxels in the X3D file
-	for(var x = 0; x < dimension.x; x++){
-		for(var y = 0; y < dimension.y; y++){
-			for(var z = 0; z < dimension.z; z++){
-				var voxel = surface.getVoxel(x,z,y)
-				if(voxel != null && voxel.isVisible(connexity)){
-					x3D += "\t<Transform translation=\""+  (x - dimension.x/2) 
-														+ " " 
-														+ (y - dimension.y/2) 
-														+ " " 
-														+ (z - dimension.z/2)  
-														+ "\">\n" +
+	for (var x = 0; x < dimension.x; x++) {
+		for (var y = 0; y < dimension.y; y++) {
+			for (var z = 0; z < dimension.z; z++) {
+				var voxel = surface.getVoxel (x, z, y)
+				if (voxel != null && voxel.isVisible(connexity)) {
+					x3D += "\t<Transform translation=\""+ (x - dimension.x / 2) 
+									+ " " 
+									+ (y - dimension.y / 2) 
+									+ " " 
+									+ (z - dimension.z / 2)  
+									+ "\">\n" +
 								"\t\t<Shape>\n" + 
 									"\t\t\t<Box size=\"" + (1.0 - dimension.x/2) 
-														 + " " 
-														 + (1.0 - dimension.y/2) 
-														 + " " 
-														 + (1.0 - dimension.z/2) 
-														 + "\"/>\n"+
+										 + " " 
+										 + (1.0 - dimension.y / 2) 
+										 + " " 
+										 + (1.0 - dimension.z / 2)
+										 + "\"/>\n"+
 								"\t\t</Shape>\n" +
 							"\t</Transform>\n";
 				}
@@ -247,101 +283,113 @@ ModelExport.prototype.exportX3D = function(surface){
 
 //==============================================================================
 /**
- * Export the meridian div to PNG
+ * Export the meridian div to PNG.
+ * 
  * @return {void}
  */
-ModelExport.prototype.exportMeridianPng = function(){
-	this.getImg2DData(this.idMeridian, "generatrix.png");
+ModelExport.prototype.exportMeridianPng = function () {
+	this.getImg2DData (this.idMeridian, "generatrix.png");
 };
 
 
 //==============================================================================
 /**
- * Export the curve of revolution div to PNG
+ * Export the curve of revolution div to PNG.
+ * 
  * @return {void}
  */
-ModelExport.prototype.exportRevolutionPng = function(){
-	this.getImg2DData(this.idRevolution, "directrix.png");
+ModelExport.prototype.exportRevolutionPng = function () {
+	this.getImg2DData (this.idRevolution, "directrix.png");
 };
 
 
 //==============================================================================
 /**
  * Use of the saveSvgAsPng function from saveSvgAsPng library.
+ * 
  * @param {String} id - The name of the div containing the svg to save.
  * @param {String} name - The name of the file to save.
+ * 
  * @return {void}
+ * @throws {TODO}
  */
-ModelExport.prototype.getImg2DData = function(id, name){
-	if(!checkType(arguments, "string", "string")){
+ModelExport.prototype.getImg2DData = function (id, name) {
+	if (!checkType(arguments, "string", "string")) {
 		throw "ModelExport.getImg2DData.ErrorBadParameterType";
 	}
 	// If there is no svg, document.querySelector return null. 
 	// It happens when we are working on the canvas (hand free drawing)
 	var svgElement = document.querySelector("#" + id + '>svg');
 	
-	if(svgElement == null){ // Canvas case
-		var canvas = document.querySelector("#" + id);
+	if (svgElement == null) { // Canvas case
+		var canvas = document.querySelector ("#" + id);
 		var width = canvas.width;
 		var height = canvas.height
-		var context = canvas.getContext("2d");
+		var context = canvas.getContext ("2d");
 		
-		var imageData = context.getImageData(0,0, width, height);
+		var imageData = context.getImageData (0, 0, width, height);
 				
-		canvas.toBlob(function(blob) {
-			saveAs(blob, "generatrix.png");
+		canvas.toBlob (function (blob) {
+			saveAs (blob, "generatrix.png");
 		});
 	}
-	else{ // SVG case
+	else { // SVG case
 		// To modify to use canvas if handfree mode is in use
-		saveSvgAsPng(svgElement, name);
+		saveSvgAsPng (svgElement, name);
 	}
 };
 
 
 //==============================================================================
 /**
- * Export the 3D canvas to PNG
+ * Export the 3D canvas to PNG.
+ * 
  * @param {SurfaceViewer} surfaceView - The SurfaceViewer of the current 
  * surface.
+ * 
  * @return {void}
+ * @throws {TODO}
  */
-ModelExport.prototype.export3DPng = function(surfaceView){
-	if(!(surfaceView instanceof SurfaceViewer)){
+ModelExport.prototype.export3DPng = function (surfaceView) {
+	if (!(surfaceView instanceof SurfaceViewer)) {
 		throw "ModelExport.export3DPng.ErrorBadParameterType";
 	}
 	$('#download').attr('href', this.getImg3DData(this.idSurface, surfaceView));
-	$('#download').attr('download', 'Surface3D.png');
+	$('#download').attr ('download', 'Surface3D.png');
 };
 
 
 //==============================================================================
 /**
- * Create 2D canvas from 3D canvas
+ * Create 2D canvas from 3D canvas.
+ * 
  * @param {String} id - The name of the div containing the svg to save
- * @param {SurfaceViewer} surfaceView - The surfaceView containing the objects to render
- * @return {String} the url to the canvas img
+ * @param {SurfaceViewer} surfaceView - The surfaceView containing the objects
+ * to render.
+ * 
+ * @return {String} the url to the canvas img.
+ * @throws {TODO}
  */
-ModelExport.prototype.getImg3DData = function(id, surfaceView){
-	if(!((arguments, "string", SurfaceViewer))){
+ModelExport.prototype.getImg3DData = function (id, surfaceView) {
+	if (!((arguments, "string", SurfaceViewer))) {
 		throw "ModelExport.getImg3DData.ErrorBadParameterType";
 	}
 
-	var width = $("#" + id).width(), height = $("#" + id).height();
+	var width = $("#" + id).width (), height = $("#" + id).height ();
 	
 	var pixels = [];
-	pixels = surfaceView.getImgData(width, height);
+	pixels = surfaceView.getImgData (width, height);
 		
-	var canvas = document.createElement('canvas');
+	var canvas = document.createElement ('canvas');
 	canvas.width = width;
 	canvas.height = height;
-	var context = canvas.getContext("2d");
+	var context = canvas.getContext ("2d");
 	
-	var imageData = context.createImageData(width, height);
-	imageData.data.set(pixels);
-	context.putImageData(imageData, 0, 0);
+	var imageData = context.createImageData (width, height);
+	imageData.data.set (pixels);
+	context.putImageData (imageData, 0, 0);
 	
-	return canvas.toDataURL();
+	return canvas.toDataURL ();
 };
 
 
@@ -350,19 +398,16 @@ ModelExport.prototype.getImg3DData = function(id, surfaceView){
  * Export the current surface to binary STL format
  * 
  * @param {SurfaceRenderer} renderer - The surface renderer.
+ * 
  * @return {void}
+ * @throws {TODO}
  */
-ModelExport.prototype.exportSTL = function(renderer){
-	if(!(renderer instanceof SurfaceRenderer)){
+ModelExport.prototype.exportSTL = function (renderer) {
+	if (!(renderer instanceof SurfaceRenderer)) {
 		throw "ModelExport.exportSTL.ErrorBadParameterType";
 	}
 	
 	var isLittleEndian = true; // STL files assume little endian, see wikipedia page
-
-// 		sizeInBytes = 
-//         80 * sizeof(UINT8)
-//      +  1 * sizeof(UINT32)
-//      + (12 * sizeof(REAL32) + 1 * sizeof(UINT16)) * N triangles*
 
 	// Retrieving the coordinates
 	var vertexBuffer = [];
@@ -378,83 +423,90 @@ ModelExport.prototype.exportSTL = function(renderer){
 	// Creation of the buffer containing the data for the stl
 	
 	/* UINT8[80] – Header
-	 UINT32 – Number of triangles
-	*/
+	   UINT32 – Number of triangles
+	 */
 	var headerOffset = 84;
 	/*  REAL32[3] – Normal vector
 		REAL32[3] – Vertex 1
 		REAL32[3] – Vertex 2
 		REAL32[3] – Vertex 3
 		UINT16 – Attribute byte count
-	*/
+	 */
 	var sizeTriangles = 50 * nbTriangles;
 	
-	var buffer = new ArrayBuffer(headerOffset + sizeTriangles);
+	var buffer = new ArrayBuffer (headerOffset + sizeTriangles);
 
 	// Creation of a view to write data in the buffer
-	var dataview = new DataView(buffer);
+	var dataview = new DataView (buffer);
 	// Offset used when writing data into buffer
 	var offset = 80; // For the STL header 
 		
 		
-    dataview.setUint32(offset, nbTriangles, isLittleEndian);
+    dataview.setUint32 (offset, nbTriangles, isLittleEndian);
 	offset += 4;
 	
-	for(var i = 0; i < indicesBuffer.length; i+=3){
+	for (var i = 0; i < indicesBuffer.length; i+=3) {
 		dataview.setFloat32(offset, 0.0, isLittleEndian);
 		offset += 4; // size of float in bytes
 		dataview.setFloat32(offset, 0.0, isLittleEndian);
 		offset += 4;
 		dataview.setFloat32(offset, 0.0, isLittleEndian);
 		offset += 4;
-		for(var p =  0; p < 3; p++){
-			for(var c = 0; c < 3; c++){
-				dataview.setFloat32(offset, vertexBuffer[indicesBuffer[i+p]*3+c], isLittleEndian);
+		for (var p =  0; p < 3; p++) {
+			for (var c = 0; c < 3; c++) {
+				dataview.setFloat32(offset, vertexBuffer[
+						indicesBuffer[i + p] * 3 + c
+					], isLittleEndian);
 				offset += 4;
 			}
 		}
-		
 		offset += 2; // ignore byte count attribute
 	}
 	
-	var blob = new Blob([dataview], {type: 'application/octet-binary'});
+	var blob = new Blob ([dataview], {type: 'application/octet-binary'});
     
     // FileSaver.js defines `saveAs` for saving files out of the browser
-    saveAs(blob, "surfaceSTL.stl");
+    saveAs (blob, "surfaceSTL.stl");
 };	
 
 
 //==============================================================================
 /**
  * Save the current generatrix.
+ * 
  * @param {Controller2DMeridian} meridianController - The controller of 
  * the generatrix.
+ * 
  * @return {void}
+ * @throws {String} If the parameter is not a Controller2DMeridian.
  */
-ModelExport.prototype.saveGeneratrix = function(meridianController){
-	if(!(meridianController instanceof Controller2DMeridian)){
+ModelExport.prototype.saveGeneratrix = function (meridianController) {
+	if (!(meridianController instanceof Controller2DMeridian)) {
 		throw "ModelExport.saveGeneratrix.ErrorBadParameterType";
 	}
 	
-	var curve = meridianController.getActiveCurve();
-	if(curve instanceof ExplicitCurve){
-		this.saveExplicitCurve(meridianController);
+	var curve = meridianController.getActiveCurve ();
+	if (curve instanceof ExplicitCurve) {
+		this.saveExplicitCurve (meridianController);
 	}
-	else if(curve instanceof DrawnCurve){
-		this.saveDrawnCurve(meridianController);
+	else if (curve instanceof DrawnCurve) {
+		this.saveDrawnCurve (meridianController);
 	}
 };
 
 
 //==============================================================================
 /**
- * Save an implicit curve to xml format.
+ * Save an implicit curve to XML format.
+ * 
  * @param {Controller2D} curveController - The controller of the curve to 
  * save.
+ * 
  * @return {void}
+ * @throws {String} If the parameter is not a Controller2D.
  */
-ModelExport.prototype.saveImplicitCurve = function(curveController){	
-	if(!(curveController instanceof Controller2D)){
+ModelExport.prototype.saveImplicitCurve = function (curveController) {	
+	if (!(curveController instanceof Controller2D)) {
 		throw "ModelExport.saveImplicitCurve.ErrorBadParameterType";
 	}
 	
@@ -476,32 +528,40 @@ ModelExport.prototype.saveImplicitCurve = function(curveController){
 				'\t<CurveType>\n' +
 					'\t\t<Class>ImplicitCurve</Class>\n' +
 				'\t</CurveType>\n' +
-				'\t<Equation>'+  curveController.getEquationNoParameter()  +'</Equation>\n' +
+				'\t<Equation>'+  curveController.getEquationNoParameter()
+					+ '</Equation>\n' +
 				'\t<Range>\n'+
-					'\t\t<xMin>' + curveController.getXRange().getMin() + '</xMin>\n' +
-					'\t\t<xMax>' + curveController.getXRange().getMax() + '</xMax>\n' +
-					'\t\t<yMin>' + curveController.getYRange().getMin() + '</yMin>\n' +
-					'\t\t<yMax>' + curveController.getYRange().getMax() + '</yMax>\n' +
+					'\t\t<xMin>' + curveController.getXRange().getMin()
+						+ '</xMin>\n' +
+					'\t\t<xMax>' + curveController.getXRange().getMax()
+						+ '</xMax>\n' +
+					'\t\t<yMin>' + curveController.getYRange().getMin()
+						+ '</yMin>\n' +
+					'\t\t<yMax>' + curveController.getYRange().getMax()
+						+ '</yMax>\n' +
 				'\t</Range>\n'+
 				"";
 	xml += '</Curve>';
 	
-	var blob = new Blob([xml], {type: 'text/xml'});
+	var blob = new Blob ([xml], {type: 'text/xml'});
     
     // FileSaver.js defines `saveAs` for saving files out of the browser
-    saveAs(blob, "directrix.xml");
+    saveAs (blob, "directrix.xml");
 };
 
 
 //==============================================================================
 /**
- * Save an explicit curve to xml format.
- * @param {Controller2DMeridian} curveController - The controller of the curve to 
- * save.
+ * Save an explicit curve to XML format.
+ * 
+ * @param {Controller2DMeridian} curveController - The controller of the curve
+ * to save.
+ * 
  * @return {void}
+ * @throws {String} If the parameter is not a Controller2D.
  */
-ModelExport.prototype.saveExplicitCurve = function(curveController){
-	if(!(curveController instanceof Controller2DMeridian)){
+ModelExport.prototype.saveExplicitCurve = function (curveController) {
+	if (!(curveController instanceof Controller2DMeridian)) {
 		throw "ModelExport.saveExplicitCurve.ErrorBadParameterType";
 	}
 	
@@ -523,13 +583,18 @@ ModelExport.prototype.saveExplicitCurve = function(curveController){
 				'\t<CurveType>\n' +
 					'\t\t<Class>ExplicitCurve</Class>\n' +
 				'\t</CurveType>\n' +
-				'\t<Equation>'+  curveController.getEquationNoParameter()  +'</Equation>\n' +
-				'\t<Range>\n'+
-					'\t\t<xMin>' + curveController.getXRange().getMin() + '</xMin>\n' +
-					'\t\t<xMax>' + curveController.getXRange().getMax() + '</xMax>\n' +
-					'\t\t<yMin>' + curveController.getYRange().getMin() + '</yMin>\n' +
-					'\t\t<yMax>' + curveController.getYRange().getMax() + '</yMax>\n' +
-				'\t</Range>\n'+
+				'\t<Equation>' + curveController.getEquationNoParameter()
+					+ '</Equation>\n' +
+				'\t<Range>\n' +
+					'\t\t<xMin>' + curveController.getXRange().getMin()
+						+ '</xMin>\n' +
+					'\t\t<xMax>' + curveController.getXRange().getMax()
+						+ '</xMax>\n' +
+					'\t\t<yMin>' + curveController.getYRange().getMin()
+						+ '</yMin>\n' +
+					'\t\t<yMax>' + curveController.getYRange().getMax()
+						+ '</yMax>\n' +
+				'\t</Range>\n' +
 				"";
 				
 	xml += '</Curve>';
@@ -543,8 +608,10 @@ ModelExport.prototype.saveExplicitCurve = function(curveController){
 //==============================================================================
 /**
  * Save a drawn curve to xml format.
- * @param {Controller2DMeridian} curveController - The controller of the curve to 
- * save.
+ * 
+ * @param {Controller2DMeridian} curveController - The controller of the curve
+ * to save.
+ * 
  * @return {void}
  */
 ModelExport.prototype.saveDrawnCurve = function(curveController){
@@ -595,3 +662,5 @@ ModelExport.prototype.saveDrawnCurve = function(curveController){
     // FileSaver.js defines `saveAs` for saving files out of the browser
     saveAs(blob, "generatrix.xml");
 };
+
+

@@ -19,21 +19,21 @@
  * GenericContainer ()
  * 
  * getNbObject () : int
- * setScale (scale) : void
- * getScale () :
- * multScale (scale) :
- * getWidth () :
- * setWidth (width) :
- * getHeight () :
- * setHeight (height) :
- * addTranslateX (x) :
- * addTranslateY (y) :
- * setTranslate (x, y) :
- * addObject (anObject) :
- * getObject (index) :
- * removeObject (index) :
- * prepare (glContext) :
- * draw (glContext, backBuffer) :
+ * setScale (scale : float) : void
+ * getScale () : float
+ * multScale (scale: float) : void
+ * getWidth () : int
+ * setWidth (width : int) : void
+ * getHeight () : int
+ * setHeight (height : int) : void
+ * addTranslateX (x : float) : void
+ * addTranslateY (y : float) : void
+ * setTranslate (x : float, y : float) : void
+ * addObject (anObject : Object) : void
+ * getObject (index : int) : Object
+ * removeObject (index : int) : void
+ * prepare (glContext : Object) : void
+ * draw (glContext : Object, backBuffer boolean) : void
  */
 
 
@@ -90,7 +90,7 @@ function GenericContainer () {
 	 * {float} The translation along the Y axis.
 	 */
 	this.translateY = 0.0;
-}
+};
 
 
 

@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -127,6 +128,5 @@ Application.prototype.alertMessage = function (msg, duration) {
 Application.prototype.validMessage = function (msg, duration) {
 	this.showMessage (msg, duration, "#0A0");
 };
-
 
 
