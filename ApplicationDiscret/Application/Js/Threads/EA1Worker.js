@@ -92,7 +92,7 @@ function algo () {
 		if(bufferSize !=0)
 			postMessage([buffer, bufferSize]);
 	} // end for z
-}
+};
 
 
 //==============================================================================
@@ -118,6 +118,6 @@ onmessage = function (e) {
 		postMessage(["Abort"]);
 	}
 	postMessage(["Terminate", id]);
-}
+};
 
 

@@ -145,7 +145,7 @@ function Matrix () {
 		throw "Bad Matrix constructor call";
 	};
 	return this;
-}
+};
 
 
 

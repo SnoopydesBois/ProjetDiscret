@@ -44,7 +44,7 @@ function get3DGlContext (canvas) {
 		console.error ("HTMLCanvasElement.getContext() FAILED !");
 	}
 	return gl;
-}
+};
 
 
 //==============================================================================
@@ -86,7 +86,7 @@ function createShader (glContext, type, source) {
 	}
 	
 	return shader;
-}
+};
 
 
 //==============================================================================
@@ -131,7 +131,7 @@ function createProgram (glContext) {
 	}
 	
 	return program;
-}
+};
 
 
 //==============================================================================
@@ -153,6 +153,6 @@ function clear2DCanvas (ctx, color) {
 	ctx.strokeStyle = color;
 	ctx.strokeRect (0, 0, ctx.canvas.width, ctx.canvas.height);
 	ctx.strokeStyle = currentColor;
-}
+};
 
 

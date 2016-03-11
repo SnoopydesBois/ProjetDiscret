@@ -66,7 +66,7 @@ function ParametricAlgo1Worker (parametricCurve, implicitCurve, dimension, surfa
 			(i + 1) * Math.floor ((parametricCurve.getMaxT() + 7) / 8)
 		]);
 	}
-}
+};
 
 
 

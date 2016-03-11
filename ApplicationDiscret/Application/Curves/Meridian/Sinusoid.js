@@ -12,7 +12,7 @@
 
 /**
  * @extends ExplicitCurve
- * @classdesc TODO
+ * @classdesc Predefined curve
  */
 Sinusoid.prototype = new ExplicitCurve;
 Sinusoid.prototype.constructor = Sinusoid;
@@ -45,7 +45,7 @@ function Sinusoid () {
 	this.parametersRange['period'] = new Range (10, 30);
 	this.parametersRange['phase_shift'] = new Range (0, 2 * 3.14159265359);
 	this.parametersRange['horizontal_shift'] = new Range (1, 50);
-}
+};
 
 
 

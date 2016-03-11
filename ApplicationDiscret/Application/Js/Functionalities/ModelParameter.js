@@ -38,20 +38,22 @@
  *
  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
- * termes
+ * termes.
+ * TODO
  */
 
 
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* constructor ()
- *
- * select (modelContr : ModelController,
- *         face : Facet,
- *         multiple : boolean) : void
- * cube (modelContr : ModelController) : void
- * face (modelContr : ModelController) : void
+/* curve : Curve
+ * 
+ * ModelParameter ()
+ * 
+ * setCurve (curve : Curve) : void
+ * setParameter (parameter : String, value : Number) : void
+ * getAllParameters () : Map<String, Number>
+ * getParameter (name : String) : Number
  */
 
 
@@ -59,18 +61,29 @@
 
 
 
+/**
+ * @classdesc 
+ */
 ModelParameter.prototype.constructor = ModelParameter;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
 
 /**
  * @constructor
- *
  */
 function ModelParameter () {
+
 	/**
-	 * {Curve} the curve on which the model act
+	 * {Curve} The curve on which the model acts.
 	 */
 	this.curve = null;
-};
+}
 
 
 
@@ -81,6 +94,7 @@ function ModelParameter () {
 
 
 /**
+ * Set the active curve.
  * 
  * @param {Curve} curve - The curve which parameters are modified.
  * 
@@ -99,7 +113,9 @@ ModelParameter.prototype.setCurve = function (curve) {
 
 
 /**
- * Set a value to a parameter. 
+ * Set a value to a parameter.
+ * @see {@link Curve.setParameter}
+ * 
  * @param {String} parameter - The name of the parameter to modify.
  * @param {Number} value - The value of the parameter to set.
  * 
@@ -113,6 +129,7 @@ ModelParameter.prototype.setParameter = function (parameter, value) {
 //==============================================================================
 /**
  * Return all the parameters of a curve.
+ * @see {@link Curve.getAllParameters}
  * 
  * @return {Map<String, Number>} A map composed of the name of a parameter (the
  * key) and its value (the value).
@@ -124,9 +141,12 @@ ModelParameter.prototype.getAllParameters = function () {
 
 //==============================================================================
 /**
- * Retrieve the value of a parameter which name is passed in parameter
- * @param {String} name - The name of the parameter
- * @return {Number} The value of the named parameter
+ * Retrieve the value of a parameter which name is passed in parameter.
+ * @see {@link Curve.getParameter}
+ * 
+ * @param {String} name - The name of the parameter.
+ * 
+ * @return {Number} The value of the named parameter.
  */
 ModelParameter.prototype.getParameter = function (name) {
 	return this.curve.getParameter (name);

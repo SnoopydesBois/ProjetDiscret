@@ -12,7 +12,7 @@
 
 /**
  * @extends ImplicitCurve
- * @classdesc TODO
+ * @classdesc Predefined curve
  */
 Hyperbol.prototype = new ImplicitCurve;
 Hyperbol.prototype.constructor = Hyperbol;
@@ -29,8 +29,7 @@ Hyperbol.prototype.constructor = Hyperbol;
  * @constructor
  */
 function Hyperbol () {
-	//12 x^2 - 12 y^2 - 1
 	var equation = new Equation ("12 x^2 - 12 y^2 - 1");
 
 	ImplicitCurve.call (this, equation);
-}
+};

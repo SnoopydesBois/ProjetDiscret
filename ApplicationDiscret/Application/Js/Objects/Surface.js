@@ -116,7 +116,7 @@ function Surface (size) {
 	 * {int} Number of voxels the surface contains
 	 */
 	this.nbVoxel = 0;
-}
+};
 
 
 

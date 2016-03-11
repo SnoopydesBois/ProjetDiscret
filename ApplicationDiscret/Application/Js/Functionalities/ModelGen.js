@@ -39,6 +39,7 @@
  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes
+ * TODO
  */
 
 
@@ -108,7 +109,7 @@ function ModelGen (dimension) {
 	 * {AlgoWorker} The worker (i.e. threads) which
 	 */
 	this.worker = null;
-}
+};
 
 
 

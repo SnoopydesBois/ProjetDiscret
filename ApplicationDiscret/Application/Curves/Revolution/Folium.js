@@ -12,7 +12,7 @@
 
 /**
  * @extends ImplicitCurve
- * @classdesc TODO
+ * @classdesc Predefined curve
  */
 Folium.prototype = new ImplicitCurve;
 Folium.prototype.constructor = Folium;
@@ -33,4 +33,4 @@ function Folium () {
 	var equation = new Equation ("8 x^3 + 8 y^3 - 12 x y");
 
 	ImplicitCurve.call(this, equation);
-}
+};

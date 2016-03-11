@@ -21,7 +21,7 @@ function FormulaCurve (equation) {
 	}
 	
 	this.parametersRange = [];
-}
+};
 
 
 //==============================================================================

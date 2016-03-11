@@ -103,7 +103,7 @@ function Controller3D (dimension) {
 	 * {Function} A function that provides a frozen reference to the directrix
 	 */
 	this.getCurveRevolution = null;
-}
+};
 
 
 

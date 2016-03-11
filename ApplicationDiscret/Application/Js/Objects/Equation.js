@@ -61,7 +61,7 @@ function Equation(formula) {
 			console.log(this.getString());
 		}
 	}
-}
+};
 
 
 //==============================================================================
@@ -107,7 +107,7 @@ Equation.prototype.setFormula = function(formula) {
 		});
 		this.preparedFormula = this.formulaTree.compile();
 	}
-}
+};
 
 
 //==============================================================================
@@ -139,7 +139,7 @@ Equation.prototype.compute = function (valVariables) {
 		scope[i] = this.listParameters[i];
 	}
 	return this.preparedFormula.eval(scope);
-}
+};
 
 
 //==============================================================================
@@ -237,4 +237,4 @@ Equation.prototype.toString = function() {
 //==============================================================================
 Equation.prototype.check = function (){
 	return this.formulaTree != undefined;
-}
+};

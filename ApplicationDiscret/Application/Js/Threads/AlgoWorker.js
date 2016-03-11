@@ -87,7 +87,7 @@ function AlgoWorker (meridianCurve, revolutionCurve, dimension, surface) {
 	 * {float[3]} The dimension of the 3D space.
 	 */
 	this.dim = (dimension ? dimension.m : null);
-}
+};
 
 
 

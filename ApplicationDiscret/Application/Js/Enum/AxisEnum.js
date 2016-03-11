@@ -86,7 +86,7 @@ var AxisEnum = {
 
 
 
-if (Object.freeze)
+if (Object.freeze){
 	AxisEnum = Object.freeze (AxisEnum);
-
+}
 

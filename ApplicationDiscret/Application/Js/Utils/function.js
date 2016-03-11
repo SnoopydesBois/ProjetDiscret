@@ -39,7 +39,8 @@
  *
  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
- * termes
+ * termes.
+ * TODO
  */
 
 
@@ -47,7 +48,7 @@
 
 
 
-/* TODO marqueur jsDoc
+/* 
  * Function usefull in all the program
  */
 
@@ -71,15 +72,15 @@
  */
 function clamp (mini, maxi, number) {
 	return Math.min (maxi, Math.max (mini, number));
-}
+};
 
 
 //==============================================================================
 /**
- * TODO
+ * Compute polar angle of a 2D point (in radian).
  *
- * @param {Number} x - x coordinate.
- * @param {Number} y - y coordinate.
+ * @param {Number} x - X coordinate.
+ * @param {Number} y - Y coordinate.
  *
  * @return {Number} The angle of the vector in radian.
  */
@@ -87,39 +88,39 @@ function angle (x, y) {
 	var len = Math.sqrt (x * x + y * y),
 		xNorm = x / len;
 	return (y < 0) ? Math.acos (-xNorm) + Math.PI : Math.acos (xNorm);
-}
+};
 
 
 //==============================================================================
 /**
- * TODO
+ * Compute azymuthal angle of a 3D point with a given origin.
  * 
  * @param {Vector} point - A point.
  * @param {Vector} origin - The origin.
  * 
  * @return {Number} The azimuth angle of 'point' spheric coordinate (with the 
- * specified origin). TODO vérifier anglais
+ * specified origin). XXX vérifier anglais
  */
 function getAzimuth (point, origin) {
 	var pos = new Vector (point).sub (origin);
 	return angle (pos.x, pos.y);
-}
+};
 
 
 //==============================================================================
 /**
- * TODO
+ * Compute altitude angle of a 3D point with a given origin.
  * 
  * @param {Vector} point - A point.
  * @param {Vector} origin - The origin.
  * 
  * @return {Number} The altitude angle of 'point' spheric coordinate (with the 
- * specified origin). TODO vérifier anglais
+ * specified origin). XXX vérifier anglais
  */
 function getAltitude (point, origin) {
 	var pos = new Vector (point).sub (origin);
-	return Math.asin (pos.z / pos.getLength ()); // XXX clamp ?
-}
+	return Math.asin (pos.z / pos.getLength ());
+};
 
 
 
@@ -137,6 +138,7 @@ function getAltitude (point, origin) {
  * @param {Vector} universSize - Size of the 3D model.
  *
  * @return {float[4]} The RGBA color corresponding to the position of the face.
+ * Each component is a value between 0.0 and 1.0.
  */
 function posToColor (voxel, direction, universSize) {
 	return [
@@ -145,7 +147,7 @@ function posToColor (voxel, direction, universSize) {
 		voxel.getPosition().z / universSize.z, // blue
 		1.0 - direction / 100 // alpha
 	];
-}
+};
 
 
 //==============================================================================
@@ -166,7 +168,7 @@ function colorToPos (color, universSize) {
 		),
 		Math.round ((1.0 - color[3] / 256) * 100) // alpha -> direction
 	);
-}
+};
 
 
 
@@ -177,25 +179,29 @@ function colorToPos (color, universSize) {
 
 
 /**
- * Add ab event to an element
- * @param {Object} elem - The elem to which we add the event
- * @param {type} type - TODO
- * @param {Event} evenHandle - Then handler of the event
+ * Add ab event to an element. Do nothing if the given element is null or
+ * undefined.
+ * 
+ * @param {HTMLElement} elem - The elem to which we add the event.
+ * @param {Sting} type - The kind of event.
+ * @param {Function} eventHandle - Then handler of the event.
+ * 
+ * @return {void}
  */
 function addEvent (elem, type, eventHandle) {
 	if (elem == null || typeof (elem) == 'undefined')
 		return;
 
-	if (elem.addEventListener) {
+	if (elem.addEventListener)
 		elem.addEventListener (type, eventHandle, false);
-	}
-	else if (elem.attachEvent) {
+	else if (elem.attachEvent)
 		elem.attachEvent ("on" + type, eventHandle);
 	}
 	else {
 		elem["on"+type] = eventHandle;
 	}
-}
+};
+
 
 
 
@@ -217,26 +223,29 @@ function type (obj) {
 	case null :
 		return "null";
 	default :
-		return ((typeof obj === "object") || (typeof obj === "function") ?
+		return ((typeof obj == "object") || (typeof obj == "function") ?
 			obj.constructor.name :
 			typeof obj
 		);
 	}
-}
+};
 
 
 //==============================================================================
 /**
- * Print a list of type of each arguments.
- *
+ * Print a list of type of each arguments (print with console.log()).
  * @see {@link type}
+ * 
+ * @param {...*} Variable to test.
+ *
+ * @return {void}
  */
 function showType () {
 	var types = "";
 	for (var i in arguments)
 		types += type (arguments[i]) + "; ";
 	console.log (types);
-}
+};
 
 
 //==============================================================================
@@ -257,17 +266,20 @@ function isA (variable, expectedType) {
 		return typeof variable == expectedType;
 	else
 		return variable instanceof expectedType;
-}
+};
 
 
 //==============================================================================
 /**
- * TODO
+ * Check if a list of variables have expected type(s). The N variable in
+ * 'args' is test with N + 1 type in the argument list. If the test type is an
+ * array, the value is test with all type type in the array. XXX vérifier anglais.
  *
  * @param {Array} args - The list of argument.
- * @param {...(String | Function)} The expected type of argument.
+ * @param {...(String | Function | (String | Function)[])} Expected type(s) of
+ * argument.
  *
- * @return {boolean} True if all items in 'args' have the good type, false
+ * @return {boolean} True if all items in 'args' have the expected type, false
  * otherwise.
  */
 function checkType (args) {
@@ -288,7 +300,7 @@ function checkType (args) {
 		++i;
 	} // end while
 	return goodArgs;
-}
+};
 
 
 //==============================================================================
@@ -304,9 +316,6 @@ function isValueOfEnum (enumeration, value) {
 		if (value == enumeration[i])
 			return true;
 	return false;
-}
+};
 
 
-//##############################################################################
-//	Others
-//##############################################################################
