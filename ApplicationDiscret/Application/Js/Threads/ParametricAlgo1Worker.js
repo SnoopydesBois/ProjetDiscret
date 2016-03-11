@@ -11,7 +11,9 @@
 
 
 /**
- * @classdesc TODO
+ * @classdesc 
+ * A ParametricAlgo1Worker contains a nomber of workers that will
+ * compute the surface with the Parametric algo with no optimization.
  */
 
 

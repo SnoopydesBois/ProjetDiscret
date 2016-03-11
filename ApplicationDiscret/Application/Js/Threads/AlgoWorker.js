@@ -21,6 +21,9 @@
 
 /**
  * @abstract
+ * An AlgoWorker contains a nomber of workers that will compute the surface.
+ * This class is abstract and the algorithm used shall be defined in the
+ * subclasses.
  * @classdesc TODO
  */
 AlgoWorker.prototype.constructor = AlgoWorker;
@@ -35,8 +38,9 @@ AlgoWorker.prototype.constructor = AlgoWorker;
 
 /**
  * @constructor 
- * A AlgoWorker contains a nomber of workers that will compute the surface with
- * the Explicit algo with no optimization.
+ * A AlgoWorker contains a nomber of workers that will compute the surface.
+ * This class is abstract and the algorithm used shall be defined in the
+ * subclass.
  * 
  * @param {(Equation | DrawnCurve)} meridianCurve - The equation for the
  * meridian.

@@ -112,7 +112,7 @@ Controller.prototype.pressKey = function (event) {
  * @return {void}
  */
 Controller.prototype.mouseDown = function (event) {
-	throw "Controller.presskey: not implemented in abstract class";
+	throw "Controller.mouseDown: not implemented in abstract class";
 };
 
 
@@ -126,7 +126,7 @@ Controller.prototype.mouseDown = function (event) {
  * @return {void}
  */
 Controller.prototype.mouseUp = function (event) {
-	throw "Controller.presskey: not implemented in abstract class";
+	throw "Controller.mouseUp: not implemented in abstract class";
 };
 
 
@@ -140,14 +140,14 @@ Controller.prototype.mouseUp = function (event) {
  * @return {void}
  */
 Controller.prototype.mouseMouv = function (event) {
-	throw "Controller.presskey: not implemented in abstract class";
+	throw "Controller.mouseMouv: not implemented in abstract class";
 };
 
 
 //==============================================================================
 /**
  * @abstract
- * Scroll the midel button of the mouse.
+ * Scroll the midle button of the mouse.
  * 
  * @param {WindowEvent} event - Event captured by the window.
  * 

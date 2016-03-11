@@ -11,7 +11,9 @@
 
 
 /**
- * @classdesc TODO
+ * @classdesc 
+ * A ExplicitAlgo2Worker contains a nomber of workers that will
+ * compute the surface with the Explicit algo with no optimization.
  */
 
 

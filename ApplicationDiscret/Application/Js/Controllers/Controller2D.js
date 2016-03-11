@@ -71,7 +71,7 @@ function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 		Controller.call (this);
 
 		/**
-		 * {ModelCurve} The model that create curve.
+		 * {ModelCurve} The model that creates curve.
 		 */
 		this.modelCurve = new ModelCurve (
 			new Range (imageMin, imageMax),
@@ -84,7 +84,7 @@ function Controller2D (imageMin, imageMax, antecedantMin, antecedantMax, mode) {
 		this.mode = mode;
 		
 		/**
-		 * {ModelParameter} The model that control the curve parameters
+		 * {ModelParameter} The model that controls the curve parameters
 		 */
 		this.modelParameter = new ModelParameter();
 	}
@@ -122,7 +122,7 @@ Controller2D.prototype.addCurve = function (name, constructor) {
 
 //==============================================================================
 /**
- * Return the active curve of the model
+ * Returns the active curve of the model.
  * The curve returned can only be of type FormulaCurve as a Controller2D only use a modelCurve
  * @return {FormulaCurve} the curve of the model
  */
@@ -133,9 +133,9 @@ Controller2D.prototype.getActiveCurve = function () {
 
 //==============================================================================
 /**
- * Set a curve to the model
+ * Set the active curve
  *
- * @param {(Curve | String)} name - If of type curve, it is the new curve to set to the model
+ * @param {(Curve | String)} name - If of type curve, it is the new curve to set as the active curve
  * if of type String, it is the name of a predefined curve to set as active
  * @param {(EquationTypeEnum)} type - If name is of type Curve, the model needs to know the
  * type of this new curve
@@ -161,7 +161,7 @@ Controller2D.prototype.setActive = function (name, type) {
 
 //==============================================================================
 /**
- * Return all the parameters associated to a curve
+ * Returns all the parameters associated to a curve
  * @return {Map<String, Number>} A map composed of the name of a parameter (the
  * key) and its value (the value).
  */
@@ -172,12 +172,12 @@ Controller2D.prototype.getAllParameters = function (){
 
 //==============================================================================
 /**
- * Return the range of a parameter
+ * Returns the range of a parameter
  * @see ModelCurve.getParametersRange
  *
  * @param {String} name - The name of the parameter
  *
- * @return {Range} The range of the named parameter
+ * @return {Range} The range of the parameter
  */
 Controller2D.prototype.getParametersRange = function (name){
 	return this.modelCurve.getParametersRange(name);
@@ -186,11 +186,11 @@ Controller2D.prototype.getParametersRange = function (name){
 
 //==============================================================================
 /**
- * Set a value to a specified parameter
+ * Sets a value to a specified parameter
  * @see ModelParameter.setParameter
  *
  * @param {String} param - The name of the parameter to set
- * @param {Number} value - The value to set to the parameter
+ * @param {Number} value - The new value for the parameter
  *
  * @return {void}
  */
@@ -201,7 +201,7 @@ Controller2D.prototype.setParameter = function (param, value){
 
 //==============================================================================
 /**
- * @return {Point[][]} A list of list of point. One list of point is a set of
+ * @return {Point[][]} A list of list of points. One list of point is a set of
  * connected point.
  */
 Controller2D.prototype.getPoints = function () {
@@ -229,7 +229,7 @@ Controller2D.prototype.getEquationNoParameter = function(){
 
 //==============================================================================
 /**
- * @return {Range} Return the X range of the curve
+ * @return {Range} Returns the X range of the curve
  */
 Controller2D.prototype.getXRange = function () {
 	return this.modelCurve.getImage ();
@@ -238,7 +238,7 @@ Controller2D.prototype.getXRange = function () {
 
 //==============================================================================
 /**
- * @return {Range} Return the Y range of the curve
+ * @return {Range} Returns the Y range of the curve
  */
 Controller2D.prototype.getYRange = function () {
 	return this.modelCurve.getInverseImage ();
@@ -247,7 +247,7 @@ Controller2D.prototype.getYRange = function () {
 
 //==============================================================================
 /**
- * @param {Range} xRange - The new xRange to set to the model.
+ * @param {Range} xRange - The new xRange for the model.
  *
  * @return {void}
  */
@@ -259,7 +259,7 @@ Controller2D.prototype.setXRange = function (xRange) {
 
 //==============================================================================
 /**
- * @param {Range} yRange - The new yRange to set to the model.
+ * @param {Range} yRange - The new yRange for the model.
  *
  * @return {void}
  */

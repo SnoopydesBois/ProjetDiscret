@@ -26,16 +26,38 @@ importScripts("WorkersUtil.js");
 
 
 
-/* TODO c'est quoi ces variables, pourquoi elles sont globales ?
+/*
+ * Impossible de faire une classe pour un worker donc toutes les variables 
+ * suivantes sont globales
  */
-var dimension;
+
+/**
+ * {Equation} implicit_curve - the equation for the directrix
+ */
 var implicit_curve;
+/**
+ * {Equation} explicit_curve - the equation for the generatrix
+ */
 var explicit_curve;
+/**
+ * {boolean[x][y][z]} implicit_curve - the equation for the directrix
+ */
 var checked = [];
+/**
+ * {int} dimx - the size for x dimension
+ */
 var dimx;
+/**
+ * {int} dimy - the size for x dimension
+ */
 var dimy;
+/**
+ * {int} dimz - the size for x dimension
+ */
 var dimz;
-var values;
+/**
+ * {float[n][3]} pile - the pile of voxels to check
+ */
 var pile = [];
 
 
@@ -114,7 +136,7 @@ function algo () {
 function init(e) {
 	explicit_curve = new Equation (e.data[0]);
 	implicit_curve = new Equation (e.data[1]);
-	dimension = new Vector(e.data[2]);
+	var dimension = new Vector(e.data[2]);
 	dimx = dimension.x;
 	dimy = dimension.y;
 	dimz = dimension.z;
