@@ -49,7 +49,7 @@
 /**
  * @enum
  * Enumeration of Directions.
- * x, y and z indicate how much me move along this axis;
+ * x, y and z indicates how much me move along this axis;
  * oppose is the value of the opposite face;
  * size indicate the number of directions.
  */

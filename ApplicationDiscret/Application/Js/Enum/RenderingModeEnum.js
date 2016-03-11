@@ -13,11 +13,10 @@
  * @enum
  * Rendering Mode.
  *
- * NORMAL : Dessine la face d'un cube avec un cadre plus foncé.
- * DOTTED : Dessine la face d'un cube avec un cadre plus foncé en petit trait.
- * PICKING : Dessine la face d'un cube pour le picking. Toute la face est de la
- * couleur transmise.
- * FIXME traduire
+ * NORMAL : Draws a cube's face with a darker border.
+ * DOTTED : Draws a cube's face with a darker border and a small dot.
+ * PICKING : Draws a cube's face for picking. The face's color is 
+ * of the given color.
  */
 var RenderingModeEnum = {
 	NORMAL  : 0,

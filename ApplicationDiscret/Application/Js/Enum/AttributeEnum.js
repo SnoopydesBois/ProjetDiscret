@@ -50,7 +50,7 @@
 /**
  * @enum
  * Enumeration of attributes that can be given to a Shader.
- * /!\ CAUTION: value aren't number ! XXX vérifier anglais
+ * /!\ CAUTION: values aren't number !
  */
 var AttributeEnum = {
 	/// values
