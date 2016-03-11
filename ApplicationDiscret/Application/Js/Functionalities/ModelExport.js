@@ -92,8 +92,8 @@ ModelExport.prototype.constructor = ModelExport;
 
 /**
  * @constructor
- * The id to provide for the model are exactly what is written for the id 
- * attribute in the html tag. Not with a # in front.
+ * The ids to provide to the constructors are the html attribute and not a 
+ * jquery attribute (i.e with a # in front of the name).
  * 
  * @param {String} idSurface - The id of the container of the surface to export.
  * @param {String} idMeridian - The id of the container of the generatrix 
@@ -128,7 +128,7 @@ function ModelExport (idSurface, idMeridian, idRevolution) {
 
 
 /**
- * Get the current id of the canvas containing the surface used to export.
+ * Gets the current id of the canvas containing the surface used to export.
  * 
  * @return {String} The id of the canvas containing the surface.
  */
@@ -139,9 +139,9 @@ ModelExport.prototype.getIdSurface = function () {
 
 //==============================================================================
 /**
- * Get the current id of the HTML element containing meridian to export.
+ * Gets the current id of the HTML element containing the generatrix to export.
  * 
- * @return {String} The id of the HTML element containing the meridian.
+ * @return {String} The id of the HTML element containing the generatrix.
  */
 ModelExport.prototype.getIdMeridian = function () {
 	return this.idMeridian;
@@ -150,10 +150,9 @@ ModelExport.prototype.getIdMeridian = function () {
 
 //==============================================================================
 /**
- * Get the current id of the HTML element containing curve of revolution to 
- * export.
+ * Gets the current id of the HTML element containing the directrix to export.
  * 
- * @return {String} The id of the HTML element containing the revolution
+ * @return {String} The id of the HTML element containing the directrix.
  */
 ModelExport.prototype.getIdRevolution = function () {
 	return this.idRevolution;
@@ -162,12 +161,12 @@ ModelExport.prototype.getIdRevolution = function () {
 
 //==============================================================================
 /**
- * Set the id of the new canvas containing the surface to export.
+ * Sets the id of the new canvas containing the surface to export.
  * 
  * @param {String} idSurface - The id of the canvas containing the surface.
  * 
  * @return {void}
- * @throws {String} The parameter is not of string type.
+ * @throws {String} The parameter is not of type string.
  */
 ModelExport.prototype.setIdSurface = function (idSurface) {
 	if (! (typeof idSurface == "string")) {
@@ -180,13 +179,13 @@ ModelExport.prototype.setIdSurface = function (idSurface) {
 
 //==============================================================================
 /**
- * Set the id of the new HTML element containing the meridian to export.
+ * Sets the id of the new HTML element containing the generatrix to export.
  * 
  * @param {String} idMeridian - The id of the HTML element containing the 
  * generatrix.
  * 
  * @return {void}
- * @throws {String} The parameter is not of string type.
+ * @throws {String} The parameter is not of type string.
  */
 ModelExport.prototype.setIdMeridian = function (idMeridian) {
 	if (! (typeof idMeridian == "string")) {
@@ -198,14 +197,13 @@ ModelExport.prototype.setIdMeridian = function (idMeridian) {
 
 //==============================================================================
 /**
- * Set the id of the new HTML element containing the curve of revolution to 
- * export.
+ * Sets the id of the new HTML element containing the directrix to export.
  * 
  * @param {String} idRevolution - The id of the HTML element containing the 
  * directrix.
  * 
  * @return {void}
- * @throws {String} The parameter is not of string type.
+ * @throws {String} The parameter is not of type string.
  */
 ModelExport.prototype.setIdRevolution = function (idRevolution) {
 	if (! (typeof idRevolution == "string")) {
@@ -217,13 +215,13 @@ ModelExport.prototype.setIdRevolution = function (idRevolution) {
 
 //==============================================================================
 /**
- * Export the 3D canvas to X3D. Propose to save an X3D file representing the
+ * Exports the 3D canvas to X3D. Proposes to save an X3D file representing the
  * surface by boxes.
  * 
  * @param {Surface} surface - The surface to export to X3D file.
  * 
  * @return {void}
- * @throws {String} The parameter is not of Surface type.
+ * @throws {String} The parameter is not of type Surface.
  */
 ModelExport.prototype.exportX3D = function (surface) {
 	if (! (surface instanceof Surface)) {
@@ -244,10 +242,10 @@ ModelExport.prototype.exportX3D = function (surface) {
 	
 	var dimension = surface.getDimension ();
 	
-	// Get the current connexity.
+	// Gets the current connexity.
 	var connexity = parseInt ($("#connexityChoice").val ());
 	
-	// Create the voxels in the X3D file
+	// Creates the voxels in the X3D file
 	for (var x = 0; x < dimension.x; x++) {
 		for (var y = 0; y < dimension.y; y++) {
 			for (var z = 0; z < dimension.z; z++) {
@@ -284,7 +282,7 @@ ModelExport.prototype.exportX3D = function (surface) {
 
 //==============================================================================
 /**
- * Export the meridian div to PNG.
+ * Exports the generatrix div to PNG.
  * 
  * @return {void}
  */
@@ -295,7 +293,7 @@ ModelExport.prototype.exportMeridianPng = function () {
 
 //==============================================================================
 /**
- * Export the curve of revolution div to PNG.
+ * Exports the directrix div to PNG.
  * 
  * @return {void}
  */
@@ -335,7 +333,6 @@ ModelExport.prototype.getImg2DData = function (id, name) {
 		});
 	}
 	else { // SVG case
-		// To modify to use canvas if handfree mode is in use
 		saveSvgAsPng (svgElement, name);
 	}
 };
@@ -343,7 +340,7 @@ ModelExport.prototype.getImg2DData = function (id, name) {
 
 //==============================================================================
 /**
- * Export the 3D canvas to PNG.
+ * Exports the 3D canvas to PNG.
  * 
  * @param {SurfaceViewer} surfaceView - The SurfaceViewer of the current 
  * surface.
@@ -363,7 +360,7 @@ ModelExport.prototype.export3DPng = function (surfaceView) {
 
 //==============================================================================
 /**
- * Create 2D canvas from 3D canvas.
+ * Creates 2D canvas from 3D canvas.
  * 
  * @param {String} id - The name of the div containing the svg to save
  * @param {SurfaceViewer} surfaceView - The surfaceView containing the objects
@@ -397,7 +394,7 @@ ModelExport.prototype.getImg3DData = function (id, surfaceView) {
 
 //==============================================================================
 /**
- * Export the current surface to binary STL format
+ * Exports the current surface to binary STL format
  * 
  * @param {SurfaceRenderer} renderer - The surface renderer.
  * 
@@ -409,7 +406,8 @@ ModelExport.prototype.exportSTL = function (renderer) {
 		throw "ModelExport.exportSTL.ErrorBadParameterType";
 	}
 	
-	var isLittleIndian = true; // STL files assume little endian, see wikipedia
+	var isLittleIndian = true; // STL files assume little endian
+	// see https://en.wikipedia.org/wiki/STL_%28file_format%29
 
 	// Retrieving the coordinates
 	var vertexBuffer = [];
@@ -474,13 +472,13 @@ ModelExport.prototype.exportSTL = function (renderer) {
 
 //==============================================================================
 /**
- * Save the current generatrix.
+ * Saves the current generatrix.
  * 
  * @param {Controller2DMeridian} meridianController - The controller of 
  * the generatrix.
  * 
  * @return {void}
- * @throws {String} If the parameter is not a Controller2DMeridian.
+ * @throws {String} If the parameter is not of type Controller2DMeridian.
  */
 ModelExport.prototype.saveGeneratrix = function (meridianController) {
 	if (!(meridianController instanceof Controller2DMeridian)) {
@@ -499,13 +497,13 @@ ModelExport.prototype.saveGeneratrix = function (meridianController) {
 
 //==============================================================================
 /**
- * Save an implicit curve to XML format.
+ * Saves an implicit curve to XML format.
  * 
  * @param {Controller2D} curveController - The controller of the curve to 
  * save.
  * 
  * @return {void}
- * @throws {String} If the parameter is not a Controller2D.
+ * @throws {String} If the parameter is not of type Controller2D.
  */
 ModelExport.prototype.saveImplicitCurve = function (curveController) {	
 	if (!(curveController instanceof Controller2D)) {
@@ -554,13 +552,13 @@ ModelExport.prototype.saveImplicitCurve = function (curveController) {
 
 //==============================================================================
 /**
- * Save an explicit curve to XML format.
+ * Saves an explicit curve to XML format.
  * 
  * @param {Controller2DMeridian} curveController - The controller of the curve
  * to save.
  * 
  * @return {void}
- * @throws {String} If the parameter is not a Controller2DMeridian.
+ * @throws {String} If the parameter is not of type Controller2DMeridian.
  */
 ModelExport.prototype.saveExplicitCurve = function (curveController) {
 	if (! (curveController instanceof Controller2DMeridian)) {
@@ -609,13 +607,13 @@ ModelExport.prototype.saveExplicitCurve = function (curveController) {
 
 //==============================================================================
 /**
- * Save a drawn curve to xml format.
+ * Saves a drawn curve to xml format.
  * 
  * @param {Controller2DMeridian} curveController - The controller of the curve
  * to save.
  * 
  * @return {void}
- * @throws {String} If the parameter is not a Controller2DMeridian.
+ * @throws {String} If the parameter is not of type Controller2DMeridian.
  */
 ModelExport.prototype.saveDrawnCurve = function (curveController) {
 	if (! (curveController instanceof Controller2DMeridian)) {

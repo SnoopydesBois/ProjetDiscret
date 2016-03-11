@@ -75,7 +75,7 @@
 
 
 /**
- * @classdesc Classe to manage the curve.
+ * @classdesc Class to manage the curve.
  */
 ModelCurve.prototype.constructor = ModelCurve;
 
@@ -110,8 +110,7 @@ function ModelCurve (image, inverseImage) {
 
 	/**
 	 * {Map<String, Function>} The list of curves available for the user
-	 * Contain the default list of curves and the curves created by the
-	 * user (by formula or by loading is files).
+	 * Contains the default list of curves.
 	 */
 	this.listCurve = new Map ();
 
@@ -130,7 +129,7 @@ function ModelCurve (image, inverseImage) {
 
 
 /**
- * Add a curve to its list.
+ * Adds a curve to its list.
  *
  * @param {String} name - The name of the curve.
  * @param {Function} constructor - The constructor of the curve. This class
@@ -145,12 +144,12 @@ ModelCurve.prototype.addCurve = function (name, constructor) {
 
 //==============================================================================
 /**
- * Set the new active curve for the model.
+ * Sets the new active curve for the model.
  * If the type of the curve is provided, a new curve is created with
  * the parameter curve as it's equation.
  * If the type of the curve is not provided, the new active curve is a
  * default curve and the parameter "curve" is the name of this default curve
- * present in the attribute listCurve of the model.
+ * present in the attribute listCurve of the model (i.e the key of the Map).
  *
  * @param {(Equation | String)} curve - The equation of the curve or its name.
  * @param {EquationTypeEnum} [type] - The type of the new active curve.
@@ -299,6 +298,7 @@ ModelCurve.prototype.setInverseImage = function (inverseImage) {
  * @param {Equation} eq - The equation to set to the active implicit/explicit
  * curve.
  * @return {void}
+ * @throw {String} The parameter is not of type Equation.
  */
 ModelCurve.prototype.addEquation = function (eq) {
 	if (!(eq instanceof Equation)) {
@@ -310,7 +310,7 @@ ModelCurve.prototype.addEquation = function (eq) {
 
 //==============================================================================
 /**
- * Print (with console.log ()) all available curve in this model.
+ * Print (with console.log ()) all available curves in this model.
  *
  * @return {void}
  */

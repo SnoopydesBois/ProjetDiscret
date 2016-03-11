@@ -46,14 +46,12 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* cubeCoor : Vector
- * direction : DirectionEnum
- *
- * constructor (cubeCoor : Vector, dir : DirectionEnum)
- *
+/* 
+ * Facet (cubeCoor : Vector, dir : DirectionEnum)
  * getCube () : Vector
  * getDirection () : DirectionEnum
  * egale (face : Facet) : boolean
+ * toString () : String
  */
 
 
@@ -62,11 +60,8 @@
 
 
 /**
- * @classdesc This class represent a cube or just a face of a cube. This object
- * has a position (the center of the cube) and a direction (all or none for a
- * cube, something else for a face). It is used to store/send/recieve data but
- * not used by the Voxel class.
- * @see DirectionEnum, Voxel.
+ * @classdesc Wrapper used to get the position and the direction of a voxel's 
+ * face
  */
 Facet.prototype.constructor = Facet;
 
@@ -90,7 +85,7 @@ function Facet (cubeCoor, dir) {
 	}
 
 	/**
-	 * {Vector} The coordonates in the univers.
+	 * {Vector} The coordinates in the universe.
 	 */
 	this.cubeCoor = cubeCoor;
 
@@ -118,7 +113,7 @@ Facet.prototype.getCube = function () {
 
 //==============================================================================
 /**
- * @return {DirecionEnum} The direction of the face.
+ * @return {DirectionEnum} The direction of the face.
  */
 Facet.prototype.getDirection = function () {
 	return this.direction;
@@ -132,7 +127,7 @@ Facet.prototype.getDirection = function () {
 
 
 /**
- * Test the equality between to Facet (i.e. same coordonates and same
+ * Tests the equality between to Facet (i.e. same coordinates and same
  * direction).
  * 
  * @param {Facet} face - An other facet.

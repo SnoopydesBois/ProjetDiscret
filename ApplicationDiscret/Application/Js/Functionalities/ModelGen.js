@@ -76,7 +76,7 @@
 
 
 /**
- * @classdesc Manage the generation of the surface.
+ * @classdesc Manages the generation of the surface.
  */
 ModelGen.prototype.constructor = ModelGen;
 
@@ -106,7 +106,7 @@ function ModelGen (dimension) {
 	this.surface = undefined;
 	
 	/**
-	 * {AlgoWorker} The worker (i.e. threads) which
+	 * {AlgoWorker} The worker (i.e. threads)
 	 */
 	this.worker = null;
 };
@@ -150,7 +150,7 @@ ModelGen.prototype.getDimension = function () {
 
 //==============================================================================
 /**
- * Set the dimension of the generate surface.
+ * Sets the dimension of the generate surface.
  *
  * @param {(Vector | Number[3] | Number)} dimension - The dimensions of the 3D
  * space.
@@ -172,15 +172,16 @@ ModelGen.prototype.setDimension = function (dimension) {
 
 //==============================================================================
 /**
- * This function generate the surface.
+ * This function generates the surface.
  *
  * @param {Curve} meridian - The meridian to use to model.
  * @param {Curve} curveRevolution - The curve of revolution to use to model.
  *
- * @return {Surface} The surface modeled using the meridian and the curve
+ * @return {Surface} The surface generated using the meridian and the curve
  * of revolution.
  * @throws {String} "ModelGen.generate.ErrorBadCurveType" - The meridian must
- * be explicit or parametric and the revolution curve must be implicit.
+ * be of explicit or parametric type and the revolution curve must be of 
+ * implicit type.
  */
 ModelGen.prototype.generate = function (meridian, curveRevolution, mode) {
 	if (meridian instanceof ExplicitCurve
@@ -202,7 +203,7 @@ ModelGen.prototype.generate = function (meridian, curveRevolution, mode) {
 
 //==============================================================================
 /**
- * This function generate the surface using the algorithm for explicit
+ * This function generates the surface using the algorithm for explicit
  * functions.
  * 
  * @param {ExplicitCurve} meridian - The meridian to use to model.
@@ -230,7 +231,7 @@ ModelGen.prototype.algoExplicit = function (meridian, curveRevolution, mode) {
 
 //==============================================================================
 /**
- * This function return whether the algorithm finished his computations.
+ * This function test if the algorithms are finished.
  *
  * @return {boolean} True when algorithm finished, false otherwise.
  */
@@ -241,7 +242,7 @@ ModelGen.prototype.isAlgoFinished = function () {
 
 //==============================================================================
 /**
- * This function generate the surface using the algorithm for parametric
+ * This function generates the surface using the algorithm for parametric
  * functions.
  *
  * @param {DrawnCurve} meridian - The meridian to use to model.

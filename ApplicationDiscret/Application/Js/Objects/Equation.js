@@ -1,10 +1,69 @@
-var x = [];
-x[0] = 'x';
-x[1] = 'y';
-var defaultvalue = 1;
+/// LICENCE ////////////////////////////////////////////////////////////////////
 
 
-Equation.prototype.constructor = Equation;
+/**
+ * @license
+ * Copyright (juin 2015)
+ * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
+ *
+ * benoist.thomas@hotmail.fr
+ * biscui_86@hotmail.fr
+ * tanguy.desplebain@gmail.com
+ * lauret.karl@hotmail.fr
+ *
+ * Ce logiciel est un programme informatique servant à modéliser des
+ * structures 3D voxellisées.
+ *
+ * Ce logiciel est régi par la licence CeCILL soumise au droit français et
+ * respectant les principes de diffusion des logiciels libres. Vous pouvez
+ * utiliser, modifier et/ou redistribuer ce programme sous les conditions
+ * de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+ * sur le site "http://www.cecill.info".
+ *
+ * En contrepartie de l'accessibilité au code source et des droits de copie,
+ * de modification et de redistribution accordés par cette licence, il n'est
+ * offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+ * seule une responsabilité restreinte pèse sur l'auteur du programme,  le
+ * titulaire des droits patrimoniaux et les concédants successifs.
+ *
+ * A cet égard  l'attention de l'utilisateur est attirée sur les risques
+ * associés au chargement,  à l'utilisation,  à la modification et/ou au
+ * développement et à la reproduction du logiciel par l'utilisateur étant
+ * donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+ * manipuler et qui le réserve donc à des développeurs et des professionnels
+ * avertis possédant  des  connaissances  informatiques approfondies.  Les
+ * utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
+ * logiciel à leurs besoins dans des conditions permettant d'assurer la
+ * sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+ * à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+ *
+ * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+ * pris connaissance de la licence CeCILL, et que vous en avez accepté les
+ * termes.
+ */
+
+
+/// INDEX //////////////////////////////////////////////////////////////////////
+
+
+/* 
+ * Equation (formula : String)
+ * setFormula (formula : String) : void
+ * compute (valVariables : float[]) : float
+ * setParameter (name : String, value : number) : String
+ * getParameter (name : String) : float
+ * getAllParameters () : Object
+ * getNbVariable () : Integer
+ * getListVariables () : String[]
+ * toStringNoParam () : String
+ * toString () : String
+ * check () : boolean
+ */
+
+
+/// CODE ///////////////////////////////////////////////////////////////////////
+
+
 
 /**
  * @classDesc Class representing a equation using a formula (String). From this
@@ -12,6 +71,13 @@ Equation.prototype.constructor = Equation;
  * y and mathematical objects).
  */
 
+var x = [];
+x[0] = 'x';
+x[1] = 'y';
+var defaultvalue = 1;
+
+
+Equation.prototype.constructor = Equation;
 
 /**
  * @constructor
@@ -67,6 +133,8 @@ function Equation(formula) {
 //==============================================================================
 /**
  * @param {String} formula - new formula of the equation
+ *
+ * @return {void}
  * @throws {String} the name of the error from math.parse.
  * Creates a formula from the string. The object is completly reset. Every x or
  * y in the formula will be added to the list of variables, and any other
@@ -114,12 +182,13 @@ Equation.prototype.setFormula = function(formula) {
 /**
  * @param {float[]} valVariables - value of the variables. Length must be equal
  * to the number of variables in the formula. The values must be finite numbers
+ *
+ * @return {float} The value of the formula for the given parameters and
+ * variables.
  * @throws {String} "Equation.compute.ErrorFormulaNotDefined" - a correct
  * formula must be provided before computing
  * @throws {String} "Equation.compute.ErrorNotANumber" - the value is not a
  * number or is not a finite number.
- * @return {float} The value of the formula for the given parameters and
- * variables.
  */
 Equation.prototype.compute = function (valVariables) {
 	if (this.formulaTree === undefined) {
@@ -146,6 +215,8 @@ Equation.prototype.compute = function (valVariables) {
 /**
  * @param {String} name - name of a parameter existing in the formula
  * @param {Number} value - new value of the parameter
+ *
+ * @return {void}
  * @throws {String} "Equation.setParameter.ErrorNotExistingParameter" - the
  * parameter does not exist
  * @throws {String} "Equation.setParameter.ErrorNotANumber" - the value is not a
@@ -165,9 +236,10 @@ Equation.prototype.setParameter = function(name, value) {
 //==============================================================================
 /**
  * @param {String} name - name of a parameter existing in the formula
+ *
+ * @return {float} value of the parameter
  * @throws {String} "Equation.getParameter.ErrorNotExistingParameter" - the
  * parameter does not exist
- * @return {float} value of the parameter
  */
 Equation.prototype.getParameter = function (name) {
 	if(this.listParameters[name] === undefined) {
@@ -190,7 +262,7 @@ Equation.prototype.getAllParameters = function() {
 
 //==============================================================================
 /**
- * @return {Integer} Nombre of variables
+ * @return {Integer} Number of variables
  */
 Equation.prototype.getNbVariable = function() {
 	return this.listVariables.length;
@@ -235,6 +307,11 @@ Equation.prototype.toString = function() {
 
 
 //==============================================================================
+/**
+ * Verify if the equation possess a formulaTree
+ * 
+ * @return True if the formulaTree is defined, false otherwise.
+ */
 Equation.prototype.check = function (){
 	return this.formulaTree != undefined;
 };
