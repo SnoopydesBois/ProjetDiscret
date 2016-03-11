@@ -288,7 +288,7 @@ SurfaceRenderer.prototype.getDimension = function () {
 SurfaceRenderer.prototype.setHighlightX = function (x) {
 	/// parameter verification
 	if (typeof x != "number") {
-		throw "SurfaceRenderer.highlightX: given parameter is not a number";
+		throw "SurfaceRenderer.setHighlightX: given parameter is not a number";
 	}
 	
 	/// set value
@@ -308,7 +308,7 @@ SurfaceRenderer.prototype.setHighlightX = function (x) {
 SurfaceRenderer.prototype.setHighlightY = function (y) {
 	/// parameter verification
 	if (typeof y != "number") {
-		throw "SurfaceRenderer.highlightY: given parameter is not a number";
+		throw "SurfaceRenderer.setHighlightY: given parameter is not a number";
 	}
 	
 	/// set value
@@ -328,7 +328,7 @@ SurfaceRenderer.prototype.setHighlightY = function (y) {
 SurfaceRenderer.prototype.setHighlightZ = function (z) {
 	/// parameter verification
 	if (typeof z != "number") {
-		throw "SurfaceRenderer.highlightZ: given parameter is not a number";
+		throw "SurfaceRenderer.setHighlightZ: given parameter is not a number";
 	}
 	
 	/// set value

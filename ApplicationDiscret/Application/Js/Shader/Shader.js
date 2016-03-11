@@ -1,5 +1,6 @@
 /// LICENCE ////////////////////////////////////////////////////////////////////
 
+
 /**
  * @license
  * Copyright (juin 2015)
@@ -39,6 +40,7 @@
  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez 
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
+ * TODO
  */
 
 
@@ -77,7 +79,8 @@
 
 
 /**
- * @classdesc TODO
+ * @classdesc Class to manage a shader. You must prepare and activate the shader
+ * before use it.
  */
 Shader.prototype.constructor = Shader;
 
@@ -145,7 +148,7 @@ function Shader (name, vertexSource, fragmentSource, glContext, attributes) {
 	// Compile shader
 	if (this.glContext)
 		this.reload ();
-};
+}
 
 
 
@@ -240,7 +243,8 @@ Shader.prototype.activate = function () {
  * 
  * @param {String} aName - The name of the uniformLocation.
  * 
- * @return {int} The uniformLocation from the program.
+ * @return {int} The uniform location from the program (-1 if the given
+ * parameter is not a string).
  */
 Shader.prototype.getUniformLocation = function (aName) {
 	if (typeof aName != "string") {
@@ -260,7 +264,8 @@ Shader.prototype.getUniformLocation = function (aName) {
  * 
  * @param {String} aName - The name of the attribute.
  * 
- * @return {int} The attribLocation from the program.
+ * @return {int} The attrib location from the program (-1 if the given parameter
+ * is not a string).
  */
 Shader.prototype.getAttributeLocation = function (aName) {
 	if (typeof aName !== "string") {

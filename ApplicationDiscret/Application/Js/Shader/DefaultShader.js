@@ -39,6 +39,7 @@
  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
+ * TODO
  */
 
 
@@ -67,7 +68,8 @@
 
 /**
  * @extends Shader
- * @classdesc TODO
+ * @classdesc Default shader for the application. Set all uniform and attribute
+ * variable of the shader.
  */
 DefaultShader.prototype = new Shader;
 DefaultShader.prototype.constructor = DefaultShader;
@@ -101,8 +103,7 @@ DefaultShader.attributes = [
 /**
  * @constructor
  * 
- * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
- * webGl context.
+ * @param {WebGLRenderingContext} glContext - The webGl context.
  */
 function DefaultShader (glContext) {
 	Shader.call (this,
@@ -117,7 +118,7 @@ function DefaultShader (glContext) {
 	 * {RenderingModeEnum} The current rendering mode.
 	 */
 	this.renderingMode = RenderingModeEnum.NORMAL;
-};
+}
 
 
 
