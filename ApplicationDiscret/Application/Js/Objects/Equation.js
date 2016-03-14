@@ -3,13 +3,13 @@
 
 /**
  * @license
- * Copyright (juin 2015)
- * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
+ * Copyright (mars 2016)
+ * Auteur : BEN OTHMANE Zied, BENOIST Thomas, BISUTTI Adrien, RICHAUME Lydie
  *
+ * ziedici@gmail.com
  * benoist.thomas@hotmail.fr
  * biscui_86@hotmail.fr
- * tanguy.desplebain@gmail.com
- * lauret.karl@hotmail.fr
+ * l.richaume@gmail.com
  *
  * Ce logiciel est un programme informatique servant à modéliser des
  * structures 3D voxellisées.
@@ -48,6 +48,7 @@
 
 /* 
  * Equation (formula : String)
+ * 
  * setFormula (formula : String) : void
  * compute (valVariables : float[]) : float
  * setParameter (name : String, value : number) : String
@@ -66,29 +67,45 @@
 
 
 /**
- * @classDesc Class representing a equation using a formula (String). From this
+ * @classdesc Class representing a equation using a formula (String). From this
  * formula we get the variables (x or y) and the parameters (anything but x or
  * y and mathematical objects).
  */
+Equation.prototype.constructor = Equation;
 
+
+/**
+ * {Array} TODO
+ */
 var x = [];
 x[0] = 'x';
 x[1] = 'y';
+
+
+/**
+ * {Number} The default value of an unknowing parameter.
+ */
 var defaultvalue = 1;
 
 
-Equation.prototype.constructor = Equation;
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
+
 
 /**
  * @constructor
- * @param {String} formula - formula of the equation
  * Creates a formula from the string. Every x or y in the formula will be added
  * to the list of variables, and any other string not recognized as a operator
  * will be added to the list of parameters.
  * If the formula is not parsable, the equation is created with no formula, list
  * of parameters or list of variables.
+ * 
+ * @param {String} formula - formula of the equation
  */
-function Equation(formula) {
+function Equation (formula) {
 	this.listVariables = [];
 	this.listParameters = [];
 	try {
@@ -132,15 +149,16 @@ function Equation(formula) {
 
 //==============================================================================
 /**
- * @param {String} formula - new formula of the equation
- *
- * @return {void}
- * @throws {String} the name of the error from math.parse.
  * Creates a formula from the string. The object is completly reset. Every x or
  * y in the formula will be added to the list of variables, and any other
  * string not recognized as a operator will be added to the list of parameters.
  * If the formula is not parsable, the formula, list of parameters and list of
  * variables will be set to undefined.
+ * 
+ * @param {String} formula - New formula of the equation.
+ *
+ * @return {void}
+ * @throws {String} The name of the error from math.parse.
  */
 Equation.prototype.setFormula = function(formula) {
 	this.listVariables = [];
@@ -242,9 +260,10 @@ Equation.prototype.setParameter = function(name, value) {
  * parameter does not exist
  */
 Equation.prototype.getParameter = function (name) {
-	if(this.listParameters[name] === undefined) {
+	if (this.listParameters[name] === undefined) {
 		throw "Equation.getParameter.ErrorNotExistingParameter";
-	} else {
+	}
+	else {
 		return this.listParameters[name];
 	}
 };
@@ -255,7 +274,7 @@ Equation.prototype.getParameter = function (name) {
  * @return {Object} an array of float (values) indexed by strings (names of
  * parameters).
  */
-Equation.prototype.getAllParameters = function() {	
+Equation.prototype.getAllParameters = function () {	
 	return this.listParameters;
 };
 
@@ -264,7 +283,7 @@ Equation.prototype.getAllParameters = function() {
 /**
  * @return {Integer} Number of variables
  */
-Equation.prototype.getNbVariable = function() {
+Equation.prototype.getNbVariable = function () {
 	return this.listVariables.length;
 };
 
@@ -274,7 +293,7 @@ Equation.prototype.getNbVariable = function() {
  * @return {String[]} an array containing every variable (x or y) present in the
  * formula
  */
-Equation.prototype.getListVariables = function() {
+Equation.prototype.getListVariables = function () {
 	return this.listVariables;
 };
 
@@ -308,10 +327,12 @@ Equation.prototype.toString = function() {
 
 //==============================================================================
 /**
- * Verify if the equation possess a formulaTree
+ * Verify if the equation possess a formulaTree.
  * 
  * @return True if the formulaTree is defined, false otherwise.
  */
-Equation.prototype.check = function (){
+Equation.prototype.check = function () {
 	return this.formulaTree != undefined;
 };
+
+

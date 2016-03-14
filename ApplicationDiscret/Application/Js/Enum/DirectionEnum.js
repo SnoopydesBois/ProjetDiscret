@@ -3,13 +3,13 @@
 
 /**
  * @license
- * Copyright (juin 2015)
- * Auteur : BENOIST Thomas, BISUTTI Adrien, DESPLEBAIN Tanguy, LAURET Karl
+ * Copyright (mars 2016)
+ * Auteur : BEN OTHMANE Zied, BENOIST Thomas, BISUTTI Adrien, RICHAUME Lydie
  *
+ * ziedici@gmail.com
  * benoist.thomas@hotmail.fr
  * biscui_86@hotmail.fr
- * tanguy.desplebain@gmail.com
- * lauret.karl@hotmail.fr
+ * l.richaume@gmail.com
  *
  * Ce logiciel est un programme informatique servant à modéliser des
  * structures 3D voxellisées.
