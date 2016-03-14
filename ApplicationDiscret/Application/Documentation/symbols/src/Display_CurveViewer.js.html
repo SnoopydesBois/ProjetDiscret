@@ -1,0 +1,663 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/// LICENCE ////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> 
+<span class='line'>  4</span> </span><span class="COMM">/**
+<span class='line'>  5</span>  * @license
+<span class='line'>  6</span>  * Copyright (mars 2016)
+<span class='line'>  7</span>  * Auteur : BEN OTHMANE Zied, BENOIST Thomas, BISUTTI Adrien, RICHAUME Lydie
+<span class='line'>  8</span>  *
+<span class='line'>  9</span>  * ziedici@gmail.com
+<span class='line'> 10</span>  * benoist.thomas@hotmail.fr
+<span class='line'> 11</span>  * biscui_86@hotmail.fr
+<span class='line'> 12</span>  * l.richaume@gmail.com
+<span class='line'> 13</span>  *
+<span class='line'> 14</span>  * Ce logiciel est un programme informatique servant à modéliser des
+<span class='line'> 15</span>  * structures 3D voxellisées.
+<span class='line'> 16</span>  *
+<span class='line'> 17</span>  * Ce logiciel est régi par la licence CeCILL soumise au droit français et
+<span class='line'> 18</span>  * respectant les principes de diffusion des logiciels libres. Vous pouvez
+<span class='line'> 19</span>  * utiliser, modifier et/ou redistribuer ce programme sous les conditions
+<span class='line'> 20</span>  * de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+<span class='line'> 21</span>  * sur le site "http://www.cecill.info".
+<span class='line'> 22</span>  *
+<span class='line'> 23</span>  * En contrepartie de l'accessibilité au code source et des droits de copie,
+<span class='line'> 24</span>  * de modification et de redistribution accordés par cette licence, il n'est
+<span class='line'> 25</span>  * offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+<span class='line'> 26</span>  * seule une responsabilité restreinte pèse sur l'auteur du programme,  le
+<span class='line'> 27</span>  * titulaire des droits patrimoniaux et les concédants successifs.
+<span class='line'> 28</span>  *
+<span class='line'> 29</span>  * A cet égard  l'attention de l'utilisateur est attirée sur les risques
+<span class='line'> 30</span>  * associés au chargement,  à l'utilisation,  à la modification et/ou au
+<span class='line'> 31</span>  * développement et à la reproduction du logiciel par l'utilisateur étant
+<span class='line'> 32</span>  * donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+<span class='line'> 33</span>  * manipuler et qui le réserve donc à des développeurs et des professionnels
+<span class='line'> 34</span>  * avertis possédant  des  connaissances  informatiques approfondies.  Les
+<span class='line'> 35</span>  * utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
+<span class='line'> 36</span>  * logiciel à leurs besoins dans des conditions permettant d'assurer la
+<span class='line'> 37</span>  * sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+<span class='line'> 38</span>  * à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+<span class='line'> 39</span>  *
+<span class='line'> 40</span>  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+<span class='line'> 41</span>  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
+<span class='line'> 42</span>  * termes.
+<span class='line'> 43</span>  */</span><span class="WHIT">
+<span class='line'> 44</span> 
+<span class='line'> 45</span> 
+<span class='line'> 46</span> </span><span class="COMM">/// INDEX //////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> 
+<span class='line'> 49</span> </span><span class="COMM">/* controller : Controller2D
+<span class='line'> 50</span>  * lastPoint : Point
+<span class='line'> 51</span>  * xMaxInput : HTMLInputElement
+<span class='line'> 52</span>  * yMaxInput : HTMLInputElement
+<span class='line'> 53</span>  * MIN_DIST_BETWEEN_POINT : float
+<span class='line'> 54</span>  * formModeSelected : HTMLFormElement
+<span class='line'> 55</span>  * displayDiv : HTMLDivElement
+<span class='line'> 56</span>  * 
+<span class='line'> 57</span>  * CurveViewer (
+<span class='line'> 58</span>  *     canvas : HTMLCanvasElement,
+<span class='line'> 59</span>  *     div : HTMLDivElement,
+<span class='line'> 60</span>  *     curveController : curveController
+<span class='line'> 61</span>  * )
+<span class='line'> 62</span>  * 
+<span class='line'> 63</span>  * getController () : Controller2D
+<span class='line'> 64</span>  * show () : void
+<span class='line'> 65</span>  * draw () : void
+<span class='line'> 66</span>  * drawImplicit (obj : ImplicitCurve) : void
+<span class='line'> 67</span>  * drawExplicit (obj : ExplicitCurve) : void
+<span class='line'> 68</span>  * drawGrid () : void
+<span class='line'> 69</span>  * drawFreeHand (curve : DrawnCurve) : void
+<span class='line'> 70</span>  * drawSegment (pointA : Point, pointB : Point) : void
+<span class='line'> 71</span>  * clearDraw () : void
+<span class='line'> 72</span>  * resizeCanvas () : void
+<span class='line'> 73</span>  * drawCanvasGrid () : void
+<span class='line'> 74</span>  * onResize (event : MouseEvent) : void
+<span class='line'> 75</span>  * onMouseDown (event : MouseEvent) : void
+<span class='line'> 76</span>  * onMouseMove (event : MouseEvent) : void
+<span class='line'> 77</span>  * initCanvasEvent () : void
+<span class='line'> 78</span>  * pixelToPoint (x : float, y : float) : Point
+<span class='line'> 79</span>  * pointToPixel (x : float, y : float) : Point
+<span class='line'> 80</span>  * addPoint (point : Point) : boolean
+<span class='line'> 81</span>  * computeYScale (width : int, height : int, xRange : Range) : int[2]
+<span class='line'> 82</span>  * closeCurve () : void
+<span class='line'> 83</span>  */</span><span class="WHIT">
+<span class='line'> 84</span> 
+<span class='line'> 85</span> 
+<span class='line'> 86</span> </span><span class="COMM">/// CODE ///////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'> 87</span> 
+<span class='line'> 88</span> 
+<span class='line'> 89</span> 
+<span class='line'> 90</span> </span><span class="COMM">/**
+<span class='line'> 91</span>  * @extends GenericViewer
+<span class='line'> 92</span>  * @classdesc Class used to render the 2d curves
+<span class='line'> 93</span>  */</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="NAME">CurveViewer.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">GenericViewer</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="NAME">CurveViewer.prototype.constructor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">CurveViewer</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> 
+<span class='line'> 97</span> 
+<span class='line'> 98</span> 
+<span class='line'> 99</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="COMM">//	Constructor</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>102</span> 
+<span class='line'>103</span> 
+<span class='line'>104</span> 
+<span class='line'>105</span> </span><span class="COMM">/**
+<span class='line'>106</span>  * @constructor
+<span class='line'>107</span>  * Constructs a CurveViewer with a controller, a div and a canvas for drawing.
+<span class='line'>108</span>  * Calls the super constructor with the canvas and the string "2d".
+<span class='line'>109</span>  * @see {@link GenericViewer}
+<span class='line'>110</span>  * 
+<span class='line'>111</span>  * @param {HTMLCanvasElement} canvas - The associated canvas.
+<span class='line'>112</span>  * @param {HTMLDivElement} div - The associated div where the SVG curve is drawn.
+<span class='line'>113</span>  * @param {Controller2D} curveController - Controller of this view.
+<span class='line'>114</span>  */</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">CurveViewer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">canvas</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">div</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">curveController</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">	</span><span class="NAME">GenericViewer.call</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">canvas</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"2d"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> 
+<span class='line'>118</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>119</span> 	 * {Controller2D} Controller of this view. Must be a Controller2DMeridian if
+<span class='line'>120</span> 	 * you want to be able to draw a curve.
+<span class='line'>121</span> 	 */</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">	</span><span class="NAME">this.controller</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">curveController</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span> 
+<span class='line'>124</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>125</span> 	 * {Point} Last point added to the curve. If -1, there are not last
+<span class='line'>126</span> 	 * points.
+<span class='line'>127</span> 	 */</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">	</span><span class="NAME">this.lastPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Point</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span> 
+<span class='line'>130</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>131</span> 	 * {HTMLInputElement} Input which contains the Y dimension of the 3D space.
+<span class='line'>132</span> 	 * Used to compute the x range of the drawn curve.
+<span class='line'>133</span> 	 */</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">	</span><span class="NAME">this.xMaxInput</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"dimy"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>135</span> 
+<span class='line'>136</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>137</span> 	 * {HTMLInputElement} Input which contains the Z dimension of the 3D space.
+<span class='line'>138</span> 	 * Used to compute the y range of the drawn curve.
+<span class='line'>139</span> 	 */</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">	</span><span class="NAME">this.yMaxInput</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"dimz"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>141</span> 
+<span class='line'>142</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>143</span> 	 * {float} Minimal distance between two added points.
+<span class='line'>144</span> 	 */</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">	</span><span class="NAME">this.MIN_DIST_BETWEEN_POINT</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0.5</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> 
+<span class='line'>147</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>148</span> 	 * {HTMLFormElement} Use 'value' attribute to identify the drawing mode (
+<span class='line'>149</span> 	 * i.e. primitive, free hand or formula).
+<span class='line'>150</span> 	 * @see {@link onMouseDown, onMouseMove}
+<span class='line'>151</span> 	 */</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">	</span><span class="NAME">this.formModeSelected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.forms</span><span class="PUNC">[</span><span class="STRN">"meridianType"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">	</span><span class="COMM">// FIXME just adapt to the meridian</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">	
+<span class='line'>155</span> 	</span><span class="COMM">/**
+<span class='line'>156</span> 	 * {HTMLDivElement} The div where the SVG (i.e. explicit and implicit curve)
+<span class='line'>157</span> 	 * is drawn.
+<span class='line'>158</span> 	 */</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">	</span><span class="NAME">this.displayDiv</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">div</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">	
+<span class='line'>161</span> 	
+<span class='line'>162</span> 	</span><span class="COMM">// initialisation</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">	</span><span class="NAME">this.initCanvasEvent</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">	</span><span class="NAME">this.resizeCanvas</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>166</span> 
+<span class='line'>167</span> 
+<span class='line'>168</span> 
+<span class='line'>169</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="COMM">//	Accessors and Mutators</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>172</span> 
+<span class='line'>173</span> 
+<span class='line'>174</span> 
+<span class='line'>175</span> </span><span class="COMM">/**
+<span class='line'>176</span>  * @return {Controller2D} The 2D controller.
+<span class='line'>177</span>  */</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="NAME">CurveViewer.prototype.getController</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.controller</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> 
+<span class='line'>182</span> 
+<span class='line'>183</span> 
+<span class='line'>184</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="COMM">//	Draw</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>187</span> 
+<span class='line'>188</span> 
+<span class='line'>189</span> </span><span class="COMM">/**
+<span class='line'>190</span>  * Draws all current objects.
+<span class='line'>191</span>  *
+<span class='line'>192</span>  * @return {void}
+<span class='line'>193</span>  */</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="NAME">CurveViewer.prototype.show</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">	</span><span class="NAME">this.draw</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>197</span> 
+<span class='line'>198</span> 
+<span class='line'>199</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="COMM">/**
+<span class='line'>201</span>  * Draws the curve on the target (canvas or div).
+<span class='line'>202</span>  *
+<span class='line'>203</span>  * @return {void}
+<span class='line'>204</span>  */</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="NAME">CurveViewer.prototype.draw</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">curve</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.controller.getActiveCurve</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">xRange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.controller.getXRange</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">curve</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">DrawnCurve</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">		</span><span class="COMM">/// set the canvas size</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">		</span><span class="NAME">this.resizeCanvas</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">		</span><span class="COMM">/// draw the curve</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">		</span><span class="NAME">this.drawFreeHand</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">curve</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">curve.getEquation</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">toString</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"undefined"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">		</span><span class="NAME">this.drawGrid</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">curve</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">ImplicitCurve</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">		</span><span class="NAME">this.drawImplicit</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">curve</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">curve</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">ExplicitCurve</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">		</span><span class="NAME">this.drawExplicit</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">curve</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">		</span><span class="NAME">this.drawGrid</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">		</span><span class="NAME">console.error</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"Bad type of curve, find: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">type</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">curve</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>228</span> 
+<span class='line'>229</span> 
+<span class='line'>230</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="COMM">/**
+<span class='line'>232</span>  * Draws an implicit curve.
+<span class='line'>233</span>  *
+<span class='line'>234</span>  * @param {ImplicitCurve} obj - The curve to draw.
+<span class='line'>235</span>  *
+<span class='line'>236</span>  * @return {void}
+<span class='line'>237</span>  */</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="NAME">CurveViewer.prototype.drawImplicit</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">obj</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">	</span><span class="COMM">/// Let's render</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">xRange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.controller.getXRange</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#revolCanvas2'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">		</span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#revolCanvas2'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">		</span><span class="NAME">min</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.min</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">			</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#revolCanvas2'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">			</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#revolCanvas2'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>247</span> 
+<span class='line'>248</span> </span><span class="WHIT">	</span><span class="NAME">functionPlot</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">		</span><span class="NAME">target</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.displayDiv</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">		</span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#revolCanvas2'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">		</span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#revolCanvas2'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">		</span><span class="NAME">xAxis</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">domain</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">-</span><span class="NUMB">1.05</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1.05</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">		</span><span class="NAME">yAxis</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">CurveViewer.computeYScale</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">			</span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Range</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NUMB">1.05</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1.05</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">		</span><span class="NAME">disableZoom</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">		</span><span class="NAME">data</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">			</span><span class="NAME">color</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"black"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">			</span><span class="NAME">fn</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">obj.getEquation</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">toStringNoParam</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">			</span><span class="NAME">fnType</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'implicit'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// end functionPlot</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>263</span> 
+<span class='line'>264</span> 
+<span class='line'>265</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="COMM">/**
+<span class='line'>267</span>  * Draws an explicit curve.
+<span class='line'>268</span>  *
+<span class='line'>269</span>  * @param {ImplicitCurve} obj - The curve to draw.
+<span class='line'>270</span>  *
+<span class='line'>271</span>  * @return {void}
+<span class='line'>272</span>  */</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="NAME">CurveViewer.prototype.drawExplicit</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">obj</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">	</span><span class="COMM">/// Let's render</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">	</span><span class="NAME">maxX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"dimy"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">	</span><span class="NAME">maxY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"dimz"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">min</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.min</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">			</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#meridianCanvas2'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>279</span> </span><span class="WHIT">			</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#meridianCanvas2'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// FIXME just adapt to the meridian</span><span class="WHIT">
+<span class='line'>281</span> 
+<span class='line'>282</span> </span><span class="WHIT">	</span><span class="NAME">functionPlot</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="WHIT">		</span><span class="NAME">target</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.displayDiv</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>284</span> </span><span class="WHIT">		</span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">min</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">		</span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">min</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="WHIT">		</span><span class="NAME">xAxis</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">domain</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">maxX</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>287</span> </span><span class="WHIT">		</span><span class="NAME">yAxis</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">domain</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">maxY</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">		</span><span class="NAME">disableZoom</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">		</span><span class="NAME">data</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>290</span> </span><span class="WHIT">			</span><span class="NAME">x</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">obj.getEquation</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">toStringNoParam</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">replace</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="REGX">/x/g</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'t'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="WHIT">			</span><span class="NAME">y</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'t'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">			</span><span class="NAME">color</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"black"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">			</span><span class="NAME">range</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">150</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">			</span><span class="NAME">fnType</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'parametric'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>295</span> </span><span class="WHIT">			</span><span class="NAME">graphType</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'polyline'</span><span class="WHIT">
+<span class='line'>296</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// end functionPlot</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>299</span> 
+<span class='line'>300</span> 
+<span class='line'>301</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="COMM">/**
+<span class='line'>303</span>  * Draws a grid on the div. In order to show it, a point is drawn outside the
+<span class='line'>304</span>  * grid.
+<span class='line'>305</span>  *
+<span class='line'>306</span>  * @return {void}
+<span class='line'>307</span>  */</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="NAME">CurveViewer.prototype.drawGrid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">	</span><span class="NAME">maxX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"dimy"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">	</span><span class="NAME">maxY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"dimz"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>311</span> </span><span class="WHIT">	</span><span class="COMM">/// Let's render</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">min</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.min</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">			</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#meridianCanvas2'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">			</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#meridianCanvas2'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>315</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// FIXME just adapt to the meridian</span><span class="WHIT">
+<span class='line'>316</span> 
+<span class='line'>317</span> </span><span class="WHIT">	</span><span class="NAME">functionPlot</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>318</span> </span><span class="WHIT">		</span><span class="NAME">target</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.displayDiv</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>319</span> </span><span class="WHIT">		</span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">min</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>320</span> </span><span class="WHIT">		</span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">min</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">		</span><span class="NAME">xAxis</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">domain</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">maxX</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">		</span><span class="NAME">yAxis</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">domain</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">maxY</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>323</span> </span><span class="WHIT">		</span><span class="NAME">disableZoom</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>324</span> </span><span class="WHIT">		</span><span class="NAME">data</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>325</span> </span><span class="WHIT">			</span><span class="NAME">x</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'-5'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="WHIT">			</span><span class="NAME">y</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'-5'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="WHIT">			</span><span class="NAME">color</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"black"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>328</span> </span><span class="WHIT">			</span><span class="NAME">range</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">150</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>329</span> </span><span class="WHIT">			</span><span class="NAME">fnType</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'parametric'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>330</span> </span><span class="WHIT">			</span><span class="NAME">graphType</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'polyline'</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'>332</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// end functionPlot</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>334</span> 
+<span class='line'>335</span> 
+<span class='line'>336</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>337</span> </span><span class="COMM">/**
+<span class='line'>338</span>  * Draws a free hand curve on the canvas.
+<span class='line'>339</span>  *
+<span class='line'>340</span>  * @param {DrawnCurve} curve - The curve to draw.
+<span class='line'>341</span>  *
+<span class='line'>342</span>  * @return {void}
+<span class='line'>343</span>  */</span><span class="WHIT">
+<span class='line'>344</span> </span><span class="NAME">CurveViewer.prototype.drawFreeHand</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">curve</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>345</span> </span><span class="WHIT">	</span><span class="COMM">/// Let's render</span><span class="WHIT">
+<span class='line'>346</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">curve.getXList</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>347</span> </span><span class="WHIT">		</span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">curve.getYList</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>348</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">len</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">x.length</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">point</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>349</span> 
+<span class='line'>350</span> </span><span class="WHIT">	</span><span class="NAME">this.glContext.clearRect</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.glContext.canvas.width</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>351</span> </span><span class="WHIT">		</span><span class="NAME">this.glContext.canvas.height</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>352</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">len</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>353</span> </span><span class="WHIT">		</span><span class="NAME">this.lastPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Point</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>354</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">len</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">++</span><span class="NAME">i</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>355</span> </span><span class="WHIT">			</span><span class="NAME">point</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Point</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>356</span> </span><span class="WHIT">			</span><span class="NAME">this.drawSegment</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.lastPoint</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">point</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>357</span> </span><span class="WHIT">			</span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">this.lastPoint</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>358</span> </span><span class="WHIT">			</span><span class="NAME">this.lastPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">point</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>359</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// end for each next point</span><span class="WHIT">
+<span class='line'>360</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// end if there are point</span><span class="WHIT">
+<span class='line'>361</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>362</span> 
+<span class='line'>363</span> 
+<span class='line'>364</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>365</span> </span><span class="COMM">/**
+<span class='line'>366</span>  * Draws a segment between two points. /!\ Arguments are the curve's points not the pixel's
+<span class='line'>367</span>  * points.
+<span class='line'>368</span>  *
+<span class='line'>369</span>  * @param {Point} pointA - The first point.
+<span class='line'>370</span>  * @param {Point} pointB - The second point.
+<span class='line'>371</span>  *
+<span class='line'>372</span>  * @return {void}
+<span class='line'>373</span>  * @throws {String} One of the parameters is not of type Point.
+<span class='line'>374</span>  */</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="NAME">CurveViewer.prototype.drawSegment</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">pointA</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pointB</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>376</span> </span><span class="WHIT">	</span><span class="COMM">/// parameter verification</span><span class="WHIT">
+<span class='line'>377</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">checkType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Point</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Point</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>378</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"CurveViewer.drawSegment: one of parameter is not a Point"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>379</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>380</span> 
+<span class='line'>381</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">p1</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.pointToPixel</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">pointA.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pointA.y</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>382</span> </span><span class="WHIT">		</span><span class="NAME">p2</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.pointToPixel</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">pointB.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pointB.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>383</span> 
+<span class='line'>384</span> </span><span class="WHIT">	</span><span class="COMM">/// draw it</span><span class="WHIT">
+<span class='line'>385</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ctx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.glContext</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>386</span> </span><span class="WHIT">	</span><span class="NAME">ctx.strokeStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"black"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>387</span> </span><span class="WHIT">	</span><span class="NAME">ctx.beginPath</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>388</span> </span><span class="WHIT">	</span><span class="NAME">ctx.moveTo</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">p1.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">p1.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>389</span> </span><span class="WHIT">	</span><span class="NAME">ctx.lineTo</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">p2.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">p2.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>390</span> </span><span class="WHIT">	</span><span class="NAME">ctx.stroke</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>391</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>392</span> 
+<span class='line'>393</span> 
+<span class='line'>394</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>395</span> </span><span class="COMM">/**
+<span class='line'>396</span>  * Clears the canvas and set a new drawn curve.
+<span class='line'>397</span>  *
+<span class='line'>398</span>  * @return {void}
+<span class='line'>399</span>  */</span><span class="WHIT">
+<span class='line'>400</span> </span><span class="NAME">CurveViewer.prototype.clearDraw</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>401</span> </span><span class="WHIT">	</span><span class="NAME">this.glContext.clearRect</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.glContext.canvas.width</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">		</span><span class="NAME">this.glContext.canvas.height</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>403</span> </span><span class="WHIT">	</span><span class="NAME">this.controller.newCurve</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>404</span> </span><span class="WHIT">	</span><span class="NAME">this.lastPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Point</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>405</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>406</span> 
+<span class='line'>407</span> 
+<span class='line'>408</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>409</span> </span><span class="COMM">/**
+<span class='line'>410</span>  * Resizes the associated canvas.
+<span class='line'>411</span>  *
+<span class='line'>412</span>  * @return {void}
+<span class='line'>413</span>  */</span><span class="WHIT">
+<span class='line'>414</span> </span><span class="NAME">CurveViewer.prototype.resizeCanvas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>415</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">$ref</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"#meridianCanvas2"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// FIXME just adapt to the meridian</span><span class="WHIT">
+<span class='line'>416</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">max</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.max</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.xMaxInput.value</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.yMaxInput.value</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>417</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">canvas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.glContext.canvas</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>418</span> 
+<span class='line'>419</span> </span><span class="WHIT">	</span><span class="NAME">canvas.width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">$ref.width</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">this.xMaxInput.value</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">max</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>420</span> </span><span class="WHIT">	</span><span class="NAME">canvas.style.width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.width</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"px"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>421</span> </span><span class="WHIT">	</span><span class="NAME">canvas.style.right</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">$ref.width</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">canvas.width</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"px"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>422</span> 
+<span class='line'>423</span> </span><span class="WHIT">	</span><span class="NAME">canvas.height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">$ref.height</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">this.yMaxInput.value</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">max</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>424</span> </span><span class="WHIT">	</span><span class="NAME">canvas.style.height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.height</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"px"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>425</span> </span><span class="WHIT">	</span><span class="NAME">canvas.style.top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">$ref.height</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">canvas.height</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"px"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>426</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>427</span> 
+<span class='line'>428</span> 
+<span class='line'>429</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>430</span> </span><span class="COMM">/**
+<span class='line'>431</span>  * Draws a grid on the canvas. FIXME doesn't work correctly, some lines are
+<span class='line'>432</span>  * missing.
+<span class='line'>433</span>  *
+<span class='line'>434</span>  * @return {void}
+<span class='line'>435</span>  */</span><span class="WHIT">
+<span class='line'>436</span> </span><span class="NAME">CurveViewer.prototype.drawCanvasGrid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>437</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">xMax</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.xMaxInput.value</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>438</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">yMax</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.yMaxInput.value</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// 'this.yMaxInput.value' is a string !</span><span class="WHIT">
+<span class='line'>439</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ctx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.glContext</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>440</span> </span><span class="WHIT">		</span><span class="NAME">offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.round</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.pointToPixel</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">yMax</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">y</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>441</span> </span><span class="WHIT">		</span><span class="NAME">i</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>442</span> </span><span class="WHIT">	</span><span class="NAME">ctx.fillStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"#CCC"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>443</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">xMax</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">++</span><span class="NAME">i</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>444</span> </span><span class="WHIT">		</span><span class="NAME">ctx.fillRect</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">offset</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ctx.canvas.height</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>445</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>446</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">yMax</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">++</span><span class="NAME">i</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>447</span> </span><span class="WHIT">		</span><span class="NAME">ctx.fillRect</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ctx.canvas.width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>448</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>449</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>450</span> 
+<span class='line'>451</span> 
+<span class='line'>452</span> 
+<span class='line'>453</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>454</span> </span><span class="COMM">//	Event methods</span><span class="WHIT">
+<span class='line'>455</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>456</span> 
+<span class='line'>457</span> 
+<span class='line'>458</span> 
+<span class='line'>459</span> </span><span class="COMM">/**
+<span class='line'>460</span>  * @override
+<span class='line'>461</span>  * Redraws the current curve.
+<span class='line'>462</span>  *
+<span class='line'>463</span>  * @param {WindowEvent} event - The window event.
+<span class='line'>464</span>  *
+<span class='line'>465</span>  * @return {void}
+<span class='line'>466</span>  */</span><span class="WHIT">
+<span class='line'>467</span> </span><span class="NAME">CurveViewer.prototype.onResize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>468</span> </span><span class="WHIT">	</span><span class="NAME">this.lastPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Point</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>469</span> </span><span class="WHIT">	</span><span class="NAME">this.draw</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>470</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>471</span> 
+<span class='line'>472</span> 
+<span class='line'>473</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>474</span> </span><span class="COMM">/**
+<span class='line'>475</span>  * @override
+<span class='line'>476</span>  * Add a point to the drawn curve and draws it on the screen. Only works if the
+<span class='line'>477</span>  * drawing mode is "free hand".
+<span class='line'>478</span>  *
+<span class='line'>479</span>  * @param {MouseEvent} event - The mouse event.
+<span class='line'>480</span>  *
+<span class='line'>481</span>  * @return {void}
+<span class='line'>482</span>  */</span><span class="WHIT">
+<span class='line'>483</span> </span><span class="NAME">CurveViewer.prototype.onMouseDown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>484</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">event.buttons</span><span class="WHIT"> </span><span class="PUNC">&</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.formModeSelected</span><span class="PUNC">[</span><span class="STRN">"meridianTypeValue"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">value</span><span class="WHIT">
+<span class='line'>485</span> </span><span class="WHIT">		</span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"meridianFreeHand"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="COMM">// FIXME just adapt to the meridian</span><span class="WHIT">
+<span class='line'>486</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>487</span> </span><span class="WHIT">		</span><span class="COMM">// if left button is pressed and the mode is "drawing mode"</span><span class="WHIT">
+<span class='line'>488</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">p</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.pixelToPoint</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event.layerX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">event.layerY</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>489</span> </span><span class="WHIT">		</span><span class="NAME">this.addPoint</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">p</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>490</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>491</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>492</span> 
+<span class='line'>493</span> 
+<span class='line'>494</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>495</span> </span><span class="COMM">/**
+<span class='line'>496</span>  * @override
+<span class='line'>497</span>  * Add a point to the drawn curve and draws it on the screen. Only works if the
+<span class='line'>498</span>  * drawing mode is "free hand".
+<span class='line'>499</span>  *
+<span class='line'>500</span>  * @param {MouseEvent} event - The mouse event.
+<span class='line'>501</span>  *
+<span class='line'>502</span>  * @return {void}
+<span class='line'>503</span>  */</span><span class="WHIT">
+<span class='line'>504</span> </span><span class="NAME">CurveViewer.prototype.onMouseMove</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">event.buttons</span><span class="WHIT"> </span><span class="PUNC">&</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.formModeSelected</span><span class="PUNC">[</span><span class="STRN">"meridianTypeValue"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">value</span><span class="WHIT">
+<span class='line'>506</span> </span><span class="WHIT">		</span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"meridianFreeHand"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="COMM">// FIXME just adapt to the meridian</span><span class="WHIT">
+<span class='line'>507</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>508</span> </span><span class="WHIT">		</span><span class="COMM">// if left button is pressed and the mode is "drawing mode"</span><span class="WHIT">
+<span class='line'>509</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">p</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.pixelToPoint</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event.layerX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">event.layerY</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>510</span> </span><span class="WHIT">		</span><span class="NAME">this.addPoint</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">p</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>511</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>512</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>513</span> 
+<span class='line'>514</span> 
+<span class='line'>515</span> 
+<span class='line'>516</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>517</span> </span><span class="COMM">//	Other methods</span><span class="WHIT">
+<span class='line'>518</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>519</span> 
+<span class='line'>520</span> 
+<span class='line'>521</span> 
+<span class='line'>522</span> </span><span class="COMM">/**
+<span class='line'>523</span>  * Initializes canvas event (mouse down and mouse up).
+<span class='line'>524</span>  *
+<span class='line'>525</span>  * @return {void}
+<span class='line'>526</span>  */</span><span class="WHIT">
+<span class='line'>527</span> </span><span class="NAME">CurveViewer.prototype.initCanvasEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>528</span> </span><span class="WHIT">	</span><span class="COMM">// initialisation</span><span class="WHIT">
+<span class='line'>529</span> </span><span class="WHIT">	</span><span class="NAME">this.canvas.addEventListener</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"mousedown"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.onMouseDown.bind</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>530</span> </span><span class="WHIT">	</span><span class="NAME">this.canvas.addEventListener</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"mousemove"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.onMouseMove.bind</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>531</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>532</span> 
+<span class='line'>533</span> 
+<span class='line'>534</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>535</span> </span><span class="COMM">/**
+<span class='line'>536</span>  * Transforms a pixel coordinates on the canvas into point of the curve. /!\ The
+<span class='line'>537</span>  * origin of the point is the bottom left corner but pixel's origin is the top left
+<span class='line'>538</span>  * corner. Top and bottom are inverted in this function.
+<span class='line'>539</span>  *
+<span class='line'>540</span>  * @param {float} x - Pixel X coordinate.
+<span class='line'>541</span>  * @param {float} y - Pixel Y coordinate.
+<span class='line'>542</span>  *
+<span class='line'>543</span>  * @return {Point} The computed point (truncate to two decimal number).
+<span class='line'>544</span>  * @throws {String} One of the parameter is not of type Number.
+<span class='line'>545</span>  */</span><span class="WHIT">
+<span class='line'>546</span> </span><span class="NAME">CurveViewer.prototype.pixelToPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>547</span> </span><span class="WHIT">	</span><span class="COMM">/// parameter verification</span><span class="WHIT">
+<span class='line'>548</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">checkType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>549</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"CurveViewer.pixelToPoint: bad type(s) of parameter(s)"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>550</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>551</span> 
+<span class='line'>552</span> </span><span class="WHIT">	</span><span class="COMM">/// compute</span><span class="WHIT">
+<span class='line'>553</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">point</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Point</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>554</span> </span><span class="WHIT">		</span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.xMaxInput.value</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.glContext.canvas.width</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>555</span> </span><span class="WHIT">		</span><span class="PUNC">(</span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">this.yMaxInput.value</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.glContext.canvas.height</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>556</span> </span><span class="WHIT">	</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>557</span> </span><span class="WHIT">	</span><span class="NAME">point.y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.yMaxInput.value</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">point.y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>558</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">point</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>559</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>560</span> 
+<span class='line'>561</span> 
+<span class='line'>562</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>563</span> </span><span class="COMM">/**
+<span class='line'>564</span>  * Transforms a point of the curve into pixel coordinates on the canvas. /!\ The
+<span class='line'>565</span>  * origin of the point is the bottom left corner but pixel's origin is the top left
+<span class='line'>566</span>  * corner. Top and bottom was inverted in this function.
+<span class='line'>567</span>  *
+<span class='line'>568</span>  * @param {float} x - Point X coordinate.
+<span class='line'>569</span>  * @param {float} y - Point Y coordinate.
+<span class='line'>570</span>  *
+<span class='line'>571</span>  * @return {Point} The computed pixel.
+<span class='line'>572</span>  * @throws {String} One of the parameter is not of type Number.
+<span class='line'>573</span>  */</span><span class="WHIT">
+<span class='line'>574</span> </span><span class="NAME">CurveViewer.prototype.pointToPixel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>575</span> </span><span class="WHIT">	</span><span class="COMM">/// parameter verification</span><span class="WHIT">
+<span class='line'>576</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">checkType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>577</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"CurveViewer.pointToPixel: bad type(s) of parameter(s)"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>578</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>579</span> 
+<span class='line'>580</span> </span><span class="WHIT">	</span><span class="COMM">/// compute</span><span class="WHIT">
+<span class='line'>581</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pixel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Point</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>582</span> </span><span class="WHIT">		</span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">this.glContext.canvas.width</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.xMaxInput.value</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>583</span> </span><span class="WHIT">		</span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">this.glContext.canvas.height</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">this.yMaxInput.value</span><span class="WHIT">
+<span class='line'>584</span> </span><span class="WHIT">	</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>585</span> </span><span class="WHIT">	</span><span class="NAME">pixel.y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.glContext.canvas.height</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">Math.floor</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">pixel.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>586</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">pixel</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>587</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>588</span> 
+<span class='line'>589</span> 
+<span class='line'>590</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>591</span> </span><span class="COMM">/**
+<span class='line'>592</span>  * Adds a point to the current curve and draws it on the canvas. If the point is
+<span class='line'>593</span>  * too close to the last, it is not added.
+<span class='line'>594</span>  *
+<span class='line'>595</span>  * @param {Point} point - A point.
+<span class='line'>596</span>  *
+<span class='line'>597</span>  * @return {boolean} True if the point was added, false otherwise.
+<span class='line'>598</span>  * @throw {String} the parameter is not of type Point
+<span class='line'>599</span>  */</span><span class="WHIT">
+<span class='line'>600</span> </span><span class="NAME">CurveViewer.prototype.addPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">point</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>601</span> </span><span class="WHIT">	</span><span class="COMM">/// parameter verification</span><span class="WHIT">
+<span class='line'>602</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">point</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Point</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>603</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"CurveViewer.addPoint: parameter is not a Point"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>604</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>605</span> 
+<span class='line'>606</span> </span><span class="WHIT">	</span><span class="COMM">/// add</span><span class="WHIT">
+<span class='line'>607</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">Math.hypot</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">point.x</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">this.lastPoint.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">point.y</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">this.lastPoint.y</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>608</span> </span><span class="WHIT">		 </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">this.MIN_DIST_BETWEEN_POINT</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>609</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>610</span> </span><span class="WHIT">		</span><span class="NAME">this.controller.getActiveCurve</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addPoint</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">point.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">point.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>611</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.lastPoint.x</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>612</span> </span><span class="WHIT">			</span><span class="NAME">this.drawSegment</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.lastPoint</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">point</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>613</span> </span><span class="WHIT">		</span><span class="NAME">this.lastPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">point</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>614</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>615</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>616</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>617</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>618</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>619</span> 
+<span class='line'>620</span> 
+<span class='line'>621</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>622</span> </span><span class="COMM">/**
+<span class='line'>623</span>  * @static
+<span class='line'>624</span>  * Computes the Y range of a curve with its X range.
+<span class='line'>625</span>  *
+<span class='line'>626</span>  * @param {int} width - Width in pixels of the HTML element where the curve is
+<span class='line'>627</span>  * displayed.
+<span class='line'>628</span>  * @param {int} height - Height in pixels of the HTML element where the curve is
+<span class='line'>629</span>  * displayed.
+<span class='line'>630</span>  * @param {Range} xRange - X range of the curve.
+<span class='line'>631</span>  *
+<span class='line'>632</span>  * @return {int[2]} Y range of the curve.
+<span class='line'>633</span>  */</span><span class="WHIT">
+<span class='line'>634</span> </span><span class="NAME">CurveViewer.computeYScale</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">xRange</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>635</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">xDiff</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xRange.length</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>636</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">yDiff</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">xDiff</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>637</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">-</span><span class="NAME">yDiff</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">yDiff</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>638</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>639</span> 
+<span class='line'>640</span> 
+<span class='line'>641</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>642</span> </span><span class="COMM">/**
+<span class='line'>643</span>  * Closes the current drawn curve.
+<span class='line'>644</span>  * 
+<span class='line'>645</span>  * @return {void}
+<span class='line'>646</span>  */</span><span class="WHIT">
+<span class='line'>647</span> </span><span class="NAME">CurveViewer.prototype.closeCurve</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>648</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">addedPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.controller.closeCurve</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>649</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">addedPoint</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>650</span> </span><span class="WHIT">		</span><span class="NAME">this.drawSegment</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.lastPoint</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">addedPoint</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>651</span> </span><span class="WHIT">		</span><span class="NAME">this.lastPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">addedPoint</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>652</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>653</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>654</span> 
+<span class='line'>655</span> 
+<span class='line'>656</span> </span></pre></body></html>

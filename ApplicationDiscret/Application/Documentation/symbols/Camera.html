@@ -1,0 +1,1503 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - Camera</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 160px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 190px;
+	width: 600px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/AlgoWorker.html">AlgoWorker</a></li>
+	
+	<li><a href="../symbols/Application.html">Application</a></li>
+	
+	<li><a href="../symbols/BoundingBox.html">BoundingBox</a></li>
+	
+	<li><a href="../symbols/Camera.html">Camera</a></li>
+	
+	<li><a href="../symbols/Controller.html">Controller</a></li>
+	
+	<li><a href="../symbols/Controller2D.html">Controller2D</a></li>
+	
+	<li><a href="../symbols/Controller2DMeridian.html">Controller2DMeridian</a></li>
+	
+	<li><a href="../symbols/Controller3D.html">Controller3D</a></li>
+	
+	<li><a href="../symbols/ControllerExport.html">ControllerExport</a></li>
+	
+	<li><a href="../symbols/CurveViewer.html">CurveViewer</a></li>
+	
+	<li><a href="../symbols/DefaultShader.html">DefaultShader</a></li>
+	
+	<li><a href="../symbols/DrawnCurve.html">DrawnCurve</a></li>
+	
+	<li><a href="../symbols/Equation.html">Equation</a></li>
+	
+	<li><a href="../symbols/ExplicitAlgo1Worker.html">ExplicitAlgo1Worker</a></li>
+	
+	<li><a href="../symbols/ExplicitAlgo2Worker.html">ExplicitAlgo2Worker</a></li>
+	
+	<li><a href="../symbols/ExplicitCurve.html">ExplicitCurve</a></li>
+	
+	<li><a href="../symbols/Facet.html">Facet</a></li>
+	
+	<li><a href="../symbols/FormulaCurve.html">FormulaCurve</a></li>
+	
+	<li><a href="../symbols/GenericContainer.html">GenericContainer</a></li>
+	
+	<li><a href="../symbols/GenericStructure.html">GenericStructure</a></li>
+	
+	<li><a href="../symbols/GenericViewer.html">GenericViewer</a></li>
+	
+	<li><a href="../symbols/ImplicitCurve.html">ImplicitCurve</a></li>
+	
+	<li><a href="../symbols/Matrix.html">Matrix</a></li>
+	
+	<li><a href="../symbols/ModelCurve.html">ModelCurve</a></li>
+	
+	<li><a href="../symbols/ModelDraw.html">ModelDraw</a></li>
+	
+	<li><a href="../symbols/ModelExport.html">ModelExport</a></li>
+	
+	<li><a href="../symbols/ModelGen.html">ModelGen</a></li>
+	
+	<li><a href="../symbols/ModelParameter.html">ModelParameter</a></li>
+	
+	<li><a href="../symbols/ParameterViewer.html">ParameterViewer</a></li>
+	
+	<li><a href="../symbols/ParametricAlgo1Worker.html">ParametricAlgo1Worker</a></li>
+	
+	<li><a href="../symbols/ParametricAlgo2Worker.html">ParametricAlgo2Worker</a></li>
+	
+	<li><a href="../symbols/Point.html">Point</a></li>
+	
+	<li><a href="../symbols/Range.html">Range</a></li>
+	
+	<li><a href="../symbols/Repere.html">Repere</a></li>
+	
+	<li><a href="../symbols/Scene.html">Scene</a></li>
+	
+	<li><a href="../symbols/Shader.html">Shader</a></li>
+	
+	<li><a href="../symbols/Surface.html">Surface</a></li>
+	
+	<li><a href="../symbols/SurfaceRenderer.html">SurfaceRenderer</a></li>
+	
+	<li><a href="../symbols/SurfaceViewer.html">SurfaceViewer</a></li>
+	
+	<li><a href="../symbols/Vector.html">Vector</a></li>
+	
+	<li><a href="../symbols/Voxel.html">Voxel</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class Camera
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/Objects_Camera.js.html">Camera.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Camera.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/Camera.html#constructor">Camera</a></b>(eyePos, centerPos, up, width, height, fov, near, far)
+							</div>
+							<div class="description"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class Camera.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Camera.html#centerPos">centerPos</a></b>
+								</div>
+								<div class="description">Point where the camera look at.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Camera.html#constProjection">constProjection</a></b>
+								</div>
+								<div class="description">Allows to modify the zoom.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Camera.html#constructor">constructor</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Camera.html#eyePos">eyePos</a></b>
+								</div>
+								<div class="description">Position of the camera.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Camera.html#far">far</a></b>
+								</div>
+								<div class="description">Farthest point of the camera.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Camera.html#fov">fov</a></b>
+								</div>
+								<div class="description">Field of view of the camera.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Camera.html#height">height</a></b>
+								</div>
+								<div class="description">Height of the camera.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Camera.html#near">near</a></b>
+								</div>
+								<div class="description">Nearest point of the camera.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Camera.html#orthographicProjectionMatrix">orthographicProjectionMatrix</a></b>
+								</div>
+								<div class="description">orthographic projection matrix</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Camera.html#perspectiveProjectionMatrix">perspectiveProjectionMatrix</a></b>
+								</div>
+								<div class="description">Perspective projection matrix</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Camera.html#up">up</a></b>
+								</div>
+								<div class="description">Perpendicular vector (going up) to centerPos vector.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Camera.html#viewMatrix">viewMatrix</a></b>
+								</div>
+								<div class="description">View matrix</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Camera.html#width">width</a></b>
+								</div>
+								<div class="description">Width of the camera.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Camera.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Camera.html#computeMatrices">computeMatrices</a></b>()
+								</div>
+								<div class="description">Computes view and projections matrices.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Camera.html#getLookAtPosition">getLookAtPosition</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Camera.html#getOrthographicProjectionMatrix">getOrthographicProjectionMatrix</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Camera.html#getPerspectiveProjectionMatrix">getPerspectiveProjectionMatrix</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Camera.html#getPosition">getPosition</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Camera.html#getProjection">getProjection</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Camera.html#getUpDirection">getUpDirection</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Camera.html#getViewMatrix">getViewMatrix</a></b>()
+								</div>
+								<div class="description">Gets view matrix.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Camera.html#setFov">setFov</a></b>(aFov)
+								</div>
+								<div class="description">Sets current field of view.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Camera.html#setProjection">setProjection</a></b>(nb)
+								</div>
+								<div class="description">Sets the orthographic zoom.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Camera.html#toConsole">toConsole</a></b>()
+								</div>
+								<div class="description">Dump all attributes (except matrices) on the console.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Camera.html#zoom">zoom</a></b>(factor)
+								</div>
+								<div class="description">Camera zoom.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Camera.html#zoomIn">zoomIn</a></b>()
+								</div>
+								<div class="description">Camera zoom in.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Camera.html#zoomOut">zoomOut</a></b>()
+								</div>
+								<div class="description">Camera zoom out.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>Camera</b>(eyePos, centerPos, up, width, height, fov, near, far)
+				</div>
+				
+				<div class="description">
+					
+					
+				</div>
+				
+				
+				
+				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{<a href="../symbols/Vector.html">Vector</a>}</span>  <b>eyePos</b>
+								
+							</dt>
+								<dd>- Position of the camera.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{<a href="../symbols/Vector.html">Vector</a>}</span>  <b>centerPos</b>
+								
+							</dt>
+								<dd>- Position of the center where the camera look at.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{<a href="../symbols/Vector.html">Vector</a>}</span>  <b>up</b>
+								
+							</dt>
+								<dd>- Perpendicular vector (going up) to centerPos vector.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{int}</span>  <b>width</b>
+								
+							</dt>
+								<dd>- Width of the camera.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{int}</span>  <b>height</b>
+								
+							</dt>
+								<dd>- Height of the camera.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{float}</span>  <b>fov</b>
+								
+							</dt>
+								<dd>- Field of view of the camera.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{float}</span>  <b>near</b>
+								
+							</dt>
+								<dd>- Nearest point of the camera.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{float}</span>  <b>far</b>
+								
+							</dt>
+								<dd>- The farthest point of the camera.</dd>
+						
+						</dl>
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name="centerPos"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>centerPos</b>
+					
+					</div>
+					<div class="description">
+						Point where the camera look at.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="constProjection"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>constProjection</b>
+					
+					</div>
+					<div class="description">
+						Allows to modify the zoom.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="constructor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>constructor</b>
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="eyePos"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>eyePos</b>
+					
+					</div>
+					<div class="description">
+						Position of the camera.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="far"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>far</b>
+					
+					</div>
+					<div class="description">
+						Farthest point of the camera.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="fov"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>fov</b>
+					
+					</div>
+					<div class="description">
+						Field of view of the camera. Angle in degrees.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="height"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>height</b>
+					
+					</div>
+					<div class="description">
+						Height of the camera. Should be the canvas height.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="near"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>near</b>
+					
+					</div>
+					<div class="description">
+						Nearest point of the camera.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="orthographicProjectionMatrix"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>orthographicProjectionMatrix</b>
+					
+					</div>
+					<div class="description">
+						orthographic projection matrix
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="perspectiveProjectionMatrix"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>perspectiveProjectionMatrix</b>
+					
+					</div>
+					<div class="description">
+						Perspective projection matrix
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="up"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>up</b>
+					
+					</div>
+					<div class="description">
+						Perpendicular vector (going up) to centerPos vector.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="viewMatrix"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>viewMatrix</b>
+					
+					</div>
+					<div class="description">
+						View matrix
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="width"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>width</b>
+					
+					</div>
+					<div class="description">
+						Width of the camera. Should be the canvas width.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					
+				
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="computeMatrices"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{void}</span>
+					<b>computeMatrices</b>()
+					
+					</div>
+					<div class="description">
+						Computes view and projections matrices.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getLookAtPosition"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Vector.html">Vector</a>}</span>
+					<b>getLookAtPosition</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Vector.html">Vector</a>}</span> The lookAt position of the camera.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getOrthographicProjectionMatrix"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Matrix.html">Matrix</a>}</span>
+					<b>getOrthographicProjectionMatrix</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Matrix.html">Matrix</a>}</span> The orthographic projection matrix.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getPerspectiveProjectionMatrix"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Matrix.html">Matrix</a>}</span>
+					<b>getPerspectiveProjectionMatrix</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Matrix.html">Matrix</a>}</span> The perspective projection matrix.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getPosition"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Vector.html">Vector</a>}</span>
+					<b>getPosition</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Vector.html">Vector</a>}</span> The eye position of the camera.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getProjection"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{float}</span>
+					<b>getProjection</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{float}</span> The zoom.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getUpDirection"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Vector.html">Vector</a>}</span>
+					<b>getUpDirection</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Vector.html">Vector</a>}</span> The up direction of the camera.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getViewMatrix"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Matrix.html">Matrix</a>}</span>
+					<b>getViewMatrix</b>()
+					
+					</div>
+					<div class="description">
+						Gets view matrix.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Matrix.html">Matrix</a>}</span> The view matrix.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="setFov"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{void}</span>
+					<b>setFov</b>(aFov)
+					
+					</div>
+					<div class="description">
+						Sets current field of view.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{float}</span> <b>aFov</b>
+									
+								</dt>
+								<dd>- The new field of view.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="setProjection"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{void}</span>
+					<b>setProjection</b>(nb)
+					
+					</div>
+					<div class="description">
+						Sets the orthographic zoom.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{float}</span> <b>nb</b>
+									<i>Optional</i>
+								</dt>
+								<dd>- Zoom.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="toConsole"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{void}</span>
+					<b>toConsole</b>()
+					
+					</div>
+					<div class="description">
+						Dump all attributes (except matrices) on the console.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="zoom"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{void}</span>
+					<b>zoom</b>(factor)
+					
+					</div>
+					<div class="description">
+						Camera zoom.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>factor</b>
+									
+								</dt>
+								<dd>- Zoom factor.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="zoomIn"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{void}</span>
+					<b>zoomIn</b>()
+					
+					</div>
+					<div class="description">
+						Camera zoom in.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="zoomOut"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{void}</span>
+					<b>zoomOut</b>()
+					
+					</div>
+					<div class="description">
+						Camera zoom out.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Mar 14 2016 10:59:56 GMT+0100 (CET)
+		</div>
+	</body>
+</html>
