@@ -1,3 +1,29 @@
+/// LICENCE ////////////////////////////////////////////////////////////////////
+
+
+/**
+ * @license
+ * TODO
+ */
+
+
+/// INDEX //////////////////////////////////////////////////////////////////////
+
+
+/*
+ * ImplicitCurve(equation : Equation)
+ * computePoints(ranX : Range, ranY : Range) : Point[][]
+ */
+
+
+/// CODE ///////////////////////////////////////////////////////////////////////
+
+
+
+/**
+ * @extends Curve
+ * @classdesc A curve defined by an implicit equation
+ */
 ImplicitCurve.prototype = new FormulaCurve;
 ImplicitCurve.prototype.constructor = ImplicitCurve;
 
@@ -8,17 +34,19 @@ ImplicitCurve.prototype.constructor = ImplicitCurve;
  */
 function ImplicitCurve(equation) {
 	FormulaCurve.call(this, equation);
-}
+};
 
 
 //==============================================================================
 /**
- * Compute the points of the curve based on its equation
+ * Computes the points of the curve based on its equation
+ * 
  * @param {Range} ranX - The x-axis range on which to compute the points
  * @param {Range} ranX - The y-axis range on which to compute the points
- * @param {float} step - Define how much points are computed
+ * 
  * @return {Point[][]} An array composed of list of points to represent the curve
- * (for exemple for 1/x we will have two list of points)
+ * (for example, 1/x will create two list of points)
+ * @throw {String} The equation is not defined or the parameters are not of type Range
  */
 ImplicitCurve.prototype.computePoints = function (ranX, ranY) {
 	if (! ranX instanceof Range || ! ranY instanceof Range) {
@@ -67,4 +95,4 @@ ImplicitCurve.prototype.computePoints = function (ranX, ranY) {
 		result.push(points.slice(0));
 	}
 	return result;
-}
+};

@@ -168,7 +168,7 @@ function Camera (eyePos, centerPos, up, width, height, fov, near, far) {
 
 	/// Matrix calcul
 	this.computeMatrices ();
-}
+};
 
 
 

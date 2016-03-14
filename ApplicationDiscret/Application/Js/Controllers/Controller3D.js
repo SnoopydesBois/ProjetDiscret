@@ -62,7 +62,7 @@
 
 /**
  * @extends Controller
- * @classdesc TODO
+ * @classdesc A class used to communicate between the application and the modelGen
  */
 Controller3D.prototype = new Controller;
 Controller3D.prototype.constructor = Controller3D;
@@ -90,21 +90,20 @@ function Controller3D (dimension) {
 	Controller.call (this);
 	
 	/**
-	 * {modelGen} The model which can generate the surface.
+	 * {modelGen} The model which generates the surface.
 	 */
 	this.modelGen = new ModelGen (dimension);
 	
 	/**
-	 * {Function} A function that provide a frozen reference to the meridian
+	 * {Function} A function that provides a frozen reference to the generatrix
 	 */
 	this.getMeridian = null;
 	 
 	/**
-	 * {Function} A function that provide a frozen reference to the curve of
-	 * revolution
+	 * {Function} A function that provides a frozen reference to the directrix
 	 */
 	this.getCurveRevolution = null;
-}
+};
 
 
 
@@ -113,10 +112,12 @@ function Controller3D (dimension) {
  * Function that start the generation of the surface from the meridian and the
  * curbe of revolution.
  * 
- * @param {###} mode - 
+ * @param {int} mode - wether the surface should be generated using an 
+ * incrementalor a brute force method
  * 
  * @return {void}
- * @throws {String} TODO
+ * @throws {String} Controller3D.generate: The meridian and/or the curve revolution 
+			are not functions.
  */
 Controller3D.prototype.generate = function (mode) {
 	/// verification
@@ -167,7 +168,9 @@ Controller3D.prototype.isVoxelVisible = function (position, y, z) {
  * @param {Number} [z] - The Z coordinate of the voxel.
  * 
  * @return {Voxel} The voxel at the x, y, z coordinates.
- * @throws {String} TODO
+ * @throws {String} Controller3D.getVoxel.ErrorLengthArguments - Wrong number of arguments.
+ * @throws {String} Controller3D.getVoxel.ErrorNotAVector - There is only one argument but it's not a vector.
+ * @throws {String} Controller3D.getVoxel.ErrorNotANumber - There are three arguments but at least one of them is not a number.
  */
 Controller3D.prototype.getVoxel = function (x, y, z) {
 	switch (arguments.length) {
@@ -198,6 +201,10 @@ Controller3D.prototype.getVoxel = function (x, y, z) {
  * @param {Number} [y] - The Y coordinate of the voxel.
  * @param {Number} [z] - The Z coordinate of the voxel.
  * 
+ * @throws {String} Controller3D.hasVoxel.ErrorLengthArguments - Wrong number of arguments.
+ * @throws {String} Controller3D.hasVoxel.ErrorNotAVector - There is only one argument but it's not a vector.
+ * @throws {String} Controller3D.hasVoxel.ErrorNotANumber - There are three arguments but at least one of them is not a number.
+ * 
  * @return {boolean} True if the voxel is a voxel of the surface, false
  * otherwise.
  */
@@ -205,7 +212,7 @@ Controller3D.prototype.hasVoxel = function (x, y, z) {
 	switch (arguments.length) {
 		case 1 :
 			if (!(x instanceof Vector)){
-				throw "Controller3D.getVoxel.ErrorNotAVector";
+				throw "Controller3D.hasVoxel.ErrorNotAVector";
 			}
 			return this.modelGen.getVoxel (x) !== null;
 			break;
@@ -213,12 +220,12 @@ Controller3D.prototype.hasVoxel = function (x, y, z) {
 			if (typeof x !== "number"
 				|| typeof y !== "number"
 				|| typeof z !== "number"){
-				throw "Controller3D.getVoxel.ErrorNotANumber";
+				throw "Controller3D.hasVoxel.ErrorNotANumber";
 			}
 			return this.modelGen.getVoxel (new Vector (x, y, z)) !== null;
 			break;
 		default :
-			throw "Controller3D.getVoxel.ErrorLengthArguments";
+			throw "Controller3D.hasVoxel.ErrorLengthArguments";
 	}
 };
 
@@ -239,6 +246,7 @@ Controller3D.prototype.getDimension = function () {
  * 
  * @param {(Vector | Array]} dimension - The new dimension of the surface.
  * 
+ * @throws Controller3D.setDimension: given parameter is not a Vector
  * @return {void}
  */
 Controller3D.prototype.setDimension = function (dimension) {
@@ -260,7 +268,7 @@ Controller3D.prototype.setDimension = function (dimension) {
  * obtain a frozen reference to the meridian.
  * 
  * @return {void}
- * @throws {String} If the given parameter is not a Function.
+ * @throws Controller3D.setGetMeridian: given parameter is not a Function
  */
 Controller3D.prototype.setGetMeridian = function (meridian) {
 	/// parameter verification
@@ -277,9 +285,10 @@ Controller3D.prototype.setGetMeridian = function (meridian) {
 /**
  * @param {Function} curveRevolution - The function that allows this controller
  * to obtain a frozen reference to the curve of revolution.
- * 
+ *
  * @return {void}
- * @throws {String} If the given parameter is not a Function.
+ * @throws {String} Controller3D.setGetCurveRevolution: given parameter is not a
+			Function
  */
 Controller3D.prototype.setGetCurveRevolution = function (curveRevolution) {
 	/// parameter verification
@@ -295,10 +304,10 @@ Controller3D.prototype.setGetCurveRevolution = function (curveRevolution) {
 
 //==============================================================================
 /**
- * This function return whether the algorithm finished his computations.
+ * This function returns whether the algorithm has finished his computations.
  * @see {@link ModelGen.isAlgoFinished}
  * 
- * @return {boolean} Whether the algorithm finished his computations.
+ * @return {boolean} Whether the algorithm has finished his computations.
  */
 Controller3D.prototype.isAlgoFinished = function (){
 	return this.modelGen.isAlgoFinished ();

@@ -49,7 +49,7 @@
 /**
  * @enum
  * Enumeration of Directions.
- * x, y and z indicate how much me move along this axis;
+ * x, y and z indicates how much me move along this axis;
  * oppose is the value of the opposite face;
  * size indicate the number of directions.
  */
@@ -79,16 +79,17 @@ var DirectionEnum = {
 
 	/// methods
 	toString : function (direction) {
-		if (0 <= direction && direction <= 7)
+		if (0 <= direction && direction <= 7){
 			return DirectionEnum.properties[direction].name;
-		else
+		} else{
 			return undefined;
+		}
 	}
 };
 
 
 
-if (Object.freeze)
+if (Object.freeze){
 	DirectionEnum = Object.freeze (DirectionEnum);
-
+}
 

@@ -96,8 +96,8 @@ function ControllerExport (idSurface, idMeridian, idRevolution) {
 
 //==============================================================================
 /**
- * Set the id of the new HTML element containing the meridian to export
- * @param {String} idMeridian - The id of the HTML element containing the meridian
+ * Set the id of the new HTML element containing the generatrix to export
+ * @param {String} idMeridian - The id of the HTML element containing the generatrix
  * @return {void}
  */
 ControllerExport.prototype.setIdMeridian = function(idMeridian){
@@ -107,8 +107,8 @@ ControllerExport.prototype.setIdMeridian = function(idMeridian){
 
 //==============================================================================
 /**
- * Set the id of the new HTML element containing the curve of revolution to export
- * @param {String} idRevolution - The id of the HTML element containing the curve of revolution
+ * Set the id of the new HTML element containing the directrix to export
+ * @param {String} idRevolution - The id of the HTML element containing the directrix
  * @return {void}
  */
 ControllerExport.prototype.setIdRevolution = function(idRevolution){
@@ -145,7 +145,7 @@ ControllerExport.prototype.export3DPng = function(surfaceView){
 
 //==============================================================================
 /**
- * Call the model method to export the meridian to PNG.
+ * Calls the model method to export the generatrix to PNG.
  * @return {void}
  */
 ControllerExport.prototype.exportMeridianPng = function(){
@@ -155,7 +155,7 @@ ControllerExport.prototype.exportMeridianPng = function(){
 
 //==============================================================================
 /**
- * Call the model method to export the revolution ton PNG.
+ * Calls the model method to export the directrix to PNG.
  * @return {void}
  */
 ControllerExport.prototype.exportRevolutionPng = function(){
@@ -165,7 +165,7 @@ ControllerExport.prototype.exportRevolutionPng = function(){
 
 //==============================================================================
 /**
- * Call the model to export the surface to STL
+ * Calls the model to export the surface to STL
  * @param {SurfaceRenderer} renderer - The surfaceRenderer used to model the surface
  * @return {void}
  */

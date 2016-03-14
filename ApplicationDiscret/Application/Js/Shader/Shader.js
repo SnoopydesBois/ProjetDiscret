@@ -79,8 +79,8 @@
 
 
 /**
- * @classdesc Class to manage a shader. You must prepare and activate the shader
- * before use it.
+ * @classdesc Class used to manage a shader. You must prepare and activate the shader
+ * before using it.
  */
 Shader.prototype.constructor = Shader;
 
@@ -94,7 +94,7 @@ Shader.prototype.constructor = Shader;
 
 /**
  * @constructor
- * Class for managing shaders.
+ * Class used to shaders.
  * 
  * @param {String} name - Name of the shader.
  * @param {String} vertexSource - The vertex shader source code.
@@ -140,8 +140,7 @@ function Shader (name, vertexSource, fragmentSource, glContext, attributes) {
 	this.fragmentShad = null; 
 	
 	/**
-	 * {WebGLRenderingContext} A reference to the
-	 * using gl context.
+	 * {WebGLRenderingContext} A reference to the gl context.
 	 */
 	this.glContext = glContext; 
 	
@@ -159,7 +158,7 @@ function Shader (name, vertexSource, fragmentSource, glContext, attributes) {
 
 
 /**
- * @return {String} The name the shader.
+ * @return {String} The name of the shader.
  */
 Shader.prototype.getName = function () {
 	return this.shaderName;
@@ -177,7 +176,7 @@ Shader.prototype.getName = function () {
  * Load/reload the shaders.
  * 
  * @return {void}
- * @throws {String} If the gl context does not exist.
+ * @throws {String} Shader.reload: gl context does not exist.
  */
 Shader.prototype.reload = function () {
 	var gl = this.glContext;
@@ -187,7 +186,7 @@ Shader.prototype.reload = function () {
 		this.prepareShader ();
 	}
 	else
-		throw "Shader.reload: gl context does not exist !";
+		throw "Shader.reload: gl context does not exist";
 };
 
 
@@ -226,7 +225,7 @@ Shader.prototype.prepareShader = function () {
 
 //==============================================================================
 /**
- * Make shader active.
+ * Activates the shader.
  * 
  * @return {void}
  */
@@ -237,7 +236,7 @@ Shader.prototype.activate = function () {
 
 //==============================================================================
 /**
- * Get uniform location given a name. /!\ Shader must be active before using
+ * Get uniform location for a given name. /!\ Shader must be active before using
  * this function !
  * @see {@link activate}
  * 
@@ -258,7 +257,7 @@ Shader.prototype.getUniformLocation = function (aName) {
 
 //==============================================================================
 /**
- * Get attribute location given a name. /!\ Shader must be active before using
+ * Get attribute location for a given name. /!\ Shader must be active before using
  * this function !
  * @see {@link activate}
  * 

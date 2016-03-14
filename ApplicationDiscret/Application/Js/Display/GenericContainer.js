@@ -80,7 +80,7 @@
 
 
 /**
- * @classdesc
+ * @classdesc A container to store multiple object in order to render them
  */
 GenericContainer.prototype.constructor = GenericContainer;
 
@@ -104,27 +104,27 @@ function GenericContainer () {
 	this.objectList = [];
 
 	/**
-	 * {float} Tha scale factor.
+	 * {float} Scale factor.
 	 */
 	this.scale = 1.0;
 
 	/**
-	 * {int} The width (in pixel) of the container.
+	 * {int} The width (in pixels) of the container.
 	 */
 	this.width = 0;
 
 	/**
-	 * {int} The height (in pixel) of the container.
+	 * {int} The height (in pixels) of the container.
 	 */
 	this.height = 0;
 
 	/**
-	 * {float} The translation along the X axis.
+	 * {float} Translation along the X axis.
 	 */
 	this.translateX = 0.0;
 
 	/**
-	 * {float} The translation along the Y axis.
+	 * {float} Translation along the Y axis.
 	 */
 	this.translateY = 0.0;
 };
@@ -138,7 +138,7 @@ function GenericContainer () {
 
 
 /**
- * @return {int} The number of objects in this scene (the length of the list of
+ * @return {int} Number of objects in this scene (the length of the list of
  * objects).
  */
 GenericContainer.prototype.getNbObject = function () {
@@ -153,7 +153,7 @@ GenericContainer.prototype.getNbObject = function () {
  * @param {float} scale - The scaling factor of the scene.
  *
  * @return {void}
- * @throws {String} If the provided parameter is not a number.
+ * @throws {String} The provided parameter is not of type Number.
  */
 GenericContainer.prototype.setScale = function (scale) {
 	if (typeof scale == "number") {
@@ -175,12 +175,12 @@ GenericContainer.prototype.getScale = function () {
 
 //==============================================================================
 /**
- * Multiply the scale of the scene.
+ * Multiplies the scale of the scene.
  *
- * @param {float} scale - How much do we scale.
+ * @param {float} scale - The scaling factor.
  *
  * @return {void}
- * @throws {String} If the provided parameter is not a number.
+ * @throws {String} The provided parameter is not of type Number.
  */
 GenericContainer.prototype.multScale = function (scale) {
 	if (typeof scale == "number")
@@ -192,7 +192,7 @@ GenericContainer.prototype.multScale = function (scale) {
 
 //==============================================================================
 /**
- * Get the width of the scene.
+ * Gets the width of the scene.
  *
  * @return {int} the width of the scene.
  */
@@ -203,12 +203,12 @@ GenericContainer.prototype.getWidth = function () {
 
 //==============================================================================
 /**
- * Set a new width for the scene.
+ * Sets a new width for the scene.
  *
  * @param {int} width - The new width for the scene.
  *
  * @return {void}
- * @throws {String} If the provided parameter is not a number.
+ * @throws {String} The provided parameter is not of type Number.
  */
 GenericContainer.prototype.setWidth = function (width) {
 	if (typeof width == "number")
@@ -220,7 +220,7 @@ GenericContainer.prototype.setWidth = function (width) {
 
 //==============================================================================
 /**
- * Get the height of the scene.
+ * Gets the height of the scene.
  *
  * @return {int} The height of the scene.
  */
@@ -231,12 +231,12 @@ GenericContainer.prototype.getHeight = function () {
 
 //==============================================================================
 /**
- * Set a new height for the scene.
+ * Sets a new height for the scene.
  *
  * @param {int} height - The new height for the scene.
  *
  * @return {void}
- * @throws {String} If the provided parameter is not a number.
+ * @throws {String} The provided parameter is not of type Number.
  */
 GenericContainer.prototype.setHeight = function (height) {
 	if (typeof height == "number")
@@ -248,12 +248,12 @@ GenericContainer.prototype.setHeight = function (height) {
 
 //==============================================================================
 /**
- * Translate along the x axis.
+ * Translates along the x axis.
  *
  * @param {float} x - How much we translate along the x axis.
  *
  * @return {void}
- * @throws {String} If the provided parameter is not a number.
+ * @throws {String} The provided parameter is not of type Number.
  */
 GenericContainer.prototype.addTranslateX = function (x) {
 	if (typeof x == "number")
@@ -265,12 +265,12 @@ GenericContainer.prototype.addTranslateX = function (x) {
 
 //==============================================================================
 /**
- * Translate along the y axis.
+ * Translates along the y axis.
  *
  * @param {float} y - How much we translate along the y axis.
  *
  * @return {void}
- * @throws {String} If the provided parameter is not a number.
+ * @throws {String} The provided parameter is not of type Number.
  */
 GenericContainer.prototype.addTranslateY = function (y) {
 	if (typeof y == "number")
@@ -282,13 +282,13 @@ GenericContainer.prototype.addTranslateY = function (y) {
 
 //==============================================================================
 /**
- * Translate the scene along x and y axis.
+ * Translates the scene along x and y axis.
  *
  * @param {float} x - How much we translate along the x axis.
  * @param {float} y - How much we translate along the y axis.
  *
  * @return {void}
- * @throws {String} If one of the provided parameters is not a number.
+ * @throws {String} One of the parameters is not of type Number.
  */
 GenericContainer.prototype.setTranslate = function (x, y) {
 	if (typeof x == "number" && typeof y == "number") {
@@ -308,7 +308,7 @@ GenericContainer.prototype.setTranslate = function (x, y) {
 
 
 /**
- * Add an object.
+ * Adds an object.
  *
  * @param {Object} anObject - Object to add to the scene.
  *
@@ -321,11 +321,11 @@ GenericContainer.prototype.addObject = function (anObject) {
 
 //==============================================================================
 /**
- * Get an object given its index.
+ * Gets an object given its index.
  *
  * @param {int} index - Index of the object to return.
  *
- * @return {!Object} The object corresponding to the index in
+ * @return {!Object} The object associated to the index in
  * parameter if it exists, null otherwise.
  */
 GenericContainer.prototype.getObject = function (index) {
@@ -345,7 +345,7 @@ GenericContainer.prototype.getObject = function (index) {
 
 //==============================================================================
 /**
- * Remove an object by index (if index is out of bound, nothing happen).
+ * Removes an object by index (if index is out of bound, nothing happens).
  *
  * @param {int} index - The index in the object list.
  *
@@ -371,7 +371,7 @@ GenericContainer.prototype.removeObject = function (index) {
 
 /**
  * @abstract
- * Prepare all object in the container.
+ * Prepares all objects in the container.
  *
  * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
  * gl context.
@@ -384,11 +384,11 @@ GenericContainer.prototype.prepare = function (glContext) {};
 //==============================================================================
 /**
  * @abstract
- * Draw all object in the container.
+ * Draws all object in the container.
  *
  * @param {(CanvasRenderingContext2D | WebGLRenderingContext)} glContext - The
  * gl context.
- * @param {boolean} [backBuffer] - Indicate if we have to draw the object
+ * @param {boolean} [backBuffer] - Indicates if we have to draw the object
  * normally or if we need to draw for picking.
  *
  * @return {void}

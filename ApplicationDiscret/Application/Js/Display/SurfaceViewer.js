@@ -90,8 +90,7 @@
 
 /**
  * @extends GenericViewer
- * @classdesc Class to manage a canvas and object (FIXME traduire) et les objets
- * à dessiner.
+ * @classdesc Class which manage a canvas and the objects to display
  */
 SurfaceViewer.prototype = new GenericViewer;
 SurfaceViewer.prototype.constructor = SurfaceViewer;
@@ -106,8 +105,6 @@ SurfaceViewer.prototype.constructor = SurfaceViewer;
 
 /**
  * @constructor
- * TODO
- * 
  * @param {HTMLCanvasElement} canvas - The associated canvas.
  */
 function SurfaceViewer (canvas) {
@@ -124,15 +121,15 @@ function SurfaceViewer (canvas) {
 	this.container.addObject (new Repere (this.glContext));
 
 	/**
-	 * {int[2]} The position of the mouse on the canvas when the user press a
-	 * button (used for the camera mouvement). -1 is the default value (use to
-	 * resolved conflict).
+	 * {int[2]} The position of the mouse on the canvas when the user presses a
+	 * button (used for the camera mouvement). -1 is the default value (used to
+	 * resolve conflicts).
 	 * @see {@link onMouseDown, onMouseMove}
 	 */
 	this.mousePosOnPress = [-1, -1];
 
 	/**
-	 * {Vector} Camera position in space when the user press left mouse button.
+	 * {Vector} Camera position in space when the user presses left mouse button.
 	 * Used by 'onMouseMove', 'rotateCamera' and 'moveCamera' methods to compute
 	 * the new camera position.
 	 * @see {@link onMouseMove, rotateCamera}
@@ -140,7 +137,7 @@ function SurfaceViewer (canvas) {
 	this.camPosWhenClick = new Vector (3, 3, 3);
 
 	/**
-	 * {Vector} Center camera position in space when the user press middle mouse
+	 * {Vector} Centers the camera position in space when the user presses the middle mouse
 	 * button. Used by 'onMouseMove', 'rotateCamera' and 'moveCamera' methods to
 	 * compute the new camera position.
 	 * @see {@link onMouseMove, rotateCamera, moveCamera}
@@ -148,17 +145,17 @@ function SurfaceViewer (canvas) {
 	this.camCenterWhenClick = new Vector (0, 0, 0);
 
 	/**
-	 * {HTMLInputElement} The connexity user choice.
+	 * {HTMLInputElement} The connexity selected by the user.
 	 */
 	this.connexityInput = document.getElementById ("connexityChoice");
 
 	/**
-	 * {HTMLInputElement} The voxel radius user choice.
+	 * {HTMLInputElement} The voxel radius selected by the user.
 	 */
 	this.voxelRadiusInput = document.getElementById ("voxelRadius");
 
 	/**
-	 * {WebGLFrameBuffer} The frame buffer which "contain" all render buffer.
+	 * {WebGLFrameBuffer} The frame buffer which contains all render buffers.
 	 */
 	this.frameBuffer = this.glContext.createFramebuffer ();
 
@@ -211,7 +208,7 @@ function SurfaceViewer (canvas) {
 
 
 /**
- * Set the dimension of the viewport.
+ * Sets the dimension of the viewport.
  * 
  * @return {void}
  */
@@ -229,7 +226,7 @@ SurfaceViewer.prototype.setViewDimension = function () {
 
 //==============================================================================
 /**
- * Change dimension of the scene.
+ * Changes the dimensions of the scene.
  *
  * @param {int} width - The scene width.
  * @param {int} height - The scene height.
@@ -270,10 +267,11 @@ SurfaceViewer.prototype.setMouse = function (x, y) {
  * Reload the scene.
  *
  * @return {void}
+ * @throws {String} The scene does not exist
  */
 SurfaceViewer.prototype.reload = function () {
 	if (!(this.container instanceof Scene))
-		console.error ("SurfaceViewer.reload: scene does not exist !");
+		console.error ("SurfaceViewer.reload: scene does not exist");
 	else
 		this.container.reload ();
 };
@@ -298,7 +296,7 @@ SurfaceViewer.prototype.show = function (forcePrepare) {
 
 //==============================================================================
 /**
- * Prepare the scene if there are objects.
+ * Prepares the scene if there are some objects.
  *
  * @return {void}
  */
@@ -317,9 +315,9 @@ SurfaceViewer.prototype.prepare = function () {
 
 //==============================================================================
 /**
- * Draw the scene if there are objects.
+ * Draws the scene if there are some objects.
  *
- * @param {boolean} [backBuffer] - Indicate if we have to draw the scene
+ * @param {boolean} [backBuffer] - Indicates if we have to draw the scene
  * normally or if we need to draw for picking.
  *
  * @return {void}
@@ -340,7 +338,7 @@ SurfaceViewer.prototype.draw = function (backBuffer) {
 
 //==============================================================================
 /**
- * Unprepared all object.
+ * Unprepare all the objects.
  *
  * @return {void}
  */
@@ -358,7 +356,7 @@ SurfaceViewer.prototype.unprepare = function () {
 
 /**
  * @override
- * Set the 'height' and 'width' canvas attributes and resize the viewport.
+ * Sets the 'height' and 'width' canvas attributes and resize the viewport.
  *
  * @param {WindowEvent} event - The window event.
  *
@@ -374,11 +372,10 @@ SurfaceViewer.prototype.onResize = function (event) {
 //==============================================================================
 /**
  * @override
- *
- * Left and middle buttons : save the camera coordinates and the mouse
- * coordintates.
- * Right button : highlight X, Y and Z slice where the user click. If there is
- * no facet, highlight is disactivate.
+ * Left and middle buttons : saves the camera coordinates and the mouse
+ * coordinates.
+ * Right button : highlights X, Y and Z slices where the user clicked. If there is
+ * no facet, highlight is desactivated.
  * @see {@link camPosWhenClick, mousePosOnPress}
  *
  * @param {MouseEvent} event - The event.
@@ -430,8 +427,7 @@ SurfaceViewer.prototype.onMouseDown = function (event) {
 //==============================================================================
 /**
  * @override
- *
- * Reset attribute 'mousePosOnPress' (only set the first value at -1).
+ * Resets attribute 'mousePosOnPress' (only sets the first value at -1).
  *
  * @param {MouseEvent} event - The event.
  *
@@ -445,8 +441,7 @@ SurfaceViewer.prototype.onMouseUp = function (event) {
 //==============================================================================
 /**
  * @override
- *
- * Move the camera.
+ * Moves the camera.
  *
  * @param {MouseEvent} event - The event.
  *
@@ -479,8 +474,7 @@ SurfaceViewer.prototype.onMouseMove = function (event) {
 //==============================================================================
 /**
  * @override
- *
- * Change the zoom of the camera.
+ * Changes the zoom of the camera.
  *
  * @param {MouseEvent} event - The event.
  *
@@ -499,7 +493,7 @@ SurfaceViewer.prototype.onWheel = function (event) {
 
 //==============================================================================
 /**
- * Prevent the context menu. FIXME n'est pas suffisant sous Windows.
+ * Prevents the context menu from appearing. FIXME doesn't work correctly on Windows
  * 
  * @param {MouseEvent} event - The mouse event.
  * @return {void}
@@ -519,7 +513,7 @@ SurfaceViewer.prototype.onContextMenu = function (event) {
 
 
 /**
- * Init all event on the canvas.
+ * Initializes all the events on the canvas.
  *
  * @return {void}
  */
@@ -541,17 +535,18 @@ SurfaceViewer.prototype.initCanvasEvent = function () {
 
 //==============================================================================
 /**
- * Move the camera at spheric coordintates.
+ * Moves the camera using spheric coordinates.
  *
  * @param {Number} phiOffset - Azimuth offset.
  * @param {Number} thetaOffset - Altitude offset.
  *
  * @return {void}
+ * @throw {String} the parameters are not of type number
  */
 SurfaceViewer.prototype.rotateCamera = function (phiOffset, thetaOffset) {
 	/// parameter verification
 	if (! checkType (arguments, "number", "number")) {
-		throw "SurfaceViewer.rotateCamera: one of parameter are not number";
+		throw "SurfaceViewer.rotateCamera: one of the parameters is not a number";
 	}
 
 	/// compute angle
@@ -581,12 +576,13 @@ SurfaceViewer.prototype.rotateCamera = function (phiOffset, thetaOffset) {
 
 //==============================================================================
 /**
- * Translate the camera (eye and center position) in its local base.
+ * Translates the camera (eye and center position).
  *
  * @param {Number} xOffset - X offset (left-right).
  * @param {Number} yOffset - Y offset (up-down).
  *
  * @return {void}
+ * @throw {String} the parameters are not of type number
  */
 SurfaceViewer.prototype.moveCamera = function (xOffset, yOffset) {
 	/// parameter verification
@@ -620,7 +616,7 @@ SurfaceViewer.prototype.moveCamera = function (xOffset, yOffset) {
 
 //==============================================================================
 /**
- * Forces the scene's camera to compute its matrices. XXX vérifier anglais.
+ * Forces the scene's camera to compute its matrices.
  *
  * @return {void}
  */
@@ -631,7 +627,7 @@ SurfaceViewer.prototype.computeCamera = function () {
 
 //==============================================================================
 /**
- * @return {SurfaceRenderer} The SurfaceRenderer which containt the actual
+ * @return {SurfaceRenderer} The SurfaceRenderer which contains the current
  * generated surface (i.e. not the repere, not the bounding box but the third
  * object).
  */
@@ -681,28 +677,28 @@ SurfaceViewer.prototype.getImgData = function (width, height) {
  * Vertical flip of a matrix.
  * @example | 1 2 |  ->  | 3 4 |
  *          | 3 4 |      | 1 2 |
- * XXX peut être en faire une fonction plutot qu'une méthode ?
+ * XXX Function instead of method?
  * 
  * @param {Array} tab - An array (like a matrix).
  * @param {int} width - Matrix width.
  * @param {int} height - Matrix height.
  * 
- * @return {Array} The fliped matrix.
+ * @return {Array} The flipped matrix.
  */
 SurfaceViewer.prototype.reverseTab = function (tab, width, height) {
-	var pixel = [];
+	var pixels = [];
 	for (var i = height - 1; i >= 0; --i) {
 		for (var j = 0; j < width * 4; ++j) {
-			pixel.push (tab[i * width * 4 + j]);
+			pixels.push (tab[i * width * 4 + j]);
 		}
 	}
-	return pixel;
+	return pixels;
 };
 
 
 //==============================================================================
 /**
- * Put the camera back to its initial position.
+ * Puts the camera back to its initial position.
  * @see {@link centerCamera, Scene.resetCamera, Camera.setCameraAt}
  * 
  * @return {void}
@@ -715,7 +711,8 @@ SurfaceViewer.prototype.resetCamera = function () {
 
 //==============================================================================
 /**
- * Center the camera (i.e. project its look at point on Z axis).
+ * Centers the camera (i.e Recenter the camera to look at the center without 
+ * modifying the zoom. Keeps the previous altitude.).
  * @see {@link resetCamera, Scene.centerCamera, Camera.setCameraAt}
  * 
  * @return {void}

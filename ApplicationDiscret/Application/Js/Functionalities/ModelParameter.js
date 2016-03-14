@@ -62,7 +62,7 @@
 
 
 /**
- * @classdesc 
+ * @classdesc Manages the parameter of a curve
  */
 ModelParameter.prototype.constructor = ModelParameter;
 
@@ -94,7 +94,7 @@ function ModelParameter () {
 
 
 /**
- * Set the active curve.
+ * Sets the active curve.
  * 
  * @param {Curve} curve - The curve which parameters are modified.
  * 
@@ -113,7 +113,7 @@ ModelParameter.prototype.setCurve = function (curve) {
 
 
 /**
- * Set a value to a parameter.
+ * Sets a value to a parameter.
  * @see {@link Curve.setParameter}
  * 
  * @param {String} parameter - The name of the parameter to modify.
@@ -128,7 +128,7 @@ ModelParameter.prototype.setParameter = function (parameter, value) {
 
 //==============================================================================
 /**
- * Return all the parameters of a curve.
+ * Returns all the parameters of a curve.
  * @see {@link Curve.getAllParameters}
  * 
  * @return {Map<String, Number>} A map composed of the name of a parameter (the
@@ -141,7 +141,7 @@ ModelParameter.prototype.getAllParameters = function () {
 
 //==============================================================================
 /**
- * Retrieve the value of a parameter which name is passed in parameter.
+ * Retrieves the value of a parameter which name is passed in parameter.
  * @see {@link Curve.getParameter}
  * 
  * @param {String} name - The name of the parameter.

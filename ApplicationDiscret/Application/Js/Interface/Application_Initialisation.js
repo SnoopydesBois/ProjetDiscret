@@ -59,7 +59,7 @@
 
 
 /**
- * Init all the application (controller, event, interface).
+ * Initializes all the application (controller, event, interface).
  *
  * @return {void}
  */
@@ -105,8 +105,8 @@ Application.prototype.initAppli = function () {
 
 //==============================================================================
 /**
- * Init meridian and revolution curve controller. Init function to draw curves
- * and get range. XXX vérifier anglais.
+ * Initializes meridian and revolution curve controller. Initializes the functions used to draw curves
+ * and get range.
  *
  * @return {void}
  */
@@ -118,7 +118,6 @@ Application.prototype.initControllers = function () {
 	/// add curve for revolution
 	this.revolController.addCurve ("Ellipse", Ellipse);
 	this.revolController.addCurve ("Heart", Heart);
-	this.revolController.addCurve ("Triangle", Triangle);
 	this.revolController.addCurve ("Lemniscate", Lemniscate);
 	this.revolController.addCurve ("Lissajous", Lissajous);
 	this.revolController.addCurve ("Quadrifolium", Quadrifolium);
@@ -151,7 +150,7 @@ Application.prototype.initControllers = function () {
 
 //==============================================================================
 /**
- * Init all window events.
+ * Initializes every window event.
  *
  * @return {void}
  */
@@ -162,10 +161,9 @@ Application.prototype.initWindowEvent = function () {
 
 //==============================================================================
 /**
- * Transform a div element onto a double slider (with jQuery).
+ * Transforms a div element into a double slider (with jQuery).
  * 
- * @param {(HTMLDivElement | String)} id - The div element or its id (with a '#'
- * at first character). 
+ * @param {(HTMLDivElement | String)} id - The div element or its id (with the first character being a '#').
  * @param {int} min - Minimum value of the slider.
  * @param {int} max - Maximum value of the slider.
  * 
@@ -198,7 +196,7 @@ Application.prototype.createSlider = function (id, min, max) {
 
 //==============================================================================
 /**
- * Check the navigator. If it is not "Mozilla" (for Firefox an Chorme), display
+ * Checks the navigator. If it is not "Mozilla" (for Firefox and Chrome), displays
  * a pop up.
  * 
  * @return {void}

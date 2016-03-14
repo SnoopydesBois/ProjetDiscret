@@ -87,7 +87,7 @@ function DrawnCurve () {
 	 * {Number[]} Y coordinate point list.
 	 */
 	this.yList = [];
-}
+};
 
 
 
@@ -254,4 +254,4 @@ function interpol (t, tab) {
 		tPerc = t - Math.floor (t);
 		return (1 - tPerc) * v1 + tPerc * v2;
 	}
-}
+};

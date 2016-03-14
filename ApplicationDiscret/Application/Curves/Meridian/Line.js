@@ -12,7 +12,7 @@
 
 /**
  * @extends ImplicitCurve
- * @classdesc TODO
+ * @classdesc Predefined curve
  */
  Line.prototype = new ExplicitCurve;
  Line.prototype.constructor = Line;
@@ -26,7 +26,7 @@
 
 
 /**
- * @constructor {Equation} the equation of the curve
+ * @constructor
  */
 function Line () {
 	var equation = new Equation (
@@ -39,4 +39,4 @@ function Line () {
 
 	this.parametersRange['angle'] = new Range (5.0, 85.0);
 	this.parametersRange['shift'] = new Range (1.0, 50.0);
-}
+};

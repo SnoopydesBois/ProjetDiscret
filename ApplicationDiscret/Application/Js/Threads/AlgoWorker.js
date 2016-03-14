@@ -21,7 +21,9 @@
 
 /**
  * @abstract
- * @classdesc TODO
+ * @classdesc An AlgoWorker contains a number of workers that will compute the surface.
+ * This class is abstract and the algorithm used shall be defined in the
+ * subclasses.
  */
 AlgoWorker.prototype.constructor = AlgoWorker;
 
@@ -35,8 +37,9 @@ AlgoWorker.prototype.constructor = AlgoWorker;
 
 /**
  * @constructor 
- * A AlgoWorker contains a nomber of workers that will compute the surface with
- * the Explicit algo with no optimization.
+ * A AlgoWorker contains a number of workers that will compute the surface.
+ * This class is abstract and the algorithm used shall be defined in the
+ * subclass.
  * 
  * @param {(Equation | DrawnCurve)} meridianCurve - The equation for the
  * meridian.
@@ -83,7 +86,7 @@ function AlgoWorker (meridianCurve, revolutionCurve, dimension, surface) {
 	 * {float[3]} The dimension of the 3D space.
 	 */
 	this.dim = (dimension ? dimension.m : null);
-}
+};
 
 
 

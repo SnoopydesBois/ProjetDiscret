@@ -26,20 +26,41 @@ importScripts("WorkersUtil.js");
 
 
 
-/* TODO c'est quoi ces variables, pourquoi elles sont globales ?
+/*
+ * Impossible de faire une classe pour un worker donc toutes les variables 
+ * suivantes sont globales
  */
+ 
+/**
+ * {int} id - The id of the worker.
+ */ 
 var id;
+/**
+ * {Vector} dimension - The dimensions of the 3D space.
+ */
 var dimension;
+/**
+ * {Equation} implicit_curve - The equation for the directrix.
+ */
 var implicit_curve;
+/**
+ * {Equation} explicit_curve - The curve for the generatrix.
+ */
 var explicit_curve;
+/**
+ * {Int} zMin - The minimum value of z this worker has to work with.
+ */
 var zMin;
+/**
+ * {Int} zMax - The maximum value of z this worker has to work with.
+ */
 var zMax;
 
 
 //==============================================================================
 /**
  * This function generate the surface using the algorithm for explicit
- * functions.
+ * functions whith no optimisation.
  * 
  * @return {void}
  */
@@ -71,7 +92,7 @@ function algo () {
 		if(bufferSize !=0)
 			postMessage([buffer, bufferSize]);
 	} // end for z
-}
+};
 
 
 //==============================================================================
@@ -97,6 +118,6 @@ onmessage = function (e) {
 		postMessage(["Abort"]);
 	}
 	postMessage(["Terminate", id]);
-}
+};
 
 

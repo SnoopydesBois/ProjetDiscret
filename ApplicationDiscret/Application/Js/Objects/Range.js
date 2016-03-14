@@ -10,7 +10,7 @@
 /// INDEX //////////////////////////////////////////////////////////
 
 
-/* TODO
+/* 
  */
 
 
@@ -18,10 +18,10 @@
 
 
 /**
- * @classdesc TODO
+ * @classdesc A class representing a Range. This range is bounded 
+ * by a minimum and a maximum. Theses minimum and maximum can be 
+ * included or excluded
  */
-
-
 Range.prototype.constructor = Range;
 
 
@@ -55,7 +55,7 @@ function Range (min, max){
 	}
 	this.includeMin = true;
 	this.includeMax = true;
-}
+};
 
 
 
@@ -76,7 +76,7 @@ Range.prototype.getMin = function () {
 
 //==============================================================================
 /**
- * Set the minimum of the range.
+ * Sets the minimum of the range.
  * 
  * @param {Number} min - New minimum for the range.
  * 
@@ -111,7 +111,7 @@ Range.prototype.getMax = function () {
 
 //==============================================================================
 /**
- * Set the minimum of the range.
+ * Sets the minimum of the range.
  * 
  * @param {Number} max - New maximum for the range.
  * 
@@ -136,7 +136,7 @@ Range.prototype.setMax = function (max) {
 
 //==============================================================================
 /**
- * Set the minimum and the maximum of the range.
+ * Sets the minimum and the maximum of the range.
  * 
  * @param {Number} min - New minimum for the range.
  * @param {Number} max - New maximum for the range.
@@ -221,7 +221,7 @@ Range.prototype.setIncludeMax = function (include) {
 
 
 /**
- * Test if the range contain a value.
+ * Tests if the range contain a value.
  * 
  * @param {Number} value - The value to test.
  * 

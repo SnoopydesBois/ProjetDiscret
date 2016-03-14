@@ -83,10 +83,10 @@ ModelDraw.prototype.constructor = ModelDraw;
 function ModelDraw () {
 
 	/**
-	 * {DrawnCurve} The curve on which the model acts.
+	 * {DrawnCurve} The curve used by the model.
 	 */
 	this.curve = new DrawnCurve ();
-}
+};
 
 
 
@@ -112,7 +112,7 @@ ModelDraw.prototype.getActiveCurve = function () {
 
 
 /**
- * Create a new curve.
+ * Creates a new curve.
  *
  * @return {void}
  */
@@ -123,7 +123,7 @@ ModelDraw.prototype.newCurve = function () {
 
 //==============================================================================
 /**
- * @return {int} The number of current curve point.
+ * @return {int} The number of points of the curve.
  */
 ModelDraw.prototype.getNbPoint = function () {
 	return this.curve.getMaxT ();
@@ -132,7 +132,7 @@ ModelDraw.prototype.getNbPoint = function () {
 
 //==============================================================================
 /**
- * @return {Number[]} The X coordinates for each point of the current curve. 
+ * @return {Number[]} The X coordinates for each point of the curve. 
  */
 ModelDraw.prototype.getXCoordinates = function () {
 	return this.curve.getXList ();
@@ -141,7 +141,7 @@ ModelDraw.prototype.getXCoordinates = function () {
 
 //==============================================================================
 /**
- * @return {Number[]} The Y coordinates for each point of the current curve. 
+ * @return {Number[]} The Y coordinates for each point of the curve. 
  */
 ModelDraw.prototype.getYCoordinates = function () {
 	return this.curve.getYList ();

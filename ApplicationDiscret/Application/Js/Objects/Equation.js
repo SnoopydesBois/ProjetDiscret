@@ -1,3 +1,6 @@
+/// LICENCE ////////////////////////////////////////////////////////////////////
+
+
 /**
  * @license
  * Copyright (mars 2016)
@@ -40,31 +43,69 @@
  */
 
 
-var x = [];
-x[0] = 'x';
-x[1] = 'y';
-var defaultvalue = 1;
+/// INDEX //////////////////////////////////////////////////////////////////////
 
 
-Equation.prototype.constructor = Equation;
+/* 
+ * Equation (formula : String)
+ * 
+ * setFormula (formula : String) : void
+ * compute (valVariables : float[]) : float
+ * setParameter (name : String, value : number) : String
+ * getParameter (name : String) : float
+ * getAllParameters () : Object
+ * getNbVariable () : Integer
+ * getListVariables () : String[]
+ * toStringNoParam () : String
+ * toString () : String
+ * check () : boolean
+ */
+
+
+/// CODE ///////////////////////////////////////////////////////////////////////
+
+
 
 /**
- * @classDesc Class representing a equation using a formula (String). From this
+ * @classdesc Class representing a equation using a formula (String). From this
  * formula we get the variables (x or y) and the parameters (anything but x or
  * y and mathematical objects).
  */
+Equation.prototype.constructor = Equation;
+
+
+/**
+ * {Array} TODO
+ */
+var x = [];
+x[0] = 'x';
+x[1] = 'y';
+
+
+/**
+ * {Number} The default value of an unknowing parameter.
+ */
+var defaultvalue = 1;
+
+
+
+//##############################################################################
+//	Constructor
+//##############################################################################
+
 
 
 /**
  * @constructor
- * @param {String} formula - formula of the equation
  * Creates a formula from the string. Every x or y in the formula will be added
  * to the list of variables, and any other string not recognized as a operator
  * will be added to the list of parameters.
  * If the formula is not parsable, the equation is created with no formula, list
  * of parameters or list of variables.
+ * 
+ * @param {String} formula - formula of the equation
  */
-function Equation(formula) {
+function Equation (formula) {
 	this.listVariables = [];
 	this.listParameters = [];
 	try {
@@ -103,18 +144,21 @@ function Equation(formula) {
 			console.log(this.getString());
 		}
 	}
-}
+};
 
 
 //==============================================================================
 /**
- * @param {String} formula - new formula of the equation
- * @throws {String} the name of the error from math.parse.
  * Creates a formula from the string. The object is completly reset. Every x or
  * y in the formula will be added to the list of variables, and any other
  * string not recognized as a operator will be added to the list of parameters.
  * If the formula is not parsable, the formula, list of parameters and list of
  * variables will be set to undefined.
+ * 
+ * @param {String} formula - New formula of the equation.
+ *
+ * @return {void}
+ * @throws {String} The name of the error from math.parse.
  */
 Equation.prototype.setFormula = function(formula) {
 	this.listVariables = [];
@@ -149,19 +193,20 @@ Equation.prototype.setFormula = function(formula) {
 		});
 		this.preparedFormula = this.formulaTree.compile();
 	}
-}
+};
 
 
 //==============================================================================
 /**
  * @param {float[]} valVariables - value of the variables. Length must be equal
  * to the number of variables in the formula. The values must be finite numbers
+ *
+ * @return {float} The value of the formula for the given parameters and
+ * variables.
  * @throws {String} "Equation.compute.ErrorFormulaNotDefined" - a correct
  * formula must be provided before computing
  * @throws {String} "Equation.compute.ErrorNotANumber" - the value is not a
  * number or is not a finite number.
- * @return {float} The value of the formula for the given parameters and
- * variables.
  */
 Equation.prototype.compute = function (valVariables) {
 	if (this.formulaTree === undefined) {
@@ -181,13 +226,15 @@ Equation.prototype.compute = function (valVariables) {
 		scope[i] = this.listParameters[i];
 	}
 	return this.preparedFormula.eval(scope);
-}
+};
 
 
 //==============================================================================
 /**
  * @param {String} name - name of a parameter existing in the formula
  * @param {Number} value - new value of the parameter
+ *
+ * @return {void}
  * @throws {String} "Equation.setParameter.ErrorNotExistingParameter" - the
  * parameter does not exist
  * @throws {String} "Equation.setParameter.ErrorNotANumber" - the value is not a
@@ -207,14 +254,16 @@ Equation.prototype.setParameter = function(name, value) {
 //==============================================================================
 /**
  * @param {String} name - name of a parameter existing in the formula
+ *
+ * @return {float} value of the parameter
  * @throws {String} "Equation.getParameter.ErrorNotExistingParameter" - the
  * parameter does not exist
- * @return {float} value of the parameter
  */
 Equation.prototype.getParameter = function (name) {
-	if(this.listParameters[name] === undefined) {
+	if (this.listParameters[name] === undefined) {
 		throw "Equation.getParameter.ErrorNotExistingParameter";
-	} else {
+	}
+	else {
 		return this.listParameters[name];
 	}
 };
@@ -225,16 +274,16 @@ Equation.prototype.getParameter = function (name) {
  * @return {Object} an array of float (values) indexed by strings (names of
  * parameters).
  */
-Equation.prototype.getAllParameters = function() {	
+Equation.prototype.getAllParameters = function () {	
 	return this.listParameters;
 };
 
 
 //==============================================================================
 /**
- * @return {Integer} Nombre of variables
+ * @return {Integer} Number of variables
  */
-Equation.prototype.getNbVariable = function() {
+Equation.prototype.getNbVariable = function () {
 	return this.listVariables.length;
 };
 
@@ -244,7 +293,7 @@ Equation.prototype.getNbVariable = function() {
  * @return {String[]} an array containing every variable (x or y) present in the
  * formula
  */
-Equation.prototype.getListVariables = function() {
+Equation.prototype.getListVariables = function () {
 	return this.listVariables;
 };
 
@@ -277,6 +326,13 @@ Equation.prototype.toString = function() {
 
 
 //==============================================================================
-Equation.prototype.check = function (){
+/**
+ * Verify if the equation possess a formulaTree.
+ * 
+ * @return True if the formulaTree is defined, false otherwise.
+ */
+Equation.prototype.check = function () {
 	return this.formulaTree != undefined;
-}
+};
+
+

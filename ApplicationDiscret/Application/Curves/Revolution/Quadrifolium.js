@@ -12,7 +12,7 @@
 
 /**
  * @extends ImplicitCurve
- * @classdesc TODO
+ * @classdesc Predefined curve
  */
 Quadrifolium.prototype = new ImplicitCurve;
 Quadrifolium.prototype.constructor = Quadrifolium;
@@ -27,11 +27,9 @@ Quadrifolium.prototype.constructor = Quadrifolium;
 
 /**
  * @constructor
- * TODO desc
  */
 function Quadrifolium () {
-	//((2*x^2 + 2*y^2)^3 - 48*x^2*y^2);
 	var equation = new Equation ("((2 x^2 + 2 y^2)^3 - 48 x^2 y^2)");
 
 	ImplicitCurve.call(this, equation);
-}
+};

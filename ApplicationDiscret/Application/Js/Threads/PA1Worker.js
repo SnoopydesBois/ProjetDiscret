@@ -28,13 +28,34 @@ importScripts("../Objects/DrawnCurve.js");
 
 
 
-/* TODO c'est quoi ces variables, pourquoi elles sont globales ?
+/*
+ * Impossible de faire une classe pour un worker donc toutes les variables 
+ * suivantes sont globales
  */
+ 
+/**
+ * {int} id - The id of the worker.
+ */ 
 var id;
+/**
+ * {Vector} dimension - The dimensions of the 3D space.
+ */
 var dimension;
+/**
+ * {Equation} implicit_curve - The equation for the directrix.
+ */
 var implicit_curve;
+/**
+ * {ParametricCurve} parametric_curve - The curve for the generatrix.
+ */
 var parametric_curve;
+/**
+ * {Int} tMin - The minimum value of t this worker has to work with.
+ */
 var tMin;
+/**
+ * {Int} tMax - The maximum value of t this worker has to work with.
+ */
 var tMax;
 
 
@@ -74,7 +95,7 @@ function algo () {
 		if(bufferSize !=0)
 			postMessage([buffer, bufferSize]);
 	} // end for z
-}
+};
 
 
 //==============================================================================
@@ -103,6 +124,6 @@ onmessage = function (e) {
 	}
 	algo();
 	postMessage(["Terminate", id]);
-}
+};
 
 

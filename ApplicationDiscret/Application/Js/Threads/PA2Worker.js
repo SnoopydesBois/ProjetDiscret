@@ -28,16 +28,38 @@ importScripts("../Objects/DrawnCurve.js");
 
 
 
-/* TODO c'est quoi ces variables, pourquoi elles sont globales ?
+/*
+ * Impossible de faire une classe pour un worker donc toutes les variables 
+ * suivantes sont globales
  */
-var dimension;
+
+/**
+ * {Equation} implicit_curve - the equation for the directrix
+ */
 var implicit_curve;
-var parametric_curve;
+/**
+ * {Equation} explicit_curve - the equation for the generatrix
+ */
+var explicit_curve;
+/**
+ * {boolean[x][y][z]} implicit_curve - the equation for the directrix
+ */
 var checked = [];
+/**
+ * {int} dimx - the size for x dimension
+ */
 var dimx;
+/**
+ * {int} dimy - the size for x dimension
+ */
 var dimy;
-var dimt;
-var values;
+/**
+ * {int} dimz - the size for x dimension
+ */
+var dimz;
+/**
+ * {float[n][3]} pile - the pile of voxels to check
+ */
 var pile = [];
 
 
@@ -110,7 +132,7 @@ function algo () {
 	}
 	//post last buffer
 	postMessage([buffer, bufferSize,"Terminate"]);
-}
+};
 
 
 function init(e) {
@@ -118,7 +140,7 @@ function init(e) {
 	parametric_curve.xList = e.data[0][0];
 	parametric_curve.yList = e.data[0][1];
 	implicit_curve = new Equation (e.data[1]);
-	dimension = new Vector(e.data[2]);
+	var dimension = new Vector(e.data[2]);
 	dimx = dimension.x;
 	dimy = dimension.y;
 	dimt = parametric_curve.getMaxT();
@@ -140,7 +162,7 @@ function init(e) {
 		postMessage([[], 0,"Abort"]);
 		postMessage([[], 0,"Terminate"]);
 	}
-}
+};
 
 //==============================================================================
 /**
@@ -162,6 +184,6 @@ onmessage = function (e) {
 	else if(e.data[0] === "pile"){
 		pile = e.data[1];
 	}
-}
+};
 
 

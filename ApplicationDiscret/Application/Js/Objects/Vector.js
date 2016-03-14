@@ -51,7 +51,9 @@
  * Vector ()
  * defaultConstructor () : Vector
  * copyConstructor (that : Vector) : Vector
+ * arrayToVectorConstructor (tab : Vector) : Vector
  * coordinateConstructor (x : int, y : int, z : int) : Vector
+ * getLength () : Number
  * X () : Element
  * Y () : Element
  * Z () : Element
@@ -67,6 +69,9 @@
  * rotateZ (rad : float) : Vector
  * getGLVector () : Array
  * toString () : String
+ * isNul () : boolean
+ * equals (that : Vector) : boolean
+ * addVector (a : Vector | Number[3] | Number, b : Vector | Number[3] | Number) : Vector
  */
 
 
@@ -165,7 +170,7 @@ function Vector () {
 		console.error (e);
 	}
 //	return this;
-}
+};
 
 
 //==============================================================================
@@ -189,6 +194,7 @@ Vector.prototype.defaultConstructor = function () {
  * @param {Vector} that - The vector to copy.
  *
  * @return {Vector} A vector initialized with the value from 'that'.
+ * @throw {String} The parameter is not of type Vector
  */
 Vector.prototype.copyConstructor = function (that) {
 	if (!(that instanceof Vector)) {
@@ -203,11 +209,12 @@ Vector.prototype.copyConstructor = function (that) {
 
 //==============================================================================
 /**
- * Transform an array to a Vector.
+ * Transforms an array to a Vector.
  *
  * @param {Vector} tab - The vector to copy.
  *
  * @return {Vector} A vector initialized with the value from 'that'.
+ * @throw {String} The array does not have a length of 3
  */
 Vector.prototype.arrayToVectorConstructor = function (tab) {
 	if (tab.length != 3) {
@@ -249,7 +256,7 @@ Vector.prototype.coordinateConstructor = function (x, y, z) {
 
 
 /**
- * @return {Number} The euclian length of the vector.
+ * @return {Number} The euclidean length of the vector.
  */
 Vector.prototype.getLength = function () {
 	return Math.sqrt (
@@ -475,7 +482,7 @@ Vector.prototype.toString = function () {
 
 //==============================================================================
 /**
- * Test if the vector is nul.
+ * Tests if the vector is nul.
  *
  * @return {boolean} True if each coordinate is nul, false otherwise.
  */
@@ -486,13 +493,13 @@ Vector.prototype.isNul = function () {
 
 //==============================================================================
 /**
- * Test if the vector is equals to an other.
+ * Tests if the vector is equals to an other.
  *
  * @param {Vector} that - An other vector.
  * 
  * @return {boolean} True if 'that' equals to this for each coordinate, false
  * otherwise.
- * @throws {String} If the 'that' is not a Vector.
+ * @throws {String} The parameter is not of type Vector
  */
 Vector.prototype.equals = function (that) {
 	if (! that instanceof Vector) {
@@ -511,7 +518,7 @@ Vector.prototype.equals = function (that) {
 
 
 /**
- * Return the addition of two vector.
+ * Returns the addition of two vector.
  *
  * @param {(Vector | Number[3] | Number)} a - A vector or coordinates to
  * construct a vector.
@@ -520,6 +527,7 @@ Vector.prototype.equals = function (that) {
  * @see {@link copyConstructor, arrayToVectorConstructor, coordinateConstructor}
  *
  * @return {Vector} A new vector corresponding to "a + b"
+ * @throw {String} The parameters are not of expected types.
  */
 function addVector (a, b) {
 	if (! checkType (arguments, [Vector, Array, "number"],
@@ -530,4 +538,4 @@ function addVector (a, b) {
 	var va = new Vector (a);
 	var vb = new Vector (b);
 	return va.add (vb);
-}
+};

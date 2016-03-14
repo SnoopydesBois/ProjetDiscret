@@ -46,31 +46,31 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* name : String
- * matrix : Matrix
- * shader : Shader
- * isDisplayable : bool
- *
+/*
  * constructor (name : String, shader : Shader)
- *
+ * getModelController () : Controller
+ * setModelController (newController : Controller) : void
  * getName () : String
  * setName (aName : String) : void
  * getMatrix () : Matrix
  * setMatrix (aMatrix : Matrix) : void
  * getShader () : Shader
  * setShader (aShader : Shader) : void
- * setDisplay (isDisplayable : bool) : void
  * displayMe () : bool
- * prepare (gl; glContext) : void
- * hoverPrepare (gl; glContext) : void
- * draw (gl; glContext, scn : Scene) : void
- * backDraw (gl; glContext, scn : Scene) : void
+ * setDisplay (isDisplayable : bool) : void
+ * isPickable () : boolean
+ * setPickable (isPickable : boolean) : void
+ * isPrepared () : boolean
+ * unprepare () : void
+ * prepare (gl : glContext, connexity : ConnexityEnum) : void
+ * draw (gl : glContext) : void
+ * drawBackBuffer (gl : glContext) : void
  * addAPoint (data : Array, X : float, Y : float, Z : float) : int
  * addAColor (data : Array, R : float, G : float, B : float, A : float) : int
  * addANormal (data : Array, X : float, Y : float, Z : float) : int
  * addATangent (data : Array, X : float, Y : float, Z : float) : int
  * addABitangent (data : Array, X : float, Y : float, Z : float) : int
- * addABitangent (data : Array, U : float, V : float) : int	
+ * addTextureCoordinates (data : Array, U : float, V : float) : int	
  */
 
 
@@ -111,7 +111,7 @@ function GenericStructure (name, shader) {
 	}
 	
 	/**
-	 * {String} Name of object to use.
+	 * {String} Name of the object to use.
 	 */
 	this.structureName = name;
 	
@@ -126,45 +126,44 @@ function GenericStructure (name, shader) {
 	this.shader = shader; 
 	
 	/**
-	 * {boolean} Indicate if the structure is displayable. True by default.
+	 * {boolean} Indicates if the structure is displayable. True by default.
 	 */
 	this.isDisplayable = true;
 	
 	/**
-	 * {boolean} Indicate if the structure is pickable. True by default.
+	 * {boolean} Indicates if the structure is pickable. True by default.
 	 */
 	this.isPickable = true;
 	
 	/**
 	 * {int} Number of needed gl buffer to draw the object. Set by 'prepare'
-	 * method, use by 'prepare' an 'draw' methods.
+	 * method, use by 'prepare' and 'draw' methods.
 	 */
 	this.nbGlBuffer = 0;
 	
 	/**
-	 * {WebGLBuffer[]} Array of gl vertex buffer. Fill by 'prepare' method. The length of
+	 * {WebGLBuffer[]} Array of gl vertex buffer. Filled by 'prepare' method. The length of
 	 * this array is 'this.nbGlBuffer'.
 	 */
 	this.glVertexBuffer = [];
 
 	/**
-	 * {WebGLBuffer[]} Array of gl vertex color buffer for picking. Fill by 'prepare'
+	 * {WebGLBuffer[]} Array of gl vertex color buffer for picking. Filled by 'prepare'
 	 * method. The length of this array is 'this.nbGlBuffer'.
 	 */
 	this.glBackBuffer = [];
 
 	/**
-	 * {WebGLBuffer[]} Array of gl indices buffer. Fill by 'prepare' method. The length
+	 * {WebGLBuffer[]} Array of gl indices buffer. Filled by 'prepare' method. The length
 	 * of this array is 'this.nbGlBuffer'.
 	 */
 	this.glIndiciesBuffer = [];
 	
 	/**
-	 * {boolean} This value indicate if the structure is already prepared or
-	 * not.
+	 * {boolean} This value indicates if the structure is already prepared.
 	 */
 	this.prepared = false;
-}
+};
 
 
 
@@ -184,12 +183,12 @@ GenericStructure.prototype.getModelController = function () {
 
 //==============================================================================
 /**
- * Set the model controller.
+ * Sets the model controller.
  * 
  * @param {Controller} newController - The new model controller.
  * 
  * @return {void}
- * @throws {String} If the given parameter is not a Controller.
+ * @throws {String} The parameter is not of type Controller.
  */
 GenericStructure.prototype.setModelController = function (newController) {
 	if (newController instanceof Controller)
@@ -211,12 +210,12 @@ GenericStructure.prototype.getName = function () {
 
 //==============================================================================
 /**
- * Set name of current structure.
+ * Sets a name to the current structure.
  * 
  * @param {String} aName - The new name of the structure.
  * 
  * @return {void}
- * @throws {String} If the given parameter is not a string.
+ * @throws {String} The parameter is not of type string.
  */
 GenericStructure.prototype.setName = function (aName) {
 	if (typeof aName == "string")
@@ -237,12 +236,12 @@ GenericStructure.prototype.getMatrix = function () {
 
 //==============================================================================
 /**
- * Set the model matrix.
+ * Sets the model matrix.
  * 
  * @param {Matrix} aMatrix - The new matrix for the structure.
  * 
  * @return {void}
- * @throws {String} If the given parameter is not a Matrix.
+ * @throws {String} The parameter is not of type Matrix.
  */
 GenericStructure.prototype.setMatrix = function (aMatrix) {
 	if (aMatrix instanceof Matrix)
@@ -254,7 +253,7 @@ GenericStructure.prototype.setMatrix = function (aMatrix) {
 
 //==============================================================================
 /**
- * @return {Shader} the structure shader.
+ * @return {Shader} The structure shader.
  */
 GenericStructure.prototype.getShader = function () {
 	return this.shader; 
@@ -263,12 +262,12 @@ GenericStructure.prototype.getShader = function () {
 
 //==============================================================================
 /**
- * Set the shader.
+ * Sets the shader.
  * 
  * @param {Shader} aShader - the new shader for the structure.
  * 
  * @return {void}
- * @throws {String} If the given parameter is not a Shader.
+ * @throws {String} The parameter is not of type Shader.
  */
 GenericStructure.prototype.setShader = function (aShader) {
 	if (aShader instanceof Shader)
@@ -280,7 +279,7 @@ GenericStructure.prototype.setShader = function (aShader) {
 
 //==============================================================================
 /**
- * @return {boolean} true if the structure should be displayed, false otherwise.
+ * @return {boolean} True if the structure must be displayed, false otherwise.
  */
 GenericStructure.prototype.displayMe = function () {
 	return this.isDisplayable;
@@ -289,13 +288,13 @@ GenericStructure.prototype.displayMe = function () {
 
 //==============================================================================
 /**
- * Set if the structure should be display.
+ * Sets if the structure must be display.
  * 
- * @param {boolean} isDisplayable - True if the structure should be displayed,
+ * @param {boolean} isDisplayable - True if the structure must be displayed,
  * false otherwise.
  * 
  * @return {void}
- * @throws {String} If the given parameter is not a boolean.
+ * @throws {String} The parameter is not of type boolean.
  */
 GenericStructure.prototype.setDisplay = function (isDisplayable) {
 	if (typeof (isDisplayable) === "boolean")
@@ -316,13 +315,13 @@ GenericStructure.prototype.isPickable = function () {
 
 //==============================================================================
 /**
- * Set if the structure is pickable.
+ * Sets if the structure is pickable.
  * 
  * @param {boolean} isDisplayable - True if the structure is pickable, false
  * otherwise.
  * 
  * @return {void}
- * @throws FIXME compléter
+ * @throws {String} The parameter is not of type boolean.
  */
 GenericStructure.prototype.setPickable = function (isPickable) {
 	if (typeof (isPickable) == "boolean")
@@ -334,7 +333,7 @@ GenericStructure.prototype.setPickable = function (isPickable) {
 
 //==============================================================================
 /**
- * @return {boolean} True if this object is already prepared, false otherwise.
+ * @return {boolean} True if this object is prepared, false otherwise.
  */
 GenericStructure.prototype.isPrepared = function () {
 	return this.prepared;
@@ -343,7 +342,7 @@ GenericStructure.prototype.isPrepared = function () {
 
 //==============================================================================
 /**
- * Set the 'prepared' attribute at false.
+ * Set the 'prepared' attribute to false.
  * 
  * @return {void}
  */
@@ -373,7 +372,7 @@ GenericStructure.prototype.prepare = function (gl, connexity) {};
 //==============================================================================
 /**
  * @abstract
- * Draw an object.
+ * Draws an object.
  * 
  * @param {glContext} gl - The webGl context.
  * 
@@ -385,7 +384,7 @@ GenericStructure.prototype.draw = function (gl) {};
 //==============================================================================
 /**
  * @abstract
- * Draw an objects with differents color to implements the picking.
+ * Draws an object with different colors to implement the picking.
  * 
  * @param {glContext} gl - The webGl context.
  * 
@@ -402,9 +401,9 @@ GenericStructure.prototype.drawBackBuffer = function (gl) {};
 
 
 /**
- * Add a position into an array of data.
+ * Adds a position into an array of data.
  * 
- * @param {Array} data - The array to push position's coordinate into.
+ * @param {Array} data - The array to push position's coordinates into.
  * @param {(float | float[3])} X - The X coordinate (if it is a float value) or
  * all coordinates (if it is an array) of the point.
  * @param {float} [Y] - The Y coordinate of the point. Mandatory if X is a float
@@ -413,7 +412,7 @@ GenericStructure.prototype.drawBackBuffer = function (gl) {};
  * value.
  * 
  * @return {int} 0 if the shader doesn't accept position, 3 otherwise.
- * FIXME expliquer le valeur de retour, les changer si besion
+ * @throw {String} Some parameters are missing.
  */
 GenericStructure.prototype.addAPoint = function (data, X, Y, Z) {
 	if (! this.shader.hasAttribute (AttributeEnum.position)) {
@@ -437,7 +436,7 @@ GenericStructure.prototype.addAPoint = function (data, X, Y, Z) {
 
 //==============================================================================
 /**
- * Add a color into an array of data.
+ * Adds a color into an array of data.
  * 
  * @param {Array} data - The array to push color's component into.
  * @param {(flaot | float[4])} R - The Red value (if it is a float value) or the
@@ -449,8 +448,8 @@ GenericStructure.prototype.addAPoint = function (data, X, Y, Z) {
  * @param {float} [A] - The Alpha value to push into data. Mandatory if R is a
  * float value.
  * 
- * @return {int} 0 if the shader doesn't accept color, 4 otherwise 
- * FIXME expliquer le valeur de retour, les changer si besion
+ * @return {int} 0 if the shader doesn't accept color, 4 otherwise.
+ * @throw {String} Some parameters are missing.
  */
 GenericStructure.prototype.addAColor = function (data, R, G, B, A) {
 	if (! this.shader.hasAttribute (AttributeEnum.color)) {
@@ -473,7 +472,7 @@ GenericStructure.prototype.addAColor = function (data, R, G, B, A) {
 
 //==============================================================================
 /**
- * Add a normal into an array of data.
+ * Adds a normal into an array of data.
  * 
  * @param {Array} data - The array to push normal's coordinate into.
  * @param {(float | float[3])} X - The X coordinate (if it is a float value) or
@@ -484,7 +483,7 @@ GenericStructure.prototype.addAColor = function (data, R, G, B, A) {
  * float value.
  * 
  * @return {int} 0 if the shader doesn't accept normal, 3 otherwise.
- * FIXME expliquer le valeur de retour, les changer si besion
+ * @param {String} Some parameters are missing.
  */
 GenericStructure.prototype.addANormal = function (data, X, Y, Z) {
 	if (! this.shader.hasAttribute (AttributeEnum.normal)) {
@@ -507,7 +506,7 @@ GenericStructure.prototype.addANormal = function (data, X, Y, Z) {
 
 //==============================================================================
 /**
- * Add a tangent into an array of data.
+ * Adds a tangent into an array of data.
  * 
  * @param {Array} data - The array to push tangent's coordinate into.
  * @param {(float | float[3])} X - The X coordinate (if it is a float value) or
@@ -518,7 +517,7 @@ GenericStructure.prototype.addANormal = function (data, X, Y, Z) {
  * float value.
  * 
  * @return {int} 0 if the shader doesn't accept tangent, 3 otherwise.
- * FIXME expliquer le valeur de retour, les changer si besion
+ * @throw {String} Some parameters are missing.
  */
 GenericStructure.prototype.addATangent = function (data, X, Y, Z) {
 	if (! this.shader.hasAttribute (AttributeEnum.tangent)) {
@@ -541,7 +540,7 @@ GenericStructure.prototype.addATangent = function (data, X, Y, Z) {
 
 //==============================================================================
 /**
- * Add a bitangent into an array of data.
+ * Adds a bitangent into an array of data.
  * 
  * @param {Array} data - The array to push bitangent's coordinate into.
  * @param {(float | float[3])} X - The X coordinate (if it is a float value) or
@@ -552,7 +551,7 @@ GenericStructure.prototype.addATangent = function (data, X, Y, Z) {
  * float value.
  * 
  * @return {int} 0 if the shader doesn't accept tangent, 3 otherwise.
- * FIXME expliquer le valeur de retour, les changer si besion
+ * @throw {String} Some parameters are missing.
  */
 GenericStructure.prototype.addABitangent = function (data, X, Y, Z) {
 	if (! this.shader.hasAttribute (AttributeEnum.bitangent)) {
@@ -575,7 +574,7 @@ GenericStructure.prototype.addABitangent = function (data, X, Y, Z) {
 
 //==============================================================================
 /**
- * Add texture coordinates into an array of data.
+ * Adds texture coordinates into an array of data.
  * 
  * @param {Array} data - the array to push texture coordinates into.
  * @param {(float | float[3])} U - The U texture coordinate (if it is a float
@@ -584,7 +583,7 @@ GenericStructure.prototype.addABitangent = function (data, X, Y, Z) {
  * value.
  * 
  * @return {int} 0 if the shader doesn't accept textureCoordinates, 2 otherwise.
- * FIXME expliquer le valeur de retour, les changer si besion
+ * @param {String} Some parameters are missing.
  */
 GenericStructure.prototype.addTextureCoordinates = function (data, U, V) {
 	if (! this.shader.hasAttribute (AttributeEnum.texcoord)) {

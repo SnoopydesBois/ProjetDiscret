@@ -46,14 +46,13 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* origin : Vector
- * size : int
- * frame3D : Frame3D
- *
+/*
  * BoundingBox(name : String, shader : DefaultShader, frame3D : Frame3D)
+ * getDimension () : Vector
+ * setDimension (dimension : Vector | Number[3] | Number) : void
  * prepare(glContext : glContext) : void
- * addVertice(stripVertices : Array, x : int, y : int, z : int) : void
  * draw(glContext : glContext) : void
+ * drawBackBuffer () : void
  */
 
 
@@ -62,7 +61,7 @@
 
 /**
  * @extends GenericStructure
- * @classdesc TODO
+ * @classdesc The 3D area bounding box. It represents the limit of the space.
  */
 BoundingBox.prototype = new GenericStructure;
 BoundingBox.prototype.constructor = BoundingBox;
@@ -77,7 +76,7 @@ BoundingBox.prototype.constructor = BoundingBox;
 
 /**
  * @constructor 
- * Create a bounding box.
+ * Creates a bounding box.
  * 
  * @param {Vector} dimension - The dimensions of the 3D space.
  * @param {WebGLRenderingContext} glContext - The gl context (used by the
@@ -116,13 +115,13 @@ BoundingBox.prototype.getDimension = function () {
 
 //==============================================================================
 /**
- * Set the dimension of the generate surface.
+ * Sets the dimension of the generate surface.
  * 
  * @param {(Vector | Number[3] | Number} dimension - The dimensions of the 3D
  * space (@see {@link Vector}).
  * 
  * @return {void}
- * @throws {String} TODO
+ * @throws {String} The parameters are not of expected type
  */
 BoundingBox.prototype.setDimension = function (dimension) {
 	/// parameter verification 
@@ -130,7 +129,7 @@ BoundingBox.prototype.setDimension = function (dimension) {
 		throw "BoundingBox.setDimension: bad type of parameter";
 	}
 	
-	/// set value
+	/// sets value
 	this.dimension = new Vector (dimension);
 	this.prepared = false;
 };
@@ -208,7 +207,7 @@ BoundingBox.prototype.prepare = function (glContext) {
 		glContext.STATIC_DRAW
 	);
 	
-	/// Finish, tell it
+	/// Finished, tells it
 	this.prepared = true;
 };
 
@@ -258,9 +257,9 @@ BoundingBox.prototype.draw = function (glContext) {
 /**
  * @override
  * 
- * Always throw an error. The box is not pickable.
+ * Always throws an error. The box is not pickable.
  * 
- * @throws {String}
+ * @throws {String} The box is not pickable.
  */
 BoundingBox.prototype.drawBackBuffer = function () {
 	throw "BoundingBox is not pickable !"

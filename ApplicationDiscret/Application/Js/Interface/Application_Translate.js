@@ -60,13 +60,14 @@ Application.prototype.activeIndexLang = 0;
 
 
 /**
- * {String[]} Mnemomic of avaible languages. Used to index all translation.
+ * @static
+ * {String[]} List of available languages. Used to index every translation.
  */
 Application.languages = ['fr', 'en'];
 
 
 /**
- * {String[][]} Matrix of translation. Each translation is indexed by the lang
+ * {String[][]} Matrix of translation. Each translation is indexed by the language
  * (string "en" or "fr") and the id of the element.
  * @see {@link Application.languages}
  */
@@ -334,7 +335,7 @@ aLangKeys['fr']['s43'] = 'Z (bleue)';
 
 /**
  * {String[][]} Matrix of translation for href attribute. Each translation is
- * indexed by the lang (string "en" or "fr") and the id of the element.
+ * indexed by the language (string "en" or "fr") and the id of the element.
  * @see {@link Application.languages}
  */
 var translateHref = [];
@@ -363,7 +364,7 @@ translateHref['en']['verifNavDownload2'] =
 
 
 /**
- * Translate all element (HTMLtext, title and href).
+ * Translates each element (HTMLtext, title and href).
  * 
  * @return {void}
  */

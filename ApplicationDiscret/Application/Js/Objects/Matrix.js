@@ -55,6 +55,8 @@
  * getGLVector () : Array
  * toString () : String
  * createLookAt (eye : Vector, center : Vector, up : Vector) : Matrix
+ * createPerspective (fov : float, ratio : float, near : float, 
+ * 		far : float) : Matrix
  * toNormal () : Matrix
  * Apply (v : Vector) : Vector
  * toConsole () : void
@@ -70,6 +72,10 @@
  * rotateX (angleRad : float) : Matrix
  * rotateY (angleRad : float) : Matrix
  * rotateZ (angleRad : float) : Matrix
+ * rotate (angleRad : float, axe : Vector) : Matrix
+ * getXVector () : Vector
+ * getYVector () : Vector
+ * getZVector () : Vector
  * createOrthographic (left : float, right : float, bottom : float,
  * 		top : float, near : float, far : float) : Matrix
  * shearing (which : int, from : int, value : int) : Matrix
@@ -118,7 +124,7 @@ var MAT_ARRAY_TYPE = (typeof Float32Array == 'undefined') ?
  * 	3 : Creation of a lookAt Matrix for a camera.
  *  4 : Creation of a Perspective Matrix.
  * 	6 : Creation of an Orthogonal Matrix.
- * 	defaut : Error.
+ * 	default : Error.
  * 
  * @return {Matrix} the new Matrix.
  */
@@ -145,7 +151,7 @@ function Matrix () {
 		throw "Bad Matrix constructor call";
 	};
 	return this;
-}
+};
 
 
 
@@ -170,6 +176,7 @@ Matrix.prototype.defaultConstructor = function () {
  * @param {Matrix} that - The matrix to copy.
  * 
  * @return {void}
+ * @throw {String} The parameter is not of type Matrix
  */
 Matrix.prototype.copyConstructor = function (that) {
 	if (that instanceof Matrix) {
@@ -184,13 +191,14 @@ Matrix.prototype.copyConstructor = function (that) {
 
 //==============================================================================
 /**
- * Create a lookAt Matrix.
+ * Creates a lookAt Matrix.
  * 
  * @param {Vector} eye - The eye position.
  * @param {Vector} center - The position where the camera look at.
  * @param {Vector} up - The up vector.
  * 
  * @return {Matrix} The lookAt Matrix.
+ * @throw {String} The parameter are not of expected types
  */
 Matrix.prototype.createLookAt = function (eye, center, up) {
 	if (! checkType (arguments, Vector, Vector, Vector))
@@ -228,17 +236,17 @@ Matrix.prototype.createLookAt = function (eye, center, up) {
 
 //==============================================================================
 /**
- * Create an perspective view matrix.
+ * Creates a perspective view matrix.
  * @see https://developer.mozilla.org/fr/docs/Web/API/WebGL_API/WebGL_model_view_projection
  * 
  * @param {float} fov - Field of view in radian.
  * @param {float} ratio - The aspect ratio of the scene (width divided by
- * height).
+ * the height).
  * @param {float} near - Nearest point of the camera.
  * @param {float} far - Farest point of the camera.
  * 
- * @return {Matrix} An perspective view matrix.
- * @throws {String} If one of parameter is not a number.
+ * @return {Matrix} A perspective view matrix.
+ * @throws {String} One parameter is not of type number.
  */
 Matrix.prototype.createPerspective = function (fov, ratio, near, far) {
 	/// parameters verification
@@ -278,7 +286,7 @@ Matrix.prototype.createPerspective = function (fov, ratio, near, far) {
 
 //==============================================================================
 /**
- * Create an orthographic view matrix.
+ * Creates an orthographic view matrix.
  * 
  * @param {float} left - X coordinate of the minimum corner.
  * @param {float} right - X coordinate of the maximum corner.
@@ -288,6 +296,7 @@ Matrix.prototype.createPerspective = function (fov, ratio, near, far) {
  * @param {float} far - Y coordinate of the maximum corner.
  * 
  * @return {Matrix} An orthographic view matrix.
+ * @throw {String} A parameter is not of type number
  */
 Matrix.prototype.createOrthographic = function (left, right,
 		bottom, top, near, far)
@@ -357,13 +366,14 @@ Matrix.prototype.get = function (i, j) {
 
 //==============================================================================
 /**
- * Set elements in the matrix.
+ * Sets elements in the matrix.
  * 
  * @param {int} i - The line number.
  * @param {int} j - The column number.
  * @param {float} v - The new value.
  * 
  * @return {void}
+ * @trow {String} Out of bound indices
  */
 Matrix.prototype.set = function (i, j, v) {
 	if (i < 0 || i >= 4)
@@ -382,7 +392,7 @@ Matrix.prototype.set = function (i, j, v) {
 
 
 /**
- * Convert deg to rad.
+ * Converts deg to rad.
  * 
  * @param {float} arad - The degrees to convert.
  * 
@@ -423,17 +433,17 @@ Matrix.prototype.toString = function () {
 
 //==============================================================================
 /**
- * Transform a matrix to a normal matrix ...
+ * Transforms a matrix to a normal matrix ...
  * 
  * @return {Matrix} The new matrix.
  */
 Matrix.prototype.toNormal = function () {
-	// set last column to 0
+	// sets last column to 0
 	this.m[3] = this.m[7] = this.m[11] = 0.0;
-	// set last line to 0
+	// sets last line to 0
 	this.m[12] = this.m[13] = this.m[14] = this.m[15] = 0.0;
 	
-	// compute the 3x3 invert, and transpose it ...
+	// computes the 3x3 invert, and transpose it ...
 	var a = this.m[0]; var b = this.m[4]; var c = this.m[8];
 	var d = this.m[1]; var e = this.m[5]; var f = this.m[9];
 	var g = this.m[2]; var h = this.m[6]; var i = this.m[10];
@@ -442,7 +452,7 @@ Matrix.prototype.toNormal = function () {
 			+ d * (c * h - i * b) 
 			+ g * (b * f - e * c)
 		);
-	// compute directly the transpose matrix
+	// computes directly the transpose matrix
 	this.m[0] = (e * i - f * h) * invDet;
 	this.m[1] = (c * h - b * i) * invDet;
 	this.m[2] = (b * f - c * e) * invDet;
@@ -466,6 +476,7 @@ Matrix.prototype.toNormal = function () {
  * 
  * @return {Vector} A new vector, this vector is the result of the
  * multiplication of the matrix with the parameter (and a coeff).
+ * @throw {String} The parameter is not of type Vector
  */
 Matrix.prototype.apply = function (v) {
 	if (!v instanceof Vector) {
@@ -484,7 +495,7 @@ Matrix.prototype.apply = function (v) {
 
 //==============================================================================
 /**
- * Print the matrix to console.
+ * Prints the matrix to console.
  * 
  * @return {void}
  */
@@ -502,6 +513,8 @@ Matrix.prototype.toConsole = function () {
  * @param {Matrix} that - The matrix to compare with.
  * 
  * @return {Matrix} True if the matrix are equals, false otherwise.
+ * @throw {String} The parameter is not of type Matrix or the comparison 
+ * coefficient is not finite
  */
 Matrix.prototype.equals = function (that) {
 	
@@ -529,6 +542,7 @@ Matrix.prototype.equals = function (that) {
  * @param {Matrix} that - The matrix to add with.
  * 
  * @return {Matrix} The matrix result of the addition.
+ * @throw {String} The parameter is not of type Matrix
  */
 Matrix.prototype.add = function (that) {
 	if (!(that instanceof Matrix)) {
@@ -550,6 +564,7 @@ Matrix.prototype.add = function (that) {
  * @param {Matrix} that - The matrix to multiply with.
  * 
  * @return {Matrix} The matrix result of the multiplication.
+ * @throw {String} The parameter is not of type Matrix
  */
 Matrix.prototype.mul = function (that) {
 	if (!(that instanceof Matrix)) {
@@ -779,13 +794,14 @@ Matrix.prototype.rotate = function (angleRad, axe) {
 
 //==============================================================================
 /**
- * Transform a matrix by modifying the line "which".
+ * Transforms a matrix by modifying the line "which".
  * 
  * @param {int} which - which coordinate is changed
  * @param {int} from - using this one.
  * @param {int} value - multiplication factor.
  * 
  * @return {Matrix} the new matrix.
+ * @throw {String} The parameters are out of wrong value (out of bounds)
  */
 Matrix.prototype.shearing = function (which, from, value) {
 	if (from < 0 || from > 3 || which < 0 || which > 3 || from == which) {

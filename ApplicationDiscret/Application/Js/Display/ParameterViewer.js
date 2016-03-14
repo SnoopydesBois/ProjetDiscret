@@ -62,7 +62,7 @@
 
 /**
  * @extends GenericViewer
- * @classdesc TODO
+ * @classdesc Class used to render the parameters of a curve
  */
 ParameterViewer.prototype.constructor = ParameterViewer;
 
@@ -76,15 +76,15 @@ ParameterViewer.prototype.constructor = ParameterViewer;
 
 /**
  * @constructor
- * Construct a viewer for a parameter list.
+ * Constructs a viewer for a parameter list.
  * 
  * @param {String} idContainer - Id of the associated controller. If the first
- * character is a '#', it is ignored. XXX vérifier anglais
+ * character is a '#', it is ignored.
  */
 function ParameterViewer (idContainer) {
 
 	/**
-	 * {HTMLUlElement} The list which contain the ui parameters.
+	 * {HTMLUlElement} The list which contains the ui parameters.
 	 */
 	this.container = null;
 	if (idContainer.charAt (0) !== '#')
@@ -93,8 +93,8 @@ function ParameterViewer (idContainer) {
 		this.container = $(idContainer);
 
 	/**
-	 * {Controller2D} The associated controller. Use to get all parameter of a
-	 * curve.
+	 * {Controller2D} The associated controller. Used to get all the parameters 
+	 * of a curve.
 	 * @see {@link displayParameter}
 	 */
 	this.controller = null;
@@ -109,7 +109,7 @@ function ParameterViewer (idContainer) {
 
 
 /**
- * @param {Controller2D} controller - The controller the parameterView is going
+ * @param {Controller2D} controller - The controller that the parameterView is going
  * to use.
  *
  * @return {void}
@@ -127,10 +127,10 @@ ParameterViewer.prototype.setController = function (controller) {
 
 
 /**
- * Fill the list parameter (avoid it before). 
+ * Fills the list of parameters (empty if before). 
  *
- * @param {Function} draw - A function to redraw the curve. Use to add an event
- * on the input to redraw the curve when changing. XXX vérifier anglais
+ * @param {Function} draw - A function to redraw the curve. Used to add an event
+ * on the input to redraw the curve when modified.
  * @param {Function} getRange - A function to get the range of a parameter. 
  *
  * @return {void}
