@@ -66,12 +66,20 @@
  *         fov : float,
  *         near : float,
  *         far : float)
+ * getPosition () : Vector
+ * getLookAtPosition () : Vector
+ * getUpDirection () : Vector
  * getViewMatrix () : Matrix
- * getProjectionMatrix () : Matrix
+ * getPerspectiveProjectionMatrix () : Matrix
+ * getOrthographicProjectionMatrix () : Matrix
  * setFov (aFov : float) : void
- * setProjection (nb : float) : void
  * getProjection () : float
+ * setProjection (nb : float) : void
  * computeMatrices () : void
+ * zoom (factor : Number) : void
+ * zoomIn () : void
+ * zoomOut () : void
+ * toConsole () : void
  */
 
 
@@ -80,7 +88,7 @@
 
 
 /**
- * @classdesc TODO
+ * @classdesc Camera of a 3D scene
  */
 Camera.prototype.constructor = Camera;
 
@@ -142,27 +150,27 @@ function Camera (eyePos, centerPos, up, width, height, fov, near, far) {
 	this.near = near || 0.1;
 
 	/**
-	 * {float} Farest point of the camera.
+	 * {float} Farthest point of the camera.
 	 */
 	this.far = far || 1000.0;
 
 	/**
-	 * {Matrix} TODO
+	 * {Matrix} View matrix
 	 */
 	this.viewMatrix = null;
 
 	/**
-	 * {Matrix} TODO
+	 * {Matrix} Perspective projection matrix
 	 */
 	this.perspectiveProjectionMatrix = null;
 
 	/**
-	 * {Matrix} TODO
+	 * {Matrix} orthographic projection matrix
 	 */
 	this.orthographicProjectionMatrix = null;
 
 	/**
-	 * {float} Allow to modify the zoom.
+	 * {float} Allows to modify the zoom.
 	 */
 	this.constProjection = 2.5;
 
@@ -187,7 +195,7 @@ Camera.prototype.getPosition = function () {
 
 //==============================================================================
 /**
- * @return {Vector} The look at position of the camera.
+ * @return {Vector} The lookAt position of the camera.
  */
 Camera.prototype.getLookAtPosition = function () {
 	return this.centerPos;
@@ -205,7 +213,7 @@ Camera.prototype.getUpDirection = function () {
 
 //==============================================================================
 /**
- * Get view matrix.
+ * Gets view matrix.
  *
  * @return {Matrix} The view matrix.
  */
@@ -234,11 +242,12 @@ Camera.prototype.getOrthographicProjectionMatrix = function () {
 
 //==============================================================================
 /**
- * Set current field of view.
+ * Sets current field of view.
  *
  * @param {float} aFov - The new field of view.
  *
  * @return {void}
+ * @throw {String} The parameter is not of type Number.
  */
 Camera.prototype.setFov = function (aFov) {
 	if (typeof aFov == "number") {
@@ -261,7 +270,7 @@ Camera.prototype.getProjection = function () {
 
 //==============================================================================
 /**
- * Set the orthographic zoom.
+ * Sets the orthographic zoom.
  *
  * @param {float} [nb] - Zoom.
  *
@@ -287,7 +296,7 @@ Camera.prototype.setProjection = function (nb) {
 
 
 /**
- * Compute view and projections matrices.
+ * Computes view and projections matrices.
  *
  * @return {void}
  */

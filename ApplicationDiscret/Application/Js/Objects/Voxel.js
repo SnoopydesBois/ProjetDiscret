@@ -46,17 +46,16 @@
 /// INDEX //////////////////////////////////////////////////////////////////////
 
 
-/* position : Vector
- * faces : boolean[]
- *
- * constructor (pos : Vector)
- *
+/* 
+ * Voxel (pos : Vector)
  * hasFacet (dir : DirectionEnum) : boolean
  * getPosition () : Vector
- * addFacet (dir : DirectionEnum) : void
- * removeFacet (dir : DirectionEnum) : void
- * isVisible () : boolean
- * getNbVisibleFace () : int
+ * getConnexity () : ConnexityEnum
+ * isVisible (connexity : ConnexityEnum) : boolean
+ * isHidden (connexity : ConnexityEnum) : boolean
+ * hasFacet (dir : DirectionEnum, connexity : ConnexityEnum) : boolean
+ * addFacetConnexity (dir : DirectionEnum, connexity : ConnexityEnum) : void
+ * removeFacetConnexity (dir : DirectionEnum, connexity : ConnexityEnum) : void
  */
 
 
@@ -65,7 +64,9 @@
 
 
 /**
- * @classdesc TODO
+ * @classdesc Represent a voxel from the surface with its position and 
+ * its connexity. It also store the state of its neighbours and compute 
+ * if it is visible.
  */
 Voxel.prototype.constructor = Voxel;
 
@@ -90,12 +91,12 @@ function Voxel (pos, connexity) {
 	}
 
 	/**
-	 * {Vector} The position.
+	 * {Vector} The voxel's position.
 	 */
 	this.position = pos;
 
 	/**
-	 * {ConnexityEnum[]} List of connexity of neightbor.
+	 * {ConnexityEnum[]} List of connexity of neighbours.
 	 */
 	this.faces = [];
 	for (var i = 0; i < DirectionEnum.size; ++i) {
@@ -103,20 +104,20 @@ function Voxel (pos, connexity) {
 	}
 
 	/**
-	 * {boolean} List of visible neightbor.
+	 * {boolean} List of visible neighbours.
 	 */
 	this.neighborVisibility = [];
 	for (var i = 0; i < DirectionEnum.size; ++i) {
-		this.faces.push (true);
+		this.neighborVisibility.push (true);
 	}
 
 	/**
-	 * {ConnexityEnum} TODO
+	 * {ConnexityEnum} The current connexity of the voxel
 	 */
 	this.connexity = connexity;
 
 	/**
-	 * {boolean} True if the voxel is visible. Use for the multi-slice.
+	 * {boolean} True if the voxel is visible. Used for the multi-slice.
 	 */
 	this.visibility = true;
 };
@@ -130,7 +131,7 @@ function Voxel (pos, connexity) {
 
 
 /**
- * @return {Vector} The position of the Voxel.
+ * @return {Vector} The position of the voxel.
  */
 Voxel.prototype.getPosition = function () {
 	return this.position;
@@ -139,7 +140,7 @@ Voxel.prototype.getPosition = function () {
 
 //==============================================================================
 /**
- * @return {ConnexityEnum} The connexity for which the voxel should be visible.
+ * @return {ConnexityEnum} The connexity for which the voxel should be displayed.
  */
 Voxel.prototype.getConnexity = function () {
 	return this.connexity;
@@ -148,16 +149,16 @@ Voxel.prototype.getConnexity = function () {
 
 //==============================================================================
 /**
- * TODO
+ * Tests if a the voxel is visible in the connexity passed in parameter
  *
- * @param {ConnexityEnum} connexity - The global connexity.
+ * @param {ConnexityEnum} connexity - The connexity to test.
  *
  * @return {boolean} True if the voxel is visible, false otherwise.
  */
 Voxel.prototype.isVisible = function (connexity) {
 	/* A voxel is visible if:
 	 * - visibility attribute it true
-	 * - the curent connexity contain this voxel
+	 * - the current connexity contains this voxel
 	 */
 	return this.visibility && (this.connexity & connexity);
 };
@@ -165,15 +166,16 @@ Voxel.prototype.isVisible = function (connexity) {
 
 //==============================================================================
 /**
- * TODO
+ * Tests if the voxel is visible in the specified connexity.
  *
- * @param {ConnexityEnum} connexity - The global connexity.
+ * @param {ConnexityEnum} connexity - The connexity to test.
  *
  * @return {boolean} True if the voxel is visible, false otherwise.
  */
 Voxel.prototype.isHidden = function (connexity) {
-	/* A voxel is hidden by its neightbor if at one or more facet are visible
-	 * (i.e. if one of its neightbor don't have the current connexity)
+	/* A voxel is hidden by its neighbour if at least one or more facets 
+	 * are visible
+	 * (i.e. if one of its neighbour doesn't have the current connexity)
 	 */
 	var oneFacetVisible = false;
 	for (var i = 0; (!oneFacetVisible) && i < DirectionEnum.size; ++i) {
@@ -186,7 +188,7 @@ Voxel.prototype.isHidden = function (connexity) {
 
 //==============================================================================
 /**
- * Test if a facet exist.
+ * Tests if a facet exist.
  *
  * @param {DirectionEnum} dir - Direction of the face.
  * @param {ConnexityEnum} connexity - The connexity.
@@ -208,13 +210,13 @@ Voxel.prototype.hasFacet = function (dir, connexity) {
 
 //==============================================================================
 /**
- * TODO
+ * Add the neighbour's connexity to the face.
  *
  * @param {DirectionEnum} dir - Direction of the face.
- * @param {ConnexityEnum} connexity - TODO
+ * @param {ConnexityEnum} connexity - The neighbour's connexity.
  *
- * @throws {String} TODO
  * @return {void}
+ * @throws {String} The parameters are not of expected type.
  */
 Voxel.prototype.addFacetConnexity = function (dir, connexity) {
 	if (! checkType (arguments, "number", "number")) {
@@ -227,13 +229,13 @@ Voxel.prototype.addFacetConnexity = function (dir, connexity) {
 
 //==============================================================================
 /**
- * TODO
+ * Remove the neighbour's connexity to the face.
  *
  * @param {DirectionEnum} dir - Direction of the face.
- * @param {ConnexityEnum} connexity - TODO
+ * @param {ConnexityEnum} connexity - The neighbour's connexity.
  *
- * @throws {String} TODO
  * @return {void}
+ * @throws {String} The parameters are not of expected type.
  */
 Voxel.prototype.removeFacetConnexity = function (dir, connexity) {
 	if (! checkType (arguments, "number", "number")) {

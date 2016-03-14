@@ -47,7 +47,12 @@
 
 
 /* 
- * TODO
+ * Curve ()
+ * computePoints (ranX, ranY)
+ * setParameter (parameter, value)
+ * getAllParameters ()
+ * getParameter (name)
+ * getParametersRange (name)
  */
 
 
@@ -56,7 +61,8 @@
 
 
 /**
- * @classdesc TODO
+ * @classdesc A curve used in the 2D space. Can be a generatrix or a directrix.
+ * Abstract class, the curves used must inherit from this class.
  */
 Curve.prototype.constructor = Curve;
 
@@ -79,7 +85,7 @@ function Curve () {}
 
 
 /**
- * TODO
+ * @abstract
  */
 Curve.prototype.computePoints = function (ranX, ranY) {
 	throw "Curve.computePoints.ErrorNotImplementedInAbstractClass";
@@ -88,10 +94,7 @@ Curve.prototype.computePoints = function (ranX, ranY) {
 
 //==============================================================================
 /**
- * @param {String} parameter - The parameter to modify.
- * @param {Number} value - The value to set.
- * 
- * @return {void}
+ * @abstract
  */
 Curve.prototype.setParameter = function (parameter, value) {
 	throw "Curve.setParameter.ErrorNotImplementedInAbstractClass";
@@ -100,10 +103,7 @@ Curve.prototype.setParameter = function (parameter, value) {
 
 //==============================================================================
 /**
- * Return all the parameters of a curve.
- * 
- * @return {Map<String, Number>} A map composed of the name of a parameter
- * (the key) and its value (the value).
+ * @abstract
  */
 Curve.prototype.getAllParameters = function () {
 	throw "Curve.setParameter.ErrorNotImplementedInAbstractClass";
@@ -112,7 +112,7 @@ Curve.prototype.getAllParameters = function () {
 
 //==============================================================================
 /**
- * TODO
+ * @abstract
  */
 Curve.prototype.getParameter = function (name) {
 	throw "Curve.setParameter.ErrorNotImplementedInAbstractClass";
@@ -121,7 +121,7 @@ Curve.prototype.getParameter = function (name) {
 
 //==============================================================================
 /**
- * TODO
+ * @abstract
  */
 Curve.prototype.getParametersRange = function (name) {
 	throw "Curve.getParametersRange.ErrorNotImplementedInAbstractClass";

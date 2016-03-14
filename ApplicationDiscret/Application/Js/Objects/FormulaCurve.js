@@ -159,7 +159,10 @@ FormulaCurve.prototype.computeStep = function (ranX, ranY) {
 
 //==============================================================================
 /**
- * @inheritdoc
+ * @param {String} parameter - The parameter to modify.
+ * @param {Number} value - The value to set.
+ * 
+ * @return {void}
  */
 FormulaCurve.prototype.setParameter = function (parameter, value) {
 	this.equation.setParameter (parameter, value);
@@ -168,7 +171,10 @@ FormulaCurve.prototype.setParameter = function (parameter, value) {
 
 //==============================================================================
 /**
- * @inheritdoc
+ * Return all the parameters of a curve.
+ * 
+ * @return {Map<String, Number>} A map composed of the name of a parameter
+ * (the key) and its value (the value).
  */
 FormulaCurve.prototype.getAllParameters = function () {
 	return this.equation.getAllParameters ();

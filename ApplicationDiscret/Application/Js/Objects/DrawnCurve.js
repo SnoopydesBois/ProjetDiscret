@@ -47,7 +47,16 @@
 
 
 /*
- * TODO
+ * DrawnCurve ()
+ * getMaxT () : int
+ * getXList () : Number[]
+ * getYList () : Number[]
+ * getX (t : Number) : Number
+ * getY (t : Number) : Number
+ * addPoint (x : Number, y : Number) : void
+ * setParameter () : void
+ * getAllParameters () : void
+ * interpol (t : float, tab : Point[]) : float
  */
 
 
@@ -57,7 +66,7 @@
 
 /**
  * @extends Curve
- * @classdesc TODO
+ * @classdesc A 2D curve drawn by the user
  */
 DrawnCurve.prototype = new Curve;
 DrawnCurve.prototype.constructor = DrawnCurve;
@@ -72,19 +81,18 @@ DrawnCurve.prototype.constructor = DrawnCurve;
 
 /**
  * @constructor
- * TODO
  */
 function DrawnCurve () {
 	
 	Curve.call (this);
 	
 	/**
-	 * {Number[]} X coordinate point list.
+	 * {Number[]} X coordinate points list.
 	 */
 	this.xList = [];
 
 	/**
-	 * {Number[]} Y coordinate point list.
+	 * {Number[]} Y coordinate points list.
 	 */
 	this.yList = [];
 };
@@ -126,12 +134,13 @@ DrawnCurve.prototype.getYList = function () {
 
 //==============================================================================
 /**
- * Get "x" value at "t". If "t" is a float, return the linear interpolation
+ * Gets "x" value at "t". If "t" is a float, returns the linear interpolation
  * between "floor(t)" and "ceil(t)".
  *
  * @param {Number} t - A value.
  *
  * @return {Number} The "x" coordinate at "t".
+ * @throw {String} The parameter is not a Number or is not a Finite value.
  */
 DrawnCurve.prototype.getX = function (t) {
 	/// parameter verification
@@ -149,12 +158,13 @@ DrawnCurve.prototype.getX = function (t) {
 
 //==============================================================================
 /**
- * Get "y" value at "t". If "t" is a float, return the linear interpolation
+ * Gets "y" value at "t". If "t" is a float, returns the linear interpolation
  * between "floor(t)" and "ceil(t)".
  *
  * @param {Number} t - A value.
  *
  * @return {Number} The "y" coordinate at "t".
+ * @throw {String} The parameter is not a Number or is not a Finite value.
  */
 DrawnCurve.prototype.getY = function (t) {
 	/// parameter verification
@@ -178,8 +188,8 @@ DrawnCurve.prototype.getY = function (t) {
 
 
 /**
- * Add a point to the curve. If the distance between the last point and the new
- * point is too big (chebichev distance), add interpoled point before the new
+ * Adds a point to the curve. If the distance between the last point and the new
+ * point is too big (chebichev distance), adds interpolated point before the new
  * point.
  *
  * @param {Number} x - X coordinate of the new point.
@@ -222,16 +232,27 @@ DrawnCurve.prototype.addPoint = function (x, y) {
 /**
  * @override
  *
- * Always throw an exception. A drawn curve doesn't have any parameter.
+ * Always throws an exception. A drawn curve doesn't have any parameter.
  *
  * @return {void}
- * @throws {String}
+ * @throws {String} No parameters
  */
 DrawnCurve.prototype.setParameter = function () {
 	throw "DrawnCurve.setParameter.ErrorCannotModifyParameterOnDrawnCurve";
 };
 
 
+/**
+ * @override
+ *
+ * Always throws an exception. A drawn curve doesn't have any parameter.
+ *
+ * @return {void}
+ * @throws {String} No parameters
+ */
+DrawnCurve.prototype.getAllParameters = function () {
+	throw "DrawnCurve.getAllParameters.ErrorNoParametersOnDrawnCurve";
+};
 
 //##############################################################################
 //	Function
@@ -239,7 +260,10 @@ DrawnCurve.prototype.setParameter = function () {
 
 
 /**
- * TODO
+ * @param {float} t - The x coordinate of the point to interpolate.
+ * @param {Point[]} tab - list of the curve's points.
+ *
+ * @return {float} The y coordinate of the interpolated point
  */
 function interpol (t, tab) {
 	if (t <= 0) {
