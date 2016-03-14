@@ -11,6 +11,19 @@
 
 
 /* 
+ * Range (min : Number , max : Number)
+ * getMin () : Number | undefined
+ * setMin (min : Number) : void
+ * getMax () : Number | undefined
+ * setMax (max : Number) : void
+ * setMinMax (min : Number, max : Number) : void
+ * getIncludeMin () : Number
+ * setIncludeMin (include : boolean) : void
+ * getIncludeMax () : Number
+ * setIncludeMax (include : boolean) : void
+ * isIn (value : Number) : boolean
+ * length () : Number
+ * toString () : String
  */
 
 
@@ -177,6 +190,8 @@ Range.prototype.getIncludeMin = function () {
 /**
  * @param {boolean} include - Whether the minimum should be included in the
  * range.
+ * 
+ * @return {void}
  * @throws {String} "Range.setIncludeMin.ErrorNotABoolean" - The include should
  * be a boolean.
  */
@@ -202,6 +217,8 @@ Range.prototype.getIncludeMax = function () {
 /**
  * @param {boolean} include - Whether the maximum should be included in the
  * range.
+ *
+ * @return {void}
  * @throws {String} "Range.setIncludeMax.ErrorNotABoolean" - the include should
  * be a boolean.
  */

@@ -47,10 +47,13 @@
 
 
 /*
- * Repere(name : String, shader : DefaultShader, frame3D : Frame3D)
- * prepare(glContext : glContext) : void
- * addVertice(stripVertices : Array, x : int, y : int, z : int) : void
- * draw(glContext : glContext) : void
+ * Repere(glContext : WebGLRenderingContext)
+ * getDimension () : Vector
+ * getMatrix (camera : Camera) : Matrix
+ * prepare (glContext : WebGLRenderingContext) : void
+ * draw (glContext : WebGLRenderingContext) : void
+ * drawBackBuffer () : void
+ * unprepare () : void
  */
 
 
@@ -60,8 +63,8 @@
 
 /**
  * @extends GenericStructure
- * @classdesc A 3D object represent each axis an their direction at each render
- * frame. It is always display at the bottom-left corner of the camera.
+ * @classdesc A 3D object representing each axis and their direction for each rendered
+ * frame. It is always displayed at the bottom-left corner of the camera.
  * @see Repere.getMatrix
  */
 Repere.prototype = new GenericStructure;
@@ -77,7 +80,6 @@ Repere.prototype.constructor = Repere;
 
 /**
  * @constructor
- * TODO
  *
  * @param {WebGLRenderingContext} glContext - The gl context (used by the
  * shader).
@@ -119,13 +121,13 @@ Repere.prototype.getDimension = function () {
 //==============================================================================
 /**
  * @override
- * Compute and get the model matrix. The repere is translate to the image
+ * Computes and gets the model matrix. The repere is translated to the image
  * bottom-left corner to the given camera.
  *
  * @param {Camera} camera - The active camera.
  *
  * @return {Matrix} The model matrix.
- * @throws {String} If the provided parameter is not a Camera.
+ * @throws {String} The provided parameter is not of type Camera.
  */
 Repere.prototype.getMatrix = function (camera) {
 	/// parameter verification
@@ -168,12 +170,13 @@ Repere.prototype.getMatrix = function (camera) {
 /**
  * @override
  *
- *
  * @param {WebGLRenderingContext} glContext - The gl context.
+ * 
+ * @return {void}
  */
 Repere.prototype.prepare = function (glContext) {
 	/// Vertex and color buffers
-	var vertexBuffer = [ // the vertex of the box which serve as repere
+	var vertexBuffer = [ // the vertex of the box which serves as repere
 		// X axis
 		[0.1,  0.0   ,  0.095 ],
 		[0.7,  0.0   ,  0.095 ],
@@ -201,7 +204,7 @@ Repere.prototype.prepare = function (glContext) {
 	];
 
 	var vertexBufferLength = vertexBuffer.length; // 8
-	// Color of each vertices, lines are white
+	// Color of each vertex, lines are white
 
 
 	/// Vertex Buffer
@@ -261,10 +264,10 @@ Repere.prototype.draw = function (glContext) {
 /**
  * @override
  *
- * Always throw an error. The repere is not pickable.
+ * Always throws an error. The repere is not pickable.
  *
  * @return {void}
- * @throws {String}
+ * @throws {String} The repere is not pickable.
  */
 Repere.prototype.drawBackBuffer = function () {
 	throw "Repere is not pickable !"
