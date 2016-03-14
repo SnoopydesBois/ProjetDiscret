@@ -153,27 +153,10 @@
 				developped a new algorithm to model discrete surfaces of revolution.
 			\item Display the result with Mathematica
 		\end{itemize}
-	
-		\begin{columns}
-			\begin{column}{2cm}
-				\begin{figure}
-					\includegraphics[height=2cm]{Images/generatrix.png} \\
-					\includegraphics[height=2cm]{Images/directrix.png} 
-				\end{figure}
-			\end{column}
-			\begin{column}{1cm}
-				$\to$
-			\end{column}
-			\begin{column}{4cm}
-				\begin{figure}
-					\includegraphics[height=4cm]{Images/surface.png}
-					% TODO faire une seule image
-				\end{figure}
-			\end{column}
-		\end{columns}
-%			\begin{figure}
-%				\includegraphics[height=4.7cm]{Images/context.png}
-%			\end{figure}
+		
+		\begin{figure}
+			\includegraphics[height=4.7cm]{Images/context.png}
+		\end{figure}
 	
 		\begin{itemize}
 			\item Need of a tool useable by everyone and everywhere
@@ -227,8 +210,8 @@
 
 
 % --- Rappel et persective -----------------------------------------------------
-\pgfdeclareimage[height=6cm]{demo_bg}{Images/surface3d.png}
-\setbeamertemplate{background canvas}{\pgfuseimage{demo_bg}} % FIXME center et rendre transparent
+\pgfdeclareimage[height=\paperheight, width=\paperwidth]{demo_bg}{Images/surface3d2.png}
+\setbeamertemplate{background canvas}{\pgfuseimage{demo_bg}}
 \subsection{Demonstration}
 	\begin{frame}{\subsecname}
 		\begin{center}
@@ -239,15 +222,6 @@
 	\end{frame}
 
 \setbeamertemplate{background canvas}[default]
-
-
-% --- Rappel et persective -----------------------------------------------------
-\subsection{Utils}
-	\begin{frame}{\subsecname}
-		\begin{itemize}
-			\item \todo{}
-		\end{itemize}
-	\end{frame}
 
 
 
@@ -323,8 +297,7 @@
 			\item Server linked problems
 		\end{itemize}
 		\begin{figure}
-			\includegraphics[width=8cm]{../Lancement/ImagesLancement/Serveur.png}
-			% FIXME nouvelle image ?
+			\includegraphics[width=8cm]{Images/risque_serveur.png}
 		\end{figure}
 		\begin{center}
 			\legendeRisque
@@ -335,11 +308,10 @@
 % --- Risque -------------------------------------------------------------------
 	\begin{frame}{\subsecname}
 		\begin{itemize}
-			\item New clients
+			\item New clients {\color{white}p} % fix la position par raport à la diapo suivante/précédentes
 		\end{itemize}
 		\begin{figure}
-			\includegraphics[width=8cm]{../Revue/risque_nouveau_client.png}
-			% FIXME nouvelle image ?
+			\includegraphics[width=8cm]{Images/risque_nouveau_client.png}
 		\end{figure}
 		\begin{center}
 			\legendeRisque
@@ -353,8 +325,7 @@
 			\item Generation algorithm evolution
 		\end{itemize}
 		\begin{figure}
-			\includegraphics[width=8cm]{../Revue/risque_performance.png}
-			% FIXME nouvelle image ?
+			\includegraphics[width=8cm]{Images/risque_performance.png}
 		\end{figure}
 		\begin{center}
 			\legendeRisque
@@ -368,8 +339,7 @@
 			\item Risque de rendu
 		\end{itemize}
 		\begin{figure}
-			\includegraphics[width=8cm]{../Revue/risque_rendu.png}
-			% FIXME nouvelle image ?
+			\includegraphics[width=8cm]{Images/risque_rendu.png}
 		\end{figure}
 		\begin{center}
 			\legendeRisque
