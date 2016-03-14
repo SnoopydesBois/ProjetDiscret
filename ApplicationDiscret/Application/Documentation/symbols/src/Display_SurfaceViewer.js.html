@@ -1,0 +1,733 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">// LICENSE /////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> 
+<span class='line'>  4</span> </span><span class="COMM">/**
+<span class='line'>  5</span>  * @license
+<span class='line'>  6</span>  * Copyright (mars 2016)
+<span class='line'>  7</span>  * Auteur : BEN OTHMANE Zied, BENOIST Thomas, BISUTTI Adrien, RICHAUME Lydie
+<span class='line'>  8</span>  *
+<span class='line'>  9</span>  * ziedici@gmail.com
+<span class='line'> 10</span>  * benoist.thomas@hotmail.fr
+<span class='line'> 11</span>  * biscui_86@hotmail.fr
+<span class='line'> 12</span>  * l.richaume@gmail.com
+<span class='line'> 13</span>  *
+<span class='line'> 14</span>  * Ce logiciel est un programme informatique servant à modéliser des
+<span class='line'> 15</span>  * structures 3D voxellisées.
+<span class='line'> 16</span>  *
+<span class='line'> 17</span>  * Ce logiciel est régi par la licence CeCILL soumise au droit français et
+<span class='line'> 18</span>  * respectant les principes de diffusion des logiciels libres. Vous pouvez
+<span class='line'> 19</span>  * utiliser, modifier et/ou redistribuer ce programme sous les conditions
+<span class='line'> 20</span>  * de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+<span class='line'> 21</span>  * sur le site "http://www.cecill.info".
+<span class='line'> 22</span>  *
+<span class='line'> 23</span>  * En contrepartie de l'accessibilité au code source et des droits de copie,
+<span class='line'> 24</span>  * de modification et de redistribution accordés par cette licence, il n'est
+<span class='line'> 25</span>  * offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+<span class='line'> 26</span>  * seule une responsabilité restreinte pèse sur l'auteur du programme,  le
+<span class='line'> 27</span>  * titulaire des droits patrimoniaux et les concédants successifs.
+<span class='line'> 28</span>  *
+<span class='line'> 29</span>  * A cet égard  l'attention de l'utilisateur est attirée sur les risques
+<span class='line'> 30</span>  * associés au chargement,  à l'utilisation,  à la modification et/ou au
+<span class='line'> 31</span>  * développement et à la reproduction du logiciel par l'utilisateur étant
+<span class='line'> 32</span>  * donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+<span class='line'> 33</span>  * manipuler et qui le réserve donc à des développeurs et des professionnels
+<span class='line'> 34</span>  * avertis possédant  des  connaissances  informatiques approfondies.  Les
+<span class='line'> 35</span>  * utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
+<span class='line'> 36</span>  * logiciel à leurs besoins dans des conditions permettant d'assurer la
+<span class='line'> 37</span>  * sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+<span class='line'> 38</span>  * à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+<span class='line'> 39</span>  *
+<span class='line'> 40</span>  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+<span class='line'> 41</span>  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
+<span class='line'> 42</span>  * termes.
+<span class='line'> 43</span>  */</span><span class="WHIT">
+<span class='line'> 44</span> 
+<span class='line'> 45</span> 
+<span class='line'> 46</span> </span><span class="COMM">/// INDEX //////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> 
+<span class='line'> 49</span> </span><span class="COMM">/* container : Scene
+<span class='line'> 50</span>  * mousePosOnPress : int[2]
+<span class='line'> 51</span>  * camPosWhenClick : Vector
+<span class='line'> 52</span>  * camCenterWhenClick : Vector
+<span class='line'> 53</span>  * connexityInput : HTMLInputElement
+<span class='line'> 54</span>  * voxelRadiusInput : HTMLInputElement
+<span class='line'> 55</span>  * frameBuffer : WebGLFrameBuffer
+<span class='line'> 56</span>  * screenBuffer : WebGLRenderBuffer
+<span class='line'> 57</span>  * backBuffer : WebGLRenderBuffer
+<span class='line'> 58</span>  * 
+<span class='line'> 59</span>  * SurfaceViewer (canvas : HTMLCanvasElement)
+<span class='line'> 60</span>  * 
+<span class='line'> 61</span>  * setViewDimension () : void
+<span class='line'> 62</span>  * setDimension (width : int, height : int) : void
+<span class='line'> 63</span>  * setMouse (x : int, y : int) : void
+<span class='line'> 64</span>  * reload () : void
+<span class='line'> 65</span>  * show (forcePrepare : boolean) : void
+<span class='line'> 66</span>  * prepare () : void
+<span class='line'> 67</span>  * draw (backBuffer : boolean) : void
+<span class='line'> 68</span>  * unprepare () : void
+<span class='line'> 69</span>  * onResize (event : WindowEvent) : void
+<span class='line'> 70</span>  * onMouseDown (event : MouseEvent) : void
+<span class='line'> 71</span>  * onMouseUp (event : MouseEvent) : void
+<span class='line'> 72</span>  * onMouseMove (event : MouseEvent) : void
+<span class='line'> 73</span>  * onWheel (event : MouseEvent) : void
+<span class='line'> 74</span>  * onContextMenu (event : MouseEvent) : void
+<span class='line'> 75</span>  * initCanvasEvent () : void
+<span class='line'> 76</span>  * rotateCamera (phiOffset : Number, thetaOffset : Number) : void
+<span class='line'> 77</span>  * moveCamera (xOffset : Number, yOffset : Number) : void
+<span class='line'> 78</span>  * computeCamera () : void
+<span class='line'> 79</span>  * getSurfaceRenderer () : SurfaceRenderer
+<span class='line'> 80</span>  * getImgData (width : int, height : int) : float[]
+<span class='line'> 81</span>  * reverseTab (tab : Array, width : int, height : int) : Array
+<span class='line'> 82</span>  * resetCamera () : void
+<span class='line'> 83</span>  * centerCamera () : void
+<span class='line'> 84</span>  */</span><span class="WHIT">
+<span class='line'> 85</span> 
+<span class='line'> 86</span> 
+<span class='line'> 87</span> </span><span class="COMM">// CODE ////////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'> 88</span> 
+<span class='line'> 89</span> 
+<span class='line'> 90</span> 
+<span class='line'> 91</span> </span><span class="COMM">/**
+<span class='line'> 92</span>  * @extends GenericViewer
+<span class='line'> 93</span>  * @classdesc Class which manage a canvas and the objects to display
+<span class='line'> 94</span>  */</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="NAME">SurfaceViewer.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">GenericViewer</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="NAME">SurfaceViewer.prototype.constructor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SurfaceViewer</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> 
+<span class='line'> 98</span> 
+<span class='line'> 99</span> 
+<span class='line'>100</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="COMM">//	Constructor</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>103</span> 
+<span class='line'>104</span> 
+<span class='line'>105</span> 
+<span class='line'>106</span> </span><span class="COMM">/**
+<span class='line'>107</span>  * @constructor
+<span class='line'>108</span>  * @param {HTMLCanvasElement} canvas - The associated canvas.
+<span class='line'>109</span>  */</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">SurfaceViewer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">canvas</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">	</span><span class="NAME">GenericViewer.call</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">canvas</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"3d"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> 
+<span class='line'>113</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>114</span> 	 * {Scene} The scene to display the surface.
+<span class='line'>115</span> 	 */</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">	</span><span class="NAME">this.container</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Scene</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">	</span><span class="NAME">this.container.addObject</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">BoundingBox</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">		</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Vector</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">		</span><span class="NAME">this.glContext</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">	</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">	</span><span class="NAME">this.container.addObject</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Repere</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.glContext</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> 
+<span class='line'>123</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>124</span> 	 * {int[2]} The position of the mouse on the canvas when the user presses a
+<span class='line'>125</span> 	 * button (used for the camera mouvement). -1 is the default value (used to
+<span class='line'>126</span> 	 * resolve conflicts).
+<span class='line'>127</span> 	 * @see {@link onMouseDown, onMouseMove}
+<span class='line'>128</span> 	 */</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">	</span><span class="NAME">this.mousePosOnPress</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> 
+<span class='line'>131</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>132</span> 	 * {Vector} Camera position in space when the user presses left mouse button.
+<span class='line'>133</span> 	 * Used by 'onMouseMove', 'rotateCamera' and 'moveCamera' methods to compute
+<span class='line'>134</span> 	 * the new camera position.
+<span class='line'>135</span> 	 * @see {@link onMouseMove, rotateCamera}
+<span class='line'>136</span> 	 */</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">	</span><span class="NAME">this.camPosWhenClick</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Vector</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">3</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">3</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">3</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> 
+<span class='line'>139</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>140</span> 	 * {Vector} Centers the camera position in space when the user presses the middle mouse
+<span class='line'>141</span> 	 * button. Used by 'onMouseMove', 'rotateCamera' and 'moveCamera' methods to
+<span class='line'>142</span> 	 * compute the new camera position.
+<span class='line'>143</span> 	 * @see {@link onMouseMove, rotateCamera, moveCamera}
+<span class='line'>144</span> 	 */</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">	</span><span class="NAME">this.camCenterWhenClick</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Vector</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> 
+<span class='line'>147</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>148</span> 	 * {HTMLInputElement} The connexity selected by the user.
+<span class='line'>149</span> 	 */</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">	</span><span class="NAME">this.connexityInput</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"connexityChoice"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span> 
+<span class='line'>152</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>153</span> 	 * {HTMLInputElement} The voxel radius selected by the user.
+<span class='line'>154</span> 	 */</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">	</span><span class="NAME">this.voxelRadiusInput</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"voxelRadius"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> 
+<span class='line'>157</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>158</span> 	 * {WebGLFrameBuffer} The frame buffer which contains all render buffers.
+<span class='line'>159</span> 	 */</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">	</span><span class="NAME">this.frameBuffer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.glContext.createFramebuffer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> 
+<span class='line'>162</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>163</span> 	 * {WebGLRenderBuffer} The main render buffer. Used to draw the main image.
+<span class='line'>164</span> 	 */</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">	</span><span class="NAME">this.screenBuffer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.glContext.createRenderbuffer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>166</span> 
+<span class='line'>167</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>168</span> 	 * {WebGLRenderBuffer} Render buffer for picking. Used to store picking
+<span class='line'>169</span> 	 * color of each facet.
+<span class='line'>170</span> 	 */</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">	</span><span class="NAME">this.backBuffer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.glContext.createRenderbuffer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>172</span> 
+<span class='line'>173</span> 
+<span class='line'>174</span> </span><span class="WHIT">	</span><span class="COMM">/// Initialisation</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.glContext</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> 
+<span class='line'>177</span> </span><span class="WHIT">	</span><span class="NAME">this.initCanvasEvent</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">	</span><span class="NAME">gl.enable</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl.CULL_FACE</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">	</span><span class="NAME">gl.enable</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl.DEPTH_TEST</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">	</span><span class="NAME">gl.frontFace</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl.CW</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> 
+<span class='line'>182</span> </span><span class="WHIT">	</span><span class="NAME">gl.bindFramebuffer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl.FRAMEBUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.frameBuffer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>183</span> 
+<span class='line'>184</span> </span><span class="WHIT">	</span><span class="COMM">// screen buffer</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">	</span><span class="NAME">gl.bindRenderbuffer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl.RENDERBUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.screenBuffer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">	</span><span class="NAME">gl.renderbufferStorage</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl.RENDERBUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.RGBA4</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">		</span><span class="NAME">gl.drawingBufferWidth</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.drawingBufferHeight</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">	</span><span class="NAME">gl.framebufferRenderbuffer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl.FRAMEBUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.COLOR_ATTACHMENT0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">		</span><span class="NAME">gl.RENDERBUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.screenBuffer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> 
+<span class='line'>191</span> </span><span class="WHIT">	</span><span class="COMM">// back buffer</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">	</span><span class="NAME">gl.bindRenderbuffer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl.RENDERBUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.backBuffer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">	</span><span class="NAME">gl.renderbufferStorage</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl.RENDERBUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.DEPTH_COMPONENT16</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">		</span><span class="NAME">gl.drawingBufferWidth</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.drawingBufferHeight</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">	</span><span class="NAME">gl.framebufferRenderbuffer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl.FRAMEBUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.DEPTH_ATTACHMENT</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">		</span><span class="NAME">gl.RENDERBUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.backBuffer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>197</span> 
+<span class='line'>198</span> </span><span class="WHIT">	</span><span class="NAME">gl.bindRenderbuffer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl.RENDERBUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">	</span><span class="NAME">gl.bindFramebuffer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl.FRAMEBUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>201</span> 
+<span class='line'>202</span> 
+<span class='line'>203</span> 
+<span class='line'>204</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="COMM">//	Accessors and Mutators</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>207</span> 
+<span class='line'>208</span> 
+<span class='line'>209</span> 
+<span class='line'>210</span> </span><span class="COMM">/**
+<span class='line'>211</span>  * Sets the dimension of the viewport.
+<span class='line'>212</span>  * 
+<span class='line'>213</span>  * @return {void}
+<span class='line'>214</span>  */</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="NAME">SurfaceViewer.prototype.setViewDimension</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">	</span><span class="NAME">this.glContext.viewport</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">		</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">		</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">		</span><span class="NAME">this.glContext.drawingBufferWidth</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">		</span><span class="NAME">this.glContext.drawingBufferHeight</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">	</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">	</span><span class="NAME">this.container.getCamera</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.canvas.height</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">	</span><span class="NAME">this.container.getCamera</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.canvas.width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>225</span> 
+<span class='line'>226</span> 
+<span class='line'>227</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>228</span> </span><span class="COMM">/**
+<span class='line'>229</span>  * Changes the dimensions of the scene.
+<span class='line'>230</span>  *
+<span class='line'>231</span>  * @param {int} width - The scene width.
+<span class='line'>232</span>  * @param {int} height - The scene height.
+<span class='line'>233</span>  *
+<span class='line'>234</span>  * @return {void}
+<span class='line'>235</span>  */</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="NAME">SurfaceViewer.prototype.setDimension</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.container</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">		</span><span class="NAME">this.container.setWidth</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">width</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">		</span><span class="NAME">this.container.setHeight</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">height</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>242</span> 
+<span class='line'>243</span> 
+<span class='line'>244</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="COMM">/**
+<span class='line'>246</span>  * Change the mouse position.
+<span class='line'>247</span>  *
+<span class='line'>248</span>  * @param {int} x - The mouse position along the x axis.
+<span class='line'>249</span>  * @param {int} y - The mouse position along the y axis.
+<span class='line'>250</span>  *
+<span class='line'>251</span>  * @return {void}
+<span class='line'>252</span>  */</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="NAME">SurfaceViewer.prototype.setMouse</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.container</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">		</span><span class="NAME">this.container.setMouse</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>257</span> 
+<span class='line'>258</span> 
+<span class='line'>259</span> 
+<span class='line'>260</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="COMM">//	Draw</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>263</span> 
+<span class='line'>264</span> 
+<span class='line'>265</span> 
+<span class='line'>266</span> </span><span class="COMM">/**
+<span class='line'>267</span>  * Reload the scene.
+<span class='line'>268</span>  *
+<span class='line'>269</span>  * @return {void}
+<span class='line'>270</span>  * @throws {String} The scene does not exist
+<span class='line'>271</span>  */</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="NAME">SurfaceViewer.prototype.reload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="PUNC">(</span><span class="NAME">this.container</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Scene</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">		</span><span class="NAME">console.error</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"SurfaceViewer.reload: scene does not exist"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">		</span><span class="NAME">this.container.reload</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>278</span> 
+<span class='line'>279</span> 
+<span class='line'>280</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="COMM">/**
+<span class='line'>282</span>  * Show the scene (prepare it and draw it).
+<span class='line'>283</span>  *
+<span class='line'>284</span>  * @param {boolean} forcePrepare - If true, call 'unprepare' before 'prepare'
+<span class='line'>285</span>  * methods.
+<span class='line'>286</span>  *
+<span class='line'>287</span>  * @return {void}
+<span class='line'>288</span>  */</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="NAME">SurfaceViewer.prototype.show</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">forcePrepare</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>290</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">forcePrepare</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="WHIT">		</span><span class="NAME">this.unprepare</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">	</span><span class="NAME">this.prepare</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">	</span><span class="NAME">this.draw</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>295</span> 
+<span class='line'>296</span> 
+<span class='line'>297</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="COMM">/**
+<span class='line'>299</span>  * Prepares the scene if there are some objects.
+<span class='line'>300</span>  *
+<span class='line'>301</span>  * @return {void}
+<span class='line'>302</span>  */</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="NAME">SurfaceViewer.prototype.prepare</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>304</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.container.getNbObject</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>305</span> </span><span class="WHIT">		</span><span class="NAME">this.container.prepare</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">			</span><span class="NAME">this.glContext</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">			</span><span class="NAME">parseInt</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.connexityInput.value</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">			</span><span class="NAME">parseFloat</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.voxelRadiusInput.value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2.0</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>311</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">		</span><span class="NAME">console.log</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"No object to prepare"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>314</span> 
+<span class='line'>315</span> 
+<span class='line'>316</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>317</span> </span><span class="COMM">/**
+<span class='line'>318</span>  * Draws the scene if there are some objects.
+<span class='line'>319</span>  *
+<span class='line'>320</span>  * @param {boolean} [backBuffer] - Indicates if we have to draw the scene
+<span class='line'>321</span>  * normally or if we need to draw for picking.
+<span class='line'>322</span>  *
+<span class='line'>323</span>  * @return {void}
+<span class='line'>324</span>  */</span><span class="WHIT">
+<span class='line'>325</span> </span><span class="NAME">SurfaceViewer.prototype.draw</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">backBuffer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.container.getNbObject</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="WHIT">		</span><span class="NAME">this.container.draw</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>328</span> </span><span class="WHIT">			</span><span class="NAME">this.glContext</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>329</span> </span><span class="WHIT">			</span><span class="NAME">backBuffer</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>330</span> </span><span class="WHIT">			</span><span class="NAME">parseFloat</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.voxelRadiusInput.value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="WHIT">			</span><span class="NAME">this.screenBuffer</span><span class="WHIT">
+<span class='line'>332</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>334</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>335</span> </span><span class="WHIT">		</span><span class="NAME">console.log</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"No object to draw"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>336</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>337</span> 
+<span class='line'>338</span> 
+<span class='line'>339</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>340</span> </span><span class="COMM">/**
+<span class='line'>341</span>  * Unprepare all the objects.
+<span class='line'>342</span>  *
+<span class='line'>343</span>  * @return {void}
+<span class='line'>344</span>  */</span><span class="WHIT">
+<span class='line'>345</span> </span><span class="NAME">SurfaceViewer.prototype.unprepare</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>346</span> </span><span class="WHIT">	</span><span class="NAME">this.container.unprepare</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>347</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>348</span> 
+<span class='line'>349</span> 
+<span class='line'>350</span> 
+<span class='line'>351</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>352</span> </span><span class="COMM">//	Event methods</span><span class="WHIT">
+<span class='line'>353</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>354</span> 
+<span class='line'>355</span> 
+<span class='line'>356</span> 
+<span class='line'>357</span> </span><span class="COMM">/**
+<span class='line'>358</span>  * @override
+<span class='line'>359</span>  * Sets the 'height' and 'width' canvas attributes and resize the viewport.
+<span class='line'>360</span>  *
+<span class='line'>361</span>  * @param {WindowEvent} event - The window event.
+<span class='line'>362</span>  *
+<span class='line'>363</span>  * @return {void}
+<span class='line'>364</span>  */</span><span class="WHIT">
+<span class='line'>365</span> </span><span class="NAME">SurfaceViewer.prototype.onResize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>366</span> </span><span class="WHIT">	</span><span class="NAME">this.setViewDimension</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>367</span> </span><span class="WHIT">	</span><span class="NAME">this.container.getCamera</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">computeMatrices</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>368</span> </span><span class="WHIT">	</span><span class="NAME">this.show</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>369</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>370</span> 
+<span class='line'>371</span> 
+<span class='line'>372</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>373</span> </span><span class="COMM">/**
+<span class='line'>374</span>  * @override
+<span class='line'>375</span>  * Left and middle buttons : saves the camera coordinates and the mouse
+<span class='line'>376</span>  * coordinates.
+<span class='line'>377</span>  * Right button : highlights X, Y and Z slices where the user clicked. If there is
+<span class='line'>378</span>  * no facet, highlight is desactivated.
+<span class='line'>379</span>  * @see {@link camPosWhenClick, mousePosOnPress}
+<span class='line'>380</span>  *
+<span class='line'>381</span>  * @param {MouseEvent} event - The event.
+<span class='line'>382</span>  *
+<span class='line'>383</span>  * @return {void}
+<span class='line'>384</span>  */</span><span class="WHIT">
+<span class='line'>385</span> </span><span class="NAME">SurfaceViewer.prototype.onMouseDown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>386</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event.buttons</span><span class="WHIT"> </span><span class="PUNC">&</span><span class="WHIT"> </span><span class="NUMB">5</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="COMM">// left or middle click</span><span class="WHIT">
+<span class='line'>387</span> </span><span class="WHIT">		</span><span class="NAME">this.camPosWhenClick</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.container.getCamera</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getPosition</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>388</span> </span><span class="WHIT">		</span><span class="NAME">this.mousePosOnPress</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">event.layerX</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>389</span> </span><span class="WHIT">		</span><span class="NAME">this.mousePosOnPress</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">event.layerY</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>390</span> </span><span class="WHIT">		</span><span class="NAME">this.camCenterWhenClick</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'>391</span> </span><span class="WHIT">			</span><span class="NAME">this.container.getCamera</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getLookAtPosition</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>392</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>393</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event.buttons</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>394</span> </span><span class="WHIT">		</span><span class="COMM">// draw the scene for picking</span><span class="WHIT">
+<span class='line'>395</span> </span><span class="WHIT">		</span><span class="NAME">this.container.draw</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.glContext</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.backBuffer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>396</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">color</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Uint8Array</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">4</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>397</span> </span><span class="WHIT">		</span><span class="NAME">this.glContext.readPixels</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>398</span> </span><span class="WHIT">			</span><span class="NAME">event.layerX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.glContext.drawingBufferHeight</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">event.layerY</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>399</span> </span><span class="WHIT">			</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>400</span> </span><span class="WHIT">			</span><span class="NAME">this.glContext.RGBA</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.glContext.UNSIGNED_BYTE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="WHIT">
+<span class='line'>401</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">surface</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getSurfaceRenderer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>403</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dim</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">surface.getDimension</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>404</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">facet</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">colorToPos</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">color</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dim</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>405</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dir</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">facet.getDirection</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>406</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">noHighlight</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>407</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NAME">dir</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">dir</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">DirectionEnum.size</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>408</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">voxelPos</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">facet.getCube</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>409</span> </span><span class="WHIT">			</span><span class="NAME">surface.setHighlightX</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">voxelPos.x</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>410</span> </span><span class="WHIT">			</span><span class="NAME">surface.setHighlightY</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">voxelPos.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>411</span> </span><span class="WHIT">			</span><span class="NAME">surface.setHighlightZ</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">voxelPos.z</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>412</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>413</span> </span><span class="WHIT">		</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>414</span> </span><span class="WHIT">			</span><span class="NAME">noHighlight</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">surface.highlightX</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>415</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">noHighlight</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>416</span> </span><span class="WHIT">				</span><span class="NAME">surface.setHighlightX</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>417</span> </span><span class="WHIT">				</span><span class="NAME">surface.setHighlightY</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>418</span> </span><span class="WHIT">				</span><span class="NAME">surface.setHighlightZ</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>419</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>420</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>421</span> </span><span class="WHIT">		</span><span class="COMM">// redraw correctly the scene</span><span class="WHIT">
+<span class='line'>422</span> </span><span class="WHIT">		</span><span class="NAME">this.show</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>423</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>424</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>425</span> 
+<span class='line'>426</span> 
+<span class='line'>427</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>428</span> </span><span class="COMM">/**
+<span class='line'>429</span>  * @override
+<span class='line'>430</span>  * Resets attribute 'mousePosOnPress' (only sets the first value at -1).
+<span class='line'>431</span>  *
+<span class='line'>432</span>  * @param {MouseEvent} event - The event.
+<span class='line'>433</span>  *
+<span class='line'>434</span>  * @return {void}
+<span class='line'>435</span>  */</span><span class="WHIT">
+<span class='line'>436</span> </span><span class="NAME">SurfaceViewer.prototype.onMouseUp</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>437</span> </span><span class="WHIT">	</span><span class="NAME">this.mousePosOnPress</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>438</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>439</span> 
+<span class='line'>440</span> 
+<span class='line'>441</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>442</span> </span><span class="COMM">/**
+<span class='line'>443</span>  * @override
+<span class='line'>444</span>  * Moves the camera.
+<span class='line'>445</span>  *
+<span class='line'>446</span>  * @param {MouseEvent} event - The event.
+<span class='line'>447</span>  *
+<span class='line'>448</span>  * @return {void}
+<span class='line'>449</span>  */</span><span class="WHIT">
+<span class='line'>450</span> </span><span class="NAME">SurfaceViewer.prototype.onMouseMove</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">event.buttons</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">4</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event.buttons</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">event.ctrlKey</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> 
+<span class='line'>452</span> 		</span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.mousePosOnPress</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> 
+<span class='line'>453</span> 	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>454</span> </span><span class="WHIT">		</span><span class="COMM">/* middle button is pressed (or left button and ctrl key pressed) and
+<span class='line'>455</span> 		 * the user generate mousedown event on the surface canvas.
+<span class='line'>456</span> 		 */</span><span class="WHIT">
+<span class='line'>457</span> </span><span class="WHIT">		</span><span class="NAME">this.moveCamera</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>458</span> </span><span class="WHIT">			</span><span class="PUNC">(</span><span class="NAME">event.layerX</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">this.mousePosOnPress</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">0.005</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>459</span> </span><span class="WHIT">			</span><span class="PUNC">(</span><span class="NAME">event.layerY</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">this.mousePosOnPress</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">0.005</span><span class="WHIT">
+<span class='line'>460</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>461</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>462</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event.buttons</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.mousePosOnPress</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>463</span> </span><span class="WHIT">		</span><span class="COMM">/* left button is pressed and the user generate mousedown event on the
+<span class='line'>464</span> 		 * surface canvas.
+<span class='line'>465</span> 		 */</span><span class="WHIT">
+<span class='line'>466</span> </span><span class="WHIT">		</span><span class="NAME">this.rotateCamera</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>467</span> </span><span class="WHIT">			</span><span class="PUNC">(</span><span class="NAME">this.mousePosOnPress</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">event.layerX</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">0.01</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>468</span> </span><span class="WHIT">			</span><span class="PUNC">(</span><span class="NAME">event.layerY</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">this.mousePosOnPress</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">0.01</span><span class="WHIT">
+<span class='line'>469</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>470</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>471</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>472</span> 
+<span class='line'>473</span> 
+<span class='line'>474</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>475</span> </span><span class="COMM">/**
+<span class='line'>476</span>  * @override
+<span class='line'>477</span>  * Changes the zoom of the camera.
+<span class='line'>478</span>  *
+<span class='line'>479</span>  * @param {MouseEvent} event - The event.
+<span class='line'>480</span>  *
+<span class='line'>481</span>  * @return {void}
+<span class='line'>482</span>  */</span><span class="WHIT">
+<span class='line'>483</span> </span><span class="NAME">SurfaceViewer.prototype.onWheel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>484</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event.deltaY</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>485</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event.deltaY</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>486</span> </span><span class="WHIT">			</span><span class="NAME">this.container.getCamera</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">zoomIn</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>487</span> </span><span class="WHIT">		</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>488</span> </span><span class="WHIT">			</span><span class="NAME">this.container.getCamera</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">zoomOut</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>489</span> </span><span class="WHIT">		</span><span class="NAME">this.draw</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>490</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>491</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>492</span> 
+<span class='line'>493</span> 
+<span class='line'>494</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>495</span> </span><span class="COMM">/**
+<span class='line'>496</span>  * Prevents the context menu from appearing. FIXME doesn't work correctly on Windows
+<span class='line'>497</span>  * 
+<span class='line'>498</span>  * @param {MouseEvent} event - The mouse event.
+<span class='line'>499</span>  * @return {void}
+<span class='line'>500</span>  */</span><span class="WHIT">
+<span class='line'>501</span> </span><span class="NAME">SurfaceViewer.prototype.onContextMenu</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>502</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event.buttons</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>503</span> </span><span class="WHIT">		</span><span class="NAME">event.preventDefault</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>504</span> </span><span class="WHIT">		</span><span class="NAME">event.stopPropagation</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>506</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>507</span> 
+<span class='line'>508</span> 
+<span class='line'>509</span> 
+<span class='line'>510</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>511</span> </span><span class="COMM">//	Other methods</span><span class="WHIT">
+<span class='line'>512</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>513</span> 
+<span class='line'>514</span> 
+<span class='line'>515</span> </span><span class="COMM">/**
+<span class='line'>516</span>  * Initializes all the events on the canvas.
+<span class='line'>517</span>  *
+<span class='line'>518</span>  * @return {void}
+<span class='line'>519</span>  */</span><span class="WHIT">
+<span class='line'>520</span> </span><span class="NAME">SurfaceViewer.prototype.initCanvasEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>521</span> </span><span class="WHIT">	</span><span class="COMM">// resize</span><span class="WHIT">
+<span class='line'>522</span> </span><span class="WHIT">	</span><span class="NAME">this.canvas.addEventListener</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"resize"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.onResize.bind</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>523</span> 
+<span class='line'>524</span> </span><span class="WHIT">	</span><span class="COMM">// mouse wheel for zoom</span><span class="WHIT">
+<span class='line'>525</span> </span><span class="WHIT">	</span><span class="NAME">this.canvas.addEventListener</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"wheel"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.onWheel.bind</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>526</span> 
+<span class='line'>527</span> </span><span class="WHIT">	</span><span class="COMM">// mouse move for mouvement</span><span class="WHIT">
+<span class='line'>528</span> </span><span class="WHIT">	</span><span class="NAME">this.canvas.addEventListener</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"mousedown"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.onMouseDown.bind</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>529</span> </span><span class="WHIT">	</span><span class="NAME">this.canvas.addEventListener</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"mousemove"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.onMouseMove.bind</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>530</span> </span><span class="WHIT">	</span><span class="NAME">this.canvas.addEventListener</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"mouseup"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.onMouseUp.bind</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>531</span> </span><span class="WHIT">	</span><span class="NAME">this.canvas.addEventListener</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"contextmenu"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.onContextMenu.bind</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>532</span> </span><span class="WHIT">		</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>533</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>534</span> 
+<span class='line'>535</span> 
+<span class='line'>536</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>537</span> </span><span class="COMM">/**
+<span class='line'>538</span>  * Moves the camera using spheric coordinates.
+<span class='line'>539</span>  *
+<span class='line'>540</span>  * @param {Number} phiOffset - Azimuth offset.
+<span class='line'>541</span>  * @param {Number} thetaOffset - Altitude offset.
+<span class='line'>542</span>  *
+<span class='line'>543</span>  * @return {void}
+<span class='line'>544</span>  * @throw {String} the parameters are not of type number
+<span class='line'>545</span>  */</span><span class="WHIT">
+<span class='line'>546</span> </span><span class="NAME">SurfaceViewer.prototype.rotateCamera</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">phiOffset</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">thetaOffset</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>547</span> </span><span class="WHIT">	</span><span class="COMM">/// parameter verification</span><span class="WHIT">
+<span class='line'>548</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">checkType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>549</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"SurfaceViewer.rotateCamera: one of the parameters is not a number"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>550</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>551</span> 
+<span class='line'>552</span> </span><span class="WHIT">	</span><span class="COMM">/// compute angle</span><span class="WHIT">
+<span class='line'>553</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Vector</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.camPosWhenClick</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">sub</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.camCenterWhenClick</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>554</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dist</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">pos.getLength</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>555</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">phi</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getAzimuth</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.camPosWhenClick</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.camCenterWhenClick</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">phiOffset</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>556</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">theta</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">clamp</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>557</span> </span><span class="WHIT">		</span><span class="PUNC">-</span><span class="NAME">Math.PI</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">0.0002</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'>558</span> 		</span><span class="NAME">Math.PI</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">0.0002</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'>559</span> 		</span><span class="NAME">getAltitude</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>560</span> </span><span class="WHIT">			</span><span class="NAME">this.camPosWhenClick</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'>561</span> 			</span><span class="NAME">this.camCenterWhenClick</span><span class="WHIT">
+<span class='line'>562</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">thetaOffset</span><span class="WHIT">
+<span class='line'>563</span> </span><span class="WHIT">	</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>564</span> 
+<span class='line'>565</span> 
+<span class='line'>566</span> </span><span class="WHIT">	</span><span class="COMM">/// compute position</span><span class="WHIT">
+<span class='line'>567</span> </span><span class="WHIT">	</span><span class="NAME">pos.x</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dist</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.cos</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">phi</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.cos</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">theta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>568</span> </span><span class="WHIT">	</span><span class="NAME">pos.y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dist</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.sin</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">phi</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.cos</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">theta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>569</span> </span><span class="WHIT">	</span><span class="NAME">pos.z</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dist</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.sin</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">theta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>570</span> </span><span class="WHIT">	</span><span class="NAME">this.container.setCameraAt</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">pos.add</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.camCenterWhenClick</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>571</span> 
+<span class='line'>572</span> </span><span class="WHIT">	</span><span class="COMM">/// drawing</span><span class="WHIT">
+<span class='line'>573</span> </span><span class="WHIT">	</span><span class="NAME">this.draw</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>574</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>575</span> 
+<span class='line'>576</span> 
+<span class='line'>577</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>578</span> </span><span class="COMM">/**
+<span class='line'>579</span>  * Translates the camera (eye and center position).
+<span class='line'>580</span>  *
+<span class='line'>581</span>  * @param {Number} xOffset - X offset (left-right).
+<span class='line'>582</span>  * @param {Number} yOffset - Y offset (up-down).
+<span class='line'>583</span>  *
+<span class='line'>584</span>  * @return {void}
+<span class='line'>585</span>  * @throw {String} the parameters are not of type number
+<span class='line'>586</span>  */</span><span class="WHIT">
+<span class='line'>587</span> </span><span class="NAME">SurfaceViewer.prototype.moveCamera</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">xOffset</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">yOffset</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>588</span> </span><span class="WHIT">	</span><span class="COMM">/// parameter verification</span><span class="WHIT">
+<span class='line'>589</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">checkType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>590</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"SurfaceViewer.moveCamera: one of parameter are not number"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>591</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>592</span> </span><span class="WHIT">	
+<span class='line'>593</span> 	</span><span class="COMM">/// compute local base</span><span class="WHIT">
+<span class='line'>594</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">base</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Matrix</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>595</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">rotateZ</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">getAzimuth</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.camPosWhenClick</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.camCenterWhenClick</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>596</span> </span><span class="WHIT">	</span><span class="NAME">base.rotate</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>597</span> </span><span class="WHIT">		</span><span class="NAME">getAltitude</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.camPosWhenClick</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.camCenterWhenClick</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>598</span> </span><span class="WHIT">		</span><span class="NAME">base.getYVector</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>599</span> </span><span class="WHIT">	</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>600</span> </span><span class="WHIT">	
+<span class='line'>601</span> 	</span><span class="COMM">/// compute translation</span><span class="WHIT">
+<span class='line'>602</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">t</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Vector</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">base.getYVector</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>603</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">mul</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NAME">xOffset</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>604</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">add</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Vector</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">base.getZVector</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">mul</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">yOffset</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>605</span> </span><span class="WHIT">	
+<span class='line'>606</span> 	</span><span class="COMM">/// set camera position</span><span class="WHIT">
+<span class='line'>607</span> </span><span class="WHIT">	</span><span class="NAME">this.container.setCameraAt</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>608</span> </span><span class="WHIT">		</span><span class="NAME">addVector</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.camPosWhenClick</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">t</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>609</span> </span><span class="WHIT">		</span><span class="NAME">addVector</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.camCenterWhenClick</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">t</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>610</span> </span><span class="WHIT">	</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>611</span> 
+<span class='line'>612</span> </span><span class="WHIT">	</span><span class="COMM">/// drawing</span><span class="WHIT">
+<span class='line'>613</span> </span><span class="WHIT">	</span><span class="NAME">this.draw</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>614</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>615</span> 
+<span class='line'>616</span> 
+<span class='line'>617</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>618</span> </span><span class="COMM">/**
+<span class='line'>619</span>  * Forces the scene's camera to compute its matrices.
+<span class='line'>620</span>  *
+<span class='line'>621</span>  * @return {void}
+<span class='line'>622</span>  */</span><span class="WHIT">
+<span class='line'>623</span> </span><span class="NAME">SurfaceViewer.prototype.computeCamera</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>624</span> </span><span class="WHIT">	</span><span class="NAME">this.container.getCamera</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">computeMatrices</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>625</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>626</span> 
+<span class='line'>627</span> 
+<span class='line'>628</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>629</span> </span><span class="COMM">/**
+<span class='line'>630</span>  * @return {SurfaceRenderer} The SurfaceRenderer which contains the current
+<span class='line'>631</span>  * generated surface (i.e. not the repere, not the bounding box but the third
+<span class='line'>632</span>  * object).
+<span class='line'>633</span>  */</span><span class="WHIT">
+<span class='line'>634</span> </span><span class="NAME">SurfaceViewer.prototype.getSurfaceRenderer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>635</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.container.getObjectByName</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>636</span> </span><span class="WHIT">		</span><span class="NAME">SurfaceRenderer.getCurrentSurfaceName</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>637</span> </span><span class="WHIT">	</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>638</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>639</span> 
+<span class='line'>640</span> 
+<span class='line'>641</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>642</span> </span><span class="COMM">/**
+<span class='line'>643</span>  * @param {int} width - The width of the canvas from which we get the data.
+<span class='line'>644</span>  * @param {int} height - The height of the canvas from which we get the data.
+<span class='line'>645</span>  * 
+<span class='line'>646</span>  * @return {float[]} The image data
+<span class='line'>647</span>  */</span><span class="WHIT">
+<span class='line'>648</span> </span><span class="NAME">SurfaceViewer.prototype.getImgData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>649</span> </span><span class="WHIT">	</span><span class="COMM">// Bind the frame framebuffer and the depth buffer for the color rendering</span><span class="WHIT">
+<span class='line'>650</span> </span><span class="WHIT">	</span><span class="NAME">this.glContext.bindRenderbuffer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.glContext.RENDERBUFFER</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>651</span> </span><span class="WHIT">		</span><span class="NAME">this.screenBuffer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>652</span> </span><span class="WHIT">	</span><span class="NAME">this.glContext.bindFramebuffer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.glContext.FRAMEBUFFER</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>653</span> </span><span class="WHIT">		</span><span class="NAME">this.framebuffer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>654</span> 
+<span class='line'>655</span> </span><span class="WHIT">	</span><span class="COMM">// Drawing the colored scene</span><span class="WHIT">
+<span class='line'>656</span> </span><span class="WHIT">	</span><span class="NAME">this.draw</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>657</span> 
+<span class='line'>658</span> </span><span class="WHIT">	</span><span class="COMM">// Pixel on which we click</span><span class="WHIT">
+<span class='line'>659</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pixel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Uint8Array</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">4</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>660</span> 
+<span class='line'>661</span> </span><span class="WHIT">	</span><span class="COMM">// Read the pixel at x and y coordinates</span><span class="WHIT">
+<span class='line'>662</span> </span><span class="WHIT">	</span><span class="NAME">this.glContext.readPixels</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>663</span> </span><span class="WHIT">		</span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>664</span> </span><span class="WHIT">		</span><span class="NAME">this.glContext.RGBA</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.glContext.UNSIGNED_BYTE</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>665</span> </span><span class="WHIT">		</span><span class="NAME">pixel</span><span class="WHIT">
+<span class='line'>666</span> </span><span class="WHIT">	</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>667</span> </span><span class="WHIT">	</span><span class="COMM">// Unbind the buffers used</span><span class="WHIT">
+<span class='line'>668</span> </span><span class="WHIT">	</span><span class="NAME">this.glContext.bindRenderbuffer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.glContext.RENDERBUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>669</span> </span><span class="WHIT">	</span><span class="NAME">this.glContext.bindFramebuffer</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.glContext.FRAMEBUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>670</span> 
+<span class='line'>671</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.reverseTab</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">pixel</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>672</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>673</span> 
+<span class='line'>674</span> 
+<span class='line'>675</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>676</span> </span><span class="COMM">/**
+<span class='line'>677</span>  * Vertical flip of a matrix.
+<span class='line'>678</span>  * @example | 1 2 |  ->  | 3 4 |
+<span class='line'>679</span>  *          | 3 4 |      | 1 2 |
+<span class='line'>680</span>  * XXX Function instead of method?
+<span class='line'>681</span>  * 
+<span class='line'>682</span>  * @param {Array} tab - An array (like a matrix).
+<span class='line'>683</span>  * @param {int} width - Matrix width.
+<span class='line'>684</span>  * @param {int} height - Matrix height.
+<span class='line'>685</span>  * 
+<span class='line'>686</span>  * @return {Array} The flipped matrix.
+<span class='line'>687</span>  */</span><span class="WHIT">
+<span class='line'>688</span> </span><span class="NAME">SurfaceViewer.prototype.reverseTab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tab</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>689</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>690</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">--</span><span class="NAME">i</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>691</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">j</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">j</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">4</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">++</span><span class="NAME">j</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>692</span> </span><span class="WHIT">			</span><span class="NAME">pixels.push</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tab</span><span class="PUNC">[</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">4</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">j</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>693</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>694</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>695</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">pixels</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>696</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>697</span> 
+<span class='line'>698</span> 
+<span class='line'>699</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>700</span> </span><span class="COMM">/**
+<span class='line'>701</span>  * Puts the camera back to its initial position.
+<span class='line'>702</span>  * @see {@link centerCamera, Scene.resetCamera, Camera.setCameraAt}
+<span class='line'>703</span>  * 
+<span class='line'>704</span>  * @return {void}
+<span class='line'>705</span>  */</span><span class="WHIT">
+<span class='line'>706</span> </span><span class="NAME">SurfaceViewer.prototype.resetCamera</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>707</span> </span><span class="WHIT">	</span><span class="NAME">this.container.resetCamera</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>708</span> </span><span class="WHIT">	</span><span class="NAME">this.draw</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>709</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>710</span> 
+<span class='line'>711</span> 
+<span class='line'>712</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>713</span> </span><span class="COMM">/**
+<span class='line'>714</span>  * Centers the camera (i.e Recenter the camera to look at the center without 
+<span class='line'>715</span>  * modifying the zoom. Keeps the previous altitude.).
+<span class='line'>716</span>  * @see {@link resetCamera, Scene.centerCamera, Camera.setCameraAt}
+<span class='line'>717</span>  * 
+<span class='line'>718</span>  * @return {void}
+<span class='line'>719</span>  */</span><span class="WHIT">
+<span class='line'>720</span> </span><span class="NAME">SurfaceViewer.prototype.centerCamera</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>721</span> </span><span class="WHIT">	</span><span class="NAME">this.container.centerCamera</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>722</span> </span><span class="WHIT">	</span><span class="NAME">this.draw</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>723</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>724</span> 
+<span class='line'>725</span> 
+<span class='line'>726</span> </span></pre></body></html>
