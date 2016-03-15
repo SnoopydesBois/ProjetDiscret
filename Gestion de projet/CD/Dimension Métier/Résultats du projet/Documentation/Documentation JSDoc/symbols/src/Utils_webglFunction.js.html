@@ -1,0 +1,198 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/// LICENCE ////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> 
+<span class='line'>  4</span> </span><span class="COMM">/**
+<span class='line'>  5</span>  * @license
+<span class='line'>  6</span>  * Copyright (juin 2015)
+<span class='line'>  7</span>  * Auteur : BEN OTHMANE Zied, BENOIST Thomas, BISUTTI Adrien, RICHAUME Lydie
+<span class='line'>  8</span>  * 
+<span class='line'>  9</span>  * ziedici@gmail.com
+<span class='line'> 10</span>  * benoist.thomas@hotmail.fr
+<span class='line'> 11</span>  * biscui_86@hotmail.fr
+<span class='line'> 12</span>  * l.richaume@gmail.com
+<span class='line'> 13</span>  * 
+<span class='line'> 14</span>  * Ce logiciel est un programme informatique servant à modéliser des
+<span class='line'> 15</span>  * structures 3D voxellisées. 
+<span class='line'> 16</span>  * 
+<span class='line'> 17</span>  * Ce logiciel est régi par la licence CeCILL soumise au droit français et
+<span class='line'> 18</span>  * respectant les principes de diffusion des logiciels libres. Vous pouvez
+<span class='line'> 19</span>  * utiliser, modifier et/ou redistribuer ce programme sous les conditions
+<span class='line'> 20</span>  * de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+<span class='line'> 21</span>  * sur le site "http://www.cecill.info".
+<span class='line'> 22</span>  * 
+<span class='line'> 23</span>  * En contrepartie de l'accessibilité au code source et des droits de copie,
+<span class='line'> 24</span>  * de modification et de redistribution accordés par cette licence, il n'est
+<span class='line'> 25</span>  * offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+<span class='line'> 26</span>  * seule une responsabilité restreinte pèse sur l'auteur du programme,  le
+<span class='line'> 27</span>  * titulaire des droits patrimoniaux et les concédants successifs.
+<span class='line'> 28</span>  * 
+<span class='line'> 29</span>  * A cet égard  l'attention de l'utilisateur est attirée sur les risques
+<span class='line'> 30</span>  * associés au chargement,  à l'utilisation,  à la modification et/ou au
+<span class='line'> 31</span>  * développement et à la reproduction du logiciel par l'utilisateur étant
+<span class='line'> 32</span>  * donné sa spécificité de logiciel libre, qui peut le rendre complexe à 
+<span class='line'> 33</span>  * manipuler et qui le réserve donc à des développeurs et des professionnels
+<span class='line'> 34</span>  * avertis possédant  des  connaissances  informatiques approfondies.  Les
+<span class='line'> 35</span>  * utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
+<span class='line'> 36</span>  * logiciel à leurs besoins dans des conditions permettant d'assurer la
+<span class='line'> 37</span>  * sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+<span class='line'> 38</span>  * à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+<span class='line'> 39</span>  * 
+<span class='line'> 40</span>  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+<span class='line'> 41</span>  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
+<span class='line'> 42</span>  * termes.
+<span class='line'> 43</span>  */</span><span class="WHIT">
+<span class='line'> 44</span> 
+<span class='line'> 45</span> 
+<span class='line'> 46</span> </span><span class="COMM">/// INDEX //////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> 
+<span class='line'> 49</span> </span><span class="COMM">// TODO</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span> 
+<span class='line'> 52</span> </span><span class="COMM">/// CODE ///////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'> 53</span> 
+<span class='line'> 54</span> 
+<span class='line'> 55</span> 
+<span class='line'> 56</span> </span><span class="COMM">/**
+<span class='line'> 57</span>  * Gets a 3D gl context. Sets the context viewport dimensions to be the same as 
+<span class='line'> 58</span>  * the canvas dimensions.
+<span class='line'> 59</span>  * 
+<span class='line'> 60</span>  * @param {HTMLCanvasElement} canvas - A canvas.
+<span class='line'> 61</span>  * 
+<span class='line'> 62</span>  * @return {WebGLRenderingContext} The 3D gl context if it exists, null otherwise.
+<span class='line'> 63</span>  */</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">get3DGlContext</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">canvas</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">	</span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">		</span><span class="NAME">gl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.getContext</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"webgl"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">preserveDrawingBuffer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">			</span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">canvas.getContext</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">				</span><span class="STRN">"experimental-webgl"</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'> 70</span> 				</span><span class="PUNC">{</span><span class="NAME">preserveDrawingBuffer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">			</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">		</span><span class="NAME">gl.drawingBufferWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">		</span><span class="NAME">gl.drawingBufferHeight</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.height</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> 
+<span class='line'> 75</span> 	</span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">		</span><span class="NAME">console.error</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"HTMLCanvasElement.getContext() FAILED !"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">gl</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> 
+<span class='line'> 81</span> 
+<span class='line'> 82</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="COMM">/**
+<span class='line'> 84</span>  * Creates a shader with its source code and compiles it.
+<span class='line'> 85</span>  * 
+<span class='line'> 86</span>  * @param {!WebGLRenderingContext} glContext - The gl context.
+<span class='line'> 87</span>  * @param {!Number} type - gl.VERTEX_SHADER or gl.FRAGMENT_SHADER. This value is the parameter
+<span class='line'> 88</span>  * given to WebGLRenderingContext.createShader().
+<span class='line'> 89</span>  * @param {!String} source - The source code of the shader.
+<span class='line'> 90</span>  * TODO vérifier le type 2.
+<span class='line'> 91</span>  * 
+<span class='line'> 92</span>  * @return {WebGLShader} The created shader or null.
+<span class='line'> 93</span>  */</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">createShader</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">glContext</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">source</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">	</span><span class="COMM">/// Type verification</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">glContext</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">WebGLRenderingContext</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">		</span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">source</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> 
+<span class='line'> 98</span> 	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">		</span><span class="COMM">// TODO vérifier le paramètre 2</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">		</span><span class="NAME">console.error</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"createShader: bad type(s) of parameter(s) !"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">	
+<span class='line'>104</span> 	</span><span class="COMM">/// Variables initialisation</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">shader</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">	
+<span class='line'>107</span> 	</span><span class="COMM">/// Shader creation and compilation</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">	</span><span class="NAME">shader</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">glContext.createShader</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">	</span><span class="NAME">glContext.shaderSource</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">shader</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">source</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">	</span><span class="NAME">glContext.compileShader</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">shader</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">	
+<span class='line'>112</span> 	</span><span class="COMM">/// Shader verification</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">glContext.getShaderParameter</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">shader</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">glContext.COMPILE_STATUS</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">		</span><span class="NAME">console.error</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"Error compiling shader:"</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'>115</span> 			</span><span class="NAME">glContext.getShaderInfoLog</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">shader</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">		</span><span class="NAME">glContext.deleteShader</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">shader</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">		</span><span class="NAME">shader</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">	
+<span class='line'>120</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">shader</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> 
+<span class='line'>123</span> 
+<span class='line'>124</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="COMM">/**
+<span class='line'>126</span>  * Creates a gl program and links the given shaders.
+<span class='line'>127</span>  * 
+<span class='line'>128</span>  * @param {!WebGLRenderingContext} glContext - The gl context.
+<span class='line'>129</span>  * @param {...WebGLShader} A compiled shader.
+<span class='line'>130</span>  * @see {@link cerateShader ()}
+<span class='line'>131</span>  * 
+<span class='line'>132</span>  * @return {WebGLProgram} A gl program or null.
+<span class='line'>133</span>  */</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">createProgram</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">glContext</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">argLen</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arguments.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">	
+<span class='line'>137</span> 	</span><span class="COMM">/// Type verification</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">glContext</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">WebGLRenderingContext</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">		</span><span class="NAME">console.error</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"createProgram: give a corect gl context !"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">argLen</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">++</span><span class="NAME">i</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">WebGLShader</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">			</span><span class="NAME">console.error</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"createProgram: one of parameter is not a "</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">				</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"WebGLShader"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">	
+<span class='line'>149</span> 	</span><span class="COMM">/// Variables initialisation</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">program</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">glContext.createProgram</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">	
+<span class='line'>152</span> 	</span><span class="COMM">/// Link shaders</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">argLen</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">argLen</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">++</span><span class="NAME">i</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">			</span><span class="NAME">glContext.attachShader</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">		</span><span class="NAME">glContext.linkProgram</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">program</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">	
+<span class='line'>159</span> 	</span><span class="COMM">/// Link verification</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">glContext.getProgramParameter</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">glContext.LINK_STATUS</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">		</span><span class="NAME">console.error</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"createProgram: failed to attach shaders"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">		</span><span class="NAME">program</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">	
+<span class='line'>165</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">program</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>167</span> 
+<span class='line'>168</span> 
+<span class='line'>169</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="COMM">/**
+<span class='line'>171</span>  * Erases everything in a canvas. Fills it with a color ("white" by default).
+<span class='line'>172</span>  * 
+<span class='line'>173</span>  * @param {CanvasRenderingContext2D} ctx - The gl context.
+<span class='line'>174</span>  * @param {String} [color] - A CSS color.
+<span class='line'>175</span>  * 
+<span class='line'>176</span>  * @return {void}
+<span class='line'>177</span>  */</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">clear2DCanvas</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ctx</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">ctx</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">CanvasRenderingContext2D</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"clear2DCanvas: bad given context"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">	
+<span class='line'>183</span> 	</span><span class="NAME">color</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">color</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"white"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">currentColor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx.strokeStyle</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">	</span><span class="NAME">ctx.strokeStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">	</span><span class="NAME">ctx.strokeRect</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ctx.canvas.width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ctx.canvas.height</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">	</span><span class="NAME">ctx.strokeStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">currentColor</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>189</span> 
+<span class='line'>190</span> 
+<span class='line'>191</span> </span></pre></body></html>

@@ -1,0 +1,100 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/// LICENCE ////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> 
+<span class='line'>  4</span> </span><span class="COMM">/**
+<span class='line'>  5</span>  * @license
+<span class='line'>  6</span>  * Copyright (mars 2016)
+<span class='line'>  7</span>  * Auteur : BEN OTHMANE Zied, BENOIST Thomas, BISUTTI Adrien, RICHAUME Lydie
+<span class='line'>  8</span>  *
+<span class='line'>  9</span>  * ziedici@gmail.com
+<span class='line'> 10</span>  * benoist.thomas@hotmail.fr
+<span class='line'> 11</span>  * biscui_86@hotmail.fr
+<span class='line'> 12</span>  * l.richaume@gmail.com
+<span class='line'> 13</span>  *
+<span class='line'> 14</span>  * Ce logiciel est un programme informatique servant à modéliser des
+<span class='line'> 15</span>  * structures 3D voxellisées.
+<span class='line'> 16</span>  *
+<span class='line'> 17</span>  * Ce logiciel est régi par la licence CeCILL soumise au droit français et
+<span class='line'> 18</span>  * respectant les principes de diffusion des logiciels libres. Vous pouvez
+<span class='line'> 19</span>  * utiliser, modifier et/ou redistribuer ce programme sous les conditions
+<span class='line'> 20</span>  * de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+<span class='line'> 21</span>  * sur le site "http://www.cecill.info".
+<span class='line'> 22</span>  *
+<span class='line'> 23</span>  * En contrepartie de l'accessibilité au code source et des droits de copie,
+<span class='line'> 24</span>  * de modification et de redistribution accordés par cette licence, il n'est
+<span class='line'> 25</span>  * offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+<span class='line'> 26</span>  * seule une responsabilité restreinte pèse sur l'auteur du programme,  le
+<span class='line'> 27</span>  * titulaire des droits patrimoniaux et les concédants successifs.
+<span class='line'> 28</span>  *
+<span class='line'> 29</span>  * A cet égard  l'attention de l'utilisateur est attirée sur les risques
+<span class='line'> 30</span>  * associés au chargement,  à l'utilisation,  à la modification et/ou au
+<span class='line'> 31</span>  * développement et à la reproduction du logiciel par l'utilisateur étant
+<span class='line'> 32</span>  * donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+<span class='line'> 33</span>  * manipuler et qui le réserve donc à des développeurs et des professionnels
+<span class='line'> 34</span>  * avertis possédant  des  connaissances  informatiques approfondies.  Les
+<span class='line'> 35</span>  * utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
+<span class='line'> 36</span>  * logiciel à leurs besoins dans des conditions permettant d'assurer la
+<span class='line'> 37</span>  * sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+<span class='line'> 38</span>  * à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+<span class='line'> 39</span>  *
+<span class='line'> 40</span>  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+<span class='line'> 41</span>  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
+<span class='line'> 42</span>  * termes.
+<span class='line'> 43</span>  */</span><span class="WHIT">
+<span class='line'> 44</span> 
+<span class='line'> 45</span> 
+<span class='line'> 46</span> </span><span class="COMM">/// CODE ///////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> 
+<span class='line'> 49</span> 
+<span class='line'> 50</span> </span><span class="COMM">/**
+<span class='line'> 51</span>  * @enum
+<span class='line'> 52</span>  * Enumeration of axis.
+<span class='line'> 53</span>  * /!\ CAUTION: values aren't number ! Each axis is an object which contain a
+<span class='line'> 54</span>  * 'colorOffset' attribute.
+<span class='line'> 55</span>  */</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">AxisEnum</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">	</span><span class="COMM">/// values</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">	</span><span class="NAME">X</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">colorOffset</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT">  </span><span class="NUMB">0.0</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">	</span><span class="NAME">Y</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">colorOffset</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">0.1</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">	</span><span class="NAME">Z</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">colorOffset</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT">  </span><span class="NUMB">0.1</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 61</span> 
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="COMM">/// properties</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">	</span><span class="NAME">properties</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">		</span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"X"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">		</span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"Y"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">		</span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"Z"</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 68</span> 
+<span class='line'> 69</span> </span><span class="WHIT">	</span><span class="COMM">/// functions</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 71</span> 	 * Convert number to AxisEnum.
+<span class='line'> 72</span> 	 *
+<span class='line'> 73</span> 	 * @param {Number} axis - A number.
+<span class='line'> 74</span> 	 *
+<span class='line'> 75</span> 	 * @return {AxisEnum} The matching axis to the number.
+<span class='line'> 76</span> 	 */</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">	</span><span class="NAME">toAxis</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">axis</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">		</span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">axis</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">AxisEnum.X</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">AxisEnum.Y</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">AxisEnum.Z</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">			</span><span class="KEYW">default</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> 
+<span class='line'> 87</span> 
+<span class='line'> 88</span> 
+<span class='line'> 89</span> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">Object.freeze</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">	</span><span class="NAME">AxisEnum</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Object.freeze</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">AxisEnum</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 92</span> 
+<span class='line'> 93</span> </span></pre></body></html>

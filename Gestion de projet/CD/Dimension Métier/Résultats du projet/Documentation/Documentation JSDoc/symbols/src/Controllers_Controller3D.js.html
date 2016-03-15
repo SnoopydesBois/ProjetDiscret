@@ -1,0 +1,324 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/// LICENCE ////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> 
+<span class='line'>  4</span> </span><span class="COMM">/**
+<span class='line'>  5</span>  * @license
+<span class='line'>  6</span>  * Copyright (mars 2016)
+<span class='line'>  7</span>  * Auteur : BEN OTHMANE Zied, BENOIST Thomas, BISUTTI Adrien, RICHAUME Lydie
+<span class='line'>  8</span>  *
+<span class='line'>  9</span>  * ziedici@gmail.com
+<span class='line'> 10</span>  * benoist.thomas@hotmail.fr
+<span class='line'> 11</span>  * biscui_86@hotmail.fr
+<span class='line'> 12</span>  * l.richaume@gmail.com
+<span class='line'> 13</span>  *
+<span class='line'> 14</span>  * Ce logiciel est un programme informatique servant à modéliser des
+<span class='line'> 15</span>  * structures 3D voxellisées.
+<span class='line'> 16</span>  *
+<span class='line'> 17</span>  * Ce logiciel est régi par la licence CeCILL soumise au droit français et
+<span class='line'> 18</span>  * respectant les principes de diffusion des logiciels libres. Vous pouvez
+<span class='line'> 19</span>  * utiliser, modifier et/ou redistribuer ce programme sous les conditions
+<span class='line'> 20</span>  * de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+<span class='line'> 21</span>  * sur le site "http://www.cecill.info".
+<span class='line'> 22</span>  *
+<span class='line'> 23</span>  * En contrepartie de l'accessibilité au code source et des droits de copie,
+<span class='line'> 24</span>  * de modification et de redistribution accordés par cette licence, il n'est
+<span class='line'> 25</span>  * offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+<span class='line'> 26</span>  * seule une responsabilité restreinte pèse sur l'auteur du programme,  le
+<span class='line'> 27</span>  * titulaire des droits patrimoniaux et les concédants successifs.
+<span class='line'> 28</span>  *
+<span class='line'> 29</span>  * A cet égard  l'attention de l'utilisateur est attirée sur les risques
+<span class='line'> 30</span>  * associés au chargement,  à l'utilisation,  à la modification et/ou au
+<span class='line'> 31</span>  * développement et à la reproduction du logiciel par l'utilisateur étant
+<span class='line'> 32</span>  * donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+<span class='line'> 33</span>  * manipuler et qui le réserve donc à des développeurs et des professionnels
+<span class='line'> 34</span>  * avertis possédant  des  connaissances  informatiques approfondies.  Les
+<span class='line'> 35</span>  * utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
+<span class='line'> 36</span>  * logiciel à leurs besoins dans des conditions permettant d'assurer la
+<span class='line'> 37</span>  * sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+<span class='line'> 38</span>  * à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+<span class='line'> 39</span>  *
+<span class='line'> 40</span>  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+<span class='line'> 41</span>  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
+<span class='line'> 42</span>  * termes.
+<span class='line'> 43</span>  */</span><span class="WHIT">
+<span class='line'> 44</span> 
+<span class='line'> 45</span> 
+<span class='line'> 46</span> </span><span class="COMM">/// INDEX //////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> 
+<span class='line'> 49</span> </span><span class="COMM">/* 
+<span class='line'> 50</span>  * Controller3D(dimension : Dimension)
+<span class='line'> 51</span>  * generate() : Surface
+<span class='line'> 52</span>  * setGetMeridian(meridian : Function) : void
+<span class='line'> 53</span>  * setGetCurveRevolution(curveRevolution : Function) : void
+<span class='line'> 54</span>  * getSurface() : Surface
+<span class='line'> 55</span>  * getVoxel(position : Vector) : Voxel
+<span class='line'> 56</span>  */</span><span class="WHIT">
+<span class='line'> 57</span> 
+<span class='line'> 58</span> 
+<span class='line'> 59</span> </span><span class="COMM">/// CODE ///////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'> 60</span> 
+<span class='line'> 61</span> 
+<span class='line'> 62</span> 
+<span class='line'> 63</span> </span><span class="COMM">/**
+<span class='line'> 64</span>  * @extends Controller
+<span class='line'> 65</span>  * @classdesc A class used to communicate between the application and the modelGen
+<span class='line'> 66</span>  */</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="NAME">Controller3D.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Controller</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="NAME">Controller3D.prototype.constructor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Controller3D</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> 
+<span class='line'> 70</span> 
+<span class='line'> 71</span> 
+<span class='line'> 72</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="COMM">//	Constructor</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'> 75</span> 
+<span class='line'> 76</span> 
+<span class='line'> 77</span> 
+<span class='line'> 78</span> </span><span class="COMM">/**
+<span class='line'> 79</span>  * @constructor
+<span class='line'> 80</span>  * 
+<span class='line'> 81</span>  * @param {Vector} dimension - Vector to define the dimension of the 3D space.
+<span class='line'> 82</span>  */</span><span class="WHIT"> 
+<span class='line'> 83</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Controller3D</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dimension</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">	</span><span class="COMM">/// parameter verification</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="PUNC">(</span><span class="NAME">dimension</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Vector</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">		</span><span class="NAME">console.error</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"Controller3D.constructor: "</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">				</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"given parameter is not a Vector"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">	
+<span class='line'> 90</span> 	</span><span class="NAME">Controller.call</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">	
+<span class='line'> 92</span> 	</span><span class="COMM">/**
+<span class='line'> 93</span> 	 * {modelGen} The model which generates the surface.
+<span class='line'> 94</span> 	 */</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">	</span><span class="NAME">this.modelGen</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">ModelGen</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dimension</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">	
+<span class='line'> 97</span> 	</span><span class="COMM">/**
+<span class='line'> 98</span> 	 * {Function} A function that provides a frozen reference to the generatrix
+<span class='line'> 99</span> 	 */</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">	</span><span class="NAME">this.getMeridian</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">	 
+<span class='line'>102</span> 	</span><span class="COMM">/**
+<span class='line'>103</span> 	 * {Function} A function that provides a frozen reference to the directrix
+<span class='line'>104</span> 	 */</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">	</span><span class="NAME">this.getCurveRevolution</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> 
+<span class='line'>108</span> 
+<span class='line'>109</span> 
+<span class='line'>110</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="COMM">/**
+<span class='line'>112</span>  * Function that start the generation of the surface from the meridian and the
+<span class='line'>113</span>  * curbe of revolution.
+<span class='line'>114</span>  * 
+<span class='line'>115</span>  * @param {int} mode - wether the surface should be generated using an 
+<span class='line'>116</span>  * incrementalor a brute force method
+<span class='line'>117</span>  * 
+<span class='line'>118</span>  * @return {void}
+<span class='line'>119</span>  * @throws {String} Controller3D.generate: The meridian and/or the curve revolution 
+<span class='line'>120</span> 			are not functions.
+<span class='line'>121</span>  */</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="NAME">Controller3D.prototype.generate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">mode</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">	</span><span class="COMM">/// verification</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">checkType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">[</span><span class="NAME">this.getMeridian</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.getCurveRevolution</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Function</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">		</span><span class="NAME">Function</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Controller3D.generate: The meridian and/or the curve revolution "</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">			</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"are not functions."</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">		</span><span class="COMM">// FIXME trouver une meilleur phrase pour cette exception</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">	
+<span class='line'>132</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">meridian</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getMeridian</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">curveRevolution</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getCurveRevolution</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">	</span><span class="NAME">this.modelGen.generate</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">meridian</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">curveRevolution</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">mode</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span> 
+<span class='line'>137</span> 
+<span class='line'>138</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="COMM">/**
+<span class='line'>140</span>  * @return {Surface} The current surface of the model.
+<span class='line'>141</span>  */</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="NAME">Controller3D.prototype.getSurface</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelGen.getSurface</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> 
+<span class='line'>146</span> 
+<span class='line'>147</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="COMM">/**
+<span class='line'>149</span>  * @param {(Vector | Number[3] | Number)} position - The position of the voxel
+<span class='line'>150</span>  * (if it is a vector or an array) or the X coordinate of the voxel.
+<span class='line'>151</span>  * @param {Number} [y] - Y coordinate of the voxel.
+<span class='line'>152</span>  * @param {Number} [z] - Z coordinate of the voxel.
+<span class='line'>153</span>  * @see {@link Surface.isVoxelVisible}
+<span class='line'>154</span>  * 
+<span class='line'>155</span>  * @return {boolean} True if the voxel at 'position' is visible, false
+<span class='line'>156</span>  * otherwise.
+<span class='line'>157</span>  */</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="NAME">Controller3D.prototype.isVoxelVisible</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">position</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">z</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelGen.getSurface</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">isVoxelVisible</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">position</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">z</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> 
+<span class='line'>162</span> 
+<span class='line'>163</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="COMM">/**
+<span class='line'>165</span>  * @param {(Number | Vector)} x - The X coordinate (if it is a number) or all
+<span class='line'>166</span>  * coordinates (if it is a Vector) of the voxel.
+<span class='line'>167</span>  * @param {Number} [y] - The Y coordinate of the voxel.
+<span class='line'>168</span>  * @param {Number} [z] - The Z coordinate of the voxel.
+<span class='line'>169</span>  * 
+<span class='line'>170</span>  * @return {Voxel} The voxel at the x, y, z coordinates.
+<span class='line'>171</span>  * @throws {String} Controller3D.getVoxel.ErrorLengthArguments - Wrong number of arguments.
+<span class='line'>172</span>  * @throws {String} Controller3D.getVoxel.ErrorNotAVector - There is only one argument but it's not a vector.
+<span class='line'>173</span>  * @throws {String} Controller3D.getVoxel.ErrorNotANumber - There are three arguments but at least one of them is not a number.
+<span class='line'>174</span>  */</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="NAME">Controller3D.prototype.getVoxel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">z</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">	</span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">		</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="PUNC">(</span><span class="NAME">x</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Vector</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">				</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Controller3D.getVoxel.ErrorNotAVector"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelGen.getVoxel</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">			</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">		</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">3</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">checkType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">				</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Controller3D.getVoxel.ErrorNotANumber"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelGen.getVoxel</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Vector</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">z</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">			</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">		</span><span class="KEYW">default</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">			</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Controller3D.getVoxel.ErrorLengthArguments"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>193</span> 
+<span class='line'>194</span> 
+<span class='line'>195</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="COMM">/**
+<span class='line'>197</span>  * TODO
+<span class='line'>198</span>  * 
+<span class='line'>199</span>  * @param {(Number | Vector)} x - The X coordinate (if it is a number) or all coordinates
+<span class='line'>200</span>  * (if it is a Vector) of the voxel.
+<span class='line'>201</span>  * @param {Number} [y] - The Y coordinate of the voxel.
+<span class='line'>202</span>  * @param {Number} [z] - The Z coordinate of the voxel.
+<span class='line'>203</span>  * 
+<span class='line'>204</span>  * @throws {String} Controller3D.hasVoxel.ErrorLengthArguments - Wrong number of arguments.
+<span class='line'>205</span>  * @throws {String} Controller3D.hasVoxel.ErrorNotAVector - There is only one argument but it's not a vector.
+<span class='line'>206</span>  * @throws {String} Controller3D.hasVoxel.ErrorNotANumber - There are three arguments but at least one of them is not a number.
+<span class='line'>207</span>  * 
+<span class='line'>208</span>  * @return {boolean} True if the voxel is a voxel of the surface, false
+<span class='line'>209</span>  * otherwise.
+<span class='line'>210</span>  */</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="NAME">Controller3D.prototype.hasVoxel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">z</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">	</span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">		</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="PUNC">(</span><span class="NAME">x</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Vector</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">				</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Controller3D.hasVoxel.ErrorNotAVector"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelGen.getVoxel</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">			</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">		</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">3</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">				</span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">				</span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">z</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">				</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Controller3D.hasVoxel.ErrorNotANumber"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelGen.getVoxel</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Vector</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">z</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">			</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="WHIT">		</span><span class="KEYW">default</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>228</span> </span><span class="WHIT">			</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Controller3D.hasVoxel.ErrorLengthArguments"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>229</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>231</span> 
+<span class='line'>232</span> 
+<span class='line'>233</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="COMM">/**
+<span class='line'>235</span>  * @return {Vector} The dimension of the surface.
+<span class='line'>236</span>  */</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="NAME">Controller3D.prototype.getDimension</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelGen.getDimension</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span> 
+<span class='line'>241</span> 
+<span class='line'>242</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="COMM">/**
+<span class='line'>244</span>  * Set the dimension of the surface.
+<span class='line'>245</span>  * @see {@link ModelGen.setDimension}
+<span class='line'>246</span>  * 
+<span class='line'>247</span>  * @param {(Vector | Array]} dimension - The new dimension of the surface.
+<span class='line'>248</span>  * 
+<span class='line'>249</span>  * @throws Controller3D.setDimension: given parameter is not a Vector
+<span class='line'>250</span>  * @return {void}
+<span class='line'>251</span>  */</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="NAME">Controller3D.prototype.setDimension</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dimension</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">	</span><span class="COMM">/// parameter verification</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">checkType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">Vector</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Array</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">		</span><span class="NAME">showType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dimension</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">		</span><span class="NAME">console.trace</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Controller3D.setDimension: given parameter is not a Vector"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">	
+<span class='line'>260</span> 	</span><span class="COMM">/// return dimension</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelGen.setDimension</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dimension</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>263</span> 
+<span class='line'>264</span> 
+<span class='line'>265</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="COMM">/**
+<span class='line'>267</span>  * @param {Function} meridian - The function that allows this controller to
+<span class='line'>268</span>  * obtain a frozen reference to the meridian.
+<span class='line'>269</span>  * 
+<span class='line'>270</span>  * @return {void}
+<span class='line'>271</span>  * @throws Controller3D.setGetMeridian: given parameter is not a Function
+<span class='line'>272</span>  */</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="NAME">Controller3D.prototype.setGetMeridian</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">meridian</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">	</span><span class="COMM">/// parameter verification</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">checkType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Function</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Controller3D.setGetMeridian: given parameter is not a Function"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">	
+<span class='line'>279</span> 	</span><span class="COMM">/// set the function</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">	</span><span class="NAME">this.getMeridian</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">meridian</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>282</span> 
+<span class='line'>283</span> 
+<span class='line'>284</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="COMM">/**
+<span class='line'>286</span>  * @param {Function} curveRevolution - The function that allows this controller
+<span class='line'>287</span>  * to obtain a frozen reference to the curve of revolution.
+<span class='line'>288</span>  *
+<span class='line'>289</span>  * @return {void}
+<span class='line'>290</span>  * @throws {String} Controller3D.setGetCurveRevolution: given parameter is not a
+<span class='line'>291</span> 			Function
+<span class='line'>292</span>  */</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="NAME">Controller3D.prototype.setGetCurveRevolution</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">curveRevolution</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">	</span><span class="COMM">/// parameter verification</span><span class="WHIT">
+<span class='line'>295</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">checkType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Function</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>296</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Controller3D.setGetCurveRevolution: given parameter is not a "</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="WHIT">			</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"Function"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>299</span> </span><span class="WHIT">	
+<span class='line'>300</span> 	</span><span class="COMM">/// set the function</span><span class="WHIT">
+<span class='line'>301</span> </span><span class="WHIT">	</span><span class="NAME">this.getCurveRevolution</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">curveRevolution</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>303</span> 
+<span class='line'>304</span> 
+<span class='line'>305</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="COMM">/**
+<span class='line'>307</span>  * This function returns whether the algorithm has finished his computations.
+<span class='line'>308</span>  * @see {@link ModelGen.isAlgoFinished}
+<span class='line'>309</span>  * 
+<span class='line'>310</span>  * @return {boolean} Whether the algorithm has finished his computations.
+<span class='line'>311</span>  */</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="NAME">Controller3D.prototype.isAlgoFinished</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelGen.isAlgoFinished</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>315</span> 
+<span class='line'>316</span> 
+<span class='line'>317</span> </span></pre></body></html>
