@@ -10,7 +10,7 @@
 \usepackage[french]{babel}
 \usepackage[T1]{fontenc}
 %\usepackage{array}
-%\usepackage{tabularx}
+\usepackage{tabularx}
 \usepackage{multirow}
 %\usepackage{color}
 %\usepackage{colortbl}
@@ -149,7 +149,7 @@
 	\begin{frame}{\subsecname}
 		\begin{itemize}
 			\item \'Eric \smallcaps{Andres} and Ga\"elle \smallcaps{Largeteau}-\smallcaps{Skapin}
-				developped a new algorithm to model discrete surfaces of revolution.
+				developed a new algorithm to model discrete surfaces of revolution.
 			\item Display the result with Mathematica
 		\end{itemize}
 		
@@ -158,27 +158,27 @@
 		\end{figure}
 	
 		\begin{itemize}
-			\item Need of a tool useable by everyone and everywhere
+			\item Need of a tool usable by everyone and everywhere
 		\end{itemize}
 	\end{frame}
 	
 
 % --- Contexte -----------------------------------------------------------------
-\subsection{Objectifs}
-	\begin{frame}{Objectifs}
+\subsection{Objectives}
+	\begin{frame}{Objectives}
 		\begin{itemize}
-			\item Outil de visualisation de surfaces
+			\item Surfaces visualization tool
 				\begin{itemize}
-					\item Visualiser en 3D, en coupe
-					\item Choisir les méridianes et les courbes de révolution
-			 		\item Exporter des objets obtenus
+					\item 3D, slices visualization
+					\item Choose the generatrix and directrix
+			 		\item Export the results
 				\end{itemize}
 		\end{itemize}
 		\begin{itemize}
-			\item Algorithme de construction des surfaces de révolution
+			\item Algorithm to generate surfaces of revolution
 				\begin{itemize}
-					\item Fourni par les clients
-					\item Possibilité d'évolution de l'algorithme
+					\item Provided by the customers
+					\item Possible evolution of the algorithm
 				\end{itemize}
 		\end{itemize}
 	\end{frame}
@@ -192,15 +192,14 @@
 \section{Work achieved}
 % tavail (maquette, démo, liste outil)
 
-
 % --- Rappel et persective -----------------------------------------------------
-\subsection{Maquette}
+\subsection{Prototype}
 	\begin{frame}{\subsecname}
 		\begin{itemize}
-			\item Listes des fonctionnalitées
+			\item Listes des fonctionnalités
 			\item Étude et transcription de l'algorithme
 			\item Documentation technique
-			\item Maquette
+			\item Prototype
 		\end{itemize}
 		\begin{figure}
 			\includegraphics[height=5.7cm]{Images/maquette.png}
@@ -208,7 +207,7 @@
 	\end{frame}
 
 
-% --- Rappel et persective -----------------------------------------------------
+% --- Démonstration ------------------------------------------------------------
 \setbeamertemplate{background canvas}{\includegraphics[height=\paperheight, width=\paperwidth]{Images/surface3d2.png}}
 \subsection{Demonstration}
 	\begin{frame}{\subsecname}
@@ -227,7 +226,7 @@
 %	CONDUITE DE PROJET
 %===============================================================================
 % conduite projet (cout, paql, gantt, zoom gantt, risque (clients, rendue, serveur, évolution algo))
-\section{Gestion de projet}
+\section{Project management}
 
 
 % --- Gantt --------------------------------------------------------------------
@@ -257,8 +256,43 @@
 	\begin{frame}{\subsecname}
 		\begin{figure}
 			\includegraphics[width=12cm]{../Lancement/ImagesLancement/Avancement.png}
-			% TODO régénéré
+			% TODO régénérer
 		\end{figure}
+	\end{frame}
+
+
+% --- Livrables ----------------------------------------------------------------
+	\subsection{Deliverables}
+	\begin{frame}{\subsecname}
+		\begin{center}
+		{\renewcommand{\arraystretch}{1.2}
+		\begin{tabular}{|c|m{5.5cm}|c|c|}
+			\hline
+			\textbf{\No} & \textbf{Deliverable} & \textbf{Planned date} & \textbf{Actual date}\\
+			\hline
+			1 & Interface and algorithm result 
+				& Dec. 23{\small\textsuperscript{rd}} & Jan. 18{\small\textsuperscript{th}}\\
+			\hline
+			2 & Minimal application 
+				& Jan. 21{\small\textsuperscript{st}} & Jan. 25{\small\textsuperscript{th}}\\
+			\hline
+			2{\small\textsuperscript{bis}} & Multicoupe et param\`etres 
+				& --- & Jan. 29{\small\textsuperscript{th}}\\
+			\hline
+			3 & Free hand drawing and curves with editable parameters 
+				& Jan. 29{\small\textsuperscript{th}} & Feb. 24{\small\textsuperscript{th}}\\
+			\hline
+			4 & Equations and export 
+				& Feb. 19{\small\textsuperscript{th}} & Feb. 24{\small\textsuperscript{th}}\\
+			\hline
+			5 & Final application
+				& Mar. 2{\small\textsuperscript{nd}} & Mar. 2{\small\textsuperscript{nd}}\\
+			\hline
+			5{\small\textsuperscript{bis}} & Final documentation 
+				& Mar. 11{\small\textsuperscript{th}} & Mar. 14{\small\textsuperscript{th}}\\
+			\hline % TODO traduir 2bis et 5bis au moins
+		\end{tabular}}
+		\end{center}
 	\end{frame}
 
 
@@ -274,14 +308,13 @@
 			Level & Gravity & Probability & Criticity \\
 			\hline
 			\hline
-			% TODO traduire
-			0 & Aucune & < 1\% & \multirow{2}*{No critical}\\
+			0 & None & < 1\% & \multirow{2}*{No critical}\\
 			\cline{1-3}
-			1 & Faible (marges) & de 1\% à 5\% & \\
+			1 & Low (marges) & de 1\% à 5\% & \\
 			\hline
-			2 & Significative & de 5\% à 20 \% & \multirow{2}*{Critical}\\
+			2 & Important & de 5\% à 20 \% & \multirow{2}*{Critical}\\
 			\cline{1-3}
-			3 & Danger & > 20\% & \\
+			3 & Dangerous & > 20\% & \\
 			\hline
 		\end{tabular}
 	}
@@ -320,7 +353,7 @@
 % --- Risque -------------------------------------------------------------------
 	\begin{frame}{\subsecname}
 		\begin{itemize}
-			\item Generation algorithm evolution
+			\item Evolution of the generation algorithm
 		\end{itemize}
 		\begin{figure}
 			\includegraphics[width=8cm]{Images/risque_performance.png}
@@ -334,7 +367,7 @@
 % --- Risque -------------------------------------------------------------------
 	\begin{frame}{\subsecname}
 		\begin{itemize}
-			\item Risque de rendu
+			\item Slow rendering
 		\end{itemize}
 		\begin{figure}
 			\includegraphics[width=8cm]{Images/risque_rendu.png}
@@ -356,7 +389,7 @@
 				\end{figure}
 			\end{column}
 			\begin{column}{4cm}
-				Validation par les clients à chaque jalon.
+				Milestones validation with the clients
 			\end{column}
 		\end{columns}
 	\end{frame}
@@ -436,7 +469,7 @@
 	\begin{frame}{\subsecname}
 		\begin{figure}
 			\includegraphics[height=7.5cm]{../Suivi/Cout.png}
-			% FIXME généré l'image qui va bien
+			% FIXME générer l'image qui va bien
 		\end{figure}
 	\end{frame}
 
@@ -452,8 +485,8 @@
 % --- Rappel et persective -----------------------------------------------------
 \begin{frame}{\secname}
 	\begin{itemize}
-		\item Apport technique javascript (classe, worker, blob, webgl, etc.)
-		\item Livraison en deux étapes
+		\item Technical Javascript improvement (classes, worker, blob, webgl, etc.)
+		\item Partial final delivery
 		\item Perspectives
 	\end{itemize}
 \end{frame}
