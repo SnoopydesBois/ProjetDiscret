@@ -16,7 +16,6 @@
 %\usepackage{colortbl}
 %\usepackage{textcomp}
 \usepackage{xstring}
-\usepackage{pgfbaseimage}
 
 \input{macro.tex}
 
@@ -97,7 +96,7 @@
 %===============================================================================
 
 \begin{frame}{Outline}
-	\tableofcontents[hidesubsection]
+  	\tableofcontents[hideallsubsections]
 \end{frame}
 
 
@@ -116,7 +115,7 @@
 			\item Clients:
 				\begin{itemize}
 					\item \'Eric \smallcaps{Andres} (Professor and former director of XLIM-SIC department)
-					\item Gaëlle \smallcaps{Largeteau}-\smallcaps{Skapin} (University lecturer, Discrete geometry)
+					\item Ga\"elle \smallcaps{Largeteau}-\smallcaps{Skapin} (University lecturer, Discrete geometry)
 				\end{itemize}
 			\item Exemple of final user:
 				\begin{itemize}
@@ -210,8 +209,7 @@
 
 
 % --- Rappel et persective -----------------------------------------------------
-\pgfdeclareimage[height=\paperheight, width=\paperwidth]{demo_bg}{Images/surface3d2.png}
-\setbeamertemplate{background canvas}{\pgfuseimage{demo_bg}}
+\setbeamertemplate{background canvas}{\includegraphics[height=\paperheight, width=\paperwidth]{Images/surface3d2.png}}
 \subsection{Demonstration}
 	\begin{frame}{\subsecname}
 		\begin{center}
@@ -349,6 +347,7 @@
 
 % --- PAQL ---------------------------------------------------------------------
 \subsection{Quality insurance plan}
+	% TODO mettre les diapo de zied
 	\begin{frame}{\subsecname}
 		\begin{columns}
 			\begin{column}{8cm}
