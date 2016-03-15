@@ -1,4 +1,4 @@
-Lancer l'application :
+﻿Lancer l'application :
 Ouvrir le fichier discreteSurace.html dans un navigateur. L'application a
 uniquement été testée sous firefox.
 

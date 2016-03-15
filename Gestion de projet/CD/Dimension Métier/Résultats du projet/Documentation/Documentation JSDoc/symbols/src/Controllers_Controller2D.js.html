@@ -1,0 +1,331 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/// LICENCE ////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> 
+<span class='line'>  4</span> </span><span class="COMM">/**
+<span class='line'>  5</span>  * @license
+<span class='line'>  6</span>  * Copyright (mars 2016)
+<span class='line'>  7</span>  * Auteur : BEN OTHMANE Zied, BENOIST Thomas, BISUTTI Adrien, RICHAUME Lydie
+<span class='line'>  8</span>  *
+<span class='line'>  9</span>  * ziedici@gmail.com
+<span class='line'> 10</span>  * benoist.thomas@hotmail.fr
+<span class='line'> 11</span>  * biscui_86@hotmail.fr
+<span class='line'> 12</span>  * l.richaume@gmail.com
+<span class='line'> 13</span>  *
+<span class='line'> 14</span>  * Ce logiciel est un programme informatique servant à modéliser des
+<span class='line'> 15</span>  * structures 3D voxellisées.
+<span class='line'> 16</span>  *
+<span class='line'> 17</span>  * Ce logiciel est régi par la licence CeCILL soumise au droit français et
+<span class='line'> 18</span>  * respectant les principes de diffusion des logiciels libres. Vous pouvez
+<span class='line'> 19</span>  * utiliser, modifier et/ou redistribuer ce programme sous les conditions
+<span class='line'> 20</span>  * de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+<span class='line'> 21</span>  * sur le site "http://www.cecill.info".
+<span class='line'> 22</span>  *
+<span class='line'> 23</span>  * En contrepartie de l'accessibilité au code source et des droits de copie,
+<span class='line'> 24</span>  * de modification et de redistribution accordés par cette licence, il n'est
+<span class='line'> 25</span>  * offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+<span class='line'> 26</span>  * seule une responsabilité restreinte pèse sur l'auteur du programme,  le
+<span class='line'> 27</span>  * titulaire des droits patrimoniaux et les concédants successifs.
+<span class='line'> 28</span>  *
+<span class='line'> 29</span>  * A cet égard  l'attention de l'utilisateur est attirée sur les risques
+<span class='line'> 30</span>  * associés au chargement,  à l'utilisation,  à la modification et/ou au
+<span class='line'> 31</span>  * développement et à la reproduction du logiciel par l'utilisateur étant
+<span class='line'> 32</span>  * donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+<span class='line'> 33</span>  * manipuler et qui le réserve donc à des développeurs et des professionnels
+<span class='line'> 34</span>  * avertis possédant  des  connaissances  informatiques approfondies.  Les
+<span class='line'> 35</span>  * utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
+<span class='line'> 36</span>  * logiciel à leurs besoins dans des conditions permettant d'assurer la
+<span class='line'> 37</span>  * sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+<span class='line'> 38</span>  * à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+<span class='line'> 39</span>  *
+<span class='line'> 40</span>  * Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+<span class='line'> 41</span>  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
+<span class='line'> 42</span>  * termes.
+<span class='line'> 43</span>  */</span><span class="WHIT">
+<span class='line'> 44</span> 
+<span class='line'> 45</span> 
+<span class='line'> 46</span> </span><span class="COMM">/// INDEX //////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> 
+<span class='line'> 49</span> </span><span class="COMM">/* constructor (imageMin : Number, imageMax : Number, antecedantMin : Number, antecedantMax : Number, mode : DrawModeEnum)
+<span class='line'> 50</span>  * addCurve (name : String, Function)
+<span class='line'> 51</span>  * getActiveCurve ()
+<span class='line'> 52</span>  * setActive (name : {Curve, String}, type : EquationTypeEnum) 
+<span class='line'> 53</span>  * getAllParameters ()
+<span class='line'> 54</span>  * getParametersRange (name : String)
+<span class='line'> 55</span>  * setParameter (param : String, value : Number) 
+<span class='line'> 56</span>  * getPoints ()
+<span class='line'> 57</span>  * getEquation ()
+<span class='line'> 58</span>  * getEquationNoParameter ()
+<span class='line'> 59</span>  * getXRange ()
+<span class='line'> 60</span>  * getYRange ()
+<span class='line'> 61</span>  * setXRange (xRange : Range)
+<span class='line'> 62</span>  * setYRange (yRange : Range)
+<span class='line'> 63</span>  * startHandFree (dim)
+<span class='line'> 64</span>  * newHandFree (dim, coord)
+<span class='line'> 65</span>  */</span><span class="WHIT">
+<span class='line'> 66</span> 
+<span class='line'> 67</span> 
+<span class='line'> 68</span> </span><span class="COMM">/// CODE ///////////////////////////////////////////////////////////////////////</span><span class="WHIT">
+<span class='line'> 69</span> 
+<span class='line'> 70</span> 
+<span class='line'> 71</span> 
+<span class='line'> 72</span> </span><span class="COMM">/**
+<span class='line'> 73</span>  * @classdesc A class used to communicate between the application and the curve model
+<span class='line'> 74</span>  */</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="NAME">Controller2D.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Controller</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="NAME">Controller2D.prototype.constructor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Controller2D</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> 
+<span class='line'> 78</span> 
+<span class='line'> 79</span> 
+<span class='line'> 80</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="COMM">//	Constructor</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'> 83</span> 
+<span class='line'> 84</span> 
+<span class='line'> 85</span> 
+<span class='line'> 86</span> </span><span class="COMM">/**
+<span class='line'> 87</span>  * @constructor
+<span class='line'> 88</span>  *
+<span class='line'> 89</span>  * @param {Number} imageMin - The lower bound of the output range.
+<span class='line'> 90</span>  * @param {Number} imageMax - The upper bound of the output range.
+<span class='line'> 91</span>  * @param {Number} antecedantMin - The lower bound of the input range.
+<span class='line'> 92</span>  * @param {Number} antecedantMax - The upper bound of the input range.
+<span class='line'> 93</span>  * @param {DrawModeEnum} mode - The drawing method used.
+<span class='line'> 94</span>  */</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Controller2D</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">imageMin</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">imageMax</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">antecedantMin</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">antecedantMax</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">mode</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments.length</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">		</span><span class="NAME">Controller.call</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">checkType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">			</span><span class="STRN">"number"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">			</span><span class="NAME">console.error</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"Controller2D.constructor: bad type(s) of "</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">				</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"parameter(s)"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">			</span><span class="NAME">showType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>107</span> 
+<span class='line'>108</span> </span><span class="WHIT">		</span><span class="NAME">Controller.call</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> 
+<span class='line'>110</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>111</span> 		 * {ModelCurve} The model that creates curve.
+<span class='line'>112</span> 		 */</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">		</span><span class="NAME">this.modelCurve</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">ModelCurve</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">			</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Range</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">imageMin</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">imageMax</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">			</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Range</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">antecedantMin</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">antecedantMax</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> 
+<span class='line'>118</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>119</span> 		 * {DrawModeEnum} The type of drawing method used.
+<span class='line'>120</span> 		 */</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">		</span><span class="NAME">this.mode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">mode</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">		
+<span class='line'>123</span> 		</span><span class="COMM">/**
+<span class='line'>124</span> 		 * {ModelParameter} The model that controls the curve parameters
+<span class='line'>125</span> 		 */</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">		</span><span class="NAME">this.modelParameter</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">ModelParameter</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span> 
+<span class='line'>130</span> 
+<span class='line'>131</span> 
+<span class='line'>132</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="COMM">//	Accessors and Mutators</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="COMM">//##############################################################################</span><span class="WHIT">
+<span class='line'>135</span> 
+<span class='line'>136</span> 
+<span class='line'>137</span> 
+<span class='line'>138</span> </span><span class="COMM">/**
+<span class='line'>139</span>  * Add a curve to the model.
+<span class='line'>140</span>  * @see {@link ModelCurve.addCurve}
+<span class='line'>141</span>  *
+<span class='line'>142</span>  * @param {String} name - The name of the curve.
+<span class='line'>143</span>  * @param {Function} constructor - The constructor of the curve. This class
+<span class='line'>144</span>  * constructor must inherit from Curve.
+<span class='line'>145</span>  *
+<span class='line'>146</span>  * @return {void}
+<span class='line'>147</span>  */</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="NAME">Controller2D.prototype.addCurve</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">constructor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">	</span><span class="COMM">/// parameter verification</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">checkType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Function</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">		</span><span class="NAME">showType</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">constructor</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Controller2D.addCurve: bad type(s) of parameter(s)"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>154</span> 
+<span class='line'>155</span> </span><span class="WHIT">	</span><span class="COMM">/// add the curve</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">	</span><span class="NAME">this.modelCurve.addCurve</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">constructor</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>158</span> 
+<span class='line'>159</span> 
+<span class='line'>160</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="COMM">/**
+<span class='line'>162</span>  * Returns the active curve of the model.
+<span class='line'>163</span>  * The curve returned can only be of type FormulaCurve as a Controller2D only use a modelCurve
+<span class='line'>164</span>  * @return {FormulaCurve} the curve of the model
+<span class='line'>165</span>  */</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="NAME">Controller2D.prototype.getActiveCurve</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelCurve.getActiveCurve</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>169</span> 
+<span class='line'>170</span> 
+<span class='line'>171</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="COMM">/**
+<span class='line'>173</span>  * Set the active curve
+<span class='line'>174</span>  *
+<span class='line'>175</span>  * @param {(Curve | String)} name - If of type curve, it is the new curve to set as the active curve
+<span class='line'>176</span>  * if of type String, it is the name of a predefined curve to set as active
+<span class='line'>177</span>  * @param {(EquationTypeEnum)} type - If name is of type Curve, the model needs to know the
+<span class='line'>178</span>  * type of this new curve
+<span class='line'>179</span>  *
+<span class='line'>180</span>  * @return {void}
+<span class='line'>181</span>  */</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="NAME">Controller2D.prototype.setActive</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">type</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="PUNC">(</span><span class="NAME">name</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Curve</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Controller2D.setActive.ErrorParameterType"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>186</span> 
+<span class='line'>187</span> </span><span class="WHIT">	</span><span class="COMM">/// set the curve</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">curve</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">type</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">		</span><span class="NAME">curve</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">  </span><span class="NAME">this.modelCurve.setActive</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">		</span><span class="NAME">curve</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.modelCurve.setActive</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">type</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">	</span><span class="NAME">this.modelParameter.setCurve</span><span class="PUNC">(</span><span class="NAME">curve</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>197</span> 
+<span class='line'>198</span> 
+<span class='line'>199</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="COMM">/**
+<span class='line'>201</span>  * Returns all the parameters associated to a curve
+<span class='line'>202</span>  * @return {Map&lt;String, Number>} A map composed of the name of a parameter (the
+<span class='line'>203</span>  * key) and its value (the value).
+<span class='line'>204</span>  */</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="NAME">Controller2D.prototype.getAllParameters</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelParameter.getAllParameters</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> 
+<span class='line'>209</span> 
+<span class='line'>210</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="COMM">/**
+<span class='line'>212</span>  * Returns the range of a parameter
+<span class='line'>213</span>  * @see ModelCurve.getParametersRange
+<span class='line'>214</span>  *
+<span class='line'>215</span>  * @param {String} name - The name of the parameter
+<span class='line'>216</span>  *
+<span class='line'>217</span>  * @return {Range} The range of the parameter
+<span class='line'>218</span>  */</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="NAME">Controller2D.prototype.getParametersRange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelCurve.getParametersRange</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> 
+<span class='line'>223</span> 
+<span class='line'>224</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="COMM">/**
+<span class='line'>226</span>  * Sets a value to a specified parameter
+<span class='line'>227</span>  * @see ModelParameter.setParameter
+<span class='line'>228</span>  *
+<span class='line'>229</span>  * @param {String} param - The name of the parameter to set
+<span class='line'>230</span>  * @param {Number} value - The new value for the parameter
+<span class='line'>231</span>  *
+<span class='line'>232</span>  * @return {void}
+<span class='line'>233</span>  */</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="NAME">Controller2D.prototype.setParameter</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">param</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelParameter.setParameter</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">param</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>237</span> 
+<span class='line'>238</span> 
+<span class='line'>239</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="COMM">/**
+<span class='line'>241</span>  * @return {Point[][]} A list of list of points. One list of point is a set of
+<span class='line'>242</span>  * connected point.
+<span class='line'>243</span>  */</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="NAME">Controller2D.prototype.getPoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelCurve.getPoints</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>247</span> 
+<span class='line'>248</span> 
+<span class='line'>249</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="COMM">/**
+<span class='line'>251</span>  * @return {Equation} The equation of the active curve.
+<span class='line'>252</span>  */</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="NAME">Controller2D.prototype.getEquation</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelCurve.getEquation</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>256</span> 
+<span class='line'>257</span> 
+<span class='line'>258</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="COMM">/**
+<span class='line'>260</span>  * @return {String} The string corresponding to the current equation (without parameters).
+<span class='line'>261</span>  */</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="NAME">Controller2D.prototype.getEquationNoParameter</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelCurve.getEquationNoParameter</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>265</span> 
+<span class='line'>266</span> 
+<span class='line'>267</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="COMM">/**
+<span class='line'>269</span>  * @return {Range} Returns the X range of the curve
+<span class='line'>270</span>  */</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="NAME">Controller2D.prototype.getXRange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelCurve.getImage</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>274</span> 
+<span class='line'>275</span> 
+<span class='line'>276</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="COMM">/**
+<span class='line'>278</span>  * @return {Range} Returns the Y range of the curve
+<span class='line'>279</span>  */</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="NAME">Controller2D.prototype.getYRange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.modelCurve.getInverseImage</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>283</span> 
+<span class='line'>284</span> 
+<span class='line'>285</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="COMM">/**
+<span class='line'>287</span>  * @param {Range} xRange - The new xRange for the model.
+<span class='line'>288</span>  *
+<span class='line'>289</span>  * @return {void}
+<span class='line'>290</span>  */</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="NAME">Controller2D.prototype.setXRange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">xRange</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">	</span><span class="COMM">// TODO tester si enlever le return marche</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">	</span><span class="NAME">this.modelCurve.setImage</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">xRange</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>295</span> 
+<span class='line'>296</span> 
+<span class='line'>297</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="COMM">/**
+<span class='line'>299</span>  * @param {Range} yRange - The new yRange for the model.
+<span class='line'>300</span>  *
+<span class='line'>301</span>  * @return {void}
+<span class='line'>302</span>  */</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="NAME">Controller2D.prototype.setYRange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">yRange</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>304</span> </span><span class="WHIT">	</span><span class="NAME">this.modelCurve.setInverseImage</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">yRange</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>305</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>306</span> 
+<span class='line'>307</span> 
+<span class='line'>308</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="COMM">/**
+<span class='line'>310</span>  * IMPLEMENTED IN CHILD CLASSES
+<span class='line'>311</span>  */</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="NAME">Controller2D.prototype.startHandFree</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dim</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">	</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Controller2D.startHandFree: this function is not implemented"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>315</span> 
+<span class='line'>316</span> 
+<span class='line'>317</span> </span><span class="COMM">//==============================================================================</span><span class="WHIT">
+<span class='line'>318</span> </span><span class="COMM">/**
+<span class='line'>319</span>  * IMPLEMENTED IN CHILD CLASSES
+<span class='line'>320</span>  */</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="NAME">Controller2D.prototype.newHandFree</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dim</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">coord</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">	</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Controller2D.newHandFree: this function is not implemented"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>323</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>324</span> </span></pre></body></html>
