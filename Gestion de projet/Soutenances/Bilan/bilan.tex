@@ -38,7 +38,7 @@
 	Thomas \smallcaps{Benoist} \\
 	Adrien \smallcaps{Bisutti} \\
 	Lydie \smallcaps{Richaume}
-} % FIXME Enlever les parenthèses
+}
 \institute{University of Poitiers}
 \date{March 2\textsuperscript{nd}, 2016}
 
@@ -52,16 +52,18 @@
 \setbeamercolor{palette tertiary}{bg=fondtitre!55!black}
 \setbeamercolor{palette quaternary}{bg=fondtitre!35!black}
 \setbeamercolor{item}{fg=fondtitre}
-
+\setbeamercolor{block title}{fg=white, bg=fondtitre!85!black}
 
 
 %%% MACRO %%%
 
 % Affichage du plan à chaque début de section
 \AtBeginSection[]{
+	\setbeamertemplate{background canvas}{\includegraphics[height=\paperheight, width=\paperwidth]{Images/papillon.png}}
 	\begin{frame}{Outline}
 	  	\tableofcontents[currentsection, hideothersubsections]
 	\end{frame}
+	\setbeamertemplate{background canvas}[default]
 }
 
 
@@ -203,14 +205,8 @@
 % --- Rappel et persective -----------------------------------------------------
 \subsection{Prototype}
 	\begin{frame}{\subsecname}
-%		\begin{itemize}
-%			\item Listes des fonctionnalités
-%			\item Étude et transcription de l'algorithme
-%			\item Documentation technique
-%			\item Prototype
-%		\end{itemize}
 		\begin{figure}
-			\includegraphics[height=5.7cm]{Images/maquette.png}
+			\includegraphics[height=7.8cm]{Images/maquette.png}
 		\end{figure}
 	\end{frame}
 
@@ -275,28 +271,28 @@
 \section{Project management}
 
 
-\subsection{Task list} % TODO traduire
+\subsection{Task list} % TODO vérifier anglais
 	\begin{frame}{\subsecname}
 		\begin{center}
 		{\renewcommand{\arraystretch}{1.3}
 		\begin{tabular}{|m{4.5cm}<{\centering}c|m{4.5cm}<{\centering}c|}
 			\hline
-			\multicolumn{3}{|c}{1 - Documentation, test et aide utilisateur} & \Valid\\
+			\multicolumn{3}{|c}{1 - Documentation, test and users help} & \Valid\\
 			\hline
-			\multicolumn{3}{|c}{2 - Conception} & \Valid\\
+			\multicolumn{3}{|c}{2 - Design} & \Valid\\
 			\hline
 			\centering
-			3 - Noyau fonctionnel & \Valid & 4 - Interface minimale & \Valid\\
+			3 - Fonctional kernel & \Valid & 4 - Minimal interface & \Valid\\
 			\hline
-			6 - Ajout de fonctionnalités & \Valid & 5 - Am\'elioration IHM \linebreak Choix des courbes & \Valid\\
+			6 - Fonctionnalies adding & \Valid & 5 - HCI enhancement \linebreak Cuve choice & \Valid\\
 			\hline
-			8 - Dessin \`a main levée m\'eridienne & \Valid & 7 - Am\'elioration IHM Param\`etres & \Valid\\
+			8 - Free hand generatrix & \Valid & 7 - HCI enhancement Parameters & \Valid\\
 			\hline
-			9 - Gestion des donn\'ees & \Valid & 10 - Am\'elioration IHM \linebreak Rentrer des formules & \Valid\\
+			9 - Gestion des donn\'ees & \Valid & 10 - HCI enhancement \linebreak Formula input & \Valid\\
 			\hline
-			\multicolumn{3}{|c}{11 - Ajout courbes utilisateur} & \NotCheck\\
+			\multicolumn{3}{|c}{11 - User's curve} & \NotCheck\\
 			\hline
-			\multicolumn{3}{|c}{12 - R\'edaction rapport technique} & \Valid\\
+			\multicolumn{3}{|c}{12 - Technical report} & \Valid\\
 			\hline
 		\end{tabular}}
 		\end{center}
@@ -307,9 +303,9 @@
 \subsection{Gantt diagram}
 	\begin{frame}{\subsecname}
 		\begin{center}
-			\href{run:}{Diagramme pr\'evisionnel}\\
+			\href{run:}{Planned diagram}\\
 			\bigskip
-			\href{run:}{Diagramme r\'ealis\'e}
+			\href{run:}{diagram}
 			% FIXME mettre les images
 			% initial
 			% revue et corigé
@@ -320,9 +316,9 @@
 
 	\begin{frame}{Zoom}
 		\begin{center}
-			\href{run:}{Diagramme pr\'evisionnel}\\
+			\href{run:}{Planned diagram}\\
 			\bigskip
-			\href{run:}{Diagramme r\'ealis\'e}
+			\href{run:}{diagram}
 			% FIXME mettre les images zoomer
 		\end{center}
 	\end{frame}
@@ -333,6 +329,7 @@
 	\begin{frame}{\subsecname}
 		\begin{figure}
 			\includegraphics[width=12cm]{Images/avancement.png}
+			% TODO traduirre 9
 		\end{figure}
 	\end{frame}
 
@@ -342,29 +339,30 @@
 	\begin{frame}{\subsecname}
 		\begin{center}
 		{\renewcommand{\arraystretch}{1.2}
-		\begin{tabular}{|c|m{5.5cm}|c|c|}
+		\begin{tabular}{|c|m{4cm}<{\raggedright}|c|c|c|}
+			% TODO remplir colone tasks
 			\hline
-			\textbf{\No} & \textbf{Deliverable} & \textbf{Planned date} & \textbf{Actual date}\\
+			\textbf{\No} & \textbf{Deliverable} & \textbf{Tasks} & \textbf{Planned date} & \textbf{Actual date}\\
 			\hline
-			1 & Interface and algorithm result 
+			1 & Interface and \linebreak algorithm result & X
 				& Dec. 23{\small\textsuperscript{rd}} & Jan. 18{\small\textsuperscript{th}}\\
 			\hline
-			2 & Minimal application 
+			2 & Minimal application & X
 				& Jan. 21{\small\textsuperscript{st}} & Jan. 25{\small\textsuperscript{th}}\\
 			\hline
-			2{\small\textsuperscript{bis}} & Multi-slice and parameters 
+			2{\small\textsuperscript{bis}} & Multi-slice and \linebreak parameters & X
 				& --- & Jan. 29{\small\textsuperscript{th}}\\
 			\hline
-			3 & Free hand drawing and curves with editable parameters 
+			3 & Free hand drawing and curves with editable \linebreak parameters & X
 				& Jan. 29{\small\textsuperscript{th}} & Feb. 24{\small\textsuperscript{th}}\\
 			\hline
-			4 & Equations and export 
+			4 & Equations and export & X
 				& Feb. 19{\small\textsuperscript{th}} & Feb. 24{\small\textsuperscript{th}}\\
 			\hline
-			5 & Final application
+			5 & Final application& X
 				& Mar. 2{\small\textsuperscript{nd}} & Mar. 2{\small\textsuperscript{nd}}\\
 			\hline
-			5{\small\textsuperscript{bis}} & Final documentation 
+			5{\small\textsuperscript{bis}} & Final documentation & X
 				& Mar. 11{\small\textsuperscript{th}} & Mar. 14{\small\textsuperscript{th}}\\
 			\hline
 		\end{tabular}}
@@ -377,6 +375,8 @@
 % --- Risk ---------------------------------------------------------------------
 \subsection{Risks}
 	\begin{frame}{List of risks}
+		\begin{center}
+		{\renewcommand{\arraystretch}{1.2}
 		\begin{tabular}{|m{5.2cm}|c|c|c|l}
 			\cline{1-4}
 			\textbf{Risk} & \textbf{Gravity} & \textbf{Probability} & \textbf{Criticity} &\\
@@ -393,7 +393,8 @@
 			\cline{1-4}
 			Evolution of the generation algorithm & 1 & 3 & 2 & \Initial\\
 			\cline{1-4}
-		\end{tabular}
+		\end{tabular}}
+		\end{center}
 	\end{frame}
 
 
@@ -481,35 +482,30 @@
 % --- PAQL ---------------------------------------------------------------------
 \subsection{Quality insurance plan}
 	\begin{frame}{\subsecname}
-		\begin{columns}
-			\begin{column}{8cm}
-				\begin{figure}
-					\includegraphics[height=7cm]{Images/PAQL_schema.png}
-				\end{figure}
-			\end{column}
-			\begin{column}{4cm}
-				Milestones validation with the clients
-			\end{column}
-		\end{columns}
+		\begin{figure}
+			\includegraphics[height=7cm]{Images/PAQL_schema.png}
+			% TODO vérifier anglais sur l'image
+		\end{figure}
 	\end{frame}
 
 
 	\begin{frame}{ISO 9126}
 		\begin{figure}
-			\includegraphics[width=7cm]{Images/iso9126.png}
+%			\includegraphics[width=7cm]{Images/iso9126.png}
+			\includegraphics[height=7cm]{Images/iso9126.png}
 		\end{figure}
-		\vspace{-0.6cm}
-		\begin{block}{Why ISO-9126 ?}
-			\small
-			\begin{itemize}
-				% TODO ne pas mettre des phrases
-				\setlength\itemsep{0.06em}
-				\item International standard for the evaluation of software quality.
-				\item Given a quality note according to different criteria.
-				\item Validation of the application by the clients and the quality manager.
-				\item Externals and internals tests.
-			\end{itemize}
-		\end{block}
+%		\vspace{-0.6cm}
+%		\begin{block}{Why ISO-9126 ?}
+%			\small
+%			\begin{itemize}
+%				% TODO ne pas mettre des phrases
+%				\setlength\itemsep{0.06em}
+%				\item International standard for the evaluation of software quality.
+%				\item Given a quality note according to different criteria.
+%				\item Validation of the application by the clients and the quality manager.
+%				\item Externals and internals tests.
+%			\end{itemize}
+%		\end{block}
 	\end{frame}
 
 
@@ -541,7 +537,7 @@
 			\includegraphics[width=12cm]{Images/resultat_qualite.png}
 			% FIXME regénéré avec majuscules
 		\end{figure}
-		\begin{exampleblock}{Q.I.P Reviews}
+		\begin{block}{Q.I.P Reviews}
 			\small
 			\begin{enumerate}
 				% TODO ne pas mettre des phrases
@@ -550,7 +546,7 @@
 				\item A large number of software quality-evaluation metrics have been defined.
 				\item Quality can lead to significant savings in software life-cycle costs.
 			\end{enumerate}
-		\end{exampleblock}
+		\end{block}
 	\end{frame}
 
 
@@ -558,8 +554,7 @@
 \subsection{Costs}
 	\begin{frame}{\subsecname}
 		\begin{figure}
-			\caption{\todo{regénéré cette image}}
-			\includegraphics[height=7.5cm]{../Suivi/Cout.png}
+			\includegraphics[height=7.5cm]{Images/cost2.png}
 			% TODO générer l'image qui va bien
 		\end{figure}
 	\end{frame}
@@ -577,10 +572,12 @@
 % --- Conclusion projet --------------------------------------------------------
 \begin{frame}{\secname}
 	\begin{itemize}
+		\setlength\itemsep{1.2em}
 		\item Technical Javascript improvement (classes, worker, blob, webgl, etc.)
 		\item Final delivrable in two step
 		\item Perspectives
 		\begin{itemize}
+			\setlength\itemsep{0.15em}
 			\item Réutilisation dans quelques semaines
 			\item Ajout de nouveau(x) algo
 		\end{itemize}
@@ -591,6 +588,7 @@
 % --- Conclusion perso ---------------------------------------------------------
 \begin{frame}{\secname}
 	\begin{itemize}
+		\setlength\itemsep{1.2em}
 		\item Javascript improvement (classes, worker, blob, etc.)
 		\item WebGl improvement
 		\item Résolution de problème mathématique (matrice de changement de repère, tracer de courbe implicite)
