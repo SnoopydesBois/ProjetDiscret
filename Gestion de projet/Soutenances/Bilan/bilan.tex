@@ -22,17 +22,13 @@
 \usepackage{ulem}
 \usepackage{tabularx}
 \usepackage{multirow}
-%\usepackage{array}
-%\usepackage{color}
-%\usepackage{colortbl}
-%\usepackage{textcomp}
 \usepackage{xstring}
-\usepackage{pifont}
+%\usepackage{pifont}
 
 \input{macro.tex}
 
 
-\title[Final presentation]{Discrete 3D surfaces of revolution} % FIXME ou Discret revolution surfaces ?
+\title[Final presentation]{Discrete 3D surfaces of revolution}
 \subtitle{Final presentation}
 \author[Discret group]{Zied \smallcaps{Ben} \smallcaps{Othmane} \\
 	Thomas \smallcaps{Benoist} \\
@@ -142,18 +138,18 @@
 
 
 % --- Roles --------------------------------------------------------------------
-\subsection{Roles}
-	\begin{frame}{\subsecname}
-		\begin{itemize}
-			\item Team composition:
-			\begin{itemize}
-				\item Thomas \smallcaps{Benoist} - Project manager
-				\item Zied \smallcaps{Ben} \smallcaps{Othmane} - Quality manager
-				\item Adrien \smallcaps{Bisutti} - Risks manager
-				\item Lydie \smallcaps{Richaume} - Tasks manager
-			\end{itemize}
-		\end{itemize}
-	\end{frame}
+%\subsection{Roles}
+%	\begin{frame}{\subsecname}
+%		\begin{itemize}
+%			\item Team composition:
+%			\begin{itemize}
+%				\item Thomas \smallcaps{Benoist} - Project manager
+%				\item Zied \smallcaps{Ben} \smallcaps{Othmane} - Quality manager
+%				\item Adrien \smallcaps{Bisutti} - Risks manager
+%				\item Lydie \smallcaps{Richaume} - Tasks manager
+%			\end{itemize}
+%		\end{itemize}
+%	\end{frame}
 
 
 % --- Contexte -----------------------------------------------------------------
@@ -166,7 +162,7 @@
 		\end{itemize}
 		
 		\begin{figure}
-			\includegraphics[height=4.7cm]{Images/context.png}
+			\includegraphics[height=4.7cm]{Images/context.png} % FIXME ancienne version ?
 		\end{figure}
 	
 		\begin{itemize}
@@ -230,25 +226,63 @@
 
 % --- Aspect technique ---------------------------------------------------------
 \subsection{Technical aspect} 
-	\begin{frame}{Difficulties}
+	\begin{frame}{\subsecname\ - 3D part}
 		\begin{itemize}
-			\item Connexity
+			\item Generation
 			\begin{itemize}
-				% TODO vérifier
-				\item Just what you want
-				\item All in one pass
+				\item Use MathJS
+				\item First version: too slow
+				\item Later: generation with worker(s)
+				\item Incremental and brute-force
 			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
 			\item Rendering
 			\begin{itemize}
-				% TODO vérifier
-				\item Computing only for rendering
-				\item Pre-computing during generation
-				\item Ignored $\to$ let the computation to the GPU
+				\item First version: visibility computation during drawing
+				\item Later: during generation
+				\item WebGL size buffer
 			\end{itemize}
-			\item Implicit curve display
+		\end{itemize}
+	\end{frame}
+	
+	
+	\begin{frame}{\subsecname\ - 2D part}
+		\begin{itemize}
+			\item Curves
 			\begin{itemize}
-				\item Discretisation of the curve
-				\item Use a library
+				\item Use MathJS
+				\item Formula or drawn curves
+				\item Formula: parse string $\to$ equation % XXX
+				\item Drawn: retrieve points from HTML5 canvas
+			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
+			\item Display
+			\begin{itemize}
+				\item How to display implcit curves ?
+				\item Use functionPlot and HTML5 canvas
+				\item Formula curves: functionPlot $\to$ SVG
+				\item Drawn curves: 2D rendering context on HTML5 canvas
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+	
+	
+	\begin{frame}{\subsecname\ - Data export}
+		\begin{itemize}
+			\item PNG export
+			\begin{itemize}
+				\item Formula curves: saveSvgAsPng library
+				\item Drawn curves: FileSaver library and HTML5 canvas functionalities
+			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
+			\item 3D export
+			\begin{itemize}
+				\item X3D: transform each voxel into boxes % XXX
+				\item Excessive amount of boxes $\to$ slow to access
+				\item STL: binary file for 3D printer
 			\end{itemize}
 		\end{itemize}
 	\end{frame}
@@ -295,28 +329,23 @@
 \subsection{Gantt diagram}
 	\begin{frame}{\subsecname}
 		\begin{center}
-			\href{run:Images/Gantt_Initial.gif}{Planned diagram}\\
-			\bigskip
-			\href{run:Images/Gantt_Reference.gif}{Revised diagram}
+%			\href{run:Images/Gantt_Initial.gif}{Planned diagram}\\
+%			\bigskip
+%			\href{run:Images/Gantt_Reference.gif}{Revised diagram}
+			\vspace{-0.2cm}
+			\includegraphics[height=3.7cm]{Images/Gantt_Reference_common.png}\\
+			\includegraphics[height=4.3cm]{Images/Gantt_Comparaison.png}
 		\end{center}
 	\end{frame}
 
 
-%	\begin{frame}{\subsecname}
-%		\begin{center}
-%			\href{run:Images/Gantt_Parralelle.gif}{Planned tasks}\\
-%			\bigskip
-%			\href{run:Images/Gantt_PasParralelle.gif}{Parallel tasks}
-%		\end{center}
-%	\end{frame}
-	
 	\begin{frame}{\subsecname}
 		\begin{center}
 %			\vspace{-0.3cm}
 %			\includegraphics[height=3.8cm]{Images/Gantt_Parralelle.png}\\
 %			\includegraphics[height=4.2cm]{Images/Gantt_PasParralelle.png}
 			\vspace{-0.2cm}
-			\includegraphics[height=8cm]{Images/Gantt_Diff.png} % FIXME inversé
+			\includegraphics[height=8cm]{Images/Gantt_Diff.png}
 		\end{center}
 	\end{frame}
 
@@ -333,7 +362,8 @@
 % --- Livrables ----------------------------------------------------------------
 % barre un texte en rouge 50% (http://texdoc.net/texmf-dist/doc/generic/ulem/ulem.pdf)
 \newcommand\Not{\bgroup\markoverwith{\textcolor{red!50!Black}{\rule[0.5ex]{2pt}{0.6pt}}}\ULon}
-	\subsection{Deliverables}
+
+\subsection{Deliverables}
 	\begin{frame}{\subsecname}
 		\begin{center}
 		{\renewcommand{\arraystretch}{1.2}
@@ -366,7 +396,6 @@
 		\end{center}
 	\end{frame}
 
-% FIXME légende
 
 
 % --- Risk ---------------------------------------------------------------------
@@ -380,23 +409,21 @@
 			\cline{1-4}
 			Server linked problems & 1 & 0 & 0 & \Initial\\
 			\cline{1-4}
-			Equipment/device dysfunction & 1 & 1 & 1 & \NewRisk\Proven\\
-			\cline{1-4}
 			New clients & 1 & 2 & 1 & \Initial\Proven\\
 			\cline{1-4}
-			Validation reveals serious technical problem & 2 & 1 & 1 & \Initial\\
-			\cline{1-4}
-			3D rendering needs too much ressources & 2 & 1 & 1 & \Initial\Proven\\ % FIXME proven ?
+			3D rendering needs too much ressources & 2 & 1 & 1 & \Initial\Proven\\
 			\cline{1-4}
 			Evolution of the generation \linebreak algorithm & 1 & 3 & 2 & \Initial\\
 			\cline{1-4}
+			Equipment/device dysfunction & 1 & 1 & 1 & \NewRisk\Proven\\
+			\cline{1-4}
+			Validation reveals serious technical problem & 2 & 1 & 1 & \Initial\\
+			\cline{1-4}
 		\end{tabular}}
+%		\Initial Initial \hfill \NewRisk Added \hfill \Proven Proven
 		\end{center}
+		\Initial\;Initial \hfill \NewRisk\;Added \hfill \Proven\;Encountered
 	\end{frame}
-
-
-%--- risk ----------------------------------------------------------------------
-\subsection{Risk evolution}
 
 
 	% Tableau risque
@@ -490,7 +517,6 @@
 
 
 	\begin{frame}{Software quality measurment}
-		% TODO on la garde ?
 		\begin{columns}
 			\begin{column}{8cm}
 				\begin{figure}
@@ -502,12 +528,12 @@
 
 			\begin{column}{4cm}
 				\textbf{Standard divisions}
-				\begin{enumerate}
+				\begin{itemize}
 					\item Quality model
 					\item External metrics
 					\item Internal metrics
 					\item Quality in use metrics
-				\end{enumerate}
+				\end{itemize}
 			\end{column}
 		\end{columns}	
 	\end{frame}
@@ -524,6 +550,7 @@
 %			\includegraphics[height=7cm]{Images/evolution_quality.png}
 %		\end{figure}
 %	\end{frame}
+
 
 	\begin{frame}{Software quality evaluation}
 		\begin{figure}
@@ -561,32 +588,58 @@
 
 
 % --- Conclusion projet --------------------------------------------------------
-\begin{frame}{\secname}
-	\begin{itemize}
-		% TODO traduire
-		\setlength\itemsep{1.2em}
-		\item Technical Javascript improvement (classes, worker, blob, webgl, etc.)
-		\item Final delivrable in two step
-		\item Perspectives
+\subsection{Technical aspect}
+	\begin{frame}{\subsecname}
 		\begin{itemize}
-			\setlength\itemsep{0.15em}
-			\item Réutilisation dans quelques semaines
-			\item Ajout de nouveau(x) algo
+			\item Clients satisfied by the application
+%			\item Complete application | Fully functional application | All functionalities developed
+			\item All functionalities developed
+			\item Final delivrable in two stage
+			\item Improvement
+			\begin{itemize}
+				\item X3D export
+				\item More information for users
+				\item More types of curve
+			\end{itemize}
+			\item Perspectives
+			\begin{itemize}
+				\item Add new algorithm
+				\item Lydie's internship subject
+			\end{itemize}
 		\end{itemize}
-	\end{itemize}
-\end{frame}
+	\end{frame}
+
+
+% --- Conclusion gestion projet ------------------------------------------------
+\subsection{Project management aspect}
+	\begin{frame}{\subsecname}
+		\begin{itemize}
+			\setlength\itemsep{1em}
+			\item Weekly meetings with the pedagogic supervisor
+			\item Interactions with clients
+			\item Example of quality insurance plan
+			\item Planning management
+			\item Risks encountered
+		\end{itemize}
+	\end{frame}
 
 
 % --- Conclusion perso ---------------------------------------------------------
-\begin{frame}{\secname}
-	\begin{itemize}
-		\setlength\itemsep{1.2em}
-		\item Javascript improvement (classes, worker, blob, etc.)
-		\item WebGl improvement
-		% TODO traduire
-		\item Résolution de problème mathématique (matrice de changement de repère, tracer de courbe implicite)
-	\end{itemize}
-\end{frame}
+\subsection{Personnal review}
+	\begin{frame}{\subsecname}
+		\begin{itemize}
+			\setlength\itemsep{1.2em}
+			\item Javascript improvement
+			\begin{itemize}
+				\item classes, inheritence, worker, etc.
+				\item jQuery, MathJS, FileSaver
+				\item WebGL
+			\end{itemize}
+			\item Roles well established
+			\item Spiral development
+			\item Solving mathematical problem (base matrix, drawing implicit curves, etc.)
+		\end{itemize}
+	\end{frame}
 
 
 % --- Remerciment --------------------------------------------------------------
