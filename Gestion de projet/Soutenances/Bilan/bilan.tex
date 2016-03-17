@@ -10,7 +10,6 @@
 % la technique n'est pas une démo
 % 10 tech, 10 conduite de projet
 % démo courte (2 exemple pour faire comprendre ce que ça fait)
-% démo avant technique ?
 % tech avec démarche scientifique
 
 
@@ -20,9 +19,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
 \usepackage[T1]{fontenc}
-%\usepackage{array}
+\usepackage{ulem}
 \usepackage{tabularx}
 \usepackage{multirow}
+%\usepackage{array}
 %\usepackage{color}
 %\usepackage{colortbl}
 %\usepackage{textcomp}
@@ -55,7 +55,11 @@
 \setbeamercolor{block title}{fg=white, bg=fondtitre!85!black}
 
 
-%%% MACRO %%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	MACRO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 % Affichage du plan à chaque début de section
 \AtBeginSection[]{
@@ -77,12 +81,11 @@
 \setbeamertemplate{navigation symbols}{}
 
 
-% Todo
-\newcommand{\todo}[1]{{\color{Red}TODO #1}}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-%%% DOCUMENT %%%
 
 \begin{document}
 
@@ -227,40 +230,29 @@
 
 % --- Aspect technique ---------------------------------------------------------
 \subsection{Technical aspect} 
-	% TODO traduire
 	\begin{frame}{Difficulties}
 		\begin{itemize}
 			\item Generation
 			\begin{itemize}
-				\item Just what do you want
+				% TODO vérifier
+				\item Just what you want
 				\item All in one pass
 			\end{itemize}
 			\item Rendering
 			\begin{itemize}
-				\item Calcul à la volé lors de la demende d'affichage
-				\item Précalcul lors de la génération
-				\item Ingoré $\to$ laissé à la carte graphique
+				% TODO vérifier
+				\item Computing only for rendering
+				\item Pre-computing during generation
+				\item Ignored $\to$ let the computation to the GPU
 			\end{itemize}
 			\item Implicit curve display
 			\begin{itemize}
-				\item Dicretisation of the curve
+				\item Discretisation of the curve
 				\item Use a library
 			\end{itemize}
 		\end{itemize}
 	\end{frame}
 
-
-	\begin{frame}{Architecture}
-		\begin{itemize}
-			\item Controllers
-			\item Displayers
-			\item Interface managers
-			\item Shaders
-			\item Threads
-		\end{itemize}
-		\todo{mettre un diagram ?}
-		% FIXME mettre un diagram ?
-	\end{frame}
 
 
 %===============================================================================
@@ -271,7 +263,7 @@
 \section{Project management}
 
 
-\subsection{Task list} % TODO vérifier anglais
+\subsection{Task list}
 	\begin{frame}{\subsecname}
 		\begin{center}
 		{\renewcommand{\arraystretch}{1.3}
@@ -282,13 +274,13 @@
 			\multicolumn{3}{|c}{2 - Design} & \Valid\\
 			\hline
 			\centering
-			3 - Fonctional kernel & \Valid & 4 - Minimal interface & \Valid\\
+			3 - Functional kernel & \Valid & 4 - Minimal interface & \Valid\\
 			\hline
-			6 - Fonctionnalies adding & \Valid & 5 - HCI enhancement \linebreak Cuve choice & \Valid\\
+			6 - Functionnalities adding & \Valid & 5 - Interface enhancement \linebreak Curve choice & \Valid\\
 			\hline
-			8 - Free hand generatrix & \Valid & 7 - HCI enhancement Parameters & \Valid\\
+			8 - Free hand generatrix & \Valid & 7 - Interface enhancement Parameters & \Valid\\
 			\hline
-			9 - Gestion des donn\'ees & \Valid & 10 - HCI enhancement \linebreak Formula input & \Valid\\
+			9 - Data management & \Valid & 10 - Interface enhancement \linebreak Formula input & \Valid\\
 			\hline
 			\multicolumn{3}{|c}{11 - User's curve} & \NotCheck\\
 			\hline
@@ -329,40 +321,40 @@
 	\begin{frame}{\subsecname}
 		\begin{figure}
 			\includegraphics[width=12cm]{Images/avancement.png}
-			% TODO traduirre 9
 		\end{figure}
 	\end{frame}
 
 
 % --- Livrables ----------------------------------------------------------------
+% barre un texte en rouge 50% (http://texdoc.net/texmf-dist/doc/generic/ulem/ulem.pdf)
+\newcommand\Not{\bgroup\markoverwith{\textcolor{red!50!Black}{\rule[0.5ex]{2pt}{0.6pt}}}\ULon}
 	\subsection{Deliverables}
 	\begin{frame}{\subsecname}
 		\begin{center}
 		{\renewcommand{\arraystretch}{1.2}
 		\begin{tabular}{|c|m{4cm}<{\raggedright}|c|c|c|}
-			% TODO remplir colone tasks
 			\hline
 			\textbf{\No} & \textbf{Deliverable} & \textbf{Tasks} & \textbf{Planned date} & \textbf{Actual date}\\
 			\hline
-			1 & Interface and \linebreak algorithm result & X
+			1 & Interface and \linebreak algorithm result & 2, 3, 4
 				& Dec. 23{\small\textsuperscript{rd}} & Jan. 18{\small\textsuperscript{th}}\\
 			\hline
-			2 & Minimal application & X
+			2 & Minimal application & 5, 6
 				& Jan. 21{\small\textsuperscript{st}} & Jan. 25{\small\textsuperscript{th}}\\
 			\hline
-			2{\small\textsuperscript{bis}} & Multi-slice and \linebreak parameters & X
+			2{\small\textsuperscript{bis}} & Multi-slice and \linebreak parameters & 7
 				& --- & Jan. 29{\small\textsuperscript{th}}\\
 			\hline
-			3 & Free hand drawing and curves with editable \linebreak parameters & X
+			3 & Free hand drawing and curves with editable \linebreak parameters & 7, 8
 				& Jan. 29{\small\textsuperscript{th}} & Feb. 24{\small\textsuperscript{th}}\\
 			\hline
-			4 & Equations and export & X
+			4 & Equations and export & 9, 10
 				& Feb. 19{\small\textsuperscript{th}} & Feb. 24{\small\textsuperscript{th}}\\
 			\hline
-			5 & Final application& X
+			5 & Final application \Not{and documentation} & 1 {\small to} 11
 				& Mar. 2{\small\textsuperscript{nd}} & Mar. 2{\small\textsuperscript{nd}}\\
 			\hline
-			5{\small\textsuperscript{bis}} & Final documentation & X
+			5{\small\textsuperscript{bis}} & Final documentation & 1
 				& Mar. 11{\small\textsuperscript{th}} & Mar. 14{\small\textsuperscript{th}}\\
 			\hline
 		\end{tabular}}
@@ -377,21 +369,21 @@
 	\begin{frame}{List of risks}
 		\begin{center}
 		{\renewcommand{\arraystretch}{1.2}
-		\begin{tabular}{|m{5.2cm}|c|c|c|l}
+		\begin{tabular}{|m{4.4cm}<{\raggedright}|c|c|c|l}
 			\cline{1-4}
 			\textbf{Risk} & \textbf{Gravity} & \textbf{Probability} & \textbf{Criticity} &\\
 			\cline{1-4}
 			Server linked problems & 1 & 0 & 0 & \Initial\\
 			\cline{1-4}
-			Panne ou dysfonctionnement des appareils & 1 & 1 & 1 & \NewRisk \Proven\\
+			Equipment/device dysfunction & 1 & 1 & 1 & \NewRisk \Proven\\
 			\cline{1-4}
-			New client & 1 & 2 & 1 & \Initial \Proven\\
+			New clients & 1 & 2 & 1 & \Initial \Proven\\
 			\cline{1-4}
-			La validation met en évidence un grave problème technique & 2 & 1 & 1 & \Initial\\
+			Validation reveals serious technical probleme & 2 & 1 & 1 & \Initial\\
 			\cline{1-4}
-			Rendu 3D demandant trop de ressources & 2 & 1 & 1 & \Initial \Proven ?\\ % FIXME proven ?
+			3D rendering needs too much ressources & 2 & 1 & 1 & \Initial \Proven ?\\ % FIXME proven ?
 			\cline{1-4}
-			Evolution of the generation algorithm & 1 & 3 & 2 & \Initial\\
+			Evolution of the generation \linebreak algorithm & 1 & 3 & 2 & \Initial\\
 			\cline{1-4}
 		\end{tabular}}
 		\end{center}
@@ -423,7 +415,7 @@
 
 
 
-% --- Risk ---------------------------------------------------------------------
+% --- Risk evolution -----------------------------------------------------------
 	\begin{frame}{\subsecname}
 		\begin{itemize}
 			\item Server linked problems
@@ -437,7 +429,6 @@
 	\end{frame}
 
 
-% --- Risque -------------------------------------------------------------------
 	\begin{frame}{\subsecname}
 		\begin{itemize}
 			\item New clients {\color{white}p} % fix la position par raport à la diapo suivante/précédentes
@@ -451,7 +442,6 @@
 	\end{frame}
 	
 	
-% --- Risque -------------------------------------------------------------------
 	\begin{frame}{\subsecname}
 		\begin{itemize}
 			\item Slow rendering
@@ -465,7 +455,6 @@
 	\end{frame}
 
 
-% --- Risque -------------------------------------------------------------------
 	\begin{frame}{\subsecname}
 		\begin{itemize}
 			\item Evolution of the generation algorithm
@@ -484,28 +473,14 @@
 	\begin{frame}{\subsecname}
 		\begin{figure}
 			\includegraphics[height=7cm]{Images/PAQL_schema.png}
-			% TODO vérifier anglais sur l'image
 		\end{figure}
 	\end{frame}
 
 
 	\begin{frame}{ISO 9126}
 		\begin{figure}
-%			\includegraphics[width=7cm]{Images/iso9126.png}
 			\includegraphics[height=7cm]{Images/iso9126.png}
 		\end{figure}
-%		\vspace{-0.6cm}
-%		\begin{block}{Why ISO-9126 ?}
-%			\small
-%			\begin{itemize}
-%				% TODO ne pas mettre des phrases
-%				\setlength\itemsep{0.06em}
-%				\item International standard for the evaluation of software quality.
-%				\item Given a quality note according to different criteria.
-%				\item Validation of the application by the clients and the quality manager.
-%				\item Externals and internals tests.
-%			\end{itemize}
-%		\end{block}
 	\end{frame}
 
 
@@ -534,20 +509,30 @@
 
 	\begin{frame}{Software quality evaluation}
 		\begin{figure}
-			\includegraphics[width=12cm]{Images/resultat_qualite.png}
-			% FIXME regénéré avec majuscules
+			\includegraphics[height=7cm]{Images/evolution_critere.png}
 		\end{figure}
-		\begin{block}{Q.I.P Reviews}
-			\small
-			\begin{enumerate}
-				% TODO ne pas mettre des phrases
-				\item Such techniques to analyze the quality during  the requirements phases. 
-				\item Well-differentiated characteristics of software quality has been developed.
-				\item A large number of software quality-evaluation metrics have been defined.
-				\item Quality can lead to significant savings in software life-cycle costs.
-			\end{enumerate}
-		\end{block}
 	\end{frame}
+	
+	\begin{frame}{Software quality evaluation}
+		\begin{figure}
+			\includegraphics[height=7cm]{Images/evolution_quality.png}
+		\end{figure}
+	\end{frame}
+
+%	\begin{frame}{Software quality evaluation}
+%		\begin{figure}
+%			\includegraphics[width=12cm]{Images/resultat_qualite.png}
+%		\end{figure}
+%		\begin{block}{Q.I.P Reviews}
+%			\small
+%			\begin{enumerate}
+%				\item Such techniques to analyze the quality during  the requirements phases. 
+%				\item Well-differentiated characteristics of software quality has been developed.
+%				\item A large number of software quality-evaluation metrics have been defined.
+%				\item Quality can lead to significant savings in software life-cycle costs.
+%			\end{enumerate}
+%		\end{block}
+%	\end{frame}
 
 
 % --- Coût ---------------------------------------------------------------------
@@ -555,7 +540,6 @@
 	\begin{frame}{\subsecname}
 		\begin{figure}
 			\includegraphics[height=7.5cm]{Images/cost2.png}
-			% TODO générer l'image qui va bien
 		\end{figure}
 	\end{frame}
 
