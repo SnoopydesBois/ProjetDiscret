@@ -8,7 +8,7 @@ VIEWER = evince
 
 EDITOR = gedit
 TMP_FILE = $(OBJ)
-GEN_FILE = $(OUT)
+GEN_FILE = $(OUT) missfont.log
 
 
 
