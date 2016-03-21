@@ -1,19 +1,3 @@
-% faire une évolution des risques au cours du temps
-% dosier bilan : toutes les soutenances, tout les doc, pas de doc temporaire
-% doc papier cahier des charges signé, fiche de recette papier (+ version electronique)
-% "Est ce que quelqu'un pourrait prendre la succession de notre projet"
-% suite possible du projet ? compétence aquise ? -> à mettre dans la conclusion
-
-
-
-% ajouté une partie technique (archi (à la fin), dificulté, technique utilisé)
-% la technique n'est pas une démo
-% 10 tech, 10 conduite de projet
-% démo courte (2 exemple pour faire comprendre ce que ça fait)
-% tech avec démarche scientifique
-
-
-
 \documentclass[xcolor=dvipsnames]{beamer}
 
 \usepackage[utf8]{inputenc}
@@ -22,17 +6,13 @@
 \usepackage{ulem}
 \usepackage{tabularx}
 \usepackage{multirow}
-%\usepackage{array}
-%\usepackage{color}
-%\usepackage{colortbl}
-%\usepackage{textcomp}
 \usepackage{xstring}
-%\usepackage{pifont}
+\usepackage{pifont}
 
 \input{macro.tex}
 
 
-\title[Final presentation]{Discrete 3D surfaces of revolution} % FIXME ou Discret revolution surfaces ?
+\title[Final presentation]{Discrete 3D surfaces of revolution}
 \subtitle{Final presentation}
 \author[Discret group]{Zied \smallcaps{Ben} \smallcaps{Othmane} \\
 	Thomas \smallcaps{Benoist} \\
@@ -40,7 +20,7 @@
 	Lydie \smallcaps{Richaume}
 }
 \institute{University of Poitiers}
-\date{March 2\textsuperscript{nd}, 2016}
+\date{March 21\textsuperscript{st}, 2016}
 
 \usetheme{Madrid}
 \usecolortheme{sidebartab}
@@ -107,9 +87,12 @@
 %===============================================================================
 
 
+\setbeamertemplate{background canvas}{\includegraphics[height=\paperheight, width=\paperwidth]{Images/papillon.png}}
 \begin{frame}{Outline}
   	\tableofcontents[hideallsubsections]
 \end{frame}
+\setbeamertemplate{background canvas}[default]
+
 
 
 %===============================================================================
@@ -126,32 +109,22 @@
 		\begin{itemize}
 			\item Clients:
 				\begin{itemize}
-					\item \'Eric \smallcaps{Andres} (Professor and former director of XLIM-SIC department)
+					\item \'Eric \smallcaps{Andres} (Professor and former director of 
+						\smallcaps{XLIM}-\smallcaps{SIC} department)
 					\item Ga\"elle \smallcaps{Largeteau}-\smallcaps{Skapin} (University lecturer, Discrete geometry)
 				\end{itemize}
+		\end{itemize}
+		\begin{itemize}
 			\item Exemple of final user:
 				\begin{itemize}
 					\item Aur\'elie \smallcaps{Mourier} (Artist)
 				\end{itemize}
+		\end{itemize}
+		\begin{itemize}
 			\item Pedagogic Supervisor: 
 				\begin{itemize}
 					\item Philippe \smallcaps{Meseure} (Professor, Computer Graphics)
 				\end{itemize}
-		\end{itemize}
-	\end{frame}
-
-
-% --- Roles --------------------------------------------------------------------
-\subsection{Roles}
-	\begin{frame}{\subsecname}
-		\begin{itemize}
-			\item Team composition:
-			\begin{itemize}
-				\item Thomas \smallcaps{Benoist} - Project manager
-				\item Zied \smallcaps{Ben} \smallcaps{Othmane} - Quality manager
-				\item Adrien \smallcaps{Bisutti} - Risks manager
-				\item Lydie \smallcaps{Richaume} - Tasks manager
-			\end{itemize}
 		\end{itemize}
 	\end{frame}
 
@@ -162,7 +135,6 @@
 		\begin{itemize}
 			\item \'Eric \smallcaps{Andres} and Ga\"elle \smallcaps{Largeteau}-\smallcaps{Skapin}
 				developed a new algorithm to model discrete surfaces of revolution.
-			\item Display the result with Mathematica
 		\end{itemize}
 		
 		\begin{figure}
@@ -170,7 +142,8 @@
 		\end{figure}
 	
 		\begin{itemize}
-			\item Need of a tool usable by everyone and everywhere
+			\item Display the result with Mathematica
+			\item Need a tool usable by everyone and everywhere
 		\end{itemize}
 	\end{frame}
 	
@@ -189,7 +162,7 @@
 		\begin{itemize}
 			\item Algorithm to generate surfaces of revolution
 			\begin{itemize}
-				\item Provided by the customers
+				\item Provided by the clients
 				\item Possible evolution of the algorithm
 			\end{itemize}
 		\end{itemize}
@@ -202,9 +175,31 @@
 %===============================================================================
 
 
+
 \section{Work achieved}
 
-
+% --- Technological choices -----------------------------------------------------
+\subsection{Technological choices}
+	\begin{frame}{\subsecname}
+	Tool usable by everyone and everywhere $\to$ web application
+	\vspace{0.5cm}
+		\begin{itemize}
+			\item Mathematica?
+			\begin{itemize}
+				\item Algorithm already implemented for Mathematica
+				\item Server application: difficult to set up a server from the university
+				\item Client application: user would have to install Mathematica (not free)
+			\end{itemize}
+			\item Without Mathematica
+			\begin{itemize}
+				\item Server application: security problems, data transfert
+				\item Client application: large quantity of computations $\to$ slow for computers with low capacities
+			\end{itemize}
+			\item Choice: client application $\to$ {\small{}HTML5/CSS}, Javascript, WebGL
+		\end{itemize}
+	\end{frame}
+	
+	
 % --- Rappel et persective -----------------------------------------------------
 \subsection{Prototype}
 	\begin{frame}{\subsecname}
@@ -229,26 +224,73 @@
 
 
 % --- Aspect technique ---------------------------------------------------------
-\subsection{Technical aspect} 
-	\begin{frame}{Difficulties}
+	\subsection{Technical aspect} 
+	\begin{frame}{\subsecname\ - 2D part}
+		\begin{itemize}
+			\item Curves
+			\begin{itemize}
+				\item Use MathJS
+				\item Two kind of definition: formula or freehand drawing
+				\item Formula: parse string $\to$ equation
+				\item Freehand drawing: retrieve points from {\small{}HTML5} canvas
+			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
+			\item Display
+			\begin{itemize}
+				\item Explicit curve: easy to display
+				\item How to display implicit curves ?
+				\item Use functionPlot and {\small{}HTML5} canvas
+				\item Formula curves: functionPlot $\to$ {\small{}SVG}
+				\item Freehand drawing: 2D rendering context on {\small{}HTML5} canvas
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+
+	\begin{frame}{\subsecname\ - 3D part}
 		\begin{itemize}
 			\item Generation
 			\begin{itemize}
-				% TODO vérifier
-				\item Just what you want
-				\item All in one pass
+				\item Use MathJS
+				\item Interactivity $\to$ generation with worker(s)
+				\item Two versions: graph search and brute-force
 			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
 			\item Rendering
 			\begin{itemize}
-				% TODO vérifier
-				\item Computing only for rendering
-				\item Pre-computing during generation
-				\item Ignored $\to$ let the computation to the GPU
+				\item Problem: detection of the outer faces
+				\item First version: computation during drawing
+				\item Following versions: computation during generation
+				\item WebGL: limited buffer size $\to$ multiple buffers
 			\end{itemize}
-			\item Implicit curve display
+		\end{itemize}
+	\end{frame}
+
+
+	\begin{frame}{\subsecname\ - Data export}
+		\begin{itemize}
+			\item Save {\small{}\&} load curves
 			\begin{itemize}
-				\item Discretisation of the curve
-				\item Use a library
+				\item {\small{}XML} format
+				\item Formula curves: stores the string of the equation
+				\item Freehand drawn curves: stores the list of points
+			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
+			\item {\small{}PNG} export
+			\begin{itemize}
+				\item Formula curves: saveSvgAsPng library
+				\item Drawn curves: FileSaver library and {\small{}HTML5} canvas functionalities
+			\end{itemize}
+		\end{itemize}
+		\begin{itemize}
+			\item 3D export
+			\begin{itemize}
+				\item {\small{}X3D}: transform each voxel into boxes
+				\item Excessive amount of boxes $\to$ slow to access
+				\item {\small{}STL}: binary file for 3D printer
 			\end{itemize}
 		\end{itemize}
 	\end{frame}
@@ -276,13 +318,13 @@
 			\centering
 			3 - Functional kernel & \Valid & 4 - Minimal interface & \Valid\\
 			\hline
-			6 - Functionnalities adding & \Valid & 5 - Interface enhancement \linebreak Curve choice & \Valid\\
+			6 - Functionalities adding & \Valid & 5 - Interface enhancement \linebreak Curve choice & \Valid\\
 			\hline
-			8 - Free hand generatrix & \Valid & 7 - Interface enhancement Parameters & \Valid\\
+			8 - Free hand drawn generatrix & \Valid & 7 - Interface enhancement Parameters & \Valid\\
 			\hline
 			9 - Data management & \Valid & 10 - Interface enhancement \linebreak Formula input & \Valid\\
 			\hline
-			\multicolumn{3}{|c}{11 - User's curve} & \NotCheck\\
+			\multicolumn{3}{|c}{11 - User's curve (optional)} & \NotCheck\\
 			\hline
 			\multicolumn{3}{|c}{12 - Technical report} & \Valid\\
 			\hline
@@ -295,23 +337,17 @@
 \subsection{Gantt diagram}
 	\begin{frame}{\subsecname}
 		\begin{center}
-			\href{run:}{Planned diagram}\\
-			\bigskip
-			\href{run:}{diagram}
-			% FIXME mettre les images
-			% initial
-			% revue et corigé
-			%
+			\vspace{-0.2cm}
+			\includegraphics[height=3.7cm]{Images/Gantt_Reference_common.png}\\
+			\includegraphics[height=4.3cm]{Images/Gantt_Comparaison.png}
 		\end{center}
 	\end{frame}
 
 
-	\begin{frame}{Zoom}
+	\begin{frame}{\subsecname}
 		\begin{center}
-			\href{run:}{Planned diagram}\\
-			\bigskip
-			\href{run:}{diagram}
-			% FIXME mettre les images zoomer
+			\vspace{-0.2cm}
+			\includegraphics[height=8cm]{Images/Gantt_Diff.png}
 		\end{center}
 	\end{frame}
 
@@ -328,7 +364,8 @@
 % --- Livrables ----------------------------------------------------------------
 % barre un texte en rouge 50% (http://texdoc.net/texmf-dist/doc/generic/ulem/ulem.pdf)
 \newcommand\Not{\bgroup\markoverwith{\textcolor{red!50!Black}{\rule[0.5ex]{2pt}{0.6pt}}}\ULon}
-	\subsection{Deliverables}
+
+\subsection{Deliverables}
 	\begin{frame}{\subsecname}
 		\begin{center}
 		{\renewcommand{\arraystretch}{1.2}
@@ -363,7 +400,6 @@
 
 
 
-
 % --- Risk ---------------------------------------------------------------------
 \subsection{Risks}
 	\begin{frame}{List of risks}
@@ -375,23 +411,20 @@
 			\cline{1-4}
 			Server linked problems & 1 & 0 & 0 & \Initial\\
 			\cline{1-4}
-			Equipment/device dysfunction & 1 & 1 & 1 & \NewRisk \Proven\\
+			New clients & 1 & 2 & 1 & \Initial\Proven\\
 			\cline{1-4}
-			New clients & 1 & 2 & 1 & \Initial \Proven\\
-			\cline{1-4}
-			Validation reveals serious technical probleme & 2 & 1 & 1 & \Initial\\
-			\cline{1-4}
-			3D rendering needs too much ressources & 2 & 1 & 1 & \Initial \Proven ?\\ % FIXME proven ?
+			3D rendering needs too much ressources & 2 & 1 & 1 & \Initial\Proven\\
 			\cline{1-4}
 			Evolution of the generation \linebreak algorithm & 1 & 3 & 2 & \Initial\\
 			\cline{1-4}
+			Equipment/device dysfunction & 1 & 1 & 1 & \NewRisk\Proven\\
+			\cline{1-4}
+			Validation reveals serious technical problem & 2 & 1 & 1 & \Initial\\
+			\cline{1-4}
 		\end{tabular}}
 		\end{center}
+		\Initial\;Initial \hfill \NewRisk\;Added \hfill \Proven\;Encountered
 	\end{frame}
-
-
-%--- risk ----------------------------------------------------------------------
-\subsection{Risk evolution}
 
 
 	% Tableau risque
@@ -404,7 +437,7 @@
 			\hline
 			0 & None & < 1\% & \multirow{2}*{No critical}\\
 			\cline{1-3}
-			1 & Low (marges) & de 1\% à 5\% & \\
+			1 & Low & de 1\% à 5\% & \\
 			\hline
 			2 & Important & de 5\% à 20 \% & \multirow{2}*{Critical}\\
 			\cline{1-3}
@@ -486,53 +519,25 @@
 
 	\begin{frame}{Software quality measurment}
 		\begin{columns}
-			\begin{column}{8cm}
+			\begin{column}{6cm}
 				\begin{figure}
-					\includegraphics[width=7cm]{Images/ergonomie.png}
-					\vspace{0.3cm}
-					\includegraphics[width=7cm]{Images/fonctionality.png}
+					\includegraphics[width=6cm]{Images/ergonomie.png}
 				\end{figure}
 			\end{column}
-
-			\begin{column}{4cm}
-				\textbf{Standard divisions}
-				\begin{enumerate}
-					\item Quality model
-					\item External metrics
-					\item Internal metrics
-					\item Quality in use metrics
-				\end{enumerate}
+			\begin{column}{7cm}
+				\begin{figure}
+					\includegraphics[width=6cm]{Images/fonctionality.png}
+				\end{figure}
 			\end{column}
-		\end{columns}	
+		\end{columns}
 	\end{frame}
 
 
 	\begin{frame}{Software quality evaluation}
 		\begin{figure}
-			\includegraphics[height=7cm]{Images/evolution_critere.png}
+			\includegraphics[width=12cm]{Images/resultat_qualite.png}
 		\end{figure}
 	\end{frame}
-	
-	\begin{frame}{Software quality evaluation}
-		\begin{figure}
-			\includegraphics[height=7cm]{Images/evolution_quality.png}
-		\end{figure}
-	\end{frame}
-
-%	\begin{frame}{Software quality evaluation}
-%		\begin{figure}
-%			\includegraphics[width=12cm]{Images/resultat_qualite.png}
-%		\end{figure}
-%		\begin{block}{Q.I.P Reviews}
-%			\small
-%			\begin{enumerate}
-%				\item Such techniques to analyze the quality during  the requirements phases. 
-%				\item Well-differentiated characteristics of software quality has been developed.
-%				\item A large number of software quality-evaluation metrics have been defined.
-%				\item Quality can lead to significant savings in software life-cycle costs.
-%			\end{enumerate}
-%		\end{block}
-%	\end{frame}
 
 
 % --- Coût ---------------------------------------------------------------------
@@ -554,30 +559,62 @@
 
 
 % --- Conclusion projet --------------------------------------------------------
-\begin{frame}{\secname}
-	\begin{itemize}
-		\setlength\itemsep{1.2em}
-		\item Technical Javascript improvement (classes, worker, blob, webgl, etc.)
-		\item Final delivrable in two step
-		\item Perspectives
+\subsection{Technical aspect}
+	\begin{frame}{\subsecname}
+				\begin{itemize}
+					\item Clients satisfied by the application
+					\item Application available on \smallcaps{Xlim} website
+					\item All main functionalities developed
+					\item Final delivrable in two stage
+					\item Possible improvements
+					\begin{itemize}
+						\item {\small{}X3D} export
+						\item More information for users
+						\item More types of curve
+					\end{itemize}
+					\item Perspectives
+					\begin{itemize}
+						\item New algorithms
+						\item Lydie's internship subject
+					\end{itemize}
+				\end{itemize}
+	\end{frame}
+
+
+% --- Conclusion gestion projet ------------------------------------------------
+\subsection{Project management aspect}
+	\begin{frame}{\subsecname}
 		\begin{itemize}
-			\setlength\itemsep{0.15em}
-			\item Réutilisation dans quelques semaines
-			\item Ajout de nouveau(x) algo
+			\setlength\itemsep{1em}
+			\item Weekly meetings with the pedagogic supervisor
+			\item Interactions with clients
+			\item Example of quality insurance plan
+			\item Planning management
+			\item Risks encountered
 		\end{itemize}
-	\end{itemize}
-\end{frame}
+	\end{frame}
 
 
 % --- Conclusion perso ---------------------------------------------------------
-\begin{frame}{\secname}
-	\begin{itemize}
-		\setlength\itemsep{1.2em}
-		\item Javascript improvement (classes, worker, blob, etc.)
-		\item WebGl improvement
-		\item Résolution de problème mathématique (matrice de changement de repère, tracer de courbe implicite)
-	\end{itemize}
-\end{frame}
+\subsection{Personnal review}
+	\begin{frame}{\subsecname}
+		\begin{itemize}
+			\setlength\itemsep{1.2em}
+			\item Improvement in Javascript
+			\begin{itemize}
+				\item classes, inheritence, worker, etc.
+				\item jQuery, MathJS, FileSaver
+				\item WebGL
+			\end{itemize}
+			\item Spiral development: new experience
+			\item Solving mathematical problem 
+			\begin{itemize}
+				\item base matrices
+				\item drawing implicit curves
+				\item etc.
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
 
 
 % --- Remerciment --------------------------------------------------------------
@@ -607,6 +644,7 @@
 	\hfill
 	\includegraphics[width=2cm]{../Images/logo_univ_poitiers.png}
 \end{frame}
+
 
 
 

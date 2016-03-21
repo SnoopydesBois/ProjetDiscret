@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE Curve  [
+		<!ELEMENT Curve (CurveType, Equation, Range)>
+		<!ELEMENT CurveType (Class)>
+		<!ELEMENT Class (#PCDATA)>
+		<!ELEMENT Equation (#PCDATA)>
+		<!ELEMENT Range (xMin, xMax, yMin, yMax)>
+			<!ELEMENT xMin (#PCDATA)>
+			<!ELEMENT xMax (#PCDATA)>
+			<!ELEMENT yMin (#PCDATA)>
+			<!ELEMENT yMax (#PCDATA)>
+]>
+<Curve>
+	<CurveType>
+		<Class>ExplicitCurve</Class>
+	</CurveType>
+	<Equation>11 * (sin(0.6 * x) + 1) * 0.02 * (31 - x) + 0.1 * (31 - x)</Equation>
+	<Range>
+		<xMin>-16</xMin>
+		<xMax>16</xMax>
+		<yMin>-16</yMin>
+		<yMax>16</yMax>
+	</Range>
+</Curve>
