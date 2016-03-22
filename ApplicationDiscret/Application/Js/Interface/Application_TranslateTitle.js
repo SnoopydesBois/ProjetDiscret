@@ -103,17 +103,17 @@ translateTitle['en']['m353'] = 'Close the curve';
 
 
 /* Menu export anglais */
-translateTitle['en']['m41'] = 'Save a png file';
-translateTitle['en']['download'] = 'Save a png file of the surface';
-translateTitle['en']['downloadMeridian'] = 'Save a png file of the generatrix';
-translateTitle['en']['downloadRevolution'] = 'Save a png file of the directrix';
+translateTitle['en']['m41'] = 'Save a PNG file';
+translateTitle['en']['download'] = 'Save a PNG file of the surface';
+translateTitle['en']['downloadMeridian'] = 'Save a PNG file of the generatrix';
+translateTitle['en']['downloadRevolution'] = 'Save a PNG file of the directrix';
 translateTitle['en']['m44'] = '3D export format';
 
 
 /*sous menue export 3D anglais*/
-translateTitle['en']['m441'] = 'Export the surface to x3d file';
+translateTitle['en']['m441'] = 'Export the surface to X3D file';
 translateTitle['en']['m442'] =
-	'Export the surface to stl file useable by 3D printer';
+	'Export the surface to STL file useable by 3D printer';
 
 
 translateTitle['en']['s2'] = 'Generate the surface in the 3D view';
@@ -172,7 +172,7 @@ translateTitle['fr']['m353'] = 'Fermer une courbe';
 
 /* Menu export français */
 translateTitle['fr']['m41'] = 'Enregistrer une image PNG';
-translateTitle['fr']['download'] = 'Save a png file of the surface';
+translateTitle['fr']['download'] = 'Save a PNG file of the surface';
 translateTitle['fr']['downloadMeridian'] =
 	'Enregistrer une image de la méridienne en PNG';
 translateTitle['fr']['downloadRevolution'] =

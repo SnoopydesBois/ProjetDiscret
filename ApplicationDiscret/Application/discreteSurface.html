@@ -135,12 +135,10 @@
 						onclick="this.firstElementChild.click()" id="m11" class="tr trtitle">
 						<input type="file" id="i_file" style="display: none"
 							onchange="appli.loadMeridian(event)">Charger méridienne</input>
-
 					</li>
 
 					<li title="Ouvrir une courbe de revolution depuis un fichier sur cet ordinateur"
 						onclick="this.firstElementChild.click()" id="m12" class="tr trtitle">
-
 						<input type="file" id="i_file" style="display: none"
 							onchange="appli.loadRevolution(event)">Charger courbe de révolution</input>
 
@@ -285,19 +283,19 @@
 						<h1 id="m41" class="tr trtitle"
 							title="Enregistrer une image PNG">Image PNG</h1>
 						<ul>
-							<li>
+							<li onclick="this.firstElementChild.click()">
 								<a id="downloadMeridian" class="tr trtitle"
 									title="Enregistrer une image de la méridienne en PNG"
 									onclick="appli.exportMeridianPng ()">Méridienne</a>
 							</li>
 
-							<li>
+							<li onclick="this.firstElementChild.click()">
 								<a id="downloadRevolution" class="tr trtitle"
 									title="Enregistrer une image de la courbe de révolution en PNG"
 									onclick="appli.exportRevolutionPng ()">Courbe de révolution</a>
 							</li>
 
-							<li>
+							<li onclick="this.firstElementChild.click()">
 								<a id="download" class="tr trtitle"
 									title="Enregistrer une image de la surface en PNG"
 									onclick="appli.export3DPng ()">Surface 3D</a>

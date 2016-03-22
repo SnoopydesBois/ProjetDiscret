@@ -141,7 +141,7 @@ aLangKeys['en']['m44'] = 'Export 3D';
 
 /*sous menue export 3D anglais*/
 aLangKeys['en']['m441'] = 'X3D';
-aLangKeys['en']['m442'] = 'Print X3D';
+aLangKeys['en']['m442'] = '3D Print';
 
 
 /*Menu Aide anglais*/
